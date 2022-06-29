@@ -16,7 +16,7 @@ namespace Los.Santos.Dope.Wars.Missions
 		private static Script Script = null!;
 		private static GameState GameState = null!;
 		private static PlayerStats PlayerStats = null!;
-		private static IPlayerProperty DrugWarehouse = null!;
+		private static DrugWarehouse DrugWarehouse = null!;
 
 		/// <summary>
 		/// The <see cref="ShowWarehouseMenu"/> property
@@ -103,7 +103,11 @@ namespace Los.Santos.Dope.Wars.Missions
 		{
 			GameState = gameState;
 			PlayerStats = Utils.GetPlayerStatsFromModel(gameState);
-		}
+            DrugWarehouse = new()
+            {
+                DrugStash = PlayerStats.Warehouse.DrugStash
+            };
+        }
 
 		/// <summary>
 		/// 

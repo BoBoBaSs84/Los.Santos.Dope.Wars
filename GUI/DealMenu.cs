@@ -68,9 +68,9 @@ namespace Los.Santos.Dope.Wars.GUI
 					MenuLoaded = true;
 					SetupMenu();
 					Wait(10);
+					BuyMenu.Visible = true;
+					StatsMenu.Visible = true;
 				}
-				BuyMenu.Visible = true;
-				StatsMenu.Visible = true;
 			}
 			else
 			{
@@ -208,10 +208,10 @@ namespace Los.Santos.Dope.Wars.GUI
 		{
 			return (PedHash)Game.Player.Character.Model switch
 			{
-				PedHash.Franklin => System.Drawing.Color.LightGreen,
-				PedHash.Michael => System.Drawing.Color.SkyBlue,
-				PedHash.Trevor => System.Drawing.Color.SandyBrown,
-				_ => System.Drawing.Color.Black
+				PedHash.Franklin => Color.LightGreen,
+				PedHash.Michael => Color.SkyBlue,
+				PedHash.Trevor => Color.SandyBrown,
+				_ => Color.Black
 			};
 		}
 
@@ -345,7 +345,6 @@ namespace Los.Santos.Dope.Wars.GUI
 						targetMenuItem.Enabled = false;
 					}
 				}
-
 			}
 			catch (Exception ex)
 			{
