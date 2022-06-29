@@ -3,7 +3,7 @@ This mod re-adds drug trafficking mini-missions that were scrapped during GTA5 d
 
 ## Getting started
 
-- Make sure you have both the Microsoft .NET Framework 4.5 and the Microsoft Visual C++ Redistributable Package (x64) installed.
+- Make sure you have both the Microsoft .NET Framework 4.8 and the Microsoft Visual C++ Redistributable Package (x64) installed. You may donwload it from https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48
 - Download and install Script Hook V (including the ASI loader). You may download it from http://gtaforums.com/topic/788343-vrel-script-hook-v/
 - Download the latest Script Hook V .NET and copy the ASI into your game folder. You may download it from https://github.com/crosire/scripthookvdotnet/releases
 - Download the latest LemonUI Framework for Script Hook V .NET and copy it into your script folder. You may download it from https://github.com/LemonUIbyLemon/LemonUI/releases
