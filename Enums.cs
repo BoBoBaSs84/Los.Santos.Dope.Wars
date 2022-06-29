@@ -7,9 +7,10 @@ namespace Los.Santos.Dope.Wars
 	/// </summary>
 	public static class Enums
 	{
-		/// <summary>
-		/// The <see cref="LogLevels"/> enums
-		/// </summary>
+        /// <summary>
+        /// The <see cref="LogLevels"/> enums
+        /// </summary>
+        [Flags]
 		public enum LogLevels
 		{
 			/// <summary>
@@ -19,19 +20,19 @@ namespace Los.Santos.Dope.Wars
 			/// <summary>
 			/// The <see cref="Status"/> level
 			/// </summary>
-			Status = 20,
+			Status = 1,
 			/// <summary>
 			/// The <see cref="Warning"/> level
 			/// </summary>			
-			Warning = 40,
+			Warning = 2,
 			/// <summary>
 			/// The <see cref="Error"/> level
 			/// </summary>
-			Error = 50,
+			Error = 4,
 			/// <summary>
 			/// The <see cref="Panic"/> level
 			/// </summary>
-			Panic = 100
+			Panic = 8
 		}
 		
 		/// <summary>
