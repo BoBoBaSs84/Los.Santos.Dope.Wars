@@ -67,9 +67,10 @@ namespace Los.Santos.Dope.Wars.GUI
 				{
 					MenuLoaded = true;
 					SetupMenu();
+					Wait(10);
 				}
-				BuyMenu.Visible = !BuyMenu.Visible;
-				StatsMenu.Visible = !StatsMenu.Visible;
+				BuyMenu.Visible = true;
+				StatsMenu.Visible = true;
 			}
 			else
 			{
