@@ -23,4 +23,4 @@ This mod re-adds drug trafficking mini-missions that were scrapped during GTA5 d
 
 ## Licensing
 
-GTAV.Dope.Wars is licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for the full license text.
+Los.Santos.Dope.Wars is licensed under the MIT License. See [LICENSE](LICENSE) for the full license text.
