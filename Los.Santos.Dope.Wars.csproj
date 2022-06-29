@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net48</TargetFramework>
+		<LangVersion>Latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<UseWindowsForms>true</UseWindowsForms>
+		<PlatformTarget>x64</PlatformTarget>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<GeneratedAssemblyInfoFile>Properties\AssemblyInfo.cs</GeneratedAssemblyInfoFile>
+		<AnalysisLevel>latest</AnalysisLevel>
+		<Configurations>Debug;Release</Configurations>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+		<Deterministic>False</Deterministic>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+		<Deterministic>False</Deterministic>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="LemonUI.SHVDN3" Version="1.7.0" />
+		<PackageReference Include="ScriptHookVDotNet3" Version="3.4.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Properties\Settings.Designer.cs">
+			<DesignTimeSharedInput>True</DesignTimeSharedInput>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Settings.settings</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Properties\Settings.settings">
+			<Generator>SettingsSingleFileGenerator</Generator>
+			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\Resources.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+</Project>
