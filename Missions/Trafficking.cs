@@ -17,10 +17,15 @@ namespace Los.Santos.Dope.Wars.Missions
 		private static List<DrugDealer>? _drugDealers;
 		private static GameSettings? _gameSettings;
 		private static GameState? _gameState;
-		private static Script? _script;
 		private static PlayerStats? _playerStats;
+		private static Ped? _player;
 
 		private static DrugDealer? CurrentDrugDealer { get; set; }
+
+		/// <summary>
+		/// The <see cref="Initialized"/> property indicates if the <see cref="Init(GameSettings, GameState)"/> method was called
+		/// </summary>
+		public static bool Initialized { get; private set; }
 
 		/// <summary>
 		/// The empty <see cref="Trafficking"/> class constructor
@@ -37,6 +42,8 @@ namespace Los.Santos.Dope.Wars.Missions
 			_gameSettings = gameSettings;
 			_gameState = gameState;
 			_drugDealers = GetDrugDealers();
+			_player = Game.Player.Character;
+			Initialized = true;
 		}
 
 		/// <summary>
@@ -61,16 +68,16 @@ namespace Los.Santos.Dope.Wars.Missions
 		/// <param name="e"></param>
 		public static void OnTick(object sender, EventArgs e)
 		{
-			if (sender is Script script)
-				_script = script;
-
-			while (_gameSettings is null && _gameState is null)
+			if (!Initialized)
 				return;
 
 			try
 			{
-				Ped player = Game.Player.Character;
-				_playerStats = Utils.GetPlayerStatsFromModel(_gameState!);
+				if (_player != Game.Player.Character)
+					_player = Game.Player.Character;
+
+				if (_playerStats != Utils.GetPlayerStatsFromModel(_gameState!))
+					_playerStats = Utils.GetPlayerStatsFromModel(_gameState!);
 
 				// The dealer drug stash restock (quantity)
 				if (ScriptHookUtils.GetGameDate() > _gameState!.LastRestock.AddHours(_gameSettings!.DealerSettings.RestockIntervalHours))
@@ -108,7 +115,7 @@ namespace Los.Santos.Dope.Wars.Missions
 						dealer.CreateBlip();
 					}
 					// if the player is in range of the dealer
-					if (player.IsInRange(dealer.Position, 100f))
+					if (_player.IsInRange(dealer.Position, 100f))
 					{
 						// if the ped was not created
 						if (!dealer.PedCreated)
@@ -126,7 +133,7 @@ namespace Los.Santos.Dope.Wars.Missions
 					}
 
 					// now we are real close to the dealer
-					if (player.IsInRange(dealer.Position, 3f) && CurrentDrugDealer is null && Game.Player.WantedLevel == 0)
+					if (_player.IsInRange(dealer.Position, 3f) && CurrentDrugDealer is null && Game.Player.WantedLevel == 0)
 					{
 						CurrentDrugDealer = dealer;
 						DealMenu.Init(_playerStats.DrugStash, (DrugStash)dealer.DrugStash, _gameState);
@@ -138,7 +145,7 @@ namespace Los.Santos.Dope.Wars.Missions
 							DealMenu.ShowDealMenu = false;
 					}
 
-					else if ((!player.IsInRange(dealer.Position, 3f) && CurrentDrugDealer == dealer) || Game.Player.WantedLevel != 0)
+					else if ((!_player.IsInRange(dealer.Position, 3f) && CurrentDrugDealer == dealer) || Game.Player.WantedLevel != 0)
 					{
 						CurrentDrugDealer = null!;
 						DealMenu.ShowDealMenu = false;
