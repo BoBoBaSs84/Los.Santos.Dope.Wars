@@ -1,5 +1,7 @@
 ﻿using Los.Santos.Dope.Wars.Classes;
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Xml.Serialization;
 
 namespace Los.Santos.Dope.Wars.Persistence
@@ -8,8 +10,13 @@ namespace Los.Santos.Dope.Wars.Persistence
 	/// The <see cref="PlayerStats"/> class is the root element for each character
 	/// </summary>
 	[XmlRoot(ElementName = nameof(PlayerStats), IsNullable = false)]
-	public class PlayerStats
+	public class PlayerStats : INotifyPropertyChanged
 	{
+		private int currentLevel;
+
+		/// <inheritdoc/>
+		public event PropertyChangedEventHandler? PropertyChanged;
+
 		#region ctor
 		/// <summary>
 		/// Empty constructor with default values
@@ -38,10 +45,10 @@ namespace Los.Santos.Dope.Wars.Persistence
 		[XmlIgnore]
 		public const int MaxLevel = 50;
 
-		/// <summary>
-		/// The <see cref="SpentMoney"/> property, money spend for buying drugs
-		/// </summary>
-		[XmlAttribute(AttributeName = nameof(SpentMoney))]
+        /// <summary>
+        /// The <see cref="SpentMoney"/> property, money spend for buying drugs
+        /// </summary>
+        [XmlAttribute(AttributeName = nameof(SpentMoney))]
 		public int SpentMoney { get; set; }
 
 		/// <summary>
@@ -54,7 +61,18 @@ namespace Los.Santos.Dope.Wars.Persistence
 		/// The <see cref="CurrentLevel"/> property, increases depending on experience gain
 		/// </summary>
 		[XmlAttribute(AttributeName = nameof(CurrentLevel))]
-		public int CurrentLevel { get; set; }
+		public int CurrentLevel
+		{
+			get { return currentLevel; }
+			set
+			{
+				if (value > currentLevel)
+				{
+					currentLevel = value;
+					OnPropertyChanged(nameof(CurrentLevel));
+				}
+			}
+		}
 
 		/// <summary>
 		/// The <see cref="CurrentExperience"/> property
@@ -133,5 +151,12 @@ namespace Los.Santos.Dope.Wars.Persistence
 				bagSize += drug.Quantity;
 			return bagSize;
 		}
+
+		/// <summary>
+		/// The <see cref="OnPropertyChanged(string?)"/> method for the event trigger
+		/// </summary>
+		/// <param name="name"></param>
+		private protected void OnPropertyChanged([CallerMemberName] string? name = null) =>
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 	}
 }

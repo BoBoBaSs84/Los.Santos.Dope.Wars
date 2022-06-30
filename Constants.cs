@@ -219,11 +219,17 @@ namespace Los.Santos.Dope.Wars
 		public static readonly Vector3 MissionMarkerScale = new(8f, 8f, 1.5f);
 
 		public static readonly Color MissionMarkerColor = Color.FromArgb(255, 240, 200, 80);
+				
+		public static readonly Vector3 WarehouseEntranceFranklin = new(-320.3f, -1389.8f, 36.5f);
 
-		public static readonly Vector3 WarehouseLocationFranklin = new(466.3f, -1384.1f, 37.1f);
+		public static readonly Vector3 WarehouseLocationFranklin = new(-307.3f, -1399.5f, 41.6f);
 
-		public static readonly Vector3 WarehouseEntranceFranklin = new(477.71f, -1397.76f, 31.04f);
+		public static readonly Vector3 WarehouseMissionStartFranklin = new(-323.7f, -1400.5f, 31.8f);
 
-		public static readonly Vector3 WarehouseMissionStartFranklin = new(488.73f, 1400.86f, 29.31f);
+		public static readonly Vector3 WarehouseEntranceMichael = new(794.2f, -102.8f, 82f);
+
+		public static readonly Vector3 WarehouseLocationMichael = new(799.5f, -94.6f, 80.6f);
+
+		public static readonly Vector3 WarehouseMissionStartMichael = new(794.8f, -79.2f, 80.6f);
 	}
 }

@@ -60,7 +60,6 @@ namespace Los.Santos.Dope.Wars.Contracts
 		/// </summary>
 		/// <param name="blipSprite"></param>
 		/// <param name="blipColor"></param>
-		/// <param name="blipName"></param>
-		void ChangeBlip(string? blipName, BlipSprite blipSprite = BlipSprite.BusinessForSale, BlipColor blipColor = BlipColor.White);
+		void ChangeBlip(BlipSprite blipSprite = BlipSprite.BusinessForSale, BlipColor blipColor = BlipColor.White);
 	}
 }
