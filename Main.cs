@@ -1,5 +1,6 @@
 ﻿using GTA;
 using Los.Santos.Dope.Wars.Extension;
+using Los.Santos.Dope.Wars.Features;
 using Los.Santos.Dope.Wars.Missions;
 using Los.Santos.Dope.Wars.Persistence;
 using System;
@@ -15,8 +16,9 @@ namespace Los.Santos.Dope.Wars
 		private static bool _gameStateLoaded;
 		private static bool _traffickingLoaded;
 		private static bool _warehouseLoaded;
-		private static GameSettings GameSettings = null!;
-		private static GameState GameState = null!;
+		private static bool _rewardSystemLoaded;
+		private static GameSettings? GameSettings;
+		private static GameState? GameState;
 
 		/// <summary>
 		/// The <see cref="ScriptDirectory"/> property, this is the main directory for logging and saving the game config and the game state
@@ -31,16 +33,16 @@ namespace Los.Santos.Dope.Wars
 		{
 			Interval = 10;
 			ScriptDirectory = BaseDirectory;
+			Init();
 
 			Tick += OnTick;
 			Tick += Trafficking.OnTick;
 			Tick += Warehouse.OnTick;
+			Tick += RewardSystem.OnTick;
 
 			Aborted += OnAborted;
 			Aborted += Trafficking.OnAborted;
-			Aborted += Warehouse.OnAborted;
-
-			Init();
+			Aborted += Warehouse.OnAborted;			
 		}
 		#endregion
 
@@ -55,16 +57,23 @@ namespace Los.Santos.Dope.Wars
 
 			if (!_traffickingLoaded)
 			{
-				Trafficking.Init(GameSettings, GameState);
+				Trafficking.Init(GameSettings!, GameState!);
 				_traffickingLoaded = true;
 				Logger.Status($"Trafficking loaded: {_traffickingLoaded}");
 			}
 
 			if (!_warehouseLoaded)
 			{
-				Warehouse.Init(GameState);
+				Warehouse.Init(GameState!);
 				_warehouseLoaded = true;
 				Logger.Status($"Warehouse loaded: {_traffickingLoaded}");
+			}
+
+			if (!_rewardSystemLoaded)
+			{
+				RewardSystem.Init(GameState!);
+				_rewardSystemLoaded = true;
+				Logger.Status($"Reward system loaded: {_traffickingLoaded}");
 			}
 		}
 
@@ -74,7 +83,7 @@ namespace Los.Santos.Dope.Wars
 			{
 				if (!_settingsLoaded || !_gameStateLoaded)
 				{
-					Logger.Status($"Mod: {Constants.AssemblyName} - Vesion: {Constants.AssemblyVersion}");
+					Logger.Status($"Game: {Constants.AssemblyName} - Vesion: {Constants.AssemblyVersion}");
 
 					if (!_settingsLoaded)
 					{
@@ -93,7 +102,7 @@ namespace Los.Santos.Dope.Wars
 						{
 							GameState = loadedGameState;
 							loadedGameState.LastRestock = ScriptHookUtils.GetGameDate().AddHours(-25);
-							Logger.Status($"Last game state loaded. Version: {GameSettings.Version}");
+							Logger.Status($"Last game state loaded. Version: {GameSettings!.Version}");
 							_gameStateLoaded = success;
 						}
 					}
