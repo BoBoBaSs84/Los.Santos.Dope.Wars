@@ -65,14 +65,14 @@ namespace Los.Santos.Dope.Wars
 			if (!_warehouseLoaded)
 			{
 				Warehouse.Init(GameState!);
-				_warehouseLoaded = true;
+				_warehouseLoaded = Warehouse.Initialized;
 				Logger.Status($"Warehouse loaded: {_traffickingLoaded}");
 			}
 
 			if (!_rewardSystemLoaded)
 			{
 				RewardSystem.Init(GameState!);
-				_rewardSystemLoaded = true;
+				_rewardSystemLoaded = RewardSystem.Initialized;
 				Logger.Status($"Reward system loaded: {_traffickingLoaded}");
 			}
 		}

@@ -12,10 +12,14 @@ namespace Los.Santos.Dope.Wars.Missions
 	/// </summary>
 	public static class Warehouse
 	{
-		private static Script? _script;
 		private static GameState? _gameState;
 		private static PlayerStats? _playerStats;
 		private static DrugWarehouse? _drugWarehouse;
+
+		/// <summary>
+		/// The <see cref="Initialized"/> property indicates if the <see cref="Init(GameState)"/> method was called
+		/// </summary>
+		public static bool Initialized { get; private set; }
 
 		/// <summary>
 		/// The <see cref="ShowWarehouseMenu"/> property
@@ -34,11 +38,11 @@ namespace Los.Santos.Dope.Wars.Missions
 		/// <param name="e"></param>
 		public static void OnTick(object sender, EventArgs e)
 		{
-			if (sender is Script script)
-				_script = script;
+			if (!Initialized)
+				return;
 
-			while (_gameState is null && _playerStats is null && _drugWarehouse is null)
-				Script.Wait(50);
+			if (_playerStats != Utils.GetPlayerStatsFromModel(_gameState!))
+				_playerStats = Utils.GetPlayerStatsFromModel(_gameState!);
 
 			try
 			{
@@ -51,12 +55,10 @@ namespace Los.Santos.Dope.Wars.Missions
 					if (!_drugWarehouse!.BlipCreated)
 					{
 						_drugWarehouse = new DrugWarehouse(Constants.WarehouseLocationFranklin, Constants.WarehouseEntranceFranklin, Constants.WarehouseMissionStartFranklin);
-						_drugWarehouse.CreateBlip();
+						_drugWarehouse.CreateBlip(BlipSprite.WarehouseForSale);
 
-						if (!_playerStats.SpecialReward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
-							_drugWarehouse.ChangeBlip("Property: Drug Warehouse", BlipSprite.WarehouseForSale, blipColor);
-						else
-							_drugWarehouse.ChangeBlip("Drug Warehouse", BlipSprite.Warehouse, blipColor);
+						if (_playerStats.SpecialReward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
+							_drugWarehouse.ChangeBlip(BlipSprite.Warehouse, blipColor);
 					}
 				}
 
@@ -103,6 +105,7 @@ namespace Los.Santos.Dope.Wars.Missions
 			{
 				DrugStash = _playerStats.Warehouse.DrugStash
 			};
+			Initialized = true;
 		}
 
 		/// <summary>
@@ -149,10 +152,10 @@ namespace Los.Santos.Dope.Wars.Missions
 			}
 			player.Money -= moneyToPay;
 			_playerStats.SpecialReward.Warehouse |= Enums.WarehouseStates.Bought;
-			Screen.ShowSubtitle("You bought a warehouse, use it to keep your drugs and drug money safe.");
-			Screen.ShowSubtitle("But beware! Other ~r~shady ~w~individuals might be interested in it.");
+			Notification.Show("You bought a ~g~warehouse~w~, use it to keep your drugs and drug money safe.");
+			Notification.Show("But beware! Other ~r~shady ~w~individuals might be interested in it.");
 			Audio.PlaySoundFrontend("PURCHASE", "HUD_LIQUOR_STORE_SOUNDSET");
-			_drugWarehouse!.ChangeBlip("Drug Warehouse", BlipSprite.Warehouse, blipColor);
+			_drugWarehouse!.ChangeBlip(BlipSprite.Warehouse, blipColor);
 			Utils.SaveGameState(_gameState!);
 		}
 	}

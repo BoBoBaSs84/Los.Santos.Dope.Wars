@@ -91,12 +91,10 @@ namespace Los.Santos.Dope.Wars.Classes
 		}
 		
 		/// <inheritdoc/>
-		public void ChangeBlip(string? blipName, BlipSprite blipSprite = BlipSprite.BusinessForSale, BlipColor blipColor = BlipColor.White)
+		public void ChangeBlip(BlipSprite blipSprite = BlipSprite.BusinessForSale, BlipColor blipColor = BlipColor.White)
 		{
 			if (BlipCreated)
 			{
-				if (blipName is not null)
-					Blip!.Name = blipName;
 				Blip!.Sprite = blipSprite;
 				Blip!.Color = blipColor;				
 			}
