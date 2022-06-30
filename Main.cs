@@ -64,7 +64,7 @@ namespace Los.Santos.Dope.Wars
 
 			if (!_warehouseLoaded)
 			{
-				Warehouse.Init(GameState!);
+				Warehouse.Init(GameSettings!, GameState!);
 				_warehouseLoaded = Warehouse.Initialized;
 				Logger.Status($"{nameof(Warehouse)} loaded: {_traffickingLoaded}");
 			}

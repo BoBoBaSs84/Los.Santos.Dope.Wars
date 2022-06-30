@@ -47,10 +47,10 @@ namespace Los.Santos.Dope.Wars
 		/// </summary>
 		public const string XmlNamespace = "http://www.los.santos.dope.wars.org";
 
-        /// <summary>
-        /// The volatility of market, so drug prices can reach from -25% to +25%
-        /// </summary>
-        public const double MarketVolatility = 0.25;
+		/// <summary>
+		/// The volatility of market, so drug prices can reach from -25% to +25%
+		/// </summary>
+		public const double MarketVolatility = 0.25;
 
 		/// <summary>
 		/// For every player level the dealers get additional health and armor values.
@@ -59,19 +59,14 @@ namespace Los.Santos.Dope.Wars
 		public const float DealerArmorHealthPerLevelFactor = 5f;
 
 		/// <summary>
-		/// The <see cref="DrugWarehouse"/> price
+		/// the additional discount per level factor level 1 means a plus of 0.5%
 		/// </summary>
-		public const int DrugWarehousePrice = 125000;
+		public const double DiscountPerLevel = 0.005;
 
-        /// <summary>
-        /// the additional discount per level factor level 1 means a plus of 0.5%
-        /// </summary>
-        public const double DiscountPerLevel = 0.005;
-
-        /// <summary>
-        /// Random .. for random uses
-        /// </summary>
-        public static readonly Random random = new();
+		/// <summary>
+		/// Random .. for random uses
+		/// </summary>
+		public static readonly Random random = new();
 
 		/// <summary>
 		/// The <see cref="DrugDealerPedHashes"/> list holds all the possible dealer models
@@ -219,7 +214,7 @@ namespace Los.Santos.Dope.Wars
 		public static readonly Vector3 MissionMarkerScale = new(8f, 8f, 1.5f);
 
 		public static readonly Color MissionMarkerColor = Color.FromArgb(255, 240, 200, 80);
-				
+
 		public static readonly Vector3 WarehouseEntranceFranklin = new(-320.3f, -1389.8f, 36.5f);
 
 		public static readonly Vector3 WarehouseLocationFranklin = new(-307.3f, -1399.5f, 41.6f);

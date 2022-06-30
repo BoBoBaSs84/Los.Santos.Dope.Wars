@@ -12,12 +12,14 @@ namespace Los.Santos.Dope.Wars.Missions
 	/// </summary>
 	public static class Warehouse
 	{
+		private static GameSettings? _gameSettings;
 		private static GameState? _gameState;
 		private static PlayerStats? _playerStats;
 		private static DrugWarehouse? _drugWarehouse;
+		private static int _drugWarehousePrice;
 
 		/// <summary>
-		/// The <see cref="Initialized"/> property indicates if the <see cref="Init(GameState)"/> method was called
+		/// The <see cref="Initialized"/> property indicates if the <see cref="Init(GameSettings, GameState)"/> method was called
 		/// </summary>
 		public static bool Initialized { get; private set; }
 
@@ -68,7 +70,7 @@ namespace Los.Santos.Dope.Wars.Missions
 					//Warehouse is not yours
 					if (!_playerStats.SpecialReward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
 					{
-						Screen.ShowHelpTextThisFrame($"~b~Press ~INPUT_CONTEXT~ ~w~to buy the warehouse for ~r~${Constants.DrugWarehousePrice}");
+						Screen.ShowHelpTextThisFrame($"~b~Press ~INPUT_CONTEXT~ ~w~to buy the warehouse for ~r~${_drugWarehousePrice}");
 						if (Game.IsControlJustPressed(Control.Context))
 						{
 							Script.Wait(10);
@@ -94,11 +96,13 @@ namespace Los.Santos.Dope.Wars.Missions
 		}
 
 		/// <summary>
-		/// The <see cref="Init(GameState)"/> method must be called from outside with the needed parameters
+		/// The <see cref="Init(GameSettings, GameState)"/> method must be called from outside with the needed parameters
 		/// </summary>
+		/// <param name="gameSettings"></param>
 		/// <param name="gameState"></param>
-		public static void Init(GameState gameState)
+		public static void Init(GameSettings gameSettings, GameState gameState)
 		{
+			_gameSettings = gameSettings;
 			_gameState = gameState;
 			_playerStats = Utils.GetPlayerStatsFromModel(gameState);
 			_drugWarehouse = new()
@@ -124,7 +128,9 @@ namespace Los.Santos.Dope.Wars.Missions
 		/// </summary>
 		private static void BuyDrugWareHouse()
 		{
-			if ((Game.Player.Money + _playerStats!.DrugStash.Money) < Constants.DrugWarehousePrice)
+			_drugWarehousePrice = _gameSettings!.GamePlaySettings.SpecialRewardSettings.Warehouse.WarehousePrice;
+
+			if ((Game.Player.Money + _playerStats!.DrugStash.Money) < _drugWarehousePrice)
 			{
 				Screen.ShowSubtitle($"You don't have enough money to buy the warehouse.");
 				return;
@@ -133,19 +139,19 @@ namespace Los.Santos.Dope.Wars.Missions
 			Ped? player = Game.Player.Character;
 			BlipColor blipColor = Utils.GetCharacterBlipColor(Utils.GetCharacterFromModel());
 
-			int moneyToPay = Constants.DrugWarehousePrice;
+			int moneyToPay = _drugWarehousePrice;
 			if (_playerStats.DrugStash.Money > 0)
 			{
 				int moneyToRemoveFromStash = 0;
-				if (_playerStats.DrugStash.Money >= Constants.DrugWarehousePrice)
+				if (_playerStats.DrugStash.Money >= _drugWarehousePrice)
 				{
-					moneyToRemoveFromStash += Constants.DrugWarehousePrice;
+					moneyToRemoveFromStash += _drugWarehousePrice;
 					_playerStats.DrugStash.Money -= moneyToRemoveFromStash;
 				}
 				else
 				{
 					moneyToPay -= _playerStats.DrugStash.Money;
-					moneyToRemoveFromStash = Constants.DrugWarehousePrice - moneyToPay;
+					moneyToRemoveFromStash = _drugWarehousePrice - moneyToPay;
 					_playerStats.DrugStash.Money -= moneyToRemoveFromStash;
 				}
 				Notification.Show($"~r~${moneyToRemoveFromStash} removed from stash and used as payment.");

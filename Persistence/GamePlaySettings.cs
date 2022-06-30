@@ -17,6 +17,7 @@ namespace Los.Santos.Dope.Wars.Persistence
 			LooseDrugsOnDeath = true;
 			LooseDrugsWhenBusted = true;
 			Difficulty = Enums.DifficultyTypes.Normal;
+			SpecialRewardSettings = new();
 		}
 		#endregion
 
@@ -38,6 +39,12 @@ namespace Los.Santos.Dope.Wars.Persistence
 		/// </summary>
 		[XmlAttribute(AttributeName = nameof(Difficulty))]
 		public Enums.DifficultyTypes Difficulty { get; set; }
+
+		/// <summary>
+		/// The <see cref="SpecialRewardSettings"/> property/attribute 
+		/// </summary>
+		[XmlElement(ElementName = nameof(SpecialRewardSettings), IsNullable = false)]
+		public SpecialRewardSettings SpecialRewardSettings { get; set; }
 		#endregion
 	}
 }
