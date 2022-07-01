@@ -16,6 +16,7 @@ namespace Los.Santos.Dope.Wars.Persistence
 		{
 			Warehouse = Enums.WarehouseStates.Locked;
 			DrugLords = Enums.DrugLordStates.Locked;
+			DrugTypes = Enums.DrugTypes.TradePackOne;
 		}
 		#endregion
 
@@ -31,6 +32,12 @@ namespace Los.Santos.Dope.Wars.Persistence
 		/// </summary>
 		[XmlAttribute(AttributeName = nameof(DrugLords))]
 		public Enums.DrugLordStates DrugLords { get; set; }
+
+		/// <summary>
+		/// The <see cref="DrugTypes"/> property
+		/// </summary>
+		[XmlAttribute(AttributeName = nameof(DrugTypes))]
+		public Enums.DrugTypes DrugTypes { get; set; }
 		#endregion
 	}
 }

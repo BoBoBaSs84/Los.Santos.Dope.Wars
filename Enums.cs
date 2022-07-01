@@ -158,7 +158,19 @@ namespace Los.Santos.Dope.Wars
 			/// <summary>
 			/// This is the level three collection of a drug lord
 			/// </summary>
-			LordStashLevelThree = Heroin | Cocaine | Methamphetamine | Crack | Ketamine
+			LordStashLevelThree = Heroin | Cocaine | Methamphetamine | Crack | Ketamine,
+			/// <summary>
+			/// This drug collection is the first the player is able to trade with from level 1 on
+			/// </summary>
+			TradePackOne = LordStashLevelOne,
+			/// <summary>
+			/// This drug collection is the second the player is able to trade with from level 11 on
+			/// </summary>
+			TradePackTwo = LordStashLevelTwo,
+			/// <summary>
+			/// This drug collection is the third the player is able to trade with from level 20 on
+			/// </summary>
+			TradePackThree = LordStashLevelThree,
 		}
 
 		/// <summary>
