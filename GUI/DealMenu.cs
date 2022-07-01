@@ -185,12 +185,14 @@ namespace Los.Santos.Dope.Wars.GUI
 					$"Total earned money:\t\t${PlayerStats.EarnedMoney}\n\n" +
 					$"Profit:\t\t\t\t\t{((PlayerStats.EarnedMoney - PlayerStats.SpentMoney < 0) ? "~r~" : "~g~")}${PlayerStats.EarnedMoney - PlayerStats.SpentMoney}";
 
+			int prevExp = (int)Math.Pow(PlayerStats.CurrentLevel, 2.5) * 1000;
+
 			List<NativeStatsInfo> nativeStatsInfos = new()
-						{
-								new NativeStatsInfo("Current bag filling level:", PlayerStats.CurrentBagSize * 100 / PlayerStats.MaxBagSize),
-								new NativeStatsInfo("Experience to next level:", PlayerStats.CurrentExperience * 100 / PlayerStats.NextLevelExperience),
-								new NativeStatsInfo("Police awareness level:", 50),
-						};
+			{
+				new NativeStatsInfo("Current bag filling level:", PlayerStats.CurrentBagSize * 100 / PlayerStats.MaxBagSize),
+				new NativeStatsInfo("Experience to next level:", (PlayerStats.CurrentExperience - prevExp) * 100 / (PlayerStats.NextLevelExperience - prevExp)),
+				new NativeStatsInfo("Police awareness level:", 50)
+			};
 
 			NativeItem nativeItem = new(title, description)
 			{
