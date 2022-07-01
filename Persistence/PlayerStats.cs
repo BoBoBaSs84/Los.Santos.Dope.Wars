@@ -27,11 +27,7 @@ namespace Los.Santos.Dope.Wars.Persistence
 			EarnedMoney = default;
 			CurrentLevel = 1;
 			CurrentExperience = default;
-			Stash = new()
-			{
-				Money = default,
-				Drugs = new()
-			};
+			Stash = new();
 			SpecialReward = new();
 			Warehouse = new();
 			Stash.Init();

@@ -21,10 +21,10 @@ namespace Los.Santos.Dope.Wars.Classes
 
 		#region IDealerStash members
 		/// <inheritdoc/>
-		public void BuyDrug(string name, int quantity, int price)
+		public void BuyDrug(string drugName, int drugQuantity, int drugPrice)
 		{
-			Drug drug = Drugs.Where(x => x.Name.Equals(name)).SingleOrDefault();
-			drug.Quantity += quantity;
+			AddToStash(drugName, drugQuantity);
+			RemoveDrugMoney(drugPrice * drugQuantity);
 		}
 		/// <inheritdoc/>
 		public void RefreshCurrentPrice(PlayerStats playerStats, GameSettings gameSettings, bool isDrugLord = false)
@@ -59,7 +59,7 @@ namespace Los.Santos.Dope.Wars.Classes
 			double minMoney = playerLevel * (isDrugLord ? 10000 : 1000) * difficultyFactor / 2;
 			double maxMoney = playerLevel * (isDrugLord ? 10000 : 1000) * difficultyFactor;
 
-			Money = Utils.GetRandomInt((int)minMoney, (int)maxMoney);
+			AddDrugMoney(Utils.GetRandomInt((int)minMoney, (int)maxMoney));
 		}
 		/// <inheritdoc/>
 		public void RestockQuantity(PlayerStats playerStats, GameSettings gameSettings, bool isDrugLord = false)
@@ -92,10 +92,10 @@ namespace Los.Santos.Dope.Wars.Classes
 			}
 		}
 		/// <inheritdoc/>
-		public void SellDrug(string name, int quantity, int price)
+		public void SellDrug(string drugName, int drugQuantity, int drugPrice)
 		{
-			Drug drug = Drugs.Where(x => x.Name.Equals(name)).SingleOrDefault();
-			drug.Quantity -= quantity;
+			RemoveFromStash(drugName, drugQuantity);
+			AddDrugMoney(drugPrice * drugQuantity);
 		}
 		#endregion
 	}

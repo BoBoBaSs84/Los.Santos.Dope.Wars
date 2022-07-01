@@ -145,13 +145,13 @@ namespace Los.Santos.Dope.Wars.Missions
 				if (_playerStats.Stash.Money >= _WarehousePrice)
 				{
 					moneyToRemoveFromStash += _WarehousePrice;
-					_playerStats.Stash.Money -= moneyToRemoveFromStash;
+					_playerStats.Stash.RemoveDrugMoney(moneyToRemoveFromStash);
 				}
 				else
 				{
 					moneyToPay -= _playerStats.Stash.Money;
 					moneyToRemoveFromStash = _WarehousePrice - moneyToPay;
-					_playerStats.Stash.Money -= moneyToRemoveFromStash;
+					_playerStats.Stash.RemoveDrugMoney(moneyToRemoveFromStash);
 				}
 				Notification.Show($"~r~${moneyToRemoveFromStash} removed from stash and used as payment.");
 			}

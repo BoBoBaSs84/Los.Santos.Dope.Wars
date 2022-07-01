@@ -34,17 +34,17 @@ namespace Los.Santos.Dope.Wars.Contracts
 		/// <summary>
 		/// The <see cref="BuyDrug(string, int, int)"/> method is used to manipulate the dealer stash
 		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="quantity"></param>
-		/// <param name="price"></param>
-		void BuyDrug(string name, int quantity, int price);
+		/// <param name="drugName"></param>
+		/// <param name="drugQuantity"></param>
+		/// <param name="drugPrice"></param>
+		void BuyDrug(string drugName, int drugQuantity, int drugPrice);
 
 		/// <summary>
 		/// The <see cref="SellDrug(string, int, int)"/> method is used to manipulate the dealer stash
 		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="quantity"></param>
-		/// <param name="price"></param>
-		void SellDrug(string name, int quantity, int price);
+		/// <param name="drugName"></param>
+		/// <param name="drugQuantity"></param>
+		/// <param name="drugPrice"></param>
+		void SellDrug(string drugName, int drugQuantity, int drugPrice);
 	}
 }

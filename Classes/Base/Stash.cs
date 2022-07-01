@@ -1,4 +1,5 @@
 ﻿using Los.Santos.Dope.Wars.Contracts;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace Los.Santos.Dope.Wars.Classes.Base
@@ -30,9 +31,9 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 
 		#region properties
 		/// <inheritdoc/>
-		public List<Drug> Drugs { get; set; }
+		public List<Drug> Drugs { get; private set; }
 		/// <inheritdoc/>
-		public int Money { get; set; }
+		public int Money { get; private set; }
 		#endregion
 
 		#region ctor
@@ -58,6 +59,24 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 			foreach (Drug? drug in drugList)
 				Drugs.Add(new Drug(drug.Name, drug.Description, drug.AveragePrice));
 		}
+		/// <inheritdoc/>
+		public void AddToStash(string drugName, int drugQuantity)
+		{
+			Drug drug = Drugs.Where(x => x.Name.Equals(drugName)).SingleOrDefault();
+			if (drug is not null)
+				drug.Quantity += drugQuantity;
+		}
+		/// <inheritdoc/>
+		public void RemoveFromStash(string drugName, int drugQuantity)
+		{
+			Drug drug = Drugs.Where(x => x.Name.Equals(drugName)).SingleOrDefault();
+			if (drug is not null)
+				drug.Quantity -= drugQuantity;
+		}
+		/// <inheritdoc/>
+		public void AddDrugMoney(int amount) => Money += amount;
+		/// <inheritdoc/>
+		public void RemoveDrugMoney(int amount) => Money -= amount;
 		#endregion
 	}
 }

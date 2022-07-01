@@ -18,23 +18,23 @@ namespace Los.Santos.Dope.Wars.Classes
 
 		#region IPlayerStash members
 		/// <inheritdoc/>
-		public void BuyDrug(string name, int quantity, int price)
+		public void BuyDrug(string drugName, int drugQuantity, int drugPrice)
 		{
-			Drug drug = Drugs.Where(x => x.Name.Equals(name)).SingleOrDefault();
+			Drug drug = Drugs.Where(x => x.Name.Equals(drugName)).SingleOrDefault();
 
 			if (drug.Quantity.Equals(0))
-				drug.PurchasePrice = price;
+				drug.PurchasePrice = drugPrice;
 			else
-				drug.PurchasePrice = ((drug.Quantity * drug.PurchasePrice) + (quantity * price)) / (drug.Quantity + quantity);
+				drug.PurchasePrice = ((drug.Quantity * drug.PurchasePrice) + (drugQuantity * drugPrice)) / (drug.Quantity + drugQuantity);
 
-			drug.Quantity += quantity;
+			AddToStash(drugName, drugQuantity);
+			RemoveDrugMoney(drugPrice * drugQuantity);
 		}
 		/// <inheritdoc/>
-		public void SellDrug(string name, int quantity, int price)
+		public void SellDrug(string drugName, int drugQuantity, int drugPrice)
 		{
-			Drug drug = Drugs.Where(x => x.Name.Equals(name)).SingleOrDefault();
-			int transactionValue = quantity * price;
-			drug.Quantity -= quantity;
+			RemoveFromStash(drugName, drugQuantity);
+			AddDrugMoney(drugPrice * drugQuantity);
 		}
 		#endregion
 	}
