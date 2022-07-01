@@ -69,17 +69,19 @@ namespace Los.Santos.Dope.Wars.Classes
 
 			if (isDrugLord)
 			{
-				foreach (Drug? drug in Drugs)
-					drug.Quantity = 0;
+				Init();
+				
+				var specialStash = Utils.GetLordStashByLevel(playerStats);
+				if (specialStash.Count.Equals(1))
+					return;
 
-				int index = Utils.GetRandomInt(0, Drugs.Count);
-				Drugs[index].Quantity = (int)(playerStats.MaxBagSize * difficultyFactor);
-
+				int index = Utils.GetRandomInt(0, specialStash.Count);
+				Drug drug = Drugs.Where(x => x.Name.Equals(specialStash[index])).FirstOrDefault();
+				drug.Quantity = (int)(playerStats.MaxBagSize * difficultyFactor);
 				return;
 			}
 
-			foreach (Drug? drug in Drugs)
-				drug.Quantity = 0;
+			Init();
 
 			int drugsToRestock = Utils.GetRandomInt(1, Drugs.Count + 1);
 

@@ -146,7 +146,19 @@ namespace Los.Santos.Dope.Wars
 			/// <summary>
 			/// The <see cref="Oxycodone"/> type
 			/// </summary>
-			Oxycodone = 16384
+			Oxycodone = 16384,
+			/// <summary>
+			/// This is the level one collection of a drug lord
+			/// </summary>
+			LordStashLevelOne = Mushrooms | Amphetamine | Oxycodone | Marijuana | Hashish,
+			/// <summary>
+			/// This is the level two collection of a drug lord
+			/// </summary>
+			LordStashLevelTwo = Mescaline | MDMA | Ecstasy | Acid | PCP,
+			/// <summary>
+			/// This is the level three collection of a drug lord
+			/// </summary>
+			LordStashLevelThree = Heroin | Cocaine | Methamphetamine | Crack | Ketamine
 		}
 
 		/// <summary>

@@ -18,7 +18,7 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 			new Drug(Enums.DrugTypes.Mushrooms, "Psychoactive mushrooms, also known as magic mushrooms.", 245),
 			new Drug(Enums.DrugTypes.Amphetamine, "Amphetamine has a strong stimulating and uplifting effect.", 215),
 			new Drug(Enums.DrugTypes.PCP, "Also known as Angel Dust or Peace Pill in the drug scene.", 255),
-			new Drug(Enums.DrugTypes.Methamphetamine, "Methamphetamine is a powerful psychostimulant.", 835),
+			new Drug(Enums.DrugTypes.Methamphetamine, "Methamphetamine is a powerful psychostimulant.", 785),
 			new Drug(Enums.DrugTypes.Ketamine, "Ketamine is a dissociative anaesthetic used in human medicine.", 545),
 			new Drug(Enums.DrugTypes.Mescaline, "Mescaline or mescaline is a psychedelic and hallucinogenic alkaloid.", 470),
 			new Drug(Enums.DrugTypes.Ecstasy, "Ecstasy, also XTC, is a term for so-called 'party pills'.", 275),

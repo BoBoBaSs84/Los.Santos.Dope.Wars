@@ -1,6 +1,7 @@
 ﻿using GTA;
 using Los.Santos.Dope.Wars.Persistence;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
@@ -15,6 +16,26 @@ namespace Los.Santos.Dope.Wars.Extension
 	public static class Utils
 	{
 		#region public methods
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="playerStats"></param>
+		/// <returns><see cref="List{T}"/></returns>
+		public static List<string> GetLordStashByLevel(PlayerStats playerStats)
+		{
+			List<string> strings = new();
+			Enums.DrugTypes drugTypes = Enums.DrugTypes.None;
+			if (playerStats.SpecialReward.DrugLords.HasFlag(Enums.DrugLordStates.MaxedOut))
+				drugTypes = Enums.DrugTypes.LordStashLevelThree;
+			else if (playerStats.SpecialReward.DrugLords.HasFlag(Enums.DrugLordStates.Upgraded))
+				drugTypes = Enums.DrugTypes.LordStashLevelTwo;
+			else if(playerStats.SpecialReward.DrugLords.HasFlag(Enums.DrugLordStates.Unlocked))
+				 drugTypes = Enums.DrugTypes.LordStashLevelOne;
+			foreach (Enum value in Enum.GetValues(drugTypes.GetType()))
+				strings.Add(value.ToString());
+			return strings;
+		}
+
 		/// <summary>
 		/// Get the current health and armor values for dealers
 		/// </summary>
