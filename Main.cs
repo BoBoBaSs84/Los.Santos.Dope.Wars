@@ -14,8 +14,9 @@ namespace Los.Santos.Dope.Wars
 	{
 		private static bool _settingsLoaded;
 		private static bool _gameStateLoaded;
-		private static bool _traffickingLoaded;
-		private static bool _warehouseLoaded;
+		private static bool _drugDealerMissionLoaded;
+		private static bool _drugLordMissionLoaded;
+		private static bool _warehouseMissionLoaded;
 		private static bool _rewardSystemLoaded;
 		private static GameSettings? GameSettings;
 		private static GameState? GameState;
@@ -36,18 +37,21 @@ namespace Los.Santos.Dope.Wars
 			Init();
 
 			Tick += OnTick;
-			Tick += Trafficking.OnTick;
-			Tick += Warehouse.OnTick;
+			Tick += DrugDealerMission.OnTick;
+			Tick += DrugLordMission.OnTick;
+			Tick += WarehouseMission.OnTick;
 			Tick += RewardSystem.OnTick;
 
 			Aborted += OnAborted;
-			Aborted += Trafficking.OnAborted;
-			Aborted += Warehouse.OnAborted;			
+			Aborted += DrugDealerMission.OnAborted;
+			Aborted += DrugLordMission.OnAborted;
+			Aborted += WarehouseMission.OnAborted;
 		}
 		#endregion
 
 		private void OnAborted(object sender, EventArgs e)
 		{
+			_drugDealerMissionLoaded = _drugLordMissionLoaded = _rewardSystemLoaded = _warehouseMissionLoaded = false;
 		}
 
 		private void OnTick(object sender, EventArgs e)
@@ -55,25 +59,32 @@ namespace Los.Santos.Dope.Wars
 			while (Game.IsLoading && !Game.Player.CanControlCharacter)
 				Wait(50);
 
-			if (!_traffickingLoaded)
+			if (!_drugDealerMissionLoaded)
 			{
-				Trafficking.Init(GameSettings!, GameState!);
-				_traffickingLoaded = Trafficking.Initialized;
-				Logger.Status($"{nameof(Trafficking)} loaded: {_traffickingLoaded}");
+				DrugDealerMission.Init(GameSettings!, GameState!);
+				_drugDealerMissionLoaded = DrugDealerMission.Initialized;
+				Logger.Status($"{nameof(DrugDealerMission)} loaded: {_drugDealerMissionLoaded}");
 			}
 
-			if (!_warehouseLoaded)
+			if (!_drugLordMissionLoaded)
 			{
-				Warehouse.Init(GameSettings!, GameState!);
-				_warehouseLoaded = Warehouse.Initialized;
-				Logger.Status($"{nameof(Warehouse)} loaded: {_traffickingLoaded}");
+				DrugLordMission.Init(GameSettings!, GameState!);
+				_drugLordMissionLoaded = DrugLordMission.Initialized;
+				Logger.Status($"{nameof(DrugLordMission)} loaded: {_drugLordMissionLoaded}");
+			}
+
+			if (!_warehouseMissionLoaded)
+			{
+				WarehouseMission.Init(GameSettings!, GameState!);
+				_warehouseMissionLoaded = WarehouseMission.Initialized;
+				Logger.Status($"{nameof(WarehouseMission)} loaded: {_drugDealerMissionLoaded}");
 			}
 
 			if (!_rewardSystemLoaded)
 			{
 				RewardSystem.Init(GameState!);
 				_rewardSystemLoaded = RewardSystem.Initialized;
-				Logger.Status($"{nameof(RewardSystem)} loaded: {_traffickingLoaded}");
+				Logger.Status($"{nameof(RewardSystem)} loaded: {_drugDealerMissionLoaded}");
 			}
 		}
 
