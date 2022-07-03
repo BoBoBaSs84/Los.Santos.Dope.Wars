@@ -15,8 +15,8 @@ namespace Los.Santos.Dope.Wars.Missions
 		private static GameSettings? _gameSettings;
 		private static GameState? _gameState;
 		private static PlayerStats? _playerStats;
-		private static Warehouse? _Warehouse;
-		private static int _WarehousePrice;
+		private static Warehouse? _warehouse;
+		private static int _warehousePrice;
 
 		/// <summary>
 		/// The <see cref="Initialized"/> property indicates if the <see cref="Init(GameSettings, GameState)"/> method was called
@@ -53,27 +53,27 @@ namespace Los.Santos.Dope.Wars.Missions
 				//all necessary flags are there
 				if (_playerStats!.SpecialReward.Warehouse.HasFlag(Enums.WarehouseStates.Unlocked) || _playerStats.SpecialReward.Warehouse.HasFlag(Enums.WarehouseStates.Bought) || _playerStats.SpecialReward.Warehouse.HasFlag(Enums.WarehouseStates.Upgraded))
 				{
-					if (!_Warehouse!.BlipCreated)
+					if (!_warehouse!.BlipCreated)
 					{
-						_Warehouse = new Classes.Warehouse(Constants.WarehouseLocationFranklin, Constants.WarehouseEntranceFranklin, Constants.WarehouseMissionStartFranklin);
-						_Warehouse.CreateBlip(BlipSprite.WarehouseForSale);
+						_warehouse = new Warehouse(Constants.WarehouseLocationFranklin, Constants.WarehouseEntranceFranklin, Constants.WarehouseMissionStartFranklin);
+						_warehouse.CreateBlip(BlipSprite.WarehouseForSale);
 
 						if (_playerStats.SpecialReward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
 						{
 							BlipColor blipColor = Utils.GetCharacterBlipColor(Utils.GetCharacterFromModel());
-							_Warehouse.ChangeBlip(BlipSprite.Warehouse, blipColor);
-							_Warehouse.WarehouseStash = _playerStats.Warehouse.WarehouseStash;
+							_warehouse.ChangeBlip(BlipSprite.Warehouse, blipColor);
+							_warehouse.Stash = _playerStats.Warehouse.Stash;
 						}
 					}
 				}
 
 				//Warehouse exists
-				if (_Warehouse!.BlipCreated && World.GetDistance(player.Position, Constants.WarehouseEntranceFranklin) <= 3f)
+				if (_warehouse!.BlipCreated && World.GetDistance(player.Position, Constants.WarehouseEntranceFranklin) <= 3f)
 				{
 					//Warehouse is not yours
 					if (!_playerStats.SpecialReward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
 					{
-						Screen.ShowHelpTextThisFrame($"~b~Press ~INPUT_CONTEXT~ ~w~to buy the warehouse for ~r~${_WarehousePrice}");
+						Screen.ShowHelpTextThisFrame($"~b~Press ~INPUT_CONTEXT~ ~w~to buy the warehouse for ~r~${_warehousePrice}");
 						if (Game.IsControlJustPressed(Control.Context))
 						{
 							Script.Wait(10);
@@ -108,6 +108,8 @@ namespace Los.Santos.Dope.Wars.Missions
 			_gameSettings = gameSettings;
 			_gameState = gameState;
 			_playerStats = Utils.GetPlayerStatsFromModel(gameState);
+			_warehouse = new();
+			_warehousePrice = gameSettings.GamePlaySettings.SpecialRewardSettings.Warehouse.WarehousePrice;
 			Initialized = true;
 		}
 
@@ -118,8 +120,8 @@ namespace Los.Santos.Dope.Wars.Missions
 		/// <param name="e"></param>
 		public static void OnAborted(object sender, EventArgs e)
 		{
-			if (_Warehouse!.BlipCreated)
-				_Warehouse.DeleteBlip();
+			if (_warehouse!.BlipCreated)
+				_warehouse.DeleteBlip();
 		}
 
 		/// <summary>
@@ -127,9 +129,9 @@ namespace Los.Santos.Dope.Wars.Missions
 		/// </summary>
 		private static void BuyWareHouse()
 		{
-			_WarehousePrice = _gameSettings!.GamePlaySettings.SpecialRewardSettings.Warehouse.WarehousePrice;
+			_warehousePrice = _gameSettings!.GamePlaySettings.SpecialRewardSettings.Warehouse.WarehousePrice;
 
-			if ((Game.Player.Money + _playerStats!.Stash.Money) < _WarehousePrice)
+			if ((Game.Player.Money + _playerStats!.Stash.Money) < _warehousePrice)
 			{
 				Screen.ShowSubtitle($"You don't have enough money to buy the warehouse.");
 				return;
@@ -138,19 +140,19 @@ namespace Los.Santos.Dope.Wars.Missions
 			Ped? player = Game.Player.Character;
 			BlipColor blipColor = Utils.GetCharacterBlipColor(Utils.GetCharacterFromModel());
 
-			int moneyToPay = _WarehousePrice;
+			int moneyToPay = _warehousePrice;
 			if (_playerStats.Stash.Money > 0)
 			{
 				int moneyToRemoveFromStash = 0;
-				if (_playerStats.Stash.Money >= _WarehousePrice)
+				if (_playerStats.Stash.Money >= _warehousePrice)
 				{
-					moneyToRemoveFromStash += _WarehousePrice;
+					moneyToRemoveFromStash += _warehousePrice;
 					_playerStats.Stash.RemoveDrugMoney(moneyToRemoveFromStash);
 				}
 				else
 				{
 					moneyToPay -= _playerStats.Stash.Money;
-					moneyToRemoveFromStash = _WarehousePrice - moneyToPay;
+					moneyToRemoveFromStash = _warehousePrice - moneyToPay;
 					_playerStats.Stash.RemoveDrugMoney(moneyToRemoveFromStash);
 				}
 				Notification.Show($"~r~${moneyToRemoveFromStash} removed from stash and used as payment.");
@@ -160,7 +162,7 @@ namespace Los.Santos.Dope.Wars.Missions
 			Notification.Show("You bought a ~g~warehouse~w~, use it to keep your drugs and drug money safe.");
 			Notification.Show("But beware! Other ~r~shady ~w~individuals might be interested in it.");
 			Audio.PlaySoundFrontend("PURCHASE", "HUD_LIQUOR_STORE_SOUNDSET");
-			_Warehouse!.ChangeBlip(BlipSprite.Warehouse, blipColor);
+			_warehouse!.ChangeBlip(BlipSprite.Warehouse, blipColor);
 			Utils.SaveGameState(_gameState!);
 		}
 	}

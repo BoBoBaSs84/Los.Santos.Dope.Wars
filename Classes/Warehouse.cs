@@ -17,8 +17,8 @@ namespace Los.Santos.Dope.Wars.Classes
 		/// </summary>
 		public Warehouse(Vector3 position, Vector3 entrance, Vector3 missionMarker) : base(position, entrance, missionMarker)
 		{
-			WarehouseStash = new PlayerStash();
-			WarehouseStash.Init();
+			Stash = new();
+			Stash.Init();
 		}
 
 		/// <summary>
@@ -26,16 +26,17 @@ namespace Los.Santos.Dope.Wars.Classes
 		/// </summary>
 		public Warehouse()
 		{
-			WarehouseStash = new PlayerStash();
+			Stash = new();
+			Stash.Init();
 		}
 		#endregion
 
 		#region properties
 		/// <summary>
-		/// The <see cref="WarehouseStash"/> property, securely stashes the brought in player drugs and drug money
+		/// The <see cref="Stash"/> property, securely stashes the brought in player drugs and drug money
 		/// </summary>
-		[XmlElement(ElementName = nameof(WarehouseStash), IsNullable = false)]
-		public PlayerStash WarehouseStash { get; set; }
+		[XmlElement(ElementName = nameof(Stash), IsNullable = false)]
+		public PlayerStash Stash { get; set; }
 		#endregion
 	}
 }

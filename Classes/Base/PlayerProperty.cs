@@ -1,6 +1,7 @@
 ﻿using GTA;
 using GTA.Math;
 using Los.Santos.Dope.Wars.Contracts;
+using System.Xml.Serialization;
 
 namespace Los.Santos.Dope.Wars.Classes.Base
 {
@@ -12,18 +13,25 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 	{
 		#region properties
 		/// <inheritdoc/>
+		[XmlIgnore]
 		public Blip? Blip { get; private set; }
 		/// <inheritdoc/>
+		[XmlIgnore]
 		public bool BlipCreated { get; set; }
 		/// <inheritdoc/>
+		[XmlIgnore]
 		public Vector3 Position { get; private set; }
 		/// <inheritdoc/>
+		[XmlIgnore] 
 		public Vector3 Entrance { get; private set; }
 		/// <inheritdoc/>
+		[XmlIgnore] 
 		public MarkerType EntranceMarkerType { get; private set; }
 		/// <inheritdoc/>
+		[XmlIgnore] 
 		public Vector3 MissionMarker { get; private set; }
 		/// <inheritdoc/>
+		[XmlIgnore] 
 		public MarkerType MissionMarkerType { get; private set; }
 		#endregion
 

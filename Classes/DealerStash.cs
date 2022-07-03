@@ -16,7 +16,9 @@ namespace Los.Santos.Dope.Wars.Classes
 		/// <summary>
 		/// The standard constructor for the <see cref="DealerStash"/> class
 		/// </summary>
-		public DealerStash() => Init();
+		public DealerStash()
+		{
+		}
 		#endregion
 
 		#region IDealerStash members
@@ -70,7 +72,7 @@ namespace Los.Santos.Dope.Wars.Classes
 			if (isDrugLord)
 			{
 				Init();
-				
+
 				var specialStash = Utils.GetLordStashByLevel(playerStats);
 				if (specialStash.Count.Equals(1))
 					return;

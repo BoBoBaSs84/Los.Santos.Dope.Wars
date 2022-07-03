@@ -88,7 +88,7 @@ namespace Los.Santos.Dope.Wars.Missions
 
 		private static List<DrugLord>? GetDrugLords()
 		{
-			throw new NotImplementedException();
+			return _drugLords ??= new List<DrugLord>();
 		}
 	}
 }

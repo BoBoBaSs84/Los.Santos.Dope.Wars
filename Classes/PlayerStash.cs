@@ -13,7 +13,9 @@ namespace Los.Santos.Dope.Wars.Classes
 		/// <summary>
 		/// The standard constructor for the <see cref="PlayerStash"/> class
 		/// </summary>
-		public PlayerStash() => Init();
+		public PlayerStash()
+		{
+		}
 		#endregion
 
 		#region IPlayerStash members

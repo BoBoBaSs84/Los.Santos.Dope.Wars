@@ -1,6 +1,7 @@
 ﻿using Los.Santos.Dope.Wars.Contracts;
 using System.Linq;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace Los.Santos.Dope.Wars.Classes.Base
 {
@@ -8,6 +9,7 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 	/// The <see cref="Stash"/> class is the base class for drug stashes.
 	/// Implements the members of the <see cref="IStash"/> interface
 	/// </summary>
+	[XmlRoot(ElementName = nameof(Stash), IsNullable = false)]
 	public abstract class Stash : IStash
 	{
 		private static readonly List<Drug> AvailableDrugs = new()
@@ -31,9 +33,11 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 
 		#region properties
 		/// <inheritdoc/>
-		public List<Drug> Drugs { get; private set; }
+		[XmlElement(ElementName = "Drug", IsNullable = false)]
+		public List<Drug> Drugs { get; set; }
 		/// <inheritdoc/>
-		public int Money { get; private set; }
+		[XmlAttribute(AttributeName = nameof(Money))]
+		public int Money { get; set; }
 		#endregion
 
 		#region ctor
@@ -43,7 +47,7 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 		public Stash()
 		{
 			Drugs = new();			
-			Money = default!;
+			Money = default;
 		}
 		#endregion
 
@@ -51,11 +55,8 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 		/// <inheritdoc/>
 		public void Init()
 		{
-			if (!Drugs.Count.Equals(0))
-				Drugs.Clear();
-
+			Drugs.Clear();
 			List<Drug>? drugList = AvailableDrugs;
-
 			foreach (Drug? drug in drugList)
 				Drugs.Add(new Drug(drug.Name, drug.Description, drug.AveragePrice));
 		}

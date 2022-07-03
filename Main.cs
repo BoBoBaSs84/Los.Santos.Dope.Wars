@@ -12,7 +12,7 @@ namespace Los.Santos.Dope.Wars
 	/// </summary>
 	public class Main : Script
 	{
-		private static bool _settingsLoaded;
+		private static bool _gameSettingsLoaded;
 		private static bool _gameStateLoaded;
 		private static bool _drugDealerMissionLoaded;
 		private static bool _drugLordMissionLoaded;
@@ -36,16 +36,10 @@ namespace Los.Santos.Dope.Wars
 			ScriptDirectory = BaseDirectory;
 			Init();
 
-			Tick += OnTick;
-			Tick += DrugDealerMission.OnTick;
-			Tick += DrugLordMission.OnTick;
-			Tick += WarehouseMission.OnTick;
+			Tick += OnTick;			
 			Tick += RewardSystem.OnTick;
 
-			Aborted += OnAborted;
-			Aborted += DrugDealerMission.OnAborted;
-			Aborted += DrugLordMission.OnAborted;
-			Aborted += WarehouseMission.OnAborted;
+			Aborted += OnAborted;			
 		}
 		#endregion
 
@@ -56,20 +50,25 @@ namespace Los.Santos.Dope.Wars
 
 		private void OnTick(object sender, EventArgs e)
 		{
-			while (Game.IsLoading && !Game.Player.CanControlCharacter)
+			while (Game.IsLoading && !Game.Player.CanControlCharacter && !_gameSettingsLoaded && !_gameStateLoaded)
 				Wait(50);
 
 			if (!_drugDealerMissionLoaded)
 			{
 				DrugDealerMission.Init(GameSettings!, GameState!);
 				_drugDealerMissionLoaded = DrugDealerMission.Initialized;
+				Tick += DrugDealerMission.OnTick;
+				Aborted += DrugDealerMission.OnAborted;
 				Logger.Status($"{nameof(DrugDealerMission)} loaded: {_drugDealerMissionLoaded}");
+
 			}
 
 			if (!_drugLordMissionLoaded)
 			{
 				DrugLordMission.Init(GameSettings!, GameState!);
 				_drugLordMissionLoaded = DrugLordMission.Initialized;
+				Tick += DrugLordMission.OnTick;
+				Aborted += DrugLordMission.OnAborted;
 				Logger.Status($"{nameof(DrugLordMission)} loaded: {_drugLordMissionLoaded}");
 			}
 
@@ -77,6 +76,8 @@ namespace Los.Santos.Dope.Wars
 			{
 				WarehouseMission.Init(GameSettings!, GameState!);
 				_warehouseMissionLoaded = WarehouseMission.Initialized;
+				Tick += WarehouseMission.OnTick;
+				Aborted += WarehouseMission.OnAborted;
 				Logger.Status($"{nameof(WarehouseMission)} loaded: {_drugDealerMissionLoaded}");
 			}
 
@@ -92,18 +93,18 @@ namespace Los.Santos.Dope.Wars
 		{
 			try
 			{
-				if (!_settingsLoaded || !_gameStateLoaded)
+				if (!_gameSettingsLoaded || !_gameStateLoaded)
 				{
 					Logger.Status($"Game: {Constants.AssemblyName} - Vesion: {Constants.AssemblyVersion}");
 
-					if (!_settingsLoaded)
+					if (!_gameSettingsLoaded)
 					{
 						(bool successs, GameSettings loadedGameSettings) = Utils.LoadGameSettings();
 						if (successs)
 						{
 							GameSettings = loadedGameSettings;
 							Logger.Status($"Settings loaded. Version: {GameSettings.Version}");
-							_settingsLoaded = successs;
+							_gameSettingsLoaded = successs;
 						}
 					}
 					if (!_gameStateLoaded)
