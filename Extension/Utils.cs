@@ -31,8 +31,21 @@ namespace Los.Santos.Dope.Wars.Extension
 				drugTypes = Enums.DrugTypes.LordStashLevelTwo;
 			else if(playerStats.SpecialReward.DrugLords.HasFlag(Enums.DrugLordStates.Unlocked))
 				 drugTypes = Enums.DrugTypes.LordStashLevelOne;
-			foreach (Enum value in Enum.GetValues(drugTypes.GetType()))
-				strings.Add(value.ToString());
+			foreach (Enum drugType in Enum.GetValues(drugTypes.GetType()))
+				strings.Add(drugType.ToString());
+			return strings;
+		}
+
+		/// <summary>
+		/// Returns the tradeable drugs for the current character
+		/// </summary>
+		/// <param name="playerStats"></param>
+		/// <returns></returns>
+		public static List<string> GetTradeableDrugs(PlayerStats playerStats)
+		{
+			List<string> strings = new();
+			foreach (Enum drugType in Enum.GetValues(playerStats.SpecialReward.DrugTypes.GetType()))
+				strings.Add(drugType.ToString());
 			return strings;
 		}
 

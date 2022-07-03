@@ -83,12 +83,17 @@ namespace Los.Santos.Dope.Wars.Classes
 
 			Init();
 
-			int drugsToRestock = Utils.GetRandomInt(1, Drugs.Count + 1);
-
+			var tradeStash = Utils.GetTradeableDrugs(playerStats);
+			// this is just how many drugs from the drug range are seeded
+			int drugsToRestock = Utils.GetRandomInt(1, tradeStash.Count + 1);
 			for (int i = 0; i < drugsToRestock; i++)
 			{
-				int index = Utils.GetRandomInt(0, Drugs.Count);
-				Drugs[index].Quantity = Utils.GetRandomInt((int)(playerLevel * difficultyFactor), (int)(playerLevel * difficultyFactor * 10 / 2) + 1);
+				// now we are picking randomly a drug from the tradeable stash
+				int index = Utils.GetRandomInt(0, tradeStash.Count);
+				// looking it up in the list
+				var drug = Drugs.Where(x => x.Name.Equals(tradeStash[index])).FirstOrDefault();
+				// and setting the new amount
+				drug.Quantity = Utils.GetRandomInt((int)(playerLevel * difficultyFactor), (int)(playerLevel * difficultyFactor * 10 / 2) + 1);
 			}
 		}
 		/// <inheritdoc/>
