@@ -44,7 +44,7 @@ namespace Los.Santos.Dope.Wars.Contracts
 		void AddDrugMoney(int amount);
 
 		/// <summary>
-		/// The <see cref="RemoveDrugMoney(int)"/> method removes the amount x to the <see cref="Money"/> property
+		/// The <see cref="RemoveDrugMoney(int)"/> method removes the amount x from the <see cref="Money"/> property
 		/// </summary>
 		/// <param name="amount"></param>
 		void RemoveDrugMoney(int amount);
