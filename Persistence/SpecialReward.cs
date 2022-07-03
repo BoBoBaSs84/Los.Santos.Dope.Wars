@@ -16,7 +16,7 @@ namespace Los.Santos.Dope.Wars.Persistence
 		{
 			Warehouse = Enums.WarehouseStates.Locked;
 			DrugLords = Enums.DrugLordStates.Locked;
-			DrugTypes = Enums.DrugTypes.TradePackOne;
+			DrugTypes = Constants.TradePackOne;
 		}
 		#endregion
 

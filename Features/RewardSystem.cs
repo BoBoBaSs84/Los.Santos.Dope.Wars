@@ -78,7 +78,7 @@ namespace Los.Santos.Dope.Wars.Features
 				// this is when the warehouse reward has been granted
 				if (playerStats.CurrentLevel.Equals(10))
 				{
-					playerStats.SpecialReward.DrugTypes |= Enums.DrugTypes.TradePackTwo;
+					playerStats.SpecialReward.DrugTypes |= Constants.TradePackTwo;
 					Notification.Show($"Congratulations, new drug trading options available.");
 					// if we have come this far, save
 					Utils.SaveGameState(_gameState!);
@@ -96,7 +96,7 @@ namespace Los.Santos.Dope.Wars.Features
 				// this is when the warehouse reward has been granted
 				if (playerStats.CurrentLevel.Equals(20))
 				{
-					playerStats.SpecialReward.DrugTypes |= Enums.DrugTypes.TradePackThree;
+					playerStats.SpecialReward.DrugTypes |= Constants.TradePackThree;
 					Notification.Show($"Congratulations, new drug trading options available.");
 					// if we have come this far, save
 					Utils.SaveGameState(_gameState!);

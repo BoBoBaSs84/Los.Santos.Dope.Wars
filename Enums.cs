@@ -147,30 +147,6 @@ namespace Los.Santos.Dope.Wars
 			/// The <see cref="Oxycodone"/> type
 			/// </summary>
 			Oxycodone = 16384,
-			/// <summary>
-			/// This is the level one collection of a drug lord
-			/// </summary>
-			LordStashLevelOne = Mushrooms | Amphetamine | Oxycodone | Marijuana | Hashish,
-			/// <summary>
-			/// This is the level two collection of a drug lord
-			/// </summary>
-			LordStashLevelTwo = Mescaline | MDMA | Ecstasy | Acid | PCP,
-			/// <summary>
-			/// This is the level three collection of a drug lord
-			/// </summary>
-			LordStashLevelThree = Heroin | Cocaine | Methamphetamine | Crack | Ketamine,
-			/// <summary>
-			/// This drug collection is the first the player is able to trade with from level 1 on
-			/// </summary>
-			TradePackOne = LordStashLevelOne,
-			/// <summary>
-			/// This drug collection is the second the player is able to trade with from level 11 on
-			/// </summary>
-			TradePackTwo = LordStashLevelTwo,
-			/// <summary>
-			/// This drug collection is the third the player is able to trade with from level 20 on
-			/// </summary>
-			TradePackThree = LordStashLevelThree,
 		}
 
 		/// <summary>

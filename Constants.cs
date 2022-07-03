@@ -63,6 +63,10 @@ namespace Los.Santos.Dope.Wars
 		/// </summary>
 		public const double DiscountPerLevel = 0.005;
 
+		public static Enums.DrugTypes TradePackOne = Enums.DrugTypes.Mushrooms | Enums.DrugTypes.Amphetamine | Enums.DrugTypes.Oxycodone | Enums.DrugTypes.Marijuana | Enums.DrugTypes.Hashish;
+		public static Enums.DrugTypes TradePackTwo = Enums.DrugTypes.Mescaline | Enums.DrugTypes.MDMA | Enums.DrugTypes.Ecstasy | Enums.DrugTypes.Acid | Enums.DrugTypes.PCP;
+		public static Enums.DrugTypes TradePackThree = Enums.DrugTypes.Heroin | Enums.DrugTypes.Cocaine | Enums.DrugTypes.Methamphetamine | Enums.DrugTypes.Crack | Enums.DrugTypes.Ketamine;
+
 		/// <summary>
 		/// Random .. for random uses
 		/// </summary>

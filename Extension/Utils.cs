@@ -3,6 +3,7 @@ using Los.Santos.Dope.Wars.Persistence;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -17,37 +18,32 @@ namespace Los.Santos.Dope.Wars.Extension
 	{
 		#region public methods
 		/// <summary>
-		/// 
+		/// Returns the drug type enums for the drug lords
 		/// </summary>
 		/// <param name="playerStats"></param>
 		/// <returns><see cref="List{T}"/></returns>
-		public static List<string> GetLordStashByLevel(PlayerStats playerStats)
+		public static List<Enum> GetLordStashByLevel(PlayerStats playerStats)
 		{
-			List<string> strings = new();
-			Enums.DrugTypes drugTypes = Enums.DrugTypes.None;
 			if (playerStats.SpecialReward.DrugLords.HasFlag(Enums.DrugLordStates.MaxedOut))
-				drugTypes = Enums.DrugTypes.LordStashLevelThree;
+				return GetDrugEnumTypes(Constants.TradePackThree);
 			else if (playerStats.SpecialReward.DrugLords.HasFlag(Enums.DrugLordStates.Upgraded))
-				drugTypes = Enums.DrugTypes.LordStashLevelTwo;
-			else if(playerStats.SpecialReward.DrugLords.HasFlag(Enums.DrugLordStates.Unlocked))
-				 drugTypes = Enums.DrugTypes.LordStashLevelOne;
-			foreach (Enum drugType in Enum.GetValues(drugTypes.GetType()))
-				strings.Add(drugType.ToString());
-			return strings;
+				return GetDrugEnumTypes(Constants.TradePackTwo);
+			else
+				return GetDrugEnumTypes(Constants.TradePackOne);
 		}
 
 		/// <summary>
-		/// Returns the tradeable drugs for the current character
+		/// Returns <see cref="List{T}"/> of type <see cref="Enums.DrugTypes"/>
 		/// </summary>
-		/// <param name="playerStats"></param>
-		/// <returns></returns>
-		public static List<string> GetTradeableDrugs(PlayerStats playerStats)
+		/// <param name="drugTypes"></param>
+		/// <returns><see cref="List{T}"/></returns>
+		public static List<Enum> GetDrugEnumTypes(Enums.DrugTypes drugTypes)
 		{
-			List<string> strings = new();
-			foreach (Enum drugType in Enum.GetValues(playerStats.SpecialReward.DrugTypes.GetType()))
-				strings.Add(drugType.ToString());
-			return strings;
+			var enumList = Enum.GetValues(drugTypes.GetType()).Cast<Enum>().Where(drugTypes.HasFlag).ToList();
+			enumList.Remove(Enums.DrugTypes.None);
+			return enumList;
 		}
+
 
 		/// <summary>
 		/// Get the current health and armor values for dealers

@@ -74,8 +74,6 @@ namespace Los.Santos.Dope.Wars.Classes
 				Init();
 
 				var specialStash = Utils.GetLordStashByLevel(playerStats);
-				if (specialStash.Count.Equals(1))
-					return;
 
 				int index = Utils.GetRandomInt(0, specialStash.Count);
 				Drug drug = Drugs.Where(x => x.Name.Equals(specialStash[index])).FirstOrDefault();
@@ -85,18 +83,38 @@ namespace Los.Santos.Dope.Wars.Classes
 
 			Init();
 
-			var tradeStash = Utils.GetTradeableDrugs(playerStats);
-			// this is just how many drugs from the drug range are seeded
-			int drugsToRestock = Utils.GetRandomInt(1, tradeStash.Count + 1);
-			for (int i = 0; i < drugsToRestock; i++)
+			var tradeStash = Utils.GetDrugEnumTypes(playerStats.SpecialReward.DrugTypes);
+
+			foreach (var tradeType in tradeStash)
 			{
-				// now we are picking randomly a drug from the tradeable stash
-				int index = Utils.GetRandomInt(0, tradeStash.Count);
-				// looking it up in the list
-				var drug = Drugs.Where(x => x.Name.Equals(tradeStash[index])).FirstOrDefault();
-				// and setting the new amount
-				drug.Quantity = Utils.GetRandomInt((int)(playerLevel * difficultyFactor), (int)(playerLevel * difficultyFactor * 10 / 2) + 1);
+				Drug drug = Drugs.Where(x => x.Name.Equals(tradeType.ToString())).SingleOrDefault();
+				if (drug is not null)
+				{
+					drug.Quantity = Utils.GetRandomInt((int)(playerLevel * difficultyFactor), (int)(playerLevel * difficultyFactor * 10 / 2) + 1);
+					Logger.Status($"{drug.Name}\t{drug.Quantity} - {tradeType}");
+				}
+				else
+				{
+					Logger.Status($"{tradeType}");
+				}
 			}
+
+
+			//// this is just how many drugs from the drug range are seeded
+			//int drugsToRestock = Utils.GetRandomInt(1, tradeStash.Count + 1);			
+			//for (int i = 0; i < drugsToRestock; i++)
+			//{
+			//	// now we are picking randomly a drug from the tradeable stash
+			//	int index = Utils.GetRandomInt(0, tradeStash.Count);
+			//	// looking it up in the list
+
+			//	foreach (var drug in Drugs.Where(x => x.Name.Equals(tradeStash[index].ToString())))
+			//	{
+			//		drug.Quantity = Utils.GetRandomInt((int)(playerLevel * difficultyFactor), (int)(playerLevel * difficultyFactor * 10 / 2) + 1);
+			//		tradeStash.RemoveAt(index);
+			//	}
+			//	// and setting the new amount
+			//}
 		}
 		/// <inheritdoc/>
 		public void SellDrug(string drugName, int drugQuantity, int drugPrice)
