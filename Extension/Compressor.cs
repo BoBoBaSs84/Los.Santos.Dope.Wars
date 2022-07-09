@@ -11,7 +11,7 @@ namespace Los.Santos.Dope.Wars.Extension
 	public static class Compressor
 	{
 		/// <summary>
-		/// Takes a string, compresses it and returns it
+		/// Takes a string and returns a compressesd string
 		/// </summary>
 		/// <param name="uncompressedString"></param>
 		/// <returns><see cref="string"/></returns>
@@ -32,10 +32,10 @@ namespace Los.Santos.Dope.Wars.Extension
 		}
 
 		/// <summary>
-		/// Takes a compressed string, decompresses it and returns it
+		/// Takes a compressed string and returns a decompressed string
 		/// </summary>
 		/// <param name="compressedString"></param>
-		/// <returns></returns>
+		/// <returns><see cref="string"/></returns>
 		public static string DecompressString(string compressedString)
 		{
 			try
@@ -56,13 +56,13 @@ namespace Los.Santos.Dope.Wars.Extension
 		/// The compress method
 		/// </summary>
 		/// <param name="bytes"></param>
-		/// <returns></returns>
+		/// <returns><see cref="byte"/></returns>
 		private static byte[] Compress(byte[] bytes)
 		{
 			using MemoryStream? memoryStream = new();
-			using (GZipStream? gzipStream = new(memoryStream, CompressionLevel.Optimal))
+			using (DeflateStream? deflateStream = new(memoryStream, CompressionLevel.Optimal))
 			{
-				gzipStream.Write(bytes, 0, bytes.Length);
+				deflateStream.Write(bytes, 0, bytes.Length);
 			}
 			return memoryStream.ToArray();
 		}
@@ -71,32 +71,16 @@ namespace Los.Santos.Dope.Wars.Extension
 		/// The decompress method
 		/// </summary>
 		/// <param name="bytes"></param>
-		/// <returns></returns>
+		/// <returns><see cref="byte"/></returns>
 		private static byte[] Decompress(byte[] bytes)
 		{
 			using MemoryStream? memoryStream = new(bytes);
 			using MemoryStream? outputStream = new();
-			using (GZipStream? decompressStream = new(memoryStream, CompressionMode.Decompress))
+			using (DeflateStream? inflateStream = new(memoryStream, CompressionMode.Decompress))
 			{
-				decompressStream.CopyTo(outputStream);
+				inflateStream.CopyTo(outputStream);
 			}
 			return outputStream.ToArray();
-		}
-
-		private static void CompressFile(string OriginalFileName, string CompressedFileName)
-		{
-			using FileStream originalFileStream = File.Open(OriginalFileName, FileMode.Open);
-			using FileStream compressedFileStream = File.Create(CompressedFileName);
-			using DeflateStream? compressor = new(compressedFileStream, CompressionMode.Compress);
-			originalFileStream.CopyTo(compressor);
-		}
-
-		private static void DecompressFile(string CompressedFileName, string DecompressedFileName)
-		{
-			using FileStream compressedFileStream = File.Open(CompressedFileName, FileMode.Open);
-			using FileStream outputFileStream = File.Create(DecompressedFileName);
-			using DeflateStream? decompressor = new(compressedFileStream, CompressionMode.Decompress);
-			decompressor.CopyTo(outputFileStream);
 		}
 	}
 }

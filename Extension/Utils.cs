@@ -287,7 +287,7 @@ namespace Los.Santos.Dope.Wars.Extension
 				XmlSerializer xmlSerializer = new(typeof(T));
 				XmlReaderSettings xmlReaderSettings = new()
 				{
-					CheckCharacters = true,
+					CheckCharacters = true
 				};
 
 				if (decompress)
