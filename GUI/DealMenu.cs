@@ -185,7 +185,7 @@ namespace Los.Santos.Dope.Wars.GUI
 					$"Total earned money:\t\t${PlayerStats.EarnedMoney}\n\n" +
 					$"Profit:\t\t\t\t\t{((PlayerStats.EarnedMoney - PlayerStats.SpentMoney < 0) ? "~r~" : "~g~")}${PlayerStats.EarnedMoney - PlayerStats.SpentMoney}";
 
-			int prevExp = (int)Math.Pow(PlayerStats.CurrentLevel, 2.5) * 1000;
+			int prevExp = PlayerStats.CurrentLevel.Equals(1) ? 0 : (int)Math.Pow(PlayerStats.CurrentLevel, 2.5) * 1000;
 
 			List<NativeStatsInfo> nativeStatsInfos = new()
 			{
@@ -325,7 +325,6 @@ namespace Los.Santos.Dope.Wars.GUI
 			{
 				Logger.Error($"{nameof(BuyListItem_OnItemChanged)}\n{ex.Message}\n{ex.InnerException}\n{ex.Source}\n{ex.StackTrace}");
 			}
-
 		}
 
 		private void SellListItem_OnItemChanged(object sender, ItemChangedEventArgs<int> e)
