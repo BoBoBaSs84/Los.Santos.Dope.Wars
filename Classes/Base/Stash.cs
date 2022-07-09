@@ -12,6 +12,7 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 	[XmlRoot(ElementName = nameof(Stash), IsNullable = false)]
 	public abstract class Stash : IStash
 	{
+		#region fields
 		private static readonly List<Drug> AvailableDrugs = new()
 		{
 			new Drug(Enums.DrugTypes.Cocaine, "Cocaine is a powerful stimulant and narcotic.", 865),
@@ -30,25 +31,19 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 			new Drug(Enums.DrugTypes.Crack, "Crack is a drug made from cocaine salt and sodium bicarbonate.", 615),
 			new Drug(Enums.DrugTypes.Oxycodone, "A semi-synthetic opioid, highly addictive and a common drug of abuse.", 185)
 		};
+		#endregion
 
 		#region properties
 		/// <inheritdoc/>
 		[XmlElement(ElementName = "Drug", IsNullable = false)]
 		public List<Drug> Drugs { get; set; }
-		/// <inheritdoc/>
-		[XmlAttribute(AttributeName = nameof(Money))]
-		public int Money { get; set; }
 		#endregion
 
 		#region ctor
 		/// <summary>
 		/// The empty constructor for the <see cref="Stash"/> class
 		/// </summary>
-		public Stash()
-		{
-			Drugs = new();			
-			Money = default;
-		}
+		public Stash() => Drugs = new();
 		#endregion
 
 		#region IStash members
@@ -74,10 +69,6 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 			if (drug is not null)
 				drug.Quantity -= drugQuantity;
 		}
-		/// <inheritdoc/>
-		public void AddDrugMoney(int amount) => Money += amount;
-		/// <inheritdoc/>
-		public void RemoveDrugMoney(int amount) => Money -= amount;
 		#endregion
 	}
 }

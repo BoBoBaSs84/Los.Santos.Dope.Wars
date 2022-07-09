@@ -120,7 +120,7 @@ namespace Los.Santos.Dope.Wars.Missions
 						if (!dealer.PedCreated)
 						{
 							(float health, float armor) = Utils.GetDealerHealthArmor(_gameSettings.DealerSettings, _playerStats.CurrentLevel);
-							int money = dealer.Stash.Money;
+							int money = dealer.Stash.DrugMoney;
 							dealer.CreatePed(health, armor, money);
 						}
 					}

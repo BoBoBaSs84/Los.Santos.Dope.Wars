@@ -8,6 +8,11 @@ namespace Los.Santos.Dope.Wars.Contracts
 	public interface IDealerStash
 	{
 		/// <summary>
+		/// The <see cref="DrugMoney"/> property, first choice to trade with which means, that the dealer can only buy a limited amount of drugs from the player
+		/// </summary>
+		public int DrugMoney { get; }
+
+		/// <summary>
 		/// Restock randomly the quantity of available drugs
 		/// </summary>
 		/// <param name="playerStats"></param>
@@ -46,5 +51,18 @@ namespace Los.Santos.Dope.Wars.Contracts
 		/// <param name="drugQuantity"></param>
 		/// <param name="drugPrice"></param>
 		void SellDrug(string drugName, int drugQuantity, int drugPrice);
+
+
+		/// <summary>
+		/// The <see cref="AddDrugMoney(int)"/> method adds the amount x to the <see cref="DrugMoney"/> property
+		/// </summary>
+		/// <param name="amount"></param>
+		void AddDrugMoney(int amount);
+
+		/// <summary>
+		/// The <see cref="RemoveDrugMoney(int)"/> method removes the amount x from the <see cref="DrugMoney"/> property
+		/// </summary>
+		/// <param name="amount"></param>
+		void RemoveDrugMoney(int amount);
 	}
 }

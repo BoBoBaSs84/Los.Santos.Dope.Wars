@@ -90,8 +90,8 @@ namespace Los.Santos.Dope.Wars.GUI
 		{
 			try
 			{
-				SellMenu = new NativeMenuRight("Sell", $"Player Money: ${PlayerStash.Money}", GetMenuBannerColor());
-				BuyMenu = new NativeMenuLeft("Buy", $"Dealer Money: ${DealerStash.Money}", GetMenuBannerColor());
+				SellMenu = new NativeMenuRight("Sell", $" ", GetMenuBannerColor());
+				BuyMenu = new NativeMenuLeft("Buy", $"Dealer Money: ${DealerStash.DrugMoney}", GetMenuBannerColor());
 				StatsMenu = new NativeMenuMiddle($"Statistics - {Utils.GetCharacterFromModel()}", GetMenuBannerColor()) { AcceptsInput = false };
 
 				StatsMenuItem = GetStatsMenuItem();
@@ -311,7 +311,7 @@ namespace Los.Santos.Dope.Wars.GUI
 				NativeListItem<int> nli = sender as NativeListItem<int>;
 
 				Drug dealerDrug = DealerStash.Drugs.Where(x => x.Name.Equals(nli.Title)).SingleOrDefault();
-				if (dealerDrug == null)
+				if (dealerDrug is null)
 					return;
 
 				string pon = GetGoodOrBadPrice(dealerDrug.CurrentPrice, dealerDrug.AveragePrice);
@@ -335,7 +335,7 @@ namespace Los.Santos.Dope.Wars.GUI
 				NativeListItem<int> nli = sender as NativeListItem<int>;
 
 				Drug playerDrug = PlayerStash.Drugs.Where(x => x.Name.Equals(nli.Title)).SingleOrDefault();
-				if (playerDrug == null)
+				if (playerDrug is null)
 					return;
 
 				string pon = GetGoodOrBadPrice(playerDrug.CurrentPrice, playerDrug.PurchasePrice, true);
@@ -362,7 +362,6 @@ namespace Los.Santos.Dope.Wars.GUI
 
 		private void NativeListItem_OnActivated(object sender, EventArgs e)
 		{
-			Player player = Game.Player;
 			NativeMenuLeft nativeMenuLeft;
 			NativeMenuRight nativeMenuRight;
 
@@ -381,18 +380,19 @@ namespace Los.Santos.Dope.Wars.GUI
 						string drugName = nativeListItem.Title;
 						int drugQuantity = nativeListItem.SelectedItem;
 						int drugPrice = DealerStash.Drugs.Where(x => x.Name.Equals(nativeListItem.Title)).Select(x => x.CurrentPrice).SingleOrDefault();
+						int transactionValue = drugQuantity * drugPrice;
 
-						if (player.Money < (drugPrice * drugQuantity))
+						// early exit
+						if (Game.Player.Money < transactionValue)
 						{
 							GTA.UI.Screen.ShowSubtitle("You don't have enough ~y~money bitch! Fuck off!");
 							return;
 						}
 
-						//we buy
+						//player buys drugs from dealer
 						PlayerStash.BuyDrug(drugName, drugQuantity, drugPrice);
 						DealerStash.SellDrug(drugName, drugQuantity, drugPrice);
 
-						int transactionValue = drugQuantity * drugPrice;
 						PlayerStats.SpentMoney += transactionValue;
 						GTA.UI.Screen.ShowSubtitle($"You got yourself {drugQuantity} packs of ~y~{drugName} ~w~with a total value of ~r~${transactionValue}.");
 						Audio.PlaySoundFrontend("PURCHASE", "HUD_LIQUOR_STORE_SOUNDSET");
@@ -431,18 +431,24 @@ namespace Los.Santos.Dope.Wars.GUI
 						int drugQuantity = nativeListItem.SelectedItem;
 						int currentDrugPrice = DealerStash.Drugs.Where(x => x.Name.Equals(nativeListItem.Title)).Select(x => x.CurrentPrice).SingleOrDefault();
 						int purchasePrice = PlayerStash.Drugs.Where(x => x.Name.Equals(nativeListItem.Title)).Select(x => x.PurchasePrice).SingleOrDefault();
+						int transactionValue = drugQuantity * currentDrugPrice;
 
-						//we sell
+						// early exit
+						if (DealerStash.DrugMoney < transactionValue)
+						{
+							GTA.UI.Screen.ShowSubtitle("The dealer does not have enough ~y~money~w~!");
+							return;
+						}
+
+						//player sells to dealer
 						PlayerStash.SellDrug(drugName, drugQuantity, currentDrugPrice);
 						DealerStash.BuyDrug(drugName, drugQuantity, currentDrugPrice);
 
-						int transactionValue = drugQuantity * currentDrugPrice;
 						int profit = (currentDrugPrice - purchasePrice) * drugQuantity;
 
 						if (profit > 0)
 							PlayerStats.AddExperiencePoints(profit);
 
-						player.Money += transactionValue;
 						PlayerStats.EarnedMoney += transactionValue;
 						GTA.UI.Screen.ShowSubtitle($"You peddled {drugQuantity} packs of ~y~{drugName} ~w~for a total value of ~g~${transactionValue}.");
 						Audio.PlaySoundFrontend("PURCHASE", "HUD_LIQUOR_STORE_SOUNDSET");
@@ -466,8 +472,6 @@ namespace Los.Santos.Dope.Wars.GUI
 						else
 							nativeListItem.Enabled = true;
 					}
-
-
 				}
 
 				StatsMenu.Remove(StatsMenuItem);

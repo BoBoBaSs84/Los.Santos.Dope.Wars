@@ -76,7 +76,7 @@ namespace Los.Santos.Dope.Wars.Missions
 				if (_playerStats != Utils.GetPlayerStatsFromModel(_gameState!))
 					_playerStats = Utils.GetPlayerStatsFromModel(_gameState!);
 
-				// if the reward is not unlocked, early exit
+				// if the reward is not yet unlocked, early exit
 				if (!_playerStats.SpecialReward.DrugLords.HasFlag(Enums.DrugLordStates.Unlocked))
 					return;
 			}

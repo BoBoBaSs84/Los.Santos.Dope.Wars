@@ -12,10 +12,11 @@ namespace Los.Santos.Dope.Wars.Persistence
 	[XmlRoot(ElementName = nameof(PlayerStats), IsNullable = false)]
 	public class PlayerStats : INotifyPropertyChanged
 	{
+		#region fields
 		private int currentLevel;
-
 		/// <inheritdoc/>
 		public event PropertyChangedEventHandler? PropertyChanged;
+		#endregion
 
 		#region ctor
 		/// <summary>
@@ -29,7 +30,6 @@ namespace Los.Santos.Dope.Wars.Persistence
 			CurrentExperience = default;
 			Stash = new()
 			{
-				Money = default,
 				Drugs = new()
 			};
 			SpecialReward = new();

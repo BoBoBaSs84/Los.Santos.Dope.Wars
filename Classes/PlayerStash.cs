@@ -1,4 +1,5 @@
-﻿using Los.Santos.Dope.Wars.Classes.Base;
+﻿using GTA;
+using Los.Santos.Dope.Wars.Classes.Base;
 using Los.Santos.Dope.Wars.Contracts;
 using System.Linq;
 
@@ -30,13 +31,13 @@ namespace Los.Santos.Dope.Wars.Classes
 				drug.PurchasePrice = ((drug.Quantity * drug.PurchasePrice) + (drugQuantity * drugPrice)) / (drug.Quantity + drugQuantity);
 
 			AddToStash(drugName, drugQuantity);
-			RemoveDrugMoney(drugPrice * drugQuantity);
+			Game.Player.Money -= drugPrice * drugQuantity;
 		}
 		/// <inheritdoc/>
 		public void SellDrug(string drugName, int drugQuantity, int drugPrice)
 		{
 			RemoveFromStash(drugName, drugQuantity);
-			AddDrugMoney(drugPrice * drugQuantity);
+			Game.Player.Money += drugPrice * drugQuantity;
 		}
 		#endregion
 	}

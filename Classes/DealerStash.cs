@@ -12,6 +12,11 @@ namespace Los.Santos.Dope.Wars.Classes
 	/// </summary>
 	public class DealerStash : Stash, IDealerStash
 	{
+		#region properties
+		/// <inheritdoc/>
+		public int DrugMoney { get; private set; }
+		#endregion
+
 		#region ctor
 		/// <summary>
 		/// The standard constructor for the <see cref="DealerStash"/> class
@@ -89,32 +94,8 @@ namespace Los.Santos.Dope.Wars.Classes
 			{
 				Drug drug = Drugs.Where(x => x.Name.Equals(tradeType.ToString())).SingleOrDefault();
 				if (drug is not null)
-				{
 					drug.Quantity = Utils.GetRandomInt((int)(playerLevel * difficultyFactor), (int)(playerLevel * difficultyFactor * 10 / 2) + 1);
-					Logger.Status($"{drug.Name}\t{drug.Quantity} - {tradeType}");
-				}
-				else
-				{
-					Logger.Status($"{tradeType}");
-				}
 			}
-
-
-			//// this is just how many drugs from the drug range are seeded
-			//int drugsToRestock = Utils.GetRandomInt(1, tradeStash.Count + 1);			
-			//for (int i = 0; i < drugsToRestock; i++)
-			//{
-			//	// now we are picking randomly a drug from the tradeable stash
-			//	int index = Utils.GetRandomInt(0, tradeStash.Count);
-			//	// looking it up in the list
-
-			//	foreach (var drug in Drugs.Where(x => x.Name.Equals(tradeStash[index].ToString())))
-			//	{
-			//		drug.Quantity = Utils.GetRandomInt((int)(playerLevel * difficultyFactor), (int)(playerLevel * difficultyFactor * 10 / 2) + 1);
-			//		tradeStash.RemoveAt(index);
-			//	}
-			//	// and setting the new amount
-			//}
 		}
 		/// <inheritdoc/>
 		public void SellDrug(string drugName, int drugQuantity, int drugPrice)
@@ -122,6 +103,10 @@ namespace Los.Santos.Dope.Wars.Classes
 			RemoveFromStash(drugName, drugQuantity);
 			AddDrugMoney(drugPrice * drugQuantity);
 		}
+		/// <inheritdoc/>
+		public void AddDrugMoney(int amount) => DrugMoney += amount;
+		/// <inheritdoc/>
+		public void RemoveDrugMoney(int amount) => DrugMoney -= amount;
 		#endregion
 	}
 }

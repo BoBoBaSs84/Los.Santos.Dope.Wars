@@ -84,7 +84,7 @@ namespace Los.Santos.Dope.Wars.Missions
 					//Warehouse is yours
 					if (_playerStats.SpecialReward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
 					{
-						Screen.ShowHelpTextThisFrame($"~b~Press ~INPUT_CONTEXT~ ~w~to transfer drugs or drug money to your warehouse.");
+						Screen.ShowHelpTextThisFrame($"~b~Press ~INPUT_CONTEXT~ ~w~to transfer drugs to or from your warehouse.");
 						if (Game.IsControlJustPressed(Control.Context))
 						{
 							Script.Wait(10);
@@ -131,35 +131,16 @@ namespace Los.Santos.Dope.Wars.Missions
 		{
 			_warehousePrice = _gameSettings!.GamePlaySettings.SpecialRewardSettings.Warehouse.WarehousePrice;
 
-			if ((Game.Player.Money + _playerStats!.Stash.Money) < _warehousePrice)
+			if (Game.Player.Money < _warehousePrice)
 			{
 				Screen.ShowSubtitle($"You don't have enough money to buy the warehouse.");
 				return;
 			}
 
-			Ped? player = Game.Player.Character;
 			BlipColor blipColor = Utils.GetCharacterBlipColor(Utils.GetCharacterFromModel());
-
-			int moneyToPay = _warehousePrice;
-			if (_playerStats.Stash.Money > 0)
-			{
-				int moneyToRemoveFromStash = 0;
-				if (_playerStats.Stash.Money >= _warehousePrice)
-				{
-					moneyToRemoveFromStash += _warehousePrice;
-					_playerStats.Stash.RemoveDrugMoney(moneyToRemoveFromStash);
-				}
-				else
-				{
-					moneyToPay -= _playerStats.Stash.Money;
-					moneyToRemoveFromStash = _warehousePrice - moneyToPay;
-					_playerStats.Stash.RemoveDrugMoney(moneyToRemoveFromStash);
-				}
-				Notification.Show($"~r~${moneyToRemoveFromStash} removed from stash and used as payment.");
-			}
-			player.Money -= moneyToPay;
-			_playerStats.SpecialReward.Warehouse |= Enums.WarehouseStates.Bought;
-			Notification.Show("You bought a ~g~warehouse~w~, use it to keep your drugs and drug money safe.");
+			Game.Player.Money -= _warehousePrice;
+			_playerStats!.SpecialReward.Warehouse |= Enums.WarehouseStates.Bought;
+			Notification.Show("You bought a ~g~warehouse~w~, use it to keep your drugs safe.");
 			Notification.Show("But beware! Other ~r~shady ~w~individuals might be interested in it.");
 			Audio.PlaySoundFrontend("PURCHASE", "HUD_LIQUOR_STORE_SOUNDSET");
 			_warehouse!.ChangeBlip(BlipSprite.Warehouse, blipColor);
