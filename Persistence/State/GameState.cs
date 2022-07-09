@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace Los.Santos.Dope.Wars.Persistence
+namespace Los.Santos.Dope.Wars.Persistence.State
 {
 	/// <summary>
 	/// The <see cref="GameState"/> class is the root element of the savegame file

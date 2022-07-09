@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Xml.Serialization;
 
-namespace Los.Santos.Dope.Wars.Persistence
+namespace Los.Santos.Dope.Wars.Persistence.State
 {
 	/// <summary>
 	/// The <see cref="PlayerStats"/> class is the root element for each character
@@ -32,7 +32,7 @@ namespace Los.Santos.Dope.Wars.Persistence
 			{
 				Drugs = new()
 			};
-			SpecialReward = new();
+			Reward = new();
 			Warehouse = new();
 			Stash.Init();
 		}
@@ -105,13 +105,13 @@ namespace Los.Santos.Dope.Wars.Persistence
 		public PlayerStash Stash { get; set; }
 
 		/// <summary>
-		/// The <see cref="SpecialReward"/> property, holds the information about achieved rewards
+		/// The <see cref="Reward"/> property, holds the information about achieved rewards
 		/// </summary>
-		[XmlElement(ElementName = nameof(SpecialReward), IsNullable = false)]
-		public SpecialReward SpecialReward { get; set; }
+		[XmlElement(ElementName = nameof(Reward), IsNullable = false)]
+		public Reward Reward { get; set; }
 
 		/// <summary>
-		/// The <see cref="SpecialReward"/> property, holds the warehouse information
+		/// The <see cref="Warehouse"/> property, holds the warehouse information
 		/// </summary>
 		[XmlElement(ElementName = nameof(Warehouse), IsNullable = false)]
 		public Warehouse Warehouse { get; set; }

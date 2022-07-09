@@ -3,7 +3,8 @@ using GTA.Math;
 using Los.Santos.Dope.Wars.Classes;
 using Los.Santos.Dope.Wars.Extension;
 using Los.Santos.Dope.Wars.GUI;
-using Los.Santos.Dope.Wars.Persistence;
+using Los.Santos.Dope.Wars.Persistence.Settings;
+using Los.Santos.Dope.Wars.Persistence.State;
 using System;
 using System.Collections.Generic;
 
@@ -80,7 +81,7 @@ namespace Los.Santos.Dope.Wars.Missions
 					_playerStats = Utils.GetPlayerStatsFromModel(_gameState!);
 
 				// The dealer drug stash restock (quantity)
-				if (ScriptHookUtils.GetGameDate() > _gameState!.LastRestock.AddHours(_gameSettings!.DealerSettings.RestockIntervalHours))
+				if (ScriptHookUtils.GetGameDate() > _gameState!.LastRestock.AddHours(_gameSettings!.Dealer.RestockIntervalHours))
 				{
 					_gameState.LastRestock = ScriptHookUtils.GetGameDate();
 
@@ -95,7 +96,7 @@ namespace Los.Santos.Dope.Wars.Missions
 				}
 				else
 				// The dealer drug stash refresh (money & prices)
-				if (ScriptHookUtils.GetGameDate() > _gameState.LastRefresh.AddHours(_gameSettings.DealerSettings.RefreshIntervalHours))
+				if (ScriptHookUtils.GetGameDate() > _gameState.LastRefresh.AddHours(_gameSettings.Dealer.RefreshIntervalHours))
 				{
 					_gameState.LastRefresh = ScriptHookUtils.GetGameDate();
 					foreach (DrugDealer dealer in _drugDealers!)
@@ -119,7 +120,7 @@ namespace Los.Santos.Dope.Wars.Missions
 						// if the ped was not created
 						if (!dealer.PedCreated)
 						{
-							(float health, float armor) = Utils.GetDealerHealthArmor(_gameSettings.DealerSettings, _playerStats.CurrentLevel);
+							(float health, float armor) = Utils.GetDealerHealthArmor(_gameSettings.Dealer, _playerStats.CurrentLevel);
 							int money = dealer.Stash.DrugMoney;
 							dealer.CreatePed(health, armor, money);
 						}

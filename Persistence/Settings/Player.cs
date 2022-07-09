@@ -1,18 +1,18 @@
 ﻿using System.Xml.Serialization;
 
-namespace Los.Santos.Dope.Wars.Persistence
+namespace Los.Santos.Dope.Wars.Persistence.Settings
 {
 	/// <summary>
-	/// The <see cref="PlayerSettings"/> class is the <see cref="PlayerSettings"/> element
+	/// The <see cref="Player"/> class is the <see cref="Player"/> element
 	/// </summary>
-	[XmlRoot(ElementName = nameof(PlayerSettings), IsNullable = false)]
-	public class PlayerSettings
+	[XmlRoot(ElementName = nameof(Player), IsNullable = false)]
+	public class Player
 	{
 		#region ctor
 		/// <summary>
 		/// Empty constructor with standard values
 		/// </summary>
-		public PlayerSettings()
+		public Player()
 		{
 			BagSizeIncrease = 100;
 			ExperienceMultiplier = 1000;

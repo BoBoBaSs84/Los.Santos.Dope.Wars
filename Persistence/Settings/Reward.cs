@@ -1,18 +1,18 @@
 ﻿using System.Xml.Serialization;
 
-namespace Los.Santos.Dope.Wars.Persistence
+namespace Los.Santos.Dope.Wars.Persistence.Settings
 {
 	/// <summary>
-	/// The <see cref="SpecialRewardSettings"/> class is the root element for the special rewards settings 
+	/// The <see cref="Reward"/> class is the root element for the special rewards settings 
 	/// </summary>
-	[XmlRoot(ElementName = nameof(SpecialRewardSettings), IsNullable = false)]
-	public class SpecialRewardSettings
+	[XmlRoot(ElementName = nameof(Reward), IsNullable = false)]
+	public class Reward
 	{
 		#region ctor
 		/// <summary>
-		/// The <see cref="SpecialRewardSettings"/> standard constructor with standard values
+		/// The <see cref="Reward"/> standard constructor with standard values
 		/// </summary>
-		public SpecialRewardSettings()
+		public Reward()
 		{
 			Warehouse = new();
 		}

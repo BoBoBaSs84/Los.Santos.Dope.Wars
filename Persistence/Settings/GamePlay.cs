@@ -1,23 +1,23 @@
 ﻿using System.Xml.Serialization;
 
-namespace Los.Santos.Dope.Wars.Persistence
+namespace Los.Santos.Dope.Wars.Persistence.Settings
 {
 	/// <summary>
-	/// The <see cref="GamePlaySettings"/> class is the <see cref="GamePlaySettings"/> element
+	/// The <see cref="GamePlay"/> class is the <see cref="GamePlay"/> element
 	/// </summary>
-	[XmlRoot(ElementName = nameof(GamePlaySettings), IsNullable = false)]
-	public class GamePlaySettings
+	[XmlRoot(ElementName = nameof(GamePlay), IsNullable = false)]
+	public class GamePlay
 	{
 		#region ctor
 		/// <summary>
-		/// Empty constructor with standard values
+		/// The empty <see cref="GamePlay"/> constructor with standard values
 		/// </summary>
-		public GamePlaySettings()
+		public GamePlay()
 		{
 			LooseDrugsOnDeath = true;
 			LooseDrugsWhenBusted = true;
 			Difficulty = Enums.DifficultyTypes.Normal;
-			SpecialRewardSettings = new();
+			Reward = new();
 		}
 		#endregion
 
@@ -41,10 +41,10 @@ namespace Los.Santos.Dope.Wars.Persistence
 		public Enums.DifficultyTypes Difficulty { get; set; }
 
 		/// <summary>
-		/// The <see cref="SpecialRewardSettings"/> property/attribute 
+		/// The <see cref="Reward"/> property/attribute 
 		/// </summary>
-		[XmlElement(ElementName = nameof(SpecialRewardSettings), IsNullable = false)]
-		public SpecialRewardSettings SpecialRewardSettings { get; set; }
+		[XmlElement(ElementName = nameof(Reward), IsNullable = false)]
+		public Reward Reward { get; set; }
 		#endregion
 	}
 }

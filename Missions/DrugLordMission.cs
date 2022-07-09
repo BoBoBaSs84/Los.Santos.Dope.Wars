@@ -1,7 +1,8 @@
 ﻿using GTA;
 using Los.Santos.Dope.Wars.Classes;
 using Los.Santos.Dope.Wars.Extension;
-using Los.Santos.Dope.Wars.Persistence;
+using Los.Santos.Dope.Wars.Persistence.Settings;
+using Los.Santos.Dope.Wars.Persistence.State;
 using System;
 using System.Collections.Generic;
 
@@ -77,7 +78,7 @@ namespace Los.Santos.Dope.Wars.Missions
 					_playerStats = Utils.GetPlayerStatsFromModel(_gameState!);
 
 				// if the reward is not yet unlocked, early exit
-				if (!_playerStats.SpecialReward.DrugLords.HasFlag(Enums.DrugLordStates.Unlocked))
+				if (!_playerStats.Reward.DrugLords.HasFlag(Enums.DrugLordStates.Unlocked))
 					return;
 			}
 			catch (Exception ex)

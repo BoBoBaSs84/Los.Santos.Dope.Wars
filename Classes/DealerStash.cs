@@ -1,7 +1,8 @@
 ﻿using Los.Santos.Dope.Wars.Classes.Base;
 using Los.Santos.Dope.Wars.Contracts;
 using Los.Santos.Dope.Wars.Extension;
-using Los.Santos.Dope.Wars.Persistence;
+using Los.Santos.Dope.Wars.Persistence.Settings;
+using Los.Santos.Dope.Wars.Persistence.State;
 using System.Linq;
 
 namespace Los.Santos.Dope.Wars.Classes
@@ -36,7 +37,7 @@ namespace Los.Santos.Dope.Wars.Classes
 		/// <inheritdoc/>
 		public void RefreshCurrentPrice(PlayerStats playerStats, GameSettings gameSettings, bool isDrugLord = false)
 		{
-			double difficultyFactor = Utils.GetDifficultFactor(gameSettings.GamePlaySettings.Difficulty);
+			double difficultyFactor = Utils.GetDifficultFactor(gameSettings.GamePlay.Difficulty);
 			double discountFactor = Constants.DiscountPerLevel * playerStats.CurrentLevel;
 			double marketVolatility = Constants.MarketVolatility;
 
@@ -60,7 +61,7 @@ namespace Los.Santos.Dope.Wars.Classes
 		/// <inheritdoc/>
 		public void RefreshDrugMoney(PlayerStats playerStats, GameSettings gameSettings, bool isDrugLord = false)
 		{
-			double difficultyFactor = Utils.GetDifficultFactor(gameSettings.GamePlaySettings.Difficulty);
+			double difficultyFactor = Utils.GetDifficultFactor(gameSettings.GamePlay.Difficulty);
 			int playerLevel = playerStats.CurrentLevel;
 
 			double minMoney = playerLevel * (isDrugLord ? 10000 : 1000) * difficultyFactor / 2;
@@ -71,7 +72,7 @@ namespace Los.Santos.Dope.Wars.Classes
 		/// <inheritdoc/>
 		public void RestockQuantity(PlayerStats playerStats, GameSettings gameSettings, bool isDrugLord = false)
 		{
-			double difficultyFactor = Utils.GetDifficultFactor(gameSettings.GamePlaySettings.Difficulty);
+			double difficultyFactor = Utils.GetDifficultFactor(gameSettings.GamePlay.Difficulty);
 			int playerLevel = playerStats.CurrentLevel;
 
 			if (isDrugLord)
@@ -88,7 +89,7 @@ namespace Los.Santos.Dope.Wars.Classes
 
 			Init();
 
-			var tradeStash = Utils.GetDrugEnumTypes(playerStats.SpecialReward.DrugTypes);
+			var tradeStash = Utils.GetDrugEnumTypes(playerStats.Reward.DrugTypes);
 
 			foreach (var tradeType in tradeStash)
 			{

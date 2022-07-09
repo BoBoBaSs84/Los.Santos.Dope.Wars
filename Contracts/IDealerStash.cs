@@ -1,4 +1,5 @@
-﻿using Los.Santos.Dope.Wars.Persistence;
+﻿using Los.Santos.Dope.Wars.Persistence.Settings;
+using Los.Santos.Dope.Wars.Persistence.State;
 
 namespace Los.Santos.Dope.Wars.Contracts
 {

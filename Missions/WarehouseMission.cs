@@ -2,7 +2,8 @@
 using GTA.UI;
 using Los.Santos.Dope.Wars.Classes;
 using Los.Santos.Dope.Wars.Extension;
-using Los.Santos.Dope.Wars.Persistence;
+using Los.Santos.Dope.Wars.Persistence.Settings;
+using Los.Santos.Dope.Wars.Persistence.State;
 using System;
 
 namespace Los.Santos.Dope.Wars.Missions
@@ -51,14 +52,14 @@ namespace Los.Santos.Dope.Wars.Missions
 				Ped? player = Game.Player.Character;
 
 				//all necessary flags are there
-				if (_playerStats!.SpecialReward.Warehouse.HasFlag(Enums.WarehouseStates.Unlocked) || _playerStats.SpecialReward.Warehouse.HasFlag(Enums.WarehouseStates.Bought) || _playerStats.SpecialReward.Warehouse.HasFlag(Enums.WarehouseStates.Upgraded))
+				if (_playerStats!.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Unlocked) || _playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Bought) || _playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Upgraded))
 				{
 					if (!_warehouse!.BlipCreated)
 					{
 						_warehouse = new Warehouse(Constants.WarehouseLocationFranklin, Constants.WarehouseEntranceFranklin, Constants.WarehouseMissionStartFranklin);
 						_warehouse.CreateBlip(BlipSprite.WarehouseForSale);
 
-						if (_playerStats.SpecialReward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
+						if (_playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
 						{
 							BlipColor blipColor = Utils.GetCharacterBlipColor(Utils.GetCharacterFromModel());
 							_warehouse.ChangeBlip(BlipSprite.Warehouse, blipColor);
@@ -71,7 +72,7 @@ namespace Los.Santos.Dope.Wars.Missions
 				if (_warehouse!.BlipCreated && World.GetDistance(player.Position, Constants.WarehouseEntranceFranklin) <= 3f)
 				{
 					//Warehouse is not yours
-					if (!_playerStats.SpecialReward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
+					if (!_playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
 					{
 						Screen.ShowHelpTextThisFrame($"~b~Press ~INPUT_CONTEXT~ ~w~to buy the warehouse for ~r~${_warehousePrice}");
 						if (Game.IsControlJustPressed(Control.Context))
@@ -82,7 +83,7 @@ namespace Los.Santos.Dope.Wars.Missions
 					}
 
 					//Warehouse is yours
-					if (_playerStats.SpecialReward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
+					if (_playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
 					{
 						Screen.ShowHelpTextThisFrame($"~b~Press ~INPUT_CONTEXT~ ~w~to transfer drugs to or from your warehouse.");
 						if (Game.IsControlJustPressed(Control.Context))
@@ -109,7 +110,7 @@ namespace Los.Santos.Dope.Wars.Missions
 			_gameState = gameState;
 			_playerStats = Utils.GetPlayerStatsFromModel(gameState);
 			_warehouse = new();
-			_warehousePrice = gameSettings.GamePlaySettings.SpecialRewardSettings.Warehouse.WarehousePrice;
+			_warehousePrice = gameSettings.GamePlay.Reward.Warehouse.WarehousePrice;
 			Initialized = true;
 		}
 
@@ -129,7 +130,7 @@ namespace Los.Santos.Dope.Wars.Missions
 		/// </summary>
 		private static void BuyWareHouse()
 		{
-			_warehousePrice = _gameSettings!.GamePlaySettings.SpecialRewardSettings.Warehouse.WarehousePrice;
+			_warehousePrice = _gameSettings!.GamePlay.Reward.Warehouse.WarehousePrice;
 
 			if (Game.Player.Money < _warehousePrice)
 			{
@@ -139,7 +140,7 @@ namespace Los.Santos.Dope.Wars.Missions
 
 			BlipColor blipColor = Utils.GetCharacterBlipColor(Utils.GetCharacterFromModel());
 			Game.Player.Money -= _warehousePrice;
-			_playerStats!.SpecialReward.Warehouse |= Enums.WarehouseStates.Bought;
+			_playerStats!.Reward.Warehouse |= Enums.WarehouseStates.Bought;
 			Notification.Show("You bought a ~g~warehouse~w~, use it to keep your drugs safe.");
 			Notification.Show("But beware! Other ~r~shady ~w~individuals might be interested in it.");
 			Audio.PlaySoundFrontend("PURCHASE", "HUD_LIQUOR_STORE_SOUNDSET");

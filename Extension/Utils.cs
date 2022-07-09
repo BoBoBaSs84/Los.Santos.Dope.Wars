@@ -1,5 +1,6 @@
 ﻿using GTA;
-using Los.Santos.Dope.Wars.Persistence;
+using Los.Santos.Dope.Wars.Persistence.Settings;
+using Los.Santos.Dope.Wars.Persistence.State;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,9 +25,9 @@ namespace Los.Santos.Dope.Wars.Extension
 		/// <returns><see cref="List{T}"/></returns>
 		public static List<Enum> GetLordStashByLevel(PlayerStats playerStats)
 		{
-			if (playerStats.SpecialReward.DrugLords.HasFlag(Enums.DrugLordStates.MaxedOut))
+			if (playerStats.Reward.DrugLords.HasFlag(Enums.DrugLordStates.MaxedOut))
 				return GetDrugEnumTypes(Constants.TradePackThree);
-			else if (playerStats.SpecialReward.DrugLords.HasFlag(Enums.DrugLordStates.Upgraded))
+			else if (playerStats.Reward.DrugLords.HasFlag(Enums.DrugLordStates.Upgraded))
 				return GetDrugEnumTypes(Constants.TradePackTwo);
 			else
 				return GetDrugEnumTypes(Constants.TradePackOne);
@@ -52,14 +53,14 @@ namespace Los.Santos.Dope.Wars.Extension
 		/// <param name="playerLevel"></param>
 		/// <returns><see cref="Tuple{T1, T2}"/></returns>
 		/// <exception cref="ArgumentNullException"></exception>
-		public static (float health, float armor) GetDealerHealthArmor(DealerSettings dealerSettings, int playerLevel = 1)
+		public static (float health, float armor) GetDealerHealthArmor(Dealer dealerSettings, int playerLevel = 1)
 		{
 			try
 			{
 				if (dealerSettings is null)
 					throw new ArgumentNullException(
 							paramName: nameof(dealerSettings),
-							message: string.Format(Resources.ErrorMessageParameterNull, nameof(DealerSettings))
+							message: string.Format(Resources.ErrorMessageParameterNull, nameof(Dealer))
 							);
 
 				float resultingHealth = dealerSettings.HealthBaseValue + playerLevel * Constants.DealerArmorHealthPerLevelFactor;

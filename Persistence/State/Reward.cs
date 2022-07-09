@@ -1,18 +1,18 @@
 ﻿using System.Xml.Serialization;
 
-namespace Los.Santos.Dope.Wars.Persistence
+namespace Los.Santos.Dope.Wars.Persistence.State
 {
 	/// <summary>
-	/// The <see cref="SpecialReward"/> class is the root element for the special rewards each character can achieve
+	/// The <see cref="Reward"/> class is the root element for the special rewards each character can achieve
 	/// </summary>
-	[XmlRoot(ElementName = nameof(SpecialReward), IsNullable = false)]
-	public class SpecialReward
+	[XmlRoot(ElementName = nameof(Reward), IsNullable = false)]
+	public class Reward
 	{
 		#region ctor
 		/// <summary>
 		/// Empty constructor with default values
 		/// </summary>
-		public SpecialReward()
+		public Reward()
 		{
 			Warehouse = Enums.WarehouseStates.Locked;
 			DrugLords = Enums.DrugLordStates.Locked;
