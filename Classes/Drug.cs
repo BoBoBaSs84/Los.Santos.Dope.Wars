@@ -63,7 +63,7 @@ namespace Los.Santos.Dope.Wars.Classes
 		/// <summary>
 		/// The <see cref="Name"/> property
 		/// </summary>
-		[XmlAttribute(AttributeName = nameof(Name))]
+		[XmlText]
 		public string Name { get; set; }
 
 		/// <summary>

@@ -9,7 +9,7 @@ namespace Los.Santos.Dope.Wars.Contracts
 	public interface IStash
 	{
 		/// <summary>
-		/// The <see cref="Drugs"/> property, well illegal goods
+		/// The <see cref="Drugs"/> property, well illegal goods, the main stock and trade of this mod
 		/// </summary>
 		List<Drug> Drugs { get; }
 

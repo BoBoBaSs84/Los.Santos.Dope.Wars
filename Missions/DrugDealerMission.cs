@@ -81,9 +81,9 @@ namespace Los.Santos.Dope.Wars.Missions
 					_playerStats = Utils.GetPlayerStatsFromModel(_gameState!);
 
 				// The dealer drug stash restock (quantity)
-				if (ScriptHookUtils.GetGameDate() > _gameState!.LastRestock.AddHours(_gameSettings!.Dealer.RestockIntervalHours))
+				if (ScriptHookUtils.GetGameDate() > _gameState!.LastDealerRestock.AddHours(_gameSettings!.Dealer.RestockIntervalHours))
 				{
-					_gameState.LastRestock = ScriptHookUtils.GetGameDate();
+					_gameState.LastDealerRestock = ScriptHookUtils.GetGameDate();
 
 					foreach (DrugDealer dealer in _drugDealers!)
 					{
@@ -96,9 +96,9 @@ namespace Los.Santos.Dope.Wars.Missions
 				}
 				else
 				// The dealer drug stash refresh (money & prices)
-				if (ScriptHookUtils.GetGameDate() > _gameState.LastRefresh.AddHours(_gameSettings.Dealer.RefreshIntervalHours))
+				if (ScriptHookUtils.GetGameDate() > _gameState.LastDealerRefresh.AddHours(_gameSettings.Dealer.RefreshIntervalHours))
 				{
-					_gameState.LastRefresh = ScriptHookUtils.GetGameDate();
+					_gameState.LastDealerRefresh = ScriptHookUtils.GetGameDate();
 					foreach (DrugDealer dealer in _drugDealers!)
 					{
 						dealer.Stash.RefreshDrugMoney(_playerStats, _gameSettings);

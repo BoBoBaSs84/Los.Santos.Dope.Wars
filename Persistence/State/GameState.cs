@@ -16,8 +16,8 @@ namespace Los.Santos.Dope.Wars.Persistence.State
 		public GameState()
 		{
 			Version = Constants.AssemblyVersion;
-			LastRestock = DateTime.MinValue;
-			LastRefresh = DateTime.MinValue;
+			LastDealerRestock = DateTime.MinValue;
+			LastDealerRefresh = DateTime.MinValue;
 			Franklin = new PlayerStats();
 			Trevor = new PlayerStats();
 			Michael = new PlayerStats();
@@ -32,16 +32,16 @@ namespace Los.Santos.Dope.Wars.Persistence.State
 		public string Version { get; set; }
 
 		/// <summary>
-		/// The <see cref="LastRestock"/> attribute for the last in game date time restock of the drug quantity
+		/// The <see cref="LastDealerRestock"/> attribute for the last in game date time restock of the drug quantity
 		/// </summary>
-		[XmlAttribute(AttributeName = nameof(LastRestock))]
-		public DateTime LastRestock { get; set; }
+		[XmlAttribute(AttributeName = nameof(LastDealerRestock))]
+		public DateTime LastDealerRestock { get; set; }
 
 		/// <summary>
-		/// The <see cref="LastRefresh"/> attribute for the last in game date time refresh of the drug money and drug prices
+		/// The <see cref="LastDealerRefresh"/> attribute for the last in game date time refresh of the drug money and drug prices
 		/// </summary>
-		[XmlAttribute(AttributeName = nameof(LastRefresh))]
-		public DateTime LastRefresh { get; set; }
+		[XmlAttribute(AttributeName = nameof(LastDealerRefresh))]
+		public DateTime LastDealerRefresh { get; set; }
 
 		/// <summary>
 		/// The <see cref="Franklin"/> property for the statistics and progress of the player character <see cref="Franklin"/>

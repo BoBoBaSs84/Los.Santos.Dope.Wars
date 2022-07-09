@@ -35,7 +35,8 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 
 		#region properties
 		/// <inheritdoc/>
-		[XmlElement(ElementName = "Drug", IsNullable = false)]
+		[XmlArray(ElementName = nameof(Drugs), IsNullable = false)]
+		[XmlArrayItem(ElementName = nameof(Drug), IsNullable = false)]
 		public List<Drug> Drugs { get; set; }
 		#endregion
 
