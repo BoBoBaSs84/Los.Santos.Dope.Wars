@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-using Resources = Los.Santos.Dope.Wars.Properties.Resources;
 
 namespace Los.Santos.Dope.Wars.Extension
 {
@@ -45,7 +44,6 @@ namespace Los.Santos.Dope.Wars.Extension
 			return enumList;
 		}
 
-
 		/// <summary>
 		/// Get the current health and armor values for dealers
 		/// </summary>
@@ -57,15 +55,8 @@ namespace Los.Santos.Dope.Wars.Extension
 		{
 			try
 			{
-				if (dealerSettings is null)
-					throw new ArgumentNullException(
-							paramName: nameof(dealerSettings),
-							message: string.Format(Resources.ErrorMessageParameterNull, nameof(Dealer))
-							);
-
 				float resultingHealth = dealerSettings.HealthBaseValue + playerLevel * Constants.DealerArmorHealthPerLevelFactor;
 				float resultingArmor = dealerSettings.ArmorBaseValue + playerLevel * Constants.DealerArmorHealthPerLevelFactor;
-
 				return (resultingHealth, resultingArmor);
 			}
 			catch (Exception ex)
@@ -97,21 +88,13 @@ namespace Los.Santos.Dope.Wars.Extension
 		/// <returns><see cref="Enums.Characters"/></returns>
 		public static Enums.Characters GetCharacterFromModel()
 		{
-			try
+			return (PedHash)Game.Player.Character.Model switch
 			{
-				return (PedHash)Game.Player.Character.Model switch
-				{
-					PedHash.Michael => Enums.Characters.Michael,
-					PedHash.Franklin => Enums.Characters.Franklin,
-					PedHash.Trevor => Enums.Characters.Trevor,
-					_ => Enums.Characters.Unknown
-				};
-			}
-			catch (Exception ex)
-			{
-				Logger.Error($"{ex.Message} - {ex.InnerException} - {ex.StackTrace}");
-			}
-			return Enums.Characters.Unknown;
+				PedHash.Michael => Enums.Characters.Michael,
+				PedHash.Franklin => Enums.Characters.Franklin,
+				PedHash.Trevor => Enums.Characters.Trevor,
+				_ => Enums.Characters.Unknown
+			};
 		}
 
 		/// <summary>
@@ -121,21 +104,13 @@ namespace Los.Santos.Dope.Wars.Extension
 		/// <returns><see cref="PlayerStats"/></returns>
 		public static PlayerStats GetPlayerStatsFromModel(GameState gameState)
 		{
-			try
+			return (PedHash)Game.Player.Character.Model switch
 			{
-				return (PedHash)Game.Player.Character.Model switch
-				{
-					PedHash.Franklin => gameState.Franklin,
-					PedHash.Michael => gameState.Michael,
-					PedHash.Trevor => gameState.Trevor,
-					_ => new PlayerStats()
-				};
-			}
-			catch (Exception ex)
-			{
-				Logger.Error($"{ex.Message} - {ex.InnerException} - {ex.StackTrace}");
-			}
-			return new PlayerStats();
+				PedHash.Franklin => gameState.Franklin,
+				PedHash.Michael => gameState.Michael,
+				PedHash.Trevor => gameState.Trevor,
+				_ => new PlayerStats()
+			};
 		}
 
 		/// <summary>
