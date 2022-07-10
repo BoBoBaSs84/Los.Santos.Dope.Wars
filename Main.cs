@@ -35,12 +35,11 @@ namespace Los.Santos.Dope.Wars
 		{
 			Interval = 10;
 			ScriptDirectory = BaseDirectory;
+
 			Init();
 
-			Tick += OnTick;			
-			Tick += RewardSystem.OnTick;
-
-			Aborted += OnAborted;			
+			Tick += OnTick;
+			Aborted += OnAborted;
 		}
 		#endregion
 
@@ -61,7 +60,6 @@ namespace Los.Santos.Dope.Wars
 				Tick += DrugDealerMission.OnTick;
 				Aborted += DrugDealerMission.OnAborted;
 				Logger.Status($"{nameof(DrugDealerMission)} loaded: {_drugDealerMissionLoaded}");
-
 			}
 
 			if (!_drugLordMissionLoaded)
@@ -86,6 +84,7 @@ namespace Los.Santos.Dope.Wars
 			{
 				RewardSystem.Init(GameState!);
 				_rewardSystemLoaded = RewardSystem.Initialized;
+				Tick += RewardSystem.OnTick;
 				Logger.Status($"{nameof(RewardSystem)} loaded: {_drugDealerMissionLoaded}");
 			}
 		}

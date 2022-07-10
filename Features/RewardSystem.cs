@@ -75,7 +75,7 @@ namespace Los.Santos.Dope.Wars.Features
 					Utils.SaveGameState(_gameState!);
 				}
 
-				// this is when the warehouse reward has been granted
+				// this is when the player can peddle level two tier drugs
 				if (playerStats.CurrentLevel.Equals(10))
 				{
 					playerStats.Reward.DrugTypes |= Constants.TradePackTwo;
@@ -93,7 +93,7 @@ namespace Los.Santos.Dope.Wars.Features
 					Utils.SaveGameState(_gameState!);
 				}
 
-				// this is when the warehouse reward has been granted
+				// this is when the player can peddle level three tier drugs
 				if (playerStats.CurrentLevel.Equals(20))
 				{
 					playerStats.Reward.DrugTypes |= Constants.TradePackThree;
