@@ -17,9 +17,9 @@ namespace Los.Santos.Dope.Wars.GUI
 		{
 			Alignment = Alignment.Left;
 			Banner.Color = color;
+			ItemCount = CountVisibility.Never;
 			Offset = new System.Drawing.PointF(Constants.ScreeSize.Width / 3, Constants.ScreeSize.Width / 3);
 			UseMouse = false;
-			//TitleFont = Font.Pricedown;
 			Width = Constants.ScreeSize.Width / 3;
 		}
 	}

@@ -1,5 +1,6 @@
 ﻿using GTA;
 using LemonUI;
+using LemonUI.Elements;
 using LemonUI.Menus;
 using Los.Santos.Dope.Wars.Classes;
 using Los.Santos.Dope.Wars.Extension;
@@ -179,9 +180,8 @@ namespace Los.Santos.Dope.Wars.GUI
 		/// <returns></returns>
 		private static NativeItem GetStatsMenuItem()
 		{
-			string title = $"";
-			string description = $"Current player level:\t\t{PlayerStats.CurrentLevel} / {PlayerStats.MaxLevel}\n" +
-					$"Total spent money:\t\t\t${PlayerStats.SpentMoney}\n" +
+			string title = $"Current player level:\t\t{PlayerStats.CurrentLevel} / {PlayerStats.MaxLevel}";
+			string description = $"Total spent money:\t\t\t${PlayerStats.SpentMoney}\n" +
 					$"Total earned money:\t\t${PlayerStats.EarnedMoney}\n\n" +
 					$"Profit:\t\t\t\t\t{((PlayerStats.EarnedMoney - PlayerStats.SpentMoney < 0) ? "~r~" : "~g~")}${PlayerStats.EarnedMoney - PlayerStats.SpentMoney}";
 
@@ -190,13 +190,12 @@ namespace Los.Santos.Dope.Wars.GUI
 			List<NativeStatsInfo> nativeStatsInfos = new()
 			{
 				new NativeStatsInfo("Current bag filling level:", PlayerStats.CurrentBagSize * 100 / PlayerStats.MaxBagSize),
-				new NativeStatsInfo("Experience to next level:", (PlayerStats.CurrentExperience - prevExp) * 100 / (PlayerStats.NextLevelExperience - prevExp)),
-				new NativeStatsInfo("Police awareness level:", 50)
+				new NativeStatsInfo("Experience to next level:", (PlayerStats.CurrentExperience - prevExp) * 100 / (PlayerStats.NextLevelExperience - prevExp))
 			};
 
 			NativeItem nativeItem = new(title, description)
 			{
-				Enabled = false,
+				//LeftBadge = new ScaledTexture("commonmenu", "shop_new_star"),
 				Panel = new NativeStatsPanel(nativeStatsInfos.ToArray())
 			};
 			return nativeItem;
