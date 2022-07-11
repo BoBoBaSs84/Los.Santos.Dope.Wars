@@ -70,7 +70,7 @@ namespace Los.Santos.Dope.Wars.Features
 				{
 					// this is when the warehouse reward has been granted
 					playerStats.Reward.Warehouse |= Enums.WarehouseStates.Unlocked;
-					Notification.Show($"Congratulations, you have unlocked the ~y~warehouse~w~. Buy it to store drugs and drug money safely.");
+					Notification.Show($"Congratulations, you have unlocked the ~y~warehouse~w~. Buy it to store drugs safely.");
 				}
 				else if (playerStats.CurrentLevel.Equals(10))
 				{
