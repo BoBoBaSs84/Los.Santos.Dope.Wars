@@ -146,7 +146,7 @@ namespace Los.Santos.Dope.Wars
 			/// <summary>
 			/// The <see cref="Oxycodone"/> type
 			/// </summary>
-			Oxycodone = 16384
+			Oxycodone = 16384,
 		}
 
 		/// <summary>
@@ -168,13 +168,13 @@ namespace Los.Santos.Dope.Wars
 			/// </summary>
 			Bought = 2,
 			/// <summary>
+			/// The <see cref="UpgradeUnlocked"/> state
+			/// </summary>
+			UpgradeUnlocked = 4,
+			/// <summary>
 			/// The <see cref="Upgraded"/> state
 			/// </summary>
-			Upgraded = 4,
-			/// <summary>
-			/// The <see cref="MaxedOut"/> state
-			/// </summary>
-			MaxedOut = 8
+			Upgraded = 8
 		}
 
 		/// <summary>

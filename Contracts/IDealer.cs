@@ -5,9 +5,9 @@ using System;
 namespace Los.Santos.Dope.Wars.Contracts
 {
 	/// <summary>
-	/// The <see cref="IDrugDealer"/> interface for the necessary properties and methods
+	/// The <see cref="IDealer"/> interface for the necessary properties and methods
 	/// </summary>
-	public interface IDrugDealer
+	public interface IDealer
 	{
 		/// <summary>
 		/// The<see cref="Blip"/> property, the blip on the map
@@ -30,19 +30,14 @@ namespace Los.Santos.Dope.Wars.Contracts
 		Ped? Ped { get; }
 
 		/// <summary>
-		/// The <see cref="DrugStash"/> property, is the dealer drug stash
-		/// </summary>
-		IDrugStash DrugStash { get; }
-
-		/// <summary>
 		/// The <see cref="BlipCreated"/> property, is the blip created
 		/// </summary>
-		bool BlipCreated { get; set; }
+		bool BlipCreated { get; }
 
 		/// <summary>
 		/// The <see cref="PedCreated"/> property, is the ped created
 		/// </summary>
-		bool PedCreated { get; set; }
+		bool PedCreated { get; }
 
 		/// <summary>
 		/// The <see cref="ClosedforBusiness"/> property, is the dealer currently closed for buisness

@@ -3,16 +3,17 @@ using GTA.Math;
 using Los.Santos.Dope.Wars.Classes;
 using Los.Santos.Dope.Wars.Extension;
 using Los.Santos.Dope.Wars.GUI;
-using Los.Santos.Dope.Wars.Persistence;
+using Los.Santos.Dope.Wars.Persistence.Settings;
+using Los.Santos.Dope.Wars.Persistence.State;
 using System;
 using System.Collections.Generic;
 
 namespace Los.Santos.Dope.Wars.Missions
 {
 	/// <summary>
-	/// The <see cref="Trafficking"/> class is the "free roam trafficking" mission
+	/// The <see cref="DrugDealerMission"/> class is the "free roam trafficking" mission
 	/// </summary>
-	public class Trafficking
+	public class DrugDealerMission
 	{
 		private static List<DrugDealer>? _drugDealers;
 		private static GameSettings? _gameSettings;
@@ -28,9 +29,9 @@ namespace Los.Santos.Dope.Wars.Missions
 		public static bool Initialized { get; private set; }
 
 		/// <summary>
-		/// The empty <see cref="Trafficking"/> class constructor
+		/// The empty <see cref="DrugDealerMission"/> class constructor
 		/// </summary>
-		static Trafficking() { }
+		static DrugDealerMission() { }
 
 		/// <summary>
 		/// The <see cref="Init(GameSettings, GameState)"/> must be called from outside with the needed parameters
@@ -80,29 +81,28 @@ namespace Los.Santos.Dope.Wars.Missions
 					_playerStats = Utils.GetPlayerStatsFromModel(_gameState!);
 
 				// The dealer drug stash restock (quantity)
-				if (ScriptHookUtils.GetGameDate() > _gameState!.LastRestock.AddHours(_gameSettings!.DealerSettings.RestockIntervalHours))
+				if (ScriptHookUtils.GetGameDate() > _gameState!.LastDealerRestock.AddHours(_gameSettings!.Dealer.RestockIntervalHours))
 				{
-					_gameState.LastRestock = ScriptHookUtils.GetGameDate();
+					_gameState.LastDealerRestock = ScriptHookUtils.GetGameDate();
 
 					foreach (DrugDealer dealer in _drugDealers!)
 					{
-						dealer.DrugStash.Init();
-						dealer.DrugStash.RestockQuantity(_playerStats, _gameSettings);
-						dealer.DrugStash.RefreshDrugMoney(_playerStats, _gameSettings);
-						dealer.DrugStash.RefreshCurrentPrice(_playerStats, _gameSettings);
+						dealer.Stash.RestockQuantity(_playerStats, _gameSettings);
+						dealer.Stash.RefreshDrugMoney(_playerStats, _gameSettings);
+						dealer.Stash.RefreshCurrentPrice(_playerStats, _gameSettings);
 					}
 					ScriptHookUtils.NotifyWithPicture("Anonymous", "Tip-off", "The drug dealers have been restocked.", 0);
 					Utils.SaveGameState(_gameState);
 				}
 				else
 				// The dealer drug stash refresh (money & prices)
-				if (ScriptHookUtils.GetGameDate() > _gameState.LastRefresh.AddHours(_gameSettings.DealerSettings.RefreshIntervalHours))
+				if (ScriptHookUtils.GetGameDate() > _gameState.LastDealerRefresh.AddHours(_gameSettings.Dealer.RefreshIntervalHours))
 				{
-					_gameState.LastRefresh = ScriptHookUtils.GetGameDate();
+					_gameState.LastDealerRefresh = ScriptHookUtils.GetGameDate();
 					foreach (DrugDealer dealer in _drugDealers!)
 					{
-						dealer.DrugStash.RefreshDrugMoney(_playerStats, _gameSettings);
-						dealer.DrugStash.RefreshCurrentPrice(_playerStats, _gameSettings);
+						dealer.Stash.RefreshDrugMoney(_playerStats, _gameSettings);
+						dealer.Stash.RefreshCurrentPrice(_playerStats, _gameSettings);
 					}
 					Utils.SaveGameState(_gameState);
 				}
@@ -120,23 +120,22 @@ namespace Los.Santos.Dope.Wars.Missions
 						// if the ped was not created
 						if (!dealer.PedCreated)
 						{
-							(float health, float armor) = Utils.GetDealerHealthArmor(_gameSettings.DealerSettings, _playerStats.CurrentLevel);
-							int money = dealer.DrugStash.Money;
+							(float health, float armor) = Utils.GetDealerHealthArmor(_gameSettings.Dealer, _playerStats.CurrentLevel);
+							int money = dealer.Stash.DrugMoney;
 							dealer.CreatePed(health, armor, money);
 						}
 					}
 					// if we are leaving the dealer area, delete the ped 
 					else if (dealer.PedCreated)
 					{
-						dealer.Ped!.Delete();
-						dealer.PedCreated = false;
+						dealer.DeletePed();
 					}
 
 					// now we are real close to the dealer
 					if (_player.IsInRange(dealer.Position, 3f) && CurrentDrugDealer is null && Game.Player.WantedLevel == 0)
 					{
 						CurrentDrugDealer = dealer;
-						DealMenu.Init(_playerStats.DrugStash, (DrugStash)dealer.DrugStash, _gameState);
+						DealMenu.Init(_playerStats.Stash, dealer.Stash, _gameState);
 
 						if (CheckIfDealerCanTrade(dealer))
 							DealMenu.ShowDealMenu = true;
@@ -154,7 +153,7 @@ namespace Los.Santos.Dope.Wars.Missions
 			}
 			catch (Exception ex)
 			{
-				Logger.Error($"{nameof(Trafficking)} - {ex.Message} - {ex.InnerException} - {ex.StackTrace}");
+				Logger.Error($"{nameof(DrugDealerMission)} - {ex.Message} - {ex.InnerException} - {ex.StackTrace}");
 			}
 		}
 

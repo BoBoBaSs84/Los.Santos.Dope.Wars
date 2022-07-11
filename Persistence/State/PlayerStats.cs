@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Xml.Serialization;
 
-namespace Los.Santos.Dope.Wars.Persistence
+namespace Los.Santos.Dope.Wars.Persistence.State
 {
 	/// <summary>
 	/// The <see cref="PlayerStats"/> class is the root element for each character
@@ -12,10 +12,11 @@ namespace Los.Santos.Dope.Wars.Persistence
 	[XmlRoot(ElementName = nameof(PlayerStats), IsNullable = false)]
 	public class PlayerStats : INotifyPropertyChanged
 	{
+		#region fields
 		private int currentLevel;
-
 		/// <inheritdoc/>
 		public event PropertyChangedEventHandler? PropertyChanged;
+		#endregion
 
 		#region ctor
 		/// <summary>
@@ -27,14 +28,13 @@ namespace Los.Santos.Dope.Wars.Persistence
 			EarnedMoney = default;
 			CurrentLevel = 1;
 			CurrentExperience = default;
-			DrugStash = new()
+			Stash = new()
 			{
-				Money = default,
 				Drugs = new()
 			};
-			SpecialReward = new();
+			Reward = new();
 			Warehouse = new();
-			DrugStash.Init();
+			Stash.Init();
 		}
 		#endregion
 
@@ -45,10 +45,10 @@ namespace Los.Santos.Dope.Wars.Persistence
 		[XmlIgnore]
 		public const int MaxLevel = 50;
 
-        /// <summary>
-        /// The <see cref="SpentMoney"/> property, money spend for buying drugs
-        /// </summary>
-        [XmlAttribute(AttributeName = nameof(SpentMoney))]
+		/// <summary>
+		/// The <see cref="SpentMoney"/> property, money spend for buying drugs
+		/// </summary>
+		[XmlAttribute(AttributeName = nameof(SpentMoney))]
 		public int SpentMoney { get; set; }
 
 		/// <summary>
@@ -99,22 +99,22 @@ namespace Los.Santos.Dope.Wars.Persistence
 		public int MaxBagSize { get => CurrentLevel * 50; }
 
 		/// <summary>
-		/// The <see cref="DrugStash"/> property, holds the bought player drugs and drug money for trading
+		/// The <see cref="Stash"/> property, holds the bought player drugs and drug money for trading
 		/// </summary>
-		[XmlElement(ElementName = nameof(DrugStash), IsNullable = false)]
-		public DrugStash DrugStash { get; set; }
+		[XmlElement(ElementName = nameof(Stash), IsNullable = false)]
+		public PlayerStash Stash { get; set; }
 
 		/// <summary>
-		/// The <see cref="SpecialReward"/> property, holds the information about achieved rewards
+		/// The <see cref="Reward"/> property, holds the information about achieved rewards
 		/// </summary>
-		[XmlElement(ElementName = nameof(SpecialReward), IsNullable = false)]
-		public SpecialReward SpecialReward { get; set; }
+		[XmlElement(ElementName = nameof(Reward), IsNullable = false)]
+		public Reward Reward { get; set; }
 
 		/// <summary>
-		/// The <see cref="SpecialReward"/> property, holds the warehouse information
+		/// The <see cref="Warehouse"/> property, holds the warehouse information
 		/// </summary>
 		[XmlElement(ElementName = nameof(Warehouse), IsNullable = false)]
-		public DrugWarehouse Warehouse { get; set; }
+		public Warehouse Warehouse { get; set; }
 		#endregion
 
 		#region public members
@@ -144,10 +144,10 @@ namespace Los.Santos.Dope.Wars.Persistence
 		{
 			int bagSize = 0;
 
-			if (DrugStash.Drugs.Count.Equals(0))
+			if (Stash.Drugs.Count.Equals(0))
 				return bagSize;
 
-			foreach (Drug? drug in DrugStash.Drugs)
+			foreach (Drug? drug in Stash.Drugs)
 				bagSize += drug.Quantity;
 			return bagSize;
 		}

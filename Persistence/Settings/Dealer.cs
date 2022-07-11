@@ -1,18 +1,18 @@
 ﻿using System.Xml.Serialization;
 
-namespace Los.Santos.Dope.Wars.Persistence
+namespace Los.Santos.Dope.Wars.Persistence.Settings
 {
 	/// <summary>
-	/// The <see cref="DealerSettings"/> class is the <see cref="DealerSettings"/> element
+	/// The <see cref="Dealer"/> class is the <see cref="Dealer"/> element
 	/// </summary>
-	[XmlRoot(ElementName = nameof(DealerSettings), IsNullable = false)]
-	public class DealerSettings
+	[XmlRoot(ElementName = nameof(Dealer), IsNullable = false)]
+	public class Dealer
 	{
 		#region ctor
 		/// <summary>
 		/// Empty constructor with standard values
 		/// </summary>
-		public DealerSettings()
+		public Dealer()
 		{
 			RestockIntervalHours = 24;
 			RefreshIntervalHours = 6;

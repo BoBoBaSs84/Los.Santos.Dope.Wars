@@ -24,9 +24,9 @@ namespace Los.Santos.Dope.Wars.Contracts
 		Vector3 Position { get; }
 
 		/// <summary>
-		/// The <see cref="EntrancePosition"/> property, the position of the property entrance or interaction spot
+		/// The <see cref="Entrance"/> property, the position of the property entrance or interaction spot
 		/// </summary>
-		public Vector3 EntrancePosition { get; }
+		public Vector3 Entrance { get; }
 
 		/// <summary>
 		/// The <see cref="EntranceMarkerType"/> property
@@ -34,9 +34,9 @@ namespace Los.Santos.Dope.Wars.Contracts
 		public MarkerType EntranceMarkerType { get; }
 
 		/// <summary>
-		/// The <see cref="MissionMarkerPosition"/> property, the position where mission goin to start
+		/// The <see cref="MissionMarker"/> property, the position where mission goin to start
 		/// </summary>
-		public Vector3 MissionMarkerPosition { get; }
+		public Vector3 MissionMarker { get; }
 
 		/// <summary>
 		/// The <see cref="MissionMarkerType"/> property

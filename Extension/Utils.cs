@@ -1,11 +1,13 @@
 ﻿using GTA;
-using Los.Santos.Dope.Wars.Persistence;
+using Los.Santos.Dope.Wars.Persistence.Settings;
+using Los.Santos.Dope.Wars.Persistence.State;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-using Resources = Los.Santos.Dope.Wars.Properties.Resources;
 
 namespace Los.Santos.Dope.Wars.Extension
 {
@@ -16,25 +18,45 @@ namespace Los.Santos.Dope.Wars.Extension
 	{
 		#region public methods
 		/// <summary>
+		/// Returns the drug type enums for the drug lords
+		/// </summary>
+		/// <param name="playerStats"></param>
+		/// <returns><see cref="List{T}"/></returns>
+		public static List<Enum> GetLordStashByLevel(PlayerStats playerStats)
+		{
+			if (playerStats.Reward.DrugLords.HasFlag(Enums.DrugLordStates.MaxedOut))
+				return GetDrugEnumTypes(Constants.TradePackThree);
+			else if (playerStats.Reward.DrugLords.HasFlag(Enums.DrugLordStates.Upgraded))
+				return GetDrugEnumTypes(Constants.TradePackTwo);
+			else
+				return GetDrugEnumTypes(Constants.TradePackOne);
+		}
+
+		/// <summary>
+		/// Returns <see cref="List{T}"/> of type <see cref="Enums.DrugTypes"/>
+		/// </summary>
+		/// <param name="drugTypes"></param>
+		/// <returns><see cref="List{T}"/></returns>
+		public static List<Enum> GetDrugEnumTypes(Enums.DrugTypes drugTypes)
+		{
+			var enumList = Enum.GetValues(drugTypes.GetType()).Cast<Enum>().Where(drugTypes.HasFlag).ToList();
+			enumList.Remove(Enums.DrugTypes.None);
+			return enumList;
+		}
+
+		/// <summary>
 		/// Get the current health and armor values for dealers
 		/// </summary>
 		/// <param name="dealerSettings">Can not be <see cref="Nullable"/></param>
 		/// <param name="playerLevel"></param>
 		/// <returns><see cref="Tuple{T1, T2}"/></returns>
 		/// <exception cref="ArgumentNullException"></exception>
-		public static (float health, float armor) GetDealerHealthArmor(DealerSettings dealerSettings, int playerLevel = 1)
+		public static (float health, float armor) GetDealerHealthArmor(Dealer dealerSettings, int playerLevel = 1)
 		{
 			try
 			{
-				if (dealerSettings is null)
-					throw new ArgumentNullException(
-							paramName: nameof(dealerSettings),
-							message: string.Format(Resources.ErrorMessageParameterNull, nameof(DealerSettings))
-							);
-
 				float resultingHealth = dealerSettings.HealthBaseValue + playerLevel * Constants.DealerArmorHealthPerLevelFactor;
 				float resultingArmor = dealerSettings.ArmorBaseValue + playerLevel * Constants.DealerArmorHealthPerLevelFactor;
-
 				return (resultingHealth, resultingArmor);
 			}
 			catch (Exception ex)
@@ -66,21 +88,13 @@ namespace Los.Santos.Dope.Wars.Extension
 		/// <returns><see cref="Enums.Characters"/></returns>
 		public static Enums.Characters GetCharacterFromModel()
 		{
-			try
+			return (PedHash)Game.Player.Character.Model switch
 			{
-				return (PedHash)Game.Player.Character.Model switch
-				{
-					PedHash.Michael => Enums.Characters.Michael,
-					PedHash.Franklin => Enums.Characters.Franklin,
-					PedHash.Trevor => Enums.Characters.Trevor,
-					_ => Enums.Characters.Unknown
-				};
-			}
-			catch (Exception ex)
-			{
-				Logger.Error($"{ex.Message} - {ex.InnerException} - {ex.StackTrace}");
-			}
-			return Enums.Characters.Unknown;
+				PedHash.Michael => Enums.Characters.Michael,
+				PedHash.Franklin => Enums.Characters.Franklin,
+				PedHash.Trevor => Enums.Characters.Trevor,
+				_ => Enums.Characters.Unknown
+			};
 		}
 
 		/// <summary>
@@ -90,21 +104,13 @@ namespace Los.Santos.Dope.Wars.Extension
 		/// <returns><see cref="PlayerStats"/></returns>
 		public static PlayerStats GetPlayerStatsFromModel(GameState gameState)
 		{
-			try
+			return (PedHash)Game.Player.Character.Model switch
 			{
-				return (PedHash)Game.Player.Character.Model switch
-				{
-					PedHash.Franklin => gameState.Franklin,
-					PedHash.Michael => gameState.Michael,
-					PedHash.Trevor => gameState.Trevor,
-					_ => new PlayerStats()
-				};
-			}
-			catch (Exception ex)
-			{
-				Logger.Error($"{ex.Message} - {ex.InnerException} - {ex.StackTrace}");
-			}
-			return new PlayerStats();
+				PedHash.Franklin => gameState.Franklin,
+				PedHash.Michael => gameState.Michael,
+				PedHash.Trevor => gameState.Trevor,
+				_ => new PlayerStats()
+			};
 		}
 
 		/// <summary>
@@ -257,7 +263,7 @@ namespace Los.Santos.Dope.Wars.Extension
 				XmlSerializer xmlSerializer = new(typeof(T));
 				XmlReaderSettings xmlReaderSettings = new()
 				{
-					CheckCharacters = true,
+					CheckCharacters = true
 				};
 
 				if (decompress)

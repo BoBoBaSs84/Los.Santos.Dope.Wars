@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace Los.Santos.Dope.Wars.Persistence
+namespace Los.Santos.Dope.Wars.Persistence.Settings
 {
 	/// <summary>
 	/// The <see cref="GameSettings"/> class is the root element of the configuration file
@@ -11,15 +11,15 @@ namespace Los.Santos.Dope.Wars.Persistence
 	{
 		#region ctor
 		/// <summary>
-		/// Empty constructor with standard values
+		/// The empty <see cref="GameSettings"/> constructor with standard values
 		/// </summary>
 		public GameSettings()
 		{
 			Version = Constants.AssemblyVersion;
-			DealerSettings = new();
-			GamePlaySettings = new();
-			PlayerSettings = new();
-			LogLevel = Enums.LogLevels.Error | Enums.LogLevels.Warning | Enums.LogLevels.Status;
+			Dealer = new();
+			GamePlay = new();
+			Player = new();
+			LogLevel = Enums.LogLevels.Error;
 		}
 		#endregion
 
@@ -31,22 +31,22 @@ namespace Los.Santos.Dope.Wars.Persistence
 		public string Version { get; set; }
 
 		/// <summary>
-		/// The <see cref="DealerSettings"/> class element
+		/// The <see cref="Dealer"/> class element
 		/// </summary>
-		[XmlElement(ElementName = nameof(DealerSettings), IsNullable = false)]
-		public DealerSettings DealerSettings { get; set; }
+		[XmlElement(ElementName = nameof(Dealer), IsNullable = false)]
+		public Dealer Dealer { get; set; }
 
 		/// <summary>
-		/// The <see cref="GamePlaySettings"/> class element
+		/// The <see cref="GamePlay"/> class element
 		/// </summary>
-		[XmlElement(ElementName = nameof(GamePlaySettings), IsNullable = false)]
-		public GamePlaySettings GamePlaySettings { get; set; }
+		[XmlElement(ElementName = nameof(GamePlay), IsNullable = false)]
+		public GamePlay GamePlay { get; set; }
 
 		/// <summary>
-		/// The <see cref="PlayerSettings"/> class element
+		/// The <see cref="Player"/> class element
 		/// </summary>
-		[XmlElement(ElementName = nameof(PlayerSettings), IsNullable = false)]
-		public PlayerSettings PlayerSettings { get; set; }
+		[XmlElement(ElementName = nameof(Player), IsNullable = false)]
+		public Player Player { get; set; }
 
 		/// <summary>
 		/// The <see cref="LogLevel"/> attribute of type <see cref="Enum"/>
