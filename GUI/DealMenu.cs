@@ -18,18 +18,18 @@ namespace Los.Santos.Dope.Wars.GUI
 	public class DealMenu : Script
 	{
 		#region fields
-		private static readonly ObjectPool ObjectPool = new();
-		private static SellMenu SellMenu = null!;
-		private static BuyMenu BuyMenu = null!;
-		private static StatisticsMenu StatsMenu = null!;
-		private static NativeItem StatsMenuItem = null!;
-		private static NativeItem ToSellSwitch = null!;
-		private static NativeItem ToBuySwitch = null!;
+		private static readonly ObjectPool objectPool = new();
+		private static SellMenu sellMenu = null!;
+		private static BuyMenu buyMenu = null!;
+		private static StatisticsMenu statisticsMenu = null!;
+		private static NativeItem statsMenuItem = null!;
+		private static NativeItem? toSellMenuSwitch;
+		private static NativeItem? toBuyMenuSwitch;
 		private static GameState? gameState;
 		private static PlayerStats? playerStats;
 		private static PlayerStash? playerStash;
 		private static DealerStash? dealerStash;
-		internal bool DealMenuLoaded = false;
+		private static bool _dealMenuLoaded;
 		#endregion
 
 		#region properties
@@ -50,6 +50,11 @@ namespace Los.Santos.Dope.Wars.GUI
 		/// </summary>
 		public DealMenu()
 		{
+			toSellMenuSwitch = new NativeItem("Go to sell menu", "Want to sell instead of buying?");
+			toSellMenuSwitch.Activated += ToSellMenuSwitchActivated;
+			toBuyMenuSwitch = new NativeItem("Go to buy menu", "Want to buy instead of selling?");
+			toBuyMenuSwitch.Activated += ToBuyMenuSwitchActivated;
+
 			Tick += DealMenu_OnTick;
 		}
 		#endregion
@@ -79,48 +84,47 @@ namespace Los.Santos.Dope.Wars.GUI
 
 			if (ShowDealMenu)
 			{
-				if (!DealMenuLoaded)
-				{					
+				if (!_dealMenuLoaded)
+				{
 					LoadDealMenu();
-					DealMenuLoaded = true;
-					BuyMenu.Visible = true;
-					StatsMenu.Visible = true;
+					_dealMenuLoaded = true;
+					buyMenu.Visible = true;
+					statisticsMenu.Visible = true;
 				}
 			}
 			else
 			{
-				BuyMenu.Visible = false;
-				SellMenu.Visible = false;
-				StatsMenu.Visible = false;
-				DealMenuLoaded = false;
+				buyMenu.Visible = false;
+				sellMenu.Visible = false;
+				statisticsMenu.Visible = false;
+				UnloadDealMenu();
 			}
 
-			ObjectPool.Process();
+			objectPool.Process();
+		}
+
+		private static void UnloadDealMenu()
+		{
+			statisticsMenu.Clear();
+			buyMenu.Clear();
+			sellMenu.Clear();
+			_dealMenuLoaded = false;
 		}
 
 		private void LoadDealMenu()
 		{
 			try
 			{
-				SellMenu = new SellMenu("Sell", $" ", GetMenuBannerColor());
-				BuyMenu = new BuyMenu("Buy", $"Dealer Money: ${dealerStash.DrugMoney}", GetMenuBannerColor());
-				StatsMenu = new StatisticsMenu($"Statistics - {Utils.GetCharacterFromModel()}", "", GetMenuBannerColor()) { AcceptsInput = false };
+				sellMenu = new SellMenu("Sell", $"", GetMenuBannerColor());
+				buyMenu = new BuyMenu("Buy", $"Dealer Money: ${dealerStash.DrugMoney}", GetMenuBannerColor());
+				statisticsMenu = new StatisticsMenu($"Statistics - {Utils.GetCharacterFromModel()}", "", GetMenuBannerColor()) { AcceptsInput = false };
 
-				StatsMenuItem = GetStatsMenuItem();
-				StatsMenu.Add(StatsMenuItem);
+				statsMenuItem = GetStatsMenuItem();
+				statisticsMenu.Add(statsMenuItem);
 
-				ObjectPool.Add(BuyMenu);
-				ObjectPool.Add(SellMenu);
-				ObjectPool.Add(StatsMenu);
-
-				ToSellSwitch = new NativeItem("Go to sell menu", "Want to sell instead of buying?");
-				BuyMenu.Add(ToSellSwitch);
-
-				ToBuySwitch = new NativeItem("Go to buy menu", "Want to buy instead of selling?");
-				SellMenu.Add(ToBuySwitch);
-
-				SellMenu.ItemActivated += Menu_OnItemActivated;
-				BuyMenu.ItemActivated += Menu_OnItemActivated;
+				objectPool.Add(buyMenu);
+				objectPool.Add(sellMenu);
+				objectPool.Add(statisticsMenu);
 
 				SetRefreshBuyMenu(dealerStash);
 				SetRefreshSellMenu(playerStash, dealerStash);
@@ -131,20 +135,57 @@ namespace Los.Santos.Dope.Wars.GUI
 			}
 		}
 
+		/// <summary>
+		/// The <see cref="ToBuyMenuSwitchActivated(object, EventArgs)"/> method for switching to the buy menu
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ToBuyMenuSwitchActivated(object sender, EventArgs e)
+		{
+			buyMenu.Visible = !buyMenu.Visible;
+			sellMenu.Visible = !sellMenu.Visible;
+		}
+
+		/// <summary>
+		/// The <see cref="ToSellMenuSwitchActivated(object, EventArgs)"/> method for switching to the sell menu
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ToSellMenuSwitchActivated(object sender, EventArgs e)
+		{
+			buyMenu.Visible = !buyMenu.Visible;
+			sellMenu.Visible = !sellMenu.Visible;
+		}
+
+		/// <summary>
+		/// The <see cref="SetRefreshBuyMenu(DealerStash)"/> method sets or refreshes the buy menu
+		/// </summary>
+		/// <param name="dealerStash"></param>
 		private void SetRefreshBuyMenu(DealerStash dealerStash)
 		{
-			BuyMenu.Clear();
+			int index = buyMenu.SelectedIndex;
+			buyMenu.Clear();
+			buyMenu.Subtitle = $"Dealer Money: ${dealerStash.DrugMoney}";
+			buyMenu.Add(toSellMenuSwitch);
 			foreach (Drug drug in dealerStash.Drugs)
 			{
 				DrugListItem drugListItem = new(drug);
 				drugListItem.Activated += NativeListItem_OnActivated;
-				BuyMenu.Add(drugListItem);
+				buyMenu.Add(drugListItem);
 			}
+			buyMenu.SelectedIndex = index;
 		}
 
+		/// <summary>
+		/// The <see cref="SetRefreshSellMenu(PlayerStash, DealerStash)"/> method sets or refreshes the sell menu
+		/// </summary>
+		/// <param name="playerStash"></param>
+		/// <param name="dealerStash"></param>
 		private void SetRefreshSellMenu(PlayerStash playerStash, DealerStash dealerStash)
 		{
-			SellMenu.Clear();
+			int index = sellMenu.SelectedIndex;
+			sellMenu.Clear();
+			sellMenu.Add(toBuyMenuSwitch);
 			foreach (Drug drug in playerStash.Drugs)
 			{
 				// we need the current price of the drug, only the opposing dealer can give that...
@@ -153,8 +194,9 @@ namespace Los.Santos.Dope.Wars.GUI
 
 				DrugListItem drugListItem = new(drug, true);
 				drugListItem.Activated += NativeListItem_OnActivated;
-				BuyMenu.Add(drugListItem);
+				sellMenu.Add(drugListItem);
 			}
+			sellMenu.SelectedIndex = index;
 		}
 
 		/// <summary>
@@ -197,15 +239,6 @@ namespace Los.Santos.Dope.Wars.GUI
 				PedHash.Trevor => Color.FromArgb(244, 164, 96),
 				_ => Color.Black
 			};
-		}
-
-		private void Menu_OnItemActivated(object sender, ItemActivatedArgs e)
-		{
-			if (e.Item.Equals(ToSellSwitch) || e.Item.Equals(ToBuySwitch))
-			{
-				BuyMenu.Visible = !BuyMenu.Visible;
-				SellMenu.Visible = !SellMenu.Visible;
-			}
 		}
 
 		private void NativeListItem_OnActivated(object sender, EventArgs e)
@@ -289,9 +322,9 @@ namespace Los.Santos.Dope.Wars.GUI
 						SetRefreshSellMenu(playerStash, dealerStash);
 					}
 				}
-				StatsMenu.Remove(StatsMenuItem);
-				StatsMenuItem = GetStatsMenuItem();
-				StatsMenu.Add(StatsMenuItem);
+				statisticsMenu.Remove(statsMenuItem);
+				statsMenuItem = GetStatsMenuItem();
+				statisticsMenu.Add(statsMenuItem);
 				Utils.SaveGameState(gameState!);
 			}
 			catch (Exception ex)

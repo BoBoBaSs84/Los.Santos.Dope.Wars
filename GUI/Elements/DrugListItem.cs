@@ -65,42 +65,43 @@ namespace Los.Santos.Dope.Wars.GUI.Elements
 		/// <returns><see cref="BadgeSet"/></returns>
 		private static BadgeSet GetDrugBadgeSet(string drugName)
 		{
-			BadgeSet cokeBadgeSet = new("mpinventory", "mp_specitem_coke", "mp_specitem_coke_black");
+			BadgeSet cokeBadgeSet = new("mpinventory", "mp_specitem_coke", "mp_specitem_coke_black");			
 			BadgeSet methBadgeSet = new("mpinventory", "mp_specitem_meth", "mp_specitem_meth_black");
 			BadgeSet weedBadgeSet = new("mpinventory", "mp_specitem_weed", "mp_specitem_weed_black");
 			BadgeSet heroBadgeSet = new("mpinventory", "mp_specitem_heroin", "mp_specitem_heroin_black");
+			BadgeSet defaultBadgeSet = new("mpinventory", "mp_specitem_cash", "mp_specitem_cash_black");
 
-			if (Enums.DrugTypes.Cocaine.Equals(drugName))
+			if (Enums.DrugTypes.Cocaine.ToString().Equals(drugName))
 				return cokeBadgeSet;
-			if (Enums.DrugTypes.Heroin.Equals(drugName))
+			if (Enums.DrugTypes.Heroin.ToString().Equals(drugName))
 				return heroBadgeSet;
-			if (Enums.DrugTypes.Marijuana.Equals(drugName))
+			if (Enums.DrugTypes.Marijuana.ToString().Equals(drugName))
 				return weedBadgeSet;
-			if (Enums.DrugTypes.Hashish.Equals(drugName))
+			if (Enums.DrugTypes.Hashish.ToString().Equals(drugName))
 				return weedBadgeSet;
-			if (Enums.DrugTypes.Mushrooms.Equals(drugName))
+			if (Enums.DrugTypes.Mushrooms.ToString().Equals(drugName))
 				return weedBadgeSet;
-			if (Enums.DrugTypes.Amphetamine.Equals(drugName))
+			if (Enums.DrugTypes.Amphetamine.ToString().Equals(drugName))
 				return cokeBadgeSet;
-			if (Enums.DrugTypes.PCP.Equals(drugName))
+			if (Enums.DrugTypes.PCP.ToString().Equals(drugName))
 				return cokeBadgeSet;
-			if (Enums.DrugTypes.Methamphetamine.Equals(drugName))
+			if (Enums.DrugTypes.Methamphetamine.ToString().Equals(drugName))
 				return methBadgeSet;
-			if (Enums.DrugTypes.Ketamine.Equals(drugName))
+			if (Enums.DrugTypes.Ketamine.ToString().Equals(drugName))
 				return cokeBadgeSet;
-			if (Enums.DrugTypes.Mescaline.Equals(drugName))
+			if (Enums.DrugTypes.Mescaline.ToString().Equals(drugName))
 				return methBadgeSet;
-			if (Enums.DrugTypes.Ecstasy.Equals(drugName))
+			if (Enums.DrugTypes.Ecstasy.ToString().Equals(drugName))
 				return methBadgeSet;
-			if (Enums.DrugTypes.Acid.Equals(drugName))
+			if (Enums.DrugTypes.Acid.ToString().Equals(drugName))
 				return methBadgeSet;
-			if (Enums.DrugTypes.MDMA.Equals(drugName))
+			if (Enums.DrugTypes.MDMA.ToString().Equals(drugName))
 				return methBadgeSet;
-			if (Enums.DrugTypes.Crack.Equals(drugName))
+			if (Enums.DrugTypes.Crack.ToString().Equals(drugName))
 				return heroBadgeSet;
-			if (Enums.DrugTypes.Oxycodone.Equals(drugName))
+			if (Enums.DrugTypes.Oxycodone.ToString().Equals(drugName))
 				return methBadgeSet;
-			else return new("mpinventory", "mp_specitem_cash", "mp_specitem_cash_black");
+			else return defaultBadgeSet;
 		}
 
 		/// <summary>
