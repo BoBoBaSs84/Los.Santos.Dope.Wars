@@ -48,9 +48,9 @@ namespace Los.Santos.Dope.Wars
 		public const string XmlNamespace = "http://www.los.santos.dope.wars.org";
 
 		/// <summary>
-		/// The volatility of market, so drug prices can reach from -25% to +25%
+		/// The volatility of market, so drug prices can reach from -10% to +10%
 		/// </summary>
-		public const double MarketVolatility = 0.25;
+		public const double MarketVolatility = 0.10;
 
 		/// <summary>
 		/// For every player level the dealers get additional health and armor values.
@@ -59,13 +59,24 @@ namespace Los.Santos.Dope.Wars
 		public const float DealerArmorHealthPerLevelFactor = 5f;
 
 		/// <summary>
-		/// the additional discount per level factor level 1 means a plus of 0.5%
+		/// the additional discount per level factor level 1 means a plus of +0.5% and -0.5%
 		/// </summary>
 		public const double DiscountPerLevel = 0.005;
 
-		public static Enums.DrugTypes TradePackOne = Enums.DrugTypes.Mushrooms | Enums.DrugTypes.Amphetamine | Enums.DrugTypes.Oxycodone | Enums.DrugTypes.Marijuana | Enums.DrugTypes.Hashish;
-		public static Enums.DrugTypes TradePackTwo = Enums.DrugTypes.Mescaline | Enums.DrugTypes.MDMA | Enums.DrugTypes.Ecstasy | Enums.DrugTypes.Acid | Enums.DrugTypes.PCP;
-		public static Enums.DrugTypes TradePackThree = Enums.DrugTypes.Heroin | Enums.DrugTypes.Cocaine | Enums.DrugTypes.Methamphetamine | Enums.DrugTypes.Crack | Enums.DrugTypes.Ketamine;
+		/// <summary>
+		/// The <see cref="TradePackOne"/> are the drugs the player can peddle from level 1 on
+		/// </summary>
+		public const Enums.DrugTypes TradePackOne = Enums.DrugTypes.Mushrooms | Enums.DrugTypes.Amphetamine | Enums.DrugTypes.Oxycodone | Enums.DrugTypes.Marijuana | Enums.DrugTypes.Hashish;
+
+		/// <summary>
+		/// The <see cref="TradePackTwo"/> are the drugs the player can additional peddle from level 10 on
+		/// </summary>
+		public const Enums.DrugTypes TradePackTwo = Enums.DrugTypes.Mescaline | Enums.DrugTypes.MDMA | Enums.DrugTypes.Ecstasy | Enums.DrugTypes.Acid | Enums.DrugTypes.PCP;
+
+		/// <summary>
+		/// The <see cref="TradePackThree"/> are the drugs the player can additional peddle from level 20 on
+		/// </summary>
+		public const Enums.DrugTypes TradePackThree = Enums.DrugTypes.Heroin | Enums.DrugTypes.Cocaine | Enums.DrugTypes.Methamphetamine | Enums.DrugTypes.Crack | Enums.DrugTypes.Ketamine;
 
 		/// <summary>
 		/// Random .. for random uses
