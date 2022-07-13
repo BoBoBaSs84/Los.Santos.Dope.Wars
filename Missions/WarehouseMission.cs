@@ -2,6 +2,7 @@
 using GTA.UI;
 using Los.Santos.Dope.Wars.Classes;
 using Los.Santos.Dope.Wars.Extension;
+using Los.Santos.Dope.Wars.GUI;
 using Los.Santos.Dope.Wars.Persistence.Settings;
 using Los.Santos.Dope.Wars.Persistence.State;
 using System;
@@ -13,11 +14,13 @@ namespace Los.Santos.Dope.Wars.Missions
 	/// </summary>
 	public static class WarehouseMission
 	{
+		#region fields
 		private static GameSettings? _gameSettings;
 		private static GameState? _gameState;
 		private static PlayerStats? _playerStats;
 		private static Warehouse? _warehouse;
 		private static int _warehousePrice;
+		#endregion
 
 		/// <summary>
 		/// The <see cref="Initialized"/> property indicates if the <see cref="Init(GameSettings, GameState)"/> method was called
@@ -85,12 +88,18 @@ namespace Los.Santos.Dope.Wars.Missions
 					//Warehouse is yours
 					if (_playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
 					{
+						WarehouseMenu.Init(_playerStats.Stash, _warehouse.Stash, _gameState!);
 						Screen.ShowHelpTextThisFrame($"~b~Press ~INPUT_CONTEXT~ ~w~to transfer drugs to or from your warehouse.");
 						if (Game.IsControlJustPressed(Control.Context))
 						{
 							Script.Wait(10);
+							WarehouseMenu.ShowWarehouseMenu = true;
 						}
 					}
+				}
+				else if (ShowWarehouseMenu)
+				{
+					ShowWarehouseMenu = false;
 				}
 			}
 			catch (Exception ex)

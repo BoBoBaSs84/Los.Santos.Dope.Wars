@@ -1,0 +1,286 @@
+﻿using GTA;
+using LemonUI;
+using LemonUI.Menus;
+using Los.Santos.Dope.Wars.Classes;
+using Los.Santos.Dope.Wars.Extension;
+using Los.Santos.Dope.Wars.GUI.Elements;
+using Los.Santos.Dope.Wars.Persistence.State;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Los.Santos.Dope.Wars.GUI
+{
+	/// <summary>
+	/// The <see cref="WarehouseMenu"/> class serves as the warehouse menu for the player character and his warehouse property
+	/// </summary>
+	public class WarehouseMenu : Script
+	{
+		#region fields
+		private static readonly ObjectPool _objectPool = new();
+		private static SellMenu _playerMenu = null!;
+		private static BuyMenu _warehouseMenu = null!;
+		private static StatisticsMenu _statisticsMenu = null!;
+		private static NativeItem? _toPlayerMenuSwitch;
+		private static NativeItem? _toWarehouseMenuSwitch;
+		private static GameState? _gameState;
+		private static PlayerStats? _playerStats;
+		private static PlayerStash? _playerInventory;
+		private static PlayerStash? _warehouseInventory;
+		private static bool _warehouseMenuLoaded;
+		#endregion
+
+		#region properties
+		/// <summary>
+		/// The <see cref="ShowWarehouseMenu"/> property if set to true the warehouse menu should popup
+		/// </summary>
+		public static bool ShowWarehouseMenu { get; set; }
+
+		/// <summary>
+		/// The <see cref="Initialized"/> property indicates if the <see cref="Init(PlayerStash, PlayerStash, GameState)"/> method was called
+		/// </summary>
+		public static bool Initialized { get; private set; }
+		#endregion
+
+		#region constructor
+		/// <summary>
+		/// The standard constructor for <see cref="WarehouseMenu"/> class
+		/// </summary>
+		public WarehouseMenu()
+		{
+			_toPlayerMenuSwitch = new NativeItem("Go to player inventory", "Want to move into warehouse inventory?");
+			_toPlayerMenuSwitch.Activated += ToPlayerMenuSwitchActivated;
+			_toWarehouseMenuSwitch = new NativeItem("Go to warehouse inventory", "Want to take from warehouse inventory?");
+			_toWarehouseMenuSwitch.Activated += ToWarehouseMenuSwitchActivated;
+
+			Tick += OnTick;
+		}
+		#endregion
+
+		#region public methods
+		/// <summary>
+		/// The <see cref="Init(PlayerStash, PlayerStash, GameState)"/> method should be called from outside with the needed parameters
+		/// </summary>
+		/// <param name="playerInventory"></param>
+		/// <param name="warehouseInventory"></param>
+		/// <param name="gameState"></param>
+		public static void Init(PlayerStash playerInventory, PlayerStash warehouseInventory, GameState gameState)
+		{
+			_playerInventory = playerInventory;
+			_warehouseInventory = warehouseInventory;
+			_gameState = gameState;
+			_playerStats = Utils.GetPlayerStatsFromModel(gameState);
+			Initialized = true;
+
+			if (_playerStats is null)
+				Logger.Panic($"{nameof(_playerStats)} is null!");
+			if (_playerInventory is null)
+				Logger.Panic($"{nameof(_playerInventory)} is null!");
+			if (_warehouseInventory is null)
+				Logger.Panic($"{nameof(_warehouseInventory)} is null!");
+			if (_gameState is null)
+				Logger.Panic($"{nameof(_gameState)} is null!");
+		}
+		#endregion
+
+		#region private methods
+		/// <summary>
+		/// The <see cref="ToWarehouseMenuSwitchActivated(object, EventArgs)"/> method for switching to the "take from" menu
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ToWarehouseMenuSwitchActivated(object sender, EventArgs e)
+		{
+			_warehouseMenu.Visible = !_warehouseMenu.Visible;
+			_playerMenu.Visible = !_playerMenu.Visible;
+		}
+
+		/// <summary>
+		/// The <see cref="ToPlayerMenuSwitchActivated(object, EventArgs)"/> method for switching to the "move from" menu
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ToPlayerMenuSwitchActivated(object sender, EventArgs e)
+		{
+			_warehouseMenu.Visible = !_warehouseMenu.Visible;
+			_playerMenu.Visible = !_playerMenu.Visible;
+		}
+
+		private void OnTick(object sender, EventArgs e)
+		{
+			if (!Initialized)
+				return;
+
+			if (ShowWarehouseMenu)
+			{
+				if (!_warehouseMenuLoaded)
+				{
+					LoadWarehouseMenu();
+					_warehouseMenuLoaded = true;
+					_warehouseMenu.Visible = true;
+					_statisticsMenu.Visible = true;
+				}
+			}
+			else
+			{
+				_warehouseMenu.Visible = false;
+				_playerMenu.Visible = false;
+				_statisticsMenu.Visible = false;
+				UnloadWarehouseMenu();
+			}
+
+			_objectPool.Process();
+		}
+
+		private static void UnloadWarehouseMenu()
+		{
+			_statisticsMenu.Clear();
+			_warehouseMenu.Clear();
+			_playerMenu.Clear();
+			_warehouseMenuLoaded = false;
+		}
+
+		private void LoadWarehouseMenu()
+		{
+			_playerMenu = new SellMenu("Move into...", $"", Utils.GetMenuBannerColor());
+			_warehouseMenu = new BuyMenu("Take from...", $"", Utils.GetMenuBannerColor());
+
+			_statisticsMenu = new StatisticsMenu($"Statistics - {Utils.GetCharacterFromModel()}", "", Utils.GetMenuBannerColor())
+			{
+				AcceptsInput = false
+			};
+			_statisticsMenu.Add(GetStatsMenuItem());
+
+			_objectPool.Add(_playerMenu);
+			_objectPool.Add(_warehouseMenu);
+			_objectPool.Add(_statisticsMenu);
+
+			SetRefreshWarehouseMenu(_warehouseInventory!);
+			SetRefreshPlayerMenu(_playerInventory!);
+		}
+
+		/// <summary>
+		/// The <see cref="SetRefreshWarehouseMenu(PlayerStash)"/> method sets or refreshes the "move into" menu
+		/// </summary>
+		/// <param name="playerInventory"></param>
+		/// <exception cref="NotImplementedException"></exception>
+		private void SetRefreshPlayerMenu(PlayerStash playerInventory)
+		{
+			int index = _playerMenu.SelectedIndex;
+			_playerMenu.Clear();
+			_playerMenu.Add(_toWarehouseMenuSwitch);
+			foreach (Drug drug in playerInventory.Drugs)
+			{
+				DrugListItem drugListItem = new(drug);
+				drugListItem.Activated += OnDrugListItemActivated;
+				_playerMenu.Add(drugListItem);
+			}
+			if (index > -1)
+				_playerMenu.SelectedIndex = index;
+		}
+
+		/// <summary>
+		/// The <see cref="SetRefreshWarehouseMenu(PlayerStash)"/> method sets or refreshes the "take from" menu
+		/// </summary>
+		/// <param name="warehouseInventory"></param>
+		private void SetRefreshWarehouseMenu(PlayerStash warehouseInventory)
+		{
+			int index = _warehouseMenu.SelectedIndex;
+			_warehouseMenu.Clear();
+			_warehouseMenu.Add(_toPlayerMenuSwitch);
+			foreach (Drug drug in warehouseInventory.Drugs)
+			{
+				DrugListItem drugListItem = new(drug);
+				drugListItem.Activated += OnDrugListItemActivated;
+				_warehouseMenu.Add(drugListItem);
+			}
+			if (index > -1)
+				_warehouseMenu.SelectedIndex = index;
+		}
+
+		private void OnDrugListItemActivated(object sender, EventArgs e)
+		{
+			BuyMenu nativeMenuLeft;
+			SellMenu nativeMenuRight;
+
+			try
+			{
+				if (sender is BuyMenu)
+				{
+					nativeMenuLeft = sender as BuyMenu;
+					if (nativeMenuLeft.SelectedItem is NativeListItem<int>)
+					{
+						NativeListItem<int> nativeListItem = nativeMenuLeft.SelectedItem as NativeListItem<int>;
+						// early saftey exit
+						if (nativeListItem.SelectedItem.Equals(0))
+							return;
+
+						string drugName = nativeListItem.Title;
+						int drugQuantity = nativeListItem.SelectedItem;
+						int drugPurchasePrice = _warehouseInventory!.Drugs.Where(x => x.Name.Equals(nativeListItem.Title)).Select(x => x.PurchasePrice).SingleOrDefault();
+
+						//player takes from warehouse inventory
+						_playerInventory!.MoveIntoInventory(drugName, drugQuantity, drugPurchasePrice);
+						_warehouseInventory.TakeFromInventory(drugName, drugQuantity);
+					}
+				}
+				if (sender is SellMenu)
+				{
+					nativeMenuRight = sender as SellMenu;
+					if (nativeMenuRight.SelectedItem is NativeListItem<int>)
+					{
+						NativeListItem<int> nativeListItem = nativeMenuRight.SelectedItem as NativeListItem<int>;
+						// early saftey exit
+						if (nativeListItem.SelectedItem.Equals(0))
+							return;
+
+						string drugName = nativeListItem.Title;
+						int drugQuantity = nativeListItem.SelectedItem;
+						int drugPurchasePrice = _playerInventory.Drugs.Where(x => x.Name.Equals(nativeListItem.Title)).Select(x => x.PurchasePrice).SingleOrDefault();
+
+						//player moves into warehouse inventory
+						_warehouseInventory!.MoveIntoInventory(drugName, drugQuantity, drugPurchasePrice);
+						_playerInventory.TakeFromInventory(drugName, drugQuantity);
+					}
+				}
+				SetRefreshWarehouseMenu(_warehouseInventory!);
+				SetRefreshPlayerMenu(_playerInventory!);
+				_statisticsMenu.Clear();
+				_statisticsMenu.Add(GetStatsMenuItem());
+				Utils.SaveGameState(_gameState!);
+			}
+			catch (Exception ex)
+			{
+				Logger.Error($"{nameof(OnDrugListItemActivated)}\n{ex.Message}\n{ex.InnerException}\n{ex.Source}\n{ex.StackTrace}");
+			}
+		}
+
+		/// <summary>
+		/// The <see cref="GetStatsMenuItem"/> method gets the stats menu item with filled properties, new and update
+		/// </summary>
+		/// <returns><see cref="NativeItem"/></returns>
+		private static NativeItem GetStatsMenuItem()
+		{
+			string title = $"Current player level:\t\t{_playerStats.CurrentLevel} / {PlayerStats.MaxLevel}";
+			string description = $"Total spent money:\t\t\t${_playerStats.SpentMoney}\n" +
+					$"Total earned money:\t\t${_playerStats.EarnedMoney}\n\n" +
+					$"Profit:\t\t\t\t\t{((_playerStats.EarnedMoney - _playerStats.SpentMoney < 0) ? "~r~" : "~g~")}${_playerStats.EarnedMoney - _playerStats.SpentMoney}";
+
+			int prevExp = _playerStats.CurrentLevel.Equals(1) ? 0 : (int)Math.Pow(_playerStats.CurrentLevel, 2.5) * 1000;
+
+			List<NativeStatsInfo> nativeStatsInfos = new()
+			{
+				new NativeStatsInfo("Current bag filling level:", _playerStats.CurrentBagSize * 100 / _playerStats.MaxBagSize),
+				new NativeStatsInfo("Experience to next level:", (_playerStats.CurrentExperience - prevExp) * 100 / (_playerStats.NextLevelExperience - prevExp))
+			};
+
+			NativeItem nativeItem = new(title, description)
+			{
+				Panel = new NativeStatsPanel(nativeStatsInfos.ToArray())
+			};
+
+			return nativeItem;
+		}
+		#endregion
+	}
+}

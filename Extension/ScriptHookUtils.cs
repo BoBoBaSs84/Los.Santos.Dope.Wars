@@ -4,17 +4,17 @@ using System;
 
 namespace Los.Santos.Dope.Wars.Extension
 {
-    /// <summary>
-    /// The <see cref="ScriptHookUtils"/> class contains mostly methods that use <see cref="Function.Call(Hash)"/>
-    /// </summary>
-    public static class ScriptHookUtils
-    {
-        /// <summary>
-        /// The empty constructor
-        /// </summary>
-        static ScriptHookUtils()
-        {
-        }
+	/// <summary>
+	/// The <see cref="ScriptHookUtils"/> class contains mostly methods that use <see cref="Function.Call(Hash)"/>
+	/// </summary>
+	public static class ScriptHookUtils
+	{
+		/// <summary>
+		/// The empty constructor
+		/// </summary>
+		static ScriptHookUtils()
+		{
+		}
 
 		/// <summary>
 		/// Returns the current in game time
@@ -23,12 +23,12 @@ namespace Los.Santos.Dope.Wars.Extension
 		public static DateTime GetGameDate()
 		{
 			return new DateTime(
-							Function.Call<int>(Hash.GET_CLOCK_YEAR),
-							Function.Call<int>(Hash.GET_CLOCK_MONTH) + 1,
-							Function.Call<int>(Hash.GET_CLOCK_DAY_OF_MONTH),
-							Function.Call<int>(Hash.GET_CLOCK_HOURS),
-							Function.Call<int>(Hash.GET_CLOCK_MINUTES),
-							Function.Call<int>(Hash.GET_CLOCK_SECONDS)
+				Function.Call<int>(Hash.GET_CLOCK_YEAR),
+				Function.Call<int>(Hash.GET_CLOCK_MONTH) + 1,
+				Function.Call<int>(Hash.GET_CLOCK_DAY_OF_MONTH),
+				Function.Call<int>(Hash.GET_CLOCK_HOURS),
+				Function.Call<int>(Hash.GET_CLOCK_MINUTES),
+				Function.Call<int>(Hash.GET_CLOCK_SECONDS)
 			);
 		}
 

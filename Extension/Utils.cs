@@ -3,6 +3,7 @@ using Los.Santos.Dope.Wars.Persistence.Settings;
 using Los.Santos.Dope.Wars.Persistence.State;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -94,6 +95,21 @@ namespace Los.Santos.Dope.Wars.Extension
 				PedHash.Franklin => Enums.Characters.Franklin,
 				PedHash.Trevor => Enums.Characters.Trevor,
 				_ => Enums.Characters.Unknown
+			};
+		}
+
+		/// <summary>
+		/// The <see cref="GetMenuBannerColor"/> returns the associated player color of type <see cref="Color"/>
+		/// </summary>
+		/// <returns><see cref="Color"/></returns>
+		public static Color GetMenuBannerColor()
+		{
+			return (PedHash)Game.Player.Character.Model switch
+			{
+				PedHash.Franklin => Color.FromArgb(171, 237, 171),
+				PedHash.Michael => Color.FromArgb(101, 180, 212),
+				PedHash.Trevor => Color.FromArgb(244, 164, 96),
+				_ => Color.Black
 			};
 		}
 

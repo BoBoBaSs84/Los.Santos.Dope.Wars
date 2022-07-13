@@ -80,21 +80,21 @@ namespace Los.Santos.Dope.Wars.Features
 				}
 				else if (playerStats.CurrentLevel.Equals(15))
 				{
+					// this is when the drug lords have been unlocked
+					playerStats.Reward.DrugLords |= Enums.DrugLordStates.Unlocked;
+					Notification.Show($"Congratulations, ~y~drug lords~w~ will visit Los Santos from time to time, offering drugs at best prices!");
+				}
+				else if (playerStats.CurrentLevel.Equals(20))
+				{
 					// this is when the warehouse upgrade reward has been granted
 					playerStats.Reward.Warehouse |= Enums.WarehouseStates.UpgradeUnlocked;
 					Notification.Show($"Congratulations, you have unlocked the ~y~warehouse~w~ upgrade. Buy it to upgrade you warehouse.");
 				}
-				else if (playerStats.CurrentLevel.Equals(20))
+				else if (playerStats.CurrentLevel.Equals(25))
 				{
 					// this is when the player can peddle level three tier drugs
 					playerStats.Reward.DrugTypes |= Constants.TradePackThree;
 					Notification.Show($"Congratulations, new drug trading options available.");
-				}
-				else if (playerStats.CurrentLevel.Equals(25))
-				{
-					// this is when the drug lords have been unlocked
-					playerStats.Reward.DrugLords |= Enums.DrugLordStates.Unlocked;
-					Notification.Show($"Congratulations, ~y~drug lords~w~ will visit Los Santos from time to time, offering drugs at best prices!");
 				}
 				else if (playerStats.CurrentLevel.Equals(35))
 				{
