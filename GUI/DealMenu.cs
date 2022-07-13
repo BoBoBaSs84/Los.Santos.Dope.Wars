@@ -22,7 +22,6 @@ namespace Los.Santos.Dope.Wars.GUI
 		private static SellMenu sellMenu = null!;
 		private static BuyMenu buyMenu = null!;
 		private static StatisticsMenu statisticsMenu = null!;
-		private static NativeItem statsMenuItem = null!;
 		private static NativeItem? toSellMenuSwitch;
 		private static NativeItem? toBuyMenuSwitch;
 		private static GameState? gameState;
@@ -55,7 +54,7 @@ namespace Los.Santos.Dope.Wars.GUI
 			toBuyMenuSwitch = new NativeItem("Go to buy menu", "Want to buy instead of selling?");
 			toBuyMenuSwitch.Activated += ToBuyMenuSwitchActivated;
 
-			Tick += DealMenu_OnTick;
+			Tick += OnTick;
 		}
 		#endregion
 
@@ -77,7 +76,7 @@ namespace Los.Santos.Dope.Wars.GUI
 		#endregion
 
 		#region private methods
-		private void DealMenu_OnTick(object sender, EventArgs e)
+		private void OnTick(object sender, EventArgs e)
 		{
 			if (!Initialized)
 				return;
@@ -103,24 +102,15 @@ namespace Los.Santos.Dope.Wars.GUI
 			objectPool.Process();
 		}
 
-		private static void UnloadDealMenu()
-		{
-			statisticsMenu.Clear();
-			buyMenu.Clear();
-			sellMenu.Clear();
-			_dealMenuLoaded = false;
-		}
-
 		private void LoadDealMenu()
 		{
 			try
 			{
 				sellMenu = new SellMenu("Sell", $"", GetMenuBannerColor());
 				buyMenu = new BuyMenu("Buy", $"Dealer Money: ${dealerStash.DrugMoney}", GetMenuBannerColor());
+				
 				statisticsMenu = new StatisticsMenu($"Statistics - {Utils.GetCharacterFromModel()}", "", GetMenuBannerColor()) { AcceptsInput = false };
-
-				statsMenuItem = GetStatsMenuItem();
-				statisticsMenu.Add(statsMenuItem);
+				statisticsMenu.Add(GetStatsMenuItem());
 
 				objectPool.Add(buyMenu);
 				objectPool.Add(sellMenu);
@@ -133,6 +123,14 @@ namespace Los.Santos.Dope.Wars.GUI
 			{
 				Logger.Error($"{nameof(LoadDealMenu)}\n{ex.Message}\n{ex.InnerException}\n{ex.Source}\n{ex.StackTrace}");
 			}
+		}
+
+		private static void UnloadDealMenu()
+		{
+			statisticsMenu.Clear();
+			buyMenu.Clear();
+			sellMenu.Clear();
+			_dealMenuLoaded = false;
 		}
 
 		/// <summary>
@@ -268,7 +266,7 @@ namespace Los.Santos.Dope.Wars.GUI
 						// early exit
 						if (Game.Player.Money < transactionValue)
 						{
-							GTA.UI.Screen.ShowSubtitle("You don't have enough ~y~money bitch! Fuck off!");
+							GTA.UI.Screen.ShowSubtitle("You don't have enough ~y~money ~w~bitch! ~r~Fuck off~w~!");
 							return;
 						}
 
@@ -324,9 +322,8 @@ namespace Los.Santos.Dope.Wars.GUI
 						SetRefreshSellMenu(playerStash, dealerStash);
 					}
 				}
-				statisticsMenu.Remove(statsMenuItem);
-				statsMenuItem = GetStatsMenuItem();
-				statisticsMenu.Add(statsMenuItem);
+				statisticsMenu.Clear();
+				statisticsMenu.Add(GetStatsMenuItem());
 				Utils.SaveGameState(gameState!);
 			}
 			catch (Exception ex)
