@@ -173,7 +173,8 @@ namespace Los.Santos.Dope.Wars.GUI
 				drugListItem.Activated += NativeListItem_OnActivated;
 				buyMenu.Add(drugListItem);
 			}
-			buyMenu.SelectedIndex = index;
+			if (index > -1)
+				buyMenu.SelectedIndex = index;
 		}
 
 		/// <summary>
@@ -196,7 +197,8 @@ namespace Los.Santos.Dope.Wars.GUI
 				drugListItem.Activated += NativeListItem_OnActivated;
 				sellMenu.Add(drugListItem);
 			}
-			sellMenu.SelectedIndex = index;
+			if (index > -1)
+				sellMenu.SelectedIndex = index;
 		}
 
 		/// <summary>
