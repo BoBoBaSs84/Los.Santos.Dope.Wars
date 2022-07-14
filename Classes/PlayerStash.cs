@@ -33,7 +33,7 @@ namespace Los.Santos.Dope.Wars.Classes
 				drug.PurchasePrice = drugPrice;
 			else
 				drug.PurchasePrice = ((drug.Quantity * drug.PurchasePrice) + (drugQuantity * drugPrice)) / (drug.Quantity + drugQuantity);
-			
+
 			AddToStash(drugName, drugQuantity);
 		}
 		/// <inheritdoc/>

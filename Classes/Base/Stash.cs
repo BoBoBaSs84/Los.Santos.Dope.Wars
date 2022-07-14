@@ -1,6 +1,6 @@
 ﻿using Los.Santos.Dope.Wars.Contracts;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Serialization;
 
 namespace Los.Santos.Dope.Wars.Classes.Base

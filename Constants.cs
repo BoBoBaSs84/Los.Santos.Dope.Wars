@@ -1,6 +1,5 @@
 ﻿using GTA;
 using GTA.Math;
-using Los.Santos.Dope.Wars.Classes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

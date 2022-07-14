@@ -14,11 +14,11 @@ namespace Los.Santos.Dope.Wars.Missions
 	public static class DrugLordMission
 	{
 		private static List<DrugLord>? _drugLords;
-		private static DrugLord? _drugLord;
+		private static readonly DrugLord? _drugLord;
 		private static GameSettings? _gameSettings;
 		private static GameState? _gameState;
 		private static PlayerStats? _playerStats;
-		private static Ped? _player;		
+		private static Ped? _player;
 
 		/// <summary>
 		/// The <see cref="Initialized"/> property indicates if the <see cref="Init(GameSettings, GameState)"/> method was called
