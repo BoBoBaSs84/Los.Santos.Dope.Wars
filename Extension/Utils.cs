@@ -1,8 +1,10 @@
 ﻿using GTA;
+using GTA.Math;
 using Los.Santos.Dope.Wars.Persistence.Settings;
 using Los.Santos.Dope.Wars.Persistence.State;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -53,17 +55,9 @@ namespace Los.Santos.Dope.Wars.Extension
 		/// <exception cref="ArgumentNullException"></exception>
 		public static (float health, float armor) GetDealerHealthArmor(Dealer dealerSettings, int playerLevel = 1)
 		{
-			try
-			{
-				float resultingHealth = dealerSettings.HealthBaseValue + playerLevel * Constants.DealerArmorHealthPerLevelFactor;
-				float resultingArmor = dealerSettings.ArmorBaseValue + playerLevel * Constants.DealerArmorHealthPerLevelFactor;
-				return (resultingHealth, resultingArmor);
-			}
-			catch (Exception ex)
-			{
-				Logger.Error($"{ex.Message} - {ex.InnerException} - {ex.StackTrace}");
-			}
-			return (100f, 100f);
+			float resultingHealth = dealerSettings.HealthBaseValue + playerLevel * Constants.DealerArmorHealthPerLevelFactor;
+			float resultingArmor = dealerSettings.ArmorBaseValue + playerLevel * Constants.DealerArmorHealthPerLevelFactor;
+			return (resultingHealth, resultingArmor);
 		}
 
 		/// <summary>
@@ -94,6 +88,36 @@ namespace Los.Santos.Dope.Wars.Extension
 				PedHash.Franklin => Enums.Characters.Franklin,
 				PedHash.Trevor => Enums.Characters.Trevor,
 				_ => Enums.Characters.Unknown
+			};
+		}
+
+		/// <summary>
+		/// The <see cref="GetCurrentPlayerColor"/> returns the associated player color of type <see cref="Color"/>
+		/// </summary>
+		/// <returns><see cref="Color"/></returns>
+		public static Color GetCurrentPlayerColor()
+		{
+			return (PedHash)Game.Player.Character.Model switch
+			{
+				PedHash.Franklin => Color.LimeGreen,
+				PedHash.Michael => Color.SkyBlue,
+				PedHash.Trevor => Color.SandyBrown,
+				_ => Color.Black
+			};
+		}
+
+		/// <summary>
+		/// The <see cref="GetWarehousePositions"/> method returns the associated player position for the warehouse
+		/// </summary>
+		/// <returns><see cref="Tuple{T1, T2, T3}"/></returns>
+		public static (Vector3 location, Vector3 entrance, Vector3 mission) GetWarehousePositions()
+		{
+			return (PedHash)Game.Player.Character.Model switch
+			{
+				PedHash.Franklin => (Constants.WarehouseLocationFranklin, Constants.WarehouseEntranceFranklin, Constants.WarehouseMissionStartFranklin),
+				PedHash.Michael => (Constants.WarehouseLocationMichael, Constants.WarehouseEntranceMichael, Constants.WarehouseMissionStartMichael),
+				PedHash.Trevor => (Constants.WarehouseLocationTrevor, Constants.WarehouseEntranceTrevor, Constants.WarehouseMissionStartTrevor),
+				_ => (Vector3.Zero, Vector3.Zero, Vector3.Zero)
 			};
 		}
 

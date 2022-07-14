@@ -20,5 +20,20 @@
 		/// <param name="drugQuantity"></param>
 		/// <param name="drugPrice"></param>
 		void SellDrug(string drugName, int drugQuantity, int drugPrice);
+
+		/// <summary>
+		/// The <see cref="MoveIntoInventory(string, int, int)"/> method is used to make transfers into player inventories
+		/// </summary>
+		/// <param name="drugName"></param>
+		/// <param name="drugQuantity"></param>
+		/// <param name="drugPrice"></param>
+		void MoveIntoInventory(string drugName, int drugQuantity, int drugPrice);
+
+		/// <summary>
+		/// The <see cref="TakeFromInventory(string, int)"/> method is used to make transfers from player inventories
+		/// </summary>
+		/// <param name="drugName"></param>
+		/// <param name="drugQuantity"></param>
+		void TakeFromInventory(string drugName, int drugQuantity);
 	}
 }

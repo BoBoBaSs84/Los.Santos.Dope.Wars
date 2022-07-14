@@ -29,13 +29,32 @@ namespace Los.Santos.Dope.Wars.Classes
 				drug.PurchasePrice = ((drug.Quantity * drug.PurchasePrice) + (drugQuantity * drugPrice)) / (drug.Quantity + drugQuantity);
 
 			AddToStash(drugName, drugQuantity);
+
 			Game.Player.Money -= drugPrice * drugQuantity;
+		}
+		/// <inheritdoc/>
+		public void MoveIntoInventory(string drugName, int drugQuantity, int drugPrice)
+		{
+			Drug drug = Drugs.Where(x => x.Name.Equals(drugName)).SingleOrDefault();
+
+			if (drug.Quantity.Equals(0))
+				drug.PurchasePrice = drugPrice;
+			else
+				drug.PurchasePrice = ((drug.Quantity * drug.PurchasePrice) + (drugQuantity * drugPrice)) / (drug.Quantity + drugQuantity);
+
+			AddToStash(drugName, drugQuantity);
 		}
 		/// <inheritdoc/>
 		public void SellDrug(string drugName, int drugQuantity, int drugPrice)
 		{
 			RemoveFromStash(drugName, drugQuantity);
+
 			Game.Player.Money += drugPrice * drugQuantity;
+		}
+		/// <inheritdoc/>
+		public void TakeFromInventory(string drugName, int drugQuantity)
+		{
+			RemoveFromStash(drugName, drugQuantity);
 		}
 		#endregion
 	}

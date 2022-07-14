@@ -1,6 +1,6 @@
 ﻿using Los.Santos.Dope.Wars.Contracts;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Serialization;
 
 namespace Los.Santos.Dope.Wars.Classes.Base
@@ -52,8 +52,7 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 		public void Init()
 		{
 			Drugs.Clear();
-			List<Drug>? drugList = AvailableDrugs;
-			foreach (Drug? drug in drugList)
+			foreach (Drug? drug in AvailableDrugs)
 				Drugs.Add(new Drug(drug.Name, drug.Description, drug.AveragePrice));
 		}
 		/// <inheritdoc/>
