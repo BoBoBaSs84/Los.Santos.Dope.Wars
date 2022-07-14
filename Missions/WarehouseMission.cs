@@ -15,6 +15,7 @@ namespace Los.Santos.Dope.Wars.Missions
 	public static class WarehouseMission
 	{
 		#region fields
+		private static Ped? _player;
 		private static GameSettings? _gameSettings;
 		private static GameState? _gameState;
 		private static PlayerStats? _playerStats;
@@ -22,6 +23,7 @@ namespace Los.Santos.Dope.Wars.Missions
 		private static int _warehousePrice;
 		#endregion
 
+		#region properties
 		/// <summary>
 		/// The <see cref="Initialized"/> property indicates if the <see cref="Init(GameSettings, GameState)"/> method was called
 		/// </summary>
@@ -31,12 +33,16 @@ namespace Los.Santos.Dope.Wars.Missions
 		/// The <see cref="ShowWarehouseMenu"/> property
 		/// </summary>
 		public static bool ShowWarehouseMenu { get; set; }
+		#endregion
 
+		#region constructor
 		/// <summary>
 		/// The empty <see cref="WarehouseMission"/> class constructor
 		/// </summary>
 		static WarehouseMission() { }
+		#endregion
 
+		#region public methods
 		/// <summary>
 		/// The <see cref="OnTick(object, EventArgs)"/> method, run for every tick
 		/// </summary>
@@ -47,13 +53,14 @@ namespace Los.Santos.Dope.Wars.Missions
 			if (!Initialized)
 				return;
 
+			if (_player != Game.Player.Character)
+				_player = Game.Player.Character;
+
 			if (_playerStats != Utils.GetPlayerStatsFromModel(_gameState!))
 				_playerStats = Utils.GetPlayerStatsFromModel(_gameState!);
 
 			try
 			{
-				Ped? player = Game.Player.Character;
-
 				//all necessary flags are there
 				if (_playerStats!.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Unlocked) || _playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Bought) || _playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Upgraded))
 				{
@@ -72,34 +79,34 @@ namespace Los.Santos.Dope.Wars.Missions
 				}
 
 				//Warehouse exists
-				if (_warehouse!.BlipCreated && World.GetDistance(player.Position, Constants.WarehouseEntranceFranklin) <= 3f)
+				if (_warehouse!.BlipCreated)
 				{
-					//Warehouse is not yours
-					if (!_playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
+					// now we are real close to the warehouse entrance
+					if (_player.IsInRange(_warehouse.Entrance, 2f) && Game.Player.WantedLevel == 0)
 					{
-						Screen.ShowHelpTextThisFrame($"~b~Press ~INPUT_CONTEXT~ ~w~to buy the warehouse for ~r~${_warehousePrice}");
-						if (Game.IsControlJustPressed(Control.Context))
+						//Warehouse is not yours
+						if (!_playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
 						{
-							Script.Wait(10);
-							BuyWareHouse();
+							Screen.ShowHelpTextThisFrame($"~b~Press ~INPUT_CONTEXT~ ~w~to buy the warehouse for ~r~${_warehousePrice}");
+							if (Game.IsControlJustPressed(Control.Context))
+							{
+								Script.Wait(10);
+								BuyWareHouse();
+							}
 						}
-					}
-
-					//Warehouse is yours
-					if (_playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
-					{
-						WarehouseMenu.Init(_playerStats.Stash, _warehouse.Stash, _gameState!);
-						Screen.ShowHelpTextThisFrame($"~b~Press ~INPUT_CONTEXT~ ~w~to transfer drugs to or from your warehouse.");
-						if (Game.IsControlJustPressed(Control.Context))
+						//Warehouse is yours
+						else if (_playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
 						{
+							WarehouseMenu.Init(_playerStats.Stash, _warehouse.Stash, _gameState!);
 							Script.Wait(10);
 							WarehouseMenu.ShowWarehouseMenu = true;
 						}
 					}
-				}
-				else if (ShowWarehouseMenu)
-				{
-					ShowWarehouseMenu = false;
+					// now we are not close to the warehouse entrance or we are wanted by the cops
+					else if (!_player.IsInRange(_warehouse.Entrance, 2f) || Game.Player.WantedLevel != 0)
+					{
+						WarehouseMenu.ShowWarehouseMenu = false;
+					}
 				}
 			}
 			catch (Exception ex)
@@ -117,6 +124,7 @@ namespace Los.Santos.Dope.Wars.Missions
 		{
 			_gameSettings = gameSettings;
 			_gameState = gameState;
+			_player = Game.Player.Character;
 			_playerStats = Utils.GetPlayerStatsFromModel(gameState);
 			_warehouse = new();
 			_warehousePrice = gameSettings.GamePlay.Reward.Warehouse.WarehousePrice;
@@ -133,7 +141,9 @@ namespace Los.Santos.Dope.Wars.Missions
 			if (_warehouse!.BlipCreated)
 				_warehouse.DeleteBlip();
 		}
+		#endregion
 
+		#region private methods
 		/// <summary>
 		/// Buying the warehouse or just try it
 		/// </summary>
@@ -156,5 +166,6 @@ namespace Los.Santos.Dope.Wars.Missions
 			_warehouse!.ChangeBlip(BlipSprite.Warehouse, blipColor);
 			Utils.SaveGameState(_gameState!);
 		}
+		#endregion
 	}
 }

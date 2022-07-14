@@ -48,9 +48,9 @@ namespace Los.Santos.Dope.Wars.GUI
 		/// </summary>
 		public WarehouseMenu()
 		{
-			_toPlayerMenuSwitch = new NativeItem("Go to player inventory", "Want to move into warehouse inventory?");
+			_toPlayerMenuSwitch = new NativeItem("Go to player stash", "Want to stash something?");
 			_toPlayerMenuSwitch.Activated += ToPlayerMenuSwitchActivated;
-			_toWarehouseMenuSwitch = new NativeItem("Go to warehouse inventory", "Want to take from warehouse inventory?");
+			_toWarehouseMenuSwitch = new NativeItem("Go to warehouse stash", "Want to take something?");
 			_toWarehouseMenuSwitch.Activated += ToWarehouseMenuSwitchActivated;
 
 			Tick += OnTick;
@@ -71,19 +71,66 @@ namespace Los.Santos.Dope.Wars.GUI
 			_gameState = gameState;
 			_playerStats = Utils.GetPlayerStatsFromModel(gameState);
 			Initialized = true;
-
-			if (_playerStats is null)
-				Logger.Panic($"{nameof(_playerStats)} is null!");
-			if (_playerInventory is null)
-				Logger.Panic($"{nameof(_playerInventory)} is null!");
-			if (_warehouseInventory is null)
-				Logger.Panic($"{nameof(_warehouseInventory)} is null!");
-			if (_gameState is null)
-				Logger.Panic($"{nameof(_gameState)} is null!");
 		}
 		#endregion
 
 		#region private methods
+		/// <summary>
+		/// The <see cref="OnTick(object, EventArgs)"/> method, run for every tick
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void OnTick(object sender, EventArgs e)
+		{
+			if (!Initialized)
+				return;
+
+			if (ShowWarehouseMenu)
+			{
+				if (!_warehouseMenuLoaded)
+				{
+					LoadWarehouseMenu();
+					_warehouseMenuLoaded = _warehouseMenu.Visible = _statisticsMenu.Visible = true;
+				}
+			}
+			else
+			{
+				if (_warehouseMenuLoaded)
+				{
+					_warehouseMenu.Visible = _playerMenu.Visible = _statisticsMenu.Visible = false;
+					UnloadWarehouseMenu();
+				}
+			}
+			_objectPool.Process();
+		}
+
+		private static void UnloadWarehouseMenu()
+		{
+			_statisticsMenu.Clear();
+			_warehouseMenu.Clear();
+			_playerMenu.Clear();
+			_warehouseMenuLoaded = false;
+		}
+
+		private void LoadWarehouseMenu()
+		{
+			_playerMenu = new SellMenu("Player", $"", Utils.GetMenuBannerColor());
+			_warehouseMenu = new BuyMenu("Warehouse", $"", Utils.GetMenuBannerColor());
+
+			_statisticsMenu = new StatisticsMenu($"Statistics - {Utils.GetCharacterFromModel()}", "", Utils.GetMenuBannerColor())
+			{
+				AcceptsInput = false
+			};
+			_statisticsMenu.Add(GetStatsMenuItem());
+
+			_objectPool.Add(_playerMenu);
+			_objectPool.Add(_warehouseMenu);
+			_objectPool.Add(_statisticsMenu);
+
+			SetRefreshWarehouseMenu(_warehouseInventory!);
+			SetRefreshPlayerMenu(_playerInventory!);
+		}
+
 		/// <summary>
 		/// The <see cref="ToWarehouseMenuSwitchActivated(object, EventArgs)"/> method for switching to the "take from" menu
 		/// </summary>
@@ -104,59 +151,6 @@ namespace Los.Santos.Dope.Wars.GUI
 		{
 			_warehouseMenu.Visible = !_warehouseMenu.Visible;
 			_playerMenu.Visible = !_playerMenu.Visible;
-		}
-
-		private void OnTick(object sender, EventArgs e)
-		{
-			if (!Initialized)
-				return;
-
-			if (ShowWarehouseMenu)
-			{
-				if (!_warehouseMenuLoaded)
-				{
-					LoadWarehouseMenu();
-					_warehouseMenuLoaded = true;
-					_warehouseMenu.Visible = true;
-					_statisticsMenu.Visible = true;
-				}
-			}
-			else
-			{
-				_warehouseMenu.Visible = false;
-				_playerMenu.Visible = false;
-				_statisticsMenu.Visible = false;
-				UnloadWarehouseMenu();
-			}
-
-			_objectPool.Process();
-		}
-
-		private static void UnloadWarehouseMenu()
-		{
-			_statisticsMenu.Clear();
-			_warehouseMenu.Clear();
-			_playerMenu.Clear();
-			_warehouseMenuLoaded = false;
-		}
-
-		private void LoadWarehouseMenu()
-		{
-			_playerMenu = new SellMenu("Move into...", $"", Utils.GetMenuBannerColor());
-			_warehouseMenu = new BuyMenu("Take from...", $"", Utils.GetMenuBannerColor());
-
-			_statisticsMenu = new StatisticsMenu($"Statistics - {Utils.GetCharacterFromModel()}", "", Utils.GetMenuBannerColor())
-			{
-				AcceptsInput = false
-			};
-			_statisticsMenu.Add(GetStatsMenuItem());
-
-			_objectPool.Add(_playerMenu);
-			_objectPool.Add(_warehouseMenu);
-			_objectPool.Add(_statisticsMenu);
-
-			SetRefreshWarehouseMenu(_warehouseInventory!);
-			SetRefreshPlayerMenu(_playerInventory!);
 		}
 
 		/// <summary>

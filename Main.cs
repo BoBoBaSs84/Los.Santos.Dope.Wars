@@ -13,6 +13,7 @@ namespace Los.Santos.Dope.Wars
 	/// </summary>
 	public class Main : Script
 	{
+		#region fields
 		private static bool _gameSettingsLoaded;
 		private static bool _gameStateLoaded;
 		private static bool _drugDealerMissionLoaded;
@@ -21,11 +22,14 @@ namespace Los.Santos.Dope.Wars
 		private static bool _rewardSystemLoaded;
 		private static GameSettings? GameSettings;
 		private static GameState? GameState;
+		#endregion
 
+		#region properties
 		/// <summary>
 		/// The <see cref="ScriptDirectory"/> property, this is the main directory for logging and saving the game config and the game state
 		/// </summary>
 		public static string ScriptDirectory { get; private set; } = string.Empty;
+		#endregion
 
 		#region ctor
 		/// <summary>
@@ -43,6 +47,7 @@ namespace Los.Santos.Dope.Wars
 		}
 		#endregion
 
+		#region private methods
 		private void OnAborted(object sender, EventArgs e)
 		{
 			_drugDealerMissionLoaded = _drugLordMissionLoaded = _rewardSystemLoaded = _warehouseMissionLoaded = false;
@@ -125,5 +130,6 @@ namespace Los.Santos.Dope.Wars
 				Logger.Error($"{ex.Message} - {ex.InnerException} - {ex.StackTrace}");
 			}
 		}
+		#endregion
 	}
 }

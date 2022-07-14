@@ -19,7 +19,7 @@ namespace Los.Santos.Dope.Wars.GUI.Elements
 		/// </summary>
 		/// <param name="drug"></param>
 		/// <param name="isPlayerItem"></param>
-		public DrugListItem(Drug drug, bool isPlayerItem = false) : base(drug.Name, GetIntArrayFromDrugQuantity(drug.Quantity))
+		public DrugListItem(Drug drug, bool isPlayerItem = false) : base($" {drug.Name}", GetIntArrayFromDrugQuantity(drug.Quantity))
 		{
 			_isPlayerItem = isPlayerItem;
 			if (drug.Quantity.Equals(0))
@@ -65,7 +65,7 @@ namespace Los.Santos.Dope.Wars.GUI.Elements
 		/// <returns><see cref="BadgeSet"/></returns>
 		private static BadgeSet GetDrugBadgeSet(string drugName)
 		{
-			BadgeSet cokeBadgeSet = new("mpinventory", "mp_specitem_coke", "mp_specitem_coke_black");			
+			BadgeSet cokeBadgeSet = new("mpinventory", "mp_specitem_coke", "mp_specitem_coke_black");
 			BadgeSet methBadgeSet = new("mpinventory", "mp_specitem_meth", "mp_specitem_meth_black");
 			BadgeSet weedBadgeSet = new("mpinventory", "mp_specitem_weed", "mp_specitem_weed_black");
 			BadgeSet heroBadgeSet = new("mpinventory", "mp_specitem_heroin", "mp_specitem_heroin_black");

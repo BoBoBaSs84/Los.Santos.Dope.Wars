@@ -75,6 +75,11 @@ namespace Los.Santos.Dope.Wars.GUI
 		#endregion
 
 		#region private methods
+		/// <summary>
+		/// The <see cref="OnTick(object, EventArgs)"/> method, run for every tick
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void OnTick(object sender, EventArgs e)
 		{
 			if (!Initialized)
@@ -85,19 +90,17 @@ namespace Los.Santos.Dope.Wars.GUI
 				if (!_dealMenuLoaded)
 				{
 					LoadDealMenu();
-					_dealMenuLoaded = true;
-					_buyMenu.Visible = true;
-					_statisticsMenu.Visible = true;
+					_dealMenuLoaded = _buyMenu.Visible = _statisticsMenu.Visible = true;
 				}
 			}
 			else
 			{
-				_buyMenu.Visible = false;
-				_sellMenu.Visible = false;
-				_statisticsMenu.Visible = false;
-				UnloadDealMenu();
+				if (_dealMenuLoaded)
+				{
+					_buyMenu.Visible = _sellMenu.Visible = _statisticsMenu.Visible = false;
+					UnloadDealMenu();
+				}
 			}
-
 			_objectPool.Process();
 		}
 
