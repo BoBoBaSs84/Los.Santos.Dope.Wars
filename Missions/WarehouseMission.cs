@@ -67,7 +67,8 @@ namespace Los.Santos.Dope.Wars.Missions
 					//if the blip has not been created
 					if (!_warehouse!.BlipCreated)
 					{
-						_warehouse = new Warehouse(Constants.WarehouseLocationFranklin, Constants.WarehouseEntranceFranklin, Constants.WarehouseMissionStartFranklin);
+						var (location, entrance, mission) = Utils.GetWarehousePositions();
+						_warehouse = new Warehouse(location, entrance, mission);
 						_warehouse.CreateBlip(BlipSprite.WarehouseForSale);
 
 						// player has bought the warehouse
@@ -83,13 +84,13 @@ namespace Los.Santos.Dope.Wars.Missions
 				if (_warehouse!.BlipCreated)
 				{
 					// player has bought the warehouse
-					if (_player.IsInRange(_warehouse.EntranceMarker, 100f) && _playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
+					if (_player.IsInRange(_warehouse.EntranceMarker, Constants.MarkerDrawDistance) && _playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
 						_warehouse.DrawEntranceMarker(_warehouse.EntranceMarker, Utils.GetCurrentPlayerColor());
 					// player has upgraded the warehouse
-					if (_player.IsInRange(_warehouse.MissionMarker, 100f) && _playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Upgraded))
+					if (_player.IsInRange(_warehouse.MissionMarker, Constants.MarkerDrawDistance) && _playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Upgraded))
 						_warehouse.DrawMissionMarker(_warehouse.MissionMarker, Utils.GetCurrentPlayerColor());
 					// now we are real close to the warehouse entrance
-					if (_player.IsInRange(_warehouse.EntranceMarker, 1f) && Game.Player.WantedLevel == 0)
+					if (_player.IsInRange(_warehouse.EntranceMarker, Constants.InteractionDistance) && Game.Player.WantedLevel == 0)
 					{
 						//Warehouse is not yours
 						if (!_playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
@@ -109,7 +110,7 @@ namespace Los.Santos.Dope.Wars.Missions
 						}
 					}
 					// now we are not close to the warehouse entrance or we are wanted by the cops
-					else if (!_player.IsInRange(_warehouse.EntranceMarker, 1f) || Game.Player.WantedLevel != 0)
+					else if (!_player.IsInRange(_warehouse.EntranceMarker, Constants.InteractionDistance) || Game.Player.WantedLevel != 0)
 					{
 						WarehouseMenu.ShowWarehouseMenu = false;
 					}

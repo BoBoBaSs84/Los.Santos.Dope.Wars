@@ -7,6 +7,7 @@ using Los.Santos.Dope.Wars.GUI.Elements;
 using Los.Santos.Dope.Wars.Persistence.State;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace Los.Santos.Dope.Wars.GUI
@@ -28,6 +29,7 @@ namespace Los.Santos.Dope.Wars.GUI
 		private static PlayerStash? _playerInventory;
 		private static PlayerStash? _warehouseInventory;
 		private static bool _warehouseMenuLoaded;
+		private static Color _menuColor;
 		#endregion
 
 		#region properties
@@ -52,6 +54,7 @@ namespace Los.Santos.Dope.Wars.GUI
 			_toPlayerMenuSwitch.Activated += ToPlayerMenuSwitchActivated;
 			_toWarehouseMenuSwitch = new NativeItem("Go to warehouse stash", "Want to take something?");
 			_toWarehouseMenuSwitch.Activated += ToWarehouseMenuSwitchActivated;
+			_menuColor = Utils.GetCurrentPlayerColor();
 
 			Tick += OnTick;
 		}
@@ -114,10 +117,10 @@ namespace Los.Santos.Dope.Wars.GUI
 
 		private void LoadWarehouseMenu()
 		{
-			_playerMenu = new SellMenu("Player", $"", Utils.GetCurrentPlayerColor());
-			_warehouseMenu = new BuyMenu("Warehouse", $"", Utils.GetCurrentPlayerColor());
+			_playerMenu = new SellMenu("Player", $"", _menuColor);
+			_warehouseMenu = new BuyMenu("Warehouse", $"", _menuColor);
 
-			_statisticsMenu = new StatisticsMenu($"Statistics - {Utils.GetCharacterFromModel()}", "", Utils.GetCurrentPlayerColor())
+			_statisticsMenu = new StatisticsMenu($"Statistics - {Utils.GetCharacterFromModel()}", "", _menuColor)
 			{
 				AcceptsInput = false
 			};
@@ -165,12 +168,45 @@ namespace Los.Santos.Dope.Wars.GUI
 			_playerMenu.Add(_toWarehouseMenuSwitch);
 			foreach (Drug drug in playerInventory.Drugs)
 			{
-				DrugListItem drugListItem = new(drug);
-				drugListItem.Activated += OnDrugListItemActivated;
-				_playerMenu.Add(drugListItem);
+				DrugListItem playerListItem = new(drug, true);
+				playerListItem.Activated += OnPlayerListItemActivated;
+				_playerMenu.Add(playerListItem);
 			}
 			if (index > -1)
 				_playerMenu.SelectedIndex = index;
+		}
+
+		/// <summary>
+		/// The <see cref="OnPlayerListItemActivated(object, EventArgs)"/> method get called when the player tries to move drugs into his warehouse
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void OnPlayerListItemActivated(object sender, EventArgs e)
+		{
+			try
+			{
+				if (sender is not SellMenu menu || menu.SelectedItem is not DrugListItem menuItem || menuItem.SelectedItem.Equals(0) || menuItem.Tag is not Drug drug)
+					return;
+
+				string drugName = drug.Name;
+				int drugQuantity = menuItem.SelectedItem;
+				int drugPurchasePrice = _playerInventory!.Drugs.Where(x => x.Name.Equals(drug.Name)).Select(x => x.PurchasePrice).SingleOrDefault();
+
+				_warehouseInventory!.MoveIntoInventory(drugName, drugQuantity, drugPurchasePrice);
+				_playerInventory.TakeFromInventory(drugName, drugQuantity);
+
+				SetRefreshWarehouseMenu(_warehouseInventory!);
+				SetRefreshPlayerMenu(_playerInventory!);
+
+				_statisticsMenu.Clear();
+				_statisticsMenu.Add(GetStatsMenuItem());
+
+				Utils.SaveGameState(_gameState!);
+			}
+			catch (Exception ex)
+			{
+				Logger.Error($"{nameof(OnPlayerListItemActivated)}\n{ex.Message}\n{ex.InnerException}\n{ex.Source}\n{ex.StackTrace}");
+			}
 		}
 
 		/// <summary>
@@ -184,68 +220,44 @@ namespace Los.Santos.Dope.Wars.GUI
 			_warehouseMenu.Add(_toPlayerMenuSwitch);
 			foreach (Drug drug in warehouseInventory.Drugs)
 			{
-				DrugListItem drugListItem = new(drug);
-				drugListItem.Activated += OnDrugListItemActivated;
-				_warehouseMenu.Add(drugListItem);
+				DrugListItem warehouseListItem = new(drug, true);
+				warehouseListItem.Activated += OnWarehouseListItemActivated;
+				_warehouseMenu.Add(warehouseListItem);
 			}
 			if (index > -1)
 				_warehouseMenu.SelectedIndex = index;
 		}
 
-		private void OnDrugListItemActivated(object sender, EventArgs e)
+		/// <summary>
+		/// The <see cref="OnWarehouseListItemActivated(object, EventArgs)"/> method get called when the player tries to move drugs from his warehouse
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void OnWarehouseListItemActivated(object sender, EventArgs e)
 		{
-			BuyMenu nativeMenuLeft;
-			SellMenu nativeMenuRight;
-
 			try
 			{
-				if (sender is BuyMenu)
-				{
-					nativeMenuLeft = sender as BuyMenu;
-					if (nativeMenuLeft.SelectedItem is NativeListItem<int>)
-					{
-						NativeListItem<int> nativeListItem = nativeMenuLeft.SelectedItem as NativeListItem<int>;
-						// early saftey exit
-						if (nativeListItem.SelectedItem.Equals(0))
-							return;
+				if (sender is not BuyMenu menu || menu.SelectedItem is not DrugListItem menuItem || menuItem.SelectedItem.Equals(0) || menuItem.Tag is not Drug drug)
+					return;
 
-						string drugName = nativeListItem.Title;
-						int drugQuantity = nativeListItem.SelectedItem;
-						int drugPurchasePrice = _warehouseInventory!.Drugs.Where(x => x.Name.Equals(nativeListItem.Title)).Select(x => x.PurchasePrice).SingleOrDefault();
+				string drugName = drug.Name;
+				int drugQuantity = menuItem.SelectedItem;
+				int drugPurchasePrice = _warehouseInventory!.Drugs.Where(x => x.Name.Equals(drug.Name)).Select(x => x.PurchasePrice).SingleOrDefault();
 
-						//player takes from warehouse inventory
-						_playerInventory!.MoveIntoInventory(drugName, drugQuantity, drugPurchasePrice);
-						_warehouseInventory.TakeFromInventory(drugName, drugQuantity);
-					}
-				}
-				if (sender is SellMenu)
-				{
-					nativeMenuRight = sender as SellMenu;
-					if (nativeMenuRight.SelectedItem is NativeListItem<int>)
-					{
-						NativeListItem<int> nativeListItem = nativeMenuRight.SelectedItem as NativeListItem<int>;
-						// early saftey exit
-						if (nativeListItem.SelectedItem.Equals(0))
-							return;
+				_playerInventory!.MoveIntoInventory(drugName, drugQuantity, drugPurchasePrice);
+				_warehouseInventory.TakeFromInventory(drugName, drugQuantity);
 
-						string drugName = nativeListItem.Title;
-						int drugQuantity = nativeListItem.SelectedItem;
-						int drugPurchasePrice = _playerInventory.Drugs.Where(x => x.Name.Equals(nativeListItem.Title)).Select(x => x.PurchasePrice).SingleOrDefault();
-
-						//player moves into warehouse inventory
-						_warehouseInventory!.MoveIntoInventory(drugName, drugQuantity, drugPurchasePrice);
-						_playerInventory.TakeFromInventory(drugName, drugQuantity);
-					}
-				}
 				SetRefreshWarehouseMenu(_warehouseInventory!);
 				SetRefreshPlayerMenu(_playerInventory!);
+
 				_statisticsMenu.Clear();
 				_statisticsMenu.Add(GetStatsMenuItem());
+
 				Utils.SaveGameState(_gameState!);
 			}
 			catch (Exception ex)
 			{
-				Logger.Error($"{nameof(OnDrugListItemActivated)}\n{ex.Message}\n{ex.InnerException}\n{ex.Source}\n{ex.StackTrace}");
+				Logger.Error($"{nameof(OnWarehouseListItemActivated)}\n{ex.Message}\n{ex.InnerException}\n{ex.Source}\n{ex.StackTrace}");
 			}
 		}
 

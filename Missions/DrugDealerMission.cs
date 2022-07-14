@@ -121,7 +121,7 @@ namespace Los.Santos.Dope.Wars.Missions
 						dealer.CreateBlip();
 					}
 					// if the player is in range of the dealer
-					if (_player.IsInRange(dealer.Position, 100f))
+					if (_player.IsInRange(dealer.Position, Constants.DealerCreateDistance))
 					{
 						// if the ped was not created
 						if (!dealer.PedCreated)
@@ -138,7 +138,7 @@ namespace Los.Santos.Dope.Wars.Missions
 					}
 
 					// now we are real close to the dealer
-					if (_player.IsInRange(dealer.Position, 3f) && _currentDrugDealer is null && Game.Player.WantedLevel == 0)
+					if (_player.IsInRange(dealer.Position, Constants.InteractionDistance) && _currentDrugDealer is null && Game.Player.WantedLevel == 0)
 					{
 						_currentDrugDealer = dealer;
 						DealMenu.Init(_playerStats.Stash, dealer.Stash, _gameState);
@@ -149,7 +149,7 @@ namespace Los.Santos.Dope.Wars.Missions
 						else if (!CheckIfDealerCanTrade(dealer))
 							DealMenu.ShowDealMenu = false;
 					}
-					else if ((!_player.IsInRange(dealer.Position, 3f) && _currentDrugDealer == dealer) || Game.Player.WantedLevel != 0)
+					else if ((!_player.IsInRange(dealer.Position, Constants.InteractionDistance) && _currentDrugDealer == dealer) || Game.Player.WantedLevel != 0)
 					{
 						_currentDrugDealer = null!;
 						DealMenu.ShowDealMenu = false;

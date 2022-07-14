@@ -72,7 +72,7 @@ namespace Los.Santos.Dope.Wars.Contracts
 		/// <param name="blipSprite"></param>
 		/// <param name="blipColor"></param>
 		void ChangeBlip(BlipSprite blipSprite = BlipSprite.BusinessForSale, BlipColor blipColor = BlipColor.White);
-		
+
 		/// <summary>
 		/// Draws the entrance marker for the property
 		/// </summary>

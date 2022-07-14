@@ -201,7 +201,9 @@ namespace Los.Santos.Dope.Wars
 
 		public const float MarkerDrawDistance = 20f;
 
-		public const float MarkerInteractionDistance = 1.25f;
+		public const float DealerCreateDistance = 100f;
+
+		public const float InteractionDistance = 1.25f;
 
 		public static readonly Vector3 EntranceMarkerScale = new(1f, 1f, 1f);
 
@@ -218,5 +220,11 @@ namespace Los.Santos.Dope.Wars
 		public static readonly Vector3 WarehouseLocationMichael = new(799.5f, -94.6f, 80.6f);
 
 		public static readonly Vector3 WarehouseMissionStartMichael = new(794.8f, -79.2f, 80.6f);
+
+		public static readonly Vector3 WarehouseEntranceTrevor = new(996.6f, 3775.2f, 34.1f);
+
+		public static readonly Vector3 WarehouseLocationTrevor = new(989.1f, 3574.8f, 35f);
+
+		public static readonly Vector3 WarehouseMissionStartTrevor = new(977.75f, 3591.4f, 33.4f);
 	}
 }

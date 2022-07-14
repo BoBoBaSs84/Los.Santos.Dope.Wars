@@ -7,6 +7,7 @@ using Los.Santos.Dope.Wars.GUI.Elements;
 using Los.Santos.Dope.Wars.Persistence.State;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace Los.Santos.Dope.Wars.GUI
@@ -28,6 +29,7 @@ namespace Los.Santos.Dope.Wars.GUI
 		private static PlayerStash? _playerStash;
 		private static DealerStash? _dealerStash;
 		private static bool _dealMenuLoaded;
+		private static Color _menuColor;
 		#endregion
 
 		#region properties
@@ -52,6 +54,7 @@ namespace Los.Santos.Dope.Wars.GUI
 			_toSellMenuSwitch.Activated += ToSellMenuSwitchActivated;
 			_toBuyMenuSwitch = new NativeItem("Go to buy menu", "Want to buy instead of selling?");
 			_toBuyMenuSwitch.Activated += ToBuyMenuSwitchActivated;
+			_menuColor = Utils.GetCurrentPlayerColor();
 
 			Tick += OnTick;
 		}
@@ -108,10 +111,10 @@ namespace Los.Santos.Dope.Wars.GUI
 		{
 			try
 			{
-				_sellMenu = new SellMenu("Sell", $"", Utils.GetCurrentPlayerColor());
-				_buyMenu = new BuyMenu("Buy", $"Dealer Money: ${_dealerStash.DrugMoney}", Utils.GetCurrentPlayerColor());
+				_sellMenu = new SellMenu("Sell", $"", _menuColor);
+				_buyMenu = new BuyMenu("Buy", $"Dealer Money: ${_dealerStash!.DrugMoney}", _menuColor);
 
-				_statisticsMenu = new StatisticsMenu($"Statistics - {Utils.GetCharacterFromModel()}", "", Utils.GetCurrentPlayerColor()) { AcceptsInput = false };
+				_statisticsMenu = new StatisticsMenu($"Statistics - {Utils.GetCharacterFromModel()}", "", _menuColor) { AcceptsInput = false };
 				_statisticsMenu.Add(GetStatsMenuItem());
 
 				_objectPool.Add(_buyMenu);
@@ -119,7 +122,7 @@ namespace Los.Santos.Dope.Wars.GUI
 				_objectPool.Add(_statisticsMenu);
 
 				SetRefreshBuyMenu(_dealerStash);
-				SetRefreshSellMenu(_playerStash, _dealerStash);
+				SetRefreshSellMenu(_playerStash!, _dealerStash);
 			}
 			catch (Exception ex)
 			{
@@ -169,12 +172,58 @@ namespace Los.Santos.Dope.Wars.GUI
 			_buyMenu.Add(_toSellMenuSwitch);
 			foreach (Drug drug in dealerStash.Drugs)
 			{
-				DrugListItem drugListItem = new(drug);
-				drugListItem.Activated += OnDrugListItemActivated;
-				_buyMenu.Add(drugListItem);
+				DrugListItem buyListItem = new(drug);
+				buyListItem.Activated += BuyListItemActivated;
+				_buyMenu.Add(buyListItem);
 			}
 			if (index > -1)
 				_buyMenu.SelectedIndex = index;
+		}
+
+		/// <summary>
+		/// The <see cref="BuyListItemActivated(object, EventArgs)"/> method is called when the player tries to buy drugs from a dealer type of person
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void BuyListItemActivated(object sender, EventArgs e)
+		{
+			try
+			{
+				if (sender is not BuyMenu menu || menu.SelectedItem is not DrugListItem menuItem || menuItem.SelectedItem.Equals(0) || menuItem.Tag is not Drug drug)
+					return;
+
+				string drugName = drug.Name;
+				int drugQuantity = menuItem.SelectedItem;
+				int drugPrice = _dealerStash!.Drugs.Where(x => x.Name.Equals(drug.Name)).Select(x => x.CurrentPrice).SingleOrDefault();
+				int transactionValue = drugQuantity * drugPrice;
+
+				// early exit
+				if (Game.Player.Money < transactionValue)
+				{
+					GTA.UI.Screen.ShowSubtitle("You don't have enough ~y~money ~w~bitch! ~r~Fuck off~w~!");
+					return;
+				}
+
+				//player buys drugs from dealer
+				_playerStash!.BuyDrug(drugName, drugQuantity, drugPrice);
+				_dealerStash.SellDrug(drugName, drugQuantity, drugPrice);
+
+				_playerStats!.SpentMoney += transactionValue;
+				GTA.UI.Screen.ShowSubtitle($"You got yourself {drugQuantity} packs of ~y~{drugName} ~w~with a total value of ~r~${transactionValue}.");
+				Audio.PlaySoundFrontend("PURCHASE", "HUD_LIQUOR_STORE_SOUNDSET");
+
+				SetRefreshBuyMenu(_dealerStash!);
+				SetRefreshSellMenu(_playerStash!, _dealerStash!);
+
+				_statisticsMenu.Clear();
+				_statisticsMenu.Add(GetStatsMenuItem());
+
+				Utils.SaveGameState(_gameState!);
+			}
+			catch (Exception ex)
+			{
+				Logger.Error($"{nameof(BuyListItemActivated)}\n{ex.Message}\n{ex.InnerException}\n{ex.Source}\n{ex.StackTrace}");
+			}
 		}
 
 		/// <summary>
@@ -193,12 +242,64 @@ namespace Los.Santos.Dope.Wars.GUI
 				int currentDrugPrice = dealerStash.Drugs.Where(x => x.Name.Equals(drug.Name)).Select(x => x.CurrentPrice).FirstOrDefault();
 				drug.CurrentPrice = currentDrugPrice;
 
-				DrugListItem drugListItem = new(drug, true);
-				drugListItem.Activated += OnDrugListItemActivated;
-				_sellMenu.Add(drugListItem);
+				DrugListItem sellListItem = new(drug, true);
+				sellListItem.Activated += SellListItemActivated;
+				_sellMenu.Add(sellListItem);
 			}
 			if (index > -1)
 				_sellMenu.SelectedIndex = index;
+		}
+
+		/// <summary>
+		/// The <see cref="SellListItemActivated(object, EventArgs)"/> method is called when the player tries to sell drugs to a dealer type of person
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void SellListItemActivated(object sender, EventArgs e)
+		{
+			try
+			{
+				if (sender is not SellMenu menu || menu.SelectedItem is not DrugListItem menuItem || menuItem.SelectedItem.Equals(0) || menuItem.Tag is not Drug drug)
+					return;
+
+				string drugName = drug.Name;
+				int drugQuantity = menuItem.SelectedItem;
+				int currentDrugPrice = _dealerStash!.Drugs.Where(x => x.Name.Equals(drug.Name)).Select(x => x.CurrentPrice).SingleOrDefault();
+				int purchasePrice = _playerStash!.Drugs.Where(x => x.Name.Equals(drug.Name)).Select(x => x.PurchasePrice).SingleOrDefault();
+				int transactionValue = drugQuantity * currentDrugPrice;
+
+				// early exit
+				if (_dealerStash.DrugMoney < transactionValue)
+				{
+					GTA.UI.Screen.ShowSubtitle("The dealer does not have enough ~y~money~w~!");
+					return;
+				}
+
+				//player sells to dealer
+				_playerStash.SellDrug(drugName, drugQuantity, currentDrugPrice);
+				_dealerStash.BuyDrug(drugName, drugQuantity, currentDrugPrice);
+
+				int profit = (currentDrugPrice - purchasePrice) * drugQuantity;
+
+				if (profit > 0)
+					_playerStats!.AddExperiencePoints(profit);
+
+				_playerStats!.EarnedMoney += transactionValue;
+				GTA.UI.Screen.ShowSubtitle($"You peddled {drugQuantity} packs of ~y~{drugName} ~w~for a total value of ~g~${transactionValue}.");
+				Audio.PlaySoundFrontend("PURCHASE", "HUD_LIQUOR_STORE_SOUNDSET");
+
+				SetRefreshBuyMenu(_dealerStash!);
+				SetRefreshSellMenu(_playerStash!, _dealerStash!);
+
+				_statisticsMenu.Clear();
+				_statisticsMenu.Add(GetStatsMenuItem());
+
+				Utils.SaveGameState(_gameState!);
+			}
+			catch (Exception ex)
+			{
+				Logger.Error($"{nameof(SellListItemActivated)}\n{ex.Message}\n{ex.InnerException}\n{ex.Source}\n{ex.StackTrace}");
+			}
 		}
 
 		/// <summary>
@@ -207,7 +308,7 @@ namespace Los.Santos.Dope.Wars.GUI
 		/// <returns><see cref="NativeItem"/></returns>
 		private static NativeItem GetStatsMenuItem()
 		{
-			string title = $"Current player level:\t\t{_playerStats.CurrentLevel} / {PlayerStats.MaxLevel}";
+			string title = $"Current player level:\t\t{_playerStats!.CurrentLevel} / {PlayerStats.MaxLevel}";
 			string description = $"Total spent money:\t\t\t${_playerStats.SpentMoney}\n" +
 					$"Total earned money:\t\t${_playerStats.EarnedMoney}\n\n" +
 					$"Profit:\t\t\t\t\t{((_playerStats.EarnedMoney - _playerStats.SpentMoney < 0) ? "~r~" : "~g~")}${_playerStats.EarnedMoney - _playerStats.SpentMoney}";
@@ -226,93 +327,6 @@ namespace Los.Santos.Dope.Wars.GUI
 			};
 
 			return nativeItem;
-		}
-
-		private void OnDrugListItemActivated(object sender, EventArgs e)
-		{
-			BuyMenu nativeMenuLeft;
-			SellMenu nativeMenuRight;
-
-			try
-			{
-				if (sender is BuyMenu)
-				{
-					nativeMenuLeft = sender as BuyMenu;
-					if (nativeMenuLeft.SelectedItem is NativeListItem<int>)
-					{
-						NativeListItem<int> nativeListItem = nativeMenuLeft.SelectedItem as NativeListItem<int>;
-						// early saftey exit
-						if (nativeListItem.SelectedItem.Equals(0))
-							return;
-
-						string drugName = nativeListItem.Title;
-						int drugQuantity = nativeListItem.SelectedItem;
-						int drugPrice = _dealerStash!.Drugs.Where(x => x.Name.Equals(nativeListItem.Title)).Select(x => x.CurrentPrice).SingleOrDefault();
-						int transactionValue = drugQuantity * drugPrice;
-
-						// early exit
-						if (Game.Player.Money < transactionValue)
-						{
-							GTA.UI.Screen.ShowSubtitle("You don't have enough ~y~money ~w~bitch! ~r~Fuck off~w~!");
-							return;
-						}
-
-						//player buys drugs from dealer
-						_playerStash!.BuyDrug(drugName, drugQuantity, drugPrice);
-						_dealerStash.SellDrug(drugName, drugQuantity, drugPrice);
-
-						_playerStats!.SpentMoney += transactionValue;
-						GTA.UI.Screen.ShowSubtitle($"You got yourself {drugQuantity} packs of ~y~{drugName} ~w~with a total value of ~r~${transactionValue}.");
-						Audio.PlaySoundFrontend("PURCHASE", "HUD_LIQUOR_STORE_SOUNDSET");
-					}
-				}
-				if (sender is SellMenu)
-				{
-					nativeMenuRight = sender as SellMenu;
-					if (nativeMenuRight.SelectedItem is NativeListItem<int>)
-					{
-						NativeListItem<int> nativeListItem = nativeMenuRight.SelectedItem as NativeListItem<int>;
-						// early saftey exit
-						if (nativeListItem.SelectedItem.Equals(0))
-							return;
-
-						string drugName = nativeListItem.Title;
-						int drugQuantity = nativeListItem.SelectedItem;
-						int currentDrugPrice = _dealerStash!.Drugs.Where(x => x.Name.Equals(nativeListItem.Title)).Select(x => x.CurrentPrice).SingleOrDefault();
-						int purchasePrice = _playerStash!.Drugs.Where(x => x.Name.Equals(nativeListItem.Title)).Select(x => x.PurchasePrice).SingleOrDefault();
-						int transactionValue = drugQuantity * currentDrugPrice;
-
-						// early exit
-						if (_dealerStash.DrugMoney < transactionValue)
-						{
-							GTA.UI.Screen.ShowSubtitle("The dealer does not have enough ~y~money~w~!");
-							return;
-						}
-
-						//player sells to dealer
-						_playerStash.SellDrug(drugName, drugQuantity, currentDrugPrice);
-						_dealerStash.BuyDrug(drugName, drugQuantity, currentDrugPrice);
-
-						int profit = (currentDrugPrice - purchasePrice) * drugQuantity;
-
-						if (profit > 0)
-							_playerStats!.AddExperiencePoints(profit);
-
-						_playerStats!.EarnedMoney += transactionValue;
-						GTA.UI.Screen.ShowSubtitle($"You peddled {drugQuantity} packs of ~y~{drugName} ~w~for a total value of ~g~${transactionValue}.");
-						Audio.PlaySoundFrontend("PURCHASE", "HUD_LIQUOR_STORE_SOUNDSET");
-					}
-				}
-				SetRefreshBuyMenu(_dealerStash!);
-				SetRefreshSellMenu(_playerStash!, _dealerStash!);
-				_statisticsMenu.Clear();
-				_statisticsMenu.Add(GetStatsMenuItem());
-				Utils.SaveGameState(_gameState!);
-			}
-			catch (Exception ex)
-			{
-				Logger.Error($"{nameof(OnDrugListItemActivated)}\n{ex.Message}\n{ex.InnerException}\n{ex.Source}\n{ex.StackTrace}");
-			}
 		}
 	}
 	#endregion
