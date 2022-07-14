@@ -62,13 +62,15 @@ namespace Los.Santos.Dope.Wars.Missions
 			try
 			{
 				//all necessary flags are there
-				if (_playerStats!.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Unlocked) || _playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Bought) || _playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Upgraded))
+				if (_playerStats!.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Unlocked))
 				{
+					//if the blip has not been created
 					if (!_warehouse!.BlipCreated)
 					{
 						_warehouse = new Warehouse(Constants.WarehouseLocationFranklin, Constants.WarehouseEntranceFranklin, Constants.WarehouseMissionStartFranklin);
 						_warehouse.CreateBlip(BlipSprite.WarehouseForSale);
 
+						// player has bought the warehouse
 						if (_playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
 						{
 							BlipColor blipColor = Utils.GetCharacterBlipColor(Utils.GetCharacterFromModel());
@@ -77,12 +79,17 @@ namespace Los.Santos.Dope.Wars.Missions
 						}
 					}
 				}
-
 				//Warehouse exists
 				if (_warehouse!.BlipCreated)
 				{
+					// player has bought the warehouse
+					if (_player.IsInRange(_warehouse.EntranceMarker, 100f) && _playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
+						_warehouse.DrawEntranceMarker(_warehouse.EntranceMarker, Utils.GetCurrentPlayerColor());
+					// player has upgraded the warehouse
+					if (_player.IsInRange(_warehouse.MissionMarker, 100f) && _playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Upgraded))
+						_warehouse.DrawMissionMarker(_warehouse.MissionMarker, Utils.GetCurrentPlayerColor());
 					// now we are real close to the warehouse entrance
-					if (_player.IsInRange(_warehouse.Entrance, 2f) && Game.Player.WantedLevel == 0)
+					if (_player.IsInRange(_warehouse.EntranceMarker, 1f) && Game.Player.WantedLevel == 0)
 					{
 						//Warehouse is not yours
 						if (!_playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
@@ -98,12 +105,11 @@ namespace Los.Santos.Dope.Wars.Missions
 						else if (_playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
 						{
 							WarehouseMenu.Init(_playerStats.Stash, _warehouse.Stash, _gameState!);
-							Script.Wait(10);
 							WarehouseMenu.ShowWarehouseMenu = true;
 						}
 					}
 					// now we are not close to the warehouse entrance or we are wanted by the cops
-					else if (!_player.IsInRange(_warehouse.Entrance, 2f) || Game.Player.WantedLevel != 0)
+					else if (!_player.IsInRange(_warehouse.EntranceMarker, 1f) || Game.Player.WantedLevel != 0)
 					{
 						WarehouseMenu.ShowWarehouseMenu = false;
 					}

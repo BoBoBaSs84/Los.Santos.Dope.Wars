@@ -114,10 +114,10 @@ namespace Los.Santos.Dope.Wars.GUI
 
 		private void LoadWarehouseMenu()
 		{
-			_playerMenu = new SellMenu("Player", $"", Utils.GetMenuBannerColor());
-			_warehouseMenu = new BuyMenu("Warehouse", $"", Utils.GetMenuBannerColor());
+			_playerMenu = new SellMenu("Player", $"", Utils.GetCurrentPlayerColor());
+			_warehouseMenu = new BuyMenu("Warehouse", $"", Utils.GetCurrentPlayerColor());
 
-			_statisticsMenu = new StatisticsMenu($"Statistics - {Utils.GetCharacterFromModel()}", "", Utils.GetMenuBannerColor())
+			_statisticsMenu = new StatisticsMenu($"Statistics - {Utils.GetCharacterFromModel()}", "", Utils.GetCurrentPlayerColor())
 			{
 				AcceptsInput = false
 			};

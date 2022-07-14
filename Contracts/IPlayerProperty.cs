@@ -1,5 +1,6 @@
 ﻿using GTA;
 using GTA.Math;
+using System.Drawing;
 
 namespace Los.Santos.Dope.Wars.Contracts
 {
@@ -24,14 +25,19 @@ namespace Los.Santos.Dope.Wars.Contracts
 		Vector3 Position { get; }
 
 		/// <summary>
-		/// The <see cref="Entrance"/> property, the position of the property entrance or interaction spot
+		/// The <see cref="EntranceMarker"/> property, the position of the property entrance or interaction spot
 		/// </summary>
-		public Vector3 Entrance { get; }
+		public Vector3 EntranceMarker { get; }
 
 		/// <summary>
 		/// The <see cref="EntranceMarkerType"/> property
 		/// </summary>
 		public MarkerType EntranceMarkerType { get; }
+
+		/// <summary>
+		/// The <see cref="EntranceMarkerCreated"/> property, is the <see cref="EntranceMarker"/> created?
+		/// </summary>
+		public bool EntranceMarkerCreated { get; }
 
 		/// <summary>
 		/// The <see cref="MissionMarker"/> property, the position where mission goin to start
@@ -42,6 +48,11 @@ namespace Los.Santos.Dope.Wars.Contracts
 		/// The <see cref="MissionMarkerType"/> property
 		/// </summary>
 		public MarkerType MissionMarkerType { get; }
+
+		/// <summary>
+		/// The <see cref="MissionMarkerCreated"/> property, is the <see cref="MissionMarker"/> created?
+		/// </summary>
+		public bool MissionMarkerCreated { get; }
 
 		/// <summary>
 		/// Creates the blip for the property on the map
@@ -61,5 +72,19 @@ namespace Los.Santos.Dope.Wars.Contracts
 		/// <param name="blipSprite"></param>
 		/// <param name="blipColor"></param>
 		void ChangeBlip(BlipSprite blipSprite = BlipSprite.BusinessForSale, BlipColor blipColor = BlipColor.White);
+		
+		/// <summary>
+		/// Draws the entrance marker for the property
+		/// </summary>
+		/// <param name="markerLocation"></param>
+		/// <param name="markerColor"></param>
+		void DrawEntranceMarker(Vector3 markerLocation, Color markerColor);
+
+		/// <summary>
+		/// Draws the mission marker for the property
+		/// </summary>
+		/// <param name="markerLocation"></param>
+		/// <param name="markerColor"></param>
+		void DrawMissionMarker(Vector3 markerLocation, Color markerColor);
 	}
 }

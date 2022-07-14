@@ -1,6 +1,7 @@
 ﻿using GTA;
 using GTA.Math;
 using Los.Santos.Dope.Wars.Contracts;
+using System.Drawing;
 using System.Xml.Serialization;
 
 namespace Los.Santos.Dope.Wars.Classes.Base
@@ -23,16 +24,22 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 		public Vector3 Position { get; private set; }
 		/// <inheritdoc/>
 		[XmlIgnore]
-		public Vector3 Entrance { get; private set; }
+		public Vector3 EntranceMarker { get; private set; }
 		/// <inheritdoc/>
 		[XmlIgnore]
 		public MarkerType EntranceMarkerType { get; private set; }
+		/// <inheritdoc/>
+		[XmlIgnore]
+		public bool EntranceMarkerCreated { get; private set; }
 		/// <inheritdoc/>
 		[XmlIgnore]
 		public Vector3 MissionMarker { get; private set; }
 		/// <inheritdoc/>
 		[XmlIgnore]
 		public MarkerType MissionMarkerType { get; private set; }
+		/// <inheritdoc/>
+		[XmlIgnore]
+		public bool MissionMarkerCreated { get; private set; }
 		#endregion
 
 		#region ctor
@@ -40,13 +47,15 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 		/// The standard constructor for the <see cref="PlayerProperty"/> class
 		/// </summary>
 		/// <param name="position"></param>
-		/// <param name="entrance"></param>
+		/// <param name="entranceMarker"></param>
 		/// <param name="missionMarker"></param>
-		public PlayerProperty(Vector3 position, Vector3 entrance, Vector3 missionMarker)
+		public PlayerProperty(Vector3 position, Vector3 entranceMarker, Vector3 missionMarker)
 		{
 			Position = position;
-			Entrance = entrance;
+			EntranceMarker = entranceMarker;
+			EntranceMarkerType = MarkerType.VerticalCylinder;
 			MissionMarker = missionMarker;
+			MissionMarkerType = MarkerType.VerticalCylinder;
 		}
 
 		/// <summary>
@@ -57,7 +66,7 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 		}
 		#endregion
 
-		#region public methods
+		#region IPlayerProperty methods
 		/// <inheritdoc/>
 		public void ChangeBlip(BlipSprite blipSprite = BlipSprite.BusinessForSale, BlipColor blipColor = BlipColor.White)
 		{
@@ -85,6 +94,18 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 		{
 			if (BlipCreated)
 				Blip!.Delete();
+		}
+		/// <inheritdoc/>
+		public void DrawEntranceMarker(Vector3 markerLocation, Color markerColor)
+		{
+			if (!EntranceMarkerCreated)
+				World.DrawMarker(EntranceMarkerType, markerLocation, Vector3.Zero, Vector3.Zero, Constants.EntranceMarkerScale, markerColor);
+		}
+		/// <inheritdoc/>
+		public void DrawMissionMarker(Vector3 markerLocation, Color markerColor)
+		{
+			if (!MissionMarkerCreated)
+				World.DrawMarker(MissionMarkerType, markerLocation, Vector3.Zero, Vector3.Zero, Constants.MissionMarkerScale, markerColor);
 		}
 		#endregion
 	}

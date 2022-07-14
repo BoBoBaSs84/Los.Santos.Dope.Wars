@@ -203,19 +203,15 @@ namespace Los.Santos.Dope.Wars
 
 		public const float MarkerInteractionDistance = 1.25f;
 
-		public static readonly Vector3 MarkerScale = new(1f, 1f, 1f);
-
-		public static readonly Color MarkerColor = Color.FromArgb(255, 93, 182, 229);
+		public static readonly Vector3 EntranceMarkerScale = new(1f, 1f, 1f);
 
 		public static readonly Vector3 MissionMarkerScale = new(8f, 8f, 1.5f);
 
-		public static readonly Color MissionMarkerColor = Color.FromArgb(255, 240, 200, 80);
+		public static readonly Vector3 WarehouseEntranceFranklin = new(-197.85f, -1699.8f, 32.5f);
 
-		public static readonly Vector3 WarehouseEntranceFranklin = new(-320.3f, -1389.8f, 36.5f);
+		public static readonly Vector3 WarehouseLocationFranklin = new(-192.4f, -1707.5f, 37.7f);
 
-		public static readonly Vector3 WarehouseLocationFranklin = new(-307.3f, -1399.5f, 41.6f);
-
-		public static readonly Vector3 WarehouseMissionStartFranklin = new(-323.7f, -1400.5f, 31.8f);
+		public static readonly Vector3 WarehouseMissionStartFranklin = new(-204.25f, -1720.75f, 32.66f);
 
 		public static readonly Vector3 WarehouseEntranceMichael = new(794.2f, -102.8f, 82f);
 

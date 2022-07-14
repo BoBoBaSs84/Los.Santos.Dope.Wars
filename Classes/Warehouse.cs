@@ -15,7 +15,7 @@ namespace Los.Santos.Dope.Wars.Classes
 		/// <summary>
 		/// The standard constructor for the <see cref="Warehouse"/> class
 		/// </summary>
-		public Warehouse(Vector3 position, Vector3 entrance, Vector3 missionMarker) : base(position, entrance, missionMarker)
+		public Warehouse(Vector3 position, Vector3 entranceMarker, Vector3 missionMarker) : base(position, entranceMarker, missionMarker)
 		{
 			Stash = new();
 			Stash.Init();

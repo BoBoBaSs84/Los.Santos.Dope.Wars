@@ -108,10 +108,10 @@ namespace Los.Santos.Dope.Wars.GUI
 		{
 			try
 			{
-				_sellMenu = new SellMenu("Sell", $"", Utils.GetMenuBannerColor());
-				_buyMenu = new BuyMenu("Buy", $"Dealer Money: ${_dealerStash.DrugMoney}", Utils.GetMenuBannerColor());
+				_sellMenu = new SellMenu("Sell", $"", Utils.GetCurrentPlayerColor());
+				_buyMenu = new BuyMenu("Buy", $"Dealer Money: ${_dealerStash.DrugMoney}", Utils.GetCurrentPlayerColor());
 
-				_statisticsMenu = new StatisticsMenu($"Statistics - {Utils.GetCharacterFromModel()}", "", Utils.GetMenuBannerColor()) { AcceptsInput = false };
+				_statisticsMenu = new StatisticsMenu($"Statistics - {Utils.GetCharacterFromModel()}", "", Utils.GetCurrentPlayerColor()) { AcceptsInput = false };
 				_statisticsMenu.Add(GetStatsMenuItem());
 
 				_objectPool.Add(_buyMenu);

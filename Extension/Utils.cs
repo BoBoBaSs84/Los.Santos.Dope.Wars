@@ -99,10 +99,10 @@ namespace Los.Santos.Dope.Wars.Extension
 		}
 
 		/// <summary>
-		/// The <see cref="GetMenuBannerColor"/> returns the associated player color of type <see cref="Color"/>
+		/// The <see cref="GetCurrentPlayerColor"/> returns the associated player color of type <see cref="Color"/>
 		/// </summary>
 		/// <returns><see cref="Color"/></returns>
-		public static Color GetMenuBannerColor()
+		public static Color GetCurrentPlayerColor()
 		{
 			return (PedHash)Game.Player.Character.Model switch
 			{
