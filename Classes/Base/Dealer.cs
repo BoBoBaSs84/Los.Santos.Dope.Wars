@@ -59,7 +59,7 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 			}
 		}
 		/// <inheritdoc/>
-		public void CreatePed(float health = 100, float armor = 100, int money = 250)
+		public void CreatePed(float health = 100f, float armor = 50f, int money = 250)
 		{
 			if (!PedCreated)
 			{
@@ -69,6 +69,7 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 				if (dealerModel.IsValid && dealerModel.IsInCdImage)
 				{
 					Ped = World.CreatePed(dealerModel, Position, Heading);
+					Ped.MarkAsNoLongerNeeded();
 					Ped.Task.StandStill(-1);
 					Ped.Weapons.Give(Constants.DrugDealerWeaponHashes[Constants.random.Next(Constants.DrugDealerWeaponHashes.Count)], 500, true, true);
 					Ped.HealthFloat = health;
@@ -76,13 +77,9 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 					Ped.Money = money;
 					Ped.CanSwitchWeapons = true;
 					Ped.BlockPermanentEvents = false;
-					Function.Call(Hash.SET_PED_COMBAT_ATTRIBUTES, new InputArgument(Ped), 46, 1);
-					Function.Call(Hash.SET_PED_COMBAT_MOVEMENT, new InputArgument(Ped), 1);
-					Function.Call(Hash.SET_PED_COMBAT_ABILITY, new InputArgument(Ped), 75);
-					NextOpenBusinesTime = ScriptHookUtils.GetGameDate().AddHours(24);
-					Ped.MarkAsNoLongerNeeded();
-					PedCreated = !PedCreated;
+					Ped.DropsEquippedWeaponOnDeath = true;
 				}
+				PedCreated = !PedCreated;
 			}
 		}
 		/// <inheritdoc/>
@@ -111,6 +108,17 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 				Ped!.HealthFloat = health;
 				Ped!.ArmorFloat = armor;
 				Ped!.Money = money;
+			}
+		}
+		/// <inheritdoc/>
+		public void FleeFromBust()
+		{
+			if (PedCreated)
+			{
+				Ped!.Task.FleeFrom(Position);
+				DeleteBlip();
+				ClosedforBusiness = true;
+				NextOpenBusinesTime = ScriptHookUtils.GetGameDate().AddHours(24);
 			}
 		}
 		#endregion

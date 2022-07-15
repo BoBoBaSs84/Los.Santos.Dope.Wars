@@ -1,5 +1,7 @@
 ﻿using GTA;
 using GTA.Native;
+using GTA.UI;
+using Los.Santos.Dope.Wars.Classes;
 using System;
 
 namespace Los.Santos.Dope.Wars.Extension
@@ -51,6 +53,26 @@ namespace Los.Santos.Dope.Wars.Extension
 			{
 				Enums.Characters currentCharacter = Utils.GetCharacterFromModel();
 				Audio.PlaySoundFrontend("Text_Arrive_Tone", $"Phone_SoundSet_{(currentCharacter.Equals(Enums.Characters.Unknown) ? "Default" : $"{currentCharacter}")}");
+			}
+		}
+
+		/// <summary>
+		/// The <see cref="DrugEnforcementAdministrationBust(DrugDealer, Ped, int)"/> method calculates if a bust should be started and initiates everything necessary for it
+		/// </summary>
+		/// <param name="drugDealer"></param>
+		/// <param name="player"></param>
+		/// <param name="playerLevel"></param>
+		public static void DrugEnforcementAdministrationBust(DrugDealer drugDealer, Ped player, int playerLevel)
+		{
+			double bustChance = (double)playerLevel / 2;
+			double magicInt = Constants.random.NextDouble() * 100;
+			if (magicInt <= bustChance)
+			{
+				drugDealer.FleeFromBust();
+				Game.Player.WantedLevel = 1;
+				Screen.ShowSubtitle("It's a DEA bust! Get the hell out of there!", 5000);
+				Function.Call(Hash.SET_PLAYER_WANTED_LEVEL, player, 1, 1);
+				Function.Call(Hash.SET_PLAYER_WANTED_LEVEL_NOW, player, 0);
 			}
 		}
 	}

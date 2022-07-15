@@ -115,13 +115,19 @@ namespace Los.Santos.Dope.Wars.Missions
 
 				foreach (DrugDealer dealer in _drugDealers!)
 				{
+					// checking if the dealer opens up again
+					if (dealer.NextOpenBusinesTime < ScriptHookUtils.GetGameDate() && dealer.ClosedforBusiness)
+					{
+						dealer.ClosedforBusiness = !dealer.ClosedforBusiness;
+					}
+
 					// creating the blips if not already created
-					if (!dealer.BlipCreated)
+					if (!dealer.BlipCreated && !dealer.ClosedforBusiness)
 					{
 						dealer.CreateBlip();
 					}
 					// if the player is in range of the dealer
-					if (_player.IsInRange(dealer.Position, Constants.DealerCreateDistance))
+					if (_player.IsInRange(dealer.Position, Constants.DealerCreateDistance) && dealer.BlipCreated)
 					{
 						// if the ped was not created
 						if (!dealer.PedCreated)
@@ -130,29 +136,31 @@ namespace Los.Santos.Dope.Wars.Missions
 							int money = dealer.Stash.DrugMoney;
 							dealer.CreatePed(health, armor, money);
 						}
+						// now we are real close to the dealer
+						if (_player.IsInRange(dealer.Position, Constants.InteractionDistance) && _currentDrugDealer is null && Game.Player.WantedLevel == 0)
+						{
+							_currentDrugDealer = dealer;
+							DealMenu.Init(_playerStats.Stash, _player, _currentDrugDealer, _gameState);
+
+							if (CheckIfDealerCanTrade(_currentDrugDealer))
+							{
+								DealMenu.ShowDealMenu = true;
+							}
+							else if (!CheckIfDealerCanTrade(_currentDrugDealer))
+							{
+								DealMenu.ShowDealMenu = false;
+							}
+						}
+						else if ((!_player.IsInRange(dealer.Position, Constants.InteractionDistance) && _currentDrugDealer == dealer) || Game.Player.WantedLevel != 0)
+						{
+							_currentDrugDealer = null!;
+							DealMenu.ShowDealMenu = false;
+						}
 					}
 					// if we are leaving the dealer area, delete the ped 
 					else if (dealer.PedCreated)
 					{
 						dealer.DeletePed();
-					}
-
-					// now we are real close to the dealer
-					if (_player.IsInRange(dealer.Position, Constants.InteractionDistance) && _currentDrugDealer is null && Game.Player.WantedLevel == 0)
-					{
-						_currentDrugDealer = dealer;
-						DealMenu.Init(_playerStats.Stash, dealer.Stash, _gameState);
-
-						if (CheckIfDealerCanTrade(dealer))
-							DealMenu.ShowDealMenu = true;
-
-						else if (!CheckIfDealerCanTrade(dealer))
-							DealMenu.ShowDealMenu = false;
-					}
-					else if ((!_player.IsInRange(dealer.Position, Constants.InteractionDistance) && _currentDrugDealer == dealer) || Game.Player.WantedLevel != 0)
-					{
-						_currentDrugDealer = null!;
-						DealMenu.ShowDealMenu = false;
 					}
 				}
 			}

@@ -25,8 +25,10 @@ namespace Los.Santos.Dope.Wars.GUI
 		private static NativeItem? _toSellMenuSwitch;
 		private static NativeItem? _toBuyMenuSwitch;
 		private static GameState? _gameState;
+		private static Ped? _player;
 		private static PlayerStats? _playerStats;
 		private static PlayerStash? _playerStash;
+		private static DrugDealer? _drugDealer;
 		private static DealerStash? _dealerStash;
 		private static bool _dealMenuLoaded;
 		private static Color _menuColor;
@@ -39,7 +41,7 @@ namespace Los.Santos.Dope.Wars.GUI
 		public static bool ShowDealMenu { get; set; } = false;
 
 		/// <summary>
-		/// The <see cref="Initialized"/> property indicates if the <see cref="Init(PlayerStash, DealerStash, GameState)"/> method was called
+		/// The <see cref="Initialized"/> property indicates if the <see cref="Init(PlayerStash, Ped, DrugDealer, GameState)"/> method was called
 		/// </summary>
 		public static bool Initialized { get; private set; }
 		#endregion
@@ -62,15 +64,18 @@ namespace Los.Santos.Dope.Wars.GUI
 
 		#region public methods
 		/// <summary>
-		/// The <see cref="Init(PlayerStash, DealerStash, GameState)"/> method should be called from outside with the needed parameters
+		/// The <see cref="Init(PlayerStash, Ped, DrugDealer, GameState)"/> method should be called from outside with the needed parameters
 		/// </summary>
 		/// <param name="playerStash"></param>
-		/// <param name="dealerStash"></param>
+		/// <param name="player"></param>
+		/// <param name="drugDealer"></param>
 		/// <param name="gameState"></param>
-		public static void Init(PlayerStash playerStash, DealerStash dealerStash, GameState gameState)
+		public static void Init(PlayerStash playerStash, Ped player, DrugDealer drugDealer, GameState gameState)
 		{
 			_playerStash = playerStash;
-			_dealerStash = dealerStash;
+			_player = player;
+			_drugDealer = drugDealer;
+			_dealerStash = drugDealer.Stash;
 			_gameState = gameState;
 			_playerStats = Utils.GetPlayerStatsFromModel(gameState);
 			Initialized = true;
@@ -219,6 +224,7 @@ namespace Los.Santos.Dope.Wars.GUI
 				_statisticsMenu.Add(GetStatsMenuItem());
 
 				Utils.SaveGameState(_gameState!);
+				ScriptHookUtils.DrugEnforcementAdministrationBust(_drugDealer!, _player!, _playerStats.CurrentLevel);
 			}
 			catch (Exception ex)
 			{
@@ -295,6 +301,7 @@ namespace Los.Santos.Dope.Wars.GUI
 				_statisticsMenu.Add(GetStatsMenuItem());
 
 				Utils.SaveGameState(_gameState!);
+				ScriptHookUtils.DrugEnforcementAdministrationBust(_drugDealer!, _player!, _playerStats.CurrentLevel);
 			}
 			catch (Exception ex)
 			{

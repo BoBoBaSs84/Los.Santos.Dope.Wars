@@ -59,7 +59,7 @@ namespace Los.Santos.Dope.Wars.Contracts
 		/// <summary>
 		/// The <see cref="CreatePed(float, float, int)"/> method for creating the ped
 		/// </summary>
-		void CreatePed(float health = 100f, float armor = 100f, int money = 250);
+		void CreatePed(float health = 100f, float armor = 50f, int money = 250);
 
 		/// <summary>
 		/// The <see cref="DeleteBlip"/> method for deleting the blip on the map
@@ -75,5 +75,10 @@ namespace Los.Santos.Dope.Wars.Contracts
 		/// The <see cref="RefreshArmorHealthMoney(float, float, int)"/> method for refreshing the ped settings concerning health, armor and money
 		/// </summary>
 		void RefreshArmorHealthMoney(float health, float armor, int money);
+
+		/// <summary>
+		/// The <see cref="FleeFromBust"/> method gets called, when a dea bust is initiated
+		/// </summary>
+		void FleeFromBust();
 	}
 }
