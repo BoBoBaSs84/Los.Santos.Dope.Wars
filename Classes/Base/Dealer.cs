@@ -1,6 +1,5 @@
 ﻿using GTA;
 using GTA.Math;
-using GTA.Native;
 using Los.Santos.Dope.Wars.Contracts;
 using Los.Santos.Dope.Wars.Extension;
 using System;
@@ -75,9 +74,6 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 					Ped.HealthFloat = health;
 					Ped.ArmorFloat = armor;
 					Ped.Money = money;
-					Ped.CanSwitchWeapons = true;
-					Ped.BlockPermanentEvents = false;
-					Ped.DropsEquippedWeaponOnDeath = true;
 				}
 				PedCreated = !PedCreated;
 			}
@@ -101,13 +97,16 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 			}
 		}
 		/// <inheritdoc/>
-		public void RefreshArmorHealthMoney(float health, float armor, int money)
+		public void ApplyDealerSettings(float health, float armor, int money, bool switchWeapons, bool blockEvents, bool dropWeapons)
 		{
 			if (PedCreated)
 			{
 				Ped!.HealthFloat = health;
 				Ped!.ArmorFloat = armor;
 				Ped!.Money = money;
+				Ped!.CanSwitchWeapons = switchWeapons;
+				Ped!.BlockPermanentEvents = blockEvents;
+				Ped!.DropsEquippedWeaponOnDeath = dropWeapons;
 			}
 		}
 		/// <inheritdoc/>
@@ -115,10 +114,10 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 		{
 			if (PedCreated)
 			{
-				Ped!.Task.FleeFrom(Position);
 				DeleteBlip();
 				ClosedforBusiness = true;
-				NextOpenBusinesTime = ScriptHookUtils.GetGameDate().AddHours(24);
+				NextOpenBusinesTime = ScriptHookUtils.GetGameDateTime().AddHours(24);
+				Ped!.Task.FleeFrom(Position);
 			}
 		}
 		#endregion

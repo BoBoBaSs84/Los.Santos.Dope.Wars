@@ -72,9 +72,9 @@ namespace Los.Santos.Dope.Wars.Contracts
 		void DeletePed();
 
 		/// <summary>
-		/// The <see cref="RefreshArmorHealthMoney(float, float, int)"/> method for refreshing the ped settings concerning health, armor and money
+		/// The <see cref="ApplyDealerSettings(float, float, int, bool, bool, bool)"/> method for applying the dealer ped settings
 		/// </summary>
-		void RefreshArmorHealthMoney(float health, float armor, int money);
+		void ApplyDealerSettings(float health, float armor, int money, bool switchWeapons, bool blockEvents, bool dropWeapons);
 
 		/// <summary>
 		/// The <see cref="FleeFromBust"/> method gets called, when a dea bust is initiated

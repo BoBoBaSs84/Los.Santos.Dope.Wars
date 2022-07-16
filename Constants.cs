@@ -203,7 +203,9 @@ namespace Los.Santos.Dope.Wars
 
 		public const float DealerCreateDistance = 100f;
 
-		public const float InteractionDistance = 1.25f;
+		public const float DealInteractionDistance = 2f;
+
+		public const float MarkerInteractionDistance = 1.25f;
 
 		public static readonly Vector3 EntranceMarkerScale = new(1f, 1f, 1f);
 

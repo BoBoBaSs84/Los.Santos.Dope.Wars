@@ -1,7 +1,6 @@
 ﻿using GTA;
 using GTA.Native;
 using GTA.UI;
-using Los.Santos.Dope.Wars.Classes;
 using System;
 
 namespace Los.Santos.Dope.Wars.Extension
@@ -19,10 +18,10 @@ namespace Los.Santos.Dope.Wars.Extension
 		}
 
 		/// <summary>
-		/// Returns the current in game time
+		/// The <see cref="GetGameDateTime"/> method returns the current in game <see cref="DateTime"/>
 		/// </summary>
 		/// <returns><see cref="DateTime"/></returns>
-		public static DateTime GetGameDate()
+		public static DateTime GetGameDateTime()
 		{
 			return new DateTime(
 				Function.Call<int>(Hash.GET_CLOCK_YEAR),
@@ -57,21 +56,21 @@ namespace Los.Santos.Dope.Wars.Extension
 		}
 
 		/// <summary>
-		/// The <see cref="DrugEnforcementAdministrationBust(DrugDealer, Ped, int)"/> method calculates if a bust should be started and initiates everything necessary for it
+		/// The <see cref="DrugEnforcementAdministrationBust(Ped, int)"/> method calculates if a bust should be started and initiates everything necessary for it.
+		/// The current logic is, current player level divided by two. Lvl1 -> 0.5%, Lvl10 -> 5%, Lvl50 -> 25%
 		/// </summary>
-		/// <param name="drugDealer"></param>
 		/// <param name="player"></param>
 		/// <param name="playerLevel"></param>
-		public static void DrugEnforcementAdministrationBust(DrugDealer drugDealer, Ped player, int playerLevel)
+		public static void DrugEnforcementAdministrationBust(Ped player, int playerLevel)
 		{
-			double bustChance = (double)playerLevel / 2;
-			double magicInt = Constants.random.NextDouble() * 100;
-			if (magicInt <= bustChance)
+			double currentBustChance = (double)playerLevel / 2;
+			double randomDouble = Constants.random.NextDouble() * 100;
+			if (randomDouble <= currentBustChance)
 			{
-				drugDealer.FleeFromBust();
-				Game.Player.WantedLevel = 1;
+				int wantedLevel = Utils.GetWantedLevelByPlayerLevel(playerLevel);
+				Game.Player.WantedLevel = wantedLevel;
 				Screen.ShowSubtitle("It's a DEA bust! Get the hell out of there!", 5000);
-				Function.Call(Hash.SET_PLAYER_WANTED_LEVEL, player, 1, 1);
+				Function.Call(Hash.SET_PLAYER_WANTED_LEVEL, player, wantedLevel, 1);
 				Function.Call(Hash.SET_PLAYER_WANTED_LEVEL_NOW, player, 0);
 			}
 		}

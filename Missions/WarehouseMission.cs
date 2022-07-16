@@ -90,7 +90,7 @@ namespace Los.Santos.Dope.Wars.Missions
 					if (_player.IsInRange(_warehouse.MissionMarker, Constants.MarkerDrawDistance) && _playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Upgraded))
 						_warehouse.DrawMissionMarker(_warehouse.MissionMarker, Utils.GetCurrentPlayerColor());
 					// now we are real close to the warehouse entrance
-					if (_player.IsInRange(_warehouse.EntranceMarker, Constants.InteractionDistance) && Game.Player.WantedLevel == 0)
+					if (_player.IsInRange(_warehouse.EntranceMarker, Constants.MarkerInteractionDistance) && Game.Player.WantedLevel == 0)
 					{
 						//Warehouse is not yours
 						if (!_playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
@@ -110,7 +110,7 @@ namespace Los.Santos.Dope.Wars.Missions
 						}
 					}
 					// now we are not close to the warehouse entrance or we are wanted by the cops
-					else if (!_player.IsInRange(_warehouse.EntranceMarker, Constants.InteractionDistance) || Game.Player.WantedLevel != 0)
+					else if (!_player.IsInRange(_warehouse.EntranceMarker, Constants.MarkerInteractionDistance) || Game.Player.WantedLevel != 0)
 					{
 						WarehouseMenu.ShowWarehouseMenu = false;
 					}
