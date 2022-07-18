@@ -45,14 +45,14 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 
 		#region public methods
 		/// <inheritdoc/>
-		public void CreateBlip(string blipName = "Drug Dealer", bool isFlashing = false)
+		public void CreateBlip(string blipName = "Drug Dealer", bool isFlashing = false, bool isShortRange = true)
 		{
 			if (!BlipCreated)
 			{
 				Blip = World.CreateBlip(Position);
 				Blip.Sprite = BlipSprite.Drugs;
 				Blip.Name = blipName;
-				Blip.IsShortRange = true;
+				Blip.IsShortRange = isShortRange;
 				Blip.IsFlashing = isFlashing;
 				BlipCreated = !BlipCreated;
 			}

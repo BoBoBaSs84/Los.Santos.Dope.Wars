@@ -50,11 +50,12 @@ namespace Los.Santos.Dope.Wars.Contracts
 		DateTime NextOpenBusinesTime { get; set; }
 
 		/// <summary>
-		/// The <see cref="CreateBlip(string, bool)"/> method for creating the blip on the map
+		/// The <see cref="CreateBlip(string, bool, bool)"/> method for creating the blip on the map
 		/// </summary>
 		/// <param name="blipName"></param>
 		/// <param name="isFlashing"></param>
-		void CreateBlip(string blipName = "Drug Dealer", bool isFlashing = false);
+		/// <param name="isShortRange"></param>
+		void CreateBlip(string blipName = "Drug Dealer", bool isFlashing = false, bool isShortRange = true);
 
 		/// <summary>
 		/// The <see cref="CreatePed(float, float, int)"/> method for creating the ped
