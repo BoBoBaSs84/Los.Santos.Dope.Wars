@@ -80,6 +80,14 @@ namespace Los.Santos.Dope.Wars.Missions
 						}
 					}
 				}
+				else
+				{
+					if (_warehouse is not null)
+					{
+						if (_warehouse.BlipCreated)
+							_warehouse.DeleteBlip();
+					}
+				}
 				//Warehouse exists
 				if (_warehouse!.BlipCreated)
 				{

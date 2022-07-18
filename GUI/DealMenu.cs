@@ -115,6 +115,9 @@ namespace Los.Santos.Dope.Wars.GUI
 		{
 			try
 			{
+				if (_menuColor != Utils.GetCurrentPlayerColor())
+					_menuColor = Utils.GetCurrentPlayerColor();
+
 				_sellMenu = new SellMenu("Sell", $"", _menuColor);
 				_buyMenu = new BuyMenu("Buy", $"Dealer Money: ${_dealerStash!.DrugMoney}", _menuColor);
 
