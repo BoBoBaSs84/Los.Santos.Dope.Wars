@@ -14,6 +14,7 @@ namespace Los.Santos.Dope.Wars.Missions
 	/// </summary>
 	public static class DrugLordMission
 	{
+		#region fields
 		private static List<DrugLord>? _drugLords;
 		private static DrugLord? _drugLord;
 		private static GameSettings? _gameSettings;
@@ -24,17 +25,23 @@ namespace Los.Santos.Dope.Wars.Missions
 		private static DateTime NextCheckForAppearance;
 		private static bool ShouldAppear;
 		private static bool IsAppeared;
+		#endregion
 
+		#region properties
 		/// <summary>
 		/// The <see cref="Initialized"/> property indicates if the <see cref="Init(GameSettings, GameState)"/> method was called
 		/// </summary>
 		public static bool Initialized { get; private set; }
+		#endregion
 
+		#region constructor
 		/// <summary>
 		/// The empty <see cref="DrugLordMission"/> class constructor
 		/// </summary>
 		static DrugLordMission() { }
+		#endregion
 
+		#region public methods
 		/// <summary>
 		/// The <see cref="Init(GameSettings, GameState)"/> must be called from outside with the needed parameters
 		/// </summary>
@@ -107,7 +114,9 @@ namespace Los.Santos.Dope.Wars.Missions
 				Logger.Error($"{nameof(DrugLordMission)} - {ex.Message} - {ex.InnerException} - {ex.StackTrace}");
 			}
 		}
+		#endregion
 
+		#region private methods
 		private static List<DrugLord>? GetDrugLords()
 		{
 			List<DrugLord> drugLords = new();
@@ -145,35 +154,25 @@ namespace Los.Santos.Dope.Wars.Missions
 
 		private static void SummonDrugLord()
 		{
-			if (_gameSettings is null && _playerStats is null)
-				return;
+			if (_gameSettings is not null && _playerStats is not null)
+			{
+				int randomPick = Utils.GetRandomInt(0, _drugLords!.Count);
+				_drugLord = _drugLords[randomPick];
 
-			int randomPick = Utils.GetRandomInt(0, _drugLords!.Count);
-			_drugLord = _drugLords[randomPick];
+				if (!_drugLord.BlipCreated)
+					_drugLord.CreateBlip("Drug Lord", true, false);
 
-			if (!_drugLord.BlipCreated)
-				_drugLord.CreateBlip("Drug Lord", true, false);
+				if (!_drugLord.PedCreated)
+					_drugLord.CreatePed();
 
-			_drugLord.Stash.RestockQuantity(_playerStats, _gameSettings, true);
-			_drugLord.Stash.RefreshDrugMoney(_playerStats, _gameSettings, true);
-			_drugLord.Stash.RefreshCurrentPrice(_playerStats, _gameSettings, true);
+				_drugLord.Restock(_gameSettings, _playerStats);
 
-			(float health, float armor) = Utils.GetDealerHealthArmor(_gameSettings.Dealer, _playerStats.CurrentLevel);
+				foreach (Bodyguard bodyguard in _drugLord.Bodyguards)
+					bodyguard.CreatePed(_drugLord.Ped!);
 
-			if (!_drugLord.PedCreated)
-				_drugLord.CreatePed(
-					health: health,
-					armor: armor,
-					money: _drugLord.Stash.DrugMoney,
-					switchWeapons: _gameSettings.Dealer.CanSwitchWeapons,
-					blockEvents: _gameSettings.Dealer.BlockPermanentEvents,
-					dropWeapons: _gameSettings.Dealer.DropsEquippedWeaponOnDeath
-					);
-
-			foreach (Bodyguard bodyguard in _drugLord.Bodyguards)
-				bodyguard.CreatePed(_drugLord.Ped!);
-
-			IsAppeared = true;
+				IsAppeared = true;
+			}
 		}
+		#endregion
 	}
 }

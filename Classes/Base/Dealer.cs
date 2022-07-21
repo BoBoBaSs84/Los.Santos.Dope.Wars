@@ -2,6 +2,8 @@
 using GTA.Math;
 using Los.Santos.Dope.Wars.Contracts;
 using Los.Santos.Dope.Wars.Extension;
+using Los.Santos.Dope.Wars.Persistence.Settings;
+using Los.Santos.Dope.Wars.Persistence.State;
 using System;
 
 namespace Los.Santos.Dope.Wars.Classes.Base
@@ -25,9 +27,13 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 		/// <inheritdoc/>
 		public bool PedCreated { get; private set; }
 		/// <inheritdoc/>
+		public bool IsDrugLord { get; private set; }
+		/// <inheritdoc/>
 		public bool ClosedforBusiness { get; set; }
 		/// <inheritdoc/>
 		public DateTime NextOpenBusinesTime { get; set; }
+		/// <inheritdoc/>
+		public DealerStash Stash { get; set; }
 		#endregion
 
 		#region ctor
@@ -36,14 +42,17 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 		/// </summary>
 		/// <param name="position"></param>
 		/// <param name="heading"></param>
-		public Dealer(Vector3 position, float heading)
+		/// <param name="isDrugLord"></param>
+		public Dealer(Vector3 position, float heading, bool isDrugLord = false)
 		{
 			Position = position;
 			Heading = heading;
+			IsDrugLord = isDrugLord;
+			Stash = new DealerStash();
 		}
 		#endregion
 
-		#region public methods
+		#region IDealer members
 		/// <inheritdoc/>
 		public void CreateBlip(string blipName = "Drug Dealer", bool isFlashing = false, bool isShortRange = true)
 		{
@@ -84,44 +93,65 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 		/// <inheritdoc/>
 		public void DeleteBlip()
 		{
-			if (BlipCreated)
+			if (Blip is not null && BlipCreated)
 			{
-				Blip!.Delete();
+				Blip.Delete();
 				BlipCreated = !BlipCreated;
 			}
 		}
 		/// <inheritdoc/>
 		public void DeletePed()
 		{
-			if (PedCreated)
+			if (Ped is not null && PedCreated)
 			{
-				Ped!.Delete();
+				Ped.Delete();
 				PedCreated = !PedCreated;
-			}
-		}
-		/// <inheritdoc/>
-		public void UpdatePed(float health = 100f, float armor = 50f, int money = 250, bool switchWeapons = true, bool blockEvents = false, bool dropWeapons = true)
-		{
-			if (PedCreated)
-			{
-				Ped!.HealthFloat = health;
-				Ped!.ArmorFloat = armor;
-				Ped!.Money = money;
-				Ped!.CanSwitchWeapons = switchWeapons;
-				Ped!.BlockPermanentEvents = blockEvents;
-				Ped!.DropsEquippedWeaponOnDeath = dropWeapons;
 			}
 		}
 		/// <inheritdoc/>
 		public void FleeFromBust()
 		{
-			if (PedCreated)
+			if (Ped is not null && PedCreated)
 			{
 				DeleteBlip();
 				ClosedforBusiness = true;
 				NextOpenBusinesTime = ScriptHookUtils.GetGameDateTime().AddHours(24);
-				Ped!.Task.FleeFrom(Position);
+				Ped.Task.FleeFrom(Position);
 			}
+		}
+		/// <inheritdoc/>
+		public void UpdatePed(float health = 100f, float armor = 50f, int money = 250, bool switchWeapons = true, bool blockEvents = false, bool dropWeapons = true)
+		{
+			if (Ped is not null && PedCreated)
+			{
+				Ped.HealthFloat = health;
+				Ped.ArmorFloat = armor;
+				Ped.Money = money;
+				Ped.CanSwitchWeapons = switchWeapons;
+				Ped.BlockPermanentEvents = blockEvents;
+				Ped.DropsEquippedWeaponOnDeath = dropWeapons;
+			}
+		}
+		/// <inheritdoc/>
+		public void Refresh(GameSettings gameSettings, PlayerStats playerStats)
+		{
+			Stash.RefreshDrugMoney(playerStats, gameSettings, IsDrugLord);
+			Stash.RefreshCurrentPrice(playerStats, gameSettings, IsDrugLord);
+			(float health, float armor) = Utils.GetDealerHealthArmor(gameSettings.Dealer, playerStats.CurrentLevel);
+			UpdatePed(
+				health: health,
+				armor: armor,
+				money: Stash.DrugMoney,
+				switchWeapons: gameSettings.Dealer.CanSwitchWeapons,
+				blockEvents: gameSettings.Dealer.BlockPermanentEvents,
+				dropWeapons: gameSettings.Dealer.DropsEquippedWeaponOnDeath
+				);
+		}
+		/// <inheritdoc/>
+		public void Restock(GameSettings gameSettings, PlayerStats playerStats)
+		{
+			Stash.RestockQuantity(playerStats, gameSettings, IsDrugLord);
+			Refresh(gameSettings, playerStats);
 		}
 		#endregion
 	}

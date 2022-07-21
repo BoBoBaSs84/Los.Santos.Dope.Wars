@@ -11,11 +11,6 @@ namespace Los.Santos.Dope.Wars.Classes
 	{
 		#region properties
 		/// <summary>
-		/// The <see cref="Stash"/> property
-		/// </summary>
-		public DealerStash Stash { get; set; }
-
-		/// <summary>
 		/// The <see cref="Bodyguards"/> property
 		/// </summary>
 		public List<Bodyguard> Bodyguards { get; set; }
@@ -27,9 +22,8 @@ namespace Los.Santos.Dope.Wars.Classes
 		/// </summary>
 		/// <param name="position"></param>
 		/// <param name="heading"></param>
-		public DrugLord(Vector3 position, float heading) : base(position, heading)
+		public DrugLord(Vector3 position, float heading) : base(position, heading, true)
 		{
-			Stash = new DealerStash();
 			Bodyguards = new List<Bodyguard>()
 			{
 				new Bodyguard(position.Around(1.5f), heading),
