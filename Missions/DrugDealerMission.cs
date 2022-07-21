@@ -92,35 +92,14 @@ namespace Los.Santos.Dope.Wars.Missions
 				if (_playerStats != Utils.GetPlayerStatsFromModel(_gameState!))
 				{
 					_playerStats = Utils.GetPlayerStatsFromModel(_gameState!);
-					foreach (DrugDealer drugDealer in _drugDealers!)
-					{
-						drugDealer.Stash.RestockQuantity(_playerStats!, _gameSettings!);
-						drugDealer.Stash.RefreshDrugMoney(_playerStats!, _gameSettings!);
-						drugDealer.Stash.RefreshCurrentPrice(_playerStats!, _gameSettings!);
-						
-						(float health, float armor) = Utils.GetDealerHealthArmor(_gameSettings!.Dealer, _playerStats.CurrentLevel);
-
-						drugDealer.ApplyDealerSettings(
-							health: health,
-							armor: armor,
-							money: drugDealer.Stash.DrugMoney,
-							switchWeapons: _gameSettings.Dealer.CanSwitchWeapons,
-							blockEvents: _gameSettings.Dealer.BlockPermanentEvents,
-							dropWeapons: _gameSettings.Dealer.DropsEquippedWeaponOnDeath
-							);
-					}
+					RestockDealers(_gameSettings!, _playerStats!);
 				}
 
 				// The dealer drug stash restock (quantity)
 				if (currentDateTime >= _gameState!.LastDealerRestock.AddHours(_gameSettings!.Dealer.RestockIntervalHours))
 				{
 					_gameState.LastDealerRestock = currentDateTime;
-					foreach (DrugDealer drugDealer in _drugDealers!)
-					{
-						drugDealer.Stash.RestockQuantity(_playerStats, _gameSettings);
-						drugDealer.Stash.RefreshDrugMoney(_playerStats, _gameSettings);
-						drugDealer.Stash.RefreshCurrentPrice(_playerStats, _gameSettings);
-					}
+					RestockDealers(_gameSettings!, _playerStats!);
 					ScriptHookUtils.NotifyWithPicture("Anonymous", "Tip-off", "The drug dealers have been restocked.", 0);
 					Utils.SaveGameState(_gameState);
 				}
@@ -129,11 +108,7 @@ namespace Los.Santos.Dope.Wars.Missions
 				if (currentDateTime >= _gameState!.LastDealerRefresh.AddHours(_gameSettings.Dealer.RefreshIntervalHours))
 				{
 					_gameState.LastDealerRefresh = currentDateTime;
-					foreach (DrugDealer drugDealer in _drugDealers!)
-					{
-						drugDealer.Stash.RefreshDrugMoney(_playerStats, _gameSettings);
-						drugDealer.Stash.RefreshCurrentPrice(_playerStats, _gameSettings);
-					}
+					RefreshDealers(_gameSettings!, _playerStats!);
 					Utils.SaveGameState(_gameState);
 				}
 
@@ -155,11 +130,8 @@ namespace Los.Santos.Dope.Wars.Missions
 						// if the ped was not created
 						if (!drugDealer.PedCreated)
 						{
-							drugDealer.CreatePed();
-
 							(float health, float armor) = Utils.GetDealerHealthArmor(_gameSettings.Dealer, _playerStats.CurrentLevel);
-
-							drugDealer.ApplyDealerSettings(
+							drugDealer.CreatePed(
 								health: health,
 								armor: armor,
 								money: drugDealer.Stash.DrugMoney,
@@ -216,11 +188,67 @@ namespace Los.Santos.Dope.Wars.Missions
 			return drugDealers;
 		}
 
+		/// <summary>
+		/// The <see cref="CheckIfDealerCanTrade(DrugDealer)"/> method checks if the dealer is able to trade
+		/// </summary>
+		/// <param name="drugDealer"></param>
+		/// <returns></returns>
 		private static bool CheckIfDealerCanTrade(DrugDealer drugDealer)
 		{
 			if (drugDealer.Ped!.IsFleeing || drugDealer.Ped.IsInCombat || !drugDealer.Ped.IsAlive)
 				return false;
 			return true;
+		}
+
+		/// <summary>
+		/// The <see cref="RestockDealers(GameSettings, PlayerStats)"/> method restocks the dealers drug amount, refreshes the drug prices and the drug money for trading, updates the "dealer" pedestrian
+		/// </summary>
+		/// <param name="gameSettings">Needed, not <see cref="Nullable"/>!</param>
+		/// <param name="playerStats">Needed, not <see cref="Nullable"/>!</param>
+		private static void RestockDealers(GameSettings gameSettings, PlayerStats playerStats)
+		{
+			foreach (DrugDealer drugDealer in _drugDealers!)
+			{
+				drugDealer.Stash.RestockQuantity(playerStats, gameSettings);
+				drugDealer.Stash.RefreshDrugMoney(playerStats, gameSettings);
+				drugDealer.Stash.RefreshCurrentPrice(playerStats, gameSettings);
+				UpdateDealer(gameSettings, playerStats, drugDealer);
+			}
+		}
+
+		/// <summary>
+		/// The <see cref="RefreshDealers(GameSettings, PlayerStats)"/> method refreshes the drug dealers prices and the drug money for trading, updates the "dealer" pedestrian
+		/// </summary>
+		/// <param name="gameSettings">Needed, not <see cref="Nullable"/>!</param>
+		/// <param name="playerStats">Needed, not <see cref="Nullable"/>!</param>
+		private static void RefreshDealers(GameSettings gameSettings, PlayerStats playerStats)
+		{
+			foreach (DrugDealer drugDealer in _drugDealers!)
+			{
+				drugDealer.Stash.RefreshDrugMoney(playerStats, gameSettings);
+				drugDealer.Stash.RefreshCurrentPrice(playerStats, gameSettings);
+				UpdateDealer(gameSettings, playerStats, drugDealer);
+			}
+		}
+
+		/// <summary>
+		/// The <see cref="UpdateDealer(GameSettings, PlayerStats, DrugDealer)"/> methods updates the "dealer" pedestrian
+		/// </summary>
+		/// <param name="gameSettings">Needed, not <see cref="Nullable"/>!</param>
+		/// <param name="playerStats">Needed, not <see cref="Nullable"/>!</param>
+		/// <param name="drugDealer">Needed, not <see cref="Nullable"/>!</param>
+		private static void UpdateDealer(GameSettings gameSettings, PlayerStats playerStats, DrugDealer drugDealer)
+		{
+			(float health, float armor) = Utils.GetDealerHealthArmor(gameSettings.Dealer, playerStats.CurrentLevel);
+
+			drugDealer.UpdatePed(
+				health: health,
+				armor: armor,
+				money: drugDealer.Stash.DrugMoney,
+				switchWeapons: gameSettings.Dealer.CanSwitchWeapons,
+				blockEvents: gameSettings.Dealer.BlockPermanentEvents,
+				dropWeapons: gameSettings.Dealer.DropsEquippedWeaponOnDeath
+				);
 		}
 		#endregion
 	}

@@ -145,30 +145,34 @@ namespace Los.Santos.Dope.Wars.Missions
 
 		private static void SummonDrugLord()
 		{
+			if (_gameSettings is null && _playerStats is null)
+				return;
+
 			int randomPick = Utils.GetRandomInt(0, _drugLords!.Count);
 			_drugLord = _drugLords[randomPick];
 
 			if (!_drugLord.BlipCreated)
 				_drugLord.CreateBlip("Drug Lord", true, false);
 
+			_drugLord.Stash.RestockQuantity(_playerStats, _gameSettings, true);
+			_drugLord.Stash.RefreshDrugMoney(_playerStats, _gameSettings, true);
+			_drugLord.Stash.RefreshCurrentPrice(_playerStats, _gameSettings, true);
+
+			(float health, float armor) = Utils.GetDealerHealthArmor(_gameSettings.Dealer, _playerStats.CurrentLevel);
+
 			if (!_drugLord.PedCreated)
-				_drugLord.CreatePed();
+				_drugLord.CreatePed(
+					health: health,
+					armor: armor,
+					money: _drugLord.Stash.DrugMoney,
+					switchWeapons: _gameSettings.Dealer.CanSwitchWeapons,
+					blockEvents: _gameSettings.Dealer.BlockPermanentEvents,
+					dropWeapons: _gameSettings.Dealer.DropsEquippedWeaponOnDeath
+					);
 
 			foreach (Bodyguard bodyguard in _drugLord.Bodyguards)
 				bodyguard.CreatePed(_drugLord.Ped!);
 
-			_drugLord.Stash.RestockQuantity(_playerStats!, _gameSettings!, true);
-			_drugLord.Stash.RefreshDrugMoney(_playerStats, _gameSettings!, true);
-			_drugLord.Stash.RefreshCurrentPrice(_playerStats, _gameSettings!, true);
-
-			_drugLord.ApplyDealerSettings(
-						health: 150f,
-						armor: 150f,
-						money: _drugLord.Stash.DrugMoney,
-						switchWeapons: _gameSettings!.Dealer.CanSwitchWeapons,
-						blockEvents: _gameSettings.Dealer.BlockPermanentEvents,
-						dropWeapons: _gameSettings.Dealer.DropsEquippedWeaponOnDeath
-						);
 			IsAppeared = true;
 		}
 	}

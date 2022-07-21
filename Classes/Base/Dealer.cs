@@ -58,7 +58,7 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 			}
 		}
 		/// <inheritdoc/>
-		public void CreatePed(float health = 100f, float armor = 50f, int money = 250)
+		public void CreatePed(float health = 100f, float armor = 50f, int money = 250, bool switchWeapons = true, bool blockEvents = false, bool dropWeapons = true)
 		{
 			if (!PedCreated)
 			{
@@ -74,6 +74,9 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 					Ped.HealthFloat = health;
 					Ped.ArmorFloat = armor;
 					Ped.Money = money;
+					Ped.CanSwitchWeapons = switchWeapons;
+					Ped.BlockPermanentEvents = blockEvents;
+					Ped.DropsEquippedWeaponOnDeath = dropWeapons;
 				}
 				PedCreated = !PedCreated;
 			}
@@ -97,7 +100,7 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 			}
 		}
 		/// <inheritdoc/>
-		public void ApplyDealerSettings(float health, float armor, int money, bool switchWeapons, bool blockEvents, bool dropWeapons)
+		public void UpdatePed(float health = 100f, float armor = 50f, int money = 250, bool switchWeapons = true, bool blockEvents = false, bool dropWeapons = true)
 		{
 			if (PedCreated)
 			{

@@ -58,9 +58,9 @@ namespace Los.Santos.Dope.Wars.Contracts
 		void CreateBlip(string blipName = "Drug Dealer", bool isFlashing = false, bool isShortRange = true);
 
 		/// <summary>
-		/// The <see cref="CreatePed(float, float, int)"/> method for creating the ped
+		/// The <see cref="CreatePed(float, float, int, bool, bool, bool)"/> method for creating the ped
 		/// </summary>
-		void CreatePed(float health = 100f, float armor = 50f, int money = 250);
+		void CreatePed(float health = 100f, float armor = 50f, int money = 250, bool switchWeapons = true, bool blockEvents = false, bool dropWeapons = true);
 
 		/// <summary>
 		/// The <see cref="DeleteBlip"/> method for deleting the blip on the map
@@ -73,9 +73,9 @@ namespace Los.Santos.Dope.Wars.Contracts
 		void DeletePed();
 
 		/// <summary>
-		/// The <see cref="ApplyDealerSettings(float, float, int, bool, bool, bool)"/> method for applying the dealer ped settings
+		/// The <see cref="UpdatePed(float, float, int, bool, bool, bool)"/> method for applying the dealer ped settings
 		/// </summary>
-		void ApplyDealerSettings(float health, float armor, int money, bool switchWeapons, bool blockEvents, bool dropWeapons);
+		void UpdatePed(float health = 100f, float armor = 50f, int money = 250, bool switchWeapons = true, bool blockEvents = false, bool dropWeapons = true);
 
 		/// <summary>
 		/// The <see cref="FleeFromBust"/> method gets called, when a dea bust is initiated
