@@ -70,10 +70,10 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 		/// <inheritdoc/>
 		public void ChangeBlip(BlipSprite blipSprite = BlipSprite.BusinessForSale, BlipColor blipColor = BlipColor.White)
 		{
-			if (BlipCreated)
+			if (Blip is not null && BlipCreated)
 			{
-				Blip!.Sprite = blipSprite;
-				Blip!.Color = blipColor;
+				Blip.Sprite = blipSprite;
+				Blip.Color = blipColor;
 			}
 		}
 		/// <inheritdoc/>
@@ -92,20 +92,29 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 		/// <inheritdoc/>
 		public void DeleteBlip()
 		{
-			if (BlipCreated)
-				Blip!.Delete();
+			if (Blip is not null && BlipCreated)
+			{
+				Blip.Delete();
+				BlipCreated = !BlipCreated;
+			}
 		}
 		/// <inheritdoc/>
 		public void DrawEntranceMarker(Vector3 markerLocation, Color markerColor)
 		{
 			if (!EntranceMarkerCreated)
+			{
 				World.DrawMarker(EntranceMarkerType, markerLocation, Vector3.Zero, Vector3.Zero, Constants.EntranceMarkerScale, markerColor);
+				EntranceMarkerCreated = !EntranceMarkerCreated;
+			}
 		}
 		/// <inheritdoc/>
 		public void DrawMissionMarker(Vector3 markerLocation, Color markerColor)
 		{
 			if (!MissionMarkerCreated)
+			{
 				World.DrawMarker(MissionMarkerType, markerLocation, Vector3.Zero, Vector3.Zero, Constants.MissionMarkerScale, markerColor);
+				MissionMarkerCreated = !MissionMarkerCreated;
+			}
 		}
 		#endregion
 	}
