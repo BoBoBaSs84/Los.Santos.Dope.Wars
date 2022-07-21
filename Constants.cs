@@ -126,6 +126,16 @@ namespace Los.Santos.Dope.Wars
 		};
 
 		/// <summary>
+		/// The <see cref="BodyguardPedHashes"/> list holds all the possible bodyguard models
+		/// </summary>
+		public static readonly List<PedHash> BodyguardPedHashes = new()
+		{
+			PedHash.Armoured01,
+			PedHash.Armoured01SMM,
+			PedHash.Armoured02SMM
+		};
+
+		/// <summary>
 		/// The <see cref="DrugDealerWeaponHashes"/> list holds all the possible dealer weapons
 		/// </summary>
 		public static readonly List<WeaponHash> DrugDealerWeaponHashes = new()
@@ -147,6 +157,20 @@ namespace Los.Santos.Dope.Wars
 			WeaponHash.SpecialCarbine,
 			WeaponHash.AssaultShotgun,
 			WeaponHash.CombatMG
+		};
+
+		/// <summary>
+		/// The <see cref="BodyguardWeaponHashes"/> list holds all the possible drug lord weapons
+		/// </summary>
+		public static readonly List<WeaponHash> BodyguardWeaponHashes = new()
+		{
+			WeaponHash.CombatMGMk2,
+			WeaponHash.AssaultrifleMk2,
+			WeaponHash.CarbineRifleMk2,
+			WeaponHash.PistolMk2,
+			WeaponHash.SpecialCarbineMk2,
+			WeaponHash.PumpShotgunMk2,
+			WeaponHash.SMGMk2
 		};
 
 		/// <summary>
@@ -197,6 +221,49 @@ namespace Los.Santos.Dope.Wars
 			Tuple.Create(new Vector3(1136.588f, -1356.314f, 34.582f), 184.119f),
 			Tuple.Create(new Vector3(-624.057f, -1609.615f, 26.901f), 358.93f),
 			Tuple.Create(new Vector3(-71.055f, -1205.16f, 27.823f), 333.899f),
+		};
+
+		/// <summary>
+		/// The <see cref="StealableVans"/> list holds all the possile stealable vehicle hashes
+		/// </summary>
+		public static readonly List<VehicleHash> StealableVans = new()
+		{
+			VehicleHash.Boxville,
+			VehicleHash.Boxville2,
+			VehicleHash.Boxville3,
+			VehicleHash.Boxville4,
+			VehicleHash.Burrito,
+			VehicleHash.Burrito3,
+			VehicleHash.Burrito4,
+			VehicleHash.GBurrito2,
+			VehicleHash.Camper,
+			VehicleHash.Journey,
+			VehicleHash.Paradise,
+			VehicleHash.Pony,
+			VehicleHash.Pony2,
+			VehicleHash.Rumpo,
+			VehicleHash.Rumpo2,
+			VehicleHash.Speedo,
+			VehicleHash.Speedo2,
+			VehicleHash.Surfer,
+			VehicleHash.Youga,
+			VehicleHash.Benson,
+			VehicleHash.Mule,
+			VehicleHash.Mule2,
+			VehicleHash.Mule3
+		};
+
+		/// <summary>
+		/// The <see cref="VanSafePlaces"/> list holds all the possible van safe places
+		/// </summary>
+		public static readonly List<Vector3> VanSafePlaces = new()
+		{
+			new Vector3(692.636f, -1011.985f, 22.464f),
+			new Vector3(1978.605f, 5171.296f, 47.542f),
+			new Vector3(1039.071f, 2435.874f, 44.842f),
+			new Vector3(-1608.686f, -1000.225f, 7.512f),
+			new Vector3(-619.311f, 346.452f, 85.017f),
+			new Vector3(212.366f, -3328.39f, 5.704f)
 		};
 
 		public const float MarkerDrawDistance = 20f;

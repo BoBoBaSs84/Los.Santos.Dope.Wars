@@ -64,9 +64,11 @@ namespace Los.Santos.Dope.Wars.Contracts
 		/// <param name="isShortRange"></param>
 		void CreateBlip(string blipName = "Drug Dealer", bool isFlashing = false, bool isShortRange = true);
 		/// <summary>
-		/// The <see cref="CreatePed(float, float, int, bool, bool, bool)"/> method for creating the ped
+		/// The <see cref="CreatePed(PedHash, WeaponHash, float, float, int, bool, bool, bool)"/>
+		/// method for creating the ped
 		/// </summary>
-		void CreatePed(float health = 100f, float armor = 50f, int money = 250, bool switchWeapons = true, bool blockEvents = false, bool dropWeapons = true);
+		void CreatePed(PedHash pedHash, WeaponHash weaponHash = WeaponHash.Pistol, float health = 100f, float armor = 50f,
+			int money = 250, bool switchWeapons = true, bool blockEvents = false, bool dropWeapons = true);
 		/// <summary>
 		/// The <see cref="DeleteBlip"/> method for deleting the blip on the map
 		/// </summary>
@@ -80,23 +82,27 @@ namespace Los.Santos.Dope.Wars.Contracts
 		/// </summary>
 		void FleeFromBust();
 		/// <summary>
-		/// The <see cref="Refresh(GameSettings, PlayerStats)"/> method refreshes the drug dealers prices, the drug money for trading
-		/// and updates the "dealer" pedestrian via the <see cref="UpdatePed(float, float, int, bool, bool, bool)"/> method
+		/// The <see cref="Refresh(GameSettings, PlayerStats)"/> method refreshes the drug dealers prices,
+		/// the drug money for trading and updates the "dealer" pedestrian via the 
+		/// <see cref="UpdatePed(float, float, int, bool, bool, bool)"/> method
 		/// </summary>
 		/// <param name="gameSettings">Needed, not <see cref="Nullable"/>!</param>
 		/// <param name="playerStats">Needed, not <see cref="Nullable"/>!</param>
 		void Refresh(GameSettings gameSettings, PlayerStats playerStats);
 		/// <summary>
-		/// The <see cref="Restock(GameSettings, PlayerStats)"/> method restocks the dealers drug amount, refreshes the drug prices,
-		/// the drug money for trading and updates the "dealer" pedestrian via the <see cref="UpdatePed(float, float, int, bool, bool, bool)"/> method
+		/// The <see cref="Restock(GameSettings, PlayerStats)"/> method restocks the dealers drug amount,
+		/// refreshes the drug prices, the drug money for trading and updates the "dealer" pedestrian
+		/// via the <see cref="UpdatePed(float, float, int, bool, bool, bool)"/> method
 		/// </summary>
 		/// <param name="gameSettings">Needed, not <see cref="Nullable"/>!</param>
 		/// <param name="playerStats">Needed, not <see cref="Nullable"/>!</param>
 		void Restock(GameSettings gameSettings, PlayerStats playerStats);
 		/// <summary>
-		/// The <see cref="UpdatePed(float, float, int, bool, bool, bool)"/> method for applying the dealer ped settings
+		/// The <see cref="UpdatePed(float, float, int, bool, bool, bool)"/> method for applying the
+		/// dealer ped settings
 		/// </summary>
-		void UpdatePed(float health = 100f, float armor = 50f, int money = 250, bool switchWeapons = true, bool blockEvents = false, bool dropWeapons = true);
+		void UpdatePed(float health = 100f, float armor = 50f, int money = 250, bool switchWeapons = true,
+			bool blockEvents = false, bool dropWeapons = true);
 		#endregion
 	}
 }

@@ -200,5 +200,23 @@ namespace Los.Santos.Dope.Wars
 			/// </summary>
 			MaxedOut = 4
 		}
+		/// <summary>
+		/// The <see cref="PedType"/> enums
+		/// </summary>
+		public enum PedType
+		{
+			/// <summary>
+			/// The <see cref="DrugDealer"/> ped type
+			/// </summary>
+			DrugDealer = 1,
+			/// <summary>
+			/// The <see cref="DrugLord"/> ped type
+			/// </summary>
+			DrugLord = 2,
+			/// <summary>
+			/// The <see cref="Bodyguard"/> ped type
+			/// </summary>
+			Bodyguard = 3
+		}
 	}
 }

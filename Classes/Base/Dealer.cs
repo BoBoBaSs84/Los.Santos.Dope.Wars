@@ -67,26 +67,21 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 			}
 		}
 		/// <inheritdoc/>
-		public void CreatePed(float health = 100f, float armor = 50f, int money = 250, bool switchWeapons = true, bool blockEvents = false, bool dropWeapons = true)
+		public void CreatePed(PedHash pedHash, WeaponHash weaponHash = WeaponHash.Pistol, float health = 100f,
+			float armor = 50f, int money = 250, bool switchWeapons = true, bool blockEvents = false, bool dropWeapons = true)
 		{
 			if (!PedCreated)
 			{
-				Model dealerModel = new(Constants.DrugDealerPedHashes[Constants.random.Next(Constants.DrugDealerPedHashes.Count)]);
-				dealerModel.Request(250);
-
-				if (dealerModel.IsValid && dealerModel.IsInCdImage)
-				{
-					Ped = World.CreatePed(dealerModel, Position, Heading);
-					Ped.MarkAsNoLongerNeeded();
-					Ped.Task.StandStill(-1);
-					Ped.Weapons.Give(Constants.DrugDealerWeaponHashes[Constants.random.Next(Constants.DrugDealerWeaponHashes.Count)], 500, true, true);
-					Ped.HealthFloat = health;
-					Ped.ArmorFloat = armor;
-					Ped.Money = money;
-					Ped.CanSwitchWeapons = switchWeapons;
-					Ped.BlockPermanentEvents = blockEvents;
-					Ped.DropsEquippedWeaponOnDeath = dropWeapons;
-				}
+				Model model = ScriptHookUtils.RequestModel(pedHash);
+				Ped = World.CreatePed(model, Position, Heading);
+				Ped.Task.StandStill(-1);
+				Ped.Weapons.Give(weaponHash, 500, true, true);
+				Ped.HealthFloat = health;
+				Ped.ArmorFloat = armor;
+				Ped.Money = money;
+				Ped.CanSwitchWeapons = switchWeapons;
+				Ped.BlockPermanentEvents = blockEvents;
+				Ped.DropsEquippedWeaponOnDeath = dropWeapons;
 				PedCreated = !PedCreated;
 			}
 		}
@@ -120,7 +115,8 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 			}
 		}
 		/// <inheritdoc/>
-		public void UpdatePed(float health = 100f, float armor = 50f, int money = 250, bool switchWeapons = true, bool blockEvents = false, bool dropWeapons = true)
+		public void UpdatePed(float health = 100f, float armor = 50f, int money = 250, bool switchWeapons = true,
+			bool blockEvents = false, bool dropWeapons = true)
 		{
 			if (Ped is not null && PedCreated)
 			{

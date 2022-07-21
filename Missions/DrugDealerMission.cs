@@ -132,6 +132,8 @@ namespace Los.Santos.Dope.Wars.Missions
 						{
 							(float health, float armor) = Utils.GetDealerHealthArmor(_gameSettings.Dealer, _playerStats.CurrentLevel);
 							drugDealer.CreatePed(
+								pedHash: Utils.GetRandomPedHash(Enums.PedType.DrugDealer),
+								weaponHash: Utils.GetRandomWeaponHash(Enums.PedType.DrugDealer),
 								health: health,
 								armor: armor,
 								money: drugDealer.Stash.DrugMoney,

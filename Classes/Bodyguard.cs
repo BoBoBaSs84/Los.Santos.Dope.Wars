@@ -1,5 +1,6 @@
 ﻿using GTA;
 using GTA.Math;
+using Los.Santos.Dope.Wars.Extension;
 
 namespace Los.Santos.Dope.Wars.Classes
 {
@@ -73,34 +74,28 @@ namespace Los.Santos.Dope.Wars.Classes
 		/// </summary>
 		public void DeleteBlip()
 		{
-			if (BlipCreated)
+			if (Blip is not null && BlipCreated)
 			{
-				Blip!.Delete();
+				Blip.Delete();
 				BlipCreated = !BlipCreated;
 			}
 		}
 
 		/// <summary>
-		/// The <see cref="CreatePed(Ped)"/> method for creating the bodyguard ped
+		/// The <see cref="CreatePed(PedHash, WeaponHash, Ped)"/> method for creating the bodyguard ped
 		/// </summary>
-		public void CreatePed(Ped pedToProtect)
+		public void CreatePed(PedHash pedHash, WeaponHash weaponHash, Ped pedToProtect)
 		{
 			if (!PedCreated)
 			{
-				Model dealerModel = new(Constants.DrugDealerPedHashes[Constants.random.Next(Constants.DrugDealerPedHashes.Count)]);
-				dealerModel.Request(250);
-
-				if (dealerModel.IsValid && dealerModel.IsInCdImage)
-				{
-					Ped = World.CreatePed(dealerModel, Position, Heading);
-					Ped.Task.GuardCurrentPosition();
-					Ped.Weapons.Give(Constants.DrugLordWeaponHashes[Constants.random.Next(Constants.DrugLordWeaponHashes.Count)], 500, true, true);
-					Ped.HealthFloat = 150f;
-					Ped.ArmorFloat = 150f;
-					Ped.Accuracy = 100;
-					Ped.AttachTo(pedToProtect);
-					Ped.MarkAsNoLongerNeeded();
-				}
+				Model model = ScriptHookUtils.RequestModel(pedHash);
+				Ped = World.CreatePed(model, Position, Heading);
+				Ped.Task.GuardCurrentPosition();
+				Ped.Weapons.Give(weaponHash, 1000, true, true);
+				Ped.HealthFloat = 150f;
+				Ped.ArmorFloat = 150f;
+				Ped.Accuracy = 100;
+				Ped.AttachTo(pedToProtect);
 				PedCreated = !PedCreated;
 			}
 		}
@@ -110,9 +105,9 @@ namespace Los.Santos.Dope.Wars.Classes
 		/// </summary>
 		public void DeletePed()
 		{
-			if (PedCreated)
+			if (Ped is not null && PedCreated)
 			{
-				Ped!.Delete();
+				Ped.Delete();
 				PedCreated = !PedCreated;
 			}
 		}

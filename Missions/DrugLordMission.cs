@@ -21,7 +21,7 @@ namespace Los.Santos.Dope.Wars.Missions
 		private static GameState? _gameState;
 		private static PlayerStats? _playerStats;
 		private static Ped? _player;
-		private static DateTime LastAppearance;
+		private static DateTime LastCheckForAppearance;
 		private static DateTime NextCheckForAppearance;
 		private static bool ShouldAppear;
 		private static bool IsAppeared;
@@ -98,11 +98,11 @@ namespace Los.Santos.Dope.Wars.Missions
 				if (!_playerStats.Reward.DrugLords.HasFlag(Enums.DrugLordStates.Unlocked))
 					return;
 
-				if (ScriptHookUtils.GetGameDateTime() > NextCheckForAppearance)
+				if (ScriptHookUtils.GetGameDateTime() >= NextCheckForAppearance)
 					CheckForAppearance();
 
 				// drug lord appeared 12 hours ago...
-				if (ScriptHookUtils.GetGameDateTime() > LastAppearance.AddHours(12) && IsAppeared && _drugLord is not null)
+				if (ScriptHookUtils.GetGameDateTime() >= LastCheckForAppearance.AddHours(12) && IsAppeared && _drugLord is not null)
 					CheckForDisappearance();
 
 				if (_drugLord is null && ShouldAppear)
@@ -128,8 +128,8 @@ namespace Los.Santos.Dope.Wars.Missions
 
 		private static void CheckForAppearance()
 		{
-			LastAppearance = ScriptHookUtils.GetGameDateTime();
-			NextCheckForAppearance = LastAppearance.AddDays(24);
+			LastCheckForAppearance = ScriptHookUtils.GetGameDateTime();
+			NextCheckForAppearance = LastCheckForAppearance.AddDays(24);
 			double chanceForAppearance = 30;
 			double randomDouble = Constants.random.NextDouble() * 100;
 			if (randomDouble <= chanceForAppearance)
@@ -163,13 +163,19 @@ namespace Los.Santos.Dope.Wars.Missions
 					_drugLord.CreateBlip("Drug Lord", true, false);
 
 				if (!_drugLord.PedCreated)
-					_drugLord.CreatePed();
+					_drugLord.CreatePed(
+						pedHash: Utils.GetRandomPedHash(Enums.PedType.DrugLord),
+						weaponHash: Utils.GetRandomWeaponHash(Enums.PedType.DrugLord)
+						);
 
 				_drugLord.Restock(_gameSettings, _playerStats);
 
 				foreach (Bodyguard bodyguard in _drugLord.Bodyguards)
-					bodyguard.CreatePed(_drugLord.Ped!);
-
+				{
+					var pedHash = Utils.GetRandomPedHash(Enums.PedType.Bodyguard);
+					var weaponHash = Utils.GetRandomWeaponHash(Enums.PedType.Bodyguard);
+					bodyguard.CreatePed(pedHash, weaponHash, _drugLord.Ped!);
+				}
 				IsAppeared = true;
 			}
 		}

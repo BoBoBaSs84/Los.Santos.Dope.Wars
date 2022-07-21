@@ -18,6 +18,25 @@ namespace Los.Santos.Dope.Wars.Extension
 		}
 
 		/// <summary>
+		/// The <see cref="RequestModel(PedHash)"/> method returns the model requested by the ped hash parameter
+		/// </summary>
+		/// <param name="Name"></param>
+		/// <returns><see cref="Model"/></returns>
+		public static Model RequestModel(PedHash Name)
+		{
+			Model model = new(Name);
+			model.Request(250);
+			if (model.IsInCdImage && model.IsValid)
+			{
+				while (!model.IsLoaded) 
+					Script.Wait(50);
+				return model;
+			}
+			model.MarkAsNoLongerNeeded();
+			return model;
+		}
+
+		/// <summary>
 		/// The <see cref="GetGameDateTime"/> method returns the current in game <see cref="DateTime"/>
 		/// </summary>
 		/// <returns><see cref="DateTime"/></returns>

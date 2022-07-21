@@ -20,6 +20,38 @@ namespace Los.Santos.Dope.Wars.Extension
 	{
 		#region public methods
 		/// <summary>
+		/// The <see cref="GetRandomPedHash(Enums.PedType)"/> method returns a random ped hash
+		/// </summary>
+		/// <param name="pedType"></param>
+		/// <returns><see cref="PedHash"/></returns>
+		public static PedHash GetRandomPedHash(Enums.PedType pedType)
+		{
+			return pedType switch
+			{
+				Enums.PedType.DrugLord => Constants.DrugLordPedHashes[Constants.random.Next(Constants.DrugLordPedHashes.Count)],
+				Enums.PedType.DrugDealer => Constants.DrugDealerPedHashes[Constants.random.Next(Constants.DrugDealerPedHashes.Count)],
+				Enums.PedType.Bodyguard => Constants.BodyguardPedHashes[Constants.random.Next(Constants.BodyguardPedHashes.Count)],
+				_ => PedHash.ArmGoon01GMM
+			};
+		}
+
+		/// <summary>
+		/// The <see cref="GetRandomWeaponHash(Enums.PedType)"/> method returns a random weapon hash
+		/// </summary>
+		/// <param name="pedType"></param>
+		/// <returns><see cref="WeaponHash"/></returns>
+		public static WeaponHash GetRandomWeaponHash(Enums.PedType pedType)
+		{
+			return pedType switch
+			{
+				Enums.PedType.DrugLord => Constants.DrugLordWeaponHashes[Constants.random.Next(Constants.DrugLordWeaponHashes.Count)],
+				Enums.PedType.DrugDealer => Constants.DrugDealerWeaponHashes[Constants.random.Next(Constants.DrugDealerWeaponHashes.Count)],
+				Enums.PedType.Bodyguard => Constants.BodyguardWeaponHashes[Constants.random.Next(Constants.BodyguardWeaponHashes.Count)],
+				_ => WeaponHash.Pistol
+			};
+		}
+
+		/// <summary>
 		/// The <see cref="GetWantedLevelByPlayerLevel(int)"/> method returns the wanted level in correlation to the player level
 		/// </summary>
 		/// <param name="playerLevel"></param>
