@@ -22,6 +22,8 @@ namespace Los.Santos.Dope.Wars.Missions
 		private static PlayerStats? _playerStats;
 		private static Ped? _player;
 		private static DrugDealer? _currentDrugDealer;
+		private static DateTime _lastRestock;
+		private static DateTime _lastRefresh;
 		#endregion
 
 		#region properties
@@ -50,6 +52,8 @@ namespace Los.Santos.Dope.Wars.Missions
 			_gameState = gameState;
 			_drugDealers = GetDrugDealers();
 			_player = Game.Player.Character;
+			_lastRestock = ScriptHookUtils.GetGameDateTime();
+			_lastRefresh = ScriptHookUtils.GetGameDateTime();
 			Initialized = true;
 		}
 
@@ -80,79 +84,90 @@ namespace Los.Santos.Dope.Wars.Missions
 
 			try
 			{
+				DateTime currentDateTime = ScriptHookUtils.GetGameDateTime();
+
 				if (_player != Game.Player.Character)
 					_player = Game.Player.Character;
 
 				if (_playerStats != Utils.GetPlayerStatsFromModel(_gameState!))
+				{
 					_playerStats = Utils.GetPlayerStatsFromModel(_gameState!);
+					RestockDealers();
+				}
 
 				// The dealer drug stash restock (quantity)
-				if (ScriptHookUtils.GetGameDate() > _gameState!.LastDealerRestock.AddHours(_gameSettings!.Dealer.RestockIntervalHours))
+				if (currentDateTime >= _gameState!.LastDealerRestock.AddHours(_gameSettings!.Dealer.RestockIntervalHours))
 				{
-					_gameState.LastDealerRestock = ScriptHookUtils.GetGameDate();
-
-					foreach (DrugDealer dealer in _drugDealers!)
-					{
-						dealer.Stash.RestockQuantity(_playerStats, _gameSettings);
-						dealer.Stash.RefreshDrugMoney(_playerStats, _gameSettings);
-						dealer.Stash.RefreshCurrentPrice(_playerStats, _gameSettings);
-					}
+					_gameState.LastDealerRestock = currentDateTime;
+					RestockDealers();
 					ScriptHookUtils.NotifyWithPicture("Anonymous", "Tip-off", "The drug dealers have been restocked.", 0);
 					Utils.SaveGameState(_gameState);
 				}
 				else
 				// The dealer drug stash refresh (money & prices)
-				if (ScriptHookUtils.GetGameDate() > _gameState.LastDealerRefresh.AddHours(_gameSettings.Dealer.RefreshIntervalHours))
+				if (currentDateTime >= _gameState!.LastDealerRefresh.AddHours(_gameSettings.Dealer.RefreshIntervalHours))
 				{
-					_gameState.LastDealerRefresh = ScriptHookUtils.GetGameDate();
-					foreach (DrugDealer dealer in _drugDealers!)
-					{
-						dealer.Stash.RefreshDrugMoney(_playerStats, _gameSettings);
-						dealer.Stash.RefreshCurrentPrice(_playerStats, _gameSettings);
-					}
+					_gameState.LastDealerRefresh = currentDateTime;
+					RefreshDealers();
 					Utils.SaveGameState(_gameState);
 				}
 
-				foreach (DrugDealer dealer in _drugDealers!)
+				foreach (DrugDealer drugDealer in _drugDealers!)
 				{
-					// creating the blips if not already created
-					if (!dealer.BlipCreated)
+					// checking if the dealer opens up again
+					if (drugDealer.NextOpenBusinesTime < ScriptHookUtils.GetGameDateTime() && drugDealer.ClosedforBusiness)
 					{
-						dealer.CreateBlip();
+						drugDealer.ClosedforBusiness = !drugDealer.ClosedforBusiness;
+					}
+					// creating the blips if not already created
+					if (!drugDealer.BlipCreated && !drugDealer.ClosedforBusiness)
+					{
+						drugDealer.CreateBlip();
 					}
 					// if the player is in range of the dealer
-					if (_player.IsInRange(dealer.Position, Constants.DealerCreateDistance))
+					if (_player.IsInRange(drugDealer.Position, Constants.DealerCreateDistance) && drugDealer.BlipCreated)
 					{
 						// if the ped was not created
-						if (!dealer.PedCreated)
+						if (!drugDealer.PedCreated)
 						{
 							(float health, float armor) = Utils.GetDealerHealthArmor(_gameSettings.Dealer, _playerStats.CurrentLevel);
-							int money = dealer.Stash.DrugMoney;
-							dealer.CreatePed(health, armor, money);
+							drugDealer.CreatePed(
+								health: health,
+								armor: armor,
+								money: drugDealer.Stash.DrugMoney,
+								switchWeapons: _gameSettings.Dealer.CanSwitchWeapons,
+								blockEvents: _gameSettings.Dealer.BlockPermanentEvents,
+								dropWeapons: _gameSettings.Dealer.DropsEquippedWeaponOnDeath
+								);
+						}
+						// now we are real close to the dealer
+						if (_player.IsInRange(drugDealer.Position, Constants.DealInteractionDistance) && _currentDrugDealer is null && Game.Player.WantedLevel.Equals(0))
+						{
+							_currentDrugDealer = drugDealer;
+							DealMenu.Init(_gameState, _playerStats.Stash, _currentDrugDealer.Stash, _player);
+							if (CheckIfDealerCanTrade(_currentDrugDealer))
+							{
+								DealMenu.ShowDealMenu = true;
+							}
+							else
+							{
+								DealMenu.ShowDealMenu = false;
+							}
+						}
+						// we are leaving the dealer
+						if (!_player.IsInRange(drugDealer.Position, Constants.DealInteractionDistance) && _currentDrugDealer == drugDealer)
+						{
+							_currentDrugDealer = null;
+							// dea bust chance triggered
+							if (!Game.Player.WantedLevel.Equals(0))
+								drugDealer.FleeFromBust();
+							DealMenu.ShowDealMenu = false;
 						}
 					}
 					// if we are leaving the dealer area, delete the ped 
-					else if (dealer.PedCreated)
+					else if (drugDealer.PedCreated && !_player.IsInRange(drugDealer.Position, Constants.DealerCreateDistance))
 					{
-						dealer.DeletePed();
-					}
-
-					// now we are real close to the dealer
-					if (_player.IsInRange(dealer.Position, Constants.InteractionDistance) && _currentDrugDealer is null && Game.Player.WantedLevel == 0)
-					{
-						_currentDrugDealer = dealer;
-						DealMenu.Init(_playerStats.Stash, dealer.Stash, _gameState);
-
-						if (CheckIfDealerCanTrade(dealer))
-							DealMenu.ShowDealMenu = true;
-
-						else if (!CheckIfDealerCanTrade(dealer))
-							DealMenu.ShowDealMenu = false;
-					}
-					else if ((!_player.IsInRange(dealer.Position, Constants.InteractionDistance) && _currentDrugDealer == dealer) || Game.Player.WantedLevel != 0)
-					{
-						_currentDrugDealer = null!;
-						DealMenu.ShowDealMenu = false;
+						drugDealer.DeletePed();
 					}
 				}
 			}
@@ -169,23 +184,40 @@ namespace Los.Santos.Dope.Wars.Missions
 			List<DrugDealer> drugDealers = new();
 			Tuple<Vector3, float>[] locations = Constants.DrugDealerSpawnLocations;
 			foreach (Tuple<Vector3, float>? location in locations)
-			{
 				drugDealers.Add(new DrugDealer(location.Item1, location.Item2));
-			}
 			return drugDealers;
 		}
 
+		/// <summary>
+		/// The <see cref="CheckIfDealerCanTrade(DrugDealer)"/> method checks if the dealer is able to trade
+		/// </summary>
+		/// <param name="drugDealer"></param>
+		/// <returns><see cref="bool"/></returns>
 		private static bool CheckIfDealerCanTrade(DrugDealer drugDealer)
 		{
-			if (
-					drugDealer.Ped!.IsFleeing ||
-					drugDealer.Ped.IsInCombat ||
-					!drugDealer.Ped.IsAlive ||
-					drugDealer.Ped.IsInCombatAgainst(Game.Player.Character) ||
-					drugDealer.ClosedforBusiness
-					)
+			if (drugDealer.Ped!.IsFleeing || drugDealer.Ped.IsInCombat || !drugDealer.Ped.IsAlive)
 				return false;
 			return true;
+		}
+
+		/// <summary>
+		/// The <see cref="RestockDealers"/> methods restocks the dealers
+		/// </summary>
+		private static void RestockDealers()
+		{
+			if (_drugDealers is not null && _gameSettings is not null && _playerStats is not null)
+				foreach (DrugDealer drugDealer in _drugDealers)
+					drugDealer.Restock(_gameSettings, _playerStats);
+		}
+
+		/// <summary>
+		/// The <see cref="RestockDealers"/> methods refeshes the dealers
+		/// </summary>
+		private static void RefreshDealers()
+		{
+			if (_drugDealers is not null && _gameSettings is not null && _playerStats is not null)
+				foreach (DrugDealer drugDealer in _drugDealers)
+					drugDealer.Refresh(_gameSettings, _playerStats);
 		}
 		#endregion
 	}

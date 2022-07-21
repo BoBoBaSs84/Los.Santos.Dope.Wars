@@ -16,10 +16,11 @@ namespace Los.Santos.Dope.Wars.Persistence.Settings
 		{
 			RestockIntervalHours = 24;
 			RefreshIntervalHours = 6;
-			ArmorBaseValue = 100.00f;
-			HealthBaseValue = 100.00f;
+			ArmorBaseValue = 50f;
+			HealthBaseValue = 100f;
 			CanSwitchWeapons = true;
-			BlockPermanentEvents = false;
+			BlockPermanentEvents = true;
+			DropsEquippedWeaponOnDeath = false;
 		}
 		#endregion
 
@@ -55,11 +56,18 @@ namespace Los.Santos.Dope.Wars.Persistence.Settings
 		public bool CanSwitchWeapons { get; set; }
 
 		/// <summary>
-		/// The <see cref="BlockPermanentEvents"/> attribute, sets if permanent events are blocked, 
+		/// The <see cref="BlockPermanentEvents"/> attribute, sets if permanent events are blocked
 		/// the dealers will only do as told, and won't flee when shot at, etc.
 		/// </summary>
 		[XmlAttribute(AttributeName = nameof(BlockPermanentEvents))]
 		public bool BlockPermanentEvents { get; set; }
+
+		/// <summary>
+		/// The <see cref="DropsEquippedWeaponOnDeath"/> attribute, sets if permanent dealer drops his equipment on death
+		/// the dealers will only do as told, and won't flee when shot at, etc.
+		/// </summary>
+		[XmlAttribute(AttributeName = nameof(DropsEquippedWeaponOnDeath))]
+		public bool DropsEquippedWeaponOnDeath { get; set; }
 		#endregion
 	}
 }

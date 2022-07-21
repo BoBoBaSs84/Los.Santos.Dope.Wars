@@ -20,6 +20,24 @@ namespace Los.Santos.Dope.Wars.Extension
 	{
 		#region public methods
 		/// <summary>
+		/// The <see cref="GetWantedLevelByPlayerLevel(int)"/> method returns the wanted level in correlation to the player level
+		/// </summary>
+		/// <param name="playerLevel"></param>
+		/// <returns><see cref="int"/></returns>
+		public static int GetWantedLevelByPlayerLevel(int playerLevel)
+		{
+			if (playerLevel >= 40)
+				return 4;
+			if (playerLevel >= 25)
+				return 3;
+			if (playerLevel >= 10)
+				return 2;
+			if (playerLevel >= 0)
+				return 1;
+			return 1;
+		}
+
+		/// <summary>
 		/// Returns the drug type enums for the drug lords
 		/// </summary>
 		/// <param name="playerStats"></param>

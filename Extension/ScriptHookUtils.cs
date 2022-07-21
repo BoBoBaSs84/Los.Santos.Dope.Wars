@@ -1,5 +1,6 @@
 ﻿using GTA;
 using GTA.Native;
+using GTA.UI;
 using System;
 
 namespace Los.Santos.Dope.Wars.Extension
@@ -17,10 +18,10 @@ namespace Los.Santos.Dope.Wars.Extension
 		}
 
 		/// <summary>
-		/// Returns the current in game time
+		/// The <see cref="GetGameDateTime"/> method returns the current in game <see cref="DateTime"/>
 		/// </summary>
 		/// <returns><see cref="DateTime"/></returns>
-		public static DateTime GetGameDate()
+		public static DateTime GetGameDateTime()
 		{
 			return new DateTime(
 				Function.Call<int>(Hash.GET_CLOCK_YEAR),
@@ -51,6 +52,26 @@ namespace Los.Santos.Dope.Wars.Extension
 			{
 				Enums.Characters currentCharacter = Utils.GetCharacterFromModel();
 				Audio.PlaySoundFrontend("Text_Arrive_Tone", $"Phone_SoundSet_{(currentCharacter.Equals(Enums.Characters.Unknown) ? "Default" : $"{currentCharacter}")}");
+			}
+		}
+
+		/// <summary>
+		/// The <see cref="DrugEnforcementAdministrationBust(Ped, int)"/> method calculates if a bust should be started and initiates everything necessary for it.
+		/// The current logic is, current player level divided by two. Lvl1 -> 0.5%, Lvl10 -> 5%, Lvl50 -> 25%
+		/// </summary>
+		/// <param name="player"></param>
+		/// <param name="playerLevel"></param>
+		public static void DrugEnforcementAdministrationBust(Ped player, int playerLevel)
+		{
+			double currentBustChance = (double)playerLevel / 2;
+			double randomDouble = Constants.random.NextDouble() * 100;
+			if (randomDouble <= currentBustChance)
+			{
+				int wantedLevel = Utils.GetWantedLevelByPlayerLevel(playerLevel);
+				Game.Player.WantedLevel = wantedLevel;
+				Screen.ShowSubtitle("It's a DEA bust! Get the hell out of there!", 5000);
+				Function.Call(Hash.SET_PLAYER_WANTED_LEVEL, player, wantedLevel, 1);
+				Function.Call(Hash.SET_PLAYER_WANTED_LEVEL_NOW, player, 0);
 			}
 		}
 	}

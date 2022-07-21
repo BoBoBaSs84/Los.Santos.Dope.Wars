@@ -1,18 +1,19 @@
 ﻿using GTA.Math;
 using Los.Santos.Dope.Wars.Classes.Base;
+using System.Collections.Generic;
 
 namespace Los.Santos.Dope.Wars.Classes
 {
 	/// <summary>
-	/// The <see cref="DrugLord"/> class for the "Drug Lord", inherits from the base class <see cref="Dealer"/>
+	/// The <see cref="DrugLord"/> class, inherits from the base class <see cref="Dealer"/>
 	/// </summary>
 	public class DrugLord : Dealer
 	{
 		#region properties
 		/// <summary>
-		/// The <see cref="Stash"/> property
+		/// The <see cref="Bodyguards"/> property
 		/// </summary>
-		public DealerStash Stash { get; set; }
+		public List<Bodyguard> Bodyguards { get; set; }
 		#endregion
 
 		#region ctor
@@ -21,9 +22,16 @@ namespace Los.Santos.Dope.Wars.Classes
 		/// </summary>
 		/// <param name="position"></param>
 		/// <param name="heading"></param>
-		public DrugLord(Vector3 position, float heading) : base(position, heading)
+		public DrugLord(Vector3 position, float heading) : base(position, heading, true)
 		{
-			Stash = new DealerStash();
+			Bodyguards = new List<Bodyguard>()
+			{
+				new Bodyguard(position.Around(1.5f), heading),
+				new Bodyguard(position.Around(3f), heading),
+				new Bodyguard(position.Around(3f), heading),
+				new Bodyguard(position.Around(5f), heading),
+				new Bodyguard(position.Around(5f), heading),
+			};
 		}
 		#endregion
 	}

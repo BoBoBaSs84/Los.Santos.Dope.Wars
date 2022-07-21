@@ -1,4 +1,5 @@
 ﻿using GTA;
+using GTA.Math;
 using Los.Santos.Dope.Wars.Classes;
 using Los.Santos.Dope.Wars.Extension;
 using Los.Santos.Dope.Wars.Persistence.Settings;
@@ -13,23 +14,34 @@ namespace Los.Santos.Dope.Wars.Missions
 	/// </summary>
 	public static class DrugLordMission
 	{
+		#region fields
 		private static List<DrugLord>? _drugLords;
-		private static readonly DrugLord? _drugLord;
+		private static DrugLord? _drugLord;
 		private static GameSettings? _gameSettings;
 		private static GameState? _gameState;
 		private static PlayerStats? _playerStats;
 		private static Ped? _player;
+		private static DateTime LastAppearance;
+		private static DateTime NextCheckForAppearance;
+		private static bool ShouldAppear;
+		private static bool IsAppeared;
+		#endregion
 
+		#region properties
 		/// <summary>
 		/// The <see cref="Initialized"/> property indicates if the <see cref="Init(GameSettings, GameState)"/> method was called
 		/// </summary>
 		public static bool Initialized { get; private set; }
+		#endregion
 
+		#region constructor
 		/// <summary>
 		/// The empty <see cref="DrugLordMission"/> class constructor
 		/// </summary>
 		static DrugLordMission() { }
+		#endregion
 
+		#region public methods
 		/// <summary>
 		/// The <see cref="Init(GameSettings, GameState)"/> must be called from outside with the needed parameters
 		/// </summary>
@@ -51,10 +63,15 @@ namespace Los.Santos.Dope.Wars.Missions
 		/// <param name="e"></param>
 		public static void OnAborted(object sender, EventArgs e)
 		{
-			foreach (DrugLord? dealer in _drugLords!)
+			foreach (DrugLord? drugLord in _drugLords!)
 			{
-				dealer.DeleteBlip();
-				dealer.DeletePed();
+				foreach (Bodyguard? bodyguard in drugLord.Bodyguards)
+				{
+					bodyguard.DeleteBlip();
+					bodyguard.DeletePed();
+				}
+				drugLord.DeleteBlip();
+				drugLord.DeletePed();
 			}
 			_drugLords.Clear();
 		}
@@ -80,16 +97,82 @@ namespace Los.Santos.Dope.Wars.Missions
 				// if the reward is not yet unlocked, early exit
 				if (!_playerStats.Reward.DrugLords.HasFlag(Enums.DrugLordStates.Unlocked))
 					return;
+
+				if (ScriptHookUtils.GetGameDateTime() > NextCheckForAppearance)
+					CheckForAppearance();
+
+				// drug lord appeared 12 hours ago...
+				if (ScriptHookUtils.GetGameDateTime() > LastAppearance.AddHours(12) && IsAppeared && _drugLord is not null)
+					CheckForDisappearance();
+
+				if (_drugLord is null && ShouldAppear)
+					SummonDrugLord();
+
 			}
 			catch (Exception ex)
 			{
 				Logger.Error($"{nameof(DrugLordMission)} - {ex.Message} - {ex.InnerException} - {ex.StackTrace}");
 			}
 		}
+		#endregion
 
+		#region private methods
 		private static List<DrugLord>? GetDrugLords()
 		{
-			return _drugLords ??= new List<DrugLord>();
+			List<DrugLord> drugLords = new();
+			Tuple<Vector3, float>[] locations = Constants.DrugDealerSpawnLocations;
+			foreach (Tuple<Vector3, float> location in locations)
+				drugLords.Add(new DrugLord(location.Item1, location.Item2));
+			return drugLords;
 		}
+
+		private static void CheckForAppearance()
+		{
+			LastAppearance = ScriptHookUtils.GetGameDateTime();
+			NextCheckForAppearance = LastAppearance.AddDays(24);
+			double chanceForAppearance = 30;
+			double randomDouble = Constants.random.NextDouble() * 100;
+			if (randomDouble <= chanceForAppearance)
+				ShouldAppear = true;
+		}
+
+		private static void CheckForDisappearance()
+		{
+			foreach (Bodyguard? bodyguard in _drugLord!.Bodyguards)
+			{
+				bodyguard.DeleteBlip();
+				bodyguard.DeletePed();
+			}
+
+			_drugLord.DeleteBlip();
+			_drugLord.DeletePed();
+			_drugLord = null!;
+
+			ShouldAppear = !ShouldAppear;
+			IsAppeared = !IsAppeared;
+		}
+
+		private static void SummonDrugLord()
+		{
+			if (_gameSettings is not null && _playerStats is not null)
+			{
+				int randomPick = Utils.GetRandomInt(0, _drugLords!.Count);
+				_drugLord = _drugLords[randomPick];
+
+				if (!_drugLord.BlipCreated)
+					_drugLord.CreateBlip("Drug Lord", true, false);
+
+				if (!_drugLord.PedCreated)
+					_drugLord.CreatePed();
+
+				_drugLord.Restock(_gameSettings, _playerStats);
+
+				foreach (Bodyguard bodyguard in _drugLord.Bodyguards)
+					bodyguard.CreatePed(_drugLord.Ped!);
+
+				IsAppeared = true;
+			}
+		}
+		#endregion
 	}
 }

@@ -118,7 +118,7 @@ namespace Los.Santos.Dope.Wars
 						if (success)
 						{
 							GameState = loadedGameState;
-							loadedGameState.LastDealerRestock = ScriptHookUtils.GetGameDate().AddHours(-25);
+							loadedGameState.LastDealerRestock = ScriptHookUtils.GetGameDateTime().AddHours(-25);
 							Logger.Status($"Last game state loaded. Version: {GameSettings!.Version}");
 							_gameStateLoaded = success;
 						}
