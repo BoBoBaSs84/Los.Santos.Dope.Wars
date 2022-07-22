@@ -1,6 +1,6 @@
 ﻿using GTA;
 using GTA.Math;
-using Los.Santos.Dope.Wars.Contracts;
+using Los.Santos.Dope.Wars.Contracts.Base;
 using System.Drawing;
 using System.Xml.Serialization;
 

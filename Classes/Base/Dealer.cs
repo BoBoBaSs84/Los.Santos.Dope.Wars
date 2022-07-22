@@ -1,6 +1,6 @@
 ﻿using GTA;
 using GTA.Math;
-using Los.Santos.Dope.Wars.Contracts;
+using Los.Santos.Dope.Wars.Contracts.Base;
 using Los.Santos.Dope.Wars.Extension;
 using Los.Santos.Dope.Wars.Persistence.Settings;
 using Los.Santos.Dope.Wars.Persistence.State;
@@ -11,21 +11,9 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 	/// <summary>
 	/// The <see cref="Dealer"/> base class, implements the members of the <see cref="IDealer"/> interface
 	/// </summary>
-	public abstract class Dealer : IDealer
+	public abstract class Dealer : Pedestrian, IDealer
 	{
 		#region properties
-		/// <inheritdoc/>
-		public Blip? Blip { get; private set; }
-		/// <inheritdoc/>
-		public Vector3 Position { get; private set; }
-		/// <inheritdoc/>
-		public float Heading { get; private set; }
-		/// <inheritdoc/>
-		public Ped? Ped { get; private set; }
-		/// <inheritdoc/>
-		public bool BlipCreated { get; private set; }
-		/// <inheritdoc/>
-		public bool PedCreated { get; private set; }
 		/// <inheritdoc/>
 		public bool IsDrugLord { get; private set; }
 		/// <inheritdoc/>
@@ -43,66 +31,14 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 		/// <param name="position"></param>
 		/// <param name="heading"></param>
 		/// <param name="isDrugLord"></param>
-		public Dealer(Vector3 position, float heading, bool isDrugLord = false)
+		public Dealer(Vector3 position, float heading, bool isDrugLord = false) : base(position, heading)
 		{
-			Position = position;
-			Heading = heading;
 			IsDrugLord = isDrugLord;
 			Stash = new DealerStash();
 		}
 		#endregion
 
 		#region IDealer members
-		/// <inheritdoc/>
-		public void CreateBlip(string blipName = "Drug Dealer", bool isFlashing = false, bool isShortRange = true)
-		{
-			if (!BlipCreated)
-			{
-				Blip = World.CreateBlip(Position);
-				Blip.Sprite = BlipSprite.Drugs;
-				Blip.Name = blipName;
-				Blip.IsShortRange = isShortRange;
-				Blip.IsFlashing = isFlashing;
-				BlipCreated = !BlipCreated;
-			}
-		}
-		/// <inheritdoc/>
-		public void CreatePed(PedHash pedHash, WeaponHash weaponHash = WeaponHash.Pistol, float health = 100f,
-			float armor = 50f, int money = 250, bool switchWeapons = true, bool blockEvents = false, bool dropWeapons = true)
-		{
-			if (!PedCreated)
-			{
-				Model model = ScriptHookUtils.RequestModel(pedHash);
-				Ped = World.CreatePed(model, Position, Heading);
-				Ped.Task.StandStill(-1);
-				Ped.Weapons.Give(weaponHash, 500, true, true);
-				Ped.HealthFloat = health;
-				Ped.ArmorFloat = armor;
-				Ped.Money = money;
-				Ped.CanSwitchWeapons = switchWeapons;
-				Ped.BlockPermanentEvents = blockEvents;
-				Ped.DropsEquippedWeaponOnDeath = dropWeapons;
-				PedCreated = !PedCreated;
-			}
-		}
-		/// <inheritdoc/>
-		public void DeleteBlip()
-		{
-			if (Blip is not null && BlipCreated)
-			{
-				Blip.Delete();
-				BlipCreated = !BlipCreated;
-			}
-		}
-		/// <inheritdoc/>
-		public void DeletePed()
-		{
-			if (Ped is not null && PedCreated)
-			{
-				Ped.Delete();
-				PedCreated = !PedCreated;
-			}
-		}
 		/// <inheritdoc/>
 		public void FleeFromBust()
 		{
@@ -112,20 +48,6 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 				ClosedforBusiness = true;
 				NextOpenBusinesTime = ScriptHookUtils.GetGameDateTime().AddHours(24);
 				Ped.Task.FleeFrom(Position);
-			}
-		}
-		/// <inheritdoc/>
-		public void UpdatePed(float health = 100f, float armor = 50f, int money = 250, bool switchWeapons = true,
-			bool blockEvents = false, bool dropWeapons = true)
-		{
-			if (Ped is not null && PedCreated)
-			{
-				Ped.HealthFloat = health;
-				Ped.ArmorFloat = armor;
-				Ped.Money = money;
-				Ped.CanSwitchWeapons = switchWeapons;
-				Ped.BlockPermanentEvents = blockEvents;
-				Ped.DropsEquippedWeaponOnDeath = dropWeapons;
 			}
 		}
 		/// <inheritdoc/>

@@ -122,7 +122,10 @@ namespace Los.Santos.Dope.Wars.Missions
 					// creating the blips if not already created
 					if (!drugDealer.BlipCreated && !drugDealer.ClosedforBusiness)
 					{
-						drugDealer.CreateBlip();
+						drugDealer.CreateBlip(
+							blipSprite: BlipSprite.Drugs,
+							blipName: "Drug Dealer"							
+							);
 					}
 					// if the player is in range of the dealer
 					if (_player.IsInRange(drugDealer.Position, Constants.DealerCreateDistance) && drugDealer.BlipCreated)

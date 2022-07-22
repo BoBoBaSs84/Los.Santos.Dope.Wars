@@ -2,7 +2,7 @@
 using GTA.Math;
 using System.Drawing;
 
-namespace Los.Santos.Dope.Wars.Contracts
+namespace Los.Santos.Dope.Wars.Contracts.Base
 {
 	/// <summary>
 	/// The <see cref="IPlayerProperty"/> interface is for player properties like warehouses etc.

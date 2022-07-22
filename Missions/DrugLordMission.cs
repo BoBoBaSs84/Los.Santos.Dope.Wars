@@ -160,7 +160,11 @@ namespace Los.Santos.Dope.Wars.Missions
 				_drugLord = _drugLords[randomPick];
 
 				if (!_drugLord.BlipCreated)
-					_drugLord.CreateBlip("Drug Lord", true, false);
+					_drugLord.CreateBlip(
+						blipSprite: BlipSprite.DrugPackage,
+						blipName: "Drug Lord",
+						isShortRange: false
+						);
 
 				if (!_drugLord.PedCreated)
 					_drugLord.CreatePed(

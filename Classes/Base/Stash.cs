@@ -1,4 +1,4 @@
-﻿using Los.Santos.Dope.Wars.Contracts;
+﻿using Los.Santos.Dope.Wars.Contracts.Base;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;

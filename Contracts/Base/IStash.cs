@@ -1,7 +1,7 @@
 ﻿using Los.Santos.Dope.Wars.Classes;
 using System.Collections.Generic;
 
-namespace Los.Santos.Dope.Wars.Contracts
+namespace Los.Santos.Dope.Wars.Contracts.Base
 {
 	/// <summary>
 	/// The <see cref="IStash"/> interface, needed for all who want to do something with drugs
