@@ -224,33 +224,40 @@ namespace Los.Santos.Dope.Wars
 		};
 
 		/// <summary>
-		/// The <see cref="StealableVans"/> list holds all the possile stealable vehicle hashes
+		/// The <see cref="WarehouseMissionVehicles"/> list holds all the possile stealable vehicle for the warehouse mission
 		/// </summary>
-		public static readonly List<VehicleHash> StealableVans = new()
+		public static readonly List<VehicleHash> WarehouseMissionVehicles = new()
 		{
 			VehicleHash.Boxville,
 			VehicleHash.Boxville2,
 			VehicleHash.Boxville3,
 			VehicleHash.Boxville4,
 			VehicleHash.Burrito,
+			VehicleHash.Burrito2,
 			VehicleHash.Burrito3,
 			VehicleHash.Burrito4,
+			VehicleHash.Burrito5,
+			VehicleHash.GBurrito,
 			VehicleHash.GBurrito2,
-			VehicleHash.Camper,
-			VehicleHash.Journey,
+			VehicleHash.Mule,
+			VehicleHash.Mule2,
+			VehicleHash.Mule3,
+			VehicleHash.Mule4,
+			VehicleHash.Mule5,
 			VehicleHash.Paradise,
 			VehicleHash.Pony,
 			VehicleHash.Pony2,
 			VehicleHash.Rumpo,
 			VehicleHash.Rumpo2,
+			VehicleHash.Rumpo3,
 			VehicleHash.Speedo,
 			VehicleHash.Speedo2,
 			VehicleHash.Surfer,
+			VehicleHash.Surfer2,
 			VehicleHash.Youga,
-			VehicleHash.Benson,
-			VehicleHash.Mule,
-			VehicleHash.Mule2,
-			VehicleHash.Mule3
+			VehicleHash.Youga2,
+			VehicleHash.Youga3,
+			VehicleHash.Youga4
 		};
 
 		/// <summary>
@@ -282,18 +289,18 @@ namespace Los.Santos.Dope.Wars
 
 		public static readonly Vector3 WarehouseLocationFranklin = new(-192.4f, -1707.5f, 37.7f);
 
-		public static readonly Vector3 WarehouseMissionStartFranklin = new(-204.25f, -1720.75f, 32.66f);
+		public static readonly Vector3 WarehouseMissionMarkerFranklin = new(-204.25f, -1720.75f, 32.66f);
 
-		public static readonly Vector3 WarehouseEntranceMichael = new(794.2f, -102.8f, 82f);
+		public static readonly Vector3 WarehouseEntranceMichael = new(794.2f, -102.8f, 81f);
 
 		public static readonly Vector3 WarehouseLocationMichael = new(799.5f, -94.6f, 80.6f);
 
-		public static readonly Vector3 WarehouseMissionStartMichael = new(794.8f, -79.2f, 80.6f);
+		public static readonly Vector3 WarehouseMissionMarkerMichael = new(794.8f, -79.2f, 79.6f);
 
-		public static readonly Vector3 WarehouseEntranceTrevor = new(996.6f, 3775.2f, 34.1f);
+		public static readonly Vector3 WarehouseEntranceTrevor = new(996.6f, 3775.2f, 33.1f);
 
 		public static readonly Vector3 WarehouseLocationTrevor = new(989.1f, 3574.8f, 35f);
 
-		public static readonly Vector3 WarehouseMissionStartTrevor = new(977.75f, 3591.4f, 33.4f);
+		public static readonly Vector3 WarehouseMissionMarkerTrevor = new(977.75f, 3591.4f, 33.4f);
 	}
 }

@@ -218,5 +218,27 @@ namespace Los.Santos.Dope.Wars
 			/// </summary>
 			Bodyguard = 3
 		}
+		/// <summary>
+		/// The <see cref="WarehouseMission"/> enums
+		/// </summary>
+		public enum WarehouseMission
+		{
+			/// <summary>
+			/// The <see cref="NotStarted"/> enum
+			/// </summary>
+			NotStarted = 0,
+			/// <summary>
+			/// The <see cref="Started"/> enum
+			/// </summary>
+			Started = 1,
+			/// <summary>
+			/// The <see cref="VanDelivered"/> enum
+			/// </summary>			
+			VanStolen = 2,
+			/// <summary>
+			/// The <see cref="NotStarted"/> enum
+			/// </summary>
+			VanDelivered = 3
+		}
 	}
 }

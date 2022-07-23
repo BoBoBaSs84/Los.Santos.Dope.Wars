@@ -40,12 +40,14 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 		#endregion
 
 		#region IPedestrian members
+		/// <inheritdoc/>
 		public void CreateBlip(BlipSprite blipSprite = BlipSprite.Standard, BlipColor blipColor = BlipColor.White, string blipName = "J.Doe", bool isFlashing = false, bool isShortRange = true)
 		{
 			if (!BlipCreated)
 			{
 				Blip = World.CreateBlip(Position);
 				Blip.Sprite = blipSprite;
+				Blip.Scale = 0.8f;
 				Blip.Color = blipColor;
 				Blip.Name = blipName;
 				Blip.IsFlashing = isFlashing;

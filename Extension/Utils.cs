@@ -164,9 +164,9 @@ namespace Los.Santos.Dope.Wars.Extension
 		{
 			return (PedHash)Game.Player.Character.Model switch
 			{
-				PedHash.Franklin => (Constants.WarehouseLocationFranklin, Constants.WarehouseEntranceFranklin, Constants.WarehouseMissionStartFranklin),
-				PedHash.Michael => (Constants.WarehouseLocationMichael, Constants.WarehouseEntranceMichael, Constants.WarehouseMissionStartMichael),
-				PedHash.Trevor => (Constants.WarehouseLocationTrevor, Constants.WarehouseEntranceTrevor, Constants.WarehouseMissionStartTrevor),
+				PedHash.Franklin => (Constants.WarehouseLocationFranklin, Constants.WarehouseEntranceFranklin, Constants.WarehouseMissionMarkerFranklin),
+				PedHash.Michael => (Constants.WarehouseLocationMichael, Constants.WarehouseEntranceMichael, Constants.WarehouseMissionMarkerMichael),
+				PedHash.Trevor => (Constants.WarehouseLocationTrevor, Constants.WarehouseEntranceTrevor, Constants.WarehouseMissionMarkerTrevor),
 				_ => (Vector3.Zero, Vector3.Zero, Vector3.Zero)
 			};
 		}

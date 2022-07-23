@@ -18,6 +18,14 @@ namespace Los.Santos.Dope.Wars.Extension
 		}
 
 		/// <summary>
+		/// The <see cref="FlashMinimapDisplay"/> methods lets the small minimap on the screen flash (once)
+		/// </summary>
+		public static void FlashMinimapDisplay()
+		{
+			Function.Call(Hash.FLASH_MINIMAP_DISPLAY);
+		}
+
+		/// <summary>
 		/// The <see cref="RequestModel(PedHash)"/> method returns the model requested by the ped hash parameter
 		/// </summary>
 		/// <param name="Name"></param>

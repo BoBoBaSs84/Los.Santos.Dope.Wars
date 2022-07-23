@@ -74,6 +74,7 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 				Blip = World.CreateBlip(Position);
 				Blip.Sprite = blipSprite;
 				Blip.Color = blipColor;
+				Blip.Scale = 0.8f;
 				Blip.IsFlashing = false;
 				Blip.IsShortRange = true;
 				BlipCreated = !BlipCreated;
