@@ -15,7 +15,7 @@ namespace Los.Santos.Dope.Wars.Persistence.State
 		/// </summary>
 		public GameState()
 		{
-			Version = Constants.AssemblyVersion;
+			Version = Statics.AssemblyVersion;
 			LastDealerRestock = DateTime.MinValue;
 			LastDealerRefresh = DateTime.MinValue;
 			Franklin = new PlayerStats();

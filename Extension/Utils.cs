@@ -18,6 +18,10 @@ namespace Los.Santos.Dope.Wars.Extension
 	/// </summary>
 	public static class Utils
 	{
+		#region fields
+		private static readonly Random _random = new();
+		#endregion
+
 		#region public methods
 		/// <summary>
 		/// The <see cref="GetRandomPedHash(Enums.PedType)"/> method returns a random ped hash
@@ -28,9 +32,9 @@ namespace Los.Santos.Dope.Wars.Extension
 		{
 			return pedType switch
 			{
-				Enums.PedType.DrugLord => Constants.DrugLordPedHashes[Constants.random.Next(Constants.DrugLordPedHashes.Count)],
-				Enums.PedType.DrugDealer => Constants.DrugDealerPedHashes[Constants.random.Next(Constants.DrugDealerPedHashes.Count)],
-				Enums.PedType.Bodyguard => Constants.BodyguardPedHashes[Constants.random.Next(Constants.BodyguardPedHashes.Count)],
+				Enums.PedType.DrugLord => Statics.DrugLordPedHashes[GetRandomInt(Statics.DrugLordPedHashes.Count)],
+				Enums.PedType.DrugDealer => Statics.DrugDealerPedHashes[GetRandomInt(Statics.DrugDealerPedHashes.Count)],
+				Enums.PedType.Bodyguard => Statics.BodyguardPedHashes[GetRandomInt(Statics.BodyguardPedHashes.Count)],
 				_ => PedHash.ArmGoon01GMM
 			};
 		}
@@ -44,9 +48,9 @@ namespace Los.Santos.Dope.Wars.Extension
 		{
 			return pedType switch
 			{
-				Enums.PedType.DrugLord => Constants.DrugLordWeaponHashes[Constants.random.Next(Constants.DrugLordWeaponHashes.Count)],
-				Enums.PedType.DrugDealer => Constants.DrugDealerWeaponHashes[Constants.random.Next(Constants.DrugDealerWeaponHashes.Count)],
-				Enums.PedType.Bodyguard => Constants.BodyguardWeaponHashes[Constants.random.Next(Constants.BodyguardWeaponHashes.Count)],
+				Enums.PedType.DrugLord => Statics.DrugLordWeaponHashes[GetRandomInt(Statics.DrugLordWeaponHashes.Count)],
+				Enums.PedType.DrugDealer => Statics.DrugDealerWeaponHashes[GetRandomInt(Statics.DrugDealerWeaponHashes.Count)],
+				Enums.PedType.Bodyguard => Statics.BodyguardWeaponHashes[GetRandomInt(Statics.BodyguardWeaponHashes.Count)],
 				_ => WeaponHash.Pistol
 			};
 		}
@@ -164,9 +168,9 @@ namespace Los.Santos.Dope.Wars.Extension
 		{
 			return (PedHash)Game.Player.Character.Model switch
 			{
-				PedHash.Franklin => (Constants.WarehouseLocationFranklin, Constants.WarehouseEntranceFranklin, Constants.WarehouseMissionMarkerFranklin),
-				PedHash.Michael => (Constants.WarehouseLocationMichael, Constants.WarehouseEntranceMichael, Constants.WarehouseMissionMarkerMichael),
-				PedHash.Trevor => (Constants.WarehouseLocationTrevor, Constants.WarehouseEntranceTrevor, Constants.WarehouseMissionMarkerTrevor),
+				PedHash.Franklin => (Statics.WarehouseLocationFranklin, Statics.WarehouseEntranceFranklin, Statics.WarehouseMissionMarkerFranklin),
+				PedHash.Michael => (Statics.WarehouseLocationMichael, Statics.WarehouseEntranceMichael, Statics.WarehouseMissionMarkerMichael),
+				PedHash.Trevor => (Statics.WarehouseLocationTrevor, Statics.WarehouseEntranceTrevor, Statics.WarehouseMissionMarkerTrevor),
 				_ => (Vector3.Zero, Vector3.Zero, Vector3.Zero)
 			};
 		}
@@ -212,13 +216,13 @@ namespace Los.Santos.Dope.Wars.Extension
 			GameSettings gameSettings = new();
 			try
 			{
-				if (File.Exists(Constants.GameSettingsFileName))
+				if (File.Exists(Statics.GameSettingsFileName))
 				{
-					string readText = File.ReadAllText(Constants.GameSettingsFileName);
+					string readText = File.ReadAllText(Statics.GameSettingsFileName);
 					gameSettings = readText.DeserializeFromFile<GameSettings>();
-					if (gameSettings.Version.Equals(Constants.AssemblyVersion))
+					if (gameSettings.Version.Equals(Statics.AssemblyVersion))
 					{
-						gameSettings.Version = Constants.AssemblyVersion;
+						gameSettings.Version = Statics.AssemblyVersion;
 						SaveGameSettings(gameSettings);
 					}
 				}
@@ -244,7 +248,7 @@ namespace Los.Santos.Dope.Wars.Extension
 			(bool success, string returnString) = SerializeObjectToString(settings);
 			if (success)
 				File.WriteAllText(
-						path: Constants.GameSettingsFileName,
+						path: Statics.GameSettingsFileName,
 						contents: returnString,
 						encoding: Encoding.UTF8
 						);
@@ -259,13 +263,13 @@ namespace Los.Santos.Dope.Wars.Extension
 			GameState gameState = new();
 			try
 			{
-				if (File.Exists(Constants.GameStateFileName))
+				if (File.Exists(Statics.GameStateFileName))
 				{
-					string readText = File.ReadAllText(Constants.GameStateFileName);
+					string readText = File.ReadAllText(Statics.GameStateFileName);
 					gameState = readText.DeserializeFromFile<GameState>();
-					if (!gameState.Version.Equals(Constants.AssemblyVersion))
+					if (!gameState.Version.Equals(Statics.AssemblyVersion))
 					{
-						gameState.Version = Constants.AssemblyVersion;
+						gameState.Version = Statics.AssemblyVersion;
 						SaveGameState(gameState);
 					}
 				}
@@ -291,24 +295,30 @@ namespace Los.Santos.Dope.Wars.Extension
 			(bool success, string returnString) = SerializeObjectToString(gameState);
 			if (success)
 				File.WriteAllText(
-						path: Constants.GameStateFileName,
+						path: Statics.GameStateFileName,
 						contents: returnString,
 						encoding: Encoding.UTF8
 						);
 		}
 
 		/// <summary>
-		/// Method gets a random integer
+		/// The <see cref="GetRandomDouble"/> method Returns a random floating-point number that is greater than or equal to 0.0 and less than 1.0.
+		/// </summary>
+		/// <returns><see cref="double"/></returns>
+		public static double GetRandomDouble() => _random.NextDouble();
+
+		/// <summary>
+		/// The <see cref="GetRandomInt"/> method gets a random integer
 		/// </summary>
 		/// <returns><see cref="int"/></returns>
-		public static int GetRandomInt() => Constants.random.Next();
+		public static int GetRandomInt() => _random.Next();
 
 		/// <summary>
 		/// Method gets a random integer, within max range defined
 		/// </summary>
 		/// <param name="max"></param>
 		/// <returns><see cref="int"/></returns>
-		public static int GetRandomInt(int max) => Constants.random.Next(max);
+		public static int GetRandomInt(int max) => _random.Next(max);
 
 		/// <summary>
 		/// Method gets a random integer, within min and max range defined
@@ -316,7 +326,7 @@ namespace Los.Santos.Dope.Wars.Extension
 		/// <param name="min"></param>
 		/// <param name="max"></param>
 		/// <returns><see cref="int"/></returns>
-		public static int GetRandomInt(int min, int max) => Constants.random.Next(min, max);
+		public static int GetRandomInt(int min, int max) => _random.Next(min, max);
 		#endregion
 
 		#region private methods

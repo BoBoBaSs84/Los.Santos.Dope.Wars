@@ -120,7 +120,7 @@ namespace Los.Santos.Dope.Wars.Missions
 		private static List<DrugLord>? GetDrugLords()
 		{
 			List<DrugLord> drugLords = new();
-			Tuple<Vector3, float>[] locations = Constants.DrugDealerSpawnLocations;
+			Tuple<Vector3, float>[] locations = Statics.DrugLordSpawnLocations;
 			foreach (Tuple<Vector3, float> location in locations)
 				drugLords.Add(new DrugLord(location.Item1, location.Item2));
 			return drugLords;
@@ -131,7 +131,7 @@ namespace Los.Santos.Dope.Wars.Missions
 			LastCheckForAppearance = ScriptHookUtils.GetGameDateTime();
 			NextCheckForAppearance = LastCheckForAppearance.AddDays(24);
 			double chanceForAppearance = 30;
-			double randomDouble = Constants.random.NextDouble() * 100;
+			double randomDouble = Utils.GetRandomDouble() * 100;
 			if (randomDouble <= chanceForAppearance)
 				ShouldAppear = true;
 		}

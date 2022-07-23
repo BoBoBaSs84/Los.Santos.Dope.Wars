@@ -9,6 +9,7 @@ namespace Los.Santos.Dope.Wars.GUI.Elements
 	/// </summary>
 	public class StatisticsMenu : NativeMenu
 	{
+		#region properties
 		/// <summary>
 		/// The <see cref="StatisticsMenuShown"/> property
 		/// </summary>
@@ -18,8 +19,9 @@ namespace Los.Santos.Dope.Wars.GUI.Elements
 		/// The <see cref="StatisticsMenuClosed"/> property
 		/// </summary>
 		public bool StatisticsMenuClosed { get; private set; }
+		#endregion
 
-
+		#region ctor
 		/// <summary>
 		/// The standard constructor with standard values
 		/// </summary>
@@ -31,13 +33,15 @@ namespace Los.Santos.Dope.Wars.GUI.Elements
 			Alignment = Alignment.Left;
 			Banner.Color = color;
 			ItemCount = CountVisibility.Never;
-			Offset = new System.Drawing.PointF(Constants.ScreeSize.Width / 3, Constants.ScreeSize.Width / 3);
+			Offset = new System.Drawing.PointF(Statics.ScreeSize.Width / 3, Statics.ScreeSize.Width / 3);
 			UseMouse = false;
-			Width = Constants.ScreeSize.Width / 3;
+			Width = Statics.ScreeSize.Width / 3;
 			Closed += StatisticsMenu_Closed;
 			Shown += StatisticsMenu_Shown;
 		}
+		#endregion
 
+		#region private methods
 		private void StatisticsMenu_Shown(object sender, EventArgs e)
 		{
 			StatisticsMenuClosed = false;
@@ -49,5 +53,6 @@ namespace Los.Santos.Dope.Wars.GUI.Elements
 			StatisticsMenuClosed = true;
 			StatisticsMenuShown = false;
 		}
+		#endregion
 	}
 }

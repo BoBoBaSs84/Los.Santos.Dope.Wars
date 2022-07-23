@@ -9,6 +9,7 @@ namespace Los.Santos.Dope.Wars.GUI.Elements
 	/// </summary>
 	public class SellMenu : NativeMenu
 	{
+		#region properties
 		/// <summary>
 		/// The <see cref="SellMenuShown"/> property
 		/// </summary>
@@ -18,7 +19,9 @@ namespace Los.Santos.Dope.Wars.GUI.Elements
 		/// The <see cref="SellMenuClosed"/> property
 		/// </summary>
 		public bool SellMenuClosed { get; private set; }
+		#endregion
 
+		#region ctor
 		/// <summary>
 		/// The standard constructor with standard values
 		/// </summary>
@@ -30,13 +33,15 @@ namespace Los.Santos.Dope.Wars.GUI.Elements
 			Alignment = Alignment.Right;
 			Banner.Color = color;
 			ItemCount = CountVisibility.Always;
-			Offset = new System.Drawing.PointF(-Constants.ScreeSize.Width / 64, Constants.ScreeSize.Height / 36);
+			Offset = new System.Drawing.PointF(Statics.ScreeSize.Width / 64, Statics.ScreeSize.Height / 36);
 			UseMouse = false;
 			TitleFont = Font.Pricedown;
 			Closed += SellMenu_Closed;
 			Shown += SellMenu_Shown;
 		}
+		#endregion
 
+		#region private methods
 		private void SellMenu_Shown(object sender, EventArgs e)
 		{
 			SellMenuClosed = false;
@@ -48,5 +53,6 @@ namespace Los.Santos.Dope.Wars.GUI.Elements
 			SellMenuClosed = true;
 			SellMenuShown = false;
 		}
+		#endregion
 	}
 }

@@ -42,7 +42,7 @@ namespace Los.Santos.Dope.Wars.Extension
 		private static void Log(string type, string message)
 		{
 			File.AppendAllText(
-					path: Constants.LogFileName,
+					path: Statics.LogFileName,
 					contents: $"{DateTime.Now:yyyy-MM-ddTHH:mm:ss.fff} | {type} | {message}{Environment.NewLine}",
 					encoding: Encoding.UTF8
 					);

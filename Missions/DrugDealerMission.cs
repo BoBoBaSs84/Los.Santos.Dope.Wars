@@ -187,7 +187,7 @@ namespace Los.Santos.Dope.Wars.Missions
 		private static List<DrugDealer> GetDrugDealers()
 		{
 			List<DrugDealer> drugDealers = new();
-			Tuple<Vector3, float>[] locations = Constants.DrugDealerSpawnLocations;
+			Tuple<Vector3, float>[] locations = Statics.DrugDealerSpawnLocations;
 			foreach (Tuple<Vector3, float>? location in locations)
 				drugDealers.Add(new DrugDealer(location.Item1, location.Item2));
 			return drugDealers;

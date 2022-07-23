@@ -100,7 +100,7 @@ namespace Los.Santos.Dope.Wars
 			{
 				if (!_gameSettingsLoaded || !_gameStateLoaded)
 				{
-					Logger.Status($"Game: {Constants.AssemblyName} - Vesion: {Constants.AssemblyVersion}");
+					Logger.Status($"Game: {Statics.AssemblyName} - Vesion: {Statics.AssemblyVersion}");
 
 					if (!_gameSettingsLoaded)
 					{

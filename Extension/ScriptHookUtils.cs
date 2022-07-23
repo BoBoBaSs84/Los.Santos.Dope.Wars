@@ -91,7 +91,7 @@ namespace Los.Santos.Dope.Wars.Extension
 		public static void DrugEnforcementAdministrationBust(Ped player, int playerLevel)
 		{
 			double currentBustChance = (double)playerLevel / 2;
-			double randomDouble = Constants.random.NextDouble() * 100;
+			double randomDouble = Utils.GetRandomDouble() * 100;
 			if (randomDouble <= currentBustChance)
 			{
 				int wantedLevel = Utils.GetWantedLevelByPlayerLevel(playerLevel);

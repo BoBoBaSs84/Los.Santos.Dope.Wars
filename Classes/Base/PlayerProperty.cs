@@ -91,10 +91,10 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 		}
 		/// <inheritdoc/>
 		public void DrawEntranceMarker(Vector3 markerLocation, Color markerColor) =>
-			World.DrawMarker(EntranceMarkerType, markerLocation, Vector3.Zero, Vector3.Zero, Constants.EntranceMarkerScale, markerColor);
+			World.DrawMarker(EntranceMarkerType, markerLocation, Vector3.Zero, Vector3.Zero, Statics.EntranceMarkerScale, markerColor);
 		/// <inheritdoc/>
 		public void DrawMissionMarker(Vector3 markerLocation, Color markerColor) =>
-			World.DrawMarker(MissionMarkerType, markerLocation, Vector3.Zero, Vector3.Zero, Constants.MissionMarkerScale, markerColor);
+			World.DrawMarker(MissionMarkerType, markerLocation, Vector3.Zero, Vector3.Zero, Statics.MissionMarkerScale, markerColor);
 		/// <inheritdoc/>
 		public void UpdateBlip(BlipSprite blipSprite = BlipSprite.BusinessForSale, BlipColor blipColor = BlipColor.White)
 		{

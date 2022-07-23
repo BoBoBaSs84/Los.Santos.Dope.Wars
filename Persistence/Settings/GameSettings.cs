@@ -15,7 +15,7 @@ namespace Los.Santos.Dope.Wars.Persistence.Settings
 		/// </summary>
 		public GameSettings()
 		{
-			Version = Constants.AssemblyVersion;
+			Version = Statics.AssemblyVersion;
 			Dealer = new();
 			GamePlay = new();
 			Player = new();
