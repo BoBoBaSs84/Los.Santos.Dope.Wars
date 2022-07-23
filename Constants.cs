@@ -266,7 +266,7 @@ namespace Los.Santos.Dope.Wars
 			new Vector3(212.366f, -3328.39f, 5.704f)
 		};
 
-		public const float MarkerDrawDistance = 20f;
+		public const float MarkerDrawDistance = 50f;
 
 		public const float DealerCreateDistance = 100f;
 

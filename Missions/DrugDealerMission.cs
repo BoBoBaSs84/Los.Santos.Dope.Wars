@@ -124,7 +124,7 @@ namespace Los.Santos.Dope.Wars.Missions
 					{
 						drugDealer.CreateBlip(
 							blipSprite: BlipSprite.Drugs,
-							blipName: "Drug Dealer"							
+							blipName: "Drug Dealer"
 							);
 					}
 					// if the player is in range of the dealer

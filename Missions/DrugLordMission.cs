@@ -178,7 +178,8 @@ namespace Los.Santos.Dope.Wars.Missions
 				{
 					var pedHash = Utils.GetRandomPedHash(Enums.PedType.Bodyguard);
 					var weaponHash = Utils.GetRandomWeaponHash(Enums.PedType.Bodyguard);
-					bodyguard.CreatePed(pedHash, weaponHash, _drugLord.Ped!);
+					bodyguard.CreatePed(pedHash, weaponHash, 150f, 150, 50);
+					bodyguard.ProtectTarget(_drugLord.Ped!);
 				}
 				IsAppeared = true;
 			}

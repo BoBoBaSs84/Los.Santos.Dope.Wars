@@ -7,8 +7,7 @@ using System.Xml.Serialization;
 namespace Los.Santos.Dope.Wars.Classes.Base
 {
 	/// <summary>
-	/// The <see cref="PlayerProperty"/> class is the base class for player properties.
-	/// Implements the members of the <see cref="IPlayerProperty"/> interface
+	/// The <see cref="PlayerProperty"/> class is the base class for player properties. Implements the members of the <see cref="IPlayerProperty"/> interface.
 	/// </summary>
 	public abstract class PlayerProperty : IPlayerProperty
 	{
@@ -68,15 +67,6 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 
 		#region IPlayerProperty methods
 		/// <inheritdoc/>
-		public void ChangeBlip(BlipSprite blipSprite = BlipSprite.BusinessForSale, BlipColor blipColor = BlipColor.White)
-		{
-			if (Blip is not null && BlipCreated)
-			{
-				Blip.Sprite = blipSprite;
-				Blip.Color = blipColor;
-			}
-		}
-		/// <inheritdoc/>
 		public void CreateBlip(BlipSprite blipSprite = BlipSprite.BusinessForSale, BlipColor blipColor = BlipColor.White)
 		{
 			if (!BlipCreated)
@@ -99,21 +89,18 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 			}
 		}
 		/// <inheritdoc/>
-		public void DrawEntranceMarker(Vector3 markerLocation, Color markerColor)
-		{
-			if (!EntranceMarkerCreated)
-			{
-				World.DrawMarker(EntranceMarkerType, markerLocation, Vector3.Zero, Vector3.Zero, Constants.EntranceMarkerScale, markerColor);
-				EntranceMarkerCreated = !EntranceMarkerCreated;
-			}
-		}
+		public void DrawEntranceMarker(Vector3 markerLocation, Color markerColor) =>
+			World.DrawMarker(EntranceMarkerType, markerLocation, Vector3.Zero, Vector3.Zero, Constants.EntranceMarkerScale, markerColor);
 		/// <inheritdoc/>
-		public void DrawMissionMarker(Vector3 markerLocation, Color markerColor)
+		public void DrawMissionMarker(Vector3 markerLocation, Color markerColor) =>
+			World.DrawMarker(MissionMarkerType, markerLocation, Vector3.Zero, Vector3.Zero, Constants.MissionMarkerScale, markerColor);
+		/// <inheritdoc/>
+		public void UpdateBlip(BlipSprite blipSprite = BlipSprite.BusinessForSale, BlipColor blipColor = BlipColor.White)
 		{
-			if (!MissionMarkerCreated)
+			if (Blip is not null && BlipCreated)
 			{
-				World.DrawMarker(MissionMarkerType, markerLocation, Vector3.Zero, Vector3.Zero, Constants.MissionMarkerScale, markerColor);
-				MissionMarkerCreated = !MissionMarkerCreated;
+				Blip.Sprite = blipSprite;
+				Blip.Color = blipColor;
 			}
 		}
 		#endregion

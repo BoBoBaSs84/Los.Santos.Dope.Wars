@@ -85,7 +85,7 @@ namespace Los.Santos.Dope.Wars.Missions
 						if (_playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
 						{
 							BlipColor blipColor = Utils.GetCharacterBlipColor(Utils.GetCharacterFromModel());
-							_warehouse.ChangeBlip(BlipSprite.Warehouse, blipColor);
+							_warehouse.UpdateBlip(BlipSprite.Warehouse, blipColor);
 							_warehouse.Stash = _playerStats.Warehouse.Stash;
 						}
 					}
@@ -148,14 +148,14 @@ namespace Los.Santos.Dope.Wars.Missions
 		}
 
 		/// <summary>
-		/// 
+		/// The <see cref="OnAborted(object, EventArgs)"/> method
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		public static void OnAborted(object sender, EventArgs e)
 		{
 			if (_warehouse!.BlipCreated)
-				{
+			{
 				_warehouse.DeleteBlip();
 				_warehouse = null;
 			}
@@ -168,11 +168,9 @@ namespace Los.Santos.Dope.Wars.Missions
 		/// </summary>
 		private static void BuyWareHouse()
 		{
-			_warehousePrice = _gameSettings!.GamePlay.Reward.Warehouse.WarehousePrice;
-
 			if (Game.Player.Money < _warehousePrice)
 			{
-				Screen.ShowSubtitle($"You don't have enough money to buy the warehouse.");
+				Screen.ShowSubtitle($"You don't have enough ~r~money ~w~to buy the ~y~warehouse~w~.");
 				return;
 			}
 
@@ -182,7 +180,7 @@ namespace Los.Santos.Dope.Wars.Missions
 			Notification.Show("You bought a ~g~warehouse~w~, use it to keep your drugs safe.");
 			Notification.Show("But beware! Other ~r~shady ~w~individuals might be interested in it.");
 			Audio.PlaySoundFrontend("PURCHASE", "HUD_LIQUOR_STORE_SOUNDSET");
-			_warehouse!.ChangeBlip(BlipSprite.Warehouse, blipColor);
+			_warehouse!.UpdateBlip(BlipSprite.Warehouse, blipColor);
 			Utils.SaveGameState(_gameState!);
 		}
 		#endregion
