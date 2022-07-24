@@ -7,7 +7,6 @@ using Los.Santos.Dope.Wars.GUI;
 using Los.Santos.Dope.Wars.Persistence.Settings;
 using Los.Santos.Dope.Wars.Persistence.State;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Los.Santos.Dope.Wars.Missions
@@ -25,7 +24,11 @@ namespace Los.Santos.Dope.Wars.Missions
 		private static Warehouse? _warehouse;
 		private static int _warehousePrice;
 		private static DateTime _nextDrugVanMissionStart;
-		private static Enums.WarehouseMission _missionState;
+		private static Enums.WarehouseMissionStates _missionState;
+		private static bool _drugVanSetupDone;
+		private static Vehicle? _drugVan;
+		private static Ped? _drugVanDriver;
+		private static DealerStash? _vanStash;
 		#endregion
 
 		#region properties
@@ -101,27 +104,26 @@ namespace Los.Santos.Dope.Wars.Missions
 					// player has bought the warehouse
 					if (_playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Bought))
 					{
+						// draw the entrance
 						if (_player.IsInRange(_warehouse.EntranceMarker, Constants.MarkerDrawDistance))
 							_warehouse.DrawEntranceMarker(_warehouse.EntranceMarker, Utils.GetCurrentPlayerColor());
-						
-						if (_player.IsInRange(_warehouse.MissionMarker, Constants.MarkerDrawDistance)	&& 
-							(_missionState.Equals(Enums.WarehouseMission.NotStarted) || _missionState.Equals(Enums.WarehouseMission.VanStolen)))
-							_warehouse.DrawMissionMarker(_warehouse.MissionMarker, Utils.GetCurrentPlayerColor());
-						
+						// draw mission marker
+						if (_player.IsInRange(_warehouse.MissionMarker, Constants.MarkerDrawDistance))
+							if (_nextDrugVanMissionStart <= ScriptHookUtils.GetGameDateTime() && _missionState.Equals(Enums.WarehouseMissionStates.NotStarted))
+								_warehouse.DrawMissionMarker(_warehouse.MissionMarker, Utils.GetCurrentPlayerColor());
+						// start mission
 						if (_player.IsInRange(_warehouse.MissionMarker, Constants.MarkerInteractionDistance))
-						{
-							if (_missionState.Equals(Enums.WarehouseMission.NotStarted))
+							if (_missionState.Equals(Enums.WarehouseMissionStates.NotStarted) && _nextDrugVanMissionStart <= ScriptHookUtils.GetGameDateTime())
 							{
 								Screen.ShowHelpTextThisFrame($"~b~Press ~INPUT_CONTEXT~ ~w~to start a warehouse mission.");
 								if (Game.IsControlJustPressed(Control.Context))
 								{
 									Script.Wait(10);
-									StartMission();
+									_missionState = Enums.WarehouseMissionStates.Started;
+									_nextDrugVanMissionStart = ScriptHookUtils.GetGameDateTime().AddHours(12);
 								}
 							}
-						}
-					}					
-
+					}
 					// now we are real close to the warehouse entrance
 					if (_player.IsInRange(_warehouse.EntranceMarker, Constants.MarkerInteractionDistance) && Game.Player.WantedLevel.Equals(0))
 					{
@@ -144,10 +146,135 @@ namespace Los.Santos.Dope.Wars.Missions
 					}
 					// now we are not close to the warehouse entrance or we are wanted by the cops
 					else if (!_player.IsInRange(_warehouse.EntranceMarker, Constants.MarkerInteractionDistance) || !Game.Player.WantedLevel.Equals(0))
-					{
 						WarehouseMenu.ShowWarehouseMenu = false;
+				}
+				#region mission
+				// the mission has been started
+				if (_missionState.Equals(Enums.WarehouseMissionStates.Started))
+				{
+					Game.IsMissionActive = true;
+					if (!_drugVanSetupDone)
+					{
+						Model vehicleModel = ScriptHookUtils.RequestModel(Statics.WarehouseMissionVehicles[Utils.GetRandomInt(Statics.WarehouseMissionVehicles.Count)]);
+						Model driverModel = Utils.GetRandomPedHash(Enums.PedType.DrugDealer);
+						Vector3 location = World.GetNextPositionOnStreet(_player.Position.Around(1000f), true);
+
+						_drugVan = World.CreateVehicle(vehicleModel, location);
+						_drugVanDriver = World.CreatePed(driverModel, location);
+						_drugVanDriver.Weapons.Give(Utils.GetRandomWeaponHash(Enums.PedType.DrugDealer), 500, true, true);
+						_drugVanDriver.Task.CruiseWithVehicle(_drugVan, 10f, DrivingStyle.Normal);
+
+						Blip blip = _drugVan.AddBlip();
+						blip.Sprite = BlipSprite.DrugPackage;
+						blip.IsShortRange = false;
+						blip.Name = "Drug Van";
+
+						_drugVanSetupDone = !_drugVanSetupDone;
+					}
+
+					if (Game.Player.WantedLevel.Equals(0))
+					{
+						if (_drugVan is not null)
+						{
+							Screen.ShowSubtitle($"~b~Steal ~w~the drugs that are in the ~y~car ~w~of the model type {_drugVan.DisplayName}!");
+
+							if (_drugVan.IsConsideredDestroyed || _player.IsDead || _player.IsCuffed)
+							{
+								_missionState = Enums.WarehouseMissionStates.Aborted;
+							}
+
+							if (_drugVan.Driver.Equals(_player) && _player.CurrentVehicle is not null)
+							{
+								if (_drugVanDriver is not null)
+									_drugVanDriver.MarkAsNoLongerNeeded();
+								_missionState = Enums.WarehouseMissionStates.VanStolen;
+							}
+						}
+					}
+					else
+					{
+						Screen.ShowSubtitle($"~b~Lose ~w~the ~r~cops!");
 					}
 				}
+				// the vehicle has been stolen
+				if (_missionState.Equals(Enums.WarehouseMissionStates.VanStolen))
+				{
+					if (_player.IsInRange(_warehouse!.MissionMarker, Constants.MarkerDrawDistance))
+						_warehouse!.DrawMissionMarker(_warehouse.MissionMarker, Utils.GetCurrentPlayerColor());
+
+					if (_vanStash is null)
+					{
+						_vanStash = new();
+						_vanStash.RestockQuantity(_playerStats, _gameSettings!);
+						_vanStash.RefreshDrugMoney(_playerStats, _gameSettings!);
+					}
+
+					if (Game.Player.WantedLevel.Equals(0))
+					{
+						if (_drugVan is not null)
+						{
+							Screen.ShowSubtitle($"~b~Bring ~w~the car back to your ~y~warehouse.");
+
+							if (_drugVan.IsConsideredDestroyed || _player.IsDead || _player.IsCuffed)
+							{
+								_missionState = Enums.WarehouseMissionStates.Aborted;
+							}
+
+							if (World.GetDistance(_drugVan.Position, _warehouse!.MissionMarker) < Constants.MarkerInteractionDistance)
+							{
+								_drugVan.Speed = 0f;
+								_player.Task.LeaveVehicle();
+								_missionState = Enums.WarehouseMissionStates.VanDelivered;
+							}
+						}
+					}
+					else
+					{
+						Screen.ShowSubtitle($"~b~Lose ~w~the ~r~cops!");
+					}
+				}
+				// the vehicle has been delivered
+				if (_missionState.Equals(Enums.WarehouseMissionStates.VanDelivered))
+				{
+					if (_drugVan is not null)
+					{
+						_drugVan.LockStatus = VehicleLockStatus.PlayerCannotEnter;
+						_drugVan.AttachedBlip.Delete();
+						_drugVan.IsPersistent = true;
+						_drugVan.MarkAsNoLongerNeeded();
+						_drugVan = null;
+					}
+
+					if (_vanStash is not null)
+					{
+						foreach (Drug drug in _vanStash.Drugs.Where(x => x.Quantity > 0))
+						{
+							_warehouse!.Stash.MoveIntoInventory(drug.Name, drug.Quantity, 0);
+							Notification.Show($"{drug.Quantity}x~y~{drug.Name} ~w~worth ~g~${drug.Quantity * drug.AveragePrice} ~w~added to your warehouse.");
+						}
+
+						if (_vanStash.DrugMoney > 0)
+						{
+							_player.Money += _vanStash.DrugMoney;
+							Notification.Show($"You've found ~g~${_vanStash.DrugMoney} ~w~in the car.");
+						}
+						_vanStash = null;
+					}
+
+					int earnedXP = (int)(_playerStats.NextLevelExperience * 0.10);
+					_playerStats.AddExperiencePoints(earnedXP);
+
+					Screen.ShowSubtitle($"You've gained {earnedXP} experience points.");
+					_missionState = Enums.WarehouseMissionStates.NotStarted;
+					Game.IsMissionActive = false;
+				}
+				// the mission has been aborted (killed, arrested...)
+				if (_missionState.Equals(Enums.WarehouseMissionStates.Aborted))
+				{
+					Game.IsMissionActive = false;
+					_missionState = Enums.WarehouseMissionStates.NotStarted;
+				}
+				#endregion
 			}
 			catch (Exception ex)
 			{
@@ -155,12 +282,6 @@ namespace Los.Santos.Dope.Wars.Missions
 					$"Source:\t{ex.Source}\nTargetSite:\t{ex.TargetSite.Name}\nData.Values:\t{ex.Data.Values}");
 			}
 		}
-
-		private static void StartMission()
-		{
-			throw new NotImplementedException();
-		}
-
 		/// <summary>
 		/// The <see cref="Init(GameSettings, GameState)"/> method must be called from outside with the needed parameters
 		/// </summary>
@@ -174,7 +295,7 @@ namespace Los.Santos.Dope.Wars.Missions
 			_playerStats = Utils.GetPlayerStatsFromModel(gameState);
 			_warehousePrice = gameSettings.GamePlay.Reward.Warehouse.WarehousePrice;
 			_nextDrugVanMissionStart = ScriptHookUtils.GetGameDateTime();
-			_missionState = Enums.WarehouseMission.NotStarted;
+			_missionState = Enums.WarehouseMissionStates.NotStarted;
 			Initialized = true;
 		}
 
@@ -195,7 +316,7 @@ namespace Los.Santos.Dope.Wars.Missions
 
 		#region private methods
 		/// <summary>
-		/// Buying the warehouse or just try it
+		/// The <see cref="BuyWareHouse"/> method takes care of everything that is necessary and must be done to buy the warehouse
 		/// </summary>
 		private static void BuyWareHouse()
 		{
@@ -213,10 +334,6 @@ namespace Los.Santos.Dope.Wars.Missions
 			Audio.PlaySoundFrontend("PURCHASE", "HUD_LIQUOR_STORE_SOUNDSET");
 			_warehouse!.UpdateBlip(BlipSprite.Warehouse, blipColor);
 			Utils.SaveGameState(_gameState!);
-		}
-
-		private static void VanMission()
-		{
 		}
 		#endregion
 	}

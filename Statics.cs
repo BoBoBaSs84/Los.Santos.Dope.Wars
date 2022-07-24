@@ -45,11 +45,11 @@ namespace Los.Santos.Dope.Wars
 
 		public static readonly Vector3 MissionMarkerScale = new(8f, 8f, 1.5f);
 
-		public static readonly Vector3 WarehouseEntranceFranklin = new(-197.85f, -1699.8f, 32.5f);
+		public static readonly Vector3 WarehouseEntranceFranklin = new(191.66f, -2226.67f, 5.97f);
 
-		public static readonly Vector3 WarehouseLocationFranklin = new(-192.4f, -1707.5f, 37.7f);
+		public static readonly Vector3 WarehouseLocationFranklin = new(191.57f, -2223.44f, 4.95f);
 
-		public static readonly Vector3 WarehouseMissionMarkerFranklin = new(-204.25f, -1720.75f, 32.66f);
+		public static readonly Vector3 WarehouseMissionMarkerFranklin = new(180.73f, -2218.16f, 4.96f);
 
 		public static readonly Vector3 WarehouseEntranceMichael = new(794.2f, -102.8f, 81f);
 

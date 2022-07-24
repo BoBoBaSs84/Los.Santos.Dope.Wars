@@ -208,7 +208,7 @@ namespace Los.Santos.Dope.Wars.Extension
 		}
 
 		/// <summary>
-		/// Method loads the game settings, if no saved settings are found, new default settings are created and saved
+		/// The <see cref="SaveGameSettings(GameSettings)"/> method loads the game settings, if no saved settings are found, new default settings are created and saved
 		/// </summary>
 		/// <returns><see cref="Tuple{T1, T2}"/></returns>
 		public static (bool successs, GameSettings loadedGameSettings) LoadGameSettings()
@@ -240,22 +240,18 @@ namespace Los.Santos.Dope.Wars.Extension
 		}
 
 		/// <summary>
-		/// Method saves the game settings
+		/// The <see cref="SaveGameSettings(GameSettings)"/> method saves the game settings
 		/// </summary>
 		/// <param name="settings"></param>
 		public static void SaveGameSettings(GameSettings settings)
 		{
 			(bool success, string returnString) = SerializeObjectToString(settings);
 			if (success)
-				File.WriteAllText(
-						path: Statics.GameSettingsFileName,
-						contents: returnString,
-						encoding: Encoding.UTF8
-						);
+				File.WriteAllText(path: Statics.GameSettingsFileName, contents: returnString, encoding: Encoding.UTF8);
 		}
 
 		/// <summary>
-		/// Method loads the game state, if no saved game state is found, a new game state is created and saved
+		/// The <see cref="LoadGameState"/> method loads the game state, if no saved game state is found, a new game state is created and saved
 		/// </summary>
 		/// <returns><see cref="Tuple{T1, T2}"/></returns>
 		public static (bool success, GameState loadedGameState) LoadGameState()
@@ -287,18 +283,17 @@ namespace Los.Santos.Dope.Wars.Extension
 		}
 
 		/// <summary>
-		/// Method saves the game state
+		/// The <see cref="SaveGameState(GameState)"/> method saves the current game state also calls <see cref="Game.DoAutoSave"/>
 		/// </summary>
 		/// <param name="gameState"></param>
 		public static void SaveGameState(GameState gameState)
 		{
 			(bool success, string returnString) = SerializeObjectToString(gameState);
 			if (success)
-				File.WriteAllText(
-						path: Statics.GameStateFileName,
-						contents: returnString,
-						encoding: Encoding.UTF8
-						);
+			{
+				File.WriteAllText(path: Statics.GameStateFileName, contents: returnString, encoding: Encoding.UTF8);
+				Game.DoAutoSave();
+			}
 		}
 
 		/// <summary>
@@ -308,7 +303,7 @@ namespace Los.Santos.Dope.Wars.Extension
 		public static double GetRandomDouble() => _random.NextDouble();
 
 		/// <summary>
-		/// The <see cref="GetRandomInt"/> method gets a random integer
+		/// Method gets a random integer
 		/// </summary>
 		/// <returns><see cref="int"/></returns>
 		public static int GetRandomInt() => _random.Next();

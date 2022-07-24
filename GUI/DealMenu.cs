@@ -28,7 +28,6 @@ namespace Los.Santos.Dope.Wars.GUI
 		private static Ped? _player;
 		private static PlayerStats? _playerStats;
 		private static PlayerStash? _playerStash;
-		private static DrugDealer? _drugDealer;
 		private static DealerStash? _dealerStash;
 		private static bool _dealMenuLoaded;
 		private static Color _menuColor;

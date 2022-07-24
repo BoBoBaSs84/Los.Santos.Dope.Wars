@@ -219,9 +219,9 @@ namespace Los.Santos.Dope.Wars
 			Bodyguard = 3
 		}
 		/// <summary>
-		/// The <see cref="WarehouseMission"/> enums
+		/// The <see cref="WarehouseMissionStates"/> enums
 		/// </summary>
-		public enum WarehouseMission
+		public enum WarehouseMissionStates
 		{
 			/// <summary>
 			/// The <see cref="NotStarted"/> enum
@@ -238,7 +238,11 @@ namespace Los.Santos.Dope.Wars
 			/// <summary>
 			/// The <see cref="NotStarted"/> enum
 			/// </summary>
-			VanDelivered = 3
+			VanDelivered = 3,
+			/// <summary>
+			/// The <see cref="Aborted"/> enum
+			/// </summary>
+			Aborted = 4
 		}
 	}
 }

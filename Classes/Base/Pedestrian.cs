@@ -23,7 +23,6 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 		public bool BlipCreated { get; private set; }
 		/// <inheritdoc/>
 		public bool PedCreated { get; private set; }
-		/// <inheritdoc/>
 		#endregion
 
 		#region ctor

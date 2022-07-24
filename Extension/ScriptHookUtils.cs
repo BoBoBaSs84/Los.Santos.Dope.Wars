@@ -28,15 +28,34 @@ namespace Los.Santos.Dope.Wars.Extension
 		/// <summary>
 		/// The <see cref="RequestModel(PedHash)"/> method returns the model requested by the ped hash parameter
 		/// </summary>
-		/// <param name="Name"></param>
+		/// <param name="pedHash"></param>
 		/// <returns><see cref="Model"/></returns>
-		public static Model RequestModel(PedHash Name)
+		public static Model RequestModel(PedHash pedHash)
 		{
-			Model model = new(Name);
+			Model model = new(pedHash);
 			model.Request(250);
 			if (model.IsInCdImage && model.IsValid)
 			{
 				while (!model.IsLoaded) 
+					Script.Wait(50);
+				return model;
+			}
+			model.MarkAsNoLongerNeeded();
+			return model;
+		}
+
+		/// <summary>
+		/// The <see cref="RequestModel(VehicleHash)"/> method returns the model requested by the vehicle hash parameter
+		/// </summary>
+		/// <param name="vehicleHash"></param>
+		/// <returns><see cref="Model"/></returns>
+		public static Model RequestModel(VehicleHash vehicleHash)
+		{
+			Model model = new(vehicleHash);
+			model.Request(250);
+			if (model.IsInCdImage && model.IsValid)
+			{
+				while (!model.IsLoaded)
 					Script.Wait(50);
 				return model;
 			}
