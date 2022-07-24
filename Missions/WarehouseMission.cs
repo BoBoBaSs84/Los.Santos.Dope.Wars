@@ -76,6 +76,7 @@ namespace Los.Santos.Dope.Wars.Missions
 
 			try
 			{
+				#region warehouse
 				//all necessary flags are there
 				if (_playerStats.Reward.Warehouse.HasFlag(Enums.WarehouseStates.Unlocked))
 				{
@@ -148,28 +149,35 @@ namespace Los.Santos.Dope.Wars.Missions
 					else if (!_player.IsInRange(_warehouse.EntranceMarker, Constants.MarkerInteractionDistance) || !Game.Player.WantedLevel.Equals(0))
 						WarehouseMenu.ShowWarehouseMenu = false;
 				}
+				#endregion
+
 				#region mission
 				// the mission has been started
 				if (_missionState.Equals(Enums.WarehouseMissionStates.Started))
 				{
 					Game.IsMissionActive = true;
+
 					if (!_drugVanSetupDone)
 					{
 						Model vehicleModel = ScriptHookUtils.RequestModel(Statics.WarehouseMissionVehicles[Utils.GetRandomInt(Statics.WarehouseMissionVehicles.Count)]);
 						Model driverModel = Utils.GetRandomPedHash(Enums.PedType.DrugDealer);
-						Vector3 location = World.GetNextPositionOnStreet(_player.Position.Around(1000f), true);
-
+						// some random position around the player position, at least 1000f plus ...
+						float random = (float)(Utils.GetRandomDouble() * 1000) + 1000;
+						Vector3 location = World.GetNextPositionOnStreet(_player.Position.Around(random), true);
 						_drugVan = World.CreateVehicle(vehicleModel, location);
-						_drugVanDriver = World.CreatePed(driverModel, location);
-						_drugVanDriver.Weapons.Give(Utils.GetRandomWeaponHash(Enums.PedType.DrugDealer), 500, true, true);
-						_drugVanDriver.Task.CruiseWithVehicle(_drugVan, 10f, DrivingStyle.Normal);
 
+						_drugVan.IsCollisionProof = _drugVan.IsBulletProof = _drugVan.IsMeleeProof = _drugVan.IsFireProof = _drugVan.IsExplosionProof = false;
 						Blip blip = _drugVan.AddBlip();
 						blip.Sprite = BlipSprite.DrugPackage;
 						blip.IsShortRange = false;
 						blip.Name = "Drug Van";
 
-						_drugVanSetupDone = !_drugVanSetupDone;
+						_drugVanDriver = World.CreatePed(driverModel, location.Around(5f));
+						_drugVanDriver.Weapons.Give(Utils.GetRandomWeaponHash(Enums.PedType.DrugDealer), 500, true, true);
+						_drugVanDriver.RelationshipGroup.SetRelationshipBetweenGroups(_player.RelationshipGroup, Relationship.Hate, true);
+						_drugVanDriver.Task.EnterVehicle(_drugVan, VehicleSeat.Driver, -1, 1, EnterVehicleFlags.WarpIn);
+
+						_drugVanSetupDone = true;
 					}
 
 					if (Game.Player.WantedLevel.Equals(0))
@@ -179,16 +187,10 @@ namespace Los.Santos.Dope.Wars.Missions
 							Screen.ShowSubtitle($"~b~Steal ~w~the drugs that are in the ~y~car ~w~of the model type {_drugVan.DisplayName}!");
 
 							if (_drugVan.IsConsideredDestroyed || _player.IsDead || _player.IsCuffed)
-							{
 								_missionState = Enums.WarehouseMissionStates.Aborted;
-							}
 
 							if (_drugVan.Driver.Equals(_player) && _player.CurrentVehicle is not null)
-							{
-								if (_drugVanDriver is not null)
-									_drugVanDriver.MarkAsNoLongerNeeded();
 								_missionState = Enums.WarehouseMissionStates.VanStolen;
-							}
 						}
 					}
 					else
@@ -216,9 +218,7 @@ namespace Los.Santos.Dope.Wars.Missions
 							Screen.ShowSubtitle($"~b~Bring ~w~the car back to your ~y~warehouse.");
 
 							if (_drugVan.IsConsideredDestroyed || _player.IsDead || _player.IsCuffed)
-							{
 								_missionState = Enums.WarehouseMissionStates.Aborted;
-							}
 
 							if (World.GetDistance(_drugVan.Position, _warehouse!.MissionMarker) < Constants.MarkerInteractionDistance)
 							{
@@ -244,7 +244,11 @@ namespace Los.Santos.Dope.Wars.Missions
 						_drugVan.MarkAsNoLongerNeeded();
 						_drugVan = null;
 					}
-
+					if (_drugVanDriver is not null)
+					{
+						_drugVanDriver.MarkAsNoLongerNeeded();
+						_drugVanDriver = null;
+					}
 					if (_vanStash is not null)
 					{
 						foreach (Drug drug in _vanStash.Drugs.Where(x => x.Quantity > 0))
@@ -266,11 +270,13 @@ namespace Los.Santos.Dope.Wars.Missions
 
 					Screen.ShowSubtitle($"You've gained {earnedXP} experience points.");
 					_missionState = Enums.WarehouseMissionStates.NotStarted;
+					_drugVanSetupDone = false;
 					Game.IsMissionActive = false;
 				}
 				// the mission has been aborted (killed, arrested...)
 				if (_missionState.Equals(Enums.WarehouseMissionStates.Aborted))
 				{
+					CleanUpMission();
 					Game.IsMissionActive = false;
 					_missionState = Enums.WarehouseMissionStates.NotStarted;
 				}
@@ -311,6 +317,7 @@ namespace Los.Santos.Dope.Wars.Missions
 				_warehouse.DeleteBlip();
 				_warehouse = null;
 			}
+			CleanUpMission();
 		}
 		#endregion
 
@@ -334,6 +341,30 @@ namespace Los.Santos.Dope.Wars.Missions
 			Audio.PlaySoundFrontend("PURCHASE", "HUD_LIQUOR_STORE_SOUNDSET");
 			_warehouse!.UpdateBlip(BlipSprite.Warehouse, blipColor);
 			Utils.SaveGameState(_gameState!);
+		}
+
+		/// <summary>
+		/// The <see cref="CleanUpMission"/> methods cleans the mission related things
+		/// </summary>
+		private static void CleanUpMission()
+		{
+			if (_drugVan is not null)
+			{
+				_drugVan.AttachedBlip.Delete();
+				_drugVan.MarkAsNoLongerNeeded();
+				_drugVan = null;
+			}
+			if (_vanStash is not null)
+			{
+				_vanStash = null;
+			}
+			if (_drugVanDriver is not null)
+			{
+				_drugVanDriver.MarkAsNoLongerNeeded();
+				_drugVanDriver.Delete();
+			}
+			_drugVanSetupDone = false;
+			_missionState = Enums.WarehouseMissionStates.NotStarted;
 		}
 		#endregion
 	}
