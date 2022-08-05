@@ -37,7 +37,7 @@ namespace Los.Santos.Dope.Wars.Persistence.State
 		/// The <see cref="DrugTypes"/> property
 		/// </summary>
 		[XmlAttribute(AttributeName = nameof(DrugTypes))]
-		public Enums.DrugTypes DrugTypes { get; set; }
+		public Enums.DrugType DrugTypes { get; set; }
 		#endregion
 	}
 }

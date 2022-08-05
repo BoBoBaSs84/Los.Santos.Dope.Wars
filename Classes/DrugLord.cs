@@ -1,6 +1,5 @@
 ﻿using GTA.Math;
 using Los.Santos.Dope.Wars.Classes.Base;
-using System.Collections.Generic;
 
 namespace Los.Santos.Dope.Wars.Classes
 {

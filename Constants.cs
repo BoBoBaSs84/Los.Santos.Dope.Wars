@@ -1,4 +1,6 @@
-﻿namespace Los.Santos.Dope.Wars
+﻿using static Los.Santos.Dope.Wars.Enums;
+
+namespace Los.Santos.Dope.Wars
 {
 	/// <summary>
 	/// The <see cref="Constants"/> class holds all the needed constants
@@ -34,17 +36,17 @@
 		/// <summary>
 		/// The <see cref="TradePackOne"/> are the drugs the player can peddle from level 1 on
 		/// </summary>
-		public const Enums.DrugTypes TradePackOne = Enums.DrugTypes.Mushrooms | Enums.DrugTypes.Amphetamine | Enums.DrugTypes.Oxycodone | Enums.DrugTypes.Marijuana | Enums.DrugTypes.Hashish;
+		public const DrugType TradePackOne = DrugType.Mushrooms | DrugType.Amphetamine | DrugType.Oxycodone | DrugType.Marijuana | DrugType.Hashish;
 
 		/// <summary>
 		/// The <see cref="TradePackTwo"/> are the drugs the player can additional peddle from level 10 on
 		/// </summary>
-		public const Enums.DrugTypes TradePackTwo = Enums.DrugTypes.Mescaline | Enums.DrugTypes.MDMA | Enums.DrugTypes.Ecstasy | Enums.DrugTypes.Acid | Enums.DrugTypes.PCP;
+		public const DrugType TradePackTwo = DrugType.Mescaline | DrugType.MDMA | DrugType.Ecstasy | DrugType.Acid | DrugType.PCP;
 
 		/// <summary>
 		/// The <see cref="TradePackThree"/> are the drugs the player can additional peddle from level 20 on
 		/// </summary>
-		public const Enums.DrugTypes TradePackThree = Enums.DrugTypes.Heroin | Enums.DrugTypes.Cocaine | Enums.DrugTypes.Methamphetamine | Enums.DrugTypes.Crack | Enums.DrugTypes.Ketamine;
+		public const DrugType TradePackThree = DrugType.Heroin | DrugType.Cocaine | DrugType.Methamphetamine | DrugType.Crack | DrugType.Ketamine;
 
 		public const float MarkerDrawDistance = 100f;
 

@@ -1,19 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
+		<PlatformTarget>x64</PlatformTarget>
 		<TargetFramework>net48</TargetFramework>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<LangVersion>Latest</LangVersion>
 		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
 		<AllowUnsafeBlocks>false</AllowUnsafeBlocks>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<AnalysisLevel>latest</AnalysisLevel>
+		<AnalysisMode>recommended</AnalysisMode>
 		<UseWindowsForms>true</UseWindowsForms>
-		<PlatformTarget>x64</PlatformTarget>
-		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<GeneratedAssemblyInfoFile>Properties\AssemblyInfo.cs</GeneratedAssemblyInfoFile>
-		<AnalysisLevel>latest</AnalysisLevel>
 		<Configurations>Debug;Release</Configurations>
+		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -29,6 +32,10 @@
 	<ItemGroup>
 		<PackageReference Include="LemonUI.SHVDN3" Version="1.8.0" />
 		<PackageReference Include="ScriptHookVDotNet3" Version="3.4.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Remove="System.Net.Http" />
 	</ItemGroup>
 
 </Project>

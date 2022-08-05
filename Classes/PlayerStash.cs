@@ -1,7 +1,6 @@
 ﻿using GTA;
 using Los.Santos.Dope.Wars.Classes.Base;
 using Los.Santos.Dope.Wars.Contracts;
-using System.Linq;
 
 namespace Los.Santos.Dope.Wars.Classes
 {
@@ -21,7 +20,7 @@ namespace Los.Santos.Dope.Wars.Classes
 		/// <inheritdoc/>
 		public void BuyDrug(string drugName, int drugQuantity, int drugPrice)
 		{
-			Drug drug = Drugs.Where(x => x.Name.Equals(drugName)).SingleOrDefault();
+			Drug drug = Drugs.Where(x => x.Name.Equals(drugName, StringComparison.Ordinal)).SingleOrDefault();
 
 			if (drug.Quantity.Equals(0))
 				drug.PurchasePrice = drugPrice;
@@ -35,7 +34,7 @@ namespace Los.Santos.Dope.Wars.Classes
 		/// <inheritdoc/>
 		public void MoveIntoInventory(string drugName, int drugQuantity, int drugPrice)
 		{
-			Drug drug = Drugs.Where(x => x.Name.Equals(drugName)).SingleOrDefault();
+			Drug drug = Drugs.Where(x => x.Name.Equals(drugName, StringComparison.Ordinal)).SingleOrDefault();
 
 			if (drug.Quantity.Equals(0))
 				drug.PurchasePrice = drugPrice;

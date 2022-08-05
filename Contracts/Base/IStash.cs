@@ -1,5 +1,4 @@
 ﻿using Los.Santos.Dope.Wars.Classes;
-using System.Collections.Generic;
 
 namespace Los.Santos.Dope.Wars.Contracts.Base
 {

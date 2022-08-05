@@ -4,8 +4,9 @@ using Los.Santos.Dope.Wars.Classes;
 using Los.Santos.Dope.Wars.Extension;
 using Los.Santos.Dope.Wars.Persistence.Settings;
 using Los.Santos.Dope.Wars.Persistence.State;
-using System;
-using System.Collections.Generic;
+using static Los.Santos.Dope.Wars.Enums;
+using static Los.Santos.Dope.Wars.Extension.ScriptHookUtils;
+using static Los.Santos.Dope.Wars.Extension.Utils;
 
 namespace Los.Santos.Dope.Wars.Missions
 {
@@ -91,18 +92,18 @@ namespace Los.Santos.Dope.Wars.Missions
 				if (_player != Game.Player.Character)
 					_player = Game.Player.Character;
 
-				if (_playerStats != Utils.GetPlayerStatsFromModel(_gameState!))
-					_playerStats = Utils.GetPlayerStatsFromModel(_gameState!);
+				if (_playerStats != GetPlayerStatsFromModel(_gameState!))
+					_playerStats = GetPlayerStatsFromModel(_gameState!);
 
 				// if the reward is not yet unlocked, early exit
-				if (!_playerStats.Reward.DrugLords.HasFlag(Enums.DrugLordStates.Unlocked))
+				if (!_playerStats.Reward.DrugLords.HasFlag(DrugLordStates.Unlocked))
 					return;
 
-				if (ScriptHookUtils.GetGameDateTime() >= NextCheckForAppearance)
+				if (GetGameDateTime() >= NextCheckForAppearance)
 					CheckForAppearance();
 
 				// drug lord appeared 12 hours ago...
-				if (ScriptHookUtils.GetGameDateTime() >= LastCheckForAppearance.AddHours(12) && IsAppeared && _drugLord is not null)
+				if (GetGameDateTime() >= LastCheckForAppearance.AddHours(12) && IsAppeared && _drugLord is not null)
 					CheckForDisappearance();
 
 				if (_drugLord is null && ShouldAppear)
@@ -128,10 +129,10 @@ namespace Los.Santos.Dope.Wars.Missions
 
 		private static void CheckForAppearance()
 		{
-			LastCheckForAppearance = ScriptHookUtils.GetGameDateTime();
+			LastCheckForAppearance = GetGameDateTime();
 			NextCheckForAppearance = LastCheckForAppearance.AddDays(24);
 			double chanceForAppearance = 30;
-			double randomDouble = Utils.GetRandomDouble() * 100;
+			double randomDouble = GetRandomDouble() * 100;
 			if (randomDouble <= chanceForAppearance)
 				ShouldAppear = true;
 		}
@@ -156,7 +157,7 @@ namespace Los.Santos.Dope.Wars.Missions
 		{
 			if (_gameSettings is not null && _playerStats is not null)
 			{
-				int randomPick = Utils.GetRandomInt(0, _drugLords!.Count);
+				int randomPick = GetRandomInt(0, _drugLords!.Count);
 				_drugLord = _drugLords[randomPick];
 
 				if (!_drugLord.BlipCreated)
@@ -168,16 +169,16 @@ namespace Los.Santos.Dope.Wars.Missions
 
 				if (!_drugLord.PedCreated)
 					_drugLord.CreatePed(
-						pedHash: Utils.GetRandomPedHash(Enums.PedType.DrugLord),
-						weaponHash: Utils.GetRandomWeaponHash(Enums.PedType.DrugLord)
+						pedHash: GetRandomPedHash(PedType.DrugLord),
+						weaponHash: GetRandomWeaponHash(PedType.DrugLord)
 						);
 
 				_drugLord.Restock(_gameSettings, _playerStats);
 
 				foreach (Bodyguard bodyguard in _drugLord.Bodyguards)
 				{
-					var pedHash = Utils.GetRandomPedHash(Enums.PedType.Bodyguard);
-					var weaponHash = Utils.GetRandomWeaponHash(Enums.PedType.Bodyguard);
+					PedHash pedHash = GetRandomPedHash(PedType.Bodyguard);
+					WeaponHash weaponHash = GetRandomWeaponHash(PedType.Bodyguard);
 					bodyguard.CreatePed(pedHash, weaponHash, 150f, 150, 50);
 					bodyguard.ProtectTarget(_drugLord.Ped!);
 				}

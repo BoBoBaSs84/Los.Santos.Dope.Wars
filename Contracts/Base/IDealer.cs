@@ -2,7 +2,6 @@
 using Los.Santos.Dope.Wars.Classes.Base;
 using Los.Santos.Dope.Wars.Persistence.Settings;
 using Los.Santos.Dope.Wars.Persistence.State;
-using System;
 
 namespace Los.Santos.Dope.Wars.Contracts.Base
 {

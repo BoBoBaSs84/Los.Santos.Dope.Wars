@@ -1,4 +1,5 @@
 ﻿using System.Xml.Serialization;
+using static Los.Santos.Dope.Wars.Enums;
 
 namespace Los.Santos.Dope.Wars.Persistence.Settings
 {
@@ -16,7 +17,7 @@ namespace Los.Santos.Dope.Wars.Persistence.Settings
 		{
 			LooseDrugsOnDeath = true;
 			LooseDrugsWhenBusted = true;
-			Difficulty = Enums.DifficultyTypes.Normal;
+			Difficulty = DifficultyTypes.Normal;
 			Reward = new();
 		}
 		#endregion
@@ -38,7 +39,7 @@ namespace Los.Santos.Dope.Wars.Persistence.Settings
 		/// The <see cref="Difficulty"/> property/attribute 
 		/// </summary>
 		[XmlAttribute(AttributeName = nameof(Difficulty))]
-		public Enums.DifficultyTypes Difficulty { get; set; }
+		public DifficultyTypes Difficulty { get; set; }
 
 		/// <summary>
 		/// The <see cref="Reward"/> property/attribute 

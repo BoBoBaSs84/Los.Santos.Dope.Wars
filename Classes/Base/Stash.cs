@@ -1,7 +1,6 @@
 ﻿using Los.Santos.Dope.Wars.Contracts.Base;
-using System.Collections.Generic;
-using System.Linq;
 using System.Xml.Serialization;
+using static Los.Santos.Dope.Wars.Enums;
 
 namespace Los.Santos.Dope.Wars.Classes.Base
 {
@@ -15,21 +14,21 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 		#region fields
 		private static readonly List<Drug> AvailableDrugs = new()
 		{
-			new Drug(Enums.DrugTypes.Cocaine, "Cocaine is a powerful stimulant and narcotic.", 865),
-			new Drug(Enums.DrugTypes.Heroin, "Heroin is a semi-synthetic, strongly analgesic opioid.", 895),
-			new Drug(Enums.DrugTypes.Marijuana, "Marijuana is a psychoactive drug from the Cannabis plant", 165),
-			new Drug(Enums.DrugTypes.Hashish, "Hashish refers to the resin extracted from the cannabis plant.", 125),
-			new Drug(Enums.DrugTypes.Mushrooms, "Psychoactive mushrooms, also known as magic mushrooms.", 245),
-			new Drug(Enums.DrugTypes.Amphetamine, "Amphetamine has a strong stimulating and uplifting effect.", 215),
-			new Drug(Enums.DrugTypes.PCP, "Also known as Angel Dust or Peace Pill in the drug scene.", 255),
-			new Drug(Enums.DrugTypes.Methamphetamine, "Methamphetamine is a powerful psychostimulant.", 785),
-			new Drug(Enums.DrugTypes.Ketamine, "Ketamine is a dissociative anaesthetic used in human medicine.", 545),
-			new Drug(Enums.DrugTypes.Mescaline, "Mescaline or mescaline is a psychedelic and hallucinogenic alkaloid.", 470),
-			new Drug(Enums.DrugTypes.Ecstasy, "Ecstasy, also XTC, is a term for so-called 'party pills'.", 275),
-			new Drug(Enums.DrugTypes.Acid, "Acid, also known as LSD, is one of the strongest known hallucinogens.", 265),
-			new Drug(Enums.DrugTypes.MDMA, "MDMA is particularly known as a party drug that is widely used worldwide.", 315),
-			new Drug(Enums.DrugTypes.Crack, "Crack is a drug made from cocaine salt and sodium bicarbonate.", 615),
-			new Drug(Enums.DrugTypes.Oxycodone, "A semi-synthetic opioid, highly addictive and a common drug of abuse.", 185)
+			new Drug(DrugType.Cocaine, "Cocaine is a powerful stimulant and narcotic.", 865),
+			new Drug(DrugType.Heroin, "Heroin is a semi-synthetic, strongly analgesic opioid.", 895),
+			new Drug(DrugType.Marijuana, "Marijuana is a psychoactive drug from the Cannabis plant", 165),
+			new Drug(DrugType.Hashish, "Hashish refers to the resin extracted from the cannabis plant.", 125),
+			new Drug(DrugType.Mushrooms, "Psychoactive mushrooms, also known as magic mushrooms.", 245),
+			new Drug(DrugType.Amphetamine, "Amphetamine has a strong stimulating and uplifting effect.", 215),
+			new Drug(DrugType.PCP, "Also known as Angel Dust or Peace Pill in the drug scene.", 255),
+			new Drug(DrugType.Methamphetamine, "Methamphetamine is a powerful psychostimulant.", 785),
+			new Drug(DrugType.Ketamine, "Ketamine is a dissociative anaesthetic used in human medicine.", 545),
+			new Drug(DrugType.Mescaline, "Mescaline or mescaline is a psychedelic and hallucinogenic alkaloid.", 470),
+			new Drug(DrugType.Ecstasy, "Ecstasy, also XTC, is a term for so-called 'party pills'.", 275),
+			new Drug(DrugType.Acid, "Acid, also known as LSD, is one of the strongest known hallucinogens.", 265),
+			new Drug(DrugType.MDMA, "MDMA is particularly known as a party drug that is widely used worldwide.", 315),
+			new Drug(DrugType.Crack, "Crack is a drug made from cocaine salt and sodium bicarbonate.", 615),
+			new Drug(DrugType.Oxycodone, "A semi-synthetic opioid, highly addictive and a common drug of abuse.", 185)
 		};
 		#endregion
 
@@ -58,14 +57,14 @@ namespace Los.Santos.Dope.Wars.Classes.Base
 		/// <inheritdoc/>
 		public void AddToStash(string drugName, int drugQuantity)
 		{
-			Drug drug = Drugs.Where(x => x.Name.Equals(drugName)).SingleOrDefault();
+			Drug drug = Drugs.Where(x => x.Name.Equals(drugName, StringComparison.Ordinal)).SingleOrDefault();
 			if (drug is not null)
 				drug.Quantity += drugQuantity;
 		}
 		/// <inheritdoc/>
 		public void RemoveFromStash(string drugName, int drugQuantity)
 		{
-			Drug drug = Drugs.Where(x => x.Name.Equals(drugName)).SingleOrDefault();
+			Drug drug = Drugs.Where(x => x.Name.Equals(drugName, StringComparison.Ordinal)).SingleOrDefault();
 			if (drug is not null)
 				drug.Quantity -= drugQuantity;
 		}

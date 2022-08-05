@@ -3,7 +3,6 @@ using Los.Santos.Dope.Wars.Contracts;
 using Los.Santos.Dope.Wars.Extension;
 using Los.Santos.Dope.Wars.Persistence.Settings;
 using Los.Santos.Dope.Wars.Persistence.State;
-using System.Linq;
 
 namespace Los.Santos.Dope.Wars.Classes
 {
@@ -79,7 +78,7 @@ namespace Los.Santos.Dope.Wars.Classes
 			{
 				Init();
 
-				var specialStash = Utils.GetLordStashByLevel(playerStats);
+				List<Enums.DrugType>? specialStash = Utils.GetLordStashByLevel(playerStats);
 
 				int index = Utils.GetRandomInt(0, specialStash.Count);
 				Drug drug = Drugs.Where(x => x.Name.Equals(specialStash[index])).FirstOrDefault();
@@ -89,11 +88,11 @@ namespace Los.Santos.Dope.Wars.Classes
 
 			Init();
 
-			var tradeStash = Utils.GetDrugEnumTypes(playerStats.Reward.DrugTypes);
+			List<Enums.DrugType>? tradeStash = Utils.GetDrugEnumTypes(playerStats.Reward.DrugTypes);
 
-			foreach (var tradeType in tradeStash)
+			foreach (Enums.DrugType tradeType in tradeStash)
 			{
-				Drug drug = Drugs.Where(x => x.Name.Equals(tradeType.ToString())).SingleOrDefault();
+				Drug drug = Drugs.Where(x => x.Name.Equals(tradeType.ToString(), StringComparison.Ordinal)).SingleOrDefault();
 				if (drug is not null)
 					drug.Quantity = Utils.GetRandomInt((int)(playerLevel * difficultyFactor), (int)(playerLevel * difficultyFactor * 10 / 2) + 1);
 			}

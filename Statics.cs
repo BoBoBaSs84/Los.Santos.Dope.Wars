@@ -1,8 +1,7 @@
 ﻿using GTA;
 using GTA.Math;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
+using System.Globalization;
+using System.Reflection;
 
 namespace Los.Santos.Dope.Wars
 {
@@ -11,35 +10,54 @@ namespace Los.Santos.Dope.Wars
 	/// </summary>
 	public static class Statics
 	{
+		private static readonly Assembly assembly;
+
+		static Statics()
+		{
+			assembly = Assembly.GetExecutingAssembly();
+			AssemblyName = assembly.GetName().Name;
+			AssemblyVersion = assembly.GetName().Version.ToString();
+			CultureInfo = CultureInfo.CurrentCulture;
+			GameSettingsFileName = $"{Main.ScriptDirectory}\\{AssemblyName}.cfg";
+			GameStateFileName = $"{Main.ScriptDirectory}\\{AssemblyName}.sav";
+			LogFileName = $"{Main.ScriptDirectory}\\{AssemblyName}.log";
+			ScreeSize = GTA.UI.Screen.Resolution;
+		}
+
 		/// <summary>
 		/// The <see cref="AssemblyName"/> property
 		/// </summary>
-		public static readonly string AssemblyName = typeof(Constants).Assembly.GetName().Name;
+		public static string AssemblyName { get; private set; }
 
 		/// <summary>
 		/// The <see cref="AssemblyVersion"/> property
 		/// </summary>
-		public static readonly string AssemblyVersion = typeof(Constants).Assembly.GetName().Version.ToString();
+		public static string AssemblyVersion { get; private set; }
+
+		/// <summary>
+		/// The <see cref="CultureInfo"/> property
+		/// </summary>
+		public static CultureInfo CultureInfo { get; private set; }
 
 		/// <summary>
 		/// The <see cref="GameStateFileName"/> property
 		/// </summary>
-		public static readonly string GameStateFileName = $"{Main.ScriptDirectory}\\{AssemblyName}.sav";
+		public static string GameStateFileName { get; private set; }
 
 		/// <summary>
 		/// The <see cref="GameSettingsFileName"/> property
 		/// </summary>
-		public static readonly string GameSettingsFileName = $"{Main.ScriptDirectory}\\{AssemblyName}.cfg";
+		public static string GameSettingsFileName { get; private set; }
 
 		/// <summary>
-		/// The "Log" file name
+		/// The <see cref="LogFileName"/> property
 		/// </summary>
-		public static readonly string LogFileName = $"{Main.ScriptDirectory}\\{AssemblyName}.log";
+		public static string LogFileName { get; private set; }
 
 		/// <summary>
-		/// The actaul screen size of the running game
+		/// The <see cref="ScreeSize"/> property
 		/// </summary>
-		public static readonly Size ScreeSize = GTA.UI.Screen.Resolution;
+		public static Size ScreeSize { get; private set; }
 
 		public static readonly Vector3 EntranceMarkerScale = new(1f, 1f, 1f);
 

@@ -5,8 +5,10 @@ using Los.Santos.Dope.Wars.Extension;
 using Los.Santos.Dope.Wars.GUI;
 using Los.Santos.Dope.Wars.Persistence.Settings;
 using Los.Santos.Dope.Wars.Persistence.State;
-using System;
-using System.Collections.Generic;
+using static Los.Santos.Dope.Wars.Constants;
+using static Los.Santos.Dope.Wars.Enums;
+using static Los.Santos.Dope.Wars.Extension.ScriptHookUtils;
+using static Los.Santos.Dope.Wars.Extension.Utils;
 
 namespace Los.Santos.Dope.Wars.Missions
 {
@@ -52,8 +54,8 @@ namespace Los.Santos.Dope.Wars.Missions
 			_gameState = gameState;
 			_drugDealers = GetDrugDealers();
 			_player = Game.Player.Character;
-			_lastRestock = ScriptHookUtils.GetGameDateTime();
-			_lastRefresh = ScriptHookUtils.GetGameDateTime();
+			_lastRestock = GetGameDateTime();
+			_lastRefresh = GetGameDateTime();
 			Initialized = true;
 		}
 
@@ -84,14 +86,14 @@ namespace Los.Santos.Dope.Wars.Missions
 
 			try
 			{
-				DateTime currentDateTime = ScriptHookUtils.GetGameDateTime();
+				DateTime currentDateTime = GetGameDateTime();
 
 				if (_player != Game.Player.Character)
 					_player = Game.Player.Character;
 
-				if (_playerStats != Utils.GetPlayerStatsFromModel(_gameState!))
+				if (_playerStats != GetPlayerStatsFromModel(_gameState!))
 				{
-					_playerStats = Utils.GetPlayerStatsFromModel(_gameState!);
+					_playerStats = GetPlayerStatsFromModel(_gameState!);
 					RestockDealers();
 				}
 
@@ -100,8 +102,8 @@ namespace Los.Santos.Dope.Wars.Missions
 				{
 					_gameState.LastDealerRestock = currentDateTime;
 					RestockDealers();
-					ScriptHookUtils.NotifyWithPicture("Anonymous", "Tip-off", "The drug dealers have been restocked.", 0);
-					Utils.SaveGameState(_gameState);
+					NotifyWithPicture("Anonymous", "Tip-off", "The drug dealers have been restocked.", 0);
+					SaveGameState(_gameState);
 				}
 				else
 				// The dealer drug stash refresh (money & prices)
@@ -109,13 +111,13 @@ namespace Los.Santos.Dope.Wars.Missions
 				{
 					_gameState.LastDealerRefresh = currentDateTime;
 					RefreshDealers();
-					Utils.SaveGameState(_gameState);
+					SaveGameState(_gameState);
 				}
 
 				foreach (DrugDealer drugDealer in _drugDealers!)
 				{
 					// checking if the dealer opens up again
-					if (drugDealer.NextOpenBusinesTime < ScriptHookUtils.GetGameDateTime() && drugDealer.ClosedforBusiness)
+					if (drugDealer.NextOpenBusinesTime < GetGameDateTime() && drugDealer.ClosedforBusiness)
 					{
 						drugDealer.ClosedforBusiness = !drugDealer.ClosedforBusiness;
 					}
@@ -128,15 +130,15 @@ namespace Los.Santos.Dope.Wars.Missions
 							);
 					}
 					// if the player is in range of the dealer
-					if (_player.IsInRange(drugDealer.Position, Constants.DealerCreateDistance) && drugDealer.BlipCreated)
+					if (_player.IsInRange(drugDealer.Position, DealerCreateDistance) && drugDealer.BlipCreated)
 					{
 						// if the ped was not created
 						if (!drugDealer.PedCreated)
 						{
-							(float health, float armor) = Utils.GetDealerHealthArmor(_gameSettings.Dealer, _playerStats.CurrentLevel);
+							(float health, float armor) = GetDealerHealthArmor(_gameSettings.Dealer, _playerStats.CurrentLevel);
 							drugDealer.CreatePed(
-								pedHash: Utils.GetRandomPedHash(Enums.PedType.DrugDealer),
-								weaponHash: Utils.GetRandomWeaponHash(Enums.PedType.DrugDealer),
+								pedHash: GetRandomPedHash(PedType.DrugDealer),
+								weaponHash: GetRandomWeaponHash(PedType.DrugDealer),
 								health: health,
 								armor: armor,
 								money: drugDealer.Stash.DrugMoney,
@@ -146,7 +148,7 @@ namespace Los.Santos.Dope.Wars.Missions
 								);
 						}
 						// now we are real close to the dealer
-						if (_player.IsInRange(drugDealer.Position, Constants.DealInteractionDistance) && _currentDrugDealer is null && Game.Player.WantedLevel.Equals(0))
+						if (_player.IsInRange(drugDealer.Position, DealInteractionDistance) && _currentDrugDealer is null && Game.Player.WantedLevel.Equals(0))
 						{
 							_currentDrugDealer = drugDealer;
 							DealMenu.Init(_gameState, _playerStats.Stash, _currentDrugDealer.Stash, _player);
@@ -160,7 +162,7 @@ namespace Los.Santos.Dope.Wars.Missions
 							}
 						}
 						// we are leaving the dealer
-						if (!_player.IsInRange(drugDealer.Position, Constants.DealInteractionDistance) && _currentDrugDealer == drugDealer)
+						if (!_player.IsInRange(drugDealer.Position, DealInteractionDistance) && _currentDrugDealer == drugDealer)
 						{
 							_currentDrugDealer = null;
 							// dea bust chance triggered
@@ -170,7 +172,7 @@ namespace Los.Santos.Dope.Wars.Missions
 						}
 					}
 					// if we are leaving the dealer area, delete the ped 
-					else if (drugDealer.PedCreated && !_player.IsInRange(drugDealer.Position, Constants.DealerCreateDistance))
+					else if (drugDealer.PedCreated && !_player.IsInRange(drugDealer.Position, DealerCreateDistance))
 					{
 						drugDealer.DeletePed();
 					}

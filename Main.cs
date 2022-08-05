@@ -4,7 +4,9 @@ using Los.Santos.Dope.Wars.Features;
 using Los.Santos.Dope.Wars.Missions;
 using Los.Santos.Dope.Wars.Persistence.Settings;
 using Los.Santos.Dope.Wars.Persistence.State;
-using System;
+using static Los.Santos.Dope.Wars.Statics;
+using static Los.Santos.Dope.Wars.Extension.Utils;
+using static Los.Santos.Dope.Wars.Extension.ScriptHookUtils;
 
 namespace Los.Santos.Dope.Wars
 {
@@ -100,11 +102,11 @@ namespace Los.Santos.Dope.Wars
 			{
 				if (!_gameSettingsLoaded || !_gameStateLoaded)
 				{
-					Logger.Status($"Game: {Statics.AssemblyName} - Vesion: {Statics.AssemblyVersion}");
+					Logger.Status($"Game: {AssemblyName} - Vesion: {AssemblyVersion}");
 
 					if (!_gameSettingsLoaded)
 					{
-						(bool successs, GameSettings loadedGameSettings) = Utils.LoadGameSettings();
+						(bool successs, GameSettings loadedGameSettings) = LoadGameSettings();
 						if (successs)
 						{
 							GameSettings = loadedGameSettings;
@@ -114,11 +116,11 @@ namespace Los.Santos.Dope.Wars
 					}
 					if (!_gameStateLoaded)
 					{
-						(bool success, GameState loadedGameState) = Utils.LoadGameState();
+						(bool success, GameState loadedGameState) = LoadGameState();
 						if (success)
 						{
 							GameState = loadedGameState;
-							loadedGameState.LastDealerRestock = ScriptHookUtils.GetGameDateTime().AddHours(-25);
+							loadedGameState.LastDealerRestock = GetGameDateTime().AddHours(-24);
 							Logger.Status($"Last game state loaded. Version: {GameSettings!.Version}");
 							_gameStateLoaded = success;
 						}

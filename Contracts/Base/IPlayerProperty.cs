@@ -1,6 +1,5 @@
 ﻿using GTA;
 using GTA.Math;
-using System.Drawing;
 
 namespace Los.Santos.Dope.Wars.Contracts.Base
 {

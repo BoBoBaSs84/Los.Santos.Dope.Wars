@@ -5,10 +5,7 @@ using Los.Santos.Dope.Wars.Classes;
 using Los.Santos.Dope.Wars.Extension;
 using Los.Santos.Dope.Wars.GUI.Elements;
 using Los.Santos.Dope.Wars.Persistence.State;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
+using static Los.Santos.Dope.Wars.Extension.Utils;
 
 namespace Los.Santos.Dope.Wars.GUI
 {
@@ -37,7 +34,7 @@ namespace Los.Santos.Dope.Wars.GUI
 		/// <summary>
 		/// The <see cref="ShowDealMenu"/> property if set to true the deal menu should popup
 		/// </summary>
-		public static bool ShowDealMenu { get; set; } = false;
+		public static bool ShowDealMenu { get; set; }
 
 		/// <summary>
 		/// The <see cref="Initialized"/> property indicates if the <see cref="Init(GameState, PlayerStash, DealerStash, Ped)"/> method was called
@@ -55,7 +52,7 @@ namespace Los.Santos.Dope.Wars.GUI
 			_toSellMenuSwitch.Activated += ToSellMenuSwitchActivated;
 			_toBuyMenuSwitch = new NativeItem("Go to buy menu", "Want to buy instead of selling?");
 			_toBuyMenuSwitch.Activated += ToBuyMenuSwitchActivated;
-			_menuColor = Utils.GetCurrentPlayerColor();
+			_menuColor = GetCurrentPlayerColor();
 
 			Tick += OnTick;
 		}
@@ -75,7 +72,7 @@ namespace Los.Santos.Dope.Wars.GUI
 			_player = player;
 			_dealerStash = dealerStash;
 			_gameState = gameState;
-			_playerStats = Utils.GetPlayerStatsFromModel(gameState);
+			_playerStats = GetPlayerStatsFromModel(gameState);
 			Initialized = true;
 		}
 		#endregion
@@ -114,13 +111,13 @@ namespace Los.Santos.Dope.Wars.GUI
 		{
 			try
 			{
-				if (_menuColor != Utils.GetCurrentPlayerColor())
-					_menuColor = Utils.GetCurrentPlayerColor();
+				if (_menuColor != GetCurrentPlayerColor())
+					_menuColor = GetCurrentPlayerColor();
 
 				_sellMenu = new SellMenu("Sell", $"", _menuColor);
 				_buyMenu = new BuyMenu("Buy", $"Dealer Money: ${_dealerStash!.DrugMoney}", _menuColor);
 
-				_statisticsMenu = new StatisticsMenu($"Statistics - {Utils.GetCharacterFromModel()}", "", _menuColor) { AcceptsInput = false };
+				_statisticsMenu = new StatisticsMenu($"Statistics - {GetCharacterFromModel()}", "", _menuColor) { AcceptsInput = false };
 				_statisticsMenu.Add(GetStatsMenuItem());
 
 				_objectPool.Add(_buyMenu);
@@ -201,7 +198,7 @@ namespace Los.Santos.Dope.Wars.GUI
 
 				string drugName = drug.Name;
 				int drugQuantity = menuItem.SelectedItem;
-				int drugPrice = _dealerStash!.Drugs.Where(x => x.Name.Equals(drug.Name)).Select(x => x.CurrentPrice).SingleOrDefault();
+				int drugPrice = _dealerStash!.Drugs.Where(x => x.Name.Equals(drug.Name, StringComparison.Ordinal)).Select(x => x.CurrentPrice).SingleOrDefault();
 				int transactionValue = drugQuantity * drugPrice;
 
 				// early exit
@@ -225,7 +222,7 @@ namespace Los.Santos.Dope.Wars.GUI
 				_statisticsMenu.Clear();
 				_statisticsMenu.Add(GetStatsMenuItem());
 
-				Utils.SaveGameState(_gameState!);
+				SaveGameState(_gameState!);
 				ScriptHookUtils.DrugEnforcementAdministrationBust(_player!, _playerStats.CurrentLevel);
 			}
 			catch (Exception ex)
@@ -247,7 +244,7 @@ namespace Los.Santos.Dope.Wars.GUI
 			foreach (Drug drug in playerStash.Drugs)
 			{
 				// we need the current price of the drug, only the opposing dealer can give that...
-				int currentDrugPrice = dealerStash.Drugs.Where(x => x.Name.Equals(drug.Name)).Select(x => x.CurrentPrice).FirstOrDefault();
+				int currentDrugPrice = dealerStash.Drugs.Where(x => x.Name.Equals(drug.Name, StringComparison.Ordinal)).Select(x => x.CurrentPrice).FirstOrDefault();
 				drug.CurrentPrice = currentDrugPrice;
 
 				DrugListItem sellListItem = new(drug, true);
@@ -272,8 +269,8 @@ namespace Los.Santos.Dope.Wars.GUI
 
 				string drugName = drug.Name;
 				int drugQuantity = menuItem.SelectedItem;
-				int currentDrugPrice = _dealerStash!.Drugs.Where(x => x.Name.Equals(drug.Name)).Select(x => x.CurrentPrice).SingleOrDefault();
-				int purchasePrice = _playerStash!.Drugs.Where(x => x.Name.Equals(drug.Name)).Select(x => x.PurchasePrice).SingleOrDefault();
+				int currentDrugPrice = _dealerStash!.Drugs.Where(x => x.Name.Equals(drug.Name, StringComparison.Ordinal)).Select(x => x.CurrentPrice).SingleOrDefault();
+				int purchasePrice = _playerStash!.Drugs.Where(x => x.Name.Equals(drug.Name, StringComparison.Ordinal)).Select(x => x.PurchasePrice).SingleOrDefault();
 				int transactionValue = drugQuantity * currentDrugPrice;
 
 				// early exit
@@ -302,7 +299,7 @@ namespace Los.Santos.Dope.Wars.GUI
 				_statisticsMenu.Clear();
 				_statisticsMenu.Add(GetStatsMenuItem());
 
-				Utils.SaveGameState(_gameState!);
+				SaveGameState(_gameState!);
 				ScriptHookUtils.DrugEnforcementAdministrationBust(_player!, _playerStats.CurrentLevel);
 			}
 			catch (Exception ex)

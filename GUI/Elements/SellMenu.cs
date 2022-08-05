@@ -1,6 +1,5 @@
 ﻿using GTA.UI;
 using LemonUI.Menus;
-using System;
 
 namespace Los.Santos.Dope.Wars.GUI.Elements
 {
@@ -28,14 +27,14 @@ namespace Los.Santos.Dope.Wars.GUI.Elements
 		/// <param name="title"></param>
 		/// <param name="subtitle"></param>
 		/// <param name="color"></param>
-		public SellMenu(string title, string subtitle, System.Drawing.Color color) : base(title, subtitle)
+		public SellMenu(string title, string subtitle, Color color) : base(title, subtitle)
 		{
 			Alignment = Alignment.Right;
 			Banner.Color = color;
 			ItemCount = CountVisibility.Always;
-			Offset = new System.Drawing.PointF(Statics.ScreeSize.Width / 64, Statics.ScreeSize.Height / 36);
+			Offset = new PointF(Statics.ScreeSize.Width / 64, Statics.ScreeSize.Height / 36);
 			UseMouse = false;
-			TitleFont = Font.Pricedown;
+			TitleFont = GTA.UI.Font.Pricedown;
 			Closed += SellMenu_Closed;
 			Shown += SellMenu_Shown;
 		}

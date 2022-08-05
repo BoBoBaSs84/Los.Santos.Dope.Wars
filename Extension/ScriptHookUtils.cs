@@ -1,7 +1,6 @@
 ﻿using GTA;
 using GTA.Native;
-using GTA.UI;
-using System;
+using static Los.Santos.Dope.Wars.Extension.Utils;
 
 namespace Los.Santos.Dope.Wars.Extension
 {
@@ -36,7 +35,7 @@ namespace Los.Santos.Dope.Wars.Extension
 			model.Request(250);
 			if (model.IsInCdImage && model.IsValid)
 			{
-				while (!model.IsLoaded) 
+				while (!model.IsLoaded)
 					Script.Wait(50);
 				return model;
 			}
@@ -67,17 +66,7 @@ namespace Los.Santos.Dope.Wars.Extension
 		/// The <see cref="GetGameDateTime"/> method returns the current in game <see cref="DateTime"/>
 		/// </summary>
 		/// <returns><see cref="DateTime"/></returns>
-		public static DateTime GetGameDateTime()
-		{
-			return new DateTime(
-				Function.Call<int>(Hash.GET_CLOCK_YEAR),
-				Function.Call<int>(Hash.GET_CLOCK_MONTH) + 1,
-				Function.Call<int>(Hash.GET_CLOCK_DAY_OF_MONTH),
-				Function.Call<int>(Hash.GET_CLOCK_HOURS),
-				Function.Call<int>(Hash.GET_CLOCK_MINUTES),
-				Function.Call<int>(Hash.GET_CLOCK_SECONDS)
-			);
-		}
+		public static DateTime GetGameDateTime() => World.CurrentDate;
 
 		/// <summary>
 		/// Sends a message to the player phone
@@ -96,7 +85,7 @@ namespace Los.Santos.Dope.Wars.Extension
 
 			if (playSound)
 			{
-				Enums.Characters currentCharacter = Utils.GetCharacterFromModel();
+				Enums.Characters currentCharacter = GetCharacterFromModel();
 				Audio.PlaySoundFrontend("Text_Arrive_Tone", $"Phone_SoundSet_{(currentCharacter.Equals(Enums.Characters.Unknown) ? "Default" : $"{currentCharacter}")}");
 			}
 		}
@@ -110,12 +99,12 @@ namespace Los.Santos.Dope.Wars.Extension
 		public static void DrugEnforcementAdministrationBust(Ped player, int playerLevel)
 		{
 			double currentBustChance = (double)playerLevel / 2;
-			double randomDouble = Utils.GetRandomDouble() * 100;
+			double randomDouble = GetRandomDouble() * 100;
 			if (randomDouble <= currentBustChance)
 			{
-				int wantedLevel = Utils.GetWantedLevelByPlayerLevel(playerLevel);
+				int wantedLevel = GetWantedLevelByPlayerLevel(playerLevel);
 				Game.Player.WantedLevel = wantedLevel;
-				Screen.ShowSubtitle("It's a DEA bust! Get the hell out of there!", 5000);
+				GTA.UI.Screen.ShowSubtitle("It's a DEA bust! Get the hell out of there!", 5000);
 				Function.Call(Hash.SET_PLAYER_WANTED_LEVEL, player, wantedLevel, 1);
 				Function.Call(Hash.SET_PLAYER_WANTED_LEVEL_NOW, player, 0);
 			}

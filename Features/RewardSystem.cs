@@ -1,8 +1,9 @@
 ﻿using GTA.UI;
-using Los.Santos.Dope.Wars.Extension;
 using Los.Santos.Dope.Wars.Persistence.State;
-using System;
 using System.ComponentModel;
+using static Los.Santos.Dope.Wars.Constants;
+using static Los.Santos.Dope.Wars.Enums;
+using static Los.Santos.Dope.Wars.Extension.Utils;
 
 namespace Los.Santos.Dope.Wars.Features
 {
@@ -34,10 +35,10 @@ namespace Los.Santos.Dope.Wars.Features
 			if (!Initialized)
 				return;
 
-			if (_playerStats != Utils.GetPlayerStatsFromModel(_gameState!))
+			if (_playerStats != GetPlayerStatsFromModel(_gameState!))
 			{
 				_playerStats!.PropertyChanged -= OnCurrentLevelPropertyChanged;
-				_playerStats = Utils.GetPlayerStatsFromModel(_gameState!);
+				_playerStats = GetPlayerStatsFromModel(_gameState!);
 				_playerStats.PropertyChanged += OnCurrentLevelPropertyChanged;
 			}
 		}
@@ -49,7 +50,7 @@ namespace Los.Santos.Dope.Wars.Features
 		public static void Init(GameState gameState)
 		{
 			_gameState = gameState;
-			_playerStats = Utils.GetPlayerStatsFromModel(gameState);
+			_playerStats = GetPlayerStatsFromModel(gameState);
 			_playerStats.PropertyChanged += OnCurrentLevelPropertyChanged;
 			Initialized = true;
 		}
@@ -69,47 +70,47 @@ namespace Los.Santos.Dope.Wars.Features
 				if (playerStats.CurrentLevel.Equals(5))
 				{
 					// this is when the warehouse reward has been granted
-					playerStats.Reward.Warehouse |= Enums.WarehouseStates.Unlocked;
+					playerStats.Reward.Warehouse |= WarehouseStates.Unlocked;
 					Notification.Show($"Congratulations, you have unlocked the ~y~warehouse~w~. Buy it to store drugs safely.");
 				}
 				else if (playerStats.CurrentLevel.Equals(10))
 				{
 					// this is when the player can peddle level two tier drugs
-					playerStats.Reward.DrugTypes |= Constants.TradePackTwo;
+					playerStats.Reward.DrugTypes |= TradePackTwo;
 					Notification.Show($"Congratulations, new drug trading options available.");
 				}
 				else if (playerStats.CurrentLevel.Equals(15))
 				{
 					// this is when the drug lords have been unlocked
-					playerStats.Reward.DrugLords |= Enums.DrugLordStates.Unlocked;
+					playerStats.Reward.DrugLords |= DrugLordStates.Unlocked;
 					Notification.Show($"Congratulations, ~y~drug lords~w~ will visit Los Santos from time to time, offering drugs at best prices!");
 				}
 				else if (playerStats.CurrentLevel.Equals(20))
 				{
 					// this is when the warehouse upgrade reward has been granted
-					playerStats.Reward.Warehouse |= Enums.WarehouseStates.UpgradeUnlocked;
+					playerStats.Reward.Warehouse |= WarehouseStates.UpgradeUnlocked;
 					Notification.Show($"Congratulations, you have unlocked the ~y~warehouse~w~ upgrade. Buy it to upgrade you warehouse.");
 				}
 				else if (playerStats.CurrentLevel.Equals(25))
 				{
 					// this is when the player can peddle level three tier drugs
-					playerStats.Reward.DrugTypes |= Constants.TradePackThree;
+					playerStats.Reward.DrugTypes |= TradePackThree;
 					Notification.Show($"Congratulations, new drug trading options available.");
 				}
 				else if (playerStats.CurrentLevel.Equals(35))
 				{
 					// this is when the drug lords have been upgraded
-					playerStats.Reward.DrugLords |= Enums.DrugLordStates.Upgraded;
+					playerStats.Reward.DrugLords |= DrugLordStates.Upgraded;
 					Notification.Show($"Congratulations, ~y~drug lords~w~ will visit Los Santos from time to time, offering better drugs at best prices!");
 				}
 				else if (playerStats.CurrentLevel.Equals(45))
 				{
 					// this is when the drug lords have been maxed out
-					playerStats.Reward.DrugLords |= Enums.DrugLordStates.MaxedOut;
+					playerStats.Reward.DrugLords |= DrugLordStates.MaxedOut;
 					Notification.Show($"Congratulations, ~y~drug lords~w~ will visit Los Santos from time to time, offering the best drugs at best prices!");
 				}
 				// saving after each level up
-				Utils.SaveGameState(_gameState!);
+				SaveGameState(_gameState!);
 			}
 		}
 	}

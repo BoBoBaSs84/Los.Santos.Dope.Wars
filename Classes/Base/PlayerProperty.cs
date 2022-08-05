@@ -1,7 +1,6 @@
 ﻿using GTA;
 using GTA.Math;
 using Los.Santos.Dope.Wars.Contracts.Base;
-using System.Drawing;
 using System.Xml.Serialization;
 
 namespace Los.Santos.Dope.Wars.Classes.Base

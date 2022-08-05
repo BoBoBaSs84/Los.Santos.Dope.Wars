@@ -2,14 +2,12 @@
 using GTA.Math;
 using Los.Santos.Dope.Wars.Persistence.Settings;
 using Los.Santos.Dope.Wars.Persistence.State;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using static Los.Santos.Dope.Wars.Constants;
+using static Los.Santos.Dope.Wars.Enums;
+using static Los.Santos.Dope.Wars.Statics;
 
 namespace Los.Santos.Dope.Wars.Extension
 {
@@ -24,33 +22,33 @@ namespace Los.Santos.Dope.Wars.Extension
 
 		#region public methods
 		/// <summary>
-		/// The <see cref="GetRandomPedHash(Enums.PedType)"/> method returns a random ped hash
+		/// The <see cref="GetRandomPedHash(PedType)"/> method returns a random ped hash
 		/// </summary>
 		/// <param name="pedType"></param>
 		/// <returns><see cref="PedHash"/></returns>
-		public static PedHash GetRandomPedHash(Enums.PedType pedType)
+		public static PedHash GetRandomPedHash(PedType pedType)
 		{
 			return pedType switch
 			{
-				Enums.PedType.DrugLord => Statics.DrugLordPedHashes[GetRandomInt(Statics.DrugLordPedHashes.Count)],
-				Enums.PedType.DrugDealer => Statics.DrugDealerPedHashes[GetRandomInt(Statics.DrugDealerPedHashes.Count)],
-				Enums.PedType.Bodyguard => Statics.BodyguardPedHashes[GetRandomInt(Statics.BodyguardPedHashes.Count)],
+				PedType.DrugLord => DrugLordPedHashes[GetRandomInt(DrugLordPedHashes.Count)],
+				PedType.DrugDealer => DrugDealerPedHashes[GetRandomInt(DrugDealerPedHashes.Count)],
+				PedType.Bodyguard => BodyguardPedHashes[GetRandomInt(BodyguardPedHashes.Count)],
 				_ => PedHash.ArmGoon01GMM
 			};
 		}
 
 		/// <summary>
-		/// The <see cref="GetRandomWeaponHash(Enums.PedType)"/> method returns a random weapon hash
+		/// The <see cref="GetRandomWeaponHash(PedType)"/> method returns a random weapon hash
 		/// </summary>
 		/// <param name="pedType"></param>
 		/// <returns><see cref="WeaponHash"/></returns>
-		public static WeaponHash GetRandomWeaponHash(Enums.PedType pedType)
+		public static WeaponHash GetRandomWeaponHash(PedType pedType)
 		{
 			return pedType switch
 			{
-				Enums.PedType.DrugLord => Statics.DrugLordWeaponHashes[GetRandomInt(Statics.DrugLordWeaponHashes.Count)],
-				Enums.PedType.DrugDealer => Statics.DrugDealerWeaponHashes[GetRandomInt(Statics.DrugDealerWeaponHashes.Count)],
-				Enums.PedType.Bodyguard => Statics.BodyguardWeaponHashes[GetRandomInt(Statics.BodyguardWeaponHashes.Count)],
+				PedType.DrugLord => DrugLordWeaponHashes[GetRandomInt(DrugLordWeaponHashes.Count)],
+				PedType.DrugDealer => DrugDealerWeaponHashes[GetRandomInt(DrugDealerWeaponHashes.Count)],
+				PedType.Bodyguard => BodyguardWeaponHashes[GetRandomInt(BodyguardWeaponHashes.Count)],
 				_ => WeaponHash.Pistol
 			};
 		}
@@ -78,25 +76,25 @@ namespace Los.Santos.Dope.Wars.Extension
 		/// </summary>
 		/// <param name="playerStats"></param>
 		/// <returns><see cref="List{T}"/></returns>
-		public static List<Enum> GetLordStashByLevel(PlayerStats playerStats)
+		public static List<DrugType> GetLordStashByLevel(PlayerStats playerStats)
 		{
-			if (playerStats.Reward.DrugLords.HasFlag(Enums.DrugLordStates.MaxedOut))
-				return GetDrugEnumTypes(Constants.TradePackThree);
-			else if (playerStats.Reward.DrugLords.HasFlag(Enums.DrugLordStates.Upgraded))
-				return GetDrugEnumTypes(Constants.TradePackTwo);
+			if (playerStats.Reward.DrugLords.HasFlag(DrugLordStates.MaxedOut))
+				return GetDrugEnumTypes(TradePackThree);
+			else if (playerStats.Reward.DrugLords.HasFlag(DrugLordStates.Upgraded))
+				return GetDrugEnumTypes(TradePackTwo);
 			else
-				return GetDrugEnumTypes(Constants.TradePackOne);
+				return GetDrugEnumTypes(TradePackOne);
 		}
 
 		/// <summary>
-		/// Returns <see cref="List{T}"/> of type <see cref="Enums.DrugTypes"/>
+		/// Returns <see cref="List{T}"/> of type <see cref="DrugType"/>
 		/// </summary>
 		/// <param name="drugTypes"></param>
 		/// <returns><see cref="List{T}"/></returns>
-		public static List<Enum> GetDrugEnumTypes(Enums.DrugTypes drugTypes)
+		public static List<DrugType> GetDrugEnumTypes(DrugType drugTypes)
 		{
-			var enumList = Enum.GetValues(drugTypes.GetType()).Cast<Enum>().Where(drugTypes.HasFlag).ToList();
-			enumList.Remove(Enums.DrugTypes.None);
+			List<DrugType>? enumList = drugTypes.FlagsToList();
+			enumList.Remove(DrugType.None);
 			return enumList;
 		}
 
@@ -109,39 +107,39 @@ namespace Los.Santos.Dope.Wars.Extension
 		/// <exception cref="ArgumentNullException"></exception>
 		public static (float health, float armor) GetDealerHealthArmor(Dealer dealerSettings, int playerLevel = 1)
 		{
-			float resultingHealth = dealerSettings.HealthBaseValue + playerLevel * Constants.DealerArmorHealthPerLevelFactor;
-			float resultingArmor = dealerSettings.ArmorBaseValue + playerLevel * Constants.DealerArmorHealthPerLevelFactor;
+			float resultingHealth = dealerSettings.HealthBaseValue + playerLevel * DealerArmorHealthPerLevelFactor;
+			float resultingArmor = dealerSettings.ArmorBaseValue + playerLevel * DealerArmorHealthPerLevelFactor;
 			return (resultingHealth, resultingArmor);
 		}
 
 		/// <summary>
-		/// Returns the difficult factor by the given <see cref="Enums.DifficultyTypes"/> enum
+		/// Returns the difficult factor by the given <see cref="DifficultyTypes"/> enum
 		/// </summary>
 		/// <param name="difficulty"></param>
 		/// <returns><see cref="double"/></returns>
-		public static double GetDifficultFactor(Enums.DifficultyTypes difficulty)
+		public static double GetDifficultFactor(DifficultyTypes difficulty)
 		{
 			return difficulty switch
 			{
-				Enums.DifficultyTypes.Easy => 1.1,
-				Enums.DifficultyTypes.Normal => 1.0,
-				Enums.DifficultyTypes.Hard => 0.9,
+				DifficultyTypes.Easy => 1.1,
+				DifficultyTypes.Normal => 1.0,
+				DifficultyTypes.Hard => 0.9,
 				_ => 1.0
 			};
 		}
 
 		/// <summary>
-		/// Returns the <see cref="Enums.Characters"/> of the currently played character
+		/// Returns the <see cref="Characters"/> of the currently played character
 		/// </summary>
-		/// <returns><see cref="Enums.Characters"/></returns>
-		public static Enums.Characters GetCharacterFromModel()
+		/// <returns><see cref="Characters"/></returns>
+		public static Characters GetCharacterFromModel()
 		{
 			return (PedHash)Game.Player.Character.Model switch
 			{
-				PedHash.Michael => Enums.Characters.Michael,
-				PedHash.Franklin => Enums.Characters.Franklin,
-				PedHash.Trevor => Enums.Characters.Trevor,
-				_ => Enums.Characters.Unknown
+				PedHash.Michael => Characters.Michael,
+				PedHash.Franklin => Characters.Franklin,
+				PedHash.Trevor => Characters.Trevor,
+				_ => Characters.Unknown
 			};
 		}
 
@@ -168,9 +166,9 @@ namespace Los.Santos.Dope.Wars.Extension
 		{
 			return (PedHash)Game.Player.Character.Model switch
 			{
-				PedHash.Franklin => (Statics.WarehouseLocationFranklin, Statics.WarehouseEntranceFranklin, Statics.WarehouseMissionMarkerFranklin),
-				PedHash.Michael => (Statics.WarehouseLocationMichael, Statics.WarehouseEntranceMichael, Statics.WarehouseMissionMarkerMichael),
-				PedHash.Trevor => (Statics.WarehouseLocationTrevor, Statics.WarehouseEntranceTrevor, Statics.WarehouseMissionMarkerTrevor),
+				PedHash.Franklin => (WarehouseLocationFranklin, WarehouseEntranceFranklin, WarehouseMissionMarkerFranklin),
+				PedHash.Michael => (WarehouseLocationMichael, WarehouseEntranceMichael, WarehouseMissionMarkerMichael),
+				PedHash.Trevor => (WarehouseLocationTrevor, WarehouseEntranceTrevor, WarehouseMissionMarkerTrevor),
 				_ => (Vector3.Zero, Vector3.Zero, Vector3.Zero)
 			};
 		}
@@ -196,13 +194,13 @@ namespace Los.Santos.Dope.Wars.Extension
 		/// </summary>
 		/// <param name="character"></param>
 		/// <returns><see cref="BlipColor"/></returns>
-		public static BlipColor GetCharacterBlipColor(Enums.Characters character)
+		public static BlipColor GetCharacterBlipColor(Characters character)
 		{
 			return character switch
 			{
-				Enums.Characters.Michael => BlipColor.Michael,
-				Enums.Characters.Franklin => BlipColor.Franklin,
-				Enums.Characters.Trevor => BlipColor.Trevor,
+				Characters.Michael => BlipColor.Michael,
+				Characters.Franklin => BlipColor.Franklin,
+				Characters.Trevor => BlipColor.Trevor,
 				_ => BlipColor.White,
 			};
 		}
@@ -216,13 +214,13 @@ namespace Los.Santos.Dope.Wars.Extension
 			GameSettings gameSettings = new();
 			try
 			{
-				if (File.Exists(Statics.GameSettingsFileName))
+				if (File.Exists(GameSettingsFileName))
 				{
-					string readText = File.ReadAllText(Statics.GameSettingsFileName);
+					string readText = File.ReadAllText(GameSettingsFileName);
 					gameSettings = readText.DeserializeFromFile<GameSettings>();
-					if (gameSettings.Version.Equals(Statics.AssemblyVersion))
+					if (gameSettings.Version.Equals(AssemblyVersion, StringComparison.Ordinal))
 					{
-						gameSettings.Version = Statics.AssemblyVersion;
+						gameSettings.Version = AssemblyVersion;
 						SaveGameSettings(gameSettings);
 					}
 				}
@@ -247,7 +245,7 @@ namespace Los.Santos.Dope.Wars.Extension
 		{
 			(bool success, string returnString) = SerializeObjectToString(settings);
 			if (success)
-				File.WriteAllText(path: Statics.GameSettingsFileName, contents: returnString, encoding: Encoding.UTF8);
+				File.WriteAllText(path: GameSettingsFileName, contents: returnString, encoding: Encoding.UTF8);
 		}
 
 		/// <summary>
@@ -259,13 +257,13 @@ namespace Los.Santos.Dope.Wars.Extension
 			GameState gameState = new();
 			try
 			{
-				if (File.Exists(Statics.GameStateFileName))
+				if (File.Exists(GameStateFileName))
 				{
-					string readText = File.ReadAllText(Statics.GameStateFileName);
+					string readText = File.ReadAllText(GameStateFileName);
 					gameState = readText.DeserializeFromFile<GameState>();
-					if (!gameState.Version.Equals(Statics.AssemblyVersion))
+					if (!gameState.Version.Equals(AssemblyVersion, StringComparison.Ordinal))
 					{
-						gameState.Version = Statics.AssemblyVersion;
+						gameState.Version = AssemblyVersion;
 						SaveGameState(gameState);
 					}
 				}
@@ -291,7 +289,7 @@ namespace Los.Santos.Dope.Wars.Extension
 			(bool success, string returnString) = SerializeObjectToString(gameState);
 			if (success)
 			{
-				File.WriteAllText(path: Statics.GameStateFileName, contents: returnString, encoding: Encoding.UTF8);
+				File.WriteAllText(path: GameStateFileName, contents: returnString, encoding: Encoding.UTF8);
 				Game.DoAutoSave();
 			}
 		}

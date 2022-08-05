@@ -5,10 +5,6 @@ using Los.Santos.Dope.Wars.Classes;
 using Los.Santos.Dope.Wars.Extension;
 using Los.Santos.Dope.Wars.GUI.Elements;
 using Los.Santos.Dope.Wars.Persistence.State;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 
 namespace Los.Santos.Dope.Wars.GUI
 {
@@ -190,7 +186,7 @@ namespace Los.Santos.Dope.Wars.GUI
 
 				string drugName = drug.Name;
 				int drugQuantity = menuItem.SelectedItem;
-				int drugPurchasePrice = _playerInventory!.Drugs.Where(x => x.Name.Equals(drug.Name)).Select(x => x.PurchasePrice).SingleOrDefault();
+				int drugPurchasePrice = _playerInventory!.Drugs.Where(x => x.Name.Equals(drug.Name, StringComparison.Ordinal)).Select(x => x.PurchasePrice).SingleOrDefault();
 
 				_warehouseInventory!.MoveIntoInventory(drugName, drugQuantity, drugPurchasePrice);
 				_playerInventory.TakeFromInventory(drugName, drugQuantity);
@@ -242,7 +238,7 @@ namespace Los.Santos.Dope.Wars.GUI
 
 				string drugName = drug.Name;
 				int drugQuantity = menuItem.SelectedItem;
-				int drugPurchasePrice = _warehouseInventory!.Drugs.Where(x => x.Name.Equals(drug.Name)).Select(x => x.PurchasePrice).SingleOrDefault();
+				int drugPurchasePrice = _warehouseInventory!.Drugs.Where(x => x.Name.Equals(drug.Name, StringComparison.Ordinal)).Select(x => x.PurchasePrice).SingleOrDefault();
 
 				_playerInventory!.MoveIntoInventory(drugName, drugQuantity, drugPurchasePrice);
 				_warehouseInventory.TakeFromInventory(drugName, drugQuantity);

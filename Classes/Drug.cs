@@ -9,7 +9,7 @@ namespace Los.Santos.Dope.Wars.Classes
 	public class Drug
 	{
 		#region fields
-		private int _quantity = default;
+		private int _quantity;
 		#endregion
 
 		#region ctor
@@ -18,8 +18,8 @@ namespace Los.Santos.Dope.Wars.Classes
 		/// </summary>
 		public Drug()
 		{
-			Name = default!;
-			Description = default!;
+			Name = string.Empty;
+			Description = string.Empty;
 			CurrentPrice = default;
 			AveragePrice = default;
 			PurchasePrice = default;
@@ -27,12 +27,12 @@ namespace Los.Santos.Dope.Wars.Classes
 		}
 
 		/// <summary>
-		/// The <see cref="Enums.DrugTypes"/> constructor for <see cref="Drug"/>
+		/// The <see cref="Enums.DrugType"/> constructor for <see cref="Drug"/>
 		/// </summary>
 		/// <param name="drugType"></param>
 		/// <param name="description"></param>
 		/// <param name="marketValue"></param>
-		public Drug(Enums.DrugTypes drugType, string description, int marketValue)
+		public Drug(Enums.DrugType drugType, string description, int marketValue)
 		{
 			Name = drugType.ToString();
 			Description = description;
