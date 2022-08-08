@@ -1,112 +1,111 @@
 ﻿using Los.Santos.Dope.Wars.Classes.Base;
-using Los.Santos.Dope.Wars.Contracts;
 using Los.Santos.Dope.Wars.Extension;
+using Los.Santos.Dope.Wars.Interfaces;
 using Los.Santos.Dope.Wars.Persistence.Settings;
 using Los.Santos.Dope.Wars.Persistence.State;
 
-namespace Los.Santos.Dope.Wars.Classes
+namespace Los.Santos.Dope.Wars.Classes;
+
+/// <summary>
+/// The <see cref="DealerStash"/> class for dealer types, inherits from <see cref="Stash"/> and
+/// implements the members of the <see cref="IDealerStash"/> interface
+/// </summary>
+public class DealerStash : Stash, IDealerStash
 {
+	#region properties
+	/// <inheritdoc/>
+	public int DrugMoney { get; private set; }
+	#endregion
+
+	#region ctor
 	/// <summary>
-	/// The <see cref="DealerStash"/> class for dealer types, inherits from <see cref="Stash"/> and
-	/// implements the members of the <see cref="IDealerStash"/> interface
+	/// The standard constructor for the <see cref="DealerStash"/> class
 	/// </summary>
-	public class DealerStash : Stash, IDealerStash
+	public DealerStash()
 	{
-		#region properties
-		/// <inheritdoc/>
-		public int DrugMoney { get; private set; }
-		#endregion
+	}
+	#endregion
 
-		#region ctor
-		/// <summary>
-		/// The standard constructor for the <see cref="DealerStash"/> class
-		/// </summary>
-		public DealerStash()
+	#region IDealerStash members
+	/// <inheritdoc/>
+	public void BuyDrug(string drugName, int drugQuantity, int drugPrice)
+	{
+		AddToStash(drugName, drugQuantity);
+		RemoveDrugMoney(drugPrice * drugQuantity);
+	}
+	/// <inheritdoc/>
+	public void RefreshCurrentPrice(PlayerStats playerStats, GameSettings gameSettings, bool isDrugLord = false)
+	{
+		double difficultyFactor = Utils.GetDifficultFactor(gameSettings.GamePlay.Difficulty);
+		double discountFactor = Constants.DiscountPerLevel * playerStats.CurrentLevel;
+		double marketVolatility = Constants.MarketVolatility;
+
+		if (isDrugLord)
 		{
-		}
-		#endregion
-
-		#region IDealerStash members
-		/// <inheritdoc/>
-		public void BuyDrug(string drugName, int drugQuantity, int drugPrice)
-		{
-			AddToStash(drugName, drugQuantity);
-			RemoveDrugMoney(drugPrice * drugQuantity);
-		}
-		/// <inheritdoc/>
-		public void RefreshCurrentPrice(PlayerStats playerStats, GameSettings gameSettings, bool isDrugLord = false)
-		{
-			double difficultyFactor = Utils.GetDifficultFactor(gameSettings.GamePlay.Difficulty);
-			double discountFactor = Constants.DiscountPerLevel * playerStats.CurrentLevel;
-			double marketVolatility = Constants.MarketVolatility;
-
-			if (isDrugLord)
-			{
-				foreach (Drug? drug in Drugs)
-				{
-					double minPrice = (1 - (marketVolatility + discountFactor)) * drug.AveragePrice * difficultyFactor;
-					drug.CurrentPrice = (int)minPrice;
-				}
-				return;
-			}
-
 			foreach (Drug? drug in Drugs)
 			{
 				double minPrice = (1 - (marketVolatility + discountFactor)) * drug.AveragePrice * difficultyFactor;
-				double maxPrice = (1 + (marketVolatility + discountFactor)) * drug.AveragePrice * difficultyFactor;
-				drug.CurrentPrice = Utils.GetRandomInt((int)minPrice, (int)maxPrice);
+				drug.CurrentPrice = (int)minPrice;
 			}
+			return;
 		}
-		/// <inheritdoc/>
-		public void RefreshDrugMoney(PlayerStats playerStats, GameSettings gameSettings, bool isDrugLord = false)
+
+		foreach (Drug? drug in Drugs)
 		{
-			double difficultyFactor = Utils.GetDifficultFactor(gameSettings.GamePlay.Difficulty);
-			int playerLevel = playerStats.CurrentLevel;
-
-			double minMoney = playerLevel * (isDrugLord ? 10000 : 1000) * difficultyFactor / 2;
-			double maxMoney = playerLevel * (isDrugLord ? 10000 : 1000) * difficultyFactor;
-
-			AddDrugMoney(Utils.GetRandomInt((int)minMoney, (int)maxMoney));
+			double minPrice = (1 - (marketVolatility + discountFactor)) * drug.AveragePrice * difficultyFactor;
+			double maxPrice = (1 + (marketVolatility + discountFactor)) * drug.AveragePrice * difficultyFactor;
+			drug.CurrentPrice = Utils.GetRandomInt((int)minPrice, (int)maxPrice);
 		}
-		/// <inheritdoc/>
-		public void RestockQuantity(PlayerStats playerStats, GameSettings gameSettings, bool isDrugLord = false)
+	}
+	/// <inheritdoc/>
+	public void RefreshDrugMoney(PlayerStats playerStats, GameSettings gameSettings, bool isDrugLord = false)
+	{
+		double difficultyFactor = Utils.GetDifficultFactor(gameSettings.GamePlay.Difficulty);
+		int playerLevel = playerStats.CurrentLevel;
+
+		double minMoney = playerLevel * (isDrugLord ? 10000 : 1000) * difficultyFactor / 2;
+		double maxMoney = playerLevel * (isDrugLord ? 10000 : 1000) * difficultyFactor;
+
+		AddDrugMoney(Utils.GetRandomInt((int)minMoney, (int)maxMoney));
+	}
+	/// <inheritdoc/>
+	public void RestockQuantity(PlayerStats playerStats, GameSettings gameSettings, bool isDrugLord = false)
+	{
+		double difficultyFactor = Utils.GetDifficultFactor(gameSettings.GamePlay.Difficulty);
+		int playerLevel = playerStats.CurrentLevel;
+
+		if (isDrugLord)
 		{
-			double difficultyFactor = Utils.GetDifficultFactor(gameSettings.GamePlay.Difficulty);
-			int playerLevel = playerStats.CurrentLevel;
-
-			if (isDrugLord)
-			{
-				Init();
-
-				List<Enums.DrugType>? specialStash = Utils.GetLordStashByLevel(playerStats);
-
-				int index = Utils.GetRandomInt(0, specialStash.Count);
-				Drug drug = Drugs.Where(x => x.Name.Equals(specialStash[index])).FirstOrDefault();
-				drug.Quantity = (int)(playerStats.MaxBagSize * difficultyFactor);
-				return;
-			}
-
 			Init();
 
-			List<Enums.DrugType>? tradeStash = Utils.GetDrugEnumTypes(playerStats.Reward.DrugTypes);
+			List<Enums.DrugType>? specialStash = Utils.GetLordStashByLevel(playerStats);
 
-			foreach (Enums.DrugType tradeType in tradeStash)
-			{
-				Drug drug = Drugs.Where(x => x.Name.Equals(tradeType.ToString(), StringComparison.Ordinal)).SingleOrDefault();
-				if (drug is not null)
-					drug.Quantity = Utils.GetRandomInt((int)(playerLevel * difficultyFactor), (int)(playerLevel * difficultyFactor * 10 / 2) + 1);
-			}
+			int index = Utils.GetRandomInt(0, specialStash.Count);
+			Drug drug = Drugs.Where(x => x.Name.Equals(specialStash[index])).FirstOrDefault();
+			drug.Quantity = (int)(playerStats.MaxBagSize * difficultyFactor);
+			return;
 		}
-		/// <inheritdoc/>
-		public void SellDrug(string drugName, int drugQuantity, int drugPrice)
+
+		Init();
+
+		List<Enums.DrugType>? tradeStash = Utils.GetDrugEnumTypes(playerStats.Reward.DrugTypes);
+
+		foreach (Enums.DrugType tradeType in tradeStash)
 		{
-			RemoveFromStash(drugName, drugQuantity);
-			AddDrugMoney(drugPrice * drugQuantity);
+			Drug drug = Drugs.Where(x => x.Name.Equals(tradeType.ToString(), StringComparison.Ordinal)).SingleOrDefault();
+			if (drug is not null)
+				drug.Quantity = Utils.GetRandomInt((int)(playerLevel * difficultyFactor), (int)(playerLevel * difficultyFactor * 10 / 2) + 1);
 		}
-		/// <inheritdoc/>
-		public void AddDrugMoney(int amount) => DrugMoney += amount;
-		/// <inheritdoc/>
-		public void RemoveDrugMoney(int amount) => DrugMoney -= amount;
-		#endregion
 	}
+	/// <inheritdoc/>
+	public void SellDrug(string drugName, int drugQuantity, int drugPrice)
+	{
+		RemoveFromStash(drugName, drugQuantity);
+		AddDrugMoney(drugPrice * drugQuantity);
+	}
+	/// <inheritdoc/>
+	public void AddDrugMoney(int amount) => DrugMoney += amount;
+	/// <inheritdoc/>
+	public void RemoveDrugMoney(int amount) => DrugMoney -= amount;
+	#endregion
 }
