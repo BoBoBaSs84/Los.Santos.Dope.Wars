@@ -23,6 +23,7 @@ public static class WarehouseMission
 	private static PlayerStats? _playerStats;
 	private static Warehouse? _warehouse;
 	private static int _warehousePrice;
+	private static int _missionInterval;
 	private static DateTime _nextDrugVanMissionStart;
 	private static WarehouseMissionStates _missionState;
 	private static bool _drugVanSetupDone;
@@ -121,7 +122,7 @@ public static class WarehouseMission
 							{
 								Script.Wait(10);
 								_missionState = WarehouseMissionStates.Started;
-								_nextDrugVanMissionStart = ScriptHookUtils.GetGameDateTime().AddHours(12);
+								_nextDrugVanMissionStart = ScriptHookUtils.GetGameDateTime().AddHours(_missionInterval);
 							}
 						}
 				}
@@ -168,7 +169,8 @@ public static class WarehouseMission
 
 					_drugVan.IsCollisionProof = _drugVan.IsBulletProof = _drugVan.IsMeleeProof = _drugVan.IsFireProof = _drugVan.IsExplosionProof = false;
 					Blip blip = _drugVan.AddBlip();
-					blip.Sprite = BlipSprite.DrugPackage;
+					blip.Sprite = BlipSprite.Standard;
+					blip.Color = BlipColor.Yellow;
 					blip.IsShortRange = false;
 					blip.Name = "Drug Van";
 
@@ -299,7 +301,8 @@ public static class WarehouseMission
 		_gameState = gameState;
 		_player = Game.Player.Character;
 		_playerStats = GetPlayerStatsFromModel(gameState);
-		_warehousePrice = gameSettings.GamePlay.Reward.Warehouse.WarehousePrice;
+		_warehousePrice = gameSettings.GamePlay.Reward.Warehouse.Price;
+		_missionInterval = gameSettings.GamePlay.Reward.Warehouse.MissionSettings.RefreshIntervalHours;
 		_nextDrugVanMissionStart = ScriptHookUtils.GetGameDateTime();
 		_missionState = WarehouseMissionStates.NotStarted;
 		Initialized = true;
