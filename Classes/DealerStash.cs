@@ -66,7 +66,7 @@ public class DealerStash : Stash, IDealerStash
 		double minMoney = playerLevel * (isDrugLord ? 10000 : 1000) * difficultyFactor / 2;
 		double maxMoney = playerLevel * (isDrugLord ? 10000 : 1000) * difficultyFactor;
 
-		AddDrugMoney(Utils.GetRandomInt((int)minMoney, (int)maxMoney));
+		SetDrugMoney(Utils.GetRandomInt((int)minMoney, (int)maxMoney));
 	}
 	/// <inheritdoc/>
 	public void RestockQuantity(PlayerStats playerStats, GameSettings gameSettings, bool isDrugLord = false)
@@ -107,5 +107,7 @@ public class DealerStash : Stash, IDealerStash
 	public void AddDrugMoney(int amount) => DrugMoney += amount;
 	/// <inheritdoc/>
 	public void RemoveDrugMoney(int amount) => DrugMoney -= amount;
+	/// <inheritdoc/>
+	public void SetDrugMoney(int amount) => DrugMoney = amount;
 	#endregion
 }

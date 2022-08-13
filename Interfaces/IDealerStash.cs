@@ -57,4 +57,9 @@ public interface IDealerStash
 	/// </summary>
 	/// <param name="amount"></param>
 	void RemoveDrugMoney(int amount);
+	/// <summary>
+	/// The <see cref="SetDrugMoney(int)"/> method sets the amount x to the <see cref="DrugMoney"/> property
+	/// </summary>
+	/// <param name="amount"></param>
+	void SetDrugMoney(int amount);
 }

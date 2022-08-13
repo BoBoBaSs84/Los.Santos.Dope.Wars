@@ -17,6 +17,16 @@
 		<Configurations>Debug;Release</Configurations>
 		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<PackageProjectUrl>https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>D:\Source\Los.Santos.Dope.Wars\LICENSE</PackageLicenseFile>
+		<PackageTags>gtav;gtav-mod;gta5-mode;scripthoohvdotnet;dopewars;lemonui</PackageTags>
+		<Description>The modification is an attempt to bring the "trade" game mechanics from Chinatown Wars to the fictional state of San Andreas.</Description>
+		<Copyright>Copyright © 2022 BoBoBaSs84</Copyright>
+		<Company>BoBoBaSs84</Company>
+		<PackageId>$(AssemblyName).$(VersionPrefix)</PackageId>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -37,5 +47,16 @@
 	<ItemGroup>
 		<Using Remove="System.Net.Http" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="COPY &quot;$(TargetPath)&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\scripts&quot;" />
+	</Target>
 
 </Project>
