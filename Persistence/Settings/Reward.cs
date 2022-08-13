@@ -39,24 +39,52 @@ public class Reward
 		/// </summary>
 		public WarehouseSettings()
 		{
-			WarehousePrice = 125000;
-			WarehouseUpgradePrice = 875000;
+			Price = 125000;
+			UpgradePrice = 875000;
+			MissionSettings = new();
 		}
 		#endregion
 
 		#region properties
 		/// <summary>
-		/// The <see cref="WarehousePrice"/> property
+		/// The <see cref="Price"/> property
 		/// </summary>
-		[XmlAttribute(AttributeName = nameof(WarehousePrice))]
-		public int WarehousePrice { get; set; }
+		[XmlAttribute(AttributeName = nameof(Price))]
+		public int Price { get; set; }
 
 		/// <summary>
-		/// The <see cref="WarehouseUpgradePrice"/> property
+		/// The <see cref="UpgradePrice"/> property
 		/// </summary>
-		[XmlAttribute(AttributeName = nameof(WarehouseUpgradePrice))]
-		public int WarehouseUpgradePrice { get; set; }
+		[XmlAttribute(AttributeName = nameof(UpgradePrice))]
+		public int UpgradePrice { get; set; }
+
+		/// <summary>
+		/// The <see cref="MissionSettings"/> property
+		/// </summary>
+		[XmlElement(ElementName = nameof(MissionSettings), IsNullable = false)]
+		public MissionSettings MissionSettings { get; set; }
 		#endregion
+	}
+
+	/// <summary>
+	/// The <see cref="MissionSettings"/> class is the <see cref="MissionSettings"/> element for the special rewards settings.
+	/// </summary>
+	[XmlRoot(ElementName = nameof(MissionSettings), IsNullable = false)]
+	public class MissionSettings
+	{
+		/// <summary>
+		/// The <see cref="MissionSettings"/> class constructor.
+		/// </summary>
+		public MissionSettings()
+		{
+			RefreshIntervalHours = 168;
+		}
+
+		/// <summary>
+		/// The <see cref="RefreshIntervalHours"/> property
+		/// </summary>
+		[XmlAttribute(AttributeName = nameof(RefreshIntervalHours))]
+		public int RefreshIntervalHours { get; set; }
 	}
 	#endregion
 }
