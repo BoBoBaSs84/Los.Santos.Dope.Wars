@@ -17,7 +17,7 @@ public class GamePlay
 	{
 		LooseDrugsOnDeath = true;
 		LooseDrugsWhenBusted = true;
-		Difficulty = DifficultyTypes.Normal;
+		Difficulty = DifficultyType.Normal;
 		Reward = new();
 	}
 	#endregion
@@ -39,7 +39,7 @@ public class GamePlay
 	/// The <see cref="Difficulty"/> property/attribute 
 	/// </summary>
 	[XmlAttribute(AttributeName = nameof(Difficulty))]
-	public DifficultyTypes Difficulty { get; set; }
+	public DifficultyType Difficulty { get; set; }
 
 	/// <summary>
 	/// The <see cref="Reward"/> property/attribute 

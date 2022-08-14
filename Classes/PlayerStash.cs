@@ -13,7 +13,10 @@ public class PlayerStash : Stash, IPlayerStash
 	/// <summary>
 	/// The standard constructor for the <see cref="PlayerStash"/> class
 	/// </summary>
-	public PlayerStash() { }
+	public PlayerStash()
+	{
+		Drugs = new();
+	}
 	#endregion
 
 	#region IPlayerStash members

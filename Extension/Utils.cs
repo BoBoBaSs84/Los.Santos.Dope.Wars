@@ -25,6 +25,7 @@ public static class Utils
 	/// <returns><see cref="PedHash"/></returns>
 	public static PedHash GetRandomPedHash(PedType pedType)
 	{
+		Logger.Trace(" called");
 		return pedType switch
 		{
 			PedType.DrugLord => DrugLordPedHashes[GetRandomInt(DrugLordPedHashes.Count)],
@@ -41,6 +42,7 @@ public static class Utils
 	/// <returns><see cref="WeaponHash"/></returns>
 	public static WeaponHash GetRandomWeaponHash(PedType pedType)
 	{
+		Logger.Trace(" called");
 		return pedType switch
 		{
 			PedType.DrugLord => DrugLordWeaponHashes[GetRandomInt(DrugLordWeaponHashes.Count)],
@@ -57,6 +59,7 @@ public static class Utils
 	/// <returns><see cref="int"/></returns>
 	public static int GetWantedLevelByPlayerLevel(int playerLevel)
 	{
+		Logger.Trace(" called");
 		if (playerLevel >= 40)
 			return 4;
 		if (playerLevel >= 25)
@@ -75,6 +78,7 @@ public static class Utils
 	/// <returns><see cref="List{T}"/></returns>
 	public static List<DrugType> GetLordStashByLevel(PlayerStats playerStats)
 	{
+		Logger.Trace(" called");
 		if (playerStats.Reward.DrugLords.HasFlag(DrugLordStates.MaxedOut))
 			return GetDrugFlagTypes(TradePackThree);
 		else if (playerStats.Reward.DrugLords.HasFlag(DrugLordStates.Upgraded))
@@ -90,6 +94,7 @@ public static class Utils
 	/// <returns><see cref="List{T}"/></returns>
 	public static List<DrugType> GetDrugFlagTypes(DrugType drugTypes)
 	{
+		Logger.Trace(" called");
 		List<DrugType> enumList = drugTypes.FlagsToList();
 		enumList.Remove(DrugType.None);
 		return enumList;
@@ -104,6 +109,7 @@ public static class Utils
 	/// <returns>A list of drugs, description and price included.</returns>
 	public static List<Drug> GetAvailableDrugs()
 	{
+		Logger.Trace(" called");
 		var enumList = DrugType.None.GetListFromEnum();
 		enumList.Remove(DrugType.None);
 		List<Drug> drugList = new();
@@ -121,39 +127,42 @@ public static class Utils
 	/// <exception cref="ArgumentNullException"></exception>
 	public static (float health, float armor) GetDealerHealthArmor(Dealer dealerSettings, int playerLevel = 1)
 	{
+		Logger.Trace(" called");
 		float resultingHealth = dealerSettings.HealthBaseValue + playerLevel * DealerArmorHealthPerLevelFactor;
 		float resultingArmor = dealerSettings.ArmorBaseValue + playerLevel * DealerArmorHealthPerLevelFactor;
 		return (resultingHealth, resultingArmor);
 	}
 
 	/// <summary>
-	/// Returns the difficult factor by the given <see cref="DifficultyTypes"/> enum
+	/// Returns the difficult factor by the given <see cref="DifficultyType"/> enum
 	/// </summary>
 	/// <param name="difficulty"></param>
 	/// <returns><see cref="double"/></returns>
-	public static double GetDifficultFactor(DifficultyTypes difficulty)
+	public static double GetDifficultFactor(DifficultyType difficulty)
 	{
+		Logger.Trace(" called");
 		return difficulty switch
 		{
-			DifficultyTypes.Easy => 1.1,
-			DifficultyTypes.Normal => 1.0,
-			DifficultyTypes.Hard => 0.9,
+			DifficultyType.Easy => 1.1,
+			DifficultyType.Normal => 1.0,
+			DifficultyType.Hard => 0.9,
 			_ => 1.0
 		};
 	}
 
 	/// <summary>
-	/// Returns the <see cref="Characters"/> of the currently played character
+	/// Returns the <see cref="Character"/> of the currently played character
 	/// </summary>
-	/// <returns><see cref="Characters"/></returns>
-	public static Characters GetCharacterFromModel()
+	/// <returns><see cref="Character"/></returns>
+	public static Character GetCharacterFromModel()
 	{
+		Logger.Trace(" called");
 		return (PedHash)Game.Player.Character.Model switch
 		{
-			PedHash.Michael => Characters.Michael,
-			PedHash.Franklin => Characters.Franklin,
-			PedHash.Trevor => Characters.Trevor,
-			_ => Characters.Unknown
+			PedHash.Michael => Character.Michael,
+			PedHash.Franklin => Character.Franklin,
+			PedHash.Trevor => Character.Trevor,
+			_ => Character.Unknown
 		};
 	}
 
@@ -163,6 +172,7 @@ public static class Utils
 	/// <returns><see cref="Color"/></returns>
 	public static Color GetCurrentPlayerColor()
 	{
+		Logger.Trace(" called");
 		return (PedHash)Game.Player.Character.Model switch
 		{
 			PedHash.Franklin => Color.LimeGreen,
@@ -178,6 +188,7 @@ public static class Utils
 	/// <returns><see cref="Tuple{T1, T2, T3}"/></returns>
 	public static (Vector3 location, Vector3 entrance, Vector3 mission) GetWarehousePositions()
 	{
+		Logger.Trace(" called");
 		return (PedHash)Game.Player.Character.Model switch
 		{
 			PedHash.Franklin => (WarehouseLocationFranklin, WarehouseEntranceFranklin, WarehouseMissionMarkerFranklin),
@@ -194,6 +205,7 @@ public static class Utils
 	/// <returns><see cref="PlayerStats"/></returns>
 	public static PlayerStats GetPlayerStatsFromModel(GameState gameState)
 	{
+		Logger.Trace(" called");
 		return (PedHash)Game.Player.Character.Model switch
 		{
 			PedHash.Franklin => gameState.Franklin,
@@ -208,13 +220,14 @@ public static class Utils
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns><see cref="BlipColor"/></returns>
-	public static BlipColor GetCharacterBlipColor(Characters character)
+	public static BlipColor GetCharacterBlipColor(Character character)
 	{
+		Logger.Trace(" called");
 		return character switch
 		{
-			Characters.Michael => BlipColor.Michael,
-			Characters.Franklin => BlipColor.Franklin,
-			Characters.Trevor => BlipColor.Trevor,
+			Character.Michael => BlipColor.Michael,
+			Character.Franklin => BlipColor.Franklin,
+			Character.Trevor => BlipColor.Trevor,
 			_ => BlipColor.White,
 		};
 	}
@@ -225,6 +238,7 @@ public static class Utils
 	/// <returns><see cref="Tuple{T1, T2}"/></returns>
 	public static (bool successs, GameSettings loadedGameSettings) LoadGameSettings()
 	{
+		Logger.Trace(" called");
 		GameSettings gameSettings = new();
 		try
 		{
@@ -257,6 +271,7 @@ public static class Utils
 	/// <param name="settings"></param>
 	public static void SaveGameSettings(GameSettings settings)
 	{
+		Logger.Trace(" called");
 		(bool success, string returnString) = SerializeObjectToString(settings);
 		if (success)
 			File.WriteAllText(path: GameSettingsFileName, contents: returnString, encoding: Encoding.UTF8);
@@ -268,6 +283,7 @@ public static class Utils
 	/// <returns><see cref="Tuple{T1, T2}"/></returns>
 	public static (bool success, GameState loadedGameState) LoadGameState()
 	{
+		Logger.Trace(" called");
 		GameState gameState = new();
 		try
 		{
@@ -300,6 +316,7 @@ public static class Utils
 	/// <param name="gameState"></param>
 	public static void SaveGameState(GameState gameState)
 	{
+		Logger.Trace(" called");
 		(bool success, string returnString) = SerializeObjectToString(gameState);
 		if (success)
 		{
@@ -347,6 +364,7 @@ public static class Utils
 	/// <exception cref="ArgumentNullException"></exception>
 	private static T DeserializeFromFile<T>(this string toDeserialize, bool decompress = false) where T : class
 	{
+		Logger.Trace(" called");
 		try
 		{
 			if (string.IsNullOrWhiteSpace(toDeserialize))
@@ -385,6 +403,7 @@ public static class Utils
 	/// <returns><see cref="Tuple{T1, T2}"/></returns>
 	private static (bool success, string returnString) SerializeObjectToString<T>(this T toSerialize, bool compress = false) where T : class
 	{
+		Logger.Trace(" called");
 		string stringToReturn = string.Empty;
 
 		XmlSerializer xmlSerializer = new(typeof(T));

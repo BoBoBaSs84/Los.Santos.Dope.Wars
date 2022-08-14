@@ -314,7 +314,7 @@ public class DealMenu : Script
 	/// <returns><see cref="NativeItem"/></returns>
 	private static NativeItem GetStatsMenuItem()
 	{
-		string title = $"Current player level:\t\t{_playerStats!.CurrentLevel} / {PlayerStats.MaxLevel}";
+		string title = $"Current player level:\t\t{_playerStats!.CurrentLevel} / {Constants.MaximumPlayerLevel}";
 		string description = $"Total spent money:\t\t\t${_playerStats.SpentMoney}\n" +
 				$"Total earned money:\t\t${_playerStats.EarnedMoney}\n\n" +
 				$"Profit:\t\t\t\t\t{((_playerStats.EarnedMoney - _playerStats.SpentMoney < 0) ? "~r~" : "~g~")}${_playerStats.EarnedMoney - _playerStats.SpentMoney}";

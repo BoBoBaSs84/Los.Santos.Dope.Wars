@@ -12,7 +12,11 @@ public static class ScriptHookUtils
 	/// <summary>
 	/// The <see cref="FlashMinimapDisplay"/> methods lets the small minimap on the screen flash (once)
 	/// </summary>
-	public static void FlashMinimapDisplay() => Function.Call(Hash.FLASH_MINIMAP_DISPLAY);
+	public static void FlashMinimapDisplay()
+	{
+		Logger.Trace(" called");
+		Function.Call(Hash.FLASH_MINIMAP_DISPLAY);
+	}
 
 	/// <summary>
 	/// The <see cref="RequestModel(PedHash)"/> method returns the model requested by the ped hash parameter
@@ -21,6 +25,7 @@ public static class ScriptHookUtils
 	/// <returns><see cref="Model"/></returns>
 	public static Model RequestModel(PedHash pedHash)
 	{
+		Logger.Trace(" called");
 		Model model = new(pedHash);
 		model.Request(250);
 		if (model.IsInCdImage && model.IsValid)
@@ -40,6 +45,7 @@ public static class ScriptHookUtils
 	/// <returns><see cref="Model"/></returns>
 	public static Model RequestModel(VehicleHash vehicleHash)
 	{
+		Logger.Trace(" called");
 		Model model = new(vehicleHash);
 		model.Request(250);
 		if (model.IsInCdImage && model.IsValid)
@@ -56,7 +62,11 @@ public static class ScriptHookUtils
 	/// The <see cref="GetGameDateTime"/> method returns the current in game <see cref="DateTime"/>
 	/// </summary>
 	/// <returns><see cref="DateTime"/></returns>
-	public static DateTime GetGameDateTime() => World.CurrentDate;
+	public static DateTime GetGameDateTime()
+	{
+		Logger.Trace(" called");
+		return World.CurrentDate;
+	}
 
 	/// <summary>
 	/// Sends a message to the player phone
@@ -69,14 +79,15 @@ public static class ScriptHookUtils
 	/// <param name="playSound"></param>
 	public static void NotifyWithPicture(string sender, string subject, string message, int icon, string texture = "CHAR_DEFAULT", bool playSound = true)
 	{
+		Logger.Trace(" called");
 		Function.Call(Hash.BEGIN_TEXT_COMMAND_THEFEED_POST, "STRING");
 		Function.Call(Hash.ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME, message);
 		Function.Call(Hash.END_TEXT_COMMAND_THEFEED_POST_MESSAGETEXT, texture, texture, true, icon, sender, subject);
 
 		if (playSound)
 		{
-			Enums.Characters currentCharacter = GetCharacterFromModel();
-			Audio.PlaySoundFrontend("Text_Arrive_Tone", $"Phone_SoundSet_{(currentCharacter.Equals(Enums.Characters.Unknown) ? "Default" : $"{currentCharacter}")}");
+			Enums.Character currentCharacter = GetCharacterFromModel();
+			Audio.PlaySoundFrontend("Text_Arrive_Tone", $"Phone_SoundSet_{(currentCharacter.Equals(Enums.Character.Unknown) ? "Default" : $"{currentCharacter}")}");
 		}
 	}
 
@@ -88,6 +99,7 @@ public static class ScriptHookUtils
 	/// <param name="playerLevel"></param>
 	public static void DrugEnforcementAdministrationBust(Ped player, int playerLevel)
 	{
+		Logger.Trace(" called");
 		double currentBustChance = (double)playerLevel / 2;
 		double randomDouble = GetRandomDouble() * 100;
 		if (randomDouble <= currentBustChance)
