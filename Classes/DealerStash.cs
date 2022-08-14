@@ -88,7 +88,7 @@ public class DealerStash : Stash, IDealerStash
 
 		Init();
 
-		List<Enums.DrugType>? tradeStash = Utils.GetDrugEnumTypes(playerStats.Reward.DrugTypes);
+		List<Enums.DrugType>? tradeStash = Utils.GetDrugFlagTypes(playerStats.Reward.DrugTypes);
 
 		foreach (Enums.DrugType tradeType in tradeStash)
 		{

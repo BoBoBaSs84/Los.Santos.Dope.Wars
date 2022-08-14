@@ -21,12 +21,12 @@
 		<RepositoryUrl>https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageLicenseFile>D:\Source\Los.Santos.Dope.Wars\LICENSE</PackageLicenseFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageTags>gtav;gtav-mod;gta5-mode;scripthoohvdotnet;dopewars;lemonui</PackageTags>
 		<Description>The modification is an attempt to bring the "trade" game mechanics from Chinatown Wars to the fictional state of San Andreas.</Description>
 		<Copyright>Copyright © 2022 BoBoBaSs84</Copyright>
 		<Company>BoBoBaSs84</Company>
-		<PackageId>$(AssemblyName).$(VersionPrefix)</PackageId>
+		<PackageId>$(AssemblyName)</PackageId>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -53,6 +53,10 @@
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="LICENSE" Pack="true" PackagePath=""/>
 	</ItemGroup>
 
 </Project>

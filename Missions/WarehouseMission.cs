@@ -302,7 +302,7 @@ public static class WarehouseMission
 		_player = Game.Player.Character;
 		_playerStats = GetPlayerStatsFromModel(gameState);
 		_warehousePrice = gameSettings.GamePlay.Reward.Warehouse.Price;
-		_missionInterval = gameSettings.GamePlay.Reward.Warehouse.MissionSettings.RefreshIntervalHours;
+		_missionInterval = gameSettings.GamePlay.Reward.Warehouse.MissionSettings.MissionInterval;
 		_nextDrugVanMissionStart = ScriptHookUtils.GetGameDateTime();
 		_missionState = WarehouseMissionStates.NotStarted;
 		Initialized = true;
