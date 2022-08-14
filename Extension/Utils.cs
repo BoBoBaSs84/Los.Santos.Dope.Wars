@@ -1,5 +1,6 @@
 ﻿using GTA;
 using GTA.Math;
+using Los.Santos.Dope.Wars.Classes;
 using Los.Santos.Dope.Wars.Persistence.Settings;
 using Los.Santos.Dope.Wars.Persistence.State;
 using System.Text;
@@ -75,11 +76,11 @@ public static class Utils
 	public static List<DrugType> GetLordStashByLevel(PlayerStats playerStats)
 	{
 		if (playerStats.Reward.DrugLords.HasFlag(DrugLordStates.MaxedOut))
-			return GetDrugEnumTypes(TradePackThree);
+			return GetDrugFlagTypes(TradePackThree);
 		else if (playerStats.Reward.DrugLords.HasFlag(DrugLordStates.Upgraded))
-			return GetDrugEnumTypes(TradePackTwo);
+			return GetDrugFlagTypes(TradePackTwo);
 		else
-			return GetDrugEnumTypes(TradePackOne);
+			return GetDrugFlagTypes(TradePackOne);
 	}
 
 	/// <summary>
@@ -87,11 +88,28 @@ public static class Utils
 	/// </summary>
 	/// <param name="drugTypes"></param>
 	/// <returns><see cref="List{T}"/></returns>
-	public static List<DrugType> GetDrugEnumTypes(DrugType drugTypes)
+	public static List<DrugType> GetDrugFlagTypes(DrugType drugTypes)
 	{
-		List<DrugType>? enumList = drugTypes.FlagsToList();
+		List<DrugType> enumList = drugTypes.FlagsToList();
 		enumList.Remove(DrugType.None);
 		return enumList;
+	}
+
+	/// <summary>
+	/// The <see cref="GetAvailableDrugs"/> method returns the available drugs for the trading in general.
+	/// </summary>
+	/// <remarks>
+	/// The <see cref="DrugType.None"/> will be ignored.
+	/// </remarks>
+	/// <returns>A list of drugs, description and price included.</returns>
+	public static List<Drug> GetAvailableDrugs()
+	{
+		var enumList = DrugType.None.GetListFromEnum();
+		enumList.Remove(DrugType.None);
+		List<Drug> drugList = new();
+		foreach(var e in enumList)
+			drugList.Add(new Drug(e, e.GetDescription(), e.GetPrice()));
+		return drugList;
 	}
 
 	/// <summary>
