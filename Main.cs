@@ -4,7 +4,6 @@ using Los.Santos.Dope.Wars.Features;
 using Los.Santos.Dope.Wars.Missions;
 using Los.Santos.Dope.Wars.Persistence.Settings;
 using Los.Santos.Dope.Wars.Persistence.State;
-using static Los.Santos.Dope.Wars.Extension.ScriptHookUtils;
 using static Los.Santos.Dope.Wars.Extension.Utils;
 using static Los.Santos.Dope.Wars.Statics;
 
@@ -28,9 +27,14 @@ public class Main : Script
 
 	#region properties
 	/// <summary>
-	/// The <see cref="ScriptDirectory"/> property, this is the main directory for logging and saving the game config and the game state
+	/// The <see cref="ScriptDirectory"/> property, this is the main directory for logging and saving the game config and the game state.
 	/// </summary>
 	public static string ScriptDirectory { get; private set; } = string.Empty;
+
+	/// <summary>
+	/// The <see cref="LogLevels"/> property, 
+	/// </summary>
+	public static Enums.LogLevels LogLevels { get; private set; } = Enums.LogLevels.Warning | Enums.LogLevels.Error | Enums.LogLevels.Critical;
 	#endregion
 
 	#region ctor
@@ -66,7 +70,7 @@ public class Main : Script
 			_drugDealerMissionLoaded = DrugDealerMission.Initialized;
 			Tick += DrugDealerMission.OnTick;
 			Aborted += DrugDealerMission.OnAborted;
-			Logger.Status($"{nameof(DrugDealerMission)} loaded: {_drugDealerMissionLoaded}");
+			Logger.Information($"{nameof(DrugDealerMission)} loaded: {_drugDealerMissionLoaded}");
 		}
 
 		if (!_drugLordMissionLoaded)
@@ -75,7 +79,7 @@ public class Main : Script
 			_drugLordMissionLoaded = DrugLordMission.Initialized;
 			Tick += DrugLordMission.OnTick;
 			Aborted += DrugLordMission.OnAborted;
-			Logger.Status($"{nameof(DrugLordMission)} loaded: {_drugLordMissionLoaded}");
+			Logger.Information($"{nameof(DrugLordMission)} loaded: {_drugLordMissionLoaded}");
 		}
 
 		if (!_warehouseMissionLoaded)
@@ -84,7 +88,7 @@ public class Main : Script
 			_warehouseMissionLoaded = WarehouseMission.Initialized;
 			Tick += WarehouseMission.OnTick;
 			Aborted += WarehouseMission.OnAborted;
-			Logger.Status($"{nameof(WarehouseMission)} loaded: {_drugDealerMissionLoaded}");
+			Logger.Information($"{nameof(WarehouseMission)} loaded: {_drugDealerMissionLoaded}");
 		}
 
 		if (!_rewardSystemLoaded)
@@ -92,7 +96,7 @@ public class Main : Script
 			RewardSystem.Init(GameState!);
 			_rewardSystemLoaded = RewardSystem.Initialized;
 			Tick += RewardSystem.OnTick;
-			Logger.Status($"{nameof(RewardSystem)} loaded: {_drugDealerMissionLoaded}");
+			Logger.Information($"{nameof(RewardSystem)} loaded: {_drugDealerMissionLoaded}");
 		}
 	}
 
@@ -102,15 +106,12 @@ public class Main : Script
 		{
 			if (!_gameSettingsLoaded || !_gameStateLoaded)
 			{
-				Logger.Status($"Game: {AssemblyName} - Vesion: {AssemblyVersion}");
-
 				if (!_gameSettingsLoaded)
 				{
 					(bool successs, GameSettings loadedGameSettings) = LoadGameSettings();
 					if (successs)
 					{
 						GameSettings = loadedGameSettings;
-						Logger.Status($"Settings loaded. Version: {GameSettings.Version}");
 						_gameSettingsLoaded = successs;
 					}
 				}
@@ -120,10 +121,15 @@ public class Main : Script
 					if (success)
 					{
 						GameState = loadedGameState;
-						loadedGameState.LastDealerRestock = GetGameDateTime().AddHours(-24);
-						Logger.Status($"Last game state loaded. Version: {GameSettings!.Version}");
 						_gameStateLoaded = success;
 					}
+				}
+				if (GameSettings is not null)
+				{
+					LogLevels = GameSettings.LogLevel;
+					Logger.Information($"Modification: {AssemblyName} - Vesion: {AssemblyVersion}");
+					Logger.Information($"Settings loaded. Version: {GameSettings.Version}");
+					Logger.Information($"Last game state loaded. Version: {GameSettings!.Version}");
 				}
 			}
 		}

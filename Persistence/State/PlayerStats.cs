@@ -6,20 +6,19 @@ using System.Xml.Serialization;
 namespace Los.Santos.Dope.Wars.Persistence.State;
 
 /// <summary>
-/// The <see cref="PlayerStats"/> class is the root element for each character
+/// The <see cref="PlayerStats"/> class is the root element for each character.
 /// </summary>
 [XmlRoot(ElementName = nameof(PlayerStats), IsNullable = false)]
 public class PlayerStats : INotifyPropertyChanged
 {
 	#region fields
 	private int currentLevel;
-	/// <inheritdoc/>
-	public event PropertyChangedEventHandler? PropertyChanged;
+
 	#endregion
 
 	#region ctor
 	/// <summary>
-	/// Empty constructor with default values
+	/// The <see cref="PlayerStats"/> class constructor with default values.
 	/// </summary>
 	public PlayerStats()
 	{
@@ -27,23 +26,14 @@ public class PlayerStats : INotifyPropertyChanged
 		EarnedMoney = default;
 		CurrentLevel = 1;
 		CurrentExperience = default;
-		Stash = new()
-		{
-			Drugs = new()
-		};
-		Reward = new();
-		Warehouse = new();
+		Stash = new();
 		Stash.Init();
+		Reward = new();
+		Warehouse = new();		
 	}
 	#endregion
 
 	#region properties
-	/// <summary>
-	/// The <see cref="MaxLevel"/> property, hard coded for now
-	/// </summary>
-	[XmlIgnore]
-	public const int MaxLevel = 50;
-
 	/// <summary>
 	/// The <see cref="SpentMoney"/> property, money spend for buying drugs
 	/// </summary>
@@ -62,13 +52,13 @@ public class PlayerStats : INotifyPropertyChanged
 	[XmlAttribute(AttributeName = nameof(CurrentLevel))]
 	public int CurrentLevel
 	{
-		get { return currentLevel; }
+		get => currentLevel;
 		set
 		{
-			if (value > currentLevel)
+			if (value != currentLevel)
 			{
 				currentLevel = value;
-				OnPropertyChanged(nameof(CurrentLevel));
+				OnPropertyChanged();
 			}
 		}
 	}
@@ -129,6 +119,7 @@ public class PlayerStats : INotifyPropertyChanged
 	}
 	#endregion
 
+	#region private members
 	/// <summary>
 	/// Returns the need experience points fo the next level
 	/// </summary>
@@ -136,25 +127,35 @@ public class PlayerStats : INotifyPropertyChanged
 	private int GetNextLevelExpPoints() => (int)Math.Pow(CurrentLevel + 1, 2.5) * 1000;
 
 	/// <summary>
-	/// Returns the current bag size
+	/// The <see cref="GetCurrentBagSize"/> method calculates the current bag size.
 	/// </summary>
-	/// <returns></returns>
+	/// <remarks>
+	/// If the stash is empty zero will be returned.
+	/// </remarks>
+	/// <returns>The current bag size.</returns>
 	private int GetCurrentBagSize()
 	{
-		int bagSize = 0;
-
+		int bagSize = default;
 		if (Stash.Drugs.Count.Equals(0))
 			return bagSize;
-
-		foreach (Drug? drug in Stash.Drugs)
+		foreach (Drug drug in Stash.Drugs)
 			bagSize += drug.Quantity;
 		return bagSize;
 	}
+	#endregion
+
+	#region INotifyPropertyChanged interface members
+	/// <inheritdoc/>
+	public event PropertyChangedEventHandler? PropertyChanged;
 
 	/// <summary>
-	/// The <see cref="OnPropertyChanged(string?)"/> method for the event trigger
+	/// The <see cref="OnPropertyChanged(string)"/> method for the event trigger.
 	/// </summary>
-	/// <param name="name"></param>
-	private protected void OnPropertyChanged([CallerMemberName] string? name = null) =>
-		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+	/// <remarks>
+	/// It should not be necessary to set the 'propertyName' parameter.
+	/// </remarks>
+	/// <param name="propertyName">The name of the propery which has changed.</param>
+	private protected void OnPropertyChanged([CallerMemberName] string propertyName = "") =>
+		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+	#endregion
 }

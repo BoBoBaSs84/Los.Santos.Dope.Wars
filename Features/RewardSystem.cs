@@ -37,9 +37,9 @@ public static class RewardSystem
 
 		if (_playerStats != GetPlayerStatsFromModel(_gameState!))
 		{
-			_playerStats!.PropertyChanged -= OnCurrentLevelPropertyChanged;
+			_playerStats!.PropertyChanged -= OnLevelChange;
 			_playerStats = GetPlayerStatsFromModel(_gameState!);
-			_playerStats.PropertyChanged += OnCurrentLevelPropertyChanged;
+			_playerStats.PropertyChanged += OnLevelChange;
 		}
 	}
 
@@ -51,18 +51,19 @@ public static class RewardSystem
 	{
 		_gameState = gameState;
 		_playerStats = GetPlayerStatsFromModel(gameState);
-		_playerStats.PropertyChanged += OnCurrentLevelPropertyChanged;
+		_playerStats.PropertyChanged += OnLevelChange;
 		Initialized = true;
 	}
 
 	/// <summary>
-	/// The <see cref="OnCurrentLevelPropertyChanged(object, PropertyChangedEventArgs)"/> method is where the magic happens
+	/// The <see cref="OnLevelChange(object, PropertyChangedEventArgs)"/> method is where the magic happens
+	/// when the player level rises.
 	/// </summary>
 	/// <param name="sender"></param>
 	/// <param name="e"></param>
-	private static void OnCurrentLevelPropertyChanged(object sender, PropertyChangedEventArgs e)
+	private static void OnLevelChange(object sender, PropertyChangedEventArgs e)
 	{
-		if (sender is PlayerStats playerStats)
+		if (sender is PlayerStats playerStats && e.PropertyName.Equals(playerStats.CurrentLevel))
 		{
 			// this is what happens for every level up
 			Notification.Show($"Congratulations, you have reached level ~y~{playerStats.CurrentLevel}~w~. Your bag size has been increased to ~y~{playerStats.MaxBagSize}~w~.");
