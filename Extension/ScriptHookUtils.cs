@@ -1,4 +1,5 @@
 ﻿using GTA;
+using GTA.Math;
 using GTA.Native;
 using static Los.Santos.Dope.Wars.Extension.Utils;
 
@@ -59,13 +60,23 @@ public static class ScriptHookUtils
 	}
 
 	/// <summary>
-	/// The <see cref="GetGameDateTime"/> method returns the current in game <see cref="DateTime"/>
+	/// The <see cref="GetCurrentDateTime"/> method returns the current ingame date and time
 	/// </summary>
 	/// <returns><see cref="DateTime"/></returns>
-	public static DateTime GetGameDateTime()
+	public static DateTime GetCurrentDateTime()
 	{
 		Logger.Trace(" called");
 		return World.CurrentDate;
+	}
+
+	/// <summary>
+	/// The <see cref="GetCurrentPlayerPosition"/> method returns the current player position
+	/// </summary>
+	/// <returns><see cref="Vector3"/></returns>
+	public static Vector3 GetCurrentPlayerPosition()
+	{
+		Logger.Trace(" called");
+		return Game.Player.Character.Position;
 	}
 
 	/// <summary>

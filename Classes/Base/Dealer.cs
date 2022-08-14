@@ -45,7 +45,7 @@ public abstract class Dealer : Pedestrian, IDealer
 		{
 			DeleteBlip();
 			ClosedforBusiness = true;
-			NextOpenBusinesTime = ScriptHookUtils.GetGameDateTime().AddHours(24);
+			NextOpenBusinesTime = ScriptHookUtils.GetCurrentDateTime().AddHours(24);
 			Ped.Task.FleeFrom(Position);
 		}
 	}

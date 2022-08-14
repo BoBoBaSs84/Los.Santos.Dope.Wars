@@ -99,11 +99,11 @@ public static class DrugLordMission
 			if (!_playerStats.Reward.DrugLords.HasFlag(DrugLordStates.Unlocked))
 				return;
 
-			if (GetGameDateTime() >= NextCheckForAppearance)
+			if (GetCurrentDateTime() >= NextCheckForAppearance)
 				CheckForAppearance();
 
 			// drug lord appeared 12 hours ago...
-			if (GetGameDateTime() >= LastCheckForAppearance.AddHours(12) && IsAppeared && _drugLord is not null)
+			if (GetCurrentDateTime() >= LastCheckForAppearance.AddHours(12) && IsAppeared && _drugLord is not null)
 				CheckForDisappearance();
 
 			if (_drugLord is null && ShouldAppear)
@@ -129,7 +129,7 @@ public static class DrugLordMission
 
 	private static void CheckForAppearance()
 	{
-		LastCheckForAppearance = GetGameDateTime();
+		LastCheckForAppearance = GetCurrentDateTime();
 		NextCheckForAppearance = LastCheckForAppearance.AddDays(24);
 		double chanceForAppearance = 30;
 		double randomDouble = GetRandomDouble() * 100;

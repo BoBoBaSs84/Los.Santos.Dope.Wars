@@ -54,8 +54,8 @@ public class DrugDealerMission
 		_gameState = gameState;
 		_drugDealers = GetDrugDealers();
 		_player = Game.Player.Character;
-		_lastRestock = GetGameDateTime();
-		_lastRefresh = GetGameDateTime();
+		_lastRestock = GetCurrentDateTime();
+		_lastRefresh = GetCurrentDateTime();
 		Initialized = true;
 	}
 
@@ -86,7 +86,7 @@ public class DrugDealerMission
 
 		try
 		{
-			DateTime currentDateTime = GetGameDateTime();
+			DateTime currentDateTime = GetCurrentDateTime();
 
 			if (_player != Game.Player.Character)
 				_player = Game.Player.Character;
@@ -117,7 +117,7 @@ public class DrugDealerMission
 			foreach (DrugDealer drugDealer in _drugDealers!)
 			{
 				// checking if the dealer opens up again
-				if (drugDealer.NextOpenBusinesTime < GetGameDateTime() && drugDealer.ClosedforBusiness)
+				if (drugDealer.NextOpenBusinesTime < GetCurrentDateTime() && drugDealer.ClosedforBusiness)
 				{
 					drugDealer.ClosedforBusiness = !drugDealer.ClosedforBusiness;
 				}

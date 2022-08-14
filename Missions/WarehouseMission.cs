@@ -111,18 +111,18 @@ public static class WarehouseMission
 						_warehouse.DrawEntranceMarker(_warehouse.EntranceMarker, GetCurrentPlayerColor());
 					// draw mission marker
 					if (_player.IsInRange(_warehouse.MissionMarker, Constants.MarkerDrawDistance))
-						if (_nextDrugVanMissionStart <= ScriptHookUtils.GetGameDateTime() && _missionState.Equals(WarehouseMissionStates.NotStarted))
+						if (_nextDrugVanMissionStart <= ScriptHookUtils.GetCurrentDateTime() && _missionState.Equals(WarehouseMissionStates.NotStarted))
 							_warehouse.DrawMissionMarker(_warehouse.MissionMarker, GetCurrentPlayerColor());
 					// start mission
 					if (_player.IsInRange(_warehouse.MissionMarker, Constants.MarkerInteractionDistance))
-						if (_missionState.Equals(WarehouseMissionStates.NotStarted) && _nextDrugVanMissionStart <= ScriptHookUtils.GetGameDateTime())
+						if (_missionState.Equals(WarehouseMissionStates.NotStarted) && _nextDrugVanMissionStart <= ScriptHookUtils.GetCurrentDateTime())
 						{
 							GTA.UI.Screen.ShowHelpTextThisFrame($"~b~Press ~INPUT_CONTEXT~ ~w~to start a warehouse mission.");
 							if (Game.IsControlJustPressed(GTA.Control.Context))
 							{
 								Script.Wait(10);
 								_missionState = WarehouseMissionStates.Started;
-								_nextDrugVanMissionStart = ScriptHookUtils.GetGameDateTime().AddHours(_missionInterval);
+								_nextDrugVanMissionStart = ScriptHookUtils.GetCurrentDateTime().AddHours(_missionInterval);
 							}
 						}
 				}
@@ -303,7 +303,7 @@ public static class WarehouseMission
 		_playerStats = GetPlayerStatsFromModel(gameState);
 		_warehousePrice = gameSettings.GamePlay.Reward.Warehouse.Price;
 		_missionInterval = gameSettings.GamePlay.Reward.Warehouse.MissionSettings.MissionInterval;
-		_nextDrugVanMissionStart = ScriptHookUtils.GetGameDateTime();
+		_nextDrugVanMissionStart = ScriptHookUtils.GetCurrentDateTime();
 		_missionState = WarehouseMissionStates.NotStarted;
 		Initialized = true;
 	}
