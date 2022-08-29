@@ -29,7 +29,7 @@ public class PlayerStats : INotifyPropertyChanged
 		Stash = new();
 		Stash.Init();
 		Reward = new();
-		Warehouse = new();		
+		Warehouse = new();
 	}
 	#endregion
 

@@ -110,10 +110,10 @@ public static class Utils
 	public static List<Drug> GetAvailableDrugs()
 	{
 		Logger.Trace(" called");
-		var enumList = DrugType.None.GetListFromEnum();
+		List<DrugType> enumList = DrugType.None.GetListFromEnum();
 		enumList.Remove(DrugType.None);
 		List<Drug> drugList = new();
-		foreach(var e in enumList)
+		foreach (DrugType e in enumList)
 			drugList.Add(new Drug(e, e.GetDescription(), e.GetPrice()));
 		return drugList;
 	}

@@ -144,7 +144,7 @@ public static class Enums
 		/// <summary>
 		/// The <see cref="PCP"/> drug type enum.
 		/// </summary>
-		[Description("Also known as Angel Dust or Peace Pill in the drug scene.")]		
+		[Description("Also known as Angel Dust or Peace Pill in the drug scene.")]
 		[DrugPrice(255)]
 		PCP = 64,
 		/// <summary>
@@ -385,7 +385,7 @@ public static class Enums
 	{
 		List<T> enumList = Enum.GetValues(@enum.GetType()).Cast<T>().ToList();
 		Dictionary<T, string> dictToReturn = new();
-		foreach (var e in enumList)
+		foreach (T e in enumList)
 			dictToReturn.Add(e, e.GetDescription());
 		return dictToReturn;
 	}

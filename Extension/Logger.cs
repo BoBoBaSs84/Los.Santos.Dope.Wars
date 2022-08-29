@@ -1,5 +1,5 @@
-﻿using System.Text;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
+using System.Text;
 using static Los.Santos.Dope.Wars.Enums;
 using static Los.Santos.Dope.Wars.Statics;
 
@@ -19,7 +19,7 @@ public static class Logger
 	{
 		if (Main.LogLevels.HasFlag(LogLevels.Trace))
 			LogToFile(nameof(Trace).ToUpper(CultureInfo), callerName, message);
-	}		
+	}
 
 	/// <summary>
 	/// Method is for logging messages of type <see cref="LogLevels.Information"/>
@@ -30,7 +30,7 @@ public static class Logger
 	{
 		if (Main.LogLevels.HasFlag(LogLevels.Information))
 			LogToFile(nameof(Information).ToUpper(CultureInfo), callerName, message);
-	}		
+	}
 
 	/// <summary>
 	/// The <see cref="Debug(string, string)"/> method for logging messages of type <see cref="LogLevels.Debug"/>
@@ -41,7 +41,7 @@ public static class Logger
 	{
 		if (Main.LogLevels.HasFlag(LogLevels.Debug))
 			LogToFile(nameof(Debug).ToUpper(CultureInfo), callerName, message);
-	}		
+	}
 
 	/// <summary>
 	/// The <see cref="Warning(string, string)"/> method for logging messages of type <see cref="LogLevels.Warning"/>
