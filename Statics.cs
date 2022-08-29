@@ -11,7 +11,7 @@ namespace Los.Santos.Dope.Wars;
 public static class Statics
 {
 	private static readonly Assembly assembly;
-	
+
 	/// <summary>
 	/// The <see cref="Statics"/> constructor
 	/// </summary>
@@ -221,7 +221,7 @@ public static class Statics
 	/// <summary>
 	/// The <see cref="DrugLordSpawnLocations"/> list holds all the possible drug lord spawn locations
 	/// </summary>
-	//todo just dummy!		
+	//TODO: just dummy!		
 	public static readonly Tuple<Vector3, float>[] DrugLordSpawnLocations =
 	{
 		Tuple.Create(new Vector3(287.011f, -991.685f, 33.108f), 141.753f),

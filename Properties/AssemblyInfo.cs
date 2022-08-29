@@ -1,7 +1,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyCompany("BoBoBaSs84")]
+[assembly: AssemblyCompany("https://github.com/BoBoBaSs84")]
 [assembly: AssemblyCopyright("Copyright © 2022 BoBoBaSs84")]
 [assembly: AssemblyDescription("The modification is an attempt to bring the \"trade\" game mechanics from Chinatown Wars to the fictional state of San Andreas.")]
 [assembly: AssemblyProduct("Los.Santos.Dope.Wars")]

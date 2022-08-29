@@ -25,8 +25,10 @@
 		<PackageTags>gtav;gtav-mod;gta5-mode;scripthoohvdotnet;dopewars;lemonui</PackageTags>
 		<Description>The modification is an attempt to bring the "trade" game mechanics from Chinatown Wars to the fictional state of San Andreas.</Description>
 		<Copyright>Copyright © 2022 BoBoBaSs84</Copyright>
-		<Company>BoBoBaSs84</Company>
-		<PackageId>$(AssemblyName)</PackageId>
+		<Company>https://github.com/BoBoBaSs84</Company>
+		<SignAssembly>True</SignAssembly>
+		<AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -49,14 +51,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="README.md">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Include="LICENSE" Pack="true" PackagePath=""/>
+		<None Include="LICENSE" Pack="true" PackagePath="" />
+		<None Include="README.md" Pack="true" PackagePath=""/>
 	</ItemGroup>
 
 </Project>
