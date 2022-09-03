@@ -6,7 +6,7 @@ namespace Los.Santos.Dope.Wars.Classes.Base;
 
 /// <summary>
 /// The <see cref="Stash"/> class is the base class for drug stashes.
-/// Implements the members of the <see cref="IStash"/> interface
+/// Implements the members of the <see cref="IStash"/> interface.
 /// </summary>
 [XmlRoot(ElementName = nameof(Stash), IsNullable = false)]
 public abstract class Stash : IStash
@@ -22,7 +22,7 @@ public abstract class Stash : IStash
 	/// <summary>
 	/// The empty constructor for the <see cref="Stash"/> class
 	/// </summary>
-	public Stash() => Drugs = new();
+	protected Stash() => Drugs = new();
 	#endregion
 
 	#region IStash members

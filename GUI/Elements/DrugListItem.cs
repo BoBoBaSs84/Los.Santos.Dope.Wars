@@ -71,35 +71,35 @@ public class DrugListItem : NativeListItem<int>
 		BadgeSet heroBadgeSet = new("mpinventory", "mp_specitem_heroin", "mp_specitem_heroin_black");
 		BadgeSet defaultBadgeSet = new("mpinventory", "mp_specitem_cash", "mp_specitem_cash_black");
 
-		if (DrugType.Cocaine.ToString().Equals(drugName, StringComparison.Ordinal))
+		if (DrugType.COKE.ToString().Equals(drugName, StringComparison.Ordinal))
 			return cokeBadgeSet;
-		if (DrugType.Heroin.ToString().Equals(drugName, StringComparison.Ordinal))
+		if (DrugType.SMACK.ToString().Equals(drugName, StringComparison.Ordinal))
 			return heroBadgeSet;
-		if (DrugType.Marijuana.ToString().Equals(drugName, StringComparison.Ordinal))
+		if (DrugType.CANA.ToString().Equals(drugName, StringComparison.Ordinal))
 			return weedBadgeSet;
-		if (DrugType.Hashish.ToString().Equals(drugName, StringComparison.Ordinal))
+		if (DrugType.HASH.ToString().Equals(drugName, StringComparison.Ordinal))
 			return weedBadgeSet;
-		if (DrugType.Mushrooms.ToString().Equals(drugName, StringComparison.Ordinal))
+		if (DrugType.SHROOMS.ToString().Equals(drugName, StringComparison.Ordinal))
 			return weedBadgeSet;
-		if (DrugType.Amphetamine.ToString().Equals(drugName, StringComparison.Ordinal))
+		if (DrugType.SPEED.ToString().Equals(drugName, StringComparison.Ordinal))
 			return cokeBadgeSet;
 		if (DrugType.PCP.ToString().Equals(drugName, StringComparison.Ordinal))
 			return cokeBadgeSet;
-		if (DrugType.Methamphetamine.ToString().Equals(drugName, StringComparison.Ordinal))
+		if (DrugType.METH.ToString().Equals(drugName, StringComparison.Ordinal))
 			return methBadgeSet;
-		if (DrugType.Ketamine.ToString().Equals(drugName, StringComparison.Ordinal))
+		if (DrugType.KETA.ToString().Equals(drugName, StringComparison.Ordinal))
 			return cokeBadgeSet;
-		if (DrugType.Mescaline.ToString().Equals(drugName, StringComparison.Ordinal))
+		if (DrugType.PEYO.ToString().Equals(drugName, StringComparison.Ordinal))
 			return methBadgeSet;
-		if (DrugType.Ecstasy.ToString().Equals(drugName, StringComparison.Ordinal))
+		if (DrugType.XTC.ToString().Equals(drugName, StringComparison.Ordinal))
 			return methBadgeSet;
-		if (DrugType.Acid.ToString().Equals(drugName, StringComparison.Ordinal))
+		if (DrugType.LSD.ToString().Equals(drugName, StringComparison.Ordinal))
 			return methBadgeSet;
 		if (DrugType.MDMA.ToString().Equals(drugName, StringComparison.Ordinal))
 			return methBadgeSet;
-		if (DrugType.Crack.ToString().Equals(drugName, StringComparison.Ordinal))
+		if (DrugType.CRACK.ToString().Equals(drugName, StringComparison.Ordinal))
 			return heroBadgeSet;
-		if (DrugType.Oxycodone.ToString().Equals(drugName, StringComparison.Ordinal))
+		if (DrugType.OXY.ToString().Equals(drugName, StringComparison.Ordinal))
 			return methBadgeSet;
 		else return defaultBadgeSet;
 	}
