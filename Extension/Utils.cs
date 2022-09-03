@@ -96,7 +96,7 @@ public static class Utils
 	{
 		Logger.Trace(" called");
 		List<DrugType> enumList = drugTypes.FlagsToList();
-		enumList.Remove(DrugType.None);
+		enumList.Remove(DrugType.NONE);
 		return enumList;
 	}
 
@@ -104,17 +104,17 @@ public static class Utils
 	/// The <see cref="GetAvailableDrugs"/> method returns the available drugs for the trading in general.
 	/// </summary>
 	/// <remarks>
-	/// The <see cref="DrugType.None"/> will be ignored.
+	/// The <see cref="DrugType.NONE"/> will be ignored.
 	/// </remarks>
 	/// <returns>A list of drugs, description and price included.</returns>
 	public static List<Drug> GetAvailableDrugs()
 	{
 		Logger.Trace(" called");
-		List<DrugType> enumList = DrugType.None.GetListFromEnum();
-		enumList.Remove(DrugType.None);
+		List<DrugType> enumList = DrugType.NONE.GetListFromEnum();
+		enumList.Remove(DrugType.NONE);
 		List<Drug> drugList = new();
 		foreach (DrugType e in enumList)
-			drugList.Add(new Drug(e, e.GetDescription(), e.GetPrice()));
+			drugList.Add(new Drug(e.GetName(), e.GetDescription(), e.GetPrice()));
 		return drugList;
 	}
 

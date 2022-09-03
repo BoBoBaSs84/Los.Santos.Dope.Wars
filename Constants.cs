@@ -45,17 +45,17 @@ public static class Constants
 	/// <summary>
 	/// The <see cref="TradePackOne"/> are the drugs the player can peddle from level 1 on.
 	/// </summary>
-	public const DrugType TradePackOne = DrugType.Mushrooms | DrugType.Amphetamine | DrugType.Oxycodone | DrugType.Marijuana | DrugType.Hashish;
+	public const DrugType TradePackOne = DrugType.SHROOMS | DrugType.SPEED | DrugType.OXY | DrugType.CANA | DrugType.HASH;
 
 	/// <summary>
 	/// The <see cref="TradePackTwo"/> are the drugs the player can additional peddle from level 10 on.
 	/// </summary>
-	public const DrugType TradePackTwo = DrugType.Mescaline | DrugType.MDMA | DrugType.Ecstasy | DrugType.Acid | DrugType.PCP;
+	public const DrugType TradePackTwo = DrugType.PEYO | DrugType.MDMA | DrugType.XTC | DrugType.LSD | DrugType.PCP;
 
 	/// <summary>
 	/// The <see cref="TradePackThree"/> are the drugs the player can additional peddle from level 20 on.
 	/// </summary>
-	public const DrugType TradePackThree = DrugType.Heroin | DrugType.Cocaine | DrugType.Methamphetamine | DrugType.Crack | DrugType.Ketamine;
+	public const DrugType TradePackThree = DrugType.SMACK | DrugType.COKE | DrugType.METH | DrugType.CRACK | DrugType.KETA;
 
 	/// <summary>
 	/// The <see cref="MaximumPlayerLevel"/> is the maximum level the player can reach for each character.

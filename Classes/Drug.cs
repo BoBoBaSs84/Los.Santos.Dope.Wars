@@ -3,7 +3,7 @@
 namespace Los.Santos.Dope.Wars.Classes;
 
 /// <summary>
-/// The <see cref="Drug"/> class is the root element for the drug class
+/// The <see cref="Drug"/> class is the root element for the drug class.
 /// </summary>
 [XmlRoot(ElementName = nameof(Drug), IsNullable = false)]
 public class Drug
@@ -34,7 +34,7 @@ public class Drug
 	/// <param name="marketValue"></param>
 	public Drug(Enums.DrugType drugType, string description, int marketValue)
 	{
-		Name = drugType.ToString();
+		Name = drugType.GetName();
 		Description = description;
 		CurrentPrice = default;
 		AveragePrice = marketValue;
@@ -96,7 +96,7 @@ public class Drug
 	[XmlAttribute(AttributeName = nameof(Quantity))]
 	public int Quantity
 	{
-		get { return _quantity; }
+		get => _quantity;
 		set
 		{
 			_quantity = value;

@@ -100,101 +100,85 @@ public static class Enums
 	public enum DrugType
 	{
 		/// <summary>
-		/// The <see cref="None"/> drug type enum.
+		/// The <see cref="NONE"/> drug type enum.
 		/// </summary>		
-		[Description("The none flag.")]
-		[DrugPrice(0)]
-		None = 0,
+		[DrugType("None", 0, "The none flag.")]
+		NONE = 0,
 		/// <summary>
-		/// The <see cref="Cocaine"/> drug type enum.
+		/// The <see cref="COKE"/> drug type enum.
 		/// </summary>
-		[Description("Cocaine is a powerful stimulant and narcotic.")]
-		[DrugPrice(865)]
-		Cocaine = 1,
+		[DrugType("Cocaine", 2029, "Cocaine is a powerful stimulant and narcotic.")]
+		COKE = 1,
 		/// <summary>
-		/// The <see cref="Heroin"/> drug type enum.
+		/// The <see cref="SMACK"/> drug type enum.
 		/// </summary>
-		[Description("Heroin is a semi-synthetic, strongly analgesic opioid.")]
-		[DrugPrice(895)]
-		Heroin = 2,
+		[DrugType("Heroin", 1207, "Heroin is a semi-synthetic, strongly analgesic opioid.")]
+		SMACK = 2,
 		/// <summary>
-		/// The <see cref="Marijuana"/> drug type enum.
+		/// The <see cref="CANA"/> drug type enum.
 		/// </summary>
-		[Description("Marijuana is a psychoactive drug from the Cannabis plant")]
-		[DrugPrice(165)]
-		Marijuana = 4,
+		[DrugType("Marijuana", 283, "Marijuana is a psychoactive drug from the Cannabis plant")]
+		CANA = 4,
 		/// <summary>
-		/// The <see cref="Hashish"/> drug type enum.
+		/// The <see cref="HASH"/> drug type enum.
 		/// </summary>
-		[Description("Hashish refers to the resin extracted from the cannabis plant.")]
-		[DrugPrice(125)]
-		Hashish = 8,
+		[DrugType("Hashish", 266, "Hashish refers to the resin extracted from the cannabis plant.")]
+		HASH = 8,
 		/// <summary>
-		/// The <see cref="Mushrooms"/> drug type enum.
+		/// The <see cref="SHROOMS"/> drug type enum.
 		/// </summary>
-		[Description("Psychoactive mushrooms, also known as magic mushrooms.")]
-		[DrugPrice(245)]
-		Mushrooms = 16,
+		[DrugType("Mushrooms", 245, "Psychoactive mushrooms, also known as magic mushrooms.")]
+		SHROOMS = 16,
 		/// <summary>
-		/// The <see cref="Amphetamine"/> drug type enum.
+		/// The <see cref="SPEED"/> drug type enum.
 		/// </summary>
-		[Description("Amphetamine has a strong stimulating and uplifting effect.")]
-		[DrugPrice(215)]
-		Amphetamine = 32,
+		[DrugType("Amphetamine", 337, "Illegally trafficked amphetamine is also known as 'speed' or 'pep'.")]
+		SPEED = 32,
 		/// <summary>
 		/// The <see cref="PCP"/> drug type enum.
 		/// </summary>
-		[Description("Also known as Angel Dust or Peace Pill in the drug scene.")]
-		[DrugPrice(255)]
+		[DrugType("Angel Dust", 255, "Also known as PCP or Peace Pill in the drug scene.")]
 		PCP = 64,
 		/// <summary>
-		/// The <see cref="Methamphetamine"/> drug type enum.
+		/// The <see cref="METH"/> drug type enum.
 		/// </summary>
-		[Description("Methamphetamine is a powerful psychostimulant.")]
-		[DrugPrice(785)]
-		Methamphetamine = 128,
+		[DrugType("Methamphetamine", 2211, "On the black market, methamphetamine is also known as meth or crystal.")]
+		METH = 128,
 		/// <summary>
-		/// The <see cref="Ketamine"/> drug type enum.
+		/// The <see cref="KETA"/> drug type enum.
 		/// </summary>
-		[Description("Ketamine is a dissociative anaesthetic used in human medicine.")]
-		[DrugPrice(545)]
-		Ketamine = 256,
+		[DrugType("Ketamine", 545, "Ketamine can greatly reduce the sensation of pain and cause unconsciousness.")]
+		KETA = 256,
 		/// <summary>
-		/// The <see cref="Mescaline"/> drug type enum.
+		/// The <see cref="PEYO"/> drug type enum.
 		/// </summary>
-		[Description("Mescaline or mescaline is a psychedelic and hallucinogenic alkaloid.")]
-		[DrugPrice(470)]
-		Mescaline = 512,
+		[DrugType("Mescaline", 470, "In terms of effect, mescaline is a typical hallucinogen, also called peyotl.")]
+		PEYO = 512,
 		/// <summary>
-		/// The <see cref="Ecstasy"/> drug type enum.
+		/// The <see cref="XTC"/> drug type enum.
 		/// </summary>
-		[Description("Ecstasy, also XTC, is a term for so-called 'party pills'.")]
-		[DrugPrice(275)]
-		Ecstasy = 1024,
+		[DrugType("Ecstasy", 231, "On the illegal market, Ecstasy, also XTC, is a term for so-called 'party pills'.")]
+		XTC = 1024,
 		/// <summary>
-		/// The <see cref="Acid"/> drug type enum.
+		/// The <see cref="LSD"/> drug type enum.
 		/// </summary>
-		[Description("Acid, also known as LSD, is one of the strongest known hallucinogens.")]
-		[DrugPrice(265)]
-		Acid = 2048,
+		[DrugType("Acid", 285, "LSD, or 'acid', is sold in the form of small 'cardboards' printed with various designs.")]
+		LSD = 2048,
 		/// <summary>
 		/// The <see cref="MDMA"/> drug type enum.
 		/// </summary>
-		[Description("MDMA is particularly known as a party drug that is widely used worldwide.")]
-		[DrugPrice(315)]
+		[DrugType("Molly", 315, "MDMA, also known as 'Molly', is a white or off-white powder or crystal, purer than XTC.")]
 		MDMA = 4096,
 		/// <summary>
-		/// The <see cref="Crack"/> drug type enum.
+		/// The <see cref="CRACK"/> drug type enum.
 		/// </summary>
-		[Description("Crack is a drug made from cocaine salt and sodium bicarbonate.")]
-		[DrugPrice(615)]
-		Crack = 8192,
+		[DrugType("Crack", 2078, "Crack and also known as 'rock', is a free base form of cocaine that can be smoked.")]
+		CRACK = 8192,
 		/// <summary>
-		/// The <see cref="Oxycodone"/> drug type enum.
+		/// The <see cref="OXY"/> drug type enum.
 		/// </summary>
-		[DrugPrice(185)]
-		[Description("A semi-synthetic opioid, highly addictive and a common drug of abuse.")]
-		Oxycodone = 16384
+		[DrugType("Oxycodone", 185, "A semi-synthetic opioid, highly addictive and a common drug of abuse.")]
+		OXY = 16384
 	}
 
 	/// <summary>
@@ -294,68 +278,112 @@ public static class Enums
 	}
 
 	/// <summary>
-	/// The <see cref="DrugPriceAttribute"/> class.
+	/// The <see cref="DrugTypeAttribute"/> class.
 	/// </summary>
 	/// <remarks>
 	/// Should only be used with the <see cref="DrugType"/> enum.
+	/// Inherits from the <see cref="DescriptionAttribute"/> class.
 	/// </remarks>
-	[AttributeUsage(AttributeTargets.Field)]
-	private class DrugPriceAttribute : Attribute
+	[AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
+	private sealed class DrugTypeAttribute : DescriptionAttribute
 	{
-		public int Price { get; private set; }
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DrugTypeAttribute"/> class.
+		/// </summary>
+		/// <remarks>
+		/// Will throw an exception if <paramref name="name"/> is <see langword="null"/>.
+		/// </remarks>
+		/// <param name="name">The normal display name of the drug, cannot be <see langword="null"/>.</param>
+		/// <param name="price">The normal market price of the drug.</param>
+		/// <param name="description">The description of the drug, can be <see langword="null"/>.</param>
+		public DrugTypeAttribute(string name, int price, string? description) : base(description)
+		{
+			Name = name ?? throw new ArgumentNullException(nameof(name));
+			Price = price;
+		}
 
-		public DrugPriceAttribute(int price) => Price = price;
+		/// <summary>
+		/// The <see cref="Name"/> property is the display name of the drug.
+		/// </summary>
+		public string Name { get; private set; }
+
+		/// <summary>
+		/// The <see cref="Price"/> property is the normal market price of the drug.
+		/// </summary>
+		public int Price { get; private set; }
 	}
 
 	/// <summary>
-	/// The <see cref="GetDescription{T}(T)"/> extension method will try to get the <see cref="DescriptionAttribute"/> of an enum if used
+	/// The extension method will try to get the <see cref="DescriptionAttribute.Description"/> of an enumerator of type <see cref="DrugType"/>.
 	/// </summary>
 	/// <remarks>
-	/// If the enum has no description attribute, the enum name will be returned.
+	/// If the enumerator has no <see cref="DrugTypeAttribute"/> or the <see cref="DescriptionAttribute.Description"/>
+	/// is <see langword="null"/>, the name of the enumerator will be returned.
 	/// </remarks>
-	/// <typeparam name="T"></typeparam>
-	/// <param name="enumValue"></param>
-	/// <returns>The Description of type <see cref="string"/> or the name of the enum.</returns>
-	public static string GetDescription<T>(this T enumValue) where T : struct, IConvertible
+	/// <typeparam name="T">The enumerator itself.</typeparam>
+	/// <param name="enumValue">The enumerator itself.</param>
+	/// <returns>The drug description or the name of the enumerator.</returns>
+	public static string GetDescription<T>(this T enumValue) where T : Enum
 	{
 		FieldInfo? fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
 		if (fieldInfo is not null)
 		{
-			DescriptionAttribute[]? attributes = fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
-			if (attributes is not null && attributes.Length > 0)
-				return attributes[0].Description;
+			DescriptionAttribute? attribute = fieldInfo.GetCustomAttribute(typeof(DrugTypeAttribute), true) as DescriptionAttribute;
+			if (attribute is not null && attribute.Description is not null)
+				return attribute.Description;
 		}
 		return enumValue.ToString();
 	}
 
 	/// <summary>
-	/// The <see cref="GetPrice{T}(T)"/> method will try to get the <see cref="DrugPriceAttribute"/> of an enum if used.
+	/// The extension method will try to get the <see cref="DrugTypeAttribute.Price"/> of an enumerator of type <see cref="DrugType"/>.
 	/// </summary>
 	/// <remarks>
-	/// If the enum has no drug price attribute, the value of 0 will be returned.
+	/// If the enumerator has no <see cref="DrugTypeAttribute"/>, the value of 0 is returned.
 	/// </remarks>
-	/// <typeparam name="T"></typeparam>
-	/// <param name="enumValue"></param>
-	/// <returns>The drug price of type <see cref="int"/> or the the value of 0.</returns>
-	public static int GetPrice<T>(this T enumValue) where T : struct, IConvertible
+	/// <typeparam name="T">The enumerator itself.</typeparam>
+	/// <param name="enumValue">The enumerator itself.</param>
+	/// <returns>The drug price or the the value of 0.</returns>
+	public static int GetPrice<T>(this T enumValue) where T : Enum
 	{
 		FieldInfo? fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
 		if (fieldInfo is not null)
 		{
-			DrugPriceAttribute[]? attributes = fieldInfo.GetCustomAttributes(typeof(DrugPriceAttribute), false) as DrugPriceAttribute[];
-			if (attributes is not null && attributes.Length > 0)
-				return attributes[0].Price;
+			DrugTypeAttribute? attribute = fieldInfo.GetCustomAttribute(typeof(DrugTypeAttribute), false) as DrugTypeAttribute;
+			if (attribute is not null)
+				return attribute.Price;
 		}
 		return default;
 	}
 
 	/// <summary>
-	/// The <see cref="FlagsToList{T}(T)"/> extension method returns a <see cref="List{T}"/>
+	/// The extension method will try to get the <see cref="DrugTypeAttribute.Name"/> of an enumerator of type <see cref="DrugType"/>.
 	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	/// <param name="enumFlags"></param>
-	/// <returns>A <see cref="List{T}"/> of the provided enum flags.</returns>
-	public static List<T> FlagsToList<T>(this T enumFlags) where T : Enum, IConvertible
+	/// <remarks>
+	/// If the enumerator has no <see cref="DrugTypeAttribute"/>, the name of the enumerator will be returned.
+	/// </remarks>
+	/// <typeparam name="T">The enumerator itself.</typeparam>
+	/// <param name="enumValue">The enumerator itself.</param>
+	/// <returns>The drug name or the name of the enumerator.</returns>
+	public static string GetName<T>(this T enumValue) where T : Enum
+	{
+		FieldInfo? fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
+		if (fieldInfo is not null)
+		{
+			DrugTypeAttribute? attribute = fieldInfo.GetCustomAttribute(typeof(DrugTypeAttribute), false) as DrugTypeAttribute;
+			if (attribute is not null)
+				return attribute.Name;
+		}
+		return enumValue.ToString();
+	}
+
+	/// <summary>
+	/// The extension method should return a list of enumerators which are included in the enumerator flags.
+	/// </summary>
+	/// <typeparam name="T">The enumerator itself.</typeparam>
+	/// <param name="enumFlags">The enumerator itself.</param>
+	/// <returns>A list of enums out of the provided enum flags.</returns>
+	public static List<T> FlagsToList<T>(this T enumFlags) where T : Enum
 	{
 		List<T> list = new();
 		foreach (T flagToCheck in Enum.GetValues(typeof(T)))
@@ -365,28 +393,11 @@ public static class Enums
 	}
 
 	/// <summary>
-	/// The <see cref="GetListFromEnum{T}(T)"/> method should return a list of all enumerators of the given type of enum.
+	/// The extension method should return a list of all enumerators of the given type of enumerator.
 	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	/// <returns>A <see cref="List{T}"/> of the provided enum.</returns>
-	public static List<T> GetListFromEnum<T>(this T @enum) where T : Enum
-		=> Enum.GetValues(@enum.GetType()).Cast<T>().ToList();
-
-	/// <summary>
-	/// The <see cref="GetEnumsWithDescription{T}(T)"/> method should return a dictornary with enums and their description.
-	/// </summary>
-	/// <remarks>
-	/// If the enum has no description property, the enum name will be returned.
-	/// </remarks>
-	/// <typeparam name="T"></typeparam>
-	/// <param name="enum"></param>
-	/// <returns>A dictionary with enums and their description.</returns>
-	public static Dictionary<T, string> GetEnumsWithDescription<T>(this T @enum) where T : struct, IConvertible
-	{
-		List<T> enumList = Enum.GetValues(@enum.GetType()).Cast<T>().ToList();
-		Dictionary<T, string> dictToReturn = new();
-		foreach (T e in enumList)
-			dictToReturn.Add(e, e.GetDescription());
-		return dictToReturn;
-	}
+	/// <typeparam name="T">The enumerator itself.</typeparam>
+	/// <param name="enumValue">The enumerator itself.</param>
+	/// <returns>A list of all enumerators out of the provided enumerator.</returns>
+	public static List<T> GetListFromEnum<T>(this T enumValue) where T : Enum
+		=> Enum.GetValues(enumValue.GetType()).Cast<T>().ToList();
 }
