@@ -5,58 +5,55 @@ using Los.Santos.Dope.Wars.Interfaces;
 namespace Los.Santos.Dope.Wars.Classes;
 
 /// <summary>
-/// The <see cref="DealerStash"/> class for player types, inherits from <see cref="Stash"/>
+/// The <see cref="PlayerStash"/> class.
 /// </summary>
+/// <remarks>
+/// Inherits from the <see cref="Stash"/> base class.
+/// Implements the members of the <see cref="IPlayerStash"/> interface.
+/// </remarks>
 public class PlayerStash : Stash, IPlayerStash
 {
-	#region ctor
 	/// <summary>
-	/// The standard constructor for the <see cref="PlayerStash"/> class
+	/// Initializes a new instance of the <see cref="PlayerStash"/> class.
 	/// </summary>
-	public PlayerStash()
-	{
-		Drugs = new();
-	}
-	#endregion
+	public PlayerStash() => Drugs = new();
 
 	#region IPlayerStash members
-	/// <inheritdoc/>
+	/// <inheritdoc cref="IPlayerStash.BuyDrug(string, int, int)"/>
 	public void BuyDrug(string drugName, int drugQuantity, int drugPrice)
 	{
-		Drug drug = Drugs.Where(x => x.Name.Equals(drugName, StringComparison.Ordinal)).SingleOrDefault();
-
-		if (drug.Quantity.Equals(0))
-			drug.PurchasePrice = drugPrice;
-		else
-			drug.PurchasePrice = ((drug.Quantity * drug.PurchasePrice) + (drugQuantity * drugPrice)) / (drug.Quantity + drugQuantity);
-
+		CalculateNewPurchasePrice(drugName, drugQuantity, drugPrice);
 		AddToStash(drugName, drugQuantity);
-
 		Game.Player.Money -= drugPrice * drugQuantity;
 	}
-	/// <inheritdoc/>
+
+	/// <inheritdoc cref="IPlayerStash.MoveIntoInventory(string, int, int)"/>
 	public void MoveIntoInventory(string drugName, int drugQuantity, int drugPrice)
 	{
-		Drug drug = Drugs.Where(x => x.Name.Equals(drugName, StringComparison.Ordinal)).SingleOrDefault();
-
-		if (drug.Quantity.Equals(0))
-			drug.PurchasePrice = drugPrice;
-		else
-			drug.PurchasePrice = ((drug.Quantity * drug.PurchasePrice) + (drugQuantity * drugPrice)) / (drug.Quantity + drugQuantity);
-
+		CalculateNewPurchasePrice(drugName, drugQuantity, drugPrice);
 		AddToStash(drugName, drugQuantity);
 	}
-	/// <inheritdoc/>
+	/// <inheritdoc cref="IPlayerStash.SellDrug(string, int, int)"/>
 	public void SellDrug(string drugName, int drugQuantity, int drugPrice)
 	{
 		RemoveFromStash(drugName, drugQuantity);
-
 		Game.Player.Money += drugPrice * drugQuantity;
 	}
-	/// <inheritdoc/>
-	public void TakeFromInventory(string drugName, int drugQuantity)
-	{
+	/// <inheritdoc cref="IPlayerStash.TakeFromInventory(string, int)"/>
+	public void TakeFromInventory(string drugName, int drugQuantity) =>
 		RemoveFromStash(drugName, drugQuantity);
-	}
 	#endregion
+
+	/// <summary>
+	/// The method calculaties the new purchase price, when adding drug into the player stash. 
+	/// </summary>
+	/// <param name="drugName">The name of the drug.</param>
+	/// <param name="drugQuantity">The quantity / amount of the drug.</param>
+	/// <param name="drugPrice">The current price of the drug.</param>
+	private void CalculateNewPurchasePrice(string drugName, int drugQuantity, int drugPrice)
+	{
+		Drug drug = Drugs.Where(x => x.Name.Equals(drugName, StringComparison.Ordinal)).Single();
+		drug.PurchasePrice = drug.Quantity.Equals(0) ? drugPrice
+			: ((drug.Quantity * drug.PurchasePrice) + (drugQuantity * drugPrice)) / (drug.Quantity + drugQuantity);
+	}
 }

@@ -1,4 +1,6 @@
-﻿using System.Xml.Serialization;
+﻿using Los.Santos.Dope.Wars.Classes.BaseTypes;
+using System.ComponentModel;
+using System.Xml.Serialization;
 
 namespace Los.Santos.Dope.Wars.Classes;
 
@@ -6,44 +8,15 @@ namespace Los.Santos.Dope.Wars.Classes;
 /// The <see cref="Drug"/> class is the root element for the drug class.
 /// </summary>
 [XmlRoot(ElementName = nameof(Drug), IsNullable = false)]
-public class Drug
+public class Drug : NotifyBase
 {
 	#region fields
-	private int _quantity;
+	private int quantity;
 	#endregion
 
 	#region ctor
 	/// <summary>
-	/// Empty constructor for <see cref="Drug"/>
-	/// </summary>
-	public Drug()
-	{
-		Name = string.Empty;
-		Description = string.Empty;
-		CurrentPrice = default;
-		AveragePrice = default;
-		PurchasePrice = default;
-		Quantity = default;
-	}
-
-	/// <summary>
-	/// The <see cref="Enums.DrugType"/> constructor for <see cref="Drug"/>
-	/// </summary>
-	/// <param name="drugType"></param>
-	/// <param name="description"></param>
-	/// <param name="marketValue"></param>
-	public Drug(Enums.DrugType drugType, string description, int marketValue)
-	{
-		Name = drugType.GetName();
-		Description = description;
-		CurrentPrice = default;
-		AveragePrice = marketValue;
-		PurchasePrice = default;
-		Quantity = default;
-	}
-
-	/// <summary>
-	/// The <see cref="string"/> constructor for <see cref="Drug"/>
+	/// Initializes a new instance of the <see cref="Drug"/> class.
 	/// </summary>
 	/// <param name="drugName"></param>
 	/// <param name="description"></param>
@@ -56,54 +29,65 @@ public class Drug
 		AveragePrice = marketValue;
 		PurchasePrice = default;
 		Quantity = default;
+		PropertyChanged += OnDrugPropertyChanged;
 	}
 	#endregion
 
 	#region properties
 	/// <summary>
-	/// The <see cref="Name"/> property
+	/// The <see cref="Name"/> property is the name of the drug.
 	/// </summary>
 	[XmlText]
 	public string Name { get; set; }
 
 	/// <summary>
-	/// The <see cref="Description"/> property
+	/// The <see cref="Description"/> property is the description of the drug.
 	/// </summary>
 	[XmlIgnore]
 	public string Description { get; set; }
 
 	/// <summary>
-	/// The <see cref="CurrentPrice"/> property
+	/// The <see cref="CurrentPrice"/> property is the current price of the drug.
 	/// </summary>
 	[XmlIgnore]
 	public int CurrentPrice { get; set; }
 
 	/// <summary>
-	/// The <see cref="AveragePrice"/> property
+	/// The <see cref="AveragePrice"/> property is the normal market price of the drug.
 	/// </summary>
 	[XmlIgnore]
 	public int AveragePrice { get; set; }
 
 	/// <summary>
-	/// The <see cref="PurchasePrice"/> property
+	/// The <see cref="PurchasePrice"/> property is the price the drug has been purchased.
 	/// </summary>
 	[XmlAttribute(AttributeName = nameof(PurchasePrice))]
 	public int PurchasePrice { get; set; }
 
 	/// <summary>
-	/// The <see cref="Quantity"/> property, if the quantity gets set to 0 the <see cref="PurchasePrice"/> property goes 0 too
+	/// The <see cref="Quantity"/> property is the amount of the drug.
 	/// </summary>
 	[XmlAttribute(AttributeName = nameof(Quantity))]
-	public int Quantity
+	public int Quantity { get => quantity; set => SetProperty(ref quantity, value); }
+	#endregion
+
+	#region private methods
+	/// <summary>
+	/// The event trigger method if a property that notifies has changed.
+	/// </summary>
+	/// <param name="sender"></param>
+	/// <param name="e"></param>
+	private void OnDrugPropertyChanged(object sender, PropertyChangedEventArgs e)
 	{
-		get => _quantity;
-		set
+		if (sender is not Drug drug)
+			return;
+		if (e is null)
+			return;
+
+		if (Equals(e.PropertyName, nameof(drug.Quantity)))
 		{
-			_quantity = value;
-			if (value.Equals(0))
-			{
-				PurchasePrice = value;
-			}
+			if (Equals(drug.Quantity, 0))
+				drug.PurchasePrice = Quantity;
 		}
 	}
 	#endregion
