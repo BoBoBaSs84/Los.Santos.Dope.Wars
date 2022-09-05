@@ -2,7 +2,7 @@
 using System.Xml.Serialization;
 using static Los.Santos.Dope.Wars.Extension.Utils;
 
-namespace Los.Santos.Dope.Wars.Classes.Base;
+namespace Los.Santos.Dope.Wars.Classes.BaseTypes;
 
 /// <summary>
 /// The <see cref="Stash"/> class is the base class for drug stashes.

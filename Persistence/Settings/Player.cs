@@ -14,6 +14,7 @@ public class Player
 	/// </summary>
 	public Player()
 	{
+		// TODO: Hard-coded forever?
 		BagSizeIncrease = 100;
 		ExperienceMultiplier = 1000;
 	}

@@ -1,4 +1,4 @@
-﻿using Los.Santos.Dope.Wars.Classes.Base;
+﻿using Los.Santos.Dope.Wars.Classes.BaseTypes;
 using Los.Santos.Dope.Wars.Extension;
 using Los.Santos.Dope.Wars.Interfaces;
 using Los.Santos.Dope.Wars.Persistence.Settings;
@@ -74,10 +74,10 @@ public class DealerStash : Stash, IDealerStash
 		double difficultyFactor = Utils.GetDifficultFactor(gameSettings.GamePlay.Difficulty);
 		int playerLevel = playerStats.CurrentLevel;
 
+		Init();
+
 		if (isDrugLord)
 		{
-			Init();
-
 			List<Enums.DrugType>? specialStash = Utils.GetLordStashByLevel(playerStats);
 
 			int index = Utils.GetRandomInt(0, specialStash.Count);
@@ -85,16 +85,16 @@ public class DealerStash : Stash, IDealerStash
 			drug.Quantity = (int)(playerStats.MaxBagSize * difficultyFactor);
 			return;
 		}
-
-		Init();
-
-		List<Enums.DrugType>? tradeStash = Utils.GetDrugFlagTypes(playerStats.Reward.DrugTypes);
-
-		foreach (Enums.DrugType tradeType in tradeStash)
+		else
 		{
-			Drug drug = Drugs.Where(x => x.Name.Equals(tradeType.ToString(), StringComparison.Ordinal)).SingleOrDefault();
-			if (drug is not null)
-				drug.Quantity = Utils.GetRandomInt((int)(playerLevel * difficultyFactor), (int)(playerLevel * difficultyFactor * 10 / 2) + 1);
+			List<Enums.DrugType> tradeStash = Utils.GetDrugFlagTypes(playerStats.Reward.DrugTypes);
+
+			foreach (Enums.DrugType tradeType in tradeStash)
+			{
+				Drug drug = Drugs.Where(x => x.Name.Equals(tradeType.ToString(), StringComparison.Ordinal)).SingleOrDefault();
+				if (drug is not null)
+					drug.Quantity = Utils.GetRandomInt((int)(playerLevel * difficultyFactor), (int)(playerLevel * difficultyFactor * 10 / 2) + 1);
+			}
 		}
 	}
 	/// <inheritdoc/>

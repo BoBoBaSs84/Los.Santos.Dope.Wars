@@ -1,5 +1,5 @@
 ﻿using Los.Santos.Dope.Wars.Classes;
-using Los.Santos.Dope.Wars.Classes.Base;
+using Los.Santos.Dope.Wars.Classes.BaseTypes;
 using Los.Santos.Dope.Wars.Persistence.Settings;
 using Los.Santos.Dope.Wars.Persistence.State;
 

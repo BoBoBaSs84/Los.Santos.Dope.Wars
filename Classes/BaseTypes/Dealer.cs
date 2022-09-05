@@ -5,7 +5,7 @@ using Los.Santos.Dope.Wars.Interfaces.Base;
 using Los.Santos.Dope.Wars.Persistence.Settings;
 using Los.Santos.Dope.Wars.Persistence.State;
 
-namespace Los.Santos.Dope.Wars.Classes.Base;
+namespace Los.Santos.Dope.Wars.Classes.BaseTypes;
 
 /// <summary>
 /// The <see cref="Dealer"/> base class, implements the members of the <see cref="IDealer"/> interface

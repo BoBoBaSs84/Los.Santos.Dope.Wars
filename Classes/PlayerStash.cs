@@ -1,5 +1,5 @@
 ﻿using GTA;
-using Los.Santos.Dope.Wars.Classes.Base;
+using Los.Santos.Dope.Wars.Classes.BaseTypes;
 using Los.Santos.Dope.Wars.Interfaces;
 
 namespace Los.Santos.Dope.Wars.Classes;
