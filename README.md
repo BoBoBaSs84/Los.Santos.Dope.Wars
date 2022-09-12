@@ -1,4 +1,7 @@
+[![.NET](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/dotnet.yml)
+
 # Los.Santos.Dope.Wars
+
 This mod re-adds drug trafficking mini-missions that were scrapped during GTA5 development. I've inspired myself on GTA:Chinatown Wars drug dealing mechanics. There are multiple drug dealers found around Los Santos and Blaine County. They restock every night and their prices change. You can make a good profit by buying low and selling high.
 
 ## Getting started
