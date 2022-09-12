@@ -1,4 +1,5 @@
 [![.NET](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/dotnet.yml)
+[![CodeQL](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/codeql-analysis.yml)
 
 # Los.Santos.Dope.Wars
 
