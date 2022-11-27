@@ -12,8 +12,9 @@ namespace Los.Santos.Dope.Wars.Persistence.State;
 public class PlayerStats : NotifyBase
 {
 	#region fields
-	private int currentLevel;
+	private int currentBagSize;
 	private int currentExperience;
+	private int currentLevel;
 	#endregion
 
 	#region ctor
@@ -27,10 +28,10 @@ public class PlayerStats : NotifyBase
 		CurrentLevel = 1;
 		CurrentExperience = default;
 		Stash = new();
-		Stash.Init();
 		Reward = new();
 		Warehouse = new();
 		PropertyChanged += OnPlayerStatsPropertyChanged;
+		InitPlayerStash();
 	}
 	#endregion
 
@@ -69,13 +70,13 @@ public class PlayerStats : NotifyBase
 	/// The <see cref="CurrentBagSize"/> property, increases/decreasing depending on the amount of drugs the player has.
 	/// </summary>
 	[XmlAttribute(AttributeName = nameof(CurrentBagSize))]
-	public int CurrentBagSize => GetCurrentBagSize();
+	public int CurrentBagSize { get => currentBagSize; set => SetProperty(ref currentBagSize, value); }
 
 	/// <summary>
 	/// The <see cref="MaxBagSize"/> property, increases depending on level gain.
-	/// </summary>
-	// TODO: The maximum player bag size is still hard coded here ...
+	/// </summary>	
 	[XmlAttribute(AttributeName = nameof(MaxBagSize))]
+	// TODO: The maximum player bag size is still hard coded here ...
 	public int MaxBagSize => CurrentLevel * 50;
 
 	/// <summary>
@@ -107,28 +108,51 @@ public class PlayerStats : NotifyBase
 
 	#region private members
 	/// <summary>
+	/// The player stash init method.
+	/// </summary>
+	/// <remarks>
+	/// Needed here so that the PropertyChanged event can be subscribed.
+	/// </remarks>
+	private void InitPlayerStash()
+	{
+		if (Stash is null)
+			return;
+
+		if (Stash.Drugs is null)
+			return;
+
+		List<Drug> druglist = Extension.Utils.GetAvailableDrugs();
+
+		foreach (Drug drug in druglist)
+		{
+			Drug newDrug = new(drug.Name, drug.Description, drug.AveragePrice);
+			newDrug.PropertyChanged += OnDrugItemQuantityChanged;
+			Stash.Drugs.Add(newDrug);
+		}
+	}
+
+	/// <summary>
+	/// The event trigger method if a drug item quantity has changed.
+	/// </summary>
+	/// <param name="sender"></param>
+	/// <param name="e"></param>
+	private void OnDrugItemQuantityChanged(object sender, PropertyChangedEventArgs e)
+	{
+		if (sender is not Drug drug)
+			return;
+
+		if (e is null)
+			return;
+
+		if (Equals(e.PropertyName, nameof(drug.Quantity)))
+			CurrentBagSize = Stash.Drugs.Sum(x => x.Quantity);
+	}
+
+	/// <summary>
 	/// The method calculates the experience points needed for the next level up.
 	/// </summary>
 	/// <returns>The needed experience points.</returns>
 	private int GetNextLevelExpPoints() => (int)Math.Pow(CurrentLevel + 1, 2.5) * 1000;
-
-	/// <summary>
-	/// The <see cref="GetCurrentBagSize"/> method calculates the current bag size.
-	/// </summary>
-	/// <remarks>
-	/// If the stash is empty zero will be returned.
-	/// </remarks>
-	/// <returns>The current bag size.</returns>
-	private int GetCurrentBagSize()
-	{
-		// TODO: this needs to be redone / refac ... think this is a bad implementation.
-		int bagSize = default;
-		if (Stash.Drugs.Count.Equals(0))
-			return bagSize;
-		foreach (Drug drug in Stash.Drugs)
-			bagSize += drug.Quantity;
-		return bagSize;
-	}
 
 	/// <summary>
 	/// The event trigger method if a property that notifies has changed.

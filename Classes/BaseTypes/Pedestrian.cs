@@ -3,7 +3,7 @@ using GTA.Math;
 using Los.Santos.Dope.Wars.Extension;
 using Los.Santos.Dope.Wars.Interfaces.Base;
 
-namespace Los.Santos.Dope.Wars.Classes.Base;
+namespace Los.Santos.Dope.Wars.Classes.BaseTypes;
 
 /// <summary>
 /// The <see cref="Pedestrian"/> base class, implements the members of the <see cref="IPedestrian"/> interface

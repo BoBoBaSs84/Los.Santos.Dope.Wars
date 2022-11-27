@@ -1,5 +1,5 @@
 ﻿using GTA.Math;
-using Los.Santos.Dope.Wars.Classes.Base;
+using Los.Santos.Dope.Wars.Classes.BaseTypes;
 using System.Xml.Serialization;
 
 namespace Los.Santos.Dope.Wars.Classes;

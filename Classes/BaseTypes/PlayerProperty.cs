@@ -3,7 +3,7 @@ using GTA.Math;
 using Los.Santos.Dope.Wars.Interfaces.Base;
 using System.Xml.Serialization;
 
-namespace Los.Santos.Dope.Wars.Classes.Base;
+namespace Los.Santos.Dope.Wars.Classes.BaseTypes;
 
 /// <summary>
 /// The <see cref="PlayerProperty"/> class is the base class for player properties. Implements the members of the <see cref="IPlayerProperty"/> interface.
