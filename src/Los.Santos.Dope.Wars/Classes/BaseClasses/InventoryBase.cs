@@ -5,9 +5,9 @@ namespace LSDW.Classes;
 
 internal abstract class InventoryBase : IInventory
 {
-	private readonly List<Drug> _drugs;
+	private readonly List<IDrug> _drugs;
 
-	public InventoryBase(List<Drug> drugs) => _drugs = drugs;
+	public InventoryBase(List<IDrug> drugs) => _drugs = drugs;
 
 	public int Count => _drugs.Count;
 
@@ -17,11 +17,11 @@ internal abstract class InventoryBase : IInventory
 
 	public int TotalProfit => _drugs.Sum(drug => drug.Profit);
 
-	public IEnumerator<Drug> GetEnumerator() => _drugs.GetEnumerator();
+	public IEnumerator<IDrug> GetEnumerator() => _drugs.GetEnumerator();
 
 	public void Add(Drug drugToAdd)
 	{
-		Drug? existingDrug = _drugs.Where(x => x.DrugType.Equals(drugToAdd.DrugType))
+		IDrug? existingDrug = _drugs.Where(x => x.DrugType.Equals(drugToAdd.DrugType))
 			.SingleOrDefault();
 
 		if (existingDrug is null)
@@ -32,7 +32,7 @@ internal abstract class InventoryBase : IInventory
 
 	public void Remove(Drug drugToRemove)
 	{
-		Drug? existingDrug = _drugs.Where(x => x.DrugType.Equals(drugToRemove.DrugType))
+		IDrug? existingDrug = _drugs.Where(x => x.DrugType.Equals(drugToRemove.DrugType))
 			.SingleOrDefault();
 
 		existingDrug?.Remove(drugToRemove.Quantity);

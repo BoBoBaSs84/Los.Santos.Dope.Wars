@@ -1,4 +1,6 @@
-﻿namespace LSDW.Classes;
+﻿using LSDW.Interfaces.Classes;
+
+namespace LSDW.Classes;
 
 /// <summary>
 /// The player inventory class.
@@ -9,6 +11,6 @@ internal sealed class PlayerInventory : InventoryBase
 	/// Initializes a instance of the player inventory class.
 	/// </summary>
 	/// <param name="drugs"></param>
-	public PlayerInventory(List<Drug> drugs) : base(drugs)
+	public PlayerInventory(List<IDrug> drugs) : base(drugs)
 	{ }
 }

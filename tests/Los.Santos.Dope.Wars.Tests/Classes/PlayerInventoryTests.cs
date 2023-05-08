@@ -10,7 +10,7 @@ namespace LSDW.Tests.Classes
 	[TestClass]
 	public class PlayerInventoryTests
 	{
-		private readonly List<Drug> _drugList = new List<Drug>();
+		private readonly List<IDrug> _drugList = new List<IDrug>();
 
 		[TestMethod]
 		public void AddExistingDrugTest()
