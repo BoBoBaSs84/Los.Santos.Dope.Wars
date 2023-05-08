@@ -48,12 +48,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<InternalsVisibleTo Include="$(AssemblyName).Tests" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Using Remove="System.Net.Http" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="..\..\LICENSE" Pack ="true" PackagePath="\"/>
-		<None Include="..\..\README.md" Pack ="true" PackagePath="\"/>
+		<None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
+		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -69,6 +73,10 @@
 			<Generator>SettingsSingleFileGenerator</Generator>
 			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
 		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Extensions\" />
 	</ItemGroup>
 
 </Project>

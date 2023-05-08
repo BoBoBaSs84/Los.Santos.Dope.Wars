@@ -14,27 +14,42 @@ internal sealed class Drug : IDrug
 	/// <param name="drugType">The type of the drug.</param>
 	/// <param name="quantity">The quantity of the drug.</param>
 	/// <param name="price">The price of the drug.</param>
-	public Drug(DrugType drugType, int quantity, int price)
+	internal Drug(DrugType drugType, int quantity, int price)
 	{
 		DrugType = drugType;
 		Quantity = quantity;
 		Price = price;
 	}
-		
+	
+	/// <inheritdoc/>
 	public DrugType DrugType { get; }
+	/// <inheritdoc/>
 	public int Quantity { get; private set; }
+	/// <inheritdoc/>
 	public int Price { get; private set; }
 
+	/// <inheritdoc/>
 	public void Add(int quantity, int price)
 	{
-		Price = (Price + price) / (Quantity + quantity);
+		if (quantity < 1)
+			throw new ArgumentOutOfRangeException(nameof(quantity));
+
+		if (price < 0)
+			throw new ArgumentOutOfRangeException(nameof(price));
+
+		Price = ((Price * Quantity) + (price * quantity)) / (Quantity + quantity);
 		Quantity += quantity;
 	}
 
+	/// <inheritdoc/>
 	public void Remove(int quantity)
 	{
+		if (quantity < 1)
+			throw new ArgumentOutOfRangeException(nameof(quantity));
+
 		if (Quantity - quantity < 0)
 			throw new ArgumentOutOfRangeException(nameof(quantity));
+		
 		Quantity -= quantity;
 	}
 }
