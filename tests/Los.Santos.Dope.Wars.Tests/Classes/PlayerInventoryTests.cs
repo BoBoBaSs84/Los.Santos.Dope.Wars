@@ -18,6 +18,7 @@ namespace LSDW.Tests.Classes
 			IInventory inventory = new PlayerInventory(_drugList);
 			Assert.IsFalse(inventory.Any());
 
+			inventory.Add(100000);
 			inventory.Add(new Drug(DrugType.COKE, 10, 1000));
 			inventory.Add(new Drug(DrugType.COKE, 10, 500));
 
@@ -25,6 +26,7 @@ namespace LSDW.Tests.Classes
 			Assert.IsTrue(inventory.TotalQuantity.Equals(20));
 			Assert.IsTrue(inventory.TotalValue.Equals(15000));
 			Assert.IsTrue(inventory.TotalProfit.Equals(25000));
+			Assert.IsTrue(inventory.Money.Equals(85000));
 		}
 
 		[TestMethod]
@@ -33,6 +35,7 @@ namespace LSDW.Tests.Classes
 			IInventory inventory = new PlayerInventory(_drugList);
 			Assert.IsFalse(inventory.Any());
 
+			inventory.Add(100000);
 			inventory.Add(new Drug(DrugType.COKE, 10, 1000));
 			inventory.Add(new Drug(DrugType.METH, 15, 1500));
 
@@ -40,6 +43,7 @@ namespace LSDW.Tests.Classes
 			Assert.IsTrue(inventory.TotalQuantity.Equals(25));
 			Assert.IsTrue(inventory.TotalValue.Equals(32500));
 			Assert.IsTrue(inventory.TotalProfit.Equals(21250));
+			Assert.IsTrue(inventory.Money.Equals(67500));
 		}
 
 		[TestMethod]
@@ -48,13 +52,15 @@ namespace LSDW.Tests.Classes
 			IInventory inventory = new PlayerInventory(_drugList);
 			Assert.IsFalse(inventory.Any());
 
-			inventory.Add(new Drug(DrugType.COKE, 10, 1500));
+			inventory.Add(100000);
+			inventory.Add(new Drug(DrugType.COKE, 10, 3000));
 			inventory.Remove(new Drug(DrugType.COKE, 5, 1000));
 
 			Assert.IsTrue(inventory.Count.Equals(1));
 			Assert.IsTrue(inventory.TotalQuantity.Equals(5));
-			Assert.IsTrue(inventory.TotalValue.Equals(7500));
-			Assert.IsTrue(inventory.TotalProfit.Equals(2500));
+			Assert.IsTrue(inventory.TotalValue.Equals(15000));
+			Assert.IsTrue(inventory.TotalProfit.Equals(-5000));
+			Assert.IsTrue(inventory.Money.Equals(75000));
 		}
 	}
 }
