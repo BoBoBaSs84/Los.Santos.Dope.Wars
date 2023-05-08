@@ -15,6 +15,8 @@ internal abstract class InventoryBase : IInventory
 
 	public int TotalValue => _drugs.Sum(drug => drug.Quantity * drug.Price);
 
+	public int TotalProfit => _drugs.Sum(drug => drug.Profit);
+
 	public IEnumerator<Drug> GetEnumerator() => _drugs.GetEnumerator();
 
 	public void Add(Drug drugToAdd)

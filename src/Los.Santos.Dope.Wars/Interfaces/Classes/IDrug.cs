@@ -23,6 +23,11 @@ internal interface IDrug
 	int Price { get; }
 
 	/// <summary>
+	/// The profit of the drug compared to the nominal market price.
+	/// </summary>
+	int Profit { get; }
+
+	/// <summary>
 	/// Should add the quantity and price to the drug.
 	/// </summary>
 	/// <param name="quantity">The quantity of the drug to add.</param>

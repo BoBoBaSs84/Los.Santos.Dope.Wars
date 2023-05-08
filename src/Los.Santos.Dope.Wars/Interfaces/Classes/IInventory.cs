@@ -21,6 +21,11 @@ internal interface IInventory : IEnumerable<Drug>
 	/// The total inventory value.
 	/// </summary>
 	int TotalValue { get; }
+
+	/// <summary>
+	/// The total inventory profit compared to the nominal market prices.
+	/// </summary>
+	int TotalProfit { get; }
 	
 	/// <summary>
 	/// Should add a drug to the inventory or add the amount to existing one.

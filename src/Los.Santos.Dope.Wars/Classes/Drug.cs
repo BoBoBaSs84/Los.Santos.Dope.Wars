@@ -1,4 +1,5 @@
 ﻿using LSDW.Enumerators;
+using LSDW.Extensions;
 using LSDW.Interfaces.Classes;
 
 namespace LSDW.Classes;
@@ -27,6 +28,8 @@ internal sealed class Drug : IDrug
 	public int Quantity { get; private set; }
 	/// <inheritdoc/>
 	public int Price { get; private set; }
+	/// <inheritdoc/>
+	public int Profit => GetPossibleProfit();
 
 	/// <inheritdoc/>
 	public void Add(int quantity, int price)
@@ -52,4 +55,7 @@ internal sealed class Drug : IDrug
 		
 		Quantity -= quantity;
 	}
+
+	private int GetPossibleProfit()
+		=> Quantity.Equals(0) ? 0 : (DrugType.GetMarketPrice() - Price) * Quantity;
 }

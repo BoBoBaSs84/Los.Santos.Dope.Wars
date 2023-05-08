@@ -8,22 +8,22 @@ internal sealed class DrugTypeAttribute : DescriptionAttribute
 	/// <summary>
 	/// Initializes a instance of the <see cref="DrugTypeAttribute"/> class.
 	/// </summary>
-	/// <param name="name">The display name of the drug.</param>
-	/// <param name="price">The normal market price of the drug.</param>
+	/// <param name="displayName">The display name of the drug.</param>
+	/// <param name="marketPrice">The normal market price of the drug.</param>
 	/// <param name="description">The description of the drug.</param>
-	public DrugTypeAttribute(string name, int price, string? description) : base(description)
+	public DrugTypeAttribute(string displayName, int marketPrice, string? description) : base(description)
 	{
-		Name = name;
-		Price = price;
+		DisplayName = displayName;
+		MarketPrice = marketPrice;
 	}
 
 	/// <summary>
-	/// The <see cref="Name"/> property is the display name of the drug.
+	/// The <see cref="DisplayName"/> property is the display name of the drug.
 	/// </summary>
-	public string Name { get; }
+	public string DisplayName { get; }
 
 	/// <summary>
-	/// The <see cref="Price"/> property is the normal market price of the drug.
+	/// The <see cref="MarketPrice"/> property is the normal market price of the drug.
 	/// </summary>
-	public int Price { get; }
+	public int MarketPrice { get; }
 }
