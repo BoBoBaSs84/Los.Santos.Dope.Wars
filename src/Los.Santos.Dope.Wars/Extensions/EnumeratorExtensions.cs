@@ -7,14 +7,14 @@ namespace LSDW.Extensions;
 /// <summary>
 /// The enumerator extensions class.
 /// </summary>
-internal static class EnumeratorExtensions
+public static class EnumeratorExtensions
 {
 	/// <summary>
 	/// Should return the display name of the <see cref="DrugType"/> enumerator.
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	/// <param name="value">The enumerator value.</param>
-	internal static string GetDisplayName<T>(this T value) where T : Enum
+	public static string GetDisplayName<T>(this T value) where T : Enum
 	{
 		FieldInfo? fieldInfo = GetFieldInfo(value);
 
@@ -34,7 +34,7 @@ internal static class EnumeratorExtensions
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	/// <param name="value">The enumerator value.</param>
-	internal static int GetMarketPrice<T>(this T value) where T : Enum
+	public static int GetMarketPrice<T>(this T value) where T : Enum
 	{
 		FieldInfo? fieldInfo = GetFieldInfo(value);
 
@@ -44,6 +44,26 @@ internal static class EnumeratorExtensions
 
 			if (attribute is not null)
 				return attribute.MarketPrice;
+		}
+
+		return default;
+	}
+
+	/// <summary>
+	/// Should return the rank of the <see cref="DrugType"/> enumerator.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="value">The enumerator value.</param>
+	public static int GetRank<T>(this T value) where T : Enum
+	{
+		FieldInfo? fieldInfo = GetFieldInfo(value);
+
+		if (fieldInfo is not null)
+		{
+			DrugTypeAttribute? attribute = GetDrugTypeAttribute(fieldInfo);
+
+			if (attribute is not null)
+				return attribute.Rank;
 		}
 
 		return default;

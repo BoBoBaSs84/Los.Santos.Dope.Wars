@@ -10,11 +10,13 @@ internal sealed class DrugTypeAttribute : DescriptionAttribute
 	/// </summary>
 	/// <param name="displayName">The display name of the drug.</param>
 	/// <param name="marketPrice">The normal market price of the drug.</param>
+	/// <param name="rank">The rank or level of the drug.</param>
 	/// <param name="description">The description of the drug.</param>
-	public DrugTypeAttribute(string displayName, int marketPrice, string? description) : base(description)
+	public DrugTypeAttribute(string displayName, int marketPrice, int rank, string? description) : base(description)
 	{
 		DisplayName = displayName;
 		MarketPrice = marketPrice;
+		Rank = rank;
 	}
 
 	/// <summary>
@@ -26,4 +28,9 @@ internal sealed class DrugTypeAttribute : DescriptionAttribute
 	/// The <see cref="MarketPrice"/> property is the normal market price of the drug.
 	/// </summary>
 	public int MarketPrice { get; }
+
+	/// <summary>
+	/// The <see cref="Rank"/> property is the rank or level of the drug.
+	/// </summary>
+	public int Rank { get; }
 }
