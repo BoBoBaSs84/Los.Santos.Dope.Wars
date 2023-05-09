@@ -17,7 +17,7 @@ namespace LSDW.Tests.Classes
 
 			Assert.IsTrue(drug.Quantity.Equals(20));
 			Assert.IsTrue(drug.Price.Equals(750));
-			Assert.IsTrue(drug.Profit.Equals(25000));
+			Assert.IsTrue(drug.Profit.Equals(5000));
 		}
 
 		[TestMethod]

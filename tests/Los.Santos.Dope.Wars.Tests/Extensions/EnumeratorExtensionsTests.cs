@@ -31,7 +31,7 @@ namespace LSDW.Extensions.Tests
 		{
 			DrugType drugType = DrugType.COKE;
 
-			int marketPrice = drugType.GetMarketPrice();
+			int marketPrice = drugType.GetMarketValue();
 
 			Assert.AreNotEqual(marketPrice, 0);
 		}
@@ -41,7 +41,7 @@ namespace LSDW.Extensions.Tests
 		{
 			TestType testType = TestType.Test;
 
-			int marketPrice = testType.GetMarketPrice();
+			int marketPrice = testType.GetMarketValue();
 
 			Assert.AreEqual(marketPrice, 0);
 		}
@@ -64,6 +64,26 @@ namespace LSDW.Extensions.Tests
 			int rank = testType.GetRank();
 
 			Assert.AreEqual(rank, 0);
+		}
+
+		[TestMethod]
+		public void GetDescriptionSuccessTest()
+		{
+			DrugType drugType = DrugType.COKE;
+
+			string description = drugType.GetDescription();
+
+			Assert.AreNotEqual(description, drugType.ToString());
+		}
+
+		[TestMethod]
+		public void GetDescriptionFailedTest()
+		{
+			TestType testType = TestType.Test;
+
+			string description = testType.GetDescription();
+
+			Assert.AreEqual(description, testType.ToString());
 		}
 
 		internal enum TestType

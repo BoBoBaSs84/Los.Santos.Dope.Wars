@@ -25,11 +25,15 @@ internal sealed class Drug : IDrug
 	/// <inheritdoc/>
 	public DrugType DrugType { get; }
 	/// <inheritdoc/>
+	public string Name => DrugType.GetDisplayName();
+	/// <inheritdoc/>
+	public int MarketValue => DrugType.GetMarketValue();
+	/// <inheritdoc/>
 	public int Quantity { get; private set; }
 	/// <inheritdoc/>
 	public int Price { get; private set; }
 	/// <inheritdoc/>
-	public int Profit => GetPossibleProfit();
+	public int Profit => CalculatePossibleProfit();
 
 	/// <inheritdoc/>
 	public void Add(int quantity, int price)
@@ -56,6 +60,6 @@ internal sealed class Drug : IDrug
 		Quantity -= quantity;
 	}
 
-	private int GetPossibleProfit()
-		=> Quantity.Equals(0) ? 0 : (DrugType.GetMarketPrice() - Price) * Quantity;
+	private int CalculatePossibleProfit()
+		=> Quantity.Equals(0) ? 0 : (MarketValue - Price) * Quantity;
 }

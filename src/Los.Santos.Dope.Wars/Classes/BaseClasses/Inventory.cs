@@ -3,11 +3,11 @@ using System.Collections;
 
 namespace LSDW.Classes;
 
-internal abstract class InventoryBase : IInventory
+internal abstract class Inventory : IInventory
 {
 	private readonly List<IDrug> _drugs;
 
-	public InventoryBase(List<IDrug> drugs) => _drugs = drugs;
+	public Inventory(List<IDrug> drugs) => _drugs = drugs;
 
 	public int Count => _drugs.Count;
 
@@ -15,7 +15,7 @@ internal abstract class InventoryBase : IInventory
 
 	public int TotalQuantity => _drugs.Sum(drug => drug.Quantity);
 
-	public int TotalValue => _drugs.Sum(drug => drug.Quantity * drug.Price);
+	public int TotalMarketValue => _drugs.Sum(drug => drug.MarketValue * drug.Quantity);
 
 	public int TotalProfit => _drugs.Sum(drug => drug.Profit);
 

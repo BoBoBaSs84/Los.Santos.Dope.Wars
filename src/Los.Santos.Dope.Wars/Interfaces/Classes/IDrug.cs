@@ -13,6 +13,16 @@ internal interface IDrug
 	DrugType DrugType { get; }
 
 	/// <summary>
+	/// The display name of the drug.
+	/// </summary>
+	string Name { get; }
+
+	/// <summary>
+	/// The market price of the drug.
+	/// </summary>
+	int MarketValue { get; }
+
+	/// <summary>
 	/// The quantity of the drug.
 	/// </summary>
 	int Quantity { get; }
