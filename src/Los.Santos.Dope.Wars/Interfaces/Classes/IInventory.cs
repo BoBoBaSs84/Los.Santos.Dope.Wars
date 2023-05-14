@@ -1,6 +1,4 @@
-﻿using LSDW.Classes;
-
-namespace LSDW.Interfaces.Classes;
+﻿namespace LSDW.Interfaces.Classes;
 
 /// <summary>
 /// The inventory interface.
@@ -11,7 +9,7 @@ public interface IInventory : IEnumerable<IDrug>
 	/// The inventory count.
 	/// </summary>
 	int Count { get; }
-	
+
 	/// <summary>
 	/// The current dirty drug money.
 	/// </summary>
@@ -31,7 +29,7 @@ public interface IInventory : IEnumerable<IDrug>
 	/// The total inventory profit compared to the nominal market prices.
 	/// </summary>
 	int TotalProfit { get; }
-	
+
 	/// <summary>
 	/// Should add a drug to the inventory or add the amount to existing one.
 	/// </summary>

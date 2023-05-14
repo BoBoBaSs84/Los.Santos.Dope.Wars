@@ -22,6 +22,7 @@
 
 	<ItemGroup>
 		<Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+		<Using Include="System.Diagnostics.CodeAnalysis" />
 	</ItemGroup>
 
 </Project>

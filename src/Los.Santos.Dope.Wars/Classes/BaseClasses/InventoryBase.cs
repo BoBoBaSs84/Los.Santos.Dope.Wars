@@ -2,10 +2,14 @@
 
 namespace LSDW.Classes.BaseClasses;
 
-internal abstract class InventoryBase : NotificationBase, IInventory
+internal abstract class InventoryBase : IInventory
 {
 	private readonly List<IDrug> _drugs;
 
+	/// <summary>
+	/// Initializes a instance of the inventory base class.
+	/// </summary>
+	/// <param name="drugs">The drugs to add to the inventory.</param>
 	public InventoryBase(List<IDrug> drugs)
 		=> _drugs = drugs;
 
@@ -35,17 +39,24 @@ internal abstract class InventoryBase : NotificationBase, IInventory
 		if (existingDrug is null)
 		{
 			_drugs.Add(drugToAdd);
-			Remove(drugToAdd.Quantity * drugToAdd.Price);
+			int moneyToRemove = drugToAdd.Quantity * drugToAdd.Price;
+			Remove(moneyToRemove);
 		}
 		else
 		{
 			existingDrug.Add(drugToAdd.Quantity, drugToAdd.Price);
-			Remove(drugToAdd.Quantity * drugToAdd.Price);
+			int moneyToRemove = drugToAdd.Quantity * drugToAdd.Price;
+			Remove(moneyToRemove);
 		}
 	}
 
 	public void Add(int moneyToAdd)
-		=> Money += moneyToAdd;
+	{
+		if (moneyToAdd < 1)
+			throw new ArgumentOutOfRangeException(nameof(moneyToAdd));
+		Money += moneyToAdd;
+	}
+		
 
 	public void Remove(IDrug drugToRemove)
 	{
@@ -54,12 +65,17 @@ internal abstract class InventoryBase : NotificationBase, IInventory
 			.SingleOrDefault();
 
 		existingDrug?.Remove(drugToRemove.Quantity);
-
-		Add(drugToRemove.Quantity * drugToRemove.Price);
+		int moneyToAdd = drugToRemove.Quantity * drugToRemove.Price;
+		Add(moneyToAdd);
 	}
 
 	public void Remove(int moneyToRemove)
-		=> Money -= moneyToRemove;
+	{
+		if (moneyToRemove < 1)
+			throw new ArgumentOutOfRangeException(nameof(moneyToRemove));
+		Money -= moneyToRemove;
+	}
+		
 
 	IEnumerator IEnumerable.GetEnumerator() => _drugs.GetEnumerator();
 }
