@@ -2,7 +2,7 @@
 
 namespace LSDW.Classes.BaseClasses;
 
-internal abstract class InventoryBase : IInventory
+internal abstract class InventoryBase : NotificationBase, IInventory
 {
 	private readonly List<IDrug> _drugs;
 

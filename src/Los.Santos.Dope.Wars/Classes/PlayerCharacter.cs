@@ -10,32 +10,44 @@ internal sealed class PlayerCharacter : NotificationBase, IPlayerCharacter
 {
 	private double currentExperience;
 
+	/// <summary>
+	/// Initializes a instance of the player character class.
+	/// </summary>
 	internal PlayerCharacter()
 	{
-		Inventory = IF.CreateEmptyPlayerInventory();
+		Inventory = IF.CreatePlayerInventory();
 		SpentMoney = default;
 		EarnedMoney = default;
 		currentExperience = default;
 	}
 
-	internal PlayerCharacter(PlayerInventory inventory, int spentMoney, int earnedMoney, int currentExperience)
+	/// <summary>
+	/// Initializes a instance of the player character class.
+	/// </summary>
+	/// <param name="inventory">The player inventory.</param>
+	/// <param name="spentMoney">The money spent on buying drugs.</param>
+	/// <param name="earnedMoney">The money earned on selling drugs.</param>
+	/// <param name="experience">The player experience points.</param>
+	internal PlayerCharacter(IInventory inventory, int spentMoney, int earnedMoney, int experience)
 	{
 		Inventory = inventory;
 		SpentMoney = spentMoney;
 		EarnedMoney = earnedMoney;
-		this.currentExperience = currentExperience;
+		currentExperience = experience;
 	}
 
 	public IInventory Inventory { get; }
 
 	public int SpentMoney
 	{
-		get; private set;
+		get;
+		private set;
 	}
 
 	public int EarnedMoney
 	{
-		get; private set;
+		get;
+		private set;
 	}
 
 	public int CurrentLevel
@@ -50,7 +62,7 @@ internal sealed class PlayerCharacter : NotificationBase, IPlayerCharacter
 	public int MaximumInventoryQuantity
 		=> GetMaximumInventoryQuantity();
 
-	public void AddExperience(double points)
+	public void AddExperience(int points)
 		=> currentExperience += points;
 
 	private int GetCurrentLevel()
@@ -60,5 +72,5 @@ internal sealed class PlayerCharacter : NotificationBase, IPlayerCharacter
 		=> (int)PlayerConstants.CalculateExperienceNextLevel(CurrentLevel);
 
 	private int GetMaximumInventoryQuantity()
-		=> CurrentLevel * Settings.Default.InventoryCapacityExpansionPerLevel;
+		=> Settings.Default.StartingInventoryCapacity + (CurrentLevel * Settings.Default.InventoryCapacityExpansionPerLevel);
 }

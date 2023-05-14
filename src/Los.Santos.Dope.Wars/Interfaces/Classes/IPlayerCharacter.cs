@@ -44,5 +44,5 @@ public interface IPlayerCharacter
 	/// Should adds the desired experience points to the current experience.
 	/// </summary>
 	/// <param name="points">The experience points to add.</param>
-	void AddExperience(double points);
+	void AddExperience(int points);
 }

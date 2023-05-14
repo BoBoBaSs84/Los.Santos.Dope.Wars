@@ -21,7 +21,7 @@ internal sealed class Drug : IDrug
 		Quantity = quantity;
 		Price = price;
 	}
-	
+
 	/// <inheritdoc/>
 	public DrugType DrugType { get; }
 	/// <inheritdoc/>
@@ -44,8 +44,6 @@ internal sealed class Drug : IDrug
 		if (price < 0)
 			throw new ArgumentOutOfRangeException(nameof(price));
 
-		var dt = System.DateTime.UtcNow.Year;
-
 		Price = ((Price * Quantity) + (price * quantity)) / (Quantity + quantity);
 		Quantity += quantity;
 	}
@@ -58,7 +56,7 @@ internal sealed class Drug : IDrug
 
 		if (Quantity - quantity < 0)
 			throw new ArgumentOutOfRangeException(nameof(quantity));
-		
+
 		Quantity -= quantity;
 	}
 

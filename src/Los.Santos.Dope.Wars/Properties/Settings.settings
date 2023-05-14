@@ -11,7 +11,7 @@
     <Setting Name="InventoryCapacityExpansionPerLevel" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">10</Value>
     </Setting>
-    <Setting Name="StartingInventoryCapacity" Type="System.String" Scope="User">
+    <Setting Name="StartingInventoryCapacity" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">100</Value>
     </Setting>
   </Settings>

@@ -12,7 +12,7 @@ namespace LSDW.Tests.Classes
 		[TestMethod]
 		public void AddExistingDrugTest()
 		{
-			IInventory inventory = IF.CreateEmptyPlayerInventory();
+			IInventory inventory = IF.CreatePlayerInventory();
 			Assert.IsFalse(inventory.Any());
 
 			inventory.Add(100000);
@@ -29,7 +29,7 @@ namespace LSDW.Tests.Classes
 		[TestMethod]
 		public void AddNewDrugTest()
 		{
-			IInventory inventory = IF.CreateEmptyPlayerInventory();
+			IInventory inventory = IF.CreatePlayerInventory();
 			Assert.IsFalse(inventory.Any());
 
 			inventory.Add(100000);
@@ -46,7 +46,7 @@ namespace LSDW.Tests.Classes
 		[TestMethod]
 		public void RemoveExistingDrugTest()
 		{
-			IInventory inventory = IF.CreateEmptyPlayerInventory();
+			IInventory inventory = IF.CreatePlayerInventory();
 			Assert.IsFalse(inventory.Any());
 
 			inventory.Add(100000);

@@ -62,9 +62,9 @@ namespace LSDW.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("100")]
-        public string StartingInventoryCapacity {
+        public int StartingInventoryCapacity {
             get {
-                return ((string)(this["StartingInventoryCapacity"]));
+                return ((int)(this["StartingInventoryCapacity"]));
             }
             set {
                 this["StartingInventoryCapacity"] = value;

@@ -11,7 +11,7 @@ public static class InventoryFactory
 	/// <summary>
 	/// Should create a empty player inventory instance.
 	/// </summary>
-	public static IInventory CreateEmptyPlayerInventory()
+	public static IInventory CreatePlayerInventory()
 		=> new PlayerInventory(new List<IDrug>());
 
 	/// <summary>
