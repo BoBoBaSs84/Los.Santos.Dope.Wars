@@ -45,4 +45,28 @@ public interface IPlayerCharacter
 	/// </summary>
 	/// <param name="points">The experience points to add.</param>
 	void AddExperience(int points);
+
+	/// <summary>
+	/// Should buy the desired drug.
+	/// </summary>
+	/// <param name="drug">The drug to buy.</param>
+	void Buy(IDrug drug);
+
+	/// <summary>
+	/// Should buy the desired drugs.
+	/// </summary>
+	/// <param name="drugs">The drugs to buy.</param>
+	void Buy(IEnumerable<IDrug> drugs);
+
+	/// <summary>
+	/// Should sell the desired drug.
+	/// </summary>
+	/// <param name="drug">The drug to sell.</param>
+	void Sell(IDrug drug);
+
+	/// <summary>
+	/// Should sell the desired drugs.
+	/// </summary>
+	/// <param name="drugs">The drugs to sell.</param>
+	void Sell(IEnumerable<IDrug> drugs);
 }

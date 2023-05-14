@@ -65,6 +65,32 @@ internal sealed class PlayerCharacter : NotificationBase, IPlayerCharacter
 	public void AddExperience(int points)
 		=> currentExperience += points;
 
+	public void Buy(IDrug drug)
+	{
+		if (Inventory.TotalQuantity + drug.Quantity > MaximumInventoryQuantity)
+			// TODO: Not enough space.
+			throw new Exception("Not enough space.");
+
+		if (drug.Quantity * drug.Price > Inventory.Money)
+			// TODO: Not enough money.
+			throw new Exception("Not enough money.");
+
+		Inventory.Add(drug);
+	}
+
+	public void Buy(IEnumerable<IDrug> drugs) => throw new NotImplementedException();
+
+	public void Sell(IDrug drug)
+	{
+		if (Inventory.Where(x => x.DrugType.Equals(drug.DrugType)).Sum(x => x.Quantity) < drug.Quantity)
+			// TODO: Not enough money.
+			throw new Exception("Not enough drugs.");
+
+		Inventory.Remove(drug);
+	}
+
+	public void Sell(IEnumerable<IDrug> drugs) => throw new NotImplementedException();
+
 	private int GetCurrentLevel()
 		=> PlayerConstants.CalculateCurrentLevel(currentExperience);
 
