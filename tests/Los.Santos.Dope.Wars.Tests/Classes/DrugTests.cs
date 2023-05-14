@@ -1,7 +1,6 @@
-﻿using LSDW.Classes;
-using LSDW.Enumerators;
+﻿using LSDW.Enumerators;
 using LSDW.Interfaces.Classes;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using DF = LSDW.Factories.DrugFactory;
 
 namespace LSDW.Tests.Classes
 {
@@ -11,7 +10,7 @@ namespace LSDW.Tests.Classes
 		[TestMethod]
 		public void AddSuccessTest()
 		{
-			IDrug drug = new Drug(DrugType.COKE, 10, 1000);
+			IDrug drug = DF.CreateDrug(DrugType.COKE, 10, 1000);
 
 			drug.Add(10, 500);
 
@@ -23,7 +22,7 @@ namespace LSDW.Tests.Classes
 		[TestMethod]
 		public void AddFailureTest()
 		{
-			IDrug drug = new Drug(DrugType.COKE, 10, 1000);
+			IDrug drug = DF.CreateDrug(DrugType.COKE, 10, 1000);
 
 			drug.Add(5, 0);
 
@@ -35,7 +34,7 @@ namespace LSDW.Tests.Classes
 		[TestMethod]
 		public void RemoveSuccessTest()
 		{
-			IDrug drug = new Drug(DrugType.COKE, 10, 1000);
+			IDrug drug = DF.CreateDrug(DrugType.COKE, 10, 1000);
 
 			drug.Remove(5);
 
@@ -45,7 +44,7 @@ namespace LSDW.Tests.Classes
 		[TestMethod]
 		public void RemoveFailureTest()
 		{
-			IDrug drug = new Drug(DrugType.COKE, 10, 1000);
+			IDrug drug = DF.CreateDrug(DrugType.COKE, 10, 1000);
 
 			drug.Remove(1);
 

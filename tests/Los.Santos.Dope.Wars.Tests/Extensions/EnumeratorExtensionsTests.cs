@@ -1,7 +1,7 @@
 ﻿using LSDW.Enumerators;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using LSDW.Extensions;
 
-namespace LSDW.Extensions.Tests
+namespace LSDW.Tests.Extensions
 {
 	[TestClass]
 	public class EnumeratorExtensionsTests

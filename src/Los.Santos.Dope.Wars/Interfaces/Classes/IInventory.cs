@@ -5,7 +5,7 @@ namespace LSDW.Interfaces.Classes;
 /// <summary>
 /// The inventory interface.
 /// </summary>
-internal interface IInventory : IEnumerable<IDrug>
+public interface IInventory : IEnumerable<IDrug>
 {
 	/// <summary>
 	/// The inventory count.

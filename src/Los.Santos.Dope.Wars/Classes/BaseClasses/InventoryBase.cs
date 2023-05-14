@@ -1,29 +1,35 @@
 ﻿using LSDW.Interfaces.Classes;
-using System.Collections;
 
-namespace LSDW.Classes;
+namespace LSDW.Classes.BaseClasses;
 
-internal abstract class Inventory : IInventory
+internal abstract class InventoryBase : IInventory
 {
 	private readonly List<IDrug> _drugs;
 
-	public Inventory(List<IDrug> drugs) => _drugs = drugs;
+	public InventoryBase(List<IDrug> drugs)
+		=> _drugs = drugs;
 
-	public int Count => _drugs.Count;
+	public int Count
+		=> _drugs.Count;
 
 	public int Money { get; private set; }
 
-	public int TotalQuantity => _drugs.Sum(drug => drug.Quantity);
+	public int TotalQuantity
+		=> _drugs.Sum(drug => drug.Quantity);
 
-	public int TotalMarketValue => _drugs.Sum(drug => drug.MarketValue * drug.Quantity);
+	public int TotalMarketValue
+		=> _drugs.Sum(drug => drug.MarketValue * drug.Quantity);
 
-	public int TotalProfit => _drugs.Sum(drug => drug.Profit);
+	public int TotalProfit
+		=> _drugs.Sum(drug => drug.Profit);
 
-	public IEnumerator<IDrug> GetEnumerator() => _drugs.GetEnumerator();
+	public IEnumerator<IDrug> GetEnumerator()
+		=> _drugs.GetEnumerator();
 
 	public void Add(IDrug drugToAdd)
 	{
-		IDrug? existingDrug = _drugs.Where(x => x.DrugType.Equals(drugToAdd.DrugType))
+		IDrug? existingDrug = _drugs
+			.Where(x => x.DrugType.Equals(drugToAdd.DrugType))
 			.SingleOrDefault();
 
 		if (existingDrug is null)
@@ -43,7 +49,8 @@ internal abstract class Inventory : IInventory
 
 	public void Remove(IDrug drugToRemove)
 	{
-		IDrug? existingDrug = _drugs.Where(x => x.DrugType.Equals(drugToRemove.DrugType))
+		IDrug? existingDrug = _drugs
+			.Where(x => x.DrugType.Equals(drugToRemove.DrugType))
 			.SingleOrDefault();
 
 		existingDrug?.Remove(drugToRemove.Quantity);

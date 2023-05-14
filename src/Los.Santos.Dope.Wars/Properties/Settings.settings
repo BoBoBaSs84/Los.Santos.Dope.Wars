@@ -8,5 +8,11 @@
     <Setting Name="LooseDrugsWhenBusted" Type="System.String" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="InventoryCapacityExpansionPerLevel" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="StartingInventoryCapacity" Type="System.String" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

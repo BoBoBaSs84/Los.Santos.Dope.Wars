@@ -44,6 +44,8 @@ internal sealed class Drug : IDrug
 		if (price < 0)
 			throw new ArgumentOutOfRangeException(nameof(price));
 
+		var dt = System.DateTime.UtcNow.Year;
+
 		Price = ((Price * Quantity) + (price * quantity)) / (Quantity + quantity);
 		Quantity += quantity;
 	}

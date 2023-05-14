@@ -1,13 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<PlatformTarget>x64</PlatformTarget>
+		<VersionMajor>$([System.DateTime]::UtcNow.Year)</VersionMajor>
+		<VersionMinor>$([System.DateTime]::UtcNow.Month)</VersionMinor>
+		<VersionPatch>$([System.DateTime]::UtcNow.Day)</VersionPatch>
+		<VersionRevision>$([System.DateTime]::UtcNow.TimeOfDay.TotalMinutes.ToString("0"))</VersionRevision>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<PlatformTarget>AnyCPU</PlatformTarget>
 		<TargetFramework>net48</TargetFramework>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<LangVersion>Latest</LangVersion>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+		<AllowUnsafeBlocks>False</AllowUnsafeBlocks>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<AnalysisLevel>latest</AnalysisLevel>
 		<AnalysisMode>recommended</AnalysisMode>
@@ -24,22 +31,25 @@
 		<RepositoryUrl>https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>gtav;gtav-mod;gta5-mode;scripthoohvdotnet;dopewars;lemonui</PackageTags>
-		<Copyright>Copyright © 2022 BoBoBaSs84</Copyright>
+		<Copyright>Copyright © $(VersionMajor) BoBoBaSs84</Copyright>
 		<Title>Los.Santos.Dope.Wars</Title>
 		<Description>The modification is an attempt to bring the "trade" game mechanics from Chinatown Wars to the fictional state of San Andreas.</Description>
 		<PackageProjectUrl>https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars</PackageProjectUrl>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<VersionPrefix>$(VersionMajor).$(VersionMinor).$(VersionPatch).$(VersionRevision)</VersionPrefix>
+		<VersionSuffix Condition="'$(Configuration)'=='Debug'">dev</VersionSuffix>
+		<UserSecretsId>c0455c86-d101-44ca-a73b-26c81aff5b87</UserSecretsId>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-		<Deterministic>False</Deterministic>
+		<Deterministic>True</Deterministic>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-		<Deterministic>False</Deterministic>
+		<Deterministic>True</Deterministic>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -53,6 +63,7 @@
 
 	<ItemGroup>
 		<Using Remove="System.Net.Http" />
+		<Using Include="System.Collections" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -61,6 +72,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
 		<Compile Update="Properties\Settings.Designer.cs">
 			<DesignTimeSharedInput>True</DesignTimeSharedInput>
 			<AutoGen>True</AutoGen>
@@ -73,6 +89,17 @@
 			<Generator>SettingsSingleFileGenerator</Generator>
 			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
 		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
 	</ItemGroup>
 
 </Project>

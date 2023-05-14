@@ -13,14 +13,14 @@ using System.Reflection;
 
 [assembly: System.Reflection.AssemblyCompanyAttribute("Los.Santos.Dope.Wars")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
-[assembly: System.Reflection.AssemblyCopyrightAttribute("Copyright © 2022 BoBoBaSs84")]
+[assembly: System.Reflection.AssemblyCopyrightAttribute("Copyright © 2023 BoBoBaSs84")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("The modification is an attempt to bring the \"trade\" game mechanics from Chinatown" +
     " Wars to the fictional state of San Andreas.")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("2023.5.14.886")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2023.5.14.886-dev")]
 [assembly: System.Reflection.AssemblyProductAttribute("Los.Santos.Dope.Wars")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Los.Santos.Dope.Wars")]
-[assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
+[assembly: System.Reflection.AssemblyVersionAttribute("2023.5.14.886")]
 [assembly: System.Reflection.AssemblyMetadataAttribute("RepositoryUrl", "https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Los.Santos.Dope.Wars.Tests")]
 

@@ -5,7 +5,7 @@ namespace LSDW.Interfaces.Classes;
 /// <summary>
 /// The drug interface.
 /// </summary>
-internal interface IDrug
+public interface IDrug
 {
 	/// <summary>
 	/// The type of the drug.

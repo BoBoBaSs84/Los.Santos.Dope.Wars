@@ -46,5 +46,29 @@ namespace LSDW.Properties {
                 this["LooseDrugsWhenBusted"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int InventoryCapacityExpansionPerLevel {
+            get {
+                return ((int)(this["InventoryCapacityExpansionPerLevel"]));
+            }
+            set {
+                this["InventoryCapacityExpansionPerLevel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public string StartingInventoryCapacity {
+            get {
+                return ((string)(this["StartingInventoryCapacity"]));
+            }
+            set {
+                this["StartingInventoryCapacity"] = value;
+            }
+        }
     }
 }
