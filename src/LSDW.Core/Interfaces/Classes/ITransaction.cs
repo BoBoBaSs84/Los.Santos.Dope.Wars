@@ -1,4 +1,5 @@
-﻿using LSDW.Core.Enumerators;
+﻿using LSDW.Core.Classes;
+using LSDW.Core.Enumerators;
 
 namespace LSDW.Core.Interfaces.Classes;
 
@@ -13,14 +14,9 @@ public interface ITransaction
 	TransactionType Type { get; }
 
 	/// <summary>
-	/// The drugs to transact.
+	/// The transaction objects to process.
 	/// </summary>
-	IEnumerable<IDrug> Drugs { get; }
-
-	/// <summary>
-	/// Is the transaction completed?
-	/// </summary>
-	bool IsCompleted { get; }
+	IEnumerable<TransactionObject> Objects { get; }
 
 	/// <summary>
 	/// The targets maximum inventory quantity.
@@ -28,9 +24,10 @@ public interface ITransaction
 	int MaximumTargetQuantity { get; }
 
 	/// <summary>
-	/// Should do the transaction from the <paramref name="source"/> to the <paramref name="target"/>.
+	/// Should commit the transaction from the <paramref name="source"/> to the <paramref name="target"/>.
 	/// </summary>
 	/// <param name="source">The source inventory.</param>
 	/// <param name="target">The target inventory.</param>
-	void Transact(IInventoryCollection source, IInventoryCollection target);
+	/// <returns>The result of the transaction.</returns>
+	TransactionResult Commit(IInventoryCollection source, IInventoryCollection target);
 }

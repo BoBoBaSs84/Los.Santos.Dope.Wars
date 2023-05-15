@@ -1,5 +1,5 @@
 ﻿using LSDW.Core.Enumerators;
-using LSDW.Core.Exceptions;
+using LSDW.Core.Factories;
 using LSDW.Core.Interfaces.Classes;
 
 namespace LSDW.Core.Classes;
@@ -13,33 +13,38 @@ internal sealed class Transaction : ITransaction
 	/// Initializes a instance of the transaction class.
 	/// </summary>
 	/// <param name="type">The type of the transaction.</param>
-	/// <param name="drugs">The drugs to transact.</param>
+	/// <param name="objects">The transaction objects to process.</param>
 	/// <param name="maximumQuantity">The targets maximum inventory quantity.</param>
-	internal Transaction(TransactionType type, IEnumerable<IDrug> drugs, int maximumQuantity)
+	internal Transaction(TransactionType type, IEnumerable<TransactionObject> objects, int maximumQuantity)
 	{
 		Type = type;
-		Drugs = drugs;
+		Objects = objects;
 		MaximumTargetQuantity = maximumQuantity;
 	}
 
 	public TransactionType Type { get; }
 
-	public IEnumerable<IDrug> Drugs { get; }
-
-	public bool IsCompleted { get; private set; }
-
 	public int MaximumTargetQuantity { get; }
 
-	public void Transact(IInventoryCollection source, IInventoryCollection target)
+	public IEnumerable<TransactionObject> Objects { get; }
+
+	public TransactionResult Commit(IInventoryCollection source, IInventoryCollection target)
 	{
+		TransactionResult result = new();
+
 		if (Type.Equals(TransactionType.TRAFFIC))
 			if (!CheckTargetMoney(target))
-				throw new TransactionException("Not enough money for transaction.");
+				result.Messages.Add("Not enough money for transaction.");
 
 		if (GetResultingTargetQuantity(target) > MaximumTargetQuantity)
-			throw new TransactionException("Not enough room for transaction.");
+			result.Messages.Add("Not enough space in inventory for transaction.");
 
-		foreach (IDrug drug in Drugs)
+		if (result.Messages.Any())
+			return result;
+
+		IEnumerable<IDrug> drugs = GetDrugsFromObjects();
+
+		foreach (IDrug drug in drugs)
 		{
 			_ = source.Remove(drug);
 			target.Add(drug);
@@ -47,10 +52,13 @@ internal sealed class Transaction : ITransaction
 
 		if (Type.Equals(TransactionType.TRAFFIC))
 		{
-			int transactionValue = Drugs.Sum(drug => drug.Price * drug.Quantity);
+			int transactionValue = drugs.Sum(drug => drug.Price * drug.Quantity);
 			source.Add(transactionValue);
 			target.Remove(transactionValue);
 		}
+
+		result.Successful = true;
+		return result;
 	}
 
 	/// <summary>
@@ -58,11 +66,22 @@ internal sealed class Transaction : ITransaction
 	/// </summary>
 	/// <param name="target">The target inventory.</param>
 	private bool CheckTargetMoney(IInventoryCollection target)
-		=> target.Money > Drugs.Sum(drug => drug.Price * drug.Quantity);
+		=> target.Money > Objects.Sum(o => o.Price * o.Quantity);
 
 	/// <summary>
 	/// Returns the resulting target inventory quantity.
 	/// </summary>
 	private int GetResultingTargetQuantity(IInventoryCollection target)
-		=> Drugs.Sum(drug => drug.Quantity) + target.Sum(drug => drug.Quantity);
+		=> Objects.Sum(o => o.Quantity) + target.Sum(d => d.Quantity);
+
+	/// <summary>
+	/// Returns a drug list from the transaction objects.
+	/// </summary>
+	private IEnumerable<IDrug> GetDrugsFromObjects()
+	{
+		List<IDrug> drugsToReturn = new();
+		foreach (TransactionObject obj in Objects)
+			drugsToReturn.Add(DrugFactory.CreateDrug(obj.DrugType, obj.Quantity, obj.Price));
+		return drugsToReturn;
+	}
 }
