@@ -1,15 +1,13 @@
-﻿namespace LSDW.Core.Interfaces.Classes;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace LSDW.Core.Interfaces.Classes;
 
 /// <summary>
 /// The inventory interface.
 /// </summary>
-public interface IInventoryCollection : ICollection<IDrug>
+[SuppressMessage("Naming", "CA1710", Justification = "")]
+public interface IInventory : ICollection<IDrug>
 {
-	/// <summary>
-	/// The inventory count.
-	/// </summary>
-	new int Count { get; }
-
 	/// <summary>
 	/// The current dirty drug money.
 	/// </summary>

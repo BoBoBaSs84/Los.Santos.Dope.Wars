@@ -29,5 +29,5 @@ public interface ITransaction
 	/// <param name="source">The source inventory.</param>
 	/// <param name="target">The target inventory.</param>
 	/// <returns>The result of the transaction.</returns>
-	TransactionResult Commit(IInventoryCollection source, IInventoryCollection target);
+	TransactionResult Commit(IInventory source, IInventory target);
 }

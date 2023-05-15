@@ -28,7 +28,7 @@ internal sealed class Transaction : ITransaction
 
 	public IEnumerable<TransactionObject> Objects { get; }
 
-	public TransactionResult Commit(IInventoryCollection source, IInventoryCollection target)
+	public TransactionResult Commit(IInventory source, IInventory target)
 	{
 		TransactionResult result = new();
 
@@ -65,13 +65,13 @@ internal sealed class Transaction : ITransaction
 	/// Returns <see langword="true"/> or <see langword="true"/> if the target has enough money for the transaction.
 	/// </summary>
 	/// <param name="target">The target inventory.</param>
-	private bool CheckTargetMoney(IInventoryCollection target)
+	private bool CheckTargetMoney(IInventory target)
 		=> target.Money > Objects.Sum(o => o.Price * o.Quantity);
 
 	/// <summary>
 	/// Returns the resulting target inventory quantity.
 	/// </summary>
-	private int GetResultingTargetQuantity(IInventoryCollection target)
+	private int GetResultingTargetQuantity(IInventory target)
 		=> Objects.Sum(o => o.Quantity) + target.Sum(d => d.Quantity);
 
 	/// <summary>

@@ -6,10 +6,10 @@ using LSDW.Core.Properties;
 
 namespace LSDW.Core.Classes;
 
-internal sealed class PlayerCharacter : Notification, IPlayerCharacter
+internal sealed class PlayerCharacter : Notification, IPlayer
 {
-	private readonly int InventoryCapacity = Settings.Default.StartingInventoryCapacity;
-	private readonly int ExpansionPerLevel = Settings.Default.InventoryCapacityExpansionPerLevel;
+	private readonly int _inventoryCapacity = Settings.Default.StartingInventoryCapacity;
+	private readonly int _expansionPerLevel = Settings.Default.InventoryCapacityExpansionPerLevel;
 
 	/// <summary>
 	/// Initializes a instance of the player character class.
@@ -25,13 +25,13 @@ internal sealed class PlayerCharacter : Notification, IPlayerCharacter
 	/// </summary>
 	/// <param name="inventory">The player inventory.</param>
 	/// <param name="experience">The player experience points.</param>
-	internal PlayerCharacter(IInventoryCollection inventory, int experience)
+	internal PlayerCharacter(IInventory inventory, int experience)
 	{
 		Inventory = inventory;
 		Experience = experience;
 	}
 
-	public IInventoryCollection Inventory { get; }
+	public IInventory Inventory { get; }
 
 	public int Level
 		=> GetCurrentLevel();
@@ -54,5 +54,5 @@ internal sealed class PlayerCharacter : Notification, IPlayerCharacter
 		=> PlayerConstants.CalculateExperienceNextLevel(Level);
 
 	private int GetMaximumInventoryQuantity()
-		=> InventoryCapacity + (Level * ExpansionPerLevel);
+		=> _inventoryCapacity + (Level * _expansionPerLevel);
 }

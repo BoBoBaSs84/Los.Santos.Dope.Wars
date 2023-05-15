@@ -6,7 +6,7 @@ namespace LSDW.Core.Classes;
 /// <summary>
 /// The inventory class.
 /// </summary>
-internal sealed class Inventory : IInventoryCollection
+internal sealed class Inventory : IInventory
 {
 	private readonly List<IDrug> _drugs;
 

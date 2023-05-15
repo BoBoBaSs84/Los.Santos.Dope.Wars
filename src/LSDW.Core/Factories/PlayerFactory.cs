@@ -6,12 +6,12 @@ namespace LSDW.Core.Factories;
 /// <summary>
 /// The character factory class.
 /// </summary>
-public static class CharacterFactory
+public static class PlayerFactory
 {
 	/// <summary>
 	/// Should create a new player character instance.
 	/// </summary>
-	public static IPlayerCharacter CreateNewPlayer()
+	public static IPlayer CreatePlayer()
 		=> new PlayerCharacter();
 
 	/// <summary>
@@ -19,6 +19,6 @@ public static class CharacterFactory
 	/// </summary>
 	/// <param name="inventory">The player inventory.</param>
 	/// <param name="experience">The player experience points.</param>
-	public static IPlayerCharacter CreateExistingPlayer(IInventoryCollection inventory, int experience)
+	public static IPlayer CreatePlayer(IInventory inventory, int experience)
 		=> new PlayerCharacter(inventory, experience);
 }

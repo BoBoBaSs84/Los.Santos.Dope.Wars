@@ -3,12 +3,12 @@
 /// <summary>
 /// The player character interface.
 /// </summary>
-public interface IPlayerCharacter
+public interface IPlayer
 {
 	/// <summary>
 	/// The player inventory.
 	/// </summary>
-	IInventoryCollection Inventory { get; }
+	IInventory Inventory { get; }
 
 	/// <summary>
 	/// The current player level.

@@ -4,14 +4,14 @@ using LSDW.Core.Interfaces.Classes;
 namespace LSDW.Core.Tests.Factories;
 
 [TestClass()]
-public class CharacterFactoryTests
+public class PlayerFactoryTests
 {
 	[TestMethod()]
 	public void CreatePlayerTest()
 	{
-		IPlayerCharacter? character;
+		IPlayer? character;
 
-		character = CharacterFactory.CreateNewPlayer();
+		character = PlayerFactory.CreatePlayer();
 
 		Assert.IsNotNull(character);
 	}
@@ -19,13 +19,13 @@ public class CharacterFactoryTests
 	[TestMethod()]
 	public void CreateExistingPlayerTest()
 	{
-		IPlayerCharacter? character;
-		IInventoryCollection inventory = InventoryFactory.CreateInventory();
+		IPlayer? character;
+		IInventory inventory = InventoryFactory.CreateInventory();
 		int money = 12000;
 		inventory.Add(money);
 		int experience = money;
 
-		character = CharacterFactory.CreateExistingPlayer(inventory, experience);
+		character = PlayerFactory.CreatePlayer(inventory, experience);
 
 		Assert.IsNotNull(character);
 		Assert.AreEqual(money, character.Inventory.Money);

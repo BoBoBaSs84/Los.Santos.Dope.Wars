@@ -1,5 +1,5 @@
 ﻿using LSDW.Core.Interfaces.Classes;
-using CF = LSDW.Core.Factories.CharacterFactory;
+using CF = LSDW.Core.Factories.PlayerFactory;
 using IF = LSDW.Core.Factories.InventoryFactory;
 
 namespace LSDW.Core.Tests.Classes;
@@ -10,7 +10,7 @@ public class PlayerCharacterTests
 	[TestMethod]
 	public void AddExperienceTest()
 	{
-		IPlayerCharacter character = CF.CreateNewPlayer();
+		IPlayer character = CF.CreatePlayer();
 		int pointsToAdd = 500;
 
 		character.AddExperience(pointsToAdd);
@@ -21,7 +21,7 @@ public class PlayerCharacterTests
 	[TestMethod]
 	public void CurrentLevelTest()
 	{
-		IPlayerCharacter character = CF.CreateNewPlayer();
+		IPlayer character = CF.CreatePlayer();
 		int pointsToAdd = 1500;
 
 		character.AddExperience(pointsToAdd);
@@ -32,7 +32,7 @@ public class PlayerCharacterTests
 	[TestMethod]
 	public void MaximumInventoryQuantityTest()
 	{
-		IPlayerCharacter character = CF.CreateNewPlayer();
+		IPlayer character = CF.CreatePlayer();
 		int pointsToAdd = 10000;
 
 		character.AddExperience(pointsToAdd);
@@ -43,10 +43,10 @@ public class PlayerCharacterTests
 	[TestMethod]
 	public void NextLevelExperienceTest()
 	{
-		IInventoryCollection drugs = IF.CreateInventory();
+		IInventory drugs = IF.CreateInventory();
 		int experience = 1000;
 
-		IPlayerCharacter player = CF.CreateExistingPlayer(drugs, experience);
+		IPlayer player = CF.CreatePlayer(drugs, experience);
 
 		Assert.AreEqual(8000, player.ExperienceNextLevel);
 	}
