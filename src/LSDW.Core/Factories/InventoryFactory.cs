@@ -9,15 +9,15 @@ namespace LSDW.Core.Factories;
 public static class InventoryFactory
 {
 	/// <summary>
-	/// Should create a new player inventory instance.
+	/// Should create a new empty inventory instance.
 	/// </summary>
-	public static IInventoryCollection CreatePlayerInventory()
-		=> new PlayerInventory(new List<IDrug>());
+	public static IInventoryCollection CreateInventory()
+		=> new Inventory(new List<IDrug>());
 
 	/// <summary>
-	/// Should create a new player inventory instance.
+	/// Should create a new inventory instance.
 	/// </summary>
 	/// <param name="drugs">The drugs to add to the inventory.</param>
-	public static IInventoryCollection CreatePlayerInventory(List<IDrug> drugs)
-		=> new PlayerInventory(drugs);
+	public static IInventoryCollection CreateInventory(IEnumerable<IDrug> drugs)
+		=> new Inventory(drugs);
 }

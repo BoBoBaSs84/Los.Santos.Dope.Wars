@@ -43,7 +43,7 @@ public class PlayerCharacterTests
 	[TestMethod]
 	public void NextLevelExperienceTest()
 	{
-		IInventoryCollection drugs = IF.CreatePlayerInventory();
+		IInventoryCollection drugs = IF.CreateInventory();
 		int experience = 1000;
 
 		IPlayerCharacter player = CF.CreatePlayer(drugs, experience);

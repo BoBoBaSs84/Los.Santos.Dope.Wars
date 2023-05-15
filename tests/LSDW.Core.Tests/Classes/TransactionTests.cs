@@ -14,7 +14,7 @@ public class TransactionTests
 	public void TransactSuccessTest()
 	{
 		IDrug cokeInStock = DF.CreateDrug(DrugType.COKE, 15, 1000);
-		IInventoryCollection dealerInventory = IF.CreatePlayerInventory(new List<IDrug>() { cokeInStock });
+		IInventoryCollection dealerInventory = IF.CreateInventory(new List<IDrug>() { cokeInStock });
 
 		IPlayerCharacter player = CF.CreatePlayer();
 		player.Inventory.Add(5000);

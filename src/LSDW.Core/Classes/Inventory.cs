@@ -1,8 +1,11 @@
 ﻿using LSDW.Core.Interfaces.Classes;
 
-namespace LSDW.Core.Classes.BaseClasses;
+namespace LSDW.Core.Classes;
 
-internal abstract class InventoryBase : IInventoryCollection
+/// <summary>
+/// The inventory class.
+/// </summary>
+internal sealed class Inventory : IInventoryCollection
 {
 	private readonly List<IDrug> _drugs;
 
@@ -10,8 +13,8 @@ internal abstract class InventoryBase : IInventoryCollection
 	/// Initializes a instance of the inventory base class.
 	/// </summary>
 	/// <param name="drugs">The drugs to add to the inventory.</param>
-	public InventoryBase(List<IDrug> drugs)
-		=> _drugs = drugs;
+	public Inventory(IEnumerable<IDrug> drugs)
+		=> _drugs = drugs.ToList();
 
 	public int Count
 		=> _drugs.Count;

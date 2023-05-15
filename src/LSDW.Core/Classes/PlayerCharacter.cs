@@ -15,7 +15,7 @@ internal sealed class PlayerCharacter : NotificationBase, IPlayerCharacter
 	/// </summary>
 	internal PlayerCharacter()
 	{
-		Inventory = IF.CreatePlayerInventory();
+		Inventory = IF.CreateInventory();
 		currentExperience = default;
 	}
 
