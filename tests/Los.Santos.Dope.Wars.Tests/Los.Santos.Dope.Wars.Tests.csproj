@@ -1,13 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net48</TargetFramework>
 		<RootNamespace>LSDW.Tests</RootNamespace>
-		<LangVersion>Latest</LangVersion>
-		<Nullable>enable</Nullable>
-		<ImplicitUsings>enable</ImplicitUsings>		
-		<IsPackable>false</IsPackable>		
-		<PlatformTarget>x64</PlatformTarget>
+		<IsPackable>false</IsPackable>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -18,7 +13,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\src\Los.Santos.Dope.Wars\Los.Santos.Dope.Wars.csproj" />
+		<ProjectReference Include="..\..\src\Los.Santos.Dope.Wars\Los.Santos.Dope.Wars.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

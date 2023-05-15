@@ -13,6 +13,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Los.Santos.Dope.Wars.Tests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Los.Santos.Dope.Wars", "src\Los.Santos.Dope.Wars\Los.Santos.Dope.Wars.csproj", "{FEE4DC39-1A01-433B-88A4-2CE400B9B334}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{73C90ACA-82B6-45B7-9CC7-BFFE239E8440}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		AUTHORS.md = AUTHORS.md
+		CHANGES.md = CHANGES.md
+		Directory.Build.props = Directory.Build.props
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
