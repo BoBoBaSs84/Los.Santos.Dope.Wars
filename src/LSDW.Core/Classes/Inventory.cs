@@ -28,7 +28,7 @@ internal sealed class Inventory : IInventoryCollection
 		=> _drugs.Sum(drug => drug.MarketValue * drug.Quantity);
 
 	public int TotalProfit
-		=> _drugs.Sum(drug => drug.Profit);
+		=> _drugs.Sum(drug => drug.PossibleProfit);
 
 	public bool IsReadOnly => false;
 

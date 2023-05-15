@@ -1,8 +1,8 @@
 ﻿using LSDW.Core.Classes.Base;
 using LSDW.Core.Constants;
+using LSDW.Core.Factories;
 using LSDW.Core.Interfaces.Classes;
 using LSDW.Core.Properties;
-using IF = LSDW.Core.Factories.InventoryFactory;
 
 namespace LSDW.Core.Classes;
 
@@ -11,15 +11,13 @@ internal sealed class PlayerCharacter : Notification, IPlayerCharacter
 	private readonly int InventoryCapacity = Settings.Default.StartingInventoryCapacity;
 	private readonly int ExpansionPerLevel = Settings.Default.InventoryCapacityExpansionPerLevel;
 
-	private int currentExperience;
-
 	/// <summary>
 	/// Initializes a instance of the player character class.
 	/// </summary>
 	internal PlayerCharacter()
 	{
-		Inventory = IF.CreateInventory();
-		currentExperience = default;
+		Inventory = InventoryFactory.CreateInventory();
+		Experience = default;
 	}
 
 	/// <summary>
@@ -30,32 +28,31 @@ internal sealed class PlayerCharacter : Notification, IPlayerCharacter
 	internal PlayerCharacter(IInventoryCollection inventory, int experience)
 	{
 		Inventory = inventory;
-		currentExperience = experience;
+		Experience = experience;
 	}
 
 	public IInventoryCollection Inventory { get; }
 
-	public int CurrentLevel
+	public int Level
 		=> GetCurrentLevel();
 
-	public int CurrentExperience
-		=> (int)currentExperience;
+	public int Experience { get; private set; }
 
-	public int NextLevelExperience
+	public int ExperienceNextLevel
 		=> GetNextLevelExpPoints();
 
 	public int MaximumInventoryQuantity
 		=> GetMaximumInventoryQuantity();
 
 	public void AddExperience(int points)
-		=> currentExperience += points;
+		=> Experience += points;
 
 	private int GetCurrentLevel()
-		=> PlayerConstants.CalculateCurrentLevel(currentExperience);
+		=> PlayerConstants.CalculateCurrentLevel(Experience);
 
 	private int GetNextLevelExpPoints()
-		=> (int)PlayerConstants.CalculateExperienceNextLevel(CurrentLevel);
+		=> PlayerConstants.CalculateExperienceNextLevel(Level);
 
 	private int GetMaximumInventoryQuantity()
-		=> InventoryCapacity + (CurrentLevel * ExpansionPerLevel);
+		=> InventoryCapacity + (Level * ExpansionPerLevel);
 }

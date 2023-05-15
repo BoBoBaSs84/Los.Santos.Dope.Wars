@@ -4,6 +4,7 @@
 		<GenerateAssemblyInfo>True</GenerateAssemblyInfo>
 		<GeneratedAssemblyInfoFile>Properties\AssemblyInfo.cs</GeneratedAssemblyInfoFile>
 		<Configurations>Debug;Release</Configurations>
+		<UseWindowsForms>True</UseWindowsForms>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -15,7 +15,7 @@ public class PlayerCharacterTests
 
 		character.AddExperience(pointsToAdd);
 
-		Assert.AreEqual(pointsToAdd, character.CurrentExperience);
+		Assert.AreEqual(pointsToAdd, character.Experience);
 	}
 
 	[TestMethod]
@@ -26,7 +26,7 @@ public class PlayerCharacterTests
 
 		character.AddExperience(pointsToAdd);
 
-		Assert.AreEqual(1, character.CurrentLevel);
+		Assert.AreEqual(1, character.Level);
 	}
 
 	[TestMethod]
@@ -48,6 +48,6 @@ public class PlayerCharacterTests
 
 		IPlayerCharacter player = CF.CreateExistingPlayer(drugs, experience);
 
-		Assert.AreEqual(8000, player.NextLevelExperience);
+		Assert.AreEqual(8000, player.ExperienceNextLevel);
 	}
 }

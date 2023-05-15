@@ -22,20 +22,21 @@ internal sealed class Drug : IDrug
 		Price = price;
 	}
 
-	/// <inheritdoc/>
 	public DrugType DrugType { get; }
-	/// <inheritdoc/>
-	public string Name => DrugType.GetDisplayName();
-	/// <inheritdoc/>
-	public int MarketValue => DrugType.GetMarketValue();
-	/// <inheritdoc/>
-	public int Quantity { get; private set; }
-	/// <inheritdoc/>
-	public int Price { get; private set; }
-	/// <inheritdoc/>
-	public int Profit => CalculatePossibleProfit();
 
-	/// <inheritdoc/>
+	public string Name
+		=> DrugType.GetDisplayName();
+
+	public int MarketValue
+		=> DrugType.GetMarketValue();
+
+	public int Quantity { get; private set; }
+
+	public int Price { get; private set; }
+
+	public int PossibleProfit
+		=> CalculatePossibleProfit();
+
 	public void Add(int quantity, int price)
 	{
 		if (quantity < 1)
@@ -48,7 +49,6 @@ internal sealed class Drug : IDrug
 		Quantity += quantity;
 	}
 
-	/// <inheritdoc/>
 	public void Remove(int quantity)
 	{
 		if (quantity < 1)

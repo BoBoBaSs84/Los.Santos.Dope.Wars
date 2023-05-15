@@ -13,17 +13,17 @@ public interface IPlayerCharacter
 	/// <summary>
 	/// The current player level.
 	/// </summary>
-	int CurrentLevel { get; }
+	int Level { get; }
 
 	/// <summary>
 	/// The current player experience points.
 	/// </summary>
-	int CurrentExperience { get; }
+	int Experience { get; }
 
 	/// <summary>
 	/// Experience points needed to reach the next level.
 	/// </summary>
-	int NextLevelExperience { get; }
+	int ExperienceNextLevel { get; }
 
 	/// <summary>
 	/// The current maximum drug amount the player can carry.

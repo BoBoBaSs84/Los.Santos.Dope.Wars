@@ -29,6 +29,6 @@ public class CharacterFactoryTests
 
 		Assert.IsNotNull(character);
 		Assert.AreEqual(money, character.Inventory.Money);
-		Assert.AreEqual(experience, character.CurrentExperience);
+		Assert.AreEqual(experience, character.Experience);
 	}
 }

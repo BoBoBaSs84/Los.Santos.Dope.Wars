@@ -17,7 +17,7 @@ public class DrugTests
 
 		Assert.IsTrue(drug.Quantity.Equals(20));
 		Assert.IsTrue(drug.Price.Equals(750));
-		Assert.IsTrue(drug.Profit.Equals(5000));
+		Assert.IsTrue(drug.PossibleProfit.Equals(5000));
 	}
 
 	[TestMethod]
@@ -45,7 +45,7 @@ public class DrugTests
 
 		Assert.IsFalse(drug.Quantity.Equals(20));
 		Assert.IsFalse(drug.Price.Equals(750));
-		Assert.IsFalse(drug.Profit.Equals(25000));
+		Assert.IsFalse(drug.PossibleProfit.Equals(25000));
 	}
 
 	[TestMethod]
