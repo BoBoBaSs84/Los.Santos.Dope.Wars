@@ -24,7 +24,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Core", "src\LSDW.Core\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Core.Tests", "tests\LSDW.Core.Tests\LSDW.Core.Tests.csproj", "{EA5068C0-6D77-482F-943A-8252FE3BF989}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LSDW", "src\LSDW\LSDW.csproj", "{65B22B01-107C-41D8-A85F-E36550722C08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW", "src\LSDW\LSDW.csproj", "{65B22B01-107C-41D8-A85F-E36550722C08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

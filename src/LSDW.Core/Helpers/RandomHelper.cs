@@ -1,0 +1,40 @@
+﻿namespace LSDW.Core.Helpers;
+
+/// <summary>
+/// The random helper class.
+/// </summary>
+public static class RandomHelper
+{
+	private static readonly Random _random = new(Guid.NewGuid().GetHashCode());
+
+	/// <summary>
+	/// Returns a non-negative random integer.
+	/// </summary>
+	public static int GetInt() => _random.Next();
+
+	/// <summary>
+	/// Returns a non-negative random integer that is less than the specified maximum.
+	/// </summary>
+	/// <param name="max">The exclusive upper bound of the random number to be generated.</param>
+	public static int GetInt(int max) => _random.Next(max);
+
+	/// <summary>
+	/// Returns a non-negative random integer that is less than the specified maximum.
+	/// </summary>
+	/// <param name="max">The exclusive upper bound of the random number to be generated.</param>
+	public static int GetInt(double max) => _random.Next((int)max);
+
+	/// <summary>
+	/// Returns a random integer that is within a specified range.
+	/// </summary>
+	/// <param name="min">The inclusive lower bound of the random number returned.</param>
+	/// <param name="max">The exclusive upper bound of the random number returned.</param>
+	public static int GetInt(int min, int max) => _random.Next(min, max);
+
+	/// <summary>
+	/// Returns a random integer that is within a specified range.
+	/// </summary>
+	/// <param name="min">The inclusive lower bound of the random number returned.</param>
+	/// <param name="max">The exclusive upper bound of the random number returned.</param>
+	public static int GetInt(double min, double max) => _random.Next((int)min, (int)max);
+}

@@ -1,4 +1,5 @@
 ﻿using LSDW.Core.Enumerators;
+using LSDW.Core.Interfaces.Classes;
 
 namespace LSDW.Core.Classes;
 
@@ -18,6 +19,17 @@ public sealed class TransactionObject
 		DrugType = drugType;
 		Quantity = quantity;
 		Price = price;
+	}
+
+	/// <summary>
+	/// Initializes a instance of the transaction object class.
+	/// </summary>
+	/// <param name="drug">The drug to transact.</param>
+	public TransactionObject(IDrug drug)
+	{
+		DrugType = drug.DrugType;
+		Quantity = drug.Quantity;
+		Price = drug.Price;
 	}
 
 	/// <summary>

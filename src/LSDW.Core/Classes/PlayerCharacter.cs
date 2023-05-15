@@ -1,13 +1,16 @@
-﻿using LSDW.Core.Classes.BaseClasses;
+﻿using LSDW.Core.Classes.Base;
 using LSDW.Core.Constants;
 using LSDW.Core.Interfaces.Classes;
-using LSDW.Properties;
+using LSDW.Core.Properties;
 using IF = LSDW.Core.Factories.InventoryFactory;
 
 namespace LSDW.Core.Classes;
 
-internal sealed class PlayerCharacter : NotificationBase, IPlayerCharacter
+internal sealed class PlayerCharacter : Notification, IPlayerCharacter
 {
+	private readonly int InventoryCapacity = Settings.Default.StartingInventoryCapacity;
+	private readonly int ExpansionPerLevel = Settings.Default.InventoryCapacityExpansionPerLevel;
+
 	private double currentExperience;
 
 	/// <summary>
@@ -54,5 +57,5 @@ internal sealed class PlayerCharacter : NotificationBase, IPlayerCharacter
 		=> (int)PlayerConstants.CalculateExperienceNextLevel(CurrentLevel);
 
 	private int GetMaximumInventoryQuantity()
-		=> Settings.Default.StartingInventoryCapacity + CurrentLevel * Settings.Default.InventoryCapacityExpansionPerLevel;
+		=> InventoryCapacity + (CurrentLevel * ExpansionPerLevel);
 }

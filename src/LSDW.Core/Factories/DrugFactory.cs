@@ -1,6 +1,9 @@
 ﻿using LSDW.Core.Classes;
 using LSDW.Core.Enumerators;
+using LSDW.Core.Extensions;
+using LSDW.Core.Helpers;
 using LSDW.Core.Interfaces.Classes;
+using LSDW.Core.Properties;
 
 namespace LSDW.Core.Factories;
 
@@ -9,11 +12,17 @@ namespace LSDW.Core.Factories;
 /// </summary>
 public static class DrugFactory
 {
+	private static readonly double MinValue = Settings.Default.MinimumDrugValue;
+	private static readonly double MaxValue = Settings.Default.MaximumDrugValue;
+
 	/// <summary>
 	/// Should create a random drug instance.
 	/// </summary>
 	public static IDrug CreateRandomDrug()
-		=> new Drug(DrugType.COKE, 1, 1);
+	{
+		List<IDrug> drugList = CreateAllDrugs().ToList();
+		return drugList[RandomHelper.GetInt(0, drugList.Count)];
+	}
 
 	/// <summary>
 	/// Should create a drug instance.
@@ -23,4 +32,22 @@ public static class DrugFactory
 	/// <param name="price">The price of the drug.</param>
 	public static IDrug CreateDrug(DrugType drugType, int quantity, int price)
 		=> new Drug(drugType, quantity, price);
+
+	/// <summary>
+	/// Should create a instance of all available drugs.
+	/// </summary>
+	public static IEnumerable<IDrug> CreateAllDrugs()
+	{
+		List<DrugType> drugTypes = DrugType.COKE.GetList();
+		List<IDrug> drugs = new();
+		foreach (DrugType drugType in drugTypes)
+			drugs.Add(CreateDrug(drugType, RandomHelper.GetInt(5, 51), GetRandomValue(drugType)));
+		return drugs;
+	}
+
+	private static int GetRandomValue(DrugType drugType)
+	{
+		double marketValue = drugType.GetMarketValue();
+		return RandomHelper.GetInt(marketValue * MinValue, marketValue * MaxValue);
+	}
 }

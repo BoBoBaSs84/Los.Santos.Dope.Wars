@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace LSDW.Core.Classes.BaseClasses;
+namespace LSDW.Core.Classes.Base;
 
 /// <summary>
-///	The <see cref="NotificationBase"/> class.
+///	The <see cref="Notification"/> class.
 /// <remarks>
 ///	Implements the following interfaces:
 /// <list type="bullet">
@@ -13,7 +13,7 @@ namespace LSDW.Core.Classes.BaseClasses;
 /// </list>
 /// </remarks>
 /// </summary>
-internal abstract class NotificationBase : INotifyPropertyChanged, INotifyPropertyChanging
+internal abstract class Notification : INotifyPropertyChanged, INotifyPropertyChanging
 {
 	/// <summary>
 	/// Sets a new value for a property and notifies about the change.
