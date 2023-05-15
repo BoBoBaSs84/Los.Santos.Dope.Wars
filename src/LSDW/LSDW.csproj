@@ -28,8 +28,10 @@
 
 	<ItemGroup>
 		<Using Remove="System.Net.Http" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\LSDW.Core\LSDW.Core.csproj" />
-		<Using Include="System.Collections" />
 	</ItemGroup>
 
 </Project>

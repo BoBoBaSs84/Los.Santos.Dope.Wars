@@ -1,4 +1,5 @@
 ﻿using LSDW.Core.Interfaces.Classes;
+using System.Collections;
 
 namespace LSDW.Core.Classes;
 
@@ -74,10 +75,7 @@ internal sealed class Inventory : IInventoryCollection
 
 		existingDrug.Remove(drugToRemove.Quantity);
 
-		if (Equals(existingDrug.Quantity, 0))
-			return _drugs.Remove(existingDrug);
-
-		return true;
+		return !Equals(existingDrug.Quantity, 0) || _drugs.Remove(existingDrug);
 	}
 
 	public void Remove(int moneyToRemove)
