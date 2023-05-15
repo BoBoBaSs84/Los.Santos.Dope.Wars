@@ -4,7 +4,6 @@
 		<GenerateAssemblyInfo>True</GenerateAssemblyInfo>
 		<GeneratedAssemblyInfoFile>Properties\AssemblyInfo.cs</GeneratedAssemblyInfoFile>
 		<Configurations>Debug;Release</Configurations>
-		<RootNamespace>LSDW.Core</RootNamespace>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -16,11 +15,6 @@
 		<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
 		<Deterministic>True</Deterministic>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<PackageReference Include="LemonUI.SHVDN3" Version="1.9.4" />
-		<PackageReference Include="ScriptHookVDotNet3" Version="3.6.0" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<InternalsVisibleTo Include="$(AssemblyName).Tests" />
