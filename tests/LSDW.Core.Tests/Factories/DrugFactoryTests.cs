@@ -22,7 +22,7 @@ public class DrugFactoryTests
 	{
 		IEnumerable<IDrug>? drugs;
 
-		drugs = DrugFactory.CreateAllDrugs();
+		drugs = DrugFactory.CreateRandomDrugs();
 
 		Assert.IsNotNull(drugs);
 		Assert.IsTrue(drugs.Any());
