@@ -10,7 +10,7 @@ public class PlayerCharacterTests
 	[TestMethod]
 	public void AddExperienceTest()
 	{
-		IPlayerCharacter character = CF.CreatePlayer();
+		IPlayerCharacter character = CF.CreateNewPlayer();
 		int pointsToAdd = 500;
 
 		character.AddExperience(pointsToAdd);
@@ -21,7 +21,7 @@ public class PlayerCharacterTests
 	[TestMethod]
 	public void CurrentLevelTest()
 	{
-		IPlayerCharacter character = CF.CreatePlayer();
+		IPlayerCharacter character = CF.CreateNewPlayer();
 		int pointsToAdd = 1500;
 
 		character.AddExperience(pointsToAdd);
@@ -32,7 +32,7 @@ public class PlayerCharacterTests
 	[TestMethod]
 	public void MaximumInventoryQuantityTest()
 	{
-		IPlayerCharacter character = CF.CreatePlayer();
+		IPlayerCharacter character = CF.CreateNewPlayer();
 		int pointsToAdd = 7500;
 
 		character.AddExperience(pointsToAdd);
@@ -46,7 +46,7 @@ public class PlayerCharacterTests
 		IInventoryCollection drugs = IF.CreateInventory();
 		int experience = 1000;
 
-		IPlayerCharacter player = CF.CreatePlayer(drugs, experience);
+		IPlayerCharacter player = CF.CreateExistingPlayer(drugs, experience);
 
 		Assert.IsTrue(Equals(player.NextLevelExperience, 6727));
 	}
