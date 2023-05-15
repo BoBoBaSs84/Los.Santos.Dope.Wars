@@ -16,15 +16,6 @@ public static class DrugFactory
 	private static readonly double MaxValue = Settings.Default.MaximumDrugValue;
 
 	/// <summary>
-	/// Should create a random drug instance.
-	/// </summary>
-	public static IDrug CreateRandomDrug()
-	{
-		List<IDrug> drugList = CreateAllDrugs().ToList();
-		return drugList[RandomHelper.GetInt(0, drugList.Count)];
-	}
-
-	/// <summary>
 	/// Should create a drug instance.
 	/// </summary>
 	/// <param name="drugType">The type of the drug.</param>
@@ -34,9 +25,40 @@ public static class DrugFactory
 		=> new Drug(drugType, quantity, price);
 
 	/// <summary>
-	/// Should create a instance of all available drugs.
+	/// Should create a drug instance from saved drug state.
 	/// </summary>
-	public static IEnumerable<IDrug> CreateAllDrugs()
+	/// <param name="drugState">The saved drug state.</param>
+	public static IDrug CreateDrug(DrugState drugState)
+		=> new Drug(drugState.DrugType, drugState.Quantity, drugState.Price);
+
+	/// <summary>
+	/// Should create a drug collection instance from a saved drug collection state.
+	/// </summary>
+	/// <param name="drugs">The saved drug collection state.</param>
+	public static IEnumerable<IDrug> CreateDrugs(List<DrugState> drugs)
+	{
+		List<IDrug> drugList = new();
+		foreach(DrugState drug in drugs)
+			drugList.Add(CreateDrug(drug));
+		return drugList;
+	}
+
+	/// <summary>
+	/// Should create a random drug instance.
+	/// </summary>
+	public static IDrug CreateRandomDrug()
+	{
+		List<IDrug> drugList = CreateRandomDrugs().ToList();
+		return drugList[RandomHelper.GetInt(0, drugList.Count)];
+	}
+
+	/// <summary>
+	/// Should create a drug collection instance of all available drugs.
+	/// </summary>
+	/// <remarks>
+	/// <see cref="IDrug.Quantity"/> and <see cref="IDrug.Price"/> are randomly choosen.
+	/// </remarks>
+	public static IEnumerable<IDrug> CreateRandomDrugs()
 	{
 		List<DrugType> drugTypes = DrugType.COKE.GetList();
 		List<IDrug> drugs = new();

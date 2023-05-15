@@ -103,5 +103,14 @@ namespace LSDW.Core.Properties {
                 return ((string)(this["LogFileName"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("LSDW.Core.sav")]
+        public string SaveFileName {
+            get {
+                return ((string)(this["SaveFileName"]));
+            }
+        }
     }
 }

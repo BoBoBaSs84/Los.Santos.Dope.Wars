@@ -14,8 +14,12 @@ internal sealed class Inventory : IInventory
 	/// Initializes a instance of the inventory base class.
 	/// </summary>
 	/// <param name="drugs">The drugs to add to the inventory.</param>
-	public Inventory(IEnumerable<IDrug> drugs)
-		=> _drugs = drugs.ToList();
+	/// <param name="money">The money to add to the inventory.</param>
+	public Inventory(IEnumerable<IDrug> drugs, int money)
+	{
+		_drugs = drugs.ToList();
+		Money = money;
+	}
 
 	public int Count
 		=> _drugs.Count;
