@@ -94,5 +94,14 @@ namespace LSDW.Core.Properties {
                 this["MinimumDrugValue"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("LSDW.Core.log")]
+        public string LogFileName {
+            get {
+                return ((string)(this["LogFileName"]));
+            }
+        }
     }
 }
