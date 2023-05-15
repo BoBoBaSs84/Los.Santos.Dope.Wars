@@ -43,7 +43,7 @@ public class PlayerCharacterTests
 	[TestMethod]
 	public void NextLevelExperienceTest()
 	{
-		IInventory drugs = IF.CreatePlayerInventory();
+		IInventoryCollection drugs = IF.CreatePlayerInventory();
 		int spentMoney = 1000,
 			earnedMoney = 2000,
 			experience = earnedMoney - spentMoney;

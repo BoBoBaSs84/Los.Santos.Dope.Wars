@@ -28,7 +28,7 @@ internal sealed class PlayerCharacter : NotificationBase, IPlayerCharacter
 	/// <param name="spentMoney">The money spent on buying drugs.</param>
 	/// <param name="earnedMoney">The money earned on selling drugs.</param>
 	/// <param name="experience">The player experience points.</param>
-	internal PlayerCharacter(IInventory inventory, int spentMoney, int earnedMoney, int experience)
+	internal PlayerCharacter(IInventoryCollection inventory, int spentMoney, int earnedMoney, int experience)
 	{
 		Inventory = inventory;
 		SpentMoney = spentMoney;
@@ -36,7 +36,7 @@ internal sealed class PlayerCharacter : NotificationBase, IPlayerCharacter
 		currentExperience = experience;
 	}
 
-	public IInventory Inventory { get; }
+	public IInventoryCollection Inventory { get; }
 
 	public int SpentMoney
 	{
@@ -64,32 +64,6 @@ internal sealed class PlayerCharacter : NotificationBase, IPlayerCharacter
 
 	public void AddExperience(int points)
 		=> currentExperience += points;
-
-	public void Buy(IDrug drug)
-	{
-		if (Inventory.TotalQuantity + drug.Quantity > MaximumInventoryQuantity)
-			// TODO: Not enough space.
-			throw new Exception("Not enough space.");
-
-		if (drug.Quantity * drug.Price > Inventory.Money)
-			// TODO: Not enough money.
-			throw new Exception("Not enough money.");
-
-		Inventory.Add(drug);
-	}
-
-	public void Buy(IEnumerable<IDrug> drugs) => throw new NotImplementedException();
-
-	public void Sell(IDrug drug)
-	{
-		if (Inventory.Where(x => x.DrugType.Equals(drug.DrugType)).Sum(x => x.Quantity) < drug.Quantity)
-			// TODO: Not enough money.
-			throw new Exception("Not enough drugs.");
-
-		Inventory.Remove(drug);
-	}
-
-	public void Sell(IEnumerable<IDrug> drugs) => throw new NotImplementedException();
 
 	private int GetCurrentLevel()
 		=> PlayerConstants.CalculateCurrentLevel(currentExperience);

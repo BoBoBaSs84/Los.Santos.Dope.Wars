@@ -12,7 +12,7 @@ public class PlayerInventoryTests
 	[TestMethod]
 	public void AddExistingDrugTest()
 	{
-		IInventory inventory = IF.CreatePlayerInventory();
+		IInventoryCollection inventory = IF.CreatePlayerInventory();
 
 		inventory.Add(DF.CreateDrug(DrugType.COKE, 10, 1000));
 		inventory.Add(DF.CreateDrug(DrugType.COKE, 10, 500));
@@ -24,7 +24,7 @@ public class PlayerInventoryTests
 	[TestMethod]
 	public void AddNewDrugTest()
 	{
-		IInventory inventory = IF.CreatePlayerInventory();
+		IInventoryCollection inventory = IF.CreatePlayerInventory();
 
 		inventory.Add(DF.CreateDrug(DrugType.COKE, 10, 750));
 		inventory.Add(DF.CreateDrug(DrugType.METH, 10, 1000));
@@ -36,7 +36,7 @@ public class PlayerInventoryTests
 	[TestMethod]
 	public void RemoveExistingDrugTest()
 	{
-		IInventory inventory = IF.CreatePlayerInventory();
+		IInventoryCollection inventory = IF.CreatePlayerInventory();
 
 		inventory.Add(DF.CreateDrug(DrugType.COKE, 10, 3000));
 		inventory.Remove(DF.CreateDrug(DrugType.COKE, 5, 1000));
@@ -46,9 +46,32 @@ public class PlayerInventoryTests
 	}
 
 	[TestMethod]
+	public void RemoveExistingDrugCompletelyTest()
+	{
+		IInventoryCollection inventory = IF.CreatePlayerInventory();
+		IDrug drug = DF.CreateDrug(DrugType.COKE, 10, default);
+
+		inventory.Add(drug);
+		inventory.Remove(drug);
+
+		Assert.IsTrue(inventory.Count.Equals(0));
+		Assert.IsTrue(inventory.TotalQuantity.Equals(0));
+	}
+
+	[TestMethod]
+	public void RemoveDrugIsFalseTest()
+	{
+		IInventoryCollection inventory = IF.CreatePlayerInventory();
+
+		bool success = inventory.Remove(DF.CreateDrug(DrugType.COKE, 10, default));
+
+		Assert.IsFalse(success);
+	}
+
+	[TestMethod]
 	public void AddMoneyTest()
 	{
-		IInventory inventory = IF.CreatePlayerInventory();		
+		IInventoryCollection inventory = IF.CreatePlayerInventory();		
 		int moneyToAdd = 10000;
 
 		inventory.Add(moneyToAdd);
@@ -59,7 +82,7 @@ public class PlayerInventoryTests
 	[TestMethod]
 	public void AddMoneyExceptionTest()
 	{
-		IInventory inventory = IF.CreatePlayerInventory();
+		IInventoryCollection inventory = IF.CreatePlayerInventory();
 		int moneyToAdd = -10000;
 
 		Assert.ThrowsException<ArgumentOutOfRangeException>(() => inventory.Add(moneyToAdd));
@@ -68,7 +91,7 @@ public class PlayerInventoryTests
 	[TestMethod]
 	public void RemoveMoneyTest()
 	{
-		IInventory inventory = IF.CreatePlayerInventory();
+		IInventoryCollection inventory = IF.CreatePlayerInventory();
 		int moneyToRemove = 10000;
 
 		inventory.Remove(moneyToRemove);
@@ -79,9 +102,9 @@ public class PlayerInventoryTests
 	[TestMethod]
 	public void RemoveMoneyExceptionTest()
 	{
-		IInventory inventory = IF.CreatePlayerInventory();
+		IInventoryCollection inventory = IF.CreatePlayerInventory();
 		int moneyToRemove = -10000;
 
-		Assert.ThrowsException<ArgumentOutOfRangeException>(() => inventory.Add(moneyToRemove));
+		Assert.ThrowsException<ArgumentOutOfRangeException>(() => inventory.Remove(moneyToRemove));
 	}
 }

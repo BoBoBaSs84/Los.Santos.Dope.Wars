@@ -2,7 +2,7 @@
 
 namespace LSDW.Classes.BaseClasses;
 
-internal abstract class InventoryBase : IInventory
+internal abstract class InventoryBase : IInventoryCollection
 {
 	private readonly List<IDrug> _drugs;
 
@@ -27,6 +27,17 @@ internal abstract class InventoryBase : IInventory
 	public int TotalProfit
 		=> _drugs.Sum(drug => drug.Profit);
 
+	public bool IsReadOnly => false;
+	
+	public void Clear()
+		=> _drugs.Clear();
+
+	public bool Contains(IDrug item)
+		=> _drugs.Contains(item);
+
+	public void CopyTo(IDrug[] array, int arrayIndex)
+		=> _drugs.CopyTo(array, arrayIndex);
+
 	public IEnumerator<IDrug> GetEnumerator()
 		=> _drugs.GetEnumerator();
 
@@ -37,17 +48,9 @@ internal abstract class InventoryBase : IInventory
 			.SingleOrDefault();
 
 		if (existingDrug is null)
-		{
 			_drugs.Add(drugToAdd);
-			int moneyToRemove = drugToAdd.Quantity * drugToAdd.Price;
-			Remove(moneyToRemove);
-		}
 		else
-		{
 			existingDrug.Add(drugToAdd.Quantity, drugToAdd.Price);
-			int moneyToRemove = drugToAdd.Quantity * drugToAdd.Price;
-			Remove(moneyToRemove);
-		}
 	}
 
 	public void Add(int moneyToAdd)
@@ -57,16 +60,21 @@ internal abstract class InventoryBase : IInventory
 		Money += moneyToAdd;
 	}
 		
-
-	public void Remove(IDrug drugToRemove)
+	public bool Remove(IDrug drugToRemove)
 	{
 		IDrug? existingDrug = _drugs
 			.Where(x => x.DrugType.Equals(drugToRemove.DrugType))
 			.SingleOrDefault();
 
-		existingDrug?.Remove(drugToRemove.Quantity);
-		int moneyToAdd = drugToRemove.Quantity * drugToRemove.Price;
-		Add(moneyToAdd);
+		if (existingDrug is null)
+			return false;
+
+		existingDrug.Remove(drugToRemove.Quantity);
+
+		if (Equals(existingDrug.Quantity, 0))
+			return _drugs.Remove(existingDrug);
+
+		return true;
 	}
 
 	public void Remove(int moneyToRemove)
@@ -75,7 +83,6 @@ internal abstract class InventoryBase : IInventory
 			throw new ArgumentOutOfRangeException(nameof(moneyToRemove));
 		Money -= moneyToRemove;
 	}
-		
 
 	IEnumerator IEnumerable.GetEnumerator() => _drugs.GetEnumerator();
 }

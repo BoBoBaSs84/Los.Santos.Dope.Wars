@@ -21,6 +21,6 @@ public static class CharacterFactory
 	/// <param name="spentMoney">The money spent on buying drugs.</param>
 	/// <param name="earnedMoney">The money earned on selling drugs.</param>
 	/// <param name="experience">The player experience points.</param>
-	public static IPlayerCharacter CreatePlayerCharacter(IInventory inventory, int spentMoney, int earnedMoney, int experience)
+	public static IPlayerCharacter CreatePlayerCharacter(IInventoryCollection inventory, int spentMoney, int earnedMoney, int experience)
 		=> new PlayerCharacter(inventory, spentMoney, earnedMoney, experience);
 }

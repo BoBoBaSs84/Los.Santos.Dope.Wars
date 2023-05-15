@@ -3,12 +3,12 @@
 /// <summary>
 /// The inventory interface.
 /// </summary>
-public interface IInventory : IEnumerable<IDrug>
+public interface IInventoryCollection : ICollection<IDrug>
 {
 	/// <summary>
 	/// The inventory count.
 	/// </summary>
-	int Count { get; }
+	new int Count { get; }
 
 	/// <summary>
 	/// The current dirty drug money.
@@ -31,10 +31,10 @@ public interface IInventory : IEnumerable<IDrug>
 	int TotalProfit { get; }
 
 	/// <summary>
-	/// Should add a drug to the inventory or add the amount to existing one.
+	/// Should add a drug to the inventory or add the drug quantity to the existing drugtype.
 	/// </summary>
 	/// <param name="drugToAdd"></param>
-	void Add(IDrug drugToAdd);
+	new void Add(IDrug drugToAdd);
 
 	/// <summary>
 	/// Should add the amount of money to the inventory.
@@ -43,10 +43,10 @@ public interface IInventory : IEnumerable<IDrug>
 	void Add(int moneyToAdd);
 
 	/// <summary>
-	/// Should remove a drug from the inventory.
+	/// Should remove the drug from the inventory, if the resulting quantity is zero the drug will be removed completely.
 	/// </summary>
 	/// <param name="drugToRemove"></param>
-	void Remove(IDrug drugToRemove);
+	new bool Remove(IDrug drugToRemove);
 
 	/// <summary>
 	/// Should remove the amount of money from the inventory.

@@ -11,13 +11,13 @@ public static class InventoryFactory
 	/// <summary>
 	/// Should create a new player inventory instance.
 	/// </summary>
-	public static IInventory CreatePlayerInventory()
+	public static IInventoryCollection CreatePlayerInventory()
 		=> new PlayerInventory(new List<IDrug>());
 
 	/// <summary>
 	/// Should create a new player inventory instance.
 	/// </summary>
 	/// <param name="drugs">The drugs to add to the inventory.</param>
-	public static IInventory CreatePlayerInventory(List<IDrug> drugs)
+	public static IInventoryCollection CreatePlayerInventory(List<IDrug> drugs)
 		=> new PlayerInventory(drugs);
 }

@@ -39,7 +39,6 @@
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 		<VersionPrefix>$(VersionMajor).$(VersionMinor).$(VersionPatch).$(VersionRevision)</VersionPrefix>
 		<VersionSuffix Condition="'$(Configuration)'=='Debug'">dev</VersionSuffix>
-		<UserSecretsId>c0455c86-d101-44ca-a73b-26c81aff5b87</UserSecretsId>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
