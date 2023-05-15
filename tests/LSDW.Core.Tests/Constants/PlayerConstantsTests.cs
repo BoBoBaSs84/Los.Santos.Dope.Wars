@@ -1,4 +1,4 @@
-﻿using LSDW.Core.Constants;
+﻿using PC = LSDW.Core.Constants.PlayerConstants;
 
 namespace LSDW.Core.Tests.Constants;
 
@@ -10,10 +10,9 @@ public class PlayerConstantsTests
 	{
 		int level = 1;
 
-		double exp = PlayerConstants.CalculateExperienceNextLevel(level);
+		int experience = PC.CalculateExperienceNextLevel(level);
 
-		Assert.IsTrue(exp > 6727);
-		Assert.IsTrue(exp < 6728);
+		Assert.AreEqual(8000, experience);
 	}
 
 	[TestMethod]
@@ -21,18 +20,17 @@ public class PlayerConstantsTests
 	{
 		int level = 2;
 
-		double exp = PlayerConstants.CalculateExperienceNextLevel(level);
+		int experience = PC.CalculateExperienceNextLevel(level);
 
-		Assert.IsFalse(exp < 6727);
-		Assert.IsTrue(exp > 6728);
+		Assert.AreNotEqual(8000, experience);
 	}
 
 	[TestMethod]
 	public void CalculateCurrentLevelSuccessTest()
 	{
-		double experience = 6728;
+		int experience = 26999;
 
-		int level = PlayerConstants.CalculateCurrentLevel(experience);
+		int level = PC.CalculateCurrentLevel(experience);
 
 		Assert.AreEqual(2, level);
 	}
@@ -40,10 +38,19 @@ public class PlayerConstantsTests
 	[TestMethod]
 	public void CalculateCurrentLevelFailedTest()
 	{
-		double experience = 6727;
+		int experience = 6727;
 
-		int level = PlayerConstants.CalculateCurrentLevel(experience);
+		int level = PC.CalculateCurrentLevel(experience);
 
 		Assert.AreNotEqual(2, level);
+	}
+
+	[TestMethod]
+	public void LevelLimitTest()
+	{
+		int maxLevel = PC.MaximumLevel;
+
+		for (int currentLevel = 0; currentLevel < maxLevel; currentLevel++)
+			_ = PC.CalculateExperienceNextLevel(currentLevel);
 	}
 }

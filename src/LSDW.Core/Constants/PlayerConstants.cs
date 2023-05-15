@@ -5,7 +5,7 @@
 /// </summary>
 public static class PlayerConstants
 {
-	private const double LevelFactor = 2.75;
+	private const int LevelFactor = 3;
 	private const int LevelMultiplicator = 1000;
 
 	/// <summary>
@@ -17,13 +17,13 @@ public static class PlayerConstants
 	/// Should return the experience points needed for the next level up.
 	/// </summary>
 	/// <param name="level">The current player level.</param>
-	public static double CalculateExperienceNextLevel(int level)
-		=> Math.Pow(level + 1, LevelFactor) * LevelMultiplicator;
+	public static int CalculateExperienceNextLevel(int level)
+		=> (int)(Math.Pow(level + 1, LevelFactor) * LevelMultiplicator);
 
 	/// <summary>
 	/// Should return the level based on the experience points.
 	/// </summary>
-	/// <param name="experiencePoints">The current experience points.</param>
-	public static int CalculateCurrentLevel(double experiencePoints)
-		=> (int)Math.Floor(Math.Pow(experiencePoints / LevelMultiplicator, 1.0 / LevelFactor));
+	/// <param name="experience">The current experience points.</param>
+	public static int CalculateCurrentLevel(int experience)
+		=> (int)Math.Floor(Math.Pow(experience / LevelMultiplicator, 1.0 / LevelFactor));
 }

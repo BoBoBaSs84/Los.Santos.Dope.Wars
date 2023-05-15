@@ -44,7 +44,7 @@ internal sealed class Drug : IDrug
 		if (price < 0)
 			throw new ArgumentOutOfRangeException(nameof(price));
 
-		Price = (Price * Quantity + price * quantity) / (Quantity + quantity);
+		Price = ((Price * Quantity) + (price * quantity)) / (Quantity + quantity);
 		Quantity += quantity;
 	}
 

@@ -11,7 +11,7 @@ internal sealed class PlayerCharacter : Notification, IPlayerCharacter
 	private readonly int InventoryCapacity = Settings.Default.StartingInventoryCapacity;
 	private readonly int ExpansionPerLevel = Settings.Default.InventoryCapacityExpansionPerLevel;
 
-	private double currentExperience;
+	private int currentExperience;
 
 	/// <summary>
 	/// Initializes a instance of the player character class.
