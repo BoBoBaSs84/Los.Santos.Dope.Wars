@@ -11,16 +11,6 @@ public interface IPlayerCharacter
 	IInventoryCollection Inventory { get; }
 
 	/// <summary>
-	/// The money spent on buying drugs.
-	/// </summary>
-	int SpentMoney { get; }
-
-	/// <summary>
-	/// The money earned on selling drugs.
-	/// </summary>
-	int EarnedMoney { get; }
-
-	/// <summary>
 	/// The current player level.
 	/// </summary>
 	int CurrentLevel { get; }

@@ -16,8 +16,6 @@ internal sealed class PlayerCharacter : NotificationBase, IPlayerCharacter
 	internal PlayerCharacter()
 	{
 		Inventory = IF.CreatePlayerInventory();
-		SpentMoney = default;
-		EarnedMoney = default;
 		currentExperience = default;
 	}
 
@@ -25,30 +23,14 @@ internal sealed class PlayerCharacter : NotificationBase, IPlayerCharacter
 	/// Initializes a instance of the player character class.
 	/// </summary>
 	/// <param name="inventory">The player inventory.</param>
-	/// <param name="spentMoney">The money spent on buying drugs.</param>
-	/// <param name="earnedMoney">The money earned on selling drugs.</param>
 	/// <param name="experience">The player experience points.</param>
-	internal PlayerCharacter(IInventoryCollection inventory, int spentMoney, int earnedMoney, int experience)
+	internal PlayerCharacter(IInventoryCollection inventory, int experience)
 	{
 		Inventory = inventory;
-		SpentMoney = spentMoney;
-		EarnedMoney = earnedMoney;
 		currentExperience = experience;
 	}
 
 	public IInventoryCollection Inventory { get; }
-
-	public int SpentMoney
-	{
-		get;
-		private set;
-	}
-
-	public int EarnedMoney
-	{
-		get;
-		private set;
-	}
 
 	public int CurrentLevel
 		=> GetCurrentLevel();
