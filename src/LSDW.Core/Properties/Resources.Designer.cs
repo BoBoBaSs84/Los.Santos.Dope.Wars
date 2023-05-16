@@ -59,5 +59,32 @@ namespace LSDW.Core.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not enough room in inventory for transaction..
+        /// </summary>
+        internal static string Transaction_Result_Message_Inventory {
+            get {
+                return ResourceManager.GetString("Transaction.Result.Message.Inventory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not enough money for transaction..
+        /// </summary>
+        internal static string Transaction_Result_Message_Money {
+            get {
+                return ResourceManager.GetString("Transaction.Result.Message.Money", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The transaction was successfully completed..
+        /// </summary>
+        internal static string Transaction_Result_Message_Success {
+            get {
+                return ResourceManager.GetString("Transaction.Result.Message.Success", resourceCulture);
+            }
+        }
     }
 }

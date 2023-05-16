@@ -1,6 +1,7 @@
 ﻿using LSDW.Core.Enumerators;
 using LSDW.Core.Factories;
 using LSDW.Core.Interfaces.Classes;
+using RESX = LSDW.Core.Properties.Resources;
 
 namespace LSDW.Core.Classes;
 
@@ -20,6 +21,7 @@ internal sealed class Transaction : ITransaction
 		Type = type;
 		Objects = objects;
 		MaximumTargetQuantity = maximumQuantity;
+		Result = new();
 	}
 
 	public TransactionType Type { get; }
@@ -28,19 +30,23 @@ internal sealed class Transaction : ITransaction
 
 	public IEnumerable<TransactionObject> Objects { get; }
 
-	public TransactionResult Commit(IInventory source, IInventory target)
+	public TransactionResult Result { get; }
+
+	public void Commit(IInventory source, IInventory target)
 	{
-		TransactionResult result = new();
+		if (Result.IsCompleted)
+			return;
 
 		if (Type.Equals(TransactionType.TRAFFIC))
-			if (!CheckTargetMoney(target))
-				result.Messages.Add("Not enough money for transaction.");
+			CheckTargetMoney(target);
 
-		if (GetResultingTargetQuantity(target) > MaximumTargetQuantity)
-			result.Messages.Add("Not enough space in inventory for transaction.");
+		CheckTargetInventory(target);
 
-		if (result.Messages.Any())
-			return result;
+		if (Result.Messages.Any())
+		{
+			Result.Failed();
+			return;
+		}
 
 		IEnumerable<IDrug> drugs = GetDrugsFromObjects();
 
@@ -57,22 +63,30 @@ internal sealed class Transaction : ITransaction
 			target.Remove(transactionValue);
 		}
 
-		result.Successful = true;
-		return result;
+		Result.Success();
 	}
 
 	/// <summary>
-	/// Returns <see langword="true"/> or <see langword="true"/> if the target has enough money for the transaction.
+	/// Checks if the target has enough money for the transaction.
 	/// </summary>
 	/// <param name="target">The target inventory.</param>
-	private bool CheckTargetMoney(IInventory target)
-		=> target.Money > Objects.Sum(o => o.Price * o.Quantity);
+	private void CheckTargetMoney(IInventory target)
+	{
+		if (target.Money > Objects.Sum(o => o.Price * o.Quantity))
+			return;
+		Result.Messages.Add(RESX.Transaction_Result_Message_Money);
+	}
 
 	/// <summary>
-	/// Returns the resulting target inventory quantity.
+	/// Checks if the target has enough room for the transaction.
 	/// </summary>
-	private int GetResultingTargetQuantity(IInventory target)
-		=> Objects.Sum(o => o.Quantity) + target.Sum(d => d.Quantity);
+	/// <param name="target">The target inventory.</param>
+	private void CheckTargetInventory(IInventory target)
+	{
+		if (Objects.Sum(o => o.Quantity) + target.Sum(d => d.Quantity) < MaximumTargetQuantity)
+			return;
+		Result.Messages.Add(RESX.Transaction_Result_Message_Inventory);
+	}
 
 	/// <summary>
 	/// Returns a drug list from the transaction objects.

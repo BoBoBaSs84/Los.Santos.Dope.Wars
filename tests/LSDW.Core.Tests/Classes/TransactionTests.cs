@@ -23,10 +23,11 @@ public class TransactionTests
 		List<TransactionObject> objects = new() { new(DrugType.COKE, 5, 900) };
 		ITransaction transaction = TF.CreateTrafficTransaction(objects, player.MaximumInventoryQuantity);
 
-		TransactionResult result = transaction.Commit(dealerInventory, player.Inventory);
+		transaction.Commit(dealerInventory, player.Inventory);
 
-		Assert.IsTrue(result.Successful);
-		Assert.IsFalse(result.Messages.Any());
+		Assert.IsTrue(transaction.Result.Successful);
+		Assert.IsTrue(transaction.Result.IsCompleted);
+		Assert.AreEqual(1, transaction.Result.Messages.Count);
 		Assert.AreEqual(4500, dealerInventory.Money);
 		Assert.AreEqual(10, dealerInventory.TotalQuantity);
 		Assert.AreEqual(500, player.Inventory.Money);
@@ -45,10 +46,11 @@ public class TransactionTests
 		List<TransactionObject> objects = new() { new(DrugType.COKE, 150, 900) };
 		ITransaction transaction = TF.CreateTrafficTransaction(objects, player.MaximumInventoryQuantity);
 
-		TransactionResult result = transaction.Commit(dealerInventory, player.Inventory);
+		transaction.Commit(dealerInventory, player.Inventory);
 
-		Assert.IsFalse(result.Successful);
-		Assert.IsTrue(result.Messages.Any());
+		Assert.IsFalse(transaction.Result.Successful);
+		Assert.IsTrue(transaction.Result.IsCompleted);
+		Assert.IsTrue(transaction.Result.Messages.Any());
 	}
 
 	[TestMethod]
@@ -63,10 +65,11 @@ public class TransactionTests
 		List<TransactionObject> objects = new() { new(DrugType.COKE, 5, 900) };
 		ITransaction transaction = TF.CreateTrafficTransaction(objects, player.MaximumInventoryQuantity);
 
-		TransactionResult result = transaction.Commit(dealerInventory, player.Inventory);
+		transaction.Commit(dealerInventory, player.Inventory);
 
-		Assert.IsFalse(result.Successful);
-		Assert.IsTrue(result.Messages.Any());
+		Assert.IsFalse(transaction.Result.Successful);
+		Assert.IsTrue(transaction.Result.IsCompleted);
+		Assert.IsTrue(transaction.Result.Messages.Any());
 	}
 
 	[TestMethod]
@@ -81,10 +84,11 @@ public class TransactionTests
 		List<TransactionObject> objects = new() { new(cokeToDeposit) };
 		ITransaction transaction = TF.CreateDepositTransaction(objects);
 
-		TransactionResult result = transaction.Commit(player.Inventory, warehouse);
+		transaction.Commit(player.Inventory, warehouse);
 
-		Assert.IsTrue(result.Successful);
-		Assert.IsFalse(result.Messages.Any());
+		Assert.IsTrue(transaction.Result.Successful);
+		Assert.IsTrue(transaction.Result.IsCompleted);
+		Assert.AreEqual(1, transaction.Result.Messages.Count);
 		Assert.AreEqual(0, player.Inventory.TotalQuantity);
 		Assert.AreEqual(0, player.Inventory.Count);
 		Assert.AreEqual(1200, player.Inventory.Money);

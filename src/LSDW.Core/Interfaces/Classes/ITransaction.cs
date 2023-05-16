@@ -24,10 +24,14 @@ public interface ITransaction
 	int MaximumTargetQuantity { get; }
 
 	/// <summary>
+	/// The result of the transaction.
+	/// </summary>
+	TransactionResult Result { get; }
+
+	/// <summary>
 	/// Should commit the transaction from the <paramref name="source"/> to the <paramref name="target"/>.
 	/// </summary>
 	/// <param name="source">The source inventory.</param>
 	/// <param name="target">The target inventory.</param>
-	/// <returns>The result of the transaction.</returns>
-	TransactionResult Commit(IInventory source, IInventory target);
+	void Commit(IInventory source, IInventory target);
 }

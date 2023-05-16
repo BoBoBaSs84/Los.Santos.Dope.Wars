@@ -41,7 +41,7 @@ public static class RandomHelper
 	public static int GetInt(double min, double max) => _random.Next((int)min, (int)max);
 
 	/// <summary>
-	/// Returns a random name full name (first name and last name)
+	/// Returns a random full name (first name and last name)
 	/// </summary>
 	public static string GetFullName()
 	{
