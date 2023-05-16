@@ -1,6 +1,7 @@
 ﻿using LSDW.Classes.Persistence;
 using LSDW.Core.Factories;
 using LSDW.Core.Interfaces.Classes;
+using LSDW.Interfaces.Actors;
 
 namespace LSDW.Factories;
 
@@ -17,7 +18,7 @@ public static class PersistenceFactory
 		=> new(drug);
 
 	/// <summary>
-	/// Should create a drug instance from saved drug state.
+	/// Creates a drug instance from saved drug state.
 	/// </summary>
 	/// <param name="drugState">The saved drug state.</param>
 	public static IDrug CreateDrug(DrugState drugState)
@@ -36,7 +37,7 @@ public static class PersistenceFactory
 	}
 
 	/// <summary>
-	/// Should create a drug collection instance from a saved drug collection state.
+	/// Creates a drug collection instance from a saved drug collection state.
 	/// </summary>
 	/// <param name="drugs">The saved drug collection state.</param>
 	public static IEnumerable<IDrug> CreateDrugs(List<DrugState> drugs)
@@ -55,7 +56,7 @@ public static class PersistenceFactory
 		=> new(inventory);
 
 	/// <summary>
-	/// Should create a new inventory instance from a collection of saved drugs.
+	/// Creates a new inventory instance from a collection of saved drugs.
 	/// </summary>
 	/// <param name="inventoryState">The saved inventory state.</param>
 	public static IInventory CreateInventory(InventoryState inventoryState)
@@ -72,12 +73,29 @@ public static class PersistenceFactory
 		=> new(player);
 
 	/// <summary>
-	/// Should create a player character instance from a saved player state.
+	/// Creates a player instance from a saved player state.
 	/// </summary>
 	/// <param name="playerState">The saved player state.</param>
 	public static IPlayer CreatePlayer(PlayerState playerState)
 	{
 		IInventory inventory = CreateInventory(playerState.Inventory);
 		return PlayerFactory.CreatePlayer(inventory, playerState.Experience);
+	}
+
+	/// <summary>
+	/// Creates a new saveable dealer state from a dealer instance.
+	/// </summary>
+	/// <param name="dealer">The dealer instance to save.</param>
+	public static DealerState CreateDealerState(IDealer dealer)
+		=> new(dealer);
+
+	/// <summary>
+	/// Creates a dealer instance from a saved dealer state.
+	/// </summary>
+	/// <param name="state">The saved dealer state.</param>
+	public static IDealer CreateDealer(DealerState state)
+	{
+		IInventory inventory = CreateInventory(state.Inventory);
+		return ActorFactory.CreateDealer(state.Position, state.ClosedUntil, state.Discovered, inventory, state.Name);
 	}
 }

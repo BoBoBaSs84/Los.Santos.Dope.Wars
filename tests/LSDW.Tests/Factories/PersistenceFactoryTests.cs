@@ -1,8 +1,11 @@
-﻿using LSDW.Classes.Persistence;
+﻿using GTA.Math;
+using LSDW.Classes.Persistence;
+using LSDW.Core.Extensions;
 using LSDW.Core.Factories;
 using LSDW.Core.Helpers;
 using LSDW.Core.Interfaces.Classes;
 using LSDW.Factories;
+using LSDW.Interfaces.Actors;
 
 namespace LSDW.Tests.Factories;
 
@@ -83,5 +86,15 @@ public class PersistenceFactoryTests
 	public void CreatePlayerTest()
 	{
 
+	}
+
+	[TestMethod()]
+	public void CreateDealerStateTest()
+	{
+		IDealer dealer = ActorFactory.CreateDealer(new Vector3(287.011f, -991.685f, 33.108f));
+
+		DealerState dealerState = PersistenceFactory.CreateDealerState(dealer);
+
+		Assert.IsNotNull(dealerState);
 	}
 }
