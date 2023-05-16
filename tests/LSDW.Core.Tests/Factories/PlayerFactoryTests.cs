@@ -3,10 +3,10 @@ using LSDW.Core.Interfaces.Classes;
 
 namespace LSDW.Core.Tests.Factories;
 
-[TestClass()]
+[TestClass]
 public class PlayerFactoryTests
 {
-	[TestMethod()]
+	[TestMethod]
 	public void CreatePlayerTest()
 	{
 		IPlayer? character;
@@ -16,7 +16,7 @@ public class PlayerFactoryTests
 		Assert.IsNotNull(character);
 	}
 
-	[TestMethod()]
+	[TestMethod]
 	public void CreateExistingPlayerTest()
 	{
 		IPlayer? character;

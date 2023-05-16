@@ -1,5 +1,5 @@
 ﻿using GTA;
-using Logger = LSDW.Core.Services.LoggerService;
+using Logger = LSDW.Services.LoggerService;
 
 namespace LSDW;
 

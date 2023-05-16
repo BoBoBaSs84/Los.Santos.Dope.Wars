@@ -20,11 +20,5 @@
     <Setting Name="MinimumDrugValue" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0.85</Value>
     </Setting>
-    <Setting Name="LogFileName" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">LSDW.Core.log</Value>
-    </Setting>
-    <Setting Name="SaveFileName" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">LSDW.Core.sav</Value>
-    </Setting>
   </Settings>
 </SettingsFile>

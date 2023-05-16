@@ -17,7 +17,7 @@ public class DrugFactoryTests
 		Assert.IsNotNull(drug);
 	}
 
-	[TestMethod()]
+	[TestMethod]
 	public void CreateAllDrugsTest()
 	{
 		IEnumerable<IDrug>? drugs;
@@ -28,7 +28,7 @@ public class DrugFactoryTests
 		Assert.IsTrue(drugs.Any());
 	}
 
-	[TestMethod()]
+	[TestMethod]
 	public void CreateDrugTest()
 	{
 		DrugType drugType = DrugType.COKE;

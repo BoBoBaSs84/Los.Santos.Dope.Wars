@@ -1,8 +1,7 @@
-﻿using LSDW.Core.Properties;
+﻿using LSDW.Properties;
 using System.Runtime.CompilerServices;
-using System.Text;
 
-namespace LSDW.Core.Services;
+namespace LSDW.Services;
 
 /// <summary>
 /// The logger service class.

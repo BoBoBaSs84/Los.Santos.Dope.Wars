@@ -25,25 +25,6 @@ public static class DrugFactory
 		=> new Drug(drugType, quantity, price);
 
 	/// <summary>
-	/// Should create a drug instance from saved drug state.
-	/// </summary>
-	/// <param name="drugState">The saved drug state.</param>
-	public static IDrug CreateDrug(DrugState drugState)
-		=> new Drug(drugState.DrugType, drugState.Quantity, drugState.Price);
-
-	/// <summary>
-	/// Should create a drug collection instance from a saved drug collection state.
-	/// </summary>
-	/// <param name="drugs">The saved drug collection state.</param>
-	public static IEnumerable<IDrug> CreateDrugs(List<DrugState> drugs)
-	{
-		List<IDrug> drugList = new();
-		foreach(DrugState drug in drugs)
-			drugList.Add(CreateDrug(drug));
-		return drugList;
-	}
-
-	/// <summary>
 	/// Should create a random drug instance.
 	/// </summary>
 	public static IDrug CreateRandomDrug()

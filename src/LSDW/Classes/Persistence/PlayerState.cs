@@ -1,8 +1,8 @@
-﻿using LSDW.Core.Factories;
-using LSDW.Core.Interfaces.Classes;
+﻿using LSDW.Core.Interfaces.Classes;
+using LSDW.Factories;
 using System.Xml.Serialization;
 
-namespace LSDW.Core.Classes;
+namespace LSDW.Classes.Persistence;
 
 /// <summary>
 /// The player state class.
@@ -11,7 +11,7 @@ public sealed class PlayerState
 {
 	public PlayerState(IPlayer player)
 	{
-		Inventory = StateFactory.CreateInventoryState(player.Inventory);
+		Inventory = PersistenceFactory.CreateInventoryState(player.Inventory);
 		Experience = player.Experience;
 	}
 

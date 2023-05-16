@@ -1,8 +1,8 @@
-﻿using LSDW.Core.Factories;
-using LSDW.Core.Interfaces.Classes;
+﻿using LSDW.Core.Interfaces.Classes;
+using LSDW.Factories;
 using System.Xml.Serialization;
 
-namespace LSDW.Core.Classes;
+namespace LSDW.Classes.Persistence;
 
 /// <summary>
 /// The inventory state class.
@@ -15,12 +15,12 @@ public sealed class InventoryState
 
 	public InventoryState(IInventory inventory)
 	{
-		Drugs = StateFactory.CreateDrugStates(inventory);
+		Drugs = PersistenceFactory.CreateDrugStates(inventory);
 		Money = inventory.Money;
 	}
 
 	[XmlArray(nameof(Drugs))]
-	[XmlArrayItem(nameof(Drug))]
+	[XmlArrayItem("Drug")]
 	public List<DrugState> Drugs { get; set; }
 
 	[XmlAttribute(nameof(Money))]

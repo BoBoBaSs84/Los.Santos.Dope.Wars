@@ -1,6 +1,6 @@
-﻿using Logger = LSDW.Core.Services.LoggerService;
+﻿using Logger = LSDW.Services.LoggerService;
 
-namespace LSDW.Core.Tests.Services;
+namespace LSDW.Tests.Services;
 
 [TestClass]
 public class LoggerServiceTests

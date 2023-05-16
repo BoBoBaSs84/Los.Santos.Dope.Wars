@@ -35,9 +35,6 @@ public static class ClassExtensions
 	/// <returns>The XML string representation of the object <typeparamref name="T"/>.</returns>
 	public static string ToXmlString<T>(this T value, XmlSerializerNamespaces? namespaces = null, XmlWriterSettings? settings = null) where T : class
 	{
-		if (value is null)
-			throw new ArgumentNullException(nameof(value));
-
 		namespaces ??= new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty });
 		settings ??= WriterSettings;
 
@@ -59,9 +56,6 @@ public static class ClassExtensions
 	/// <returns>An object instance</returns>
 	public static T FromXmlString<T>(this T value, string xmlString, XmlReaderSettings? settings = null) where T : class
 	{
-		if (value is null)
-			throw new ArgumentNullException(nameof(value));
-
 		settings ??= ReaderSettings;
 
 		using StringReader stringReader = new(xmlString);

@@ -1,21 +1,28 @@
-﻿using LSDW.Core.Classes;
+﻿using LSDW.Classes.Persistence;
 using LSDW.Core.Factories;
 using LSDW.Core.Helpers;
 using LSDW.Core.Interfaces.Classes;
+using LSDW.Factories;
 
-namespace LSDW.Core.Tests.Factories;
+namespace LSDW.Tests.Factories;
 
 [TestClass]
-public class StateFactoryTests
+public class PersistenceFactoryTests
 {
 	[TestMethod]
 	public void CreateDrugStateTest()
 	{
 		IDrug drug = DrugFactory.CreateRandomDrug();
 
-		DrugState drugState = StateFactory.CreateDrugState(drug);
+		DrugState drugState = PersistenceFactory.CreateDrugState(drug);
 
 		Assert.IsNotNull(drugState);
+	}
+
+	[TestMethod()]
+	public void CreateDrugTest()
+	{
+
 	}
 
 	[TestMethod]
@@ -23,22 +30,36 @@ public class StateFactoryTests
 	{
 		IEnumerable<IDrug> drugs = DrugFactory.CreateRandomDrugs();
 
-		List<DrugState> drugStates = StateFactory.CreateDrugStates(drugs);
+		List<DrugState> drugStates = PersistenceFactory.CreateDrugStates(drugs);
 
 		Assert.IsNotNull(drugStates);
 		Assert.AreEqual(drugs.Count(), drugStates.Count);
 	}
 
 	[TestMethod]
+	public void CreateDrugsTest()
+	{
+
+	}
+
+	[TestMethod]
 	public void CreateInventoryStateTest()
 	{
 		IEnumerable<IDrug> drugs = DrugFactory.CreateRandomDrugs();
-		IInventory inventory = InventoryFactory.CreateInventory(drugs);
+		int money = RandomHelper.GetInt();
+		IInventory inventory = InventoryFactory.CreateInventory(drugs, money);
 
-		InventoryState inventoryState = StateFactory.CreateInventoryState(inventory);
+		InventoryState inventoryState = PersistenceFactory.CreateInventoryState(inventory);
 
 		Assert.IsNotNull(inventoryState);
+		Assert.AreEqual(money, inventoryState.Money);
 		Assert.AreEqual(drugs.Count(), inventoryState.Drugs.Count);
+	}
+
+	[TestMethod]
+	public void CreateInventoryTest()
+	{
+
 	}
 
 	[TestMethod]
@@ -50,11 +71,17 @@ public class StateFactoryTests
 		int experience = RandomHelper.GetInt();
 		IPlayer player = PlayerFactory.CreatePlayer(inventory, experience);
 
-		PlayerState playerState = StateFactory.CreatePlayerState(player);
+		PlayerState playerState = PersistenceFactory.CreatePlayerState(player);
 
 		Assert.IsNotNull(playerState);
 		Assert.AreEqual(experience, playerState.Experience);
 		Assert.AreEqual(money, playerState.Inventory.Money);
 		Assert.AreEqual(drugs.Count(), playerState.Inventory.Drugs.Count);
+	}
+
+	[TestMethod]
+	public void CreatePlayerTest()
+	{
+
 	}
 }

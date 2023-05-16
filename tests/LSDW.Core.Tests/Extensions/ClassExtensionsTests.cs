@@ -1,49 +1,78 @@
-﻿using LSDW.Core.Classes;
-using LSDW.Core.Extensions;
-using LSDW.Core.Factories;
-using LSDW.Core.Helpers;
-using LSDW.Core.Interfaces.Classes;
-using LSDW.Core.Properties;
+﻿using LSDW.Core.Extensions;
+using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace LSDW.Core.Tests.Extensions;
 
 [TestClass]
 public class ClassExtensionsTests
 {
-	private readonly string SaveFileNamePath = Path.Combine(AppContext.BaseDirectory, Settings.Default.SaveFileName);
+	private readonly XmlWriterSettings _writerSettings = new();
+	private readonly XmlReaderSettings _readerSettings = new();
 
-	[TestCleanup]
-	public void TestCleanup()
+	[DataTestMethod]
+	[DataRow("utf-8"), DataRow("utf-16"), DataRow("utf-32")]
+	public void ToXmlStringSuccessTest(string encodingString)
 	{
-		//if (File.Exists(SaveFileNamePath))
-		//	File.Delete(SaveFileNamePath);
+		_writerSettings.Encoding = Encoding.GetEncoding(encodingString);
+
+		FancyXmlTestClass testClass = new();
+
+		string xmlString = testClass.ToXmlString(settings: _writerSettings);
+
+		Assert.IsTrue(xmlString.Contains($"encoding=\"{encodingString}\""));
+		Assert.IsTrue(xmlString.Contains($@"{nameof(testClass.Id)}=""{testClass.Id}"""));
+		Assert.IsTrue(xmlString.Contains($@"<{nameof(testClass.Name)}>{testClass.Name}"));
+		Assert.IsTrue(xmlString.Contains($@"<{nameof(testClass.Description)}>{testClass.Description}"));
 	}
 
 	[TestMethod]
-	public void ToXmlStringTest()
+	public void ToXmlStringFailedTest()
 	{
-		IEnumerable<IDrug> drugs = DrugFactory.CreateRandomDrugs();
-		IInventory inventory = InventoryFactory.CreateInventory(drugs);
-		inventory.Add(RandomHelper.GetInt(25000, 75000));
-		int experience = RandomHelper.GetInt(75000, 275000);
-		IPlayer player = PlayerFactory.CreatePlayer(inventory, experience);
+		FancyXmlTestClass testClass = new();
 
-		PlayerState playerState = StateFactory.CreatePlayerState(player);
-		string xmlString = playerState.ToXmlString();
+		string xmlString = testClass.ToXmlString();
 
-		File.WriteAllText(SaveFileNamePath, xmlString, System.Text.Encoding.UTF8);
-
-		Assert.IsNotNull(xmlString);
+		Assert.IsFalse(xmlString.Contains($@"<{nameof(testClass.Id)}>""{testClass.Id}"""));
+		Assert.IsFalse(xmlString.Contains($@"{nameof(testClass.Name)}=""{testClass.Name}"""));
+		Assert.IsFalse(xmlString.Contains($@"{nameof(testClass.Description)}=""{testClass.Description}"""));
 	}
 
-	[TestMethod()]
-	public void FromXmlStringTest()
+	[TestMethod]
+	public void FromXmlStringSuccessTest()
 	{
-		string xmlString = File.ReadAllText(SaveFileNamePath);
-		PlayerState playerState = new PlayerState().FromXmlString(xmlString);
+		FancyXmlTestClass fancy = new();
 
-		IPlayer player = PlayerFactory.CreatePlayer(playerState);
+		fancy = fancy.FromXmlString(XmlTextString, _readerSettings);
 
-		Assert.IsNotNull(player);
+		Assert.AreEqual(Guid.Parse("348798ee-12f2-4a20-b030-756bb6a4134d"), fancy.Id);
+		Assert.AreEqual("UnitTest", fancy.Name);
+		Assert.AreEqual("UnitTestDescription", fancy.Description);
 	}
+
+	[TestMethod]
+	public void FromXmlStringFailedTest()
+	{
+		FancyXmlTestClass fancy = new();
+
+		fancy = fancy.FromXmlString(XmlTextString);
+
+		Assert.AreNotEqual(Guid.Parse("348798ae-12f2-4a20-b030-756bb6a4134d"), fancy.Id);
+		Assert.AreNotEqual("UnitTes", fancy.Name);
+		Assert.AreNotEqual("UnitTestDescriptio", fancy.Description);
+	}
+
+	[XmlRoot("Fancy")]
+	public class FancyXmlTestClass
+	{
+		[XmlAttribute]
+		public Guid Id { get; set; } = Guid.NewGuid();
+		[XmlElement]
+		public string Name { get; set; } = "Super fancy name";
+		[XmlElement]
+		public string Description { get; set; } = "Super fancy description";
+	}
+
+	private const string XmlTextString = @"<Fancy Id=""348798ee-12f2-4a20-b030-756bb6a4134d""><Name>UnitTest</Name><Description>UnitTestDescription</Description></Fancy>";
 }

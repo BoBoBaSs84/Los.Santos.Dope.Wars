@@ -2,7 +2,7 @@
 using LSDW.Core.Interfaces.Classes;
 using System.Xml.Serialization;
 
-namespace LSDW.Core.Classes;
+namespace LSDW.Classes.Persistence;
 
 public sealed class DrugState
 {
