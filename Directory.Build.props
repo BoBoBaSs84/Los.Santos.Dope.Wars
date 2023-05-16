@@ -35,7 +35,7 @@
 		<PackageProjectUrl>https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars</PackageProjectUrl>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-		<Authors>BoBoBaSs84;</Authors>
+		<Authors>BoBoBaSs84</Authors>
 		<Product>Los.Santos.Dope.Wars</Product>
 	</PropertyGroup>
 
