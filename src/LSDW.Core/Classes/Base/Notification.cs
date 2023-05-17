@@ -1,19 +1,18 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 namespace LSDW.Core.Classes.Base;
 
 /// <summary>
-///	The <see cref="Notification"/> class.
+///	The notification class.
 /// <remarks>
-///	Implements the following interfaces:
+///	Implements the following interface members:
 /// <list type="bullet">
-/// <item>The members of the <see cref="INotifyPropertyChanged"/> interface.</item>
-/// <item>The members of the <see cref="INotifyPropertyChanging"/> interface.</item>
+/// <item>The <see cref="INotifyPropertyChanged"/> interface members.</item>
+/// <item>The <see cref="INotifyPropertyChanging"/> interface members.</item>
 /// </list>
 /// </remarks>
 /// </summary>
-internal abstract class Notification : INotifyPropertyChanged, INotifyPropertyChanging
+public abstract class Notification : INotifyPropertyChanged, INotifyPropertyChanging
 {
 	/// <summary>
 	/// Sets a new value for a property and notifies about the change.

@@ -6,7 +6,10 @@ using LSDW.Core.Properties;
 
 namespace LSDW.Core.Classes;
 
-internal sealed class PlayerCharacter : Notification, IPlayer
+/// <summary>
+/// The player class.
+/// </summary>
+internal sealed class Player : Notification, IPlayer
 {
 	private readonly int _inventoryCapacity = Settings.Default.StartingInventoryCapacity;
 	private readonly int _expansionPerLevel = Settings.Default.InventoryCapacityExpansionPerLevel;
@@ -14,7 +17,7 @@ internal sealed class PlayerCharacter : Notification, IPlayer
 	/// <summary>
 	/// Initializes a instance of the player character class.
 	/// </summary>
-	internal PlayerCharacter()
+	internal Player()
 	{
 		Inventory = InventoryFactory.CreateInventory();
 		Experience = default;
@@ -25,7 +28,7 @@ internal sealed class PlayerCharacter : Notification, IPlayer
 	/// </summary>
 	/// <param name="inventory">The player inventory.</param>
 	/// <param name="experience">The player experience points.</param>
-	internal PlayerCharacter(IInventory inventory, int experience)
+	internal Player(IInventory inventory, int experience)
 	{
 		Inventory = inventory;
 		Experience = experience;

@@ -29,6 +29,8 @@ internal abstract class Pedestrian : IPedestrian
 
 	public Vector3 Position { get; }
 
+	public PedHash Hash { get; private set; }
+
 	public Ped? Ped { get; private set; }
 
 	public string Name { get; }
@@ -38,6 +40,7 @@ internal abstract class Pedestrian : IPedestrian
 		if (Created)
 			return;
 
+		Hash = pedHash;
 		Model model = ScriptHookHelper.RequestModel(pedHash);
 		Ped = World.CreatePed(model, Position);
 		Ped.HealthFloat = health;

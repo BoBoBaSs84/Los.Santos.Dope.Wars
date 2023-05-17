@@ -1,5 +1,4 @@
 ﻿using GTA;
-using GTA.Math;
 using LSDW.Core.Interfaces.Classes;
 
 namespace LSDW.Interfaces.Actors;
@@ -7,7 +6,7 @@ namespace LSDW.Interfaces.Actors;
 /// <summary>
 /// The dealer interface.
 /// </summary>
-public interface IDealer
+public interface IDealer : IPedestrian
 {
 	/// <summary>
 	/// The blip on the map for the dealer.
@@ -28,16 +27,6 @@ public interface IDealer
 	/// The dealer inventory.
 	/// </summary>
 	IInventory Inventory { get; }
-
-	/// <summary>
-	/// The name of the pedestrian.
-	/// </summary>
-	string Name { get; }
-
-	/// <summary>
-	/// The position of the dealer.
-	/// </summary>
-	Vector3 Position { get; }
 
 	/// <summary>
 	/// The dealer needs to flee.

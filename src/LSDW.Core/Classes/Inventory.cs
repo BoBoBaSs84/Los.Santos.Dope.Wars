@@ -6,7 +6,7 @@ namespace LSDW.Core.Classes;
 /// <summary>
 /// The inventory class.
 /// </summary>
-public sealed class Inventory : IInventory
+internal sealed class Inventory : IInventory
 {
 	private readonly List<IDrug> _drugs;
 
@@ -94,7 +94,7 @@ public sealed class Inventory : IInventory
 
 	public void Remove(IEnumerable<IDrug> drugsToRemove)
 	{
-		foreach(IDrug drug in drugsToRemove)
+		foreach (IDrug drug in drugsToRemove)
 			_ = Remove(drug);
 	}
 

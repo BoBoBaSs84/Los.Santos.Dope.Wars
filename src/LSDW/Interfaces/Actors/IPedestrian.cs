@@ -24,6 +24,11 @@ public interface IPedestrian
 	Vector3 Position { get; }
 
 	/// <summary>
+	/// The peds hash.
+	/// </summary>
+	PedHash Hash { get; }
+
+	/// <summary>
 	/// The "ped" itself.
 	/// </summary>
 	Ped? Ped { get; }
