@@ -40,7 +40,7 @@ internal sealed class Drug : IDrug
 	public void Add(int quantity, int price)
 	{
 		if (quantity < 1)
-			throw new ArgumentOutOfRangeException(nameof(quantity));
+			return;
 
 		if (price < 0)
 			throw new ArgumentOutOfRangeException(nameof(price));
@@ -51,11 +51,8 @@ internal sealed class Drug : IDrug
 
 	public void Remove(int quantity)
 	{
-		if (quantity < 1)
-			throw new ArgumentOutOfRangeException(nameof(quantity));
-
-		if (Quantity - quantity < 0)
-			throw new ArgumentOutOfRangeException(nameof(quantity));
+		if (quantity < 0)
+			return;
 
 		Quantity -= quantity;
 	}

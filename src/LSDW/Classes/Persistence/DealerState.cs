@@ -21,19 +21,19 @@ public sealed class DealerState
 	}
 
 	[XmlElement(nameof(ClosedUntil))]
-	public DateTime? ClosedUntil { get; set; }
+	public DateTime? ClosedUntil { get; set; } = default!;
 
 	[XmlAttribute(nameof(Discovered))]
-	public bool Discovered { get; set; }
+	public bool Discovered { get; set; } = default!;
 
 	[XmlElement(nameof(Inventory))]
-	public InventoryState Inventory { get; set; }
+	public InventoryState Inventory { get; set; } = default!;
 
 	[XmlAttribute(nameof(Name))]
-	public string Name { get; set; }
+	public string Name { get; set; } = default!;
 
 	[XmlElement(nameof(Position))]
-	public Vector3 Position { get; set; }
+	public Vector3 Position { get; set; } = default!;
 
 	public bool ShouldSerializeClosedUntil() => ClosedUntil.HasValue;
 }

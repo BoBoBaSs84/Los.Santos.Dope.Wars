@@ -20,8 +20,8 @@ public sealed class PlayerState
 	}
 
 	[XmlElement(nameof(Inventory))]
-	public InventoryState Inventory { get; set; }
+	public InventoryState Inventory { get; set; } = default!;
 
 	[XmlAttribute(nameof(Experience))]
-	public int Experience { get; set; }
+	public int Experience { get; set; } = default!;
 }

@@ -6,7 +6,7 @@ namespace LSDW.Core.Classes;
 /// <summary>
 /// The inventory class.
 /// </summary>
-internal sealed class Inventory : IInventory
+public sealed class Inventory : IInventory
 {
 	private readonly List<IDrug> _drugs;
 
@@ -38,7 +38,10 @@ internal sealed class Inventory : IInventory
 	public bool IsReadOnly => false;
 
 	public void Clear()
-		=> _drugs.Clear();
+	{
+		Money = 0;
+		_drugs.Clear();
+	}
 
 	public bool Contains(IDrug item)
 		=> _drugs.Contains(item);
@@ -61,10 +64,17 @@ internal sealed class Inventory : IInventory
 			existingDrug.Add(drugToAdd.Quantity, drugToAdd.Price);
 	}
 
+	public void Add(IEnumerable<IDrug> drugsToAdd)
+	{
+		foreach (IDrug drug in drugsToAdd)
+			Add(drug);
+	}
+
 	public void Add(int moneyToAdd)
 	{
 		if (moneyToAdd < 1)
-			throw new ArgumentOutOfRangeException(nameof(moneyToAdd));
+			return;
+
 		Money += moneyToAdd;
 	}
 
@@ -82,10 +92,17 @@ internal sealed class Inventory : IInventory
 		return !Equals(existingDrug.Quantity, 0) || _drugs.Remove(existingDrug);
 	}
 
+	public void Remove(IEnumerable<IDrug> drugsToRemove)
+	{
+		foreach(IDrug drug in drugsToRemove)
+			_ = Remove(drug);
+	}
+
 	public void Remove(int moneyToRemove)
 	{
 		if (moneyToRemove < 1)
-			throw new ArgumentOutOfRangeException(nameof(moneyToRemove));
+			return;
+
 		Money -= moneyToRemove;
 	}
 

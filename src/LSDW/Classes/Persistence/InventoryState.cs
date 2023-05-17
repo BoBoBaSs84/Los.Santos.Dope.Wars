@@ -21,8 +21,8 @@ public sealed class InventoryState
 
 	[XmlArray(nameof(Drugs))]
 	[XmlArrayItem("Drug")]
-	public List<DrugState> Drugs { get; set; }
+	public List<DrugState> Drugs { get; set; } = default!;
 
 	[XmlAttribute(nameof(Money))]
-	public int Money { get; set; }
+	public int Money { get; set; } = default!;
 }

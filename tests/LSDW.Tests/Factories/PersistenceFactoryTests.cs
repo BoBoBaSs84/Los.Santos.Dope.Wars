@@ -15,7 +15,7 @@ public class PersistenceFactoryTests
 	[TestMethod]
 	public void CreateDrugStateTest()
 	{
-		IDrug drug = DrugFactory.CreateRandomDrug();
+		IDrug drug = DrugFactory.CreateDrug();
 
 		DrugState drugState = PersistenceFactory.CreateDrugState(drug);
 
@@ -31,7 +31,7 @@ public class PersistenceFactoryTests
 	[TestMethod]
 	public void CreateDrugStatesTest()
 	{
-		IEnumerable<IDrug> drugs = DrugFactory.CreateRandomDrugs();
+		IEnumerable<IDrug> drugs = DrugFactory.CreateAllDrugs();
 
 		List<DrugState> drugStates = PersistenceFactory.CreateDrugStates(drugs);
 
@@ -48,7 +48,7 @@ public class PersistenceFactoryTests
 	[TestMethod]
 	public void CreateInventoryStateTest()
 	{
-		IEnumerable<IDrug> drugs = DrugFactory.CreateRandomDrugs();
+		IEnumerable<IDrug> drugs = DrugFactory.CreateAllDrugs();
 		int money = RandomHelper.GetInt();
 		IInventory inventory = InventoryFactory.CreateInventory(drugs, money);
 
@@ -68,7 +68,7 @@ public class PersistenceFactoryTests
 	[TestMethod]
 	public void CreatePlayerStateTest()
 	{
-		IEnumerable<IDrug> drugs = DrugFactory.CreateRandomDrugs();
+		IEnumerable<IDrug> drugs = DrugFactory.CreateAllDrugs();
 		int money = RandomHelper.GetInt();
 		IInventory inventory = InventoryFactory.CreateInventory(drugs, money);
 		int experience = RandomHelper.GetInt();

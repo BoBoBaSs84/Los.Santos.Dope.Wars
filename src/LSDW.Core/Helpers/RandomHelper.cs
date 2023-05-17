@@ -41,6 +41,12 @@ public static class RandomHelper
 	public static int GetInt(double min, double max) => _random.Next((int)min, (int)max);
 
 	/// <summary>
+	/// Returns a random floating-point number that is greater than or equal to 0.0 and less than 1.0.
+	/// </summary>
+	/// <returns></returns>
+	public static double GetDouble() => _random.NextDouble();
+
+	/// <summary>
 	/// Returns a random full name (first name and last name)
 	/// </summary>
 	public static string GetFullName()
