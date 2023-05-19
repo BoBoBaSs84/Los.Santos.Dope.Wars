@@ -1,4 +1,5 @@
-﻿using LSDW.Core.Interfaces.Classes;
+﻿using LSDW.Core.Factories;
+using LSDW.Core.Interfaces.Classes;
 using System.Collections;
 
 namespace LSDW.Core.Classes;
@@ -11,14 +12,23 @@ internal sealed class Inventory : IInventory
 	private readonly List<IDrug> _drugs;
 
 	/// <summary>
-	/// Initializes a instance of the inventory base class.
+	/// Initializes a instance of the inventory class.
 	/// </summary>
-	/// <param name="drugs">The drugs to add to the inventory.</param>
+	/// <param name="drugs">The collection of drugs to add to the inventory.</param>
 	/// <param name="money">The money to add to the inventory.</param>
 	public Inventory(IEnumerable<IDrug> drugs, int money)
 	{
 		_drugs = drugs.ToList();
 		Money = money;
+	}
+
+	/// <summary>
+	/// Initializes a instance of the inventory class.
+	/// </summary>
+	public Inventory()
+	{
+		_drugs = DrugFactory.CreateAllDrugs().ToList();
+		Money = default;
 	}
 
 	public int Count
