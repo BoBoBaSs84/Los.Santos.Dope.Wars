@@ -15,7 +15,7 @@ internal sealed class Drug : IDrug
 	/// <param name="drugType">The type of the drug.</param>
 	/// <param name="quantity">The quantity of the drug.</param>
 	/// <param name="price">The price of the drug.</param>
-	internal Drug(DrugType drugType, int quantity, int price)
+	internal Drug(DrugType drugType, int quantity = default, int price = default)
 	{
 		DrugType = drugType;
 		Quantity = quantity;
@@ -54,7 +54,13 @@ internal sealed class Drug : IDrug
 		if (quantity < 0)
 			return;
 
+		if (Quantity - quantity < 0)
+			throw new ArgumentOutOfRangeException(nameof(quantity));
+
 		Quantity -= quantity;
+
+		if (Quantity.Equals(0))
+			Price = 0;
 	}
 
 	private int CalculatePossibleProfit()

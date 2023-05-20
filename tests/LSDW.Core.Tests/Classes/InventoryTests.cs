@@ -1,4 +1,5 @@
 ﻿using LSDW.Core.Enumerators;
+using LSDW.Core.Extensions;
 using LSDW.Core.Factories;
 using LSDW.Core.Interfaces.Classes;
 
@@ -13,11 +14,10 @@ public class InventoryTests
 	{
 		IInventory inventory = InventoryFactory.CreateInventory();
 
-		inventory.Add(DrugFactory.CreateDrug(DrugType.COKE, 10, 1000));
-		inventory.Add(DrugFactory.CreateDrug(DrugType.COKE, 10, 500));
+		inventory.Add(DrugFactory.CreateDrug(DrugType.COKE, 10, 100));
+		inventory.Add(DrugFactory.CreateDrug(DrugType.COKE, 10, 50));
 
-		Assert.IsTrue(inventory.Count.Equals(1));
-		Assert.IsTrue(inventory.TotalQuantity.Equals(20));
+		Assert.AreEqual(20, inventory.TotalQuantity);
 	}
 
 	[TestMethod]
@@ -25,11 +25,10 @@ public class InventoryTests
 	{
 		IInventory inventory = InventoryFactory.CreateInventory();
 
-		inventory.Add(DrugFactory.CreateDrug(DrugType.COKE, 10, 750));
-		inventory.Add(DrugFactory.CreateDrug(DrugType.METH, 10, 1000));
+		inventory.Add(DrugFactory.CreateDrug(DrugType.COKE, 10, 75));
+		inventory.Add(DrugFactory.CreateDrug(DrugType.METH, 10, 100));
 
-		Assert.IsTrue(inventory.Count.Equals(2));
-		Assert.IsTrue(inventory.TotalQuantity.Equals(20));
+		Assert.AreEqual(20, inventory.TotalQuantity);
 	}
 
 	[TestMethod]
@@ -37,34 +36,19 @@ public class InventoryTests
 	{
 		IInventory inventory = InventoryFactory.CreateInventory();
 
-		inventory.Add(DrugFactory.CreateDrug(DrugType.COKE, 10, 3000));
-		inventory.Remove(DrugFactory.CreateDrug(DrugType.COKE, 5, 1000));
+		inventory.Add(DrugFactory.CreateDrug(DrugType.COKE, 10, 75));
+		inventory.Remove(DrugFactory.CreateDrug(DrugType.COKE, 5, 100));
 
-		Assert.IsTrue(inventory.Count.Equals(1));
-		Assert.IsTrue(inventory.TotalQuantity.Equals(5));
+		Assert.AreEqual(5, inventory.TotalQuantity);
 	}
 
 	[TestMethod]
-	public void RemoveExistingDrugCompletelyTest()
+	public void RemoveDrugQuantityExceptionTest()
 	{
 		IInventory inventory = InventoryFactory.CreateInventory();
-		IDrug drug = DrugFactory.CreateDrug(DrugType.COKE, 10, default);
+		IDrug drugToRemove = DrugFactory.CreateDrug(DrugType.COKE, 10, 50);
 
-		inventory.Add(drug);
-		inventory.Remove(drug);
-
-		Assert.IsTrue(inventory.Count.Equals(0));
-		Assert.IsTrue(inventory.TotalQuantity.Equals(0));
-	}
-
-	[TestMethod]
-	public void RemoveDrugIsFalseTest()
-	{
-		IInventory inventory = InventoryFactory.CreateInventory();
-
-		bool success = inventory.Remove(DrugFactory.CreateDrug(DrugType.COKE, 10, default));
-
-		Assert.IsFalse(success);
+		Assert.ThrowsException<ArgumentOutOfRangeException>(() => inventory.Remove(drugToRemove));
 	}
 
 	[TestMethod]
@@ -81,17 +65,18 @@ public class InventoryTests
 	[TestMethod]
 	public void AddNoMoneyTest()
 	{
-		IInventory inventory = InventoryFactory.CreateInventory(1000);
+		IInventory inventory = InventoryFactory.CreateInventory();
 
 		inventory.Add(0);
 
-		Assert.AreEqual(1000, inventory.Money);
+		Assert.AreEqual(0, inventory.Money);
 	}
 
 	[TestMethod]
 	public void RemoveMoneyTest()
 	{
-		IInventory inventory = InventoryFactory.CreateInventory(1000);
+		IEnumerable<IDrug> drugs = DrugFactory.CreateAllDrugs();
+		IInventory inventory = InventoryFactory.CreateInventory(drugs, 1000);
 
 		inventory.Remove(500);
 
@@ -101,7 +86,8 @@ public class InventoryTests
 	[TestMethod]
 	public void RemoveNoMoneyTest()
 	{
-		IInventory inventory = InventoryFactory.CreateInventory(1000);
+		IEnumerable<IDrug> drugs = DrugFactory.CreateAllDrugs();
+		IInventory inventory = InventoryFactory.CreateInventory(drugs, 1000);
 
 		inventory.Remove(0);
 
@@ -122,12 +108,14 @@ public class InventoryTests
 	[TestMethod()]
 	public void RemoveTest()
 	{
-		IEnumerable<IDrug> drugs = DrugFactory.CreateAllDrugs();
+		IInventory inventory = InventoryFactory.CreateInventory();
+		inventory = inventory.Randomize();
 
-		IInventory inventory = InventoryFactory.CreateInventory(drugs);
+		inventory.Remove(inventory);
 
-		inventory.Remove(drugs);
-
-		Assert.AreEqual(0, inventory.Count);
+		Assert.AreEqual(15, inventory.Count);
+		Assert.AreEqual(0, inventory.TotalQuantity);
+		Assert.AreEqual(0, inventory.TotalProfit);
+		Assert.AreEqual(0, inventory.TotalMarketValue);
 	}
 }

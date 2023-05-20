@@ -12,7 +12,7 @@ namespace LSDW.Core.Factories;
 public static class DrugFactory
 {
 	/// <summary>
-	/// Should create a drug instance.
+	/// Creates a drug instance.
 	/// </summary>
 	/// <param name="drugType">The type of the drug.</param>
 	/// <param name="quantity">The quantity of the drug.</param>
@@ -21,7 +21,22 @@ public static class DrugFactory
 		=> new Drug(drugType, quantity, price);
 
 	/// <summary>
-	/// Should create a drug instance.
+	/// Creates a drug instance.
+	/// </summary>
+	/// <param name="drugType">The type of the drug.</param>
+	/// <param name="quantity">The quantity of the drug.</param>
+	public static IDrug CreateDrug(DrugType drugType, int quantity)
+		=> new Drug(drugType, quantity);
+
+	/// <summary>
+	/// Creates a drug instance.
+	/// </summary>
+	/// <param name="drugType">The type of the drug.</param>
+	public static IDrug CreateDrug(DrugType drugType)
+		=> new Drug(drugType);
+
+	/// <summary>
+	/// Creates a random drug instance.
 	/// </summary>
 	/// <remarks>
 	/// Only the drug type is randomly choosen.
@@ -33,14 +48,14 @@ public static class DrugFactory
 	}
 
 	/// <summary>
-	/// Should create a drug collection instance of all available drugs.
+	/// Creates a drug collection instance of all available drugs.
 	/// </summary>
 	public static IEnumerable<IDrug> CreateAllDrugs()
 	{
 		IEnumerable<DrugType> drugTypes = DrugType.COKE.GetList();
 		List<IDrug> drugs = new();
 		foreach (DrugType drugType in drugTypes)
-			drugs.Add(CreateDrug(drugType, default, drugType.GetMarketValue()));
+			drugs.Add(CreateDrug(drugType));
 		return drugs;
 	}
 }

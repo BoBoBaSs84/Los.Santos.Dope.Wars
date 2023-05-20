@@ -1,4 +1,6 @@
-﻿using LSDW.Core.Enumerators;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using LSDW.Core.Classes;
+using LSDW.Core.Enumerators;
 using LSDW.Core.Factories;
 using LSDW.Core.Interfaces.Classes;
 
@@ -40,6 +42,16 @@ public class DrugTests
 		Assert.IsFalse(drug.PossibleProfit.Equals(25000));
 	}
 
+	[TestMethod()]
+	public void AddEarlyExitTest()
+	{
+		IDrug drug = DrugFactory.CreateDrug(DrugType.METH, 5);
+
+		drug.Add(-5, 0);
+
+		Assert.AreEqual(5, drug.Quantity);
+	}
+
 	[TestMethod]
 	public void RemoveSuccessTest()
 	{
@@ -58,5 +70,26 @@ public class DrugTests
 		drug.Remove(1);
 
 		Assert.IsFalse(drug.Quantity.Equals(5));
+	}
+
+	[TestMethod]
+	public void RemoveEarlyExitTest()
+	{
+		IDrug drug = DrugFactory.CreateDrug(DrugType.HASH);
+
+		drug.Remove(-1);
+
+		Assert.AreEqual(0, drug.Quantity);
+  }
+
+	[TestMethod]
+	public void RemovePriceSetZeroTest()
+	{
+		IDrug drug = DrugFactory.CreateDrug(DrugType.LSD, 100, 20);
+
+		drug.Remove(100);
+
+		Assert.AreEqual(0, drug.Quantity);
+		Assert.AreEqual(0, drug.Price);
 	}
 }
