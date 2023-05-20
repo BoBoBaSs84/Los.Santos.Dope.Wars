@@ -1,4 +1,5 @@
 ﻿using LSDW.Core.Enumerators;
+using LSDW.Core.Extensions;
 using LSDW.Core.Factories;
 using LSDW.Core.Interfaces.Classes;
 
@@ -42,13 +43,12 @@ public class InventoryTests
 	}
 
 	[TestMethod]
-	public void RemoveDrugIsFalseTest()
+	public void RemoveDrugQuantityExceptionTest()
 	{
 		IInventory inventory = InventoryFactory.CreateInventory();
+		IDrug drugToRemove = DrugFactory.CreateDrug(DrugType.COKE, 10, 50);
 
-		bool success = inventory.Remove(DrugFactory.CreateDrug(DrugType.COKE, 10, default));
-
-		Assert.IsFalse(success);
+		Assert.ThrowsException<ArgumentOutOfRangeException>(() => inventory.Remove(drugToRemove));
 	}
 
 	[TestMethod]
@@ -108,12 +108,14 @@ public class InventoryTests
 	[TestMethod()]
 	public void RemoveTest()
 	{
-		IEnumerable<IDrug> drugs = DrugFactory.CreateAllDrugs();
-		IInventory inventory = InventoryFactory.CreateInventory(drugs, 1000);
+		IInventory inventory = InventoryFactory.CreateInventory();
+		inventory = inventory.Randomize();
 
-		inventory.Remove(drugs);
+		inventory.Remove(inventory);
 
-		Assert.AreEqual(0, inventory.Count);
-		Assert.AreEqual(1000, inventory.Money);
+		Assert.AreEqual(15, inventory.Count);
+		Assert.AreEqual(0, inventory.TotalQuantity);
+		Assert.AreEqual(0, inventory.TotalProfit);
+		Assert.AreEqual(0, inventory.TotalMarketValue);
 	}
 }

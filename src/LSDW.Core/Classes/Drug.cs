@@ -54,6 +54,9 @@ internal sealed class Drug : IDrug
 		if (quantity < 0)
 			return;
 
+		if (Quantity - quantity < 0)
+			throw new ArgumentOutOfRangeException(nameof(quantity));
+
 		Quantity -= quantity;
 
 		if (Quantity.Equals(0))

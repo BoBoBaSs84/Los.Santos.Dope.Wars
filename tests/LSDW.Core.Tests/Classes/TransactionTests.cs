@@ -90,9 +90,7 @@ public class TransactionTests
 		Assert.IsTrue(transaction.Result.IsCompleted);
 		Assert.AreEqual(1, transaction.Result.Messages.Count);
 		Assert.AreEqual(0, player.Inventory.TotalQuantity);
-		Assert.AreEqual(0, player.Inventory.Count);
 		Assert.AreEqual(1200, player.Inventory.Money);
 		Assert.AreEqual(50, warehouse.TotalQuantity);
-		Assert.AreEqual(1, warehouse.Count);
 	}
 }

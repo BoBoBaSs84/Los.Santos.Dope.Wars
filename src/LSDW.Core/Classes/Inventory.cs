@@ -99,7 +99,7 @@ internal sealed class Inventory : IInventory
 
 		existingDrug.Remove(drugToRemove.Quantity);
 
-		return !Equals(existingDrug.Quantity, 0) || _drugs.Remove(existingDrug);
+		return true;
 	}
 
 	public void Remove(IEnumerable<IDrug> drugsToRemove)
