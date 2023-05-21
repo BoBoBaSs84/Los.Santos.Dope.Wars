@@ -27,7 +27,7 @@ public static class DrugExtensions
 
 		if (RandomHelper.GetDouble() > nonZeroChance)
 		{
-			drug.SetQuanitity(0);
+			drug.SetQuantity(0);
 			return drug;
 		}
 
@@ -35,7 +35,7 @@ public static class DrugExtensions
 		int maxQuantity = 5 + (playerLevel * 5);
 		int newQuantity = RandomHelper.GetInt(minQuantity, maxQuantity);
 
-		drug.SetQuanitity(newQuantity);
+		drug.SetQuantity(newQuantity);
 
 		return drug;
 	}

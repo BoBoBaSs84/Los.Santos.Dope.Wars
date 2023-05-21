@@ -57,11 +57,8 @@ internal sealed class Transaction : ITransaction
 
 		IEnumerable<IDrug> drugs = GetDrugsFromObjects();
 
-		foreach (IDrug drug in drugs)
-		{
-			_ = _source.Remove(drug);
-			_target.Add(drug);
-		}
+		_source.Remove(drugs);
+		_target.Add(drugs);
 
 		if (Type.Equals(TransactionType.TRAFFIC))
 		{

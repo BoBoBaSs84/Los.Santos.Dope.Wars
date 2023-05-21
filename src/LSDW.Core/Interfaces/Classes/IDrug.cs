@@ -54,7 +54,7 @@ public interface IDrug
 	/// Sets the current quantity for the drug.
 	/// </summary>
 	/// <param name="quantity">The new quantity of the drug.</param>
-	void SetQuanitity(int quantity);
+	void SetQuantity(int quantity);
 
 	/// <summary>
 	/// Sets the current price for the drug.

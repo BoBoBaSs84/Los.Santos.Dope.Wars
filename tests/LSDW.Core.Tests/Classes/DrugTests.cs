@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LSDW.Core.Classes;
-using LSDW.Core.Enumerators;
+﻿using LSDW.Core.Enumerators;
 using LSDW.Core.Factories;
 using LSDW.Core.Interfaces.Classes;
 
@@ -80,7 +78,7 @@ public class DrugTests
 		drug.Remove(-1);
 
 		Assert.AreEqual(0, drug.Quantity);
-  }
+	}
 
 	[TestMethod]
 	public void RemovePriceSetZeroTest()
@@ -108,7 +106,7 @@ public class DrugTests
 	{
 		IDrug drug = DrugFactory.CreateDrug(DrugType.SPEED);
 
-		drug.SetQuanitity(10);
+		drug.SetQuantity(10);
 
 		Assert.AreEqual(10, drug.Quantity);
 	}

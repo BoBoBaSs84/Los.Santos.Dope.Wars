@@ -66,7 +66,7 @@ internal sealed class Drug : IDrug
 	public void SetPrice(int price)
 		=> Price = price;
 	
-	public void SetQuanitity(int quantity)
+	public void SetQuantity(int quantity)
 		=> Quantity = quantity;
 	
 	private int CalculatePossibleProfit()
