@@ -1,6 +1,7 @@
 ﻿using LSDW.Core.Enumerators;
 using LSDW.Core.Extensions;
 using LSDW.Core.Interfaces.Classes;
+using RESX = LSDW.Core.Properties.Resources;
 
 namespace LSDW.Core.Classes;
 
@@ -43,7 +44,10 @@ internal sealed class Drug : IDrug
 			return;
 
 		if (price < 0)
-			throw new ArgumentOutOfRangeException(nameof(price));
+		{
+			string message = RESX.Exception_Drug_Add.FormatInvariant(price);
+			throw new ArgumentOutOfRangeException(nameof(price), message);
+		}
 
 		Price = ((Price * Quantity) + (price * quantity)) / (Quantity + quantity);
 		Quantity += quantity;
@@ -54,8 +58,13 @@ internal sealed class Drug : IDrug
 		if (quantity < 0)
 			return;
 
-		if (Quantity - quantity < 0)
-			throw new ArgumentOutOfRangeException(nameof(quantity));
+		int resultingQuantity = Quantity - quantity;
+
+		if (resultingQuantity < 0)
+		{
+			string message = RESX.Exception_Drug_Remove.FormatInvariant(resultingQuantity);
+			throw new ArgumentOutOfRangeException(nameof(quantity), message);
+		}
 
 		Quantity -= quantity;
 

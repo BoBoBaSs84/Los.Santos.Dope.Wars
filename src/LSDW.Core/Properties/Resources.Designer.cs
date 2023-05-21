@@ -61,6 +61,24 @@ namespace LSDW.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The price of a drug can not be smaller than zero. Value: &apos;{0}&apos;.
+        /// </summary>
+        internal static string Exception_Drug_Add {
+            get {
+                return ResourceManager.GetString("Exception.Drug.Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The resulting quantity of a drug can not be smaller than zero. Value: &apos;{0}&apos;.
+        /// </summary>
+        internal static string Exception_Drug_Remove {
+            get {
+                return ResourceManager.GetString("Exception.Drug.Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not enough room in inventory for transaction..
         /// </summary>
         internal static string Transaction_Result_Message_Inventory {
