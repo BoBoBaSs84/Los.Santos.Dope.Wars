@@ -10,15 +10,22 @@ namespace LSDW.Core.Classes;
 /// </summary>
 internal sealed class Transaction : ITransaction
 {
+	private readonly IInventory _source;
+	private readonly IInventory _target;
+
 	/// <summary>
 	/// Initializes a instance of the transaction class.
 	/// </summary>
 	/// <param name="type">The type of the transaction.</param>
+	/// <param name="source">The source inventory.</param>
+	/// <param name="target">The target inventory.</param>
 	/// <param name="objects">The transaction objects to process.</param>
 	/// <param name="maximumQuantity">The targets maximum inventory quantity.</param>
-	internal Transaction(TransactionType type, IEnumerable<TransactionObject> objects, int maximumQuantity)
+	internal Transaction(TransactionType type, IInventory source, IInventory target, IEnumerable<TransactionObject> objects, int maximumQuantity)
 	{
 		Type = type;
+		_source = source;
+		_target = target;
 		Objects = objects;
 		MaximumTargetQuantity = maximumQuantity;
 		Result = new();
@@ -32,15 +39,15 @@ internal sealed class Transaction : ITransaction
 
 	public TransactionResult Result { get; }
 
-	public void Commit(IInventory source, IInventory target)
+	public void Commit()
 	{
 		if (Result.IsCompleted)
 			return;
 
 		if (Type.Equals(TransactionType.TRAFFIC))
-			CheckTargetMoney(target);
+			CheckTargetMoney();
 
-		CheckTargetInventory(target);
+		CheckTargetInventory();
 
 		if (Result.Messages.Any())
 		{
@@ -52,15 +59,15 @@ internal sealed class Transaction : ITransaction
 
 		foreach (IDrug drug in drugs)
 		{
-			_ = source.Remove(drug);
-			target.Add(drug);
+			_ = _source.Remove(drug);
+			_target.Add(drug);
 		}
 
 		if (Type.Equals(TransactionType.TRAFFIC))
 		{
 			int transactionValue = drugs.Sum(drug => drug.Price * drug.Quantity);
-			source.Add(transactionValue);
-			target.Remove(transactionValue);
+			_source.Add(transactionValue);
+			_target.Remove(transactionValue);
 		}
 
 		Result.Success();
@@ -69,10 +76,9 @@ internal sealed class Transaction : ITransaction
 	/// <summary>
 	/// Checks if the target has enough money for the transaction.
 	/// </summary>
-	/// <param name="target">The target inventory.</param>
-	private void CheckTargetMoney(IInventory target)
+	private void CheckTargetMoney()
 	{
-		if (target.Money > Objects.Sum(o => o.Price * o.Quantity))
+		if (_target.Money > Objects.Sum(o => o.Price * o.Quantity))
 			return;
 		Result.Messages.Add(RESX.Transaction_Result_Message_Money);
 	}
@@ -80,10 +86,9 @@ internal sealed class Transaction : ITransaction
 	/// <summary>
 	/// Checks if the target has enough room for the transaction.
 	/// </summary>
-	/// <param name="target">The target inventory.</param>
-	private void CheckTargetInventory(IInventory target)
+	private void CheckTargetInventory()
 	{
-		if (Objects.Sum(o => o.Quantity) + target.Sum(d => d.Quantity) < MaximumTargetQuantity)
+		if (Objects.Sum(o => o.Quantity) + _target.Sum(d => d.Quantity) < MaximumTargetQuantity)
 			return;
 		Result.Messages.Add(RESX.Transaction_Result_Message_Inventory);
 	}

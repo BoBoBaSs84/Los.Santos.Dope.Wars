@@ -29,9 +29,7 @@ public interface ITransaction
 	TransactionResult Result { get; }
 
 	/// <summary>
-	/// Should commit the transaction from the <paramref name="source"/> to the <paramref name="target"/>.
+	/// Should commit the transaction from the source inventory to the target inventory.
 	/// </summary>
-	/// <param name="source">The source inventory.</param>
-	/// <param name="target">The target inventory.</param>
-	void Commit(IInventory source, IInventory target);
+	void Commit();
 }
