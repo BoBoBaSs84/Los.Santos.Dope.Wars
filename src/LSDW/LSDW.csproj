@@ -3,18 +3,8 @@
 	<PropertyGroup>
 		<GenerateAssemblyInfo>True</GenerateAssemblyInfo>
 		<GeneratedAssemblyInfoFile>Properties\AssemblyInfo.cs</GeneratedAssemblyInfoFile>
-		<Configurations>Debug;Release</Configurations>
+		<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
 		<UseWindowsForms>True</UseWindowsForms>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-		<Deterministic>True</Deterministic>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-		<Deterministic>True</Deterministic>
 	</PropertyGroup>
 
 	<ItemGroup>
