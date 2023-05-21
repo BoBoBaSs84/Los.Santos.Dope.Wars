@@ -1,10 +1,10 @@
-name: .NET
+name: Build and Tests .NET Framework
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -14,14 +14,21 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    - name: Setup MSBuild Path
-      uses: warrenbuckley/Setup-MSBuild@v1
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
       
     - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1.0.2
+      uses: NuGet/setup-nuget@v1.2.0
+      
+    - name: Setup VSTest
+      uses: darenm/Setup-VSTest@v1.2
+      
+    - name: Navigate to Workspace
+      run: cd $GITHUB_WORKSPACE
       
     - name: Restore NuGet Packages
       run: nuget restore Los.Santos.Dope.Wars.sln
       
     - name: Build
-      run: msbuild Los.Santos.Dope.Wars.sln /p:Configuration=Release
+      run: msbuild Los.Santos.Dope.Wars.sln /p:Configuration="Release"
+      
