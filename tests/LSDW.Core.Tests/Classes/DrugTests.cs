@@ -92,4 +92,24 @@ public class DrugTests
 		Assert.AreEqual(0, drug.Quantity);
 		Assert.AreEqual(0, drug.Price);
 	}
+
+	[TestMethod]
+	public void SetNewPriceTests()
+	{
+		IDrug drug = DrugFactory.CreateDrug(DrugType.SPEED);
+
+		drug.SetPrice(100);
+
+		Assert.AreEqual(100, drug.Price);
+	}
+
+	[TestMethod]
+	public void SetNewQuantityTests()
+	{
+		IDrug drug = DrugFactory.CreateDrug(DrugType.SPEED);
+
+		drug.SetQuanitity(10);
+
+		Assert.AreEqual(10, drug.Quantity);
+	}
 }

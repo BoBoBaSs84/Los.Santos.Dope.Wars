@@ -63,6 +63,12 @@ internal sealed class Drug : IDrug
 			Price = 0;
 	}
 
+	public void SetPrice(int price)
+		=> Price = price;
+	
+	public void SetQuanitity(int quantity)
+		=> Quantity = quantity;
+	
 	private int CalculatePossibleProfit()
 		=> Quantity.Equals(0) ? 0 : (MarketValue - Price) * Quantity;
 }
