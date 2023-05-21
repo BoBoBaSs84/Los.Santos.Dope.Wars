@@ -10,7 +10,7 @@ namespace LSDW.UserInterfaces.Trafficking;
 /// <summary>
 /// The menu class.
 /// </summary>
-public sealed class Menu : NativeMenu
+public sealed class SideMenu : NativeMenu
 {
 	private readonly Size ScreenSize = GTA.UI.Screen.Resolution;
 	
@@ -30,7 +30,7 @@ public sealed class Menu : NativeMenu
 	/// <param name="menuType">The type of the menu.</param>
 	/// <param name="color">The color of the menu.</param>
 	/// <param name="drugs">The drugs for the menu.</param>
-	public Menu(MenuType menuType, Color color, IInventory drugs) : base(GetTitle(menuType))
+	public SideMenu(MenuType menuType, Color color, IInventory drugs) : base(GetTitle(menuType))
 	{
 		Inventory = drugs;
 
