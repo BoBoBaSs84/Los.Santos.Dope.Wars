@@ -1,5 +1,9 @@
 [![.NET](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/dotnet.yml)
 [![CodeQL](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/codeql-analysis.yml)
+[![Issues](https://img.shields.io/github/issues/BoBoBaSs84/Magic.Switch.Board)](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/issues)
+[![Forks](https://img.shields.io/github/forks/BoBoBaSs84/Magic.Switch.Board)](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/network)
+[![stars](https://img.shields.io/github/stars/BoBoBaSs84/Magic.Switch.Board)](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/stargazers)
+[![License](https://img.shields.io/github/license/BoBoBaSs84/Magic.Switch.Board)](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/blob/main/LICENSE)
 
 # Los.Santos.Dope.Wars
 
