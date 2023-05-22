@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace LSDW.Core.Classes.Base;
 

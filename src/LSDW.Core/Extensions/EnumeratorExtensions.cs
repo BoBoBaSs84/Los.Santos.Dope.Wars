@@ -1,5 +1,6 @@
 ﻿using LSDW.Core.Attributes;
 using LSDW.Core.Enumerators;
+using System.ComponentModel;
 using System.Reflection;
 
 namespace LSDW.Core.Extensions;
@@ -7,7 +8,7 @@ namespace LSDW.Core.Extensions;
 /// <summary>
 /// The enumerator extensions class.
 /// </summary>
-internal static class EnumeratorExtensions
+public static class EnumeratorExtensions
 {
 	/// <summary>
 	/// Should return the description of the <see cref="DrugType"/> enumerator.

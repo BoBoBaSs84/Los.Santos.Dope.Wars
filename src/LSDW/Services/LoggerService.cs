@@ -1,5 +1,6 @@
 ﻿using LSDW.Properties;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace LSDW.Services;
 

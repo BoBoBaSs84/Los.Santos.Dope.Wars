@@ -33,8 +33,7 @@ public static class InventoryExtensions
 		foreach (DrugType drugType in drugTypes)
 		{
 			IDrug drug = DrugFactory.CreateDrug(drugType);
-			_ = drug.RandomizeQuantity(playerLevel);
-			_ = drug.RandomizeQuantity(playerLevel);
+			_ = drug.RandomizeQuantity(playerLevel).RandomizePrice(playerLevel);
 			inventory.Add(drug);
 		}
 

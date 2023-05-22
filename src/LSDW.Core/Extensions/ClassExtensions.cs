@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System.Text;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace LSDW.Core.Extensions;

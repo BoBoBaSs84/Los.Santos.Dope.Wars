@@ -21,12 +21,6 @@ public static class RandomHelper
 	public static int GetInt(int max) => _random.Next(max);
 
 	/// <summary>
-	/// Returns a non-negative random integer that is less than the specified maximum.
-	/// </summary>
-	/// <param name="max">The exclusive upper bound of the random number to be generated.</param>
-	public static int GetInt(double max) => _random.Next((int)max);
-
-	/// <summary>
 	/// Returns a random integer that is within a specified range.
 	/// </summary>
 	/// <param name="min">The inclusive lower bound of the random number returned.</param>
