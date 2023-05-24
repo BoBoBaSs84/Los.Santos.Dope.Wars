@@ -1,6 +1,15 @@
 <Project>
 
 	<PropertyGroup>
+		<VersionMajor>$([System.DateTime]::UtcNow.Year)</VersionMajor>
+		<VersionMinor>$([System.DateTime]::UtcNow.Month)</VersionMinor>
+		<VersionPatch>$([System.DateTime]::UtcNow.Day)</VersionPatch>
+		<VersionRevision>$([System.DateTime]::UtcNow.TimeOfDay.TotalMinutes.ToString("0"))</VersionRevision>
+		<VersionPrefix>$(VersionMajor).$(VersionMinor).$(VersionPatch).$(VersionRevision)</VersionPrefix>
+		<VersionSuffix Condition="'$(Configuration)'=='Debug'">dev</VersionSuffix>
+	</PropertyGroup>
+
+	<PropertyGroup>
 		<PlatformTarget>x64</PlatformTarget>
 		<Platforms>x64</Platforms>
 		<TargetFramework>net48</TargetFramework>
@@ -13,44 +22,35 @@
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<AnalysisLevel>latest</AnalysisLevel>
 		<AnalysisMode>recommended</AnalysisMode>
+		<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+		<Deterministic>true</Deterministic>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+		<GeneratedAssemblyInfoFile>Properties\AssemblyInfo.cs</GeneratedAssemblyInfoFile>
 	</PropertyGroup>
 
-	<PropertyGroup>
-		<VersionMajor>$([System.DateTime]::UtcNow.Year)</VersionMajor>
-		<VersionMinor>$([System.DateTime]::UtcNow.Month)</VersionMinor>
-		<VersionPatch>$([System.DateTime]::UtcNow.Day)</VersionPatch>
-		<VersionRevision>$([System.DateTime]::UtcNow.TimeOfDay.TotalMinutes.ToString("0"))</VersionRevision>
-		<VersionPrefix>$(VersionMajor).$(VersionMinor).$(VersionPatch).$(VersionRevision)</VersionPrefix>
-		<VersionSuffix Condition="'$(Configuration)'=='Debug'">dev</VersionSuffix>
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<DebugType>none</DebugType>
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="!$(MSBuildProjectName.EndsWith('Tests'))" Label="Metadata">
+		<Authors>BoBoBaSs84</Authors>
+		<Company>BoBoBaSs84</Company>
+		<Copyright>Copyright © $(VersionMajor) BoBoBaSs84</Copyright>
+		<Description>The modification is an attempt to bring the "trade" game mechanics from Chinatown Wars to the fictional state of San Andreas.</Description>
+		<Product>Los.Santos.Dope.Wars</Product>
+		<RepositoryUrl>https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageReadmeFile>..\..\README.md</PackageReadmeFile>
+		<PackageTags>gtav;gtav-mod;gta5-mode;scripthoohvdotnet;dopewars;lemonui</PackageTags>
+		<PackageProjectUrl>https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars</PackageProjectUrl>
+		<PackageLicenseFile>..\..\LICENSE</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="!$(MSBuildProjectName.EndsWith('Tests'))">
-		<ProduceReferenceAssembly>true</ProduceReferenceAssembly>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-		<GeneratedAssemblyInfoFile>Properties\AssemblyInfo.cs</GeneratedAssemblyInfoFile>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryUrl>https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars</RepositoryUrl>
-		<RepositoryType>git</RepositoryType>
-		<PackageTags>gtav;gtav-mod;gta5-mode;scripthoohvdotnet;dopewars;lemonui</PackageTags>
-		<Copyright>Copyright © $(VersionMajor) BoBoBaSs84</Copyright>
-		<Description>The modification is an attempt to bring the "trade" game mechanics from Chinatown Wars to the fictional state of San Andreas.</Description>
-		<PackageProjectUrl>https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars</PackageProjectUrl>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-		<Authors>BoBoBaSs84</Authors>
-		<Product>Los.Santos.Dope.Wars</Product>
-	</PropertyGroup>
-	
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-		<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-		<Deterministic>True</Deterministic>
-	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-		<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-		<Deterministic>True</Deterministic>
-	</PropertyGroup>	
+	</PropertyGroup>
 
 	<ItemGroup Condition="!$(MSBuildProjectName.EndsWith('Tests'))">
 		<None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
