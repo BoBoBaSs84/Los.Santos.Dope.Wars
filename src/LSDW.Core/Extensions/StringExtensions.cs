@@ -22,15 +22,16 @@ public static class StringExtensions
 	/// Compresses a string and returns a deflate compressed, Base64 encoded string.
 	/// </summary>
 	/// <param name="inputString">Input string to compress.</param>
+	/// <param name="compressionLevel">The compression level to use.</param>
 	/// <returns></returns>
-	public static string Compress(this string inputString)
+	public static string Compress(this string inputString, CompressionLevel compressionLevel = CompressionLevel.Optimal)
 	{
 		byte[] compressedBytes;
 
 		using (MemoryStream uncompressedStream = new(Encoding.UTF8.GetBytes(inputString)))
 		{
 			using MemoryStream compressedStream = new();
-			using (DeflateStream compressorStream = new(compressedStream, CompressionLevel.Optimal, true))
+			using (DeflateStream compressorStream = new(compressedStream, compressionLevel, true))
 			{
 				uncompressedStream.CopyTo(compressorStream);
 			}
