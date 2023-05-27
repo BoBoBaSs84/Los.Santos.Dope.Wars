@@ -2,7 +2,7 @@
 using LSDW.Core.Extensions;
 using LSDW.Core.Interfaces.Classes;
 
-namespace LSDW.UserInterfaces.Trafficking;
+namespace LSDW.UI;
 
 /// <summary>
 /// The drug item class.

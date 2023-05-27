@@ -5,7 +5,7 @@ using LSDW.Core.Interfaces.Classes;
 using LSDW.Enumerators;
 using RESX = LSDW.Properties.Resources;
 
-namespace LSDW.UserInterfaces.Trafficking;
+namespace LSDW.UI;
 
 /// <summary>
 /// The menu class.
@@ -13,7 +13,7 @@ namespace LSDW.UserInterfaces.Trafficking;
 public sealed class SideMenu : NativeMenu
 {
 	private readonly Size ScreenSize = GTA.UI.Screen.Resolution;
-	
+
 	/// <summary>
 	/// The menu inventory.
 	/// </summary>

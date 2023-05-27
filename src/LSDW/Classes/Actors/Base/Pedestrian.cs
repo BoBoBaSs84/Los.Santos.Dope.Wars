@@ -12,7 +12,7 @@ internal abstract class Pedestrian : IPedestrian
 	/// Initializes a instance of the pedestrian class.
 	/// </summary>
 	/// <param name="position">The position of the pedestrian.</param>
-	internal Pedestrian(Vector3 position)
+	protected Pedestrian(Vector3 position)
 	{
 		Position = position;
 		Name = RandomHelper.GetFullName();
@@ -47,6 +47,7 @@ internal abstract class Pedestrian : IPedestrian
 		Ped.ArmorFloat = armor;
 		Ped.Money = money;
 	}
+
 	public void Delete()
 		=> Ped?.Delete();
 

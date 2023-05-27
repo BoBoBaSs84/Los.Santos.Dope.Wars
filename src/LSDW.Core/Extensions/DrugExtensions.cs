@@ -1,6 +1,6 @@
 ﻿using LSDW.Core.Helpers;
 using LSDW.Core.Interfaces.Classes;
-using LSDW.Core.Properties;
+using DealerSettings = LSDW.Core.Classes.Settings.DealerSettings;
 
 namespace LSDW.Core.Extensions;
 
@@ -9,8 +9,8 @@ namespace LSDW.Core.Extensions;
 /// </summary>
 public static class DrugExtensions
 {
-	private static readonly double MinValue = Settings.Default.MinimumDrugValue;
-	private static readonly double MaxValue = Settings.Default.MaximumDrugValue;
+	private static readonly double MinValue = (double)DealerSettings.MinimumDrugValue;
+	private static readonly double MaxValue = (double)DealerSettings.MaximumDrugValue;
 
 	/// <summary>
 	/// Randomizes the quantity for the provided drug.
