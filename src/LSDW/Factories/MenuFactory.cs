@@ -1,7 +1,7 @@
 ﻿using LSDW.Core.Enumerators;
 using LSDW.Core.Interfaces.Classes;
 using LSDW.Enumerators;
-using LSDW.UserInterfaces.Trafficking;
+using LSDW.UI;
 
 namespace LSDW.Factories;
 

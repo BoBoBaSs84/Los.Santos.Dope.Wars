@@ -5,7 +5,7 @@ using LSDW.Core.Enumerators;
 using LSDW.Core.Interfaces.Classes;
 using LSDW.Factories;
 
-namespace LSDW.UserInterfaces.Trafficking;
+namespace LSDW.UI;
 
 /// <summary>
 /// The traffic menu class.
