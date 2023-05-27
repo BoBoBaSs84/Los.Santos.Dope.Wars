@@ -3,6 +3,7 @@ using GTA.Math;
 using LSDW.Classes.Actors.Base;
 using LSDW.Core.Factories;
 using LSDW.Core.Interfaces.Classes;
+using LSDW.Properties;
 using LSDW.Helpers;
 using LSDW.Interfaces.Actors;
 
@@ -13,7 +14,7 @@ namespace LSDW.Classes.Actors;
 /// </summary>
 internal sealed class Dealer : Pedestrian, IDealer
 {
-	private const int ClosingHours = 48;
+	private static readonly int DealerDownTimeHours = Settings.Default.DealerDownTimeHours;
 
 	/// <summary>
 	/// Initializes a instance of the dealer class.
@@ -21,8 +22,10 @@ internal sealed class Dealer : Pedestrian, IDealer
 	/// <param name="position">The position of the dealer.</param>
 	public Dealer(Vector3 position) : base(position)
 	{
-		Inventory = InventoryFactory.CreateInventory();
 		Discovered = false;
+		Inventory = InventoryFactory.CreateInventory();
+
+		Inventory.PropertyChanged += OnPropertyChanged;
 	}
 
 	/// <summary>
@@ -38,6 +41,8 @@ internal sealed class Dealer : Pedestrian, IDealer
 		ClosedUntil = closedUntil;
 		Discovered = discovered;
 		Inventory = inventory;
+
+		Inventory.PropertyChanged += OnPropertyChanged;
 	}
 
 	public Blip? Blip { get; private set; }
@@ -66,7 +71,7 @@ internal sealed class Dealer : Pedestrian, IDealer
 			return;
 
 		Ped?.Task.FleeFrom(Position);
-		ClosedUntil = ScriptHookHelper.GetCurrentDateTime().AddHours(ClosingHours);
+		ClosedUntil = ScriptHookHelper.GetCurrentDateTime().AddHours(DealerDownTimeHours);
 	}
 
 	public void Update(WeaponHash weaponHash, int ammo)
@@ -74,5 +79,15 @@ internal sealed class Dealer : Pedestrian, IDealer
 		if (!Created)
 			return;
 		_ = Ped?.Weapons.Give(weaponHash, ammo, true, true);
+	}
+
+	private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
+	{
+		if (args.PropertyName.Equals(Inventory.Money))
+		{
+			if (Ped is null)
+				return;
+			Ped.Money = Inventory.Money;
+		}
 	}
 }

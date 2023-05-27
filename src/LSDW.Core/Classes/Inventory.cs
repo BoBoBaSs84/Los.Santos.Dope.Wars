@@ -1,4 +1,5 @@
-﻿using LSDW.Core.Factories;
+﻿using LSDW.Core.Classes.Base;
+using LSDW.Core.Factories;
 using LSDW.Core.Interfaces.Classes;
 using System.Collections;
 
@@ -7,9 +8,14 @@ namespace LSDW.Core.Classes;
 /// <summary>
 /// The inventory class.
 /// </summary>
-internal sealed class Inventory : IInventory
+/// <remarks>
+/// Inherits from the <see cref="Notification"/> class and
+/// implements the members of the <see cref="IInventory"/>
+/// </remarks>
+internal sealed class Inventory : Notification, IInventory
 {
 	private readonly List<IDrug> _drugs;
+	private int money;
 
 	/// <summary>
 	/// Initializes a instance of the inventory class.
@@ -34,7 +40,11 @@ internal sealed class Inventory : IInventory
 	public int Count
 		=> _drugs.Count;
 
-	public int Money { get; private set; }
+	public int Money
+	{
+		get => money;
+		private set => SetProperty(ref money, value);
+	}
 
 	public int TotalQuantity
 		=> _drugs.Sum(drug => drug.Quantity);

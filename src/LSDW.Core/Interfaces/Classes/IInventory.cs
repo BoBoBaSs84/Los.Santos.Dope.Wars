@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace LSDW.Core.Interfaces.Classes;
 
@@ -6,7 +7,7 @@ namespace LSDW.Core.Interfaces.Classes;
 /// The inventory interface.
 /// </summary>
 [SuppressMessage("Naming", "CA1710", Justification = "")]
-public interface IInventory : ICollection<IDrug>
+public interface IInventory : ICollection<IDrug>, INotifyPropertyChanged
 {
 	/// <summary>
 	/// The current drug money.

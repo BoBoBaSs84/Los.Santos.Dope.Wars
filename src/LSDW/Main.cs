@@ -1,5 +1,4 @@
 ﻿using GTA;
-using Logger = LSDW.Services.LoggerService;
 
 namespace LSDW;
 
@@ -13,22 +12,12 @@ public sealed class Main : Script
 	/// </summary>
 	public Main()
 	{
-		AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
-
 		Interval = 10;
 
 		Aborted += OnAborted;
 		KeyDown += OnKeyDown;
 		KeyUp += OnKeyUp;
 		Tick += OnTick;
-	}
-
-	private void OnUnhandledException(object sender, UnhandledExceptionEventArgs args)
-	{
-		Exception? ex = args.ExceptionObject as Exception;
-		if (ex is not null)
-			Logger.Error($"Exception: {ex.Message}");
-		Logger.Error($"Terminating: {args.IsTerminating}");
 	}
 
 	private void OnKeyUp(object sender, KeyEventArgs args) => throw new NotImplementedException();
