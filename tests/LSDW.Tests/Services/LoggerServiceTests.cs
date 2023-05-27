@@ -1,22 +1,27 @@
-﻿using Logger = LSDW.Services.LoggerService;
+﻿using LSDW.Core.Classes;
+using LSDW.Factories;
+using LSDW.Interfaces.Services;
 
 namespace LSDW.Tests.Services;
 
 [TestClass]
 public class LoggerServiceTests
 {
+	private readonly string logFileNamePath = Path.Combine(Environment.CurrentDirectory, Settings.LogFileName);
+	private readonly ILoggerService logger = ServiceFactory.CreateLoggerService();
+
 	[TestInitialize]
 	public void TestInitialize()
 	{
-		if (File.Exists(Logger.LogFileNamePath))
-			File.Delete(Logger.LogFileNamePath);
+		if (File.Exists(logFileNamePath))
+			File.Delete(logFileNamePath);
 	}
 
 	[TestCleanup]
 	public void TestCleanup()
 	{
-		if (File.Exists(Logger.LogFileNamePath))
-			File.Delete(Logger.LogFileNamePath);
+		if (File.Exists(logFileNamePath))
+			File.Delete(logFileNamePath);
 	}
 
 	[TestMethod]
@@ -24,9 +29,9 @@ public class LoggerServiceTests
 	{
 		string message = "This is a informational message";
 
-		Logger.Information(message);
+		logger.Information(message);
 
-		Assert.IsTrue(File.Exists(Logger.LogFileNamePath));
+		Assert.IsTrue(File.Exists(logFileNamePath));
 	}
 
 	[TestMethod]
@@ -34,18 +39,18 @@ public class LoggerServiceTests
 	{
 		string message = "This is a warning message";
 
-		Logger.Warning(message);
+		logger.Warning(message);
 
-		Assert.IsTrue(File.Exists(Logger.LogFileNamePath));
+		Assert.IsTrue(File.Exists(logFileNamePath));
 	}
 
 	[TestMethod]
-	public void ErrorTest()
+	public void CriticalTest()
 	{
-		string message = "This is a error message";
+		string message = "This is a critical error message";
 
-		Logger.Error(message);
+		logger.Critical(message);
 
-		Assert.IsTrue(File.Exists(Logger.LogFileNamePath));
+		Assert.IsTrue(File.Exists(logFileNamePath));
 	}
 }
