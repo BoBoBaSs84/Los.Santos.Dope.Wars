@@ -2,7 +2,7 @@
 using LSDW.Enumerators;
 using RESX = LSDW.Properties.Resources;
 
-namespace LSDW.UserInterfaces.Trafficking;
+namespace LSDW.UI;
 
 /// <summary>
 /// The switch item class.
