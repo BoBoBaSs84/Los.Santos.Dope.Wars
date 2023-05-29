@@ -27,7 +27,7 @@ public static class InventoryExtensions
 	public static IInventory Randomize(this IInventory inventory, int playerLevel = 0)
 	{
 		IEnumerable<DrugType> drugTypes = DrugType.COKE.GetList();
-				
+
 		inventory.Clear();
 
 		foreach (DrugType drugType in drugTypes)

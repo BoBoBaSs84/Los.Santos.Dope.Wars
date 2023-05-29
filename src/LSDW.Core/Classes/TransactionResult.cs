@@ -1,6 +1,4 @@
-﻿using RESX = LSDW.Core.Properties.Resources;
-
-namespace LSDW.Core.Classes;
+﻿namespace LSDW.Core.Classes;
 
 /// <summary>
 /// The transaction result class.
@@ -13,19 +11,13 @@ public sealed class TransactionResult
 	public TransactionResult()
 	{
 		Successful = default;
-		IsCompleted = default;
 		Messages = new HashSet<string>();
 	}
 
 	/// <summary>
-	/// Was the transaction successful?
+	/// Was the last transaction successful?
 	/// </summary>
 	public bool Successful { get; private set; }
-
-	/// <summary>
-	/// Is the transaction completed?
-	/// </summary>
-	public bool IsCompleted { get; private set; }
 
 	/// <summary>
 	/// The transaction messages to show.
@@ -36,17 +28,11 @@ public sealed class TransactionResult
 	/// Sets the result to failure.
 	/// </summary>
 	public void Failed()
-	{
-		Successful = false;
-		IsCompleted = true;
-	}
+		=> Successful = false;
 
 	/// <summary>
 	/// Sets the result to success.
 	/// </summary>
 	public void Success()
-	{
-		Messages.Add(RESX.Transaction_Result_Message_Success);
-		IsCompleted = Successful = true;
-	}
+		=> Successful = true;
 }

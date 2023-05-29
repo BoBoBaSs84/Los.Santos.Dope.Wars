@@ -15,7 +15,7 @@ public static class ClassExtensions
 	public static XmlWriterSettings WriterSettings => new()
 	{
 		NamespaceHandling = NamespaceHandling.OmitDuplicates,
-		OmitXmlDeclaration = true		
+		OmitXmlDeclaration = true
 	};
 
 	/// <summary>

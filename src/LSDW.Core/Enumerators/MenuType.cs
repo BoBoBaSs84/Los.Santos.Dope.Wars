@@ -1,4 +1,4 @@
-﻿namespace LSDW.Enumerators;
+﻿namespace LSDW.Core.Enumerators;
 
 /// <summary>
 /// The menu type enumerator.

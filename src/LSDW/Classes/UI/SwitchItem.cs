@@ -1,8 +1,8 @@
 ﻿using LemonUI.Menus;
-using LSDW.Enumerators;
+using LSDW.Core.Enumerators;
 using RESX = LSDW.Properties.Resources;
 
-namespace LSDW.UI;
+namespace LSDW.Classes.UI;
 
 /// <summary>
 /// The switch item class.

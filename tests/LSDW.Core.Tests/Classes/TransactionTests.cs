@@ -1,7 +1,6 @@
-﻿using LSDW.Core.Classes;
-using LSDW.Core.Enumerators;
-using LSDW.Core.Interfaces.Classes;
+﻿using LSDW.Core.Enumerators;
 using LSDW.Core.Factories;
+using LSDW.Core.Interfaces.Classes;
 
 namespace LSDW.Core.Tests.Classes;
 
@@ -18,13 +17,13 @@ public class TransactionTests
 		IPlayer player = PlayerFactory.CreatePlayer();
 		player.Inventory.Add(500);
 
-		List<TransactionObject> objects = new() { new(DrugType.COKE, 5, 90) };
-		ITransaction transaction = TransactionFactory.CreateTrafficTransaction(dealerInventory, player.Inventory, objects, player.MaximumInventoryQuantity);
+		ITransaction transaction = TransactionFactory.CreateTrafficTransaction(dealerInventory, player.Inventory, player.MaximumInventoryQuantity);
+		IDrug drug = DrugFactory.CreateDrug(DrugType.COKE, 5, 90);
 
+		transaction.Add(drug);
 		transaction.Commit();
 
 		Assert.IsTrue(transaction.Result.Successful);
-		Assert.IsTrue(transaction.Result.IsCompleted);
 		Assert.AreEqual(1, transaction.Result.Messages.Count);
 		Assert.AreEqual(450, dealerInventory.Money);
 		Assert.AreEqual(10, dealerInventory.TotalQuantity);
@@ -42,13 +41,13 @@ public class TransactionTests
 		IPlayer player = PlayerFactory.CreatePlayer();
 		player.Inventory.Add(500000);
 
-		List<TransactionObject> objects = new() { new(DrugType.COKE, 150, 90) };
-		ITransaction transaction = TransactionFactory.CreateTrafficTransaction(dealerInventory, player.Inventory, objects, player.MaximumInventoryQuantity);
+		ITransaction transaction = TransactionFactory.CreateTrafficTransaction(dealerInventory, player.Inventory, player.MaximumInventoryQuantity);
+		IDrug drug = DrugFactory.CreateDrug(DrugType.COKE, 150, 90);
 
+		transaction.Add(drug);
 		transaction.Commit();
 
 		Assert.IsFalse(transaction.Result.Successful);
-		Assert.IsTrue(transaction.Result.IsCompleted);
 		Assert.IsTrue(transaction.Result.Messages.Any());
 	}
 
@@ -62,13 +61,18 @@ public class TransactionTests
 		IPlayer player = PlayerFactory.CreatePlayer();
 		player.Inventory.Add(50);
 
-		List<TransactionObject> objects = new() { new(DrugType.COKE, 5, 90) };
-		ITransaction transaction = TransactionFactory.CreateTrafficTransaction(dealerInventory, player.Inventory, objects, player.MaximumInventoryQuantity);
+		List<IDrug> drugList = new();
+		IDrug cokeToAdd = DrugFactory.CreateDrug(DrugType.COKE, 5, 90);
+		drugList.Add(cokeToAdd);
+		IDrug methToAdd = DrugFactory.CreateDrug(DrugType.METH, 10, 110);
+		drugList.Add(methToAdd);
 
+		ITransaction transaction = TransactionFactory.CreateTrafficTransaction(dealerInventory, player.Inventory, player.MaximumInventoryQuantity);
+
+		transaction.Add(drugList);
 		transaction.Commit();
 
 		Assert.IsFalse(transaction.Result.Successful);
-		Assert.IsTrue(transaction.Result.IsCompleted);
 		Assert.IsTrue(transaction.Result.Messages.Any());
 	}
 
@@ -81,13 +85,12 @@ public class TransactionTests
 		player.Inventory.Add(cokeToDeposit);
 		player.Inventory.Add(1200);
 
-		List<TransactionObject> objects = new() { new(cokeToDeposit) };
-		ITransaction transaction = TransactionFactory.CreateDepositTransaction(player.Inventory, warehouse, objects);
+		ITransaction transaction = TransactionFactory.CreateDepositTransaction(player.Inventory, warehouse);
+		transaction.Add(cokeToDeposit);
 
 		transaction.Commit();
 
 		Assert.IsTrue(transaction.Result.Successful);
-		Assert.IsTrue(transaction.Result.IsCompleted);
 		Assert.AreEqual(1, transaction.Result.Messages.Count);
 		Assert.AreEqual(0, player.Inventory.TotalQuantity);
 		Assert.AreEqual(1200, player.Inventory.Money);

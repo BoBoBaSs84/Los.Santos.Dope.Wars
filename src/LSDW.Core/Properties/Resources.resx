@@ -123,13 +123,13 @@
   <data name="Exception.Drug.Remove" xml:space="preserve">
     <value>The resulting quantity of a drug can not be smaller than zero. Value: '{0}'</value>
   </data>
-  <data name="Transaction.Result.Message.Inventory" xml:space="preserve">
+  <data name="Transaction.Result.Message.NoDrugs" xml:space="preserve">
+    <value>No durgs for transaction found.</value>
+  </data>
+  <data name="Transaction.Result.Message.NoInventory" xml:space="preserve">
     <value>Not enough room in inventory for transaction.</value>
   </data>
-  <data name="Transaction.Result.Message.Money" xml:space="preserve">
+  <data name="Transaction.Result.Message.NoMoney" xml:space="preserve">
     <value>Not enough money for transaction.</value>
-  </data>
-  <data name="Transaction.Result.Message.Success" xml:space="preserve">
-    <value>The transaction was successfully completed.</value>
   </data>
 </root>

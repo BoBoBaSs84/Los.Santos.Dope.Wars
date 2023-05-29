@@ -9,26 +9,39 @@ public class PlayerFactoryTests
 	[TestMethod]
 	public void CreatePlayerTest()
 	{
-		IPlayer? character;
+		IPlayer? player;
 
-		character = PlayerFactory.CreatePlayer();
+		player = PlayerFactory.CreatePlayer();
 
-		Assert.IsNotNull(character);
+		Assert.IsNotNull(player);
+		Assert.AreEqual(0, player.Experience);
+	}
+
+	[TestMethod]
+	public void CreatePlayerWithExperienceTest()
+	{
+		IPlayer? player;
+		int experience = 38934;
+
+		player = PlayerFactory.CreatePlayer(experience);
+
+		Assert.IsNotNull(player);
+		Assert.AreEqual(experience, player.Experience);
 	}
 
 	[TestMethod]
 	public void CreateExistingPlayerTest()
 	{
-		IPlayer? character;
+		IPlayer? player;
 		IInventory inventory = InventoryFactory.CreateInventory();
 		int money = 12000;
 		inventory.Add(money);
 		int experience = money;
 
-		character = PlayerFactory.CreatePlayer(inventory, experience);
+		player = PlayerFactory.CreatePlayer(inventory, experience);
 
-		Assert.IsNotNull(character);
-		Assert.AreEqual(money, character.Inventory.Money);
-		Assert.AreEqual(experience, character.Experience);
+		Assert.IsNotNull(player);
+		Assert.AreEqual(money, player.Inventory.Money);
+		Assert.AreEqual(experience, player.Experience);
 	}
 }

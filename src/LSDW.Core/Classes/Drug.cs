@@ -1,4 +1,5 @@
-﻿using LSDW.Core.Enumerators;
+﻿using LSDW.Core.Classes.Base;
+using LSDW.Core.Enumerators;
 using LSDW.Core.Extensions;
 using LSDW.Core.Interfaces.Classes;
 using RESX = LSDW.Core.Properties.Resources;
@@ -8,15 +9,21 @@ namespace LSDW.Core.Classes;
 /// <summary>
 /// The drug class.
 /// </summary>
-internal sealed class Drug : IDrug
+/// <remarks>
+/// Inherits from the <see cref="Notification"/> class and
+/// implements the members of the <see cref="IDrug"/>
+/// </remarks>
+internal sealed class Drug : Notification, IDrug
 {
+	private int quantity;
+
 	/// <summary>
 	/// Initializes a instance of the drug class.
 	/// </summary>
 	/// <param name="drugType">The type of the drug.</param>
 	/// <param name="quantity">The quantity of the drug.</param>
 	/// <param name="price">The price of the drug.</param>
-	internal Drug(DrugType drugType, int quantity = default, int price = default)
+	internal Drug(DrugType drugType, int quantity, int price)
 	{
 		DrugType = drugType;
 		Quantity = quantity;
@@ -31,7 +38,11 @@ internal sealed class Drug : IDrug
 	public int MarketValue
 		=> DrugType.GetMarketValue();
 
-	public int Quantity { get; private set; }
+	public int Quantity
+	{
+		get => quantity;
+		private set => SetProperty(ref quantity, value);
+	}
 
 	public int Price { get; private set; }
 
@@ -74,10 +85,10 @@ internal sealed class Drug : IDrug
 
 	public void SetPrice(int price)
 		=> Price = price;
-	
+
 	public void SetQuantity(int quantity)
 		=> Quantity = quantity;
-	
+
 	private int CalculatePossibleProfit()
 		=> Quantity.Equals(0) ? 0 : (MarketValue - Price) * Quantity;
 }

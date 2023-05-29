@@ -61,74 +61,101 @@ namespace LSDW.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dealer Money: {0}.
+        ///   Looks up a localized string similar to The are the settings for the LSDW modification..
         /// </summary>
-        internal static string UI_Menu_Subtitle_Buy {
+        internal static string UI_SettingsMenu_Description {
             get {
-                return ResourceManager.GetString("UI.Menu.Subtitle.Buy", resourceCulture);
+                return ResourceManager.GetString("UI.SettingsMenu.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings will saved on close..
+        /// </summary>
+        internal static string UI_SettingsMenu_Subtitle {
+            get {
+                return ResourceManager.GetString("UI.SettingsMenu.Subtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string UI_SettingsMenu_Title {
+            get {
+                return ResourceManager.GetString("UI.SettingsMenu.Title", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Your Money: {0}.
         /// </summary>
-        internal static string UI_Menu_Subtitle_Sell {
+        internal static string UI_SideMenu_Subtitle_Buy {
             get {
-                return ResourceManager.GetString("UI.Menu.Subtitle.Sell", resourceCulture);
+                return ResourceManager.GetString("UI.SideMenu.Subtitle.Buy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dealer Money: {0}.
+        /// </summary>
+        internal static string UI_SideMenu_Subtitle_Sell {
+            get {
+                return ResourceManager.GetString("UI.SideMenu.Subtitle.Sell", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Buy.
         /// </summary>
-        internal static string UI_Menu_Title_Buy {
+        internal static string UI_SideMenu_Title_Buy {
             get {
-                return ResourceManager.GetString("UI.Menu.Title.Buy", resourceCulture);
+                return ResourceManager.GetString("UI.SideMenu.Title.Buy", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Give.
         /// </summary>
-        internal static string UI_Menu_Title_Give {
+        internal static string UI_SideMenu_Title_Give {
             get {
-                return ResourceManager.GetString("UI.Menu.Title.Give", resourceCulture);
+                return ResourceManager.GetString("UI.SideMenu.Title.Give", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Retrieve.
         /// </summary>
-        internal static string UI_Menu_Title_Retrieve {
+        internal static string UI_SideMenu_Title_Retrieve {
             get {
-                return ResourceManager.GetString("UI.Menu.Title.Retrieve", resourceCulture);
+                return ResourceManager.GetString("UI.SideMenu.Title.Retrieve", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Sell.
         /// </summary>
-        internal static string UI_Menu_Title_Sell {
+        internal static string UI_SideMenu_Title_Sell {
             get {
-                return ResourceManager.GetString("UI.Menu.Title.Sell", resourceCulture);
+                return ResourceManager.GetString("UI.SideMenu.Title.Sell", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Store.
         /// </summary>
-        internal static string UI_Menu_Title_Store {
+        internal static string UI_SideMenu_Title_Store {
             get {
-                return ResourceManager.GetString("UI.Menu.Title.Store", resourceCulture);
+                return ResourceManager.GetString("UI.SideMenu.Title.Store", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Take.
         /// </summary>
-        internal static string UI_Menu_Title_Take {
+        internal static string UI_SideMenu_Title_Take {
             get {
-                return ResourceManager.GetString("UI.Menu.Title.Take", resourceCulture);
+                return ResourceManager.GetString("UI.SideMenu.Title.Take", resourceCulture);
             }
         }
         

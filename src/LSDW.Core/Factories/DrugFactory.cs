@@ -26,14 +26,14 @@ public static class DrugFactory
 	/// <param name="drugType">The type of the drug.</param>
 	/// <param name="quantity">The quantity of the drug.</param>
 	public static IDrug CreateDrug(DrugType drugType, int quantity)
-		=> new Drug(drugType, quantity);
+		=> new Drug(drugType, quantity, 0);
 
 	/// <summary>
 	/// Creates a drug instance.
 	/// </summary>
 	/// <param name="drugType">The type of the drug.</param>
 	public static IDrug CreateDrug(DrugType drugType)
-		=> new Drug(drugType);
+		=> new Drug(drugType, 0, 0);
 
 	/// <summary>
 	/// Creates a random drug instance.

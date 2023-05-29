@@ -1,7 +1,7 @@
-﻿using LSDW.Core.Enumerators;
+﻿using LSDW.Classes.UI;
+using LSDW.Core.Enumerators;
 using LSDW.Core.Interfaces.Classes;
-using LSDW.Enumerators;
-using LSDW.UI;
+using LSDW.Interfaces.Services;
 
 namespace LSDW.Factories;
 
@@ -11,34 +11,19 @@ namespace LSDW.Factories;
 public static class MenuFactory
 {
 	/// <summary>
-	/// Creates a new left side menu instance.
+	/// Creates a new instance of the settings menu.
 	/// </summary>
-	/// <param name="transactionType">The transaction type.</param>
-	/// <param name="inventory">The inventory to use.</param>
-	public static SideMenu GetLeftSideMenu(TransactionType transactionType, IInventory inventory)
-		=> new(GetLeftMenuType(transactionType), Color.Blue, inventory);
+	/// <param name="settingsService">The settings service.</param>
+	/// <param name="loggerService">The logger service.</param>
+	public static SettingsMenu CreateSettingsMenu(ISettingsService settingsService, ILoggerService loggerService)
+		=> new(settingsService, loggerService);
 
 	/// <summary>
-	/// Creates a new right side menu instance.
+	/// Creates a new instance of the side menu.
 	/// </summary>
-	/// <param name="transactionType">The transaction type.</param>
-	/// <param name="inventory">The inventory to use.</param>
-	public static SideMenu GetRightSideMenu(TransactionType transactionType, IInventory inventory)
-		=> new(GetRightMenuType(transactionType), Color.Blue, inventory);
-
-	private static MenuType GetLeftMenuType(TransactionType transactionType)
-		=> transactionType switch
-		{
-			TransactionType.TRAFFIC => MenuType.BUY,
-			TransactionType.DEPOSIT => MenuType.RETRIEVE,
-			_ => MenuType.TAKE,
-		};
-
-	private static MenuType GetRightMenuType(TransactionType transactionType)
-		=> transactionType switch
-		{
-			TransactionType.TRAFFIC => MenuType.SELL,
-			TransactionType.DEPOSIT => MenuType.STORE,
-			_ => MenuType.GIVE,
-		};
+	/// <param name="menuType">The menu type.</param>
+	/// <param name="source">The source inventory.</param>
+	/// <param name="target">The target inventory.</param>
+	public static SideMenu CreateSideMenu(MenuType menuType, IInventory source, IInventory target)
+		=> new(menuType, source, target);
 }
