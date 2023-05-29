@@ -12,7 +12,14 @@ public static class InventoryFactory
 	/// Creates a new inventory instance.
 	/// </summary>
 	public static IInventory CreateInventory()
-		=> new Inventory();
+		=> new Inventory(DrugFactory.CreateAllDrugs().ToList(), 0);
+
+	/// <summary>
+	/// Creates a new inventory instance.
+	/// </summary>
+	/// <param name="money">The money to add to the inventory.</param>
+	public static IInventory CreateInventory(int money)
+		=> new Inventory(DrugFactory.CreateAllDrugs().ToList(), money);
 
 	/// <summary>
 	/// Creates a new inventory instance.

@@ -1,5 +1,4 @@
 ﻿using LSDW.Core.Classes.Base;
-using LSDW.Core.Factories;
 using LSDW.Core.Interfaces.Classes;
 using System.Collections;
 
@@ -26,15 +25,6 @@ internal sealed class Inventory : Notification, IInventory
 	{
 		_drugs = drugs.ToList();
 		Money = money;
-	}
-
-	/// <summary>
-	/// Initializes a instance of the inventory class.
-	/// </summary>
-	public Inventory()
-	{
-		_drugs = DrugFactory.CreateAllDrugs().ToList();
-		Money = default;
 	}
 
 	public int Count

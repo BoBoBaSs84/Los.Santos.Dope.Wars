@@ -1,6 +1,5 @@
 ﻿using LSDW.Core.Classes.Base;
 using LSDW.Core.Constants;
-using LSDW.Core.Factories;
 using LSDW.Core.Interfaces.Classes;
 using PlayerSettings = LSDW.Core.Classes.Settings.PlayerSettings;
 
@@ -13,15 +12,6 @@ internal sealed class Player : Notification, IPlayer
 {
 	private readonly int _inventoryCapacity = PlayerSettings.StartingInventory;
 	private readonly int _expansionPerLevel = PlayerSettings.InventoryExpansionPerLevel;
-
-	/// <summary>
-	/// Initializes a instance of the player character class.
-	/// </summary>
-	internal Player()
-	{
-		Inventory = InventoryFactory.CreateInventory();
-		Experience = default;
-	}
 
 	/// <summary>
 	/// Initializes a instance of the player character class.

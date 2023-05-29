@@ -1,5 +1,4 @@
-﻿using LSDW.Core.Classes;
-using LSDW.Core.Enumerators;
+﻿using LSDW.Core.Enumerators;
 using LSDW.Core.Factories;
 using LSDW.Core.Interfaces.Classes;
 
@@ -14,13 +13,10 @@ public class TransactionFactoryTests
 		ITransaction? transaction;
 		IInventory dealerInventory = InventoryFactory.CreateInventory();
 		IPlayer player = PlayerFactory.CreatePlayer();
-		IEnumerable<TransactionObject> objects = Enumerable.Empty<TransactionObject>();
 
-		transaction = TransactionFactory.CreateTrafficTransaction(dealerInventory, player.Inventory, objects, player.MaximumInventoryQuantity);
+		transaction = TransactionFactory.CreateTrafficTransaction(dealerInventory, player.Inventory, player.MaximumInventoryQuantity);
 
 		Assert.IsNotNull(transaction);
-		Assert.IsNotNull(transaction.Objects);
-		Assert.IsFalse(transaction.Result.IsCompleted);
 		Assert.AreEqual(player.MaximumInventoryQuantity, transaction.MaximumTargetQuantity);
 		Assert.AreEqual(TransactionType.TRAFFIC, transaction.Type);
 	}
@@ -31,13 +27,10 @@ public class TransactionFactoryTests
 		ITransaction? transaction;
 		IInventory warehouseInventory = InventoryFactory.CreateInventory();
 		IPlayer player = PlayerFactory.CreatePlayer();
-		IEnumerable<TransactionObject> objects = Enumerable.Empty<TransactionObject>();
 
-		transaction = TransactionFactory.CreateDepositTransaction(player.Inventory, warehouseInventory, objects);
+		transaction = TransactionFactory.CreateDepositTransaction(player.Inventory, warehouseInventory);
 
 		Assert.IsNotNull(transaction);
-		Assert.IsNotNull(transaction.Objects);
-		Assert.IsFalse(transaction.Result.IsCompleted);
 		Assert.AreEqual(int.MaxValue, transaction.MaximumTargetQuantity);
 		Assert.AreEqual(TransactionType.DEPOSIT, transaction.Type);
 	}
@@ -48,13 +41,10 @@ public class TransactionFactoryTests
 		ITransaction? transaction;
 		IInventory warehouseInventory = InventoryFactory.CreateInventory();
 		IPlayer player = PlayerFactory.CreatePlayer();
-		IEnumerable<TransactionObject> objects = Enumerable.Empty<TransactionObject>();
 
-		transaction = TransactionFactory.CreateDepositTransaction(warehouseInventory, player.Inventory, objects, player.MaximumInventoryQuantity);
+		transaction = TransactionFactory.CreateDepositTransaction(warehouseInventory, player.Inventory, player.MaximumInventoryQuantity);
 
 		Assert.IsNotNull(transaction);
-		Assert.IsNotNull(transaction.Objects);
-		Assert.IsFalse(transaction.Result.IsCompleted);
 		Assert.AreEqual(player.MaximumInventoryQuantity, transaction.MaximumTargetQuantity);
 		Assert.AreEqual(TransactionType.DEPOSIT, transaction.Type);
 	}

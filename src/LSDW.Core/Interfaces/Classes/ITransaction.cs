@@ -14,11 +14,6 @@ public interface ITransaction
 	TransactionType Type { get; }
 
 	/// <summary>
-	/// The transaction objects to process.
-	/// </summary>
-	IEnumerable<TransactionObject> Objects { get; }
-
-	/// <summary>
 	/// The targets maximum inventory quantity.
 	/// </summary>
 	int MaximumTargetQuantity { get; }
@@ -29,7 +24,19 @@ public interface ITransaction
 	TransactionResult Result { get; }
 
 	/// <summary>
-	/// Should commit the transaction from the source inventory to the target inventory.
+	/// Adds the drug to the transaction.
+	/// </summary>
+	/// <param name="drug">The drug to add to the transaction.</param>
+	void Add(IDrug drug);
+
+	/// <summary>
+	/// Adds the drugs to the transaction.
+	/// </summary>
+	/// <param name="drugs">The drugs to add to the transaction.</param>
+	void Add(IEnumerable<IDrug> drugs);
+
+	/// <summary>
+	/// Commits the transaction from the source inventory to the target inventory.
 	/// </summary>
 	void Commit();
 }

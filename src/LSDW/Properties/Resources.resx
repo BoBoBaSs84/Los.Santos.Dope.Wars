@@ -117,28 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="UI.Menu.Subtitle.Buy" xml:space="preserve">
-    <value>Dealer Money: {0}</value>
+  <data name="UI.SettingsMenu.Description" xml:space="preserve">
+    <value>The are the settings for the LSDW modification.</value>
   </data>
-  <data name="UI.Menu.Subtitle.Sell" xml:space="preserve">
+  <data name="UI.SettingsMenu.Subtitle" xml:space="preserve">
+    <value>Settings will saved on close.</value>
+  </data>
+  <data name="UI.SettingsMenu.Title" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="UI.SideMenu.Subtitle.Buy" xml:space="preserve">
     <value>Your Money: {0}</value>
   </data>
-  <data name="UI.Menu.Title.Buy" xml:space="preserve">
+  <data name="UI.SideMenu.Subtitle.Sell" xml:space="preserve">
+    <value>Dealer Money: {0}</value>
+  </data>
+  <data name="UI.SideMenu.Title.Buy" xml:space="preserve">
     <value>Buy</value>
   </data>
-  <data name="UI.Menu.Title.Give" xml:space="preserve">
+  <data name="UI.SideMenu.Title.Give" xml:space="preserve">
     <value>Give</value>
   </data>
-  <data name="UI.Menu.Title.Retrieve" xml:space="preserve">
+  <data name="UI.SideMenu.Title.Retrieve" xml:space="preserve">
     <value>Retrieve</value>
   </data>
-  <data name="UI.Menu.Title.Sell" xml:space="preserve">
+  <data name="UI.SideMenu.Title.Sell" xml:space="preserve">
     <value>Sell</value>
   </data>
-  <data name="UI.Menu.Title.Store" xml:space="preserve">
+  <data name="UI.SideMenu.Title.Store" xml:space="preserve">
     <value>Store</value>
   </data>
-  <data name="UI.Menu.Title.Take" xml:space="preserve">
+  <data name="UI.SideMenu.Title.Take" xml:space="preserve">
     <value>Take</value>
   </data>
   <data name="UI.Switch.Item.Description.Buy" xml:space="preserve">

@@ -16,9 +16,9 @@ public static class Settings
 	/// </summary>
 	public static class DealerSettings
 	{
-		public static decimal MaximumDrugValue { get; set; } = 1.15M;
+		public static decimal MaximumDrugValue { get; set; } = 1.2M;
 
-		public static decimal MinimumDrugValue { get; set; } = 0.85M;
+		public static decimal MinimumDrugValue { get; set; } = 0.8M;
 
 		public static int DownTimeInHours { get; set; } = 48;
 	}

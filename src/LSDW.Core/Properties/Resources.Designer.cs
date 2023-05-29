@@ -79,29 +79,29 @@ namespace LSDW.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No durgs for transaction found..
+        /// </summary>
+        internal static string Transaction_Result_Message_NoDrugs {
+            get {
+                return ResourceManager.GetString("Transaction.Result.Message.NoDrugs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not enough room in inventory for transaction..
         /// </summary>
-        internal static string Transaction_Result_Message_Inventory {
+        internal static string Transaction_Result_Message_NoInventory {
             get {
-                return ResourceManager.GetString("Transaction.Result.Message.Inventory", resourceCulture);
+                return ResourceManager.GetString("Transaction.Result.Message.NoInventory", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Not enough money for transaction..
         /// </summary>
-        internal static string Transaction_Result_Message_Money {
+        internal static string Transaction_Result_Message_NoMoney {
             get {
-                return ResourceManager.GetString("Transaction.Result.Message.Money", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The transaction was successfully completed..
-        /// </summary>
-        internal static string Transaction_Result_Message_Success {
-            get {
-                return ResourceManager.GetString("Transaction.Result.Message.Success", resourceCulture);
+                return ResourceManager.GetString("Transaction.Result.Message.NoMoney", resourceCulture);
             }
         }
     }

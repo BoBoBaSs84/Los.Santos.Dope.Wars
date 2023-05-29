@@ -1,31 +1,38 @@
 ﻿using LemonUI;
 using LemonUI.Menus;
 using LSDW.Interfaces.Services;
-using PlayerSettings = LSDW.Core.Classes.Settings.PlayerSettings;
 using DealerSettings = LSDW.Core.Classes.Settings.DealerSettings;
+using PlayerSettings = LSDW.Core.Classes.Settings.PlayerSettings;
+using RESX = LSDW.Properties.Resources;
 
-namespace LSDW.UI;
+namespace LSDW.Classes.UI;
 
 /// <summary>
-/// The 
+/// The settings menu class.
 /// </summary>
-internal sealed class SettingsMenu : NativeMenu
+public sealed class SettingsMenu : NativeMenu
 {
 	private readonly ISettingsService _settingsService;
 	private readonly ILoggerService _loggerService;
 	private readonly ObjectPool _processables = new();
 
-	internal SettingsMenu(ISettingsService settingsService, ILoggerService loggerService) : base("Settings")
+	/// <summary>
+	/// Initializes a instance of the settings menu class.
+	/// </summary>
+	/// <param name="settingsService">The settings service.</param>
+	/// <param name="loggerService">The logger service.</param>
+	internal SettingsMenu(ISettingsService settingsService, ILoggerService loggerService) : base(RESX.UI_SettingsMenu_Title, RESX.UI_SettingsMenu_Subtitle)
 	{
 		_settingsService = settingsService;
 		_loggerService = loggerService;
-		Build();
+
+		AddMenuItems();
 		_processables.Add(this);
 
 		Closing += OnClosing;
 	}
 
-	private void Build()
+	private void AddMenuItems()
 	{
 		try
 		{
@@ -93,7 +100,7 @@ internal sealed class SettingsMenu : NativeMenu
 	{
 		if (sender is not NativeListItem<decimal> maximumDrugValueItem)
 			return;
-		_settingsService.SetMinimumDrugValue(maximumDrugValueItem.SelectedItem);
+		_settingsService.SetMaximumDrugValue(maximumDrugValueItem.SelectedItem);
 	}
 
 	private void MinimumDrugValueItemChanged(object sender, ItemChangedEventArgs<decimal> args)

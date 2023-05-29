@@ -5,7 +5,7 @@ namespace LSDW.Core.Interfaces.Classes;
 /// <summary>
 /// The drug interface.
 /// </summary>
-public interface IDrug
+public interface IDrug : INotifyPropertyChanged
 {
 	/// <summary>
 	/// The type of the drug.
