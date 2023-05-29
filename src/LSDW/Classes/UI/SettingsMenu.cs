@@ -1,8 +1,7 @@
 ﻿using LemonUI;
 using LemonUI.Menus;
 using LSDW.Interfaces.Services;
-using DealerSettings = LSDW.Core.Classes.Settings.DealerSettings;
-using PlayerSettings = LSDW.Core.Classes.Settings.PlayerSettings;
+using static LSDW.Core.Classes.Settings;
 using RESX = LSDW.Properties.Resources;
 
 namespace LSDW.Classes.UI;
@@ -58,7 +57,7 @@ public sealed class SettingsMenu : NativeMenu
 			inventoryExpansionPerLevelItem.ItemChanged += InventoryExpansionPerLevelItemChanged;
 			Add(inventoryExpansionPerLevelItem);
 
-			NativeListItem<int> startingInventoryItem = new($"{nameof(PlayerSettings.StartingInventory)}", new int[] { 25, 50, 75, 100, 125, 150, 175, 200 })
+			NativeListItem<int> startingInventoryItem = new($"{nameof(PlayerSettings.StartingInventory)}", new int[] { 50, 75, 100, 125, 150 })
 			{
 				Enabled = true,
 				SelectedItem = _settingsService.GetStartingInventory()
@@ -74,7 +73,7 @@ public sealed class SettingsMenu : NativeMenu
 			downTimeInHoursItem.ItemChanged += DownTimeInHoursItemChanged;
 			Add(downTimeInHoursItem);
 
-			NativeListItem<decimal> minimumDrugValueItem = new($"{nameof(DealerSettings.MinimumDrugValue)}", new decimal[] { 0.5M, 0.6M, 0.7M, 0.8M, 0.9M })
+			NativeListItem<decimal> minimumDrugValueItem = new($"{nameof(MarketSettings.MinimumDrugValue)}", new decimal[] { 0.5M, 0.6M, 0.7M, 0.8M, 0.9M })
 			{
 				Enabled = true,
 				SelectedItem = _settingsService.GetMinimumDrugValue()
@@ -82,7 +81,7 @@ public sealed class SettingsMenu : NativeMenu
 			minimumDrugValueItem.ItemChanged += MinimumDrugValueItemChanged;
 			Add(minimumDrugValueItem);
 
-			NativeListItem<decimal> maximumDrugValueItem = new($"{nameof(DealerSettings.MaximumDrugValue)}", new decimal[] { 1.1M, 1.2M, 1.3M, 1.4M, 1.5M })
+			NativeListItem<decimal> maximumDrugValueItem = new($"{nameof(MarketSettings.MaximumDrugValue)}", new decimal[] { 1.1M, 1.2M, 1.3M, 1.4M, 1.5M })
 			{
 				Enabled = true,
 				SelectedItem = _settingsService.GetMaximumDrugValue()

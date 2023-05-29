@@ -13,7 +13,7 @@ public class InventoryExtensionsTests
 	{
 		IInventory inventory = InventoryFactory.CreateInventory();
 
-		inventory.Randomize(1);
+		inventory.Randomize();
 
 		Assert.AreNotEqual(0, inventory.Money);
 	}

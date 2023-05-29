@@ -1,7 +1,9 @@
 ﻿using LSDW.Core.Classes.Base;
 using LSDW.Core.Enumerators;
 using LSDW.Core.Extensions;
+using LSDW.Core.Helpers;
 using LSDW.Core.Interfaces.Classes;
+using static LSDW.Core.Classes.Settings.MarketSettings;
 using RESX = LSDW.Core.Properties.Resources;
 
 namespace LSDW.Core.Classes;
@@ -62,6 +64,37 @@ internal sealed class Drug : Notification, IDrug
 
 		Price = ((Price * Quantity) + (price * quantity)) / (Quantity + quantity);
 		Quantity += quantity;
+	}
+
+	public void RandomizePrice(int playerLevel)
+	{
+		double minimumDrugValue = (double)MinimumDrugValue;
+		double maximumDrugValue = (double)MaximumDrugValue;
+
+		int marketValue = DrugType.GetMarketValue();
+		double levelLimit = (double)playerLevel / 1000;
+		double lowerLimit = (minimumDrugValue - levelLimit) * marketValue;
+		double upperLimit = (maximumDrugValue + levelLimit) * marketValue;
+
+		int newPrice = RandomHelper.GetInt(lowerLimit, upperLimit);
+		SetPrice(newPrice);
+	}
+
+	public void RandomizeQuantity(int playerLevel)
+	{
+		double nonZeroChance = (double)1 / DrugType.GetRank();
+
+		if (RandomHelper.GetDouble() > nonZeroChance)
+		{
+			SetQuantity(0);
+			return;
+		}
+
+		int minQuantity = 0 + playerLevel;
+		int maxQuantity = 5 + (playerLevel * 5);
+
+		int newQuantity = RandomHelper.GetInt(minQuantity, maxQuantity);
+		SetQuantity(newQuantity);
 	}
 
 	public void Remove(int quantity)

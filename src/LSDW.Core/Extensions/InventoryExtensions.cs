@@ -26,31 +26,23 @@ public static class InventoryExtensions
 	/// <param name="playerLevel">The current player level.</param>
 	public static IInventory Randomize(this IInventory inventory, int playerLevel = 0)
 	{
-		IEnumerable<DrugType> drugTypes = DrugType.COKE.GetList();
-
 		inventory.Clear();
+		IEnumerable<DrugType> drugTypes = DrugType.COKE.GetList();
 
 		foreach (DrugType drugType in drugTypes)
 		{
 			IDrug drug = DrugFactory.CreateDrug(drugType);
-			_ = drug.RandomizeQuantity(playerLevel).RandomizePrice(playerLevel);
+			drug.RandomizeQuantity(playerLevel);
+			drug.RandomizePrice(playerLevel);
 			inventory.Add(drug);
 		}
 
-		int money = GetRandomMoney(playerLevel);
+		int minMoney = (playerLevel + 1) * 50;
+		int maxMoney = (playerLevel + 1) * 250;
+
+		int money = RandomHelper.GetInt(minMoney, maxMoney);
 		inventory.Add(money);
 
 		return inventory;
-	}
-
-	/// <summary>
-	/// Returns a random amount of money for the inventory.
-	/// </summary>
-	/// <param name="playerLevel">The current player level.</param>
-	private static int GetRandomMoney(int playerLevel)
-	{
-		int minMoney = (playerLevel + 1) * 50;
-		int maxMoney = (playerLevel + 1) * 250;
-		return RandomHelper.GetInt(minMoney, maxMoney);
 	}
 }

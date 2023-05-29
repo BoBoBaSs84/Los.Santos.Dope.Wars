@@ -61,15 +61,6 @@ namespace LSDW.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The are the settings for the LSDW modification..
-        /// </summary>
-        internal static string UI_SettingsMenu_Description {
-            get {
-                return ResourceManager.GetString("UI.SettingsMenu.Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Settings will saved on close..
         /// </summary>
         internal static string UI_SettingsMenu_Subtitle {

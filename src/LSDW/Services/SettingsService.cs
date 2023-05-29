@@ -2,7 +2,9 @@
 using LSDW.Interfaces.Services;
 using DealerSettings = LSDW.Core.Classes.Settings.DealerSettings;
 using PlayerSettings = LSDW.Core.Classes.Settings.PlayerSettings;
+using MarketSettings = LSDW.Core.Classes.Settings.MarketSettings;
 using Settings = LSDW.Core.Classes.Settings;
+using LSDW.Factories;
 
 namespace LSDW.Services;
 
@@ -14,7 +16,8 @@ namespace LSDW.Services;
 /// </remarks>
 public sealed class SettingsService : ISettingsService
 {
-	private readonly ScriptSettings scriptSettings;
+	private readonly ILoggerService _loggerService;
+	private readonly ScriptSettings _scriptSettings;
 
 	/// <summary>
 	/// Initializes a instance of the settings service class.
@@ -22,7 +25,8 @@ public sealed class SettingsService : ISettingsService
 	public SettingsService()
 	{
 		string settingsFileName = Path.Combine(AppContext.BaseDirectory, Settings.SettingsFileName);
-		scriptSettings = ScriptSettings.Load(settingsFileName);
+		_loggerService = ServiceFactory.CreateLoggerService();
+		_scriptSettings = ScriptSettings.Load(settingsFileName);
 
 		if (!File.Exists(settingsFileName))
 			Init();
@@ -37,8 +41,8 @@ public sealed class SettingsService : ISettingsService
 		SetInventoryExpansionPerLevel(PlayerSettings.InventoryExpansionPerLevel);
 		SetStartingInventory(PlayerSettings.StartingInventory);
 		SetDownTimeInHours(DealerSettings.DownTimeInHours);
-		SetMinimumDrugValue(DealerSettings.MinimumDrugValue);
-		SetMaximumDrugValue(DealerSettings.MaximumDrugValue);
+		SetMinimumDrugValue(MarketSettings.MinimumDrugValue);
+		SetMaximumDrugValue(MarketSettings.MaximumDrugValue);
 		_ = Save();
 	}
 
@@ -49,73 +53,73 @@ public sealed class SettingsService : ISettingsService
 		PlayerSettings.InventoryExpansionPerLevel = GetInventoryExpansionPerLevel();
 		PlayerSettings.StartingInventory = GetStartingInventory();
 		DealerSettings.DownTimeInHours = GetDownTimeInHours();
-		DealerSettings.MaximumDrugValue = GetMinimumDrugValue();
-		DealerSettings.MaximumDrugValue = GetMinimumDrugValue();
+		MarketSettings.MinimumDrugValue = GetMinimumDrugValue();
+		MarketSettings.MaximumDrugValue = GetMaximumDrugValue();
 	}
 
 	public bool GetLooseDrugsWhenBusted()
-		=> scriptSettings.GetValue(nameof(PlayerSettings), nameof(PlayerSettings.LooseDrugsWhenBusted), PlayerSettings.LooseDrugsWhenBusted);
+		=> _scriptSettings.GetValue(nameof(PlayerSettings), nameof(PlayerSettings.LooseDrugsWhenBusted), true);
 
 	public bool GetLooseDrugsOnDeath()
-		=> scriptSettings.GetValue(nameof(PlayerSettings), nameof(PlayerSettings.LooseDrugsOnDeath), PlayerSettings.LooseDrugsOnDeath);
+		=> _scriptSettings.GetValue(nameof(PlayerSettings), nameof(PlayerSettings.LooseDrugsOnDeath), true);
 
 	public int GetInventoryExpansionPerLevel()
-		=> scriptSettings.GetValue(nameof(PlayerSettings), nameof(PlayerSettings.InventoryExpansionPerLevel), PlayerSettings.InventoryExpansionPerLevel);
+		=> _scriptSettings.GetValue(nameof(PlayerSettings), nameof(PlayerSettings.InventoryExpansionPerLevel), 10);
 
 	public int GetStartingInventory()
-		=> scriptSettings.GetValue(nameof(PlayerSettings), nameof(PlayerSettings.StartingInventory), PlayerSettings.StartingInventory);
+		=> _scriptSettings.GetValue(nameof(PlayerSettings), nameof(PlayerSettings.StartingInventory), 100);
 
 	public int GetDownTimeInHours()
-		=> scriptSettings.GetValue(nameof(DealerSettings), nameof(DealerSettings.DownTimeInHours), DealerSettings.DownTimeInHours);
+		=> _scriptSettings.GetValue(nameof(DealerSettings), nameof(DealerSettings.DownTimeInHours), 48);
 
 	public decimal GetMinimumDrugValue()
-		=> scriptSettings.GetValue(nameof(DealerSettings), nameof(DealerSettings.MinimumDrugValue), DealerSettings.MinimumDrugValue);
+		=> _scriptSettings.GetValue(nameof(MarketSettings), nameof(MarketSettings.MinimumDrugValue), 0.8M);
 
 	public decimal GetMaximumDrugValue()
-		=> scriptSettings.GetValue(nameof(DealerSettings), nameof(DealerSettings.MaximumDrugValue), DealerSettings.MaximumDrugValue);
+		=> _scriptSettings.GetValue(nameof(MarketSettings), nameof(MarketSettings.MaximumDrugValue), 1.2M);
 
 	public void SetLooseDrugsWhenBusted(bool value)
 	{
-		scriptSettings.SetValue(nameof(PlayerSettings), nameof(PlayerSettings.LooseDrugsWhenBusted), value);
+		_scriptSettings.SetValue(nameof(PlayerSettings), nameof(PlayerSettings.LooseDrugsWhenBusted), value);
 		PlayerSettings.LooseDrugsWhenBusted = value;
 	}
 
 	public void SetLooseDrugsOnDeath(bool value)
 	{
-		scriptSettings.SetValue(nameof(PlayerSettings), nameof(PlayerSettings.LooseDrugsOnDeath), value);
+		_scriptSettings.SetValue(nameof(PlayerSettings), nameof(PlayerSettings.LooseDrugsOnDeath), value);
 		PlayerSettings.LooseDrugsOnDeath = value;
 	}
 
 	public void SetInventoryExpansionPerLevel(int value)
 	{
-		scriptSettings.SetValue(nameof(PlayerSettings), nameof(PlayerSettings.InventoryExpansionPerLevel), value);
+		_scriptSettings.SetValue(nameof(PlayerSettings), nameof(PlayerSettings.InventoryExpansionPerLevel), value);
 		PlayerSettings.InventoryExpansionPerLevel = value;
 	}
 
 	public void SetStartingInventory(int value)
 	{
-		scriptSettings.SetValue(nameof(PlayerSettings), nameof(PlayerSettings.StartingInventory), value);
+		_scriptSettings.SetValue(nameof(PlayerSettings), nameof(PlayerSettings.StartingInventory), value);
 		PlayerSettings.StartingInventory = value;
 	}
 
 	public void SetDownTimeInHours(int value)
 	{
-		scriptSettings.SetValue(nameof(DealerSettings), nameof(DealerSettings.DownTimeInHours), value);
+		_scriptSettings.SetValue(nameof(DealerSettings), nameof(DealerSettings.DownTimeInHours), value);
 		DealerSettings.DownTimeInHours = value;
 	}
 
 	public void SetMinimumDrugValue(decimal value)
 	{
-		scriptSettings.SetValue(nameof(DealerSettings), nameof(DealerSettings.MinimumDrugValue), value);
-		DealerSettings.MinimumDrugValue = value;
+		_scriptSettings.SetValue(nameof(MarketSettings), nameof(MarketSettings.MinimumDrugValue), value);
+		MarketSettings.MinimumDrugValue = value;
 	}
 
 	public void SetMaximumDrugValue(decimal value)
 	{
-		scriptSettings.SetValue(nameof(DealerSettings), nameof(DealerSettings.MaximumDrugValue), value);
-		DealerSettings.MaximumDrugValue = value;
+		_scriptSettings.SetValue(nameof(MarketSettings), nameof(MarketSettings.MaximumDrugValue), value);
+		MarketSettings.MaximumDrugValue = value;
 	}
 
 	public bool Save()
-		=> scriptSettings.Save();
+		=> _scriptSettings.Save();
 }

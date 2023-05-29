@@ -1,4 +1,5 @@
-﻿using LSDW.Core.Enumerators;
+﻿using LSDW.Core.Classes;
+using LSDW.Core.Enumerators;
 using LSDW.Core.Factories;
 using LSDW.Core.Interfaces.Classes;
 
@@ -8,6 +9,13 @@ namespace LSDW.Core.Tests.Classes;
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public class DrugTests
 {
+	[ClassInitialize]
+	public static void ClassInitialize(TestContext context)
+	{
+		Settings.MarketSettings.MinimumDrugValue = 0.8M;
+		Settings.MarketSettings.MaximumDrugValue = 1.2M;
+	}
+
 	[TestMethod]
 	public void AddSuccessTest()
 	{
@@ -109,5 +117,25 @@ public class DrugTests
 		drug.SetQuantity(10);
 
 		Assert.AreEqual(10, drug.Quantity);
+	}
+
+	[TestMethod]
+	public void RandomizeQuantityTest()
+	{
+		IDrug drug = DrugFactory.CreateDrug(DrugType.CANA, -1);
+
+		drug.RandomizeQuantity(0);
+
+		Assert.AreNotEqual(-1, drug.Quantity);
+	}
+
+	[TestMethod]
+	public void RandomizePriceTest()
+	{
+		IDrug drug = DrugFactory.CreateDrug(DrugType.CANA, 0, -1);
+
+		drug.RandomizePrice(0);
+
+		Assert.AreNotEqual(-1, drug.Price);
 	}
 }
