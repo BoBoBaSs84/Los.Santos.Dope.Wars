@@ -61,6 +61,132 @@ namespace LSDW.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to How many days it will take for the dealer to return after he has fled or been killed..
+        /// </summary>
+        internal static string UI_Settings_Dealer_DownTimeInHours_Description {
+            get {
+                return ResourceManager.GetString("UI.Settings.Dealer.DownTimeInHours.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Down time in hours.
+        /// </summary>
+        internal static string UI_Settings_Dealer_DownTimeInHours_Title {
+            get {
+                return ResourceManager.GetString("UI.Settings.Dealer.DownTimeInHours.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The maximum value of a drug, serves as a multiplier to the nominal market value..
+        /// </summary>
+        internal static string UI_Settings_Market_MaximumDrugValue_Description {
+            get {
+                return ResourceManager.GetString("UI.Settings.Market.MaximumDrugValue.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maximum drug value.
+        /// </summary>
+        internal static string UI_Settings_Market_MaximumDrugValue_Title {
+            get {
+                return ResourceManager.GetString("UI.Settings.Market.MaximumDrugValue.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The minimum value of a drug, serves as a multiplier to the nominal market value..
+        /// </summary>
+        internal static string UI_Settings_Market_MinimumDrugValue_Description {
+            get {
+                return ResourceManager.GetString("UI.Settings.Market.MinimumDrugValue.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimum drug value.
+        /// </summary>
+        internal static string UI_Settings_Market_MinimumDrugValue_Title {
+            get {
+                return ResourceManager.GetString("UI.Settings.Market.MinimumDrugValue.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The number with which the inventory increases with each level up..
+        /// </summary>
+        internal static string UI_Settings_Player_InventoryExpansionPerLevel_Description {
+            get {
+                return ResourceManager.GetString("UI.Settings.Player.InventoryExpansionPerLevel.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory expansion per level.
+        /// </summary>
+        internal static string UI_Settings_Player_InventoryExpansionPerLevel_Title {
+            get {
+                return ResourceManager.GetString("UI.Settings.Player.InventoryExpansionPerLevel.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Does the player looses the drugs he is currently carrying when he gets wasted?.
+        /// </summary>
+        internal static string UI_Settings_Player_LooseDrugsOnDeath_Description {
+            get {
+                return ResourceManager.GetString("UI.Settings.Player.LooseDrugsOnDeath.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loose drugs on death.
+        /// </summary>
+        internal static string UI_Settings_Player_LooseDrugsOnDeath_Title {
+            get {
+                return ResourceManager.GetString("UI.Settings.Player.LooseDrugsOnDeath.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Does the player looses the drugs he is currently carrying when he gets busted?.
+        /// </summary>
+        internal static string UI_Settings_Player_LooseDrugsWhenBusted_Description {
+            get {
+                return ResourceManager.GetString("UI.Settings.Player.LooseDrugsWhenBusted.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loose drugs when busted.
+        /// </summary>
+        internal static string UI_Settings_Player_LooseDrugsWhenBusted_Title {
+            get {
+                return ResourceManager.GetString("UI.Settings.Player.LooseDrugsWhenBusted.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The size of the starting inventory or the base value of the inventory..
+        /// </summary>
+        internal static string UI_Settings_PLayer_StartingInventory_Description {
+            get {
+                return ResourceManager.GetString("UI.Settings.PLayer.StartingInventory.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Starting inventory.
+        /// </summary>
+        internal static string UI_Settings_PLayer_StartingInventory_Title {
+            get {
+                return ResourceManager.GetString("UI.Settings.PLayer.StartingInventory.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings will saved on close..
         /// </summary>
         internal static string UI_SettingsMenu_Subtitle {

@@ -14,11 +14,11 @@ public interface ISettingsService
 	void Load();
 	void Save();
 
-<# foreach (Type nestedType in nestedTypes) { 
+<# foreach (Type nestedType in nestedTypes) {
 List<PropertyInfo> properties = nestedType.GetProperties().ToList();
 foreach (PropertyInfo prop in properties) { #>
 	<#= TypeNameOrAlias(prop.PropertyType) #> Get<#= prop.Name #>();
-  void Set<#= prop.Name #>(<#= TypeNameOrAlias(prop.PropertyType) #> value);	
+  void Set<#= prop.Name #>(<#= TypeNameOrAlias(prop.PropertyType) #> value);
 <# }} #>
 }
 <#+

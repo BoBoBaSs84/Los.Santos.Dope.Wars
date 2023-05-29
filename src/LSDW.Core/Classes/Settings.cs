@@ -15,8 +15,8 @@ public static class Settings
 	public static class Dealer
 	{
 		public static int DownTimeInHours { get; set; } = 48;
-		public static bool WearsArmor { get; set; } = true;
-		public static bool WearsWeapons { get; set; } = true;
+		public static bool HasArmor { get; set; } = true;
+		public static bool HasWeapons { get; set; } = true;
 	}
 
 	/// <summary>

@@ -12,7 +12,6 @@
 <# Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US"); #>
 using GTA;
 using LSDW.Core.Classes;
-using LSDW.Factories;
 using LSDW.Interfaces.Services;
 using Dealer = LSDW.Core.Classes.Settings.Dealer;
 using Market = LSDW.Core.Classes.Settings.Market;
@@ -28,7 +27,6 @@ namespace LSDW.Classes.Services;
 /// </remarks>
 public sealed class SettingsService : ISettingsService
 {
-	private readonly ILoggerService _loggerService;
 	private readonly ScriptSettings _scriptSettings;
 
 	/// <summary>
@@ -37,7 +35,6 @@ public sealed class SettingsService : ISettingsService
 	public SettingsService()
 	{
 		string settingsFileName = Path.Combine(AppContext.BaseDirectory, Settings.SettingsFileName);
-		_loggerService = ServiceFactory.CreateLoggerService();
 		_scriptSettings = ScriptSettings.Load(settingsFileName);
     
     Load();
@@ -49,7 +46,8 @@ public sealed class SettingsService : ISettingsService
 <# foreach (Type nestedType in nestedTypes) { 
 List<PropertyInfo> properties = nestedType.GetProperties().ToList();
 foreach (PropertyInfo prop in properties) { #>
-    <#= nestedType.Name #>.<#= prop.Name #> = Get<#= prop.Name #>();
+    <#= TypeNameOrAlias(prop.PropertyType) #> <#= prop.Name.ToLower() #> = Get<#= prop.Name #>();
+    Set<#= prop.Name #>(<#= prop.Name.ToLower() #>);
 <# }} #>
   }
 
@@ -60,14 +58,11 @@ List<PropertyInfo> properties = nestedType.GetProperties().ToList();
 foreach (PropertyInfo prop in properties) { #>
 
 	public <#= TypeNameOrAlias(prop.PropertyType) #> Get<#= prop.Name #>()
-  {
-    <#= TypeNameOrAlias(prop.PropertyType) #> value = _scriptSettings.GetValue(nameof(<#= nestedType.Name #>), nameof(<#= nestedType.Name #>.<#= prop.Name #>), <#= prop.GetValue(this, null).ToString().ToLower(Thread.CurrentThread.CurrentCulture) #>);
-    return value;
-  }
+    => _scriptSettings.GetValue("<#= nestedType.Name.ToUpper() #><#= typeof(Settings).Name.ToUpper() #>", "<#= prop.Name.ToUpper() #>", <#= prop.GetValue(this, null).ToString().ToLower(Thread.CurrentThread.CurrentCulture) #>);
 
 	public void Set<#= prop.Name #>(<#= TypeNameOrAlias(prop.PropertyType) #> value)
   {
-		_scriptSettings.SetValue(nameof(<#= nestedType.Name #>), nameof(<#= nestedType.Name #>.<#= prop.Name #>), value);
+		_scriptSettings.SetValue("<#= nestedType.Name.ToUpper() #><#= typeof(Settings).Name.ToUpper() #>", "<#= prop.Name.ToUpper() #>", value);
 		<#= nestedType.Name #>.<#= prop.Name #> = value;
   }
 <# }} #>

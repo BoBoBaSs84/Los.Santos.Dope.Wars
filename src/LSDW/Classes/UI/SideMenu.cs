@@ -5,8 +5,6 @@ using LSDW.Core.Enumerators;
 using LSDW.Core.Extensions;
 using LSDW.Core.Factories;
 using LSDW.Core.Interfaces.Classes;
-using LSDW.Factories;
-using LSDW.Interfaces.Services;
 using RESX = LSDW.Properties.Resources;
 
 namespace LSDW.Classes.UI;
@@ -16,7 +14,6 @@ namespace LSDW.Classes.UI;
 /// </summary>
 public sealed class SideMenu : NativeMenu
 {
-	private readonly ILoggerService _logger = ServiceFactory.CreateLoggerService();
 	private readonly Size _screenSize = GTA.UI.Screen.Resolution;
 	private readonly ObjectPool _processables = new();
 	private readonly MenuType _menuType;
@@ -126,18 +123,13 @@ public sealed class SideMenu : NativeMenu
 	/// <param name="target">The target inventory.</param>
 	private void AddDrugListItems(IInventory source, IInventory target)
 	{
-		_logger.Information($" called.");
 		var drugs = from s in source
 								join t in target
 								on s.DrugType equals t.DrugType
 								select new { s, t };
 
-		_logger.Information($"{drugs.Count()}");
-
 		foreach (var drug in drugs)
 		{
-			_logger.Information($"{drug}");
-			_logger.Information($"{drug.s.Price}, {drug.t.Price}");
 			DrugListItem item = new(drug.s, drug.t);
 			item.Activated += OnMenuItemActivated;
 			Add(item);
