@@ -1,8 +1,6 @@
 ﻿using LemonUI.Menus;
 using LSDW.Core.Extensions;
 using LSDW.Core.Interfaces.Classes;
-using LSDW.Factories;
-using LSDW.Interfaces.Services;
 
 namespace LSDW.Classes.UI;
 
@@ -11,7 +9,6 @@ namespace LSDW.Classes.UI;
 /// </summary>
 public sealed class DrugListItem : NativeListItem<int>
 {
-	private readonly ILoggerService _logger = ServiceFactory.CreateLoggerService();
 	private readonly IDrug _sourceDrug;
 	private readonly IDrug _targetDrug;
 
@@ -45,20 +42,20 @@ public sealed class DrugListItem : NativeListItem<int>
 	}
 
 	private void OnItemChanged(object sender, ItemChangedEventArgs<int> args)
-	{
-		_logger.Information(sender.ToString());
-		_logger.Information($"{args.Object}, {_sourceDrug.Price}, {_targetDrug.Price}");
-		Description = GetDescription(args.Object, _sourceDrug.Price, _targetDrug.Price);
-	}
+		=> Description = GetDescription(args.Object, _sourceDrug.Price, _targetDrug.Price);
+
 
 	private static string GetDescription(int quantity, int sourcePrice, int targetPrice)
 	{
+		if (quantity.Equals(0))
+			return string.Empty;
+
 		int totalTargetPrice = quantity * targetPrice;
 		int totalSourcePrice = quantity * sourcePrice;
-		int totalProfit = totalSourcePrice - totalTargetPrice;
-		string description = $"Total price: {quantity} x ${sourcePrice} = ${totalSourcePrice}\n" +
-			$"Trade price: {quantity} x ${targetPrice} = ${totalTargetPrice}\n" +
-			$"Total profit: ${GetProfit(totalProfit)}";
+		int totalProfit = totalTargetPrice - totalSourcePrice;
+		string description = $"Total price:\t{quantity} x ${sourcePrice} = ${totalSourcePrice}\n" +
+			$"Trade price:\t{quantity} x ${targetPrice} = ${totalTargetPrice}\n" +
+			$"Total profit:\t${GetProfit(totalProfit)}";
 
 		return description;
 	}

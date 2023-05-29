@@ -130,15 +130,15 @@ public sealed class SideMenu : NativeMenu
 		var drugs = from s in source
 								join t in target
 								on s.DrugType equals t.DrugType
-								select new { source, target };
+								select new { s, t };
 
 		_logger.Information($"{drugs.Count()}");
 
 		foreach (var drug in drugs)
 		{
 			_logger.Information($"{drug}");
-			_logger.Information($"{source.First()}, {target.First()}");
-			DrugListItem item = new(source.First(), target.First());
+			_logger.Information($"{drug.s.Price}, {drug.t.Price}");
+			DrugListItem item = new(drug.s, drug.t);
 			item.Activated += OnMenuItemActivated;
 			Add(item);
 		}

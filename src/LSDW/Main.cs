@@ -28,13 +28,12 @@ public sealed class Main : Script
 	{
 		_logger = ServiceFactory.CreateLoggerService();
 		_settings = ServiceFactory.CreateSettingsService();
-		_settingsMenu = MenuFactory.CreateSettingsMenu(_settings, _logger);
+		_settingsMenu = MenuFactory.CreateSettingsMenu(_settings, _logger);		
 		_player = PlayerFactory.CreatePlayer();
 		_dealerInventory = InventoryFactory.CreateInventory();
-
 		_leftSideMenu = MenuFactory.CreateSideMenu(MenuType.SELL, _player.Inventory.Randomize(_player.Level), _dealerInventory.Randomize(_player.Level));
 
-		Interval = 10;
+		Interval = 5;
 
 		Aborted += OnAborted;
 		KeyDown += OnKeyDown;

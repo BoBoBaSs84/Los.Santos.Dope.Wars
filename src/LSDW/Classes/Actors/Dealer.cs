@@ -5,7 +5,7 @@ using LSDW.Core.Factories;
 using LSDW.Core.Interfaces.Classes;
 using LSDW.Helpers;
 using LSDW.Interfaces.Actors;
-using DealerSettings = LSDW.Core.Classes.Settings.DealerSettings;
+using static LSDW.Core.Classes.Settings.DealerSettings;
 
 namespace LSDW.Classes.Actors;
 
@@ -14,8 +14,6 @@ namespace LSDW.Classes.Actors;
 /// </summary>
 internal sealed class Dealer : Pedestrian, IDealer
 {
-	private static readonly int DealerDownTimeHours = DealerSettings.DownTimeInHours;
-
 	/// <summary>
 	/// Initializes a instance of the dealer class.
 	/// </summary>
@@ -71,7 +69,7 @@ internal sealed class Dealer : Pedestrian, IDealer
 			return;
 
 		Ped?.Task.FleeFrom(Position);
-		ClosedUntil = ScriptHookHelper.GetCurrentDateTime().AddHours(DealerDownTimeHours);
+		ClosedUntil = ScriptHookHelper.GetCurrentDateTime().AddHours(DownTimeInHours);
 	}
 
 	public void Update(WeaponHash weaponHash, int ammo)

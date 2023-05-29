@@ -5,22 +5,32 @@
 /// </summary>
 public static class Settings
 {
-	public static string SettingsFileName => "LSDW.ini";
+	public const string SettingsFileName = "LSDW.ini";
 
-	public static string LogFileName => "LSDW.log";
+	public const string LogFileName = "LSDW.log";
 
-	public static string SaveFileName => "LSDW.sav";
+	public const string SaveFileName = "LSDW.sav";
 
 	/// <summary>
 	/// The dealer settings class.
 	/// </summary>
 	public static class DealerSettings
 	{
-		public static decimal MaximumDrugValue { get; set; } = 1.2M;
+		public static int DownTimeInHours { get; set; }
 
-		public static decimal MinimumDrugValue { get; set; } = 0.8M;
+		public static bool WearsArmor { get; set; }
 
-		public static int DownTimeInHours { get; set; } = 48;
+		public static bool WearsWeapons { get; set; }
+	}
+
+	/// <summary>
+	/// The market settings class.
+	/// </summary>
+	public static class MarketSettings
+	{
+		public static decimal MaximumDrugValue { get; set; }
+
+		public static decimal MinimumDrugValue { get; set; }
 	}
 
 	/// <summary>
@@ -28,12 +38,18 @@ public static class Settings
 	/// </summary>
 	public static class PlayerSettings
 	{
-		public static bool LooseDrugsOnDeath { get; set; } = true;
+		public static decimal ExperienceMultiplier { get; set; }
 
-		public static bool LooseDrugsWhenBusted { get; set; } = true;
+		public static bool LooseDrugsOnDeath { get; set; }
+		
+		public static bool LooseMoneyOnDeath { get; set; }
 
-		public static int InventoryExpansionPerLevel { get; set; } = 10;
+		public static bool LooseDrugsWhenBusted { get; set; }
 
-		public static int StartingInventory { get; set; } = 100;
+		public static bool LooseMoneyWhenBusted { get; set; }
+
+		public static int InventoryExpansionPerLevel { get; set; }
+
+		public static int StartingInventory { get; set; }
 	}
 }

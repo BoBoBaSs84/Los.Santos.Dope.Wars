@@ -61,4 +61,24 @@ public interface IDrug : INotifyPropertyChanged
 	/// </summary>
 	/// <param name="price">The new price of the drug.</param>
 	void SetPrice(int price);
+
+	/// <summary>
+	/// Randomizes the price for the provided drug.
+	/// </summary>
+	/// <remarks>
+	/// The upper and lower price limits depend on the player
+	/// level <b>(maximum ±10%)</b> and the user settings.
+	/// </remarks>
+	/// <param name="playerLevel">The current player level.</param>
+	void RandomizePrice(int playerLevel);
+
+	/// <summary>
+	/// Randomizes the quantity for the provided drug.
+	/// </summary>
+	/// <remarks>
+	/// The zero quantity chance depends on the rank of the drug,
+	/// the higher the rank the higher the no quantity chance.
+	/// </remarks>
+	/// <param name="playerLevel">The current player level.</param>
+	void RandomizeQuantity(int playerLevel);
 }
