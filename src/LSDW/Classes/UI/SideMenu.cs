@@ -126,10 +126,19 @@ public sealed class SideMenu : NativeMenu
 	/// <param name="target">The target inventory.</param>
 	private void AddDrugListItems(IInventory source, IInventory target)
 	{
-		foreach (IDrug drug in source)
+		_logger.Information($" called.");
+		var drugs = from s in source
+								join t in target
+								on s.DrugType equals t.DrugType
+								select new { source, target };
+
+		_logger.Information($"{drugs.Count()}");
+
+		foreach (var drug in drugs)
 		{
-			int tradePrice = target.Where(x => x.DrugType.Equals(drug.DrugType)).Select(x => x.Price).Single();
-			DrugListItem item = new(drug, tradePrice);
+			_logger.Information($"{drug}");
+			_logger.Information($"{source.First()}, {target.First()}");
+			DrugListItem item = new(source.First(), target.First());
 			item.Activated += OnMenuItemActivated;
 			Add(item);
 		}

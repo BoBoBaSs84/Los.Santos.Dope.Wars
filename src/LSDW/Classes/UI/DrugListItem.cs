@@ -12,51 +12,52 @@ namespace LSDW.Classes.UI;
 public sealed class DrugListItem : NativeListItem<int>
 {
 	private readonly ILoggerService _logger = ServiceFactory.CreateLoggerService();
-	private readonly IDrug _drug;
-	private readonly int _tradePrice;
+	private readonly IDrug _sourceDrug;
+	private readonly IDrug _targetDrug;
 
 	/// <summary>
 	/// Initializes a instance of the drug list item class.
 	/// </summary>
-	/// <param name="drug">The drug for this menu item.</param>
+	/// <param name="sourcedrug">The drug for this menu item.</param>
 	/// <param name="tradePrice">The drug trade price.</param>
-	public DrugListItem(IDrug drug, int tradePrice = 0) : base(drug.Name, drug.Quantity.GetArray())
+	public DrugListItem(IDrug sourcedrug, IDrug targetDrug) : base(sourcedrug.Name, sourcedrug.Quantity.GetArray())
 	{
-		_drug = drug;
-		_tradePrice = tradePrice;
+		_sourceDrug = sourcedrug;
+		_targetDrug = targetDrug;
 
-		Description = GetDescription(_drug.Quantity, _drug.Price, _tradePrice);
-		Enabled = !Equals(_drug.Quantity, 0);
-		SelectedIndex = _drug.Quantity;
-		Tag = drug.DrugType;
+		Description = GetDescription(_sourceDrug.Quantity, _sourceDrug.Price, _targetDrug.Price);
+		Enabled = !Equals(_sourceDrug.Quantity, 0);
+		SelectedIndex = _sourceDrug.Quantity;
+		Tag = sourcedrug.DrugType;
 
-		_drug.PropertyChanged += OnPropertyChanged;
+		_sourceDrug.PropertyChanged += OnPropertyChanged;
 		ItemChanged += OnItemChanged;
 	}
 
 	private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
 	{
-		if (!args.PropertyName.Equals(nameof(_drug.Quantity), StringComparison.Ordinal))
+		if (!args.PropertyName.Equals(nameof(_sourceDrug.Quantity), StringComparison.Ordinal))
 			return;
 
-		Enabled = !Equals(_drug.Quantity, 0);
-		SelectedIndex = _drug.Quantity;
-		Items = _drug.Quantity.GetArray().ToList();
+		Enabled = !Equals(_sourceDrug.Quantity, 0);
+		SelectedIndex = _sourceDrug.Quantity;
+		Items = _sourceDrug.Quantity.GetArray().ToList();
 	}
 
 	private void OnItemChanged(object sender, ItemChangedEventArgs<int> args)
 	{
 		_logger.Information(sender.ToString());
-		Description = GetDescription(args.Object, _drug.Price, _tradePrice);
+		_logger.Information($"{args.Object}, {_sourceDrug.Price}, {_targetDrug.Price}");
+		Description = GetDescription(args.Object, _sourceDrug.Price, _targetDrug.Price);
 	}
 
-	private static string GetDescription(int quantity, int price, int tradePrice)
+	private static string GetDescription(int quantity, int sourcePrice, int targetPrice)
 	{
-		int totalTradePrice = quantity * tradePrice;
-		int totalPrice = quantity * price;
-		int totalProfit = totalPrice - totalTradePrice;
-		string description = $"Total price: {quantity} x ${price} = ${totalPrice}\n" +
-			$"Trade price: {quantity} x ${tradePrice} = ${totalTradePrice}\n" +
+		int totalTargetPrice = quantity * targetPrice;
+		int totalSourcePrice = quantity * sourcePrice;
+		int totalProfit = totalSourcePrice - totalTargetPrice;
+		string description = $"Total price: {quantity} x ${sourcePrice} = ${totalSourcePrice}\n" +
+			$"Trade price: {quantity} x ${targetPrice} = ${totalTargetPrice}\n" +
 			$"Total profit: ${GetProfit(totalProfit)}";
 
 		return description;
