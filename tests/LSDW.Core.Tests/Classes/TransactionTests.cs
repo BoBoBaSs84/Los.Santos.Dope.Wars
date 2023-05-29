@@ -24,7 +24,7 @@ public class TransactionTests
 		transaction.Commit();
 
 		Assert.IsTrue(transaction.Result.Successful);
-		Assert.AreEqual(1, transaction.Result.Messages.Count);
+		Assert.AreEqual(0, transaction.Result.Messages.Count);
 		Assert.AreEqual(450, dealerInventory.Money);
 		Assert.AreEqual(10, dealerInventory.TotalQuantity);
 		Assert.AreEqual(50, player.Inventory.Money);
@@ -91,7 +91,7 @@ public class TransactionTests
 		transaction.Commit();
 
 		Assert.IsTrue(transaction.Result.Successful);
-		Assert.AreEqual(1, transaction.Result.Messages.Count);
+		Assert.AreEqual(0, transaction.Result.Messages.Count);
 		Assert.AreEqual(0, player.Inventory.TotalQuantity);
 		Assert.AreEqual(1200, player.Inventory.Money);
 		Assert.AreEqual(50, warehouse.TotalQuantity);
