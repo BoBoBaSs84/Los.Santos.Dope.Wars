@@ -6,7 +6,7 @@ using Dealer = LSDW.Core.Classes.Settings.Dealer;
 using Market = LSDW.Core.Classes.Settings.Market;
 using Player = LSDW.Core.Classes.Settings.Player;
 
-namespace LSDW.Services;
+namespace LSDW.Classes.Services;
 
 /// <summary>
 /// The settings service class.
@@ -53,7 +53,7 @@ public sealed class SettingsService : ISettingsService
 
 	public int GetDownTimeInHours()
   {
-    int value = _scriptSettings.GetValue(nameof(Dealer), nameof(Dealer.DownTimeInHours), (int)default);
+    int value = _scriptSettings.GetValue(nameof(Dealer), nameof(Dealer.DownTimeInHours), 48);
     return value;
   }
 
@@ -65,7 +65,7 @@ public sealed class SettingsService : ISettingsService
 
 	public bool GetWearsArmor()
   {
-    bool value = _scriptSettings.GetValue(nameof(Dealer), nameof(Dealer.WearsArmor), (bool)default);
+    bool value = _scriptSettings.GetValue(nameof(Dealer), nameof(Dealer.WearsArmor), true);
     return value;
   }
 
@@ -77,7 +77,7 @@ public sealed class SettingsService : ISettingsService
 
 	public bool GetWearsWeapons()
   {
-    bool value = _scriptSettings.GetValue(nameof(Dealer), nameof(Dealer.WearsWeapons), (bool)default);
+    bool value = _scriptSettings.GetValue(nameof(Dealer), nameof(Dealer.WearsWeapons), true);
     return value;
   }
 
@@ -87,37 +87,37 @@ public sealed class SettingsService : ISettingsService
 		Dealer.WearsWeapons = value;
   }
 
-	public decimal GetMaximumDrugValue()
+	public float GetMaximumDrugValue()
   {
-    decimal value = _scriptSettings.GetValue(nameof(Market), nameof(Market.MaximumDrugValue), (decimal)default);
+    float value = _scriptSettings.GetValue(nameof(Market), nameof(Market.MaximumDrugValue), 1.2f);
     return value;
   }
 
-	public void SetMaximumDrugValue(decimal value)
+	public void SetMaximumDrugValue(float value)
   {
 		_scriptSettings.SetValue(nameof(Market), nameof(Market.MaximumDrugValue), value);
 		Market.MaximumDrugValue = value;
   }
 
-	public decimal GetMinimumDrugValue()
+	public float GetMinimumDrugValue()
   {
-    decimal value = _scriptSettings.GetValue(nameof(Market), nameof(Market.MinimumDrugValue), (decimal)default);
+    float value = _scriptSettings.GetValue(nameof(Market), nameof(Market.MinimumDrugValue), 0.8f);
     return value;
   }
 
-	public void SetMinimumDrugValue(decimal value)
+	public void SetMinimumDrugValue(float value)
   {
 		_scriptSettings.SetValue(nameof(Market), nameof(Market.MinimumDrugValue), value);
 		Market.MinimumDrugValue = value;
   }
 
-	public decimal GetExperienceMultiplier()
+	public float GetExperienceMultiplier()
   {
-    decimal value = _scriptSettings.GetValue(nameof(Player), nameof(Player.ExperienceMultiplier), (decimal)default);
+    float value = _scriptSettings.GetValue(nameof(Player), nameof(Player.ExperienceMultiplier), 1);
     return value;
   }
 
-	public void SetExperienceMultiplier(decimal value)
+	public void SetExperienceMultiplier(float value)
   {
 		_scriptSettings.SetValue(nameof(Player), nameof(Player.ExperienceMultiplier), value);
 		Player.ExperienceMultiplier = value;
@@ -125,7 +125,7 @@ public sealed class SettingsService : ISettingsService
 
 	public bool GetLooseDrugsOnDeath()
   {
-    bool value = _scriptSettings.GetValue(nameof(Player), nameof(Player.LooseDrugsOnDeath), (bool)default);
+    bool value = _scriptSettings.GetValue(nameof(Player), nameof(Player.LooseDrugsOnDeath), true);
     return value;
   }
 
@@ -137,7 +137,7 @@ public sealed class SettingsService : ISettingsService
 
 	public bool GetLooseMoneyOnDeath()
   {
-    bool value = _scriptSettings.GetValue(nameof(Player), nameof(Player.LooseMoneyOnDeath), (bool)default);
+    bool value = _scriptSettings.GetValue(nameof(Player), nameof(Player.LooseMoneyOnDeath), true);
     return value;
   }
 
@@ -149,7 +149,7 @@ public sealed class SettingsService : ISettingsService
 
 	public bool GetLooseDrugsWhenBusted()
   {
-    bool value = _scriptSettings.GetValue(nameof(Player), nameof(Player.LooseDrugsWhenBusted), (bool)default);
+    bool value = _scriptSettings.GetValue(nameof(Player), nameof(Player.LooseDrugsWhenBusted), true);
     return value;
   }
 
@@ -161,7 +161,7 @@ public sealed class SettingsService : ISettingsService
 
 	public bool GetLooseMoneyWhenBusted()
   {
-    bool value = _scriptSettings.GetValue(nameof(Player), nameof(Player.LooseMoneyWhenBusted), (bool)default);
+    bool value = _scriptSettings.GetValue(nameof(Player), nameof(Player.LooseMoneyWhenBusted), true);
     return value;
   }
 
@@ -173,7 +173,7 @@ public sealed class SettingsService : ISettingsService
 
 	public int GetInventoryExpansionPerLevel()
   {
-    int value = _scriptSettings.GetValue(nameof(Player), nameof(Player.InventoryExpansionPerLevel), (int)default);
+    int value = _scriptSettings.GetValue(nameof(Player), nameof(Player.InventoryExpansionPerLevel), 10);
     return value;
   }
 
@@ -185,7 +185,7 @@ public sealed class SettingsService : ISettingsService
 
 	public int GetStartingInventory()
   {
-    int value = _scriptSettings.GetValue(nameof(Player), nameof(Player.StartingInventory), (int)default);
+    int value = _scriptSettings.GetValue(nameof(Player), nameof(Player.StartingInventory), 100);
     return value;
   }
 

@@ -1,5 +1,6 @@
-﻿using System.Reflection;
-using LSDW.Core.Classes;
+﻿using LSDW.Core.Classes;
+using System.Globalization;
+using System.Reflection;
 
 namespace LSDW.Tests.Services;
 
@@ -15,7 +16,8 @@ public class SettingsServiceTests
 			List<PropertyInfo> properties = nestedType.GetProperties().ToList();
 			foreach (PropertyInfo prop in properties)
 			{
-				
+				_ = prop.PropertyType;
+				Trace.WriteLine($"{prop.Name}={prop.GetValue(this, null)}");
 
 			}
 		}

@@ -11,12 +11,12 @@ public interface ISettingsService
   void SetWearsArmor(bool value);	
 	bool GetWearsWeapons();
   void SetWearsWeapons(bool value);	
-	decimal GetMaximumDrugValue();
-  void SetMaximumDrugValue(decimal value);	
-	decimal GetMinimumDrugValue();
-  void SetMinimumDrugValue(decimal value);	
-	decimal GetExperienceMultiplier();
-  void SetExperienceMultiplier(decimal value);	
+	float GetMaximumDrugValue();
+  void SetMaximumDrugValue(float value);	
+	float GetMinimumDrugValue();
+  void SetMinimumDrugValue(float value);	
+	float GetExperienceMultiplier();
+  void SetExperienceMultiplier(float value);	
 	bool GetLooseDrugsOnDeath();
   void SetLooseDrugsOnDeath(bool value);	
 	bool GetLooseMoneyOnDeath();

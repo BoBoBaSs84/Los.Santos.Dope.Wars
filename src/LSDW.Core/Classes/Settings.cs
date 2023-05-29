@@ -14,9 +14,9 @@ public static class Settings
 	/// </summary>
 	public static class Dealer
 	{
-		public static int DownTimeInHours { get; set; }
-		public static bool WearsArmor { get; set; }
-		public static bool WearsWeapons { get; set; }
+		public static int DownTimeInHours { get; set; } = 48;
+		public static bool WearsArmor { get; set; } = true;
+		public static bool WearsWeapons { get; set; } = true;
 	}
 
 	/// <summary>
@@ -24,8 +24,8 @@ public static class Settings
 	/// </summary>
 	public static class Market
 	{
-		public static decimal MaximumDrugValue { get; set; }
-		public static decimal MinimumDrugValue { get; set; }
+		public static float MaximumDrugValue { get; set; } = 1.2f;
+		public static float MinimumDrugValue { get; set; } = 0.8f;
 	}
 
 	/// <summary>
@@ -33,12 +33,12 @@ public static class Settings
 	/// </summary>
 	public static class Player
 	{
-		public static decimal ExperienceMultiplier { get; set; }
-		public static bool LooseDrugsOnDeath { get; set; }
-		public static bool LooseMoneyOnDeath { get; set; }
-		public static bool LooseDrugsWhenBusted { get; set; }
-		public static bool LooseMoneyWhenBusted { get; set; }
-		public static int InventoryExpansionPerLevel { get; set; }
-		public static int StartingInventory { get; set; }
+		public static float ExperienceMultiplier { get; set; } = 1.0f;
+		public static bool LooseDrugsOnDeath { get; set; } = true;
+		public static bool LooseMoneyOnDeath { get; set; } = true;
+		public static bool LooseDrugsWhenBusted { get; set; } = true;
+		public static bool LooseMoneyWhenBusted { get; set; } = true;
+		public static int InventoryExpansionPerLevel { get; set; } = 10;
+		public static int StartingInventory { get; set; } = 100;
 	}
 }

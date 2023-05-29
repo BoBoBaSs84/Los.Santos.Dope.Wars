@@ -73,7 +73,7 @@ public sealed class SettingsMenu : NativeMenu
 			downTimeInHoursItem.ItemChanged += DownTimeInHoursItemChanged;
 			Add(downTimeInHoursItem);
 
-			NativeListItem<decimal> minimumDrugValueItem = new($"{nameof(Market.MinimumDrugValue)}", new decimal[] { 0.5M, 0.6M, 0.7M, 0.8M, 0.9M })
+			NativeListItem<float> minimumDrugValueItem = new($"{nameof(Market.MinimumDrugValue)}", new float[] { 0.5f, 0.6f, 0.7f, 0.8f, 0.9f })
 			{
 				Enabled = true,
 				SelectedItem = Market.MinimumDrugValue
@@ -81,7 +81,7 @@ public sealed class SettingsMenu : NativeMenu
 			minimumDrugValueItem.ItemChanged += MinimumDrugValueItemChanged;
 			Add(minimumDrugValueItem);
 
-			NativeListItem<decimal> maximumDrugValueItem = new($"{nameof(Market.MaximumDrugValue)}", new decimal[] { 1.1M, 1.2M, 1.3M, 1.4M, 1.5M })
+			NativeListItem<float> maximumDrugValueItem = new($"{nameof(Market.MaximumDrugValue)}", new float[] { 1.1f, 1.2f, 1.3f, 1.4f, 1.5f })
 			{
 				Enabled = true,
 				SelectedItem = Market.MaximumDrugValue
@@ -95,16 +95,16 @@ public sealed class SettingsMenu : NativeMenu
 		}
 	}
 
-	private void MaximumDrugValueItemChanged(object sender, ItemChangedEventArgs<decimal> args)
+	private void MaximumDrugValueItemChanged(object sender, ItemChangedEventArgs<float> args)
 	{
-		if (sender is not NativeListItem<decimal> maximumDrugValueItem)
+		if (sender is not NativeListItem<float> maximumDrugValueItem)
 			return;
 		_settingsService.SetMaximumDrugValue(maximumDrugValueItem.SelectedItem);
 	}
 
-	private void MinimumDrugValueItemChanged(object sender, ItemChangedEventArgs<decimal> args)
+	private void MinimumDrugValueItemChanged(object sender, ItemChangedEventArgs<float> args)
 	{
-		if (sender is not NativeListItem<decimal> minimumDrugValueItem)
+		if (sender is not NativeListItem<float> minimumDrugValueItem)
 			return;
 		_settingsService.SetMinimumDrugValue(minimumDrugValueItem.SelectedItem);
 	}
