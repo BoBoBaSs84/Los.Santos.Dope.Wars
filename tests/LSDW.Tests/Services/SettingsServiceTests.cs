@@ -7,9 +7,13 @@ namespace LSDW.Tests.Services;
 [TestClass]
 public class SettingsServiceTests
 {
+
+
 	[TestMethod]
 	public void Test()
 	{
+		Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
+
 		List<Type> nestedTypes = typeof(Settings).GetNestedTypes().ToList();
 		foreach (Type nestedType in nestedTypes)
 		{
@@ -17,8 +21,7 @@ public class SettingsServiceTests
 			foreach (PropertyInfo prop in properties)
 			{
 				_ = prop.PropertyType;
-				Trace.WriteLine($"{prop.Name}={prop.GetValue(this, null)}");
-
+				Trace.WriteLine($"{prop.Name}={prop.GetValue(this, null).ToString().ToLower(Thread.CurrentThread.CurrentCulture)}");
 			}
 		}
 	}

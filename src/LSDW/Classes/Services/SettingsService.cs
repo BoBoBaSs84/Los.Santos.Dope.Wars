@@ -113,7 +113,7 @@ public sealed class SettingsService : ISettingsService
 
 	public float GetExperienceMultiplier()
   {
-    float value = _scriptSettings.GetValue(nameof(Player), nameof(Player.ExperienceMultiplier), 1);
+    float value = _scriptSettings.GetValue(nameof(Player), nameof(Player.ExperienceMultiplier), 1f);
     return value;
   }
 

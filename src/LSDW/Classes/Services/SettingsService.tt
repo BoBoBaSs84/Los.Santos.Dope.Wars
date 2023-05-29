@@ -1,12 +1,15 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="$(TargetDir)LSDW.Core.dll" #>
+<#@ import namespace="System.Globalization" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Reflection" #>
 <#@ import namespace="System.Text" #>
+<#@ import namespace="System.Threading" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="LSDW.Core.Classes" #>
 <#@ output extension=".cs" #>
+<# Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US"); #>
 using GTA;
 using LSDW.Core.Classes;
 using LSDW.Factories;
@@ -58,7 +61,7 @@ foreach (PropertyInfo prop in properties) { #>
 
 	public <#= TypeNameOrAlias(prop.PropertyType) #> Get<#= prop.Name #>()
   {
-    <#= TypeNameOrAlias(prop.PropertyType) #> value = _scriptSettings.GetValue(nameof(<#= nestedType.Name #>), nameof(<#= nestedType.Name #>.<#= prop.Name #>), <#= prop.GetValue(this, null).ToString().ToLowerInvariant() #>);
+    <#= TypeNameOrAlias(prop.PropertyType) #> value = _scriptSettings.GetValue(nameof(<#= nestedType.Name #>), nameof(<#= nestedType.Name #>.<#= prop.Name #>), <#= prop.GetValue(this, null).ToString().ToLower(Thread.CurrentThread.CurrentCulture) #>);
     return value;
   }
 
@@ -70,6 +73,7 @@ foreach (PropertyInfo prop in properties) { #>
 <# }} #>
 }
 <#+
+//Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
 List<Type> nestedTypes = typeof(Settings).GetNestedTypes().ToList();
 // This is the set of types from the C# keyword list.
 static Dictionary<Type, string> _typeAlias = new Dictionary<Type, string>
