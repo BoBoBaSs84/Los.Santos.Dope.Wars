@@ -3,7 +3,7 @@ using LSDW.Core.Enumerators;
 using LSDW.Core.Extensions;
 using LSDW.Core.Helpers;
 using LSDW.Core.Interfaces.Classes;
-using static LSDW.Core.Classes.Settings.MarketSettings;
+using static LSDW.Core.Classes.Settings.Market;
 using RESX = LSDW.Core.Properties.Resources;
 
 namespace LSDW.Core.Classes;

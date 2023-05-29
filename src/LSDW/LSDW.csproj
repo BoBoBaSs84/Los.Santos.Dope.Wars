@@ -9,6 +9,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Include="Services\SettingsService.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>SettingsService.tt</DependentUpon>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="LemonUI.SHVDN3" Version="1.9.4" ExcludeAssets="runtime" />
 		<PackageReference Include="ScriptHookVDotNet3" Version="3.6.0" ExcludeAssets="runtime" />
 	</ItemGroup>
@@ -18,10 +26,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Update="Interfaces\Services\ISettingsService.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>ISettingsService.tt</DependentUpon>
+		</Compile>
 		<Compile Update="Properties\Resources.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Services\SettingsService.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>SettingsService.tt</DependentUpon>
 		</Compile>
 	</ItemGroup>
 
@@ -30,6 +48,21 @@
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Interfaces\Services\ISettingsService.tt">
+	    <Generator>TextTemplatingFileGenerator</Generator>
+	    <LastGenOutput>ISettingsService.cs</LastGenOutput>
+	  </None>
+	  <None Update="Services\SettingsService.tt">
+	    <Generator>TextTemplatingFileGenerator</Generator>
+	    <LastGenOutput>SettingsService.cs</LastGenOutput>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
 	</ItemGroup>
 
 </Project>

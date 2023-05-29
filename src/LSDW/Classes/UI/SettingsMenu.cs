@@ -35,56 +35,56 @@ public sealed class SettingsMenu : NativeMenu
 	{
 		try
 		{
-			NativeCheckboxItem looseDrugsWhenBustedItem = new($"{nameof(PlayerSettings.LooseDrugsWhenBusted)}", true)
+			NativeCheckboxItem looseDrugsWhenBustedItem = new($"{nameof(Player.LooseDrugsWhenBusted)}", true)
 			{
-				Checked = _settingsService.GetLooseDrugsWhenBusted()
+				Checked = Player.LooseDrugsWhenBusted
 			};
 			looseDrugsWhenBustedItem.CheckboxChanged += LooseDrugsWhenBustedItemCheckboxChanged;
 			Add(looseDrugsWhenBustedItem);
 
-			NativeCheckboxItem looseDrugsOnDeathItem = new($"{nameof(PlayerSettings.LooseDrugsOnDeath)}", true)
+			NativeCheckboxItem looseDrugsOnDeathItem = new($"{nameof(Player.LooseDrugsOnDeath)}", true)
 			{
-				Checked = _settingsService.GetLooseDrugsOnDeath()
+				Checked = Player.LooseDrugsOnDeath
 			};
 			looseDrugsOnDeathItem.CheckboxChanged += LooseDrugsOnDeathItemCheckboxChanged;
 			Add(looseDrugsOnDeathItem);
 
-			NativeListItem<int> inventoryExpansionPerLevelItem = new($"{nameof(PlayerSettings.InventoryExpansionPerLevel)}", new int[] { 0, 5, 10, 15, 25, 30, 35, 40, 45, 50 })
+			NativeListItem<int> inventoryExpansionPerLevelItem = new($"{nameof(Player.InventoryExpansionPerLevel)}", new int[] { 0, 5, 10, 15, 25, 30, 35, 40, 45, 50 })
 			{
 				Enabled = true,
-				SelectedItem = _settingsService.GetInventoryExpansionPerLevel(),
+				SelectedItem = Player.InventoryExpansionPerLevel
 			};
 			inventoryExpansionPerLevelItem.ItemChanged += InventoryExpansionPerLevelItemChanged;
 			Add(inventoryExpansionPerLevelItem);
 
-			NativeListItem<int> startingInventoryItem = new($"{nameof(PlayerSettings.StartingInventory)}", new int[] { 50, 75, 100, 125, 150 })
+			NativeListItem<int> startingInventoryItem = new($"{nameof(Player.StartingInventory)}", new int[] { 50, 75, 100, 125, 150 })
 			{
 				Enabled = true,
-				SelectedItem = _settingsService.GetStartingInventory()
+				SelectedItem = Player.StartingInventory
 			};
 			startingInventoryItem.ItemChanged += StartingInventoryItemChanged;
 			Add(startingInventoryItem);
 
-			NativeListItem<int> downTimeInHoursItem = new($"{nameof(DealerSettings.DownTimeInHours)}", new int[] { 24, 48, 72, 96, 120, 144, 168 })
+			NativeListItem<int> downTimeInHoursItem = new($"{nameof(Dealer.DownTimeInHours)}", new int[] { 24, 48, 72, 96, 120, 144, 168 })
 			{
 				Enabled = true,
-				SelectedItem = _settingsService.GetDownTimeInHours()
+				SelectedItem = Dealer.DownTimeInHours
 			};
 			downTimeInHoursItem.ItemChanged += DownTimeInHoursItemChanged;
 			Add(downTimeInHoursItem);
 
-			NativeListItem<decimal> minimumDrugValueItem = new($"{nameof(MarketSettings.MinimumDrugValue)}", new decimal[] { 0.5M, 0.6M, 0.7M, 0.8M, 0.9M })
+			NativeListItem<decimal> minimumDrugValueItem = new($"{nameof(Market.MinimumDrugValue)}", new decimal[] { 0.5M, 0.6M, 0.7M, 0.8M, 0.9M })
 			{
 				Enabled = true,
-				SelectedItem = _settingsService.GetMinimumDrugValue()
+				SelectedItem = Market.MinimumDrugValue
 			};
 			minimumDrugValueItem.ItemChanged += MinimumDrugValueItemChanged;
 			Add(minimumDrugValueItem);
 
-			NativeListItem<decimal> maximumDrugValueItem = new($"{nameof(MarketSettings.MaximumDrugValue)}", new decimal[] { 1.1M, 1.2M, 1.3M, 1.4M, 1.5M })
+			NativeListItem<decimal> maximumDrugValueItem = new($"{nameof(Market.MaximumDrugValue)}", new decimal[] { 1.1M, 1.2M, 1.3M, 1.4M, 1.5M })
 			{
 				Enabled = true,
-				SelectedItem = _settingsService.GetMaximumDrugValue()
+				SelectedItem = Market.MaximumDrugValue
 			};
 			maximumDrugValueItem.ItemChanged += MaximumDrugValueItemChanged;
 			Add(maximumDrugValueItem);

@@ -12,8 +12,8 @@ public class DrugTests
 	[ClassInitialize]
 	public static void ClassInitialize(TestContext context)
 	{
-		Settings.MarketSettings.MinimumDrugValue = 0.8M;
-		Settings.MarketSettings.MaximumDrugValue = 1.2M;
+		Settings.Market.MinimumDrugValue = 0.8M;
+		Settings.Market.MaximumDrugValue = 1.2M;
 	}
 
 	[TestMethod]

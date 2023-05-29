@@ -1,10 +1,10 @@
 ﻿using GTA;
-using LSDW.Interfaces.Services;
-using DealerSettings = LSDW.Core.Classes.Settings.DealerSettings;
-using PlayerSettings = LSDW.Core.Classes.Settings.PlayerSettings;
-using MarketSettings = LSDW.Core.Classes.Settings.MarketSettings;
-using Settings = LSDW.Core.Classes.Settings;
+using LSDW.Core.Classes;
 using LSDW.Factories;
+using LSDW.Interfaces.Services;
+using Dealer = LSDW.Core.Classes.Settings.Dealer;
+using Market = LSDW.Core.Classes.Settings.Market;
+using Player = LSDW.Core.Classes.Settings.Player;
 
 namespace LSDW.Services;
 
@@ -27,99 +27,171 @@ public sealed class SettingsService : ISettingsService
 		string settingsFileName = Path.Combine(AppContext.BaseDirectory, Settings.SettingsFileName);
 		_loggerService = ServiceFactory.CreateLoggerService();
 		_scriptSettings = ScriptSettings.Load(settingsFileName);
-
-		if (!File.Exists(settingsFileName))
-			Init();
-		else
-			Apply();
+    
+    Load();
+    Save();
 	}
 
-	private void Init()
-	{
-		SetLooseDrugsWhenBusted(PlayerSettings.LooseDrugsWhenBusted);
-		SetLooseDrugsOnDeath(PlayerSettings.LooseDrugsOnDeath);
-		SetInventoryExpansionPerLevel(PlayerSettings.InventoryExpansionPerLevel);
-		SetStartingInventory(PlayerSettings.StartingInventory);
-		SetDownTimeInHours(DealerSettings.DownTimeInHours);
-		SetMinimumDrugValue(MarketSettings.MinimumDrugValue);
-		SetMaximumDrugValue(MarketSettings.MaximumDrugValue);
-		_ = Save();
-	}
+  public void Load()
+  {
+    Dealer.DownTimeInHours = GetDownTimeInHours();
+    Dealer.WearsArmor = GetWearsArmor();
+    Dealer.WearsWeapons = GetWearsWeapons();
+    Market.MaximumDrugValue = GetMaximumDrugValue();
+    Market.MinimumDrugValue = GetMinimumDrugValue();
+    Player.ExperienceMultiplier = GetExperienceMultiplier();
+    Player.LooseDrugsOnDeath = GetLooseDrugsOnDeath();
+    Player.LooseMoneyOnDeath = GetLooseMoneyOnDeath();
+    Player.LooseDrugsWhenBusted = GetLooseDrugsWhenBusted();
+    Player.LooseMoneyWhenBusted = GetLooseMoneyWhenBusted();
+    Player.InventoryExpansionPerLevel = GetInventoryExpansionPerLevel();
+    Player.StartingInventory = GetStartingInventory();
+  }
 
-	private void Apply()
-	{
-		PlayerSettings.LooseDrugsWhenBusted = GetLooseDrugsWhenBusted();
-		PlayerSettings.LooseDrugsOnDeath = GetLooseDrugsOnDeath();
-		PlayerSettings.InventoryExpansionPerLevel = GetInventoryExpansionPerLevel();
-		PlayerSettings.StartingInventory = GetStartingInventory();
-		DealerSettings.DownTimeInHours = GetDownTimeInHours();
-		MarketSettings.MinimumDrugValue = GetMinimumDrugValue();
-		MarketSettings.MaximumDrugValue = GetMaximumDrugValue();
-	}
-
-	public bool GetLooseDrugsWhenBusted()
-		=> _scriptSettings.GetValue(nameof(PlayerSettings), nameof(PlayerSettings.LooseDrugsWhenBusted), true);
-
-	public bool GetLooseDrugsOnDeath()
-		=> _scriptSettings.GetValue(nameof(PlayerSettings), nameof(PlayerSettings.LooseDrugsOnDeath), true);
-
-	public int GetInventoryExpansionPerLevel()
-		=> _scriptSettings.GetValue(nameof(PlayerSettings), nameof(PlayerSettings.InventoryExpansionPerLevel), 10);
-
-	public int GetStartingInventory()
-		=> _scriptSettings.GetValue(nameof(PlayerSettings), nameof(PlayerSettings.StartingInventory), 100);
+  public void Save()
+    => _scriptSettings.Save();
 
 	public int GetDownTimeInHours()
-		=> _scriptSettings.GetValue(nameof(DealerSettings), nameof(DealerSettings.DownTimeInHours), 48);
-
-	public decimal GetMinimumDrugValue()
-		=> _scriptSettings.GetValue(nameof(MarketSettings), nameof(MarketSettings.MinimumDrugValue), 0.8M);
-
-	public decimal GetMaximumDrugValue()
-		=> _scriptSettings.GetValue(nameof(MarketSettings), nameof(MarketSettings.MaximumDrugValue), 1.2M);
-
-	public void SetLooseDrugsWhenBusted(bool value)
-	{
-		_scriptSettings.SetValue(nameof(PlayerSettings), nameof(PlayerSettings.LooseDrugsWhenBusted), value);
-		PlayerSettings.LooseDrugsWhenBusted = value;
-	}
-
-	public void SetLooseDrugsOnDeath(bool value)
-	{
-		_scriptSettings.SetValue(nameof(PlayerSettings), nameof(PlayerSettings.LooseDrugsOnDeath), value);
-		PlayerSettings.LooseDrugsOnDeath = value;
-	}
-
-	public void SetInventoryExpansionPerLevel(int value)
-	{
-		_scriptSettings.SetValue(nameof(PlayerSettings), nameof(PlayerSettings.InventoryExpansionPerLevel), value);
-		PlayerSettings.InventoryExpansionPerLevel = value;
-	}
-
-	public void SetStartingInventory(int value)
-	{
-		_scriptSettings.SetValue(nameof(PlayerSettings), nameof(PlayerSettings.StartingInventory), value);
-		PlayerSettings.StartingInventory = value;
-	}
+  {
+    int value = _scriptSettings.GetValue(nameof(Dealer), nameof(Dealer.DownTimeInHours), (int)default);
+    return value;
+  }
 
 	public void SetDownTimeInHours(int value)
-	{
-		_scriptSettings.SetValue(nameof(DealerSettings), nameof(DealerSettings.DownTimeInHours), value);
-		DealerSettings.DownTimeInHours = value;
-	}
+  {
+		_scriptSettings.SetValue(nameof(Dealer), nameof(Dealer.DownTimeInHours), value);
+		Dealer.DownTimeInHours = value;
+  }
 
-	public void SetMinimumDrugValue(decimal value)
-	{
-		_scriptSettings.SetValue(nameof(MarketSettings), nameof(MarketSettings.MinimumDrugValue), value);
-		MarketSettings.MinimumDrugValue = value;
-	}
+	public bool GetWearsArmor()
+  {
+    bool value = _scriptSettings.GetValue(nameof(Dealer), nameof(Dealer.WearsArmor), (bool)default);
+    return value;
+  }
+
+	public void SetWearsArmor(bool value)
+  {
+		_scriptSettings.SetValue(nameof(Dealer), nameof(Dealer.WearsArmor), value);
+		Dealer.WearsArmor = value;
+  }
+
+	public bool GetWearsWeapons()
+  {
+    bool value = _scriptSettings.GetValue(nameof(Dealer), nameof(Dealer.WearsWeapons), (bool)default);
+    return value;
+  }
+
+	public void SetWearsWeapons(bool value)
+  {
+		_scriptSettings.SetValue(nameof(Dealer), nameof(Dealer.WearsWeapons), value);
+		Dealer.WearsWeapons = value;
+  }
+
+	public decimal GetMaximumDrugValue()
+  {
+    decimal value = _scriptSettings.GetValue(nameof(Market), nameof(Market.MaximumDrugValue), (decimal)default);
+    return value;
+  }
 
 	public void SetMaximumDrugValue(decimal value)
-	{
-		_scriptSettings.SetValue(nameof(MarketSettings), nameof(MarketSettings.MaximumDrugValue), value);
-		MarketSettings.MaximumDrugValue = value;
-	}
+  {
+		_scriptSettings.SetValue(nameof(Market), nameof(Market.MaximumDrugValue), value);
+		Market.MaximumDrugValue = value;
+  }
 
-	public bool Save()
-		=> _scriptSettings.Save();
+	public decimal GetMinimumDrugValue()
+  {
+    decimal value = _scriptSettings.GetValue(nameof(Market), nameof(Market.MinimumDrugValue), (decimal)default);
+    return value;
+  }
+
+	public void SetMinimumDrugValue(decimal value)
+  {
+		_scriptSettings.SetValue(nameof(Market), nameof(Market.MinimumDrugValue), value);
+		Market.MinimumDrugValue = value;
+  }
+
+	public decimal GetExperienceMultiplier()
+  {
+    decimal value = _scriptSettings.GetValue(nameof(Player), nameof(Player.ExperienceMultiplier), (decimal)default);
+    return value;
+  }
+
+	public void SetExperienceMultiplier(decimal value)
+  {
+		_scriptSettings.SetValue(nameof(Player), nameof(Player.ExperienceMultiplier), value);
+		Player.ExperienceMultiplier = value;
+  }
+
+	public bool GetLooseDrugsOnDeath()
+  {
+    bool value = _scriptSettings.GetValue(nameof(Player), nameof(Player.LooseDrugsOnDeath), (bool)default);
+    return value;
+  }
+
+	public void SetLooseDrugsOnDeath(bool value)
+  {
+		_scriptSettings.SetValue(nameof(Player), nameof(Player.LooseDrugsOnDeath), value);
+		Player.LooseDrugsOnDeath = value;
+  }
+
+	public bool GetLooseMoneyOnDeath()
+  {
+    bool value = _scriptSettings.GetValue(nameof(Player), nameof(Player.LooseMoneyOnDeath), (bool)default);
+    return value;
+  }
+
+	public void SetLooseMoneyOnDeath(bool value)
+  {
+		_scriptSettings.SetValue(nameof(Player), nameof(Player.LooseMoneyOnDeath), value);
+		Player.LooseMoneyOnDeath = value;
+  }
+
+	public bool GetLooseDrugsWhenBusted()
+  {
+    bool value = _scriptSettings.GetValue(nameof(Player), nameof(Player.LooseDrugsWhenBusted), (bool)default);
+    return value;
+  }
+
+	public void SetLooseDrugsWhenBusted(bool value)
+  {
+		_scriptSettings.SetValue(nameof(Player), nameof(Player.LooseDrugsWhenBusted), value);
+		Player.LooseDrugsWhenBusted = value;
+  }
+
+	public bool GetLooseMoneyWhenBusted()
+  {
+    bool value = _scriptSettings.GetValue(nameof(Player), nameof(Player.LooseMoneyWhenBusted), (bool)default);
+    return value;
+  }
+
+	public void SetLooseMoneyWhenBusted(bool value)
+  {
+		_scriptSettings.SetValue(nameof(Player), nameof(Player.LooseMoneyWhenBusted), value);
+		Player.LooseMoneyWhenBusted = value;
+  }
+
+	public int GetInventoryExpansionPerLevel()
+  {
+    int value = _scriptSettings.GetValue(nameof(Player), nameof(Player.InventoryExpansionPerLevel), (int)default);
+    return value;
+  }
+
+	public void SetInventoryExpansionPerLevel(int value)
+  {
+		_scriptSettings.SetValue(nameof(Player), nameof(Player.InventoryExpansionPerLevel), value);
+		Player.InventoryExpansionPerLevel = value;
+  }
+
+	public int GetStartingInventory()
+  {
+    int value = _scriptSettings.GetValue(nameof(Player), nameof(Player.StartingInventory), (int)default);
+    return value;
+  }
+
+	public void SetStartingInventory(int value)
+  {
+		_scriptSettings.SetValue(nameof(Player), nameof(Player.StartingInventory), value);
+		Player.StartingInventory = value;
+  }
 }
