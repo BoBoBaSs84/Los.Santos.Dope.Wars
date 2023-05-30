@@ -90,6 +90,18 @@ public static class PersistenceFactory
 		=> new(dealer);
 
 	/// <summary>
+	/// Creates a new saveable dealer state collection from a dealer instance collection.
+	/// </summary>
+	/// <param name="dealers">The dealer instance colection to save.</param>
+	public static List<DealerState> CreateDealerStates(IEnumerable<IDealer> dealers)
+	{
+		List<DealerState> states = new();
+		foreach (IDealer dealer in dealers)
+			states.Add(CreateDealerState(dealer));
+		return states;
+	}
+
+	/// <summary>
 	/// Creates a dealer instance from a saved dealer state.
 	/// </summary>
 	/// <param name="state">The saved dealer state.</param>
@@ -97,6 +109,18 @@ public static class PersistenceFactory
 	{
 		IInventory inventory = CreateInventory(state.Inventory);
 		return ActorFactory.CreateDealer(state.Position, state.ClosedUntil, state.Discovered, inventory, state.Name);
+	}
+
+	/// <summary>
+	/// Creates a dealer instance collection from a saved dealer state collection.
+	/// </summary>
+	/// <param name="states">The saved dealer state collection.</param>
+	public static IEnumerable<IDealer> CreateDealers(List<DealerState> states)
+	{
+		List<IDealer> dealers = new();
+		foreach (DealerState state in states)
+			dealers.Add(CreateDealer(state));
+		return dealers;
 	}
 
 	/// <summary>
@@ -136,4 +160,26 @@ public static class PersistenceFactory
 			logEntries.Add(CreateLogEntry(state));
 		return logEntries;
 	}
+
+	/// <summary>
+	/// Creates a new saveable game state.
+	/// </summary>
+	/// <param name="player">The player instance to save.</param>
+	/// <param name="dealers">The dealer instance colection to save.</param>
+	public static GameState CreateGameState(IPlayer player, IEnumerable<IDealer> dealers)
+		=> new(player, dealers);
+
+	/// <summary>
+	/// Creates a player instance from a saved game state.
+	/// </summary>
+	/// <param name="state">The saved game state.</param>
+	public static IPlayer CreatePlayer(GameState state)
+		=> CreatePlayer(state.Player);
+
+	/// <summary>
+	/// Creates a dealer instance collection from a saved game state.
+	/// </summary>
+	/// <param name="state">The saved game state.</param>
+	public static IEnumerable<IDealer> CreateDealers(GameState state)
+		=> CreateDealers(state.Dealers);
 }

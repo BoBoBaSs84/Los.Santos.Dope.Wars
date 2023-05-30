@@ -1,17 +1,19 @@
 ﻿using LSDW.Core.Interfaces.Classes;
 using LSDW.Factories;
+using System.Xml.Schema;
 using System.Xml.Serialization;
+using static LSDW.Constants.XmlConstants.NameSpaces;
 
 namespace LSDW.Classes.Persistence;
 
 /// <summary>
 /// The inventory state class.
 /// </summary>
+[XmlRoot("Inventory", Namespace = InventoryStateNameSpace)]
 public sealed class InventoryState
 {
 	public InventoryState()
-	{
-	}
+		=> Drugs = new();
 
 	public InventoryState(IInventory inventory)
 	{
@@ -19,10 +21,10 @@ public sealed class InventoryState
 		Money = inventory.Money;
 	}
 
-	[XmlArray(nameof(Drugs))]
+	[XmlArray("Drugs", Form = XmlSchemaForm.Qualified)]
 	[XmlArrayItem("Drug")]
-	public List<DrugState> Drugs { get; set; } = default!;
+	public List<DrugState> Drugs { get; set; }
 
-	[XmlAttribute(nameof(Money))]
-	public int Money { get; set; } = default!;
+	[XmlAttribute("Money", Form = XmlSchemaForm.Qualified)]
+	public int Money { get; set; }
 }
