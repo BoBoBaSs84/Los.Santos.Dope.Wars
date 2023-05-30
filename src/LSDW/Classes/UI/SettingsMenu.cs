@@ -14,6 +14,13 @@ public sealed class SettingsMenu : NativeMenu
 	private readonly ILoggerService _loggerService;
 	private readonly ObjectPool _processables = new();
 
+	private readonly int[] _inventoryExpansionPerLevelValues = new int[] { 0, 5, 10, 15, 25, 30, 35, 40, 45, 50 };
+	private readonly int[] _startingInventoryValues = new int[] { 50, 75, 100, 125, 150 };
+	private readonly int[] _downTimeInHours = new int[] { 24, 48, 72, 96, 120, 144, 168 };
+	private readonly float[] _minimumDrugValue = new float[] { 0.75f, 0.8f, 0.85f, 0.9f, 0.95f };
+	private readonly float[] _maximumDrugValues = new float[] { 1.05f, 1.1f, 1.15f, 1.2f, 1.25f };
+	private readonly float[] _experienceMultiplier = new float[] { 0.75f, 0.8f, 0.85f, 0.9f, 0.95f, 1f, 1.05f, 1.1f, 1.15f, 1.2f, 1.25f };
+
 	/// <summary>
 	/// Initializes a instance of the settings menu class.
 	/// </summary>
@@ -24,76 +31,129 @@ public sealed class SettingsMenu : NativeMenu
 		_settingsService = settingsService;
 		_loggerService = loggerService;
 
-		AddMenuItems();
-		_processables.Add(this);
-
 		Closing += OnClosing;
+		AddMenuItems();
+
+		_processables.Add(this);
 	}
 
 	private void AddMenuItems()
 	{
 		try
 		{
-			NativeCheckboxItem looseDrugsWhenBustedItem = new(RESX.UI_Settings_Player_LooseDrugsWhenBusted_Title, true)
-			{
-				Description = RESX.UI_Settings_Player_LooseDrugsWhenBusted_Description,
-				Checked = _settingsService.GetLooseDrugsWhenBusted()
-			};
-			looseDrugsWhenBustedItem.CheckboxChanged += LooseDrugsWhenBustedItemCheckboxChanged;
-			Add(looseDrugsWhenBustedItem);
+			#region Dealer
 
-			NativeCheckboxItem looseDrugsOnDeathItem = new(RESX.UI_Settings_Player_LooseDrugsOnDeath_Title, true)
+			SettingListItem<int> downTimeInHoursItem = new(RESX.UI_Settings_Dealer_DownTimeInHours_Title)
+			{
+				Description = RESX.UI_Settings_Dealer_DownTimeInHours_Description,
+				Items = _downTimeInHours.ToList(),
+				SelectedItem = _settingsService.GetDownTimeInHours()
+			};
+			downTimeInHoursItem.ItemChanged += OnDownTimeInHoursItemChanged;
+			Add(downTimeInHoursItem);
+
+			SettingCheckboxItem hasArmorItem = new(RESX.UI_Settings_Dealer_HasArmor_Title)
+			{
+				Description = RESX.UI_Settings_Dealer_HasArmor_Description,
+				Checked = _settingsService.GetHasArmor()
+			};
+			hasArmorItem.CheckboxChanged += OnHasArmorItemCheckboxChanged;
+			Add(hasArmorItem);
+
+			SettingCheckboxItem hasWeaponsItem = new(RESX.UI_Settings_Dealer_HasWeapons_Title)
+			{
+				Description = RESX.UI_Settings_Dealer_HasWeapons_Description,
+				Checked = _settingsService.GetHasWeapons()
+			};
+			hasWeaponsItem.CheckboxChanged += OnHasWeaponsItemCheckboxChanged;
+			Add(hasWeaponsItem);
+
+			#endregion Dealer
+
+			#region Market
+
+			SettingListItem<float> minimumDrugValueItem = new(RESX.UI_Settings_Market_MinimumDrugValue_Title)
+			{
+				Description = RESX.UI_Settings_Market_MinimumDrugValue_Description,
+				Items = _minimumDrugValue.ToList(),
+				SelectedItem = _settingsService.GetMinimumDrugValue()
+			};
+			minimumDrugValueItem.ItemChanged += OnMinimumDrugValueItemChanged;
+			Add(minimumDrugValueItem);
+
+			SettingListItem<float> maximumDrugValueItem = new(RESX.UI_Settings_Market_MaximumDrugValue_Title)
+			{
+				Description = RESX.UI_Settings_Market_MaximumDrugValue_Description,
+				Items = _maximumDrugValues.ToList(),
+				SelectedItem = _settingsService.GetMaximumDrugValue()
+			};
+			maximumDrugValueItem.ItemChanged += OnMaximumDrugValueItemChanged;
+			Add(maximumDrugValueItem);
+
+			#endregion Market
+
+			#region Player
+
+			SettingListItem<float> experienceMultiplierItem = new(RESX.UI_Settings_Player_ExperienceMultiplier_Title)
+			{
+				Description = RESX.UI_Settings_Player_ExperienceMultiplier_Description,
+				Items = _experienceMultiplier.ToList(),
+				SelectedItem = _settingsService.GetExperienceMultiplier()
+			};
+			experienceMultiplierItem.ItemChanged += OnExperienceMultiplierItemItemChanged;
+			Add(experienceMultiplierItem);
+
+			SettingCheckboxItem looseDrugsOnDeathItem = new(RESX.UI_Settings_Player_LooseDrugsOnDeath_Title)
 			{
 				Description = RESX.UI_Settings_Player_LooseDrugsOnDeath_Description,
 				Checked = _settingsService.GetLooseDrugsOnDeath()
 			};
-			looseDrugsOnDeathItem.CheckboxChanged += LooseDrugsOnDeathItemCheckboxChanged;
+			looseDrugsOnDeathItem.CheckboxChanged += OnLooseDrugsOnDeathItemCheckboxChanged;
 			Add(looseDrugsOnDeathItem);
 
-			NativeListItem<int> inventoryExpansionPerLevelItem = new(RESX.UI_Settings_Player_InventoryExpansionPerLevel_Title, new int[] { 0, 5, 10, 15, 25, 30, 35, 40, 45, 50 })
+			SettingCheckboxItem looseMoneyOnDeathItem = new(RESX.UI_Settings_Player_LooseMoneyOnDeath_Title)
+			{
+				Description = RESX.UI_Settings_Player_LooseMoneyOnDeath_Description,
+				Checked = _settingsService.GetLooseMoneyOnDeath()
+			};
+			looseMoneyOnDeathItem.CheckboxChanged += OnLooseMoneyOnDeathItemCheckboxChanged;
+			Add(looseMoneyOnDeathItem);
+
+			SettingCheckboxItem looseDrugsWhenBustedItem = new(RESX.UI_Settings_Player_LooseDrugsWhenBusted_Title)
+			{
+				Description = RESX.UI_Settings_Player_LooseDrugsWhenBusted_Description,
+				Checked = _settingsService.GetLooseDrugsWhenBusted()
+			};
+			looseDrugsWhenBustedItem.CheckboxChanged += OnLooseDrugsWhenBustedItemCheckboxChanged;
+			Add(looseDrugsWhenBustedItem);
+
+			SettingCheckboxItem looseMoneyWhenBustedItem = new(RESX.UI_Settings_Player_LooseMoneyWhenBusted_Title)
+			{
+				Description = RESX.UI_Settings_Player_LooseMoneyWhenBusted_Description,
+				Checked = _settingsService.GetLooseMoneyWhenBusted()
+			};
+			looseMoneyWhenBustedItem.CheckboxChanged += OnLooseMoneyWhenBustedItemCheckboxChanged;
+			Add(looseMoneyWhenBustedItem);
+
+			SettingListItem<int> inventoryExpansionPerLevelItem = new(RESX.UI_Settings_Player_InventoryExpansionPerLevel_Title)
 			{
 				Description = RESX.UI_Settings_Player_InventoryExpansionPerLevel_Description,
-				Enabled = true,
+				Items = _inventoryExpansionPerLevelValues.ToList(),
 				SelectedItem = _settingsService.GetInventoryExpansionPerLevel()
 			};
 			inventoryExpansionPerLevelItem.ItemChanged += InventoryExpansionPerLevelItemChanged;
 			Add(inventoryExpansionPerLevelItem);
 
-			NativeListItem<int> startingInventoryItem = new(RESX.UI_Settings_PLayer_StartingInventory_Title, new int[] { 50, 75, 100, 125, 150 })
+			SettingListItem<int> startingInventoryItem = new(RESX.UI_Settings_PLayer_StartingInventory_Title)
 			{
 				Description = RESX.UI_Settings_PLayer_StartingInventory_Description,
-				Enabled = true,
+				Items = _startingInventoryValues.ToList(),
 				SelectedItem = _settingsService.GetStartingInventory()
 			};
 			startingInventoryItem.ItemChanged += StartingInventoryItemChanged;
 			Add(startingInventoryItem);
 
-			NativeListItem<int> downTimeInHoursItem = new(RESX.UI_Settings_Dealer_DownTimeInHours_Title, new int[] { 24, 48, 72, 96, 120, 144, 168 })
-			{
-				Description = RESX.UI_Settings_Dealer_DownTimeInHours_Description,
-				Enabled = true,
-				SelectedItem = _settingsService.GetDownTimeInHours()
-			};
-			downTimeInHoursItem.ItemChanged += DownTimeInHoursItemChanged;
-			Add(downTimeInHoursItem);
-
-			NativeListItem<float> minimumDrugValueItem = new(RESX.UI_Settings_Market_MinimumDrugValue_Title, new float[] { 0.5f, 0.6f, 0.7f, 0.8f, 0.9f })
-			{
-				Description = RESX.UI_Settings_Market_MinimumDrugValue_Description,
-				Enabled = true,
-				SelectedItem = _settingsService.GetMinimumDrugValue()
-			};
-			minimumDrugValueItem.ItemChanged += MinimumDrugValueItemChanged;
-			Add(minimumDrugValueItem);
-
-			NativeListItem<float> maximumDrugValueItem = new(RESX.UI_Settings_Market_MaximumDrugValue_Title, new float[] { 1.1f, 1.2f, 1.3f, 1.4f, 1.5f })
-			{
-				Description = RESX.UI_Settings_Market_MaximumDrugValue_Description,
-				Enabled = true,
-				SelectedItem = _settingsService.GetMaximumDrugValue()
-			};
-			maximumDrugValueItem.ItemChanged += MaximumDrugValueItemChanged;
-			Add(maximumDrugValueItem);
+			#endregion Player
 		}
 		catch (Exception ex)
 		{
@@ -101,53 +161,88 @@ public sealed class SettingsMenu : NativeMenu
 		}
 	}
 
-	private void MaximumDrugValueItemChanged(object sender, ItemChangedEventArgs<float> args)
+	private void OnExperienceMultiplierItemItemChanged(object sender, ItemChangedEventArgs<float> args)
 	{
-		if (sender is not NativeListItem<float> maximumDrugValueItem)
+		if (sender is not SettingListItem<float> item)
 			return;
-		_settingsService.SetMaximumDrugValue(maximumDrugValueItem.SelectedItem);
+		_settingsService.SetExperienceMultiplier(item.SelectedItem);
 	}
 
-	private void MinimumDrugValueItemChanged(object sender, ItemChangedEventArgs<float> args)
+	private void OnLooseMoneyWhenBustedItemCheckboxChanged(object sender, EventArgs args)
 	{
-		if (sender is not NativeListItem<float> minimumDrugValueItem)
+		if (sender is not SettingCheckboxItem item)
 			return;
-		_settingsService.SetMinimumDrugValue(minimumDrugValueItem.SelectedItem);
+		_settingsService.SetLooseMoneyWhenBusted(item.Checked);
 	}
 
-	private void DownTimeInHoursItemChanged(object sender, ItemChangedEventArgs<int> args)
+	private void OnLooseMoneyOnDeathItemCheckboxChanged(object sender, EventArgs args)
 	{
-		if (sender is not NativeListItem<int> downTimeInHoursItem)
+		if (sender is not SettingCheckboxItem item)
 			return;
-		_settingsService.SetDownTimeInHours(downTimeInHoursItem.SelectedItem);
+		_settingsService.SetLooseMoneyOnDeath(item.Checked);
+	}
+
+	private void OnHasWeaponsItemCheckboxChanged(object sender, EventArgs args)
+	{
+		if (sender is not SettingCheckboxItem item)
+			return;
+		_settingsService.SetHasWeapons(item.Checked);
+	}
+
+	private void OnHasArmorItemCheckboxChanged(object sender, EventArgs args)
+	{
+		if (sender is not SettingCheckboxItem item)
+			return;
+		_settingsService.SetHasArmor(item.Checked);
+	}
+
+	private void OnMaximumDrugValueItemChanged(object sender, ItemChangedEventArgs<float> args)
+	{
+		if (sender is not SettingListItem<float> item)
+			return;
+		_settingsService.SetMaximumDrugValue(item.SelectedItem);
+	}
+
+	private void OnMinimumDrugValueItemChanged(object sender, ItemChangedEventArgs<float> args)
+	{
+		if (sender is not SettingListItem<float> item)
+			return;
+		_settingsService.SetMinimumDrugValue(item.SelectedItem);
+	}
+
+	private void OnDownTimeInHoursItemChanged(object sender, ItemChangedEventArgs<int> args)
+	{
+		if (sender is not SettingListItem<int> item)
+			return;
+		_settingsService.SetDownTimeInHours(item.SelectedItem);
 	}
 
 	private void StartingInventoryItemChanged(object sender, ItemChangedEventArgs<int> args)
 	{
-		if (sender is not NativeListItem<int> startingInventoryItem)
+		if (sender is not SettingListItem<int> item)
 			return;
-		_settingsService.SetStartingInventory(startingInventoryItem.SelectedItem);
+		_settingsService.SetStartingInventory(item.SelectedItem);
 	}
 
 	private void InventoryExpansionPerLevelItemChanged(object sender, ItemChangedEventArgs<int> args)
 	{
-		if (sender is not NativeListItem<int> inventoryExpansionPerLevelItem)
+		if (sender is not SettingListItem<int> item)
 			return;
-		_settingsService.SetInventoryExpansionPerLevel(inventoryExpansionPerLevelItem.SelectedItem);
+		_settingsService.SetInventoryExpansionPerLevel(item.SelectedItem);
 	}
 
-	private void LooseDrugsOnDeathItemCheckboxChanged(object sender, EventArgs args)
+	private void OnLooseDrugsOnDeathItemCheckboxChanged(object sender, EventArgs args)
 	{
-		if (sender is not NativeCheckboxItem looseDrugsOnDeathItem)
+		if (sender is not SettingCheckboxItem item)
 			return;
-		_settingsService.SetLooseDrugsOnDeath(looseDrugsOnDeathItem.Checked);
+		_settingsService.SetLooseDrugsOnDeath(item.Checked);
 	}
 
-	private void LooseDrugsWhenBustedItemCheckboxChanged(object sender, EventArgs args)
+	private void OnLooseDrugsWhenBustedItemCheckboxChanged(object sender, EventArgs args)
 	{
-		if (sender is not NativeCheckboxItem looseDrugsWhenBustedItem)
+		if (sender is not SettingCheckboxItem item)
 			return;
-		_settingsService.SetLooseDrugsWhenBusted(looseDrugsWhenBustedItem.Checked);
+		_settingsService.SetLooseDrugsWhenBusted(item.Checked);
 	}
 
 	private void OnClosing(object sender, CancelEventArgs args)

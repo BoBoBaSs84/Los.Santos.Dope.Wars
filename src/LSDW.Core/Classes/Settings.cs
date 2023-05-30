@@ -24,8 +24,8 @@ public static class Settings
 	/// </summary>
 	public static class Market
 	{
-		public static float MaximumDrugValue { get; set; } = 1.2f;
-		public static float MinimumDrugValue { get; set; } = 0.8f;
+		public static float MaximumDrugValue { get; set; } = 1.15f;
+		public static float MinimumDrugValue { get; set; } = 0.85f;
 	}
 
 	/// <summary>
