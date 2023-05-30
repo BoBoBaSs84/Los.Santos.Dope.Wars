@@ -31,6 +31,11 @@ public interface IPlayer
 	int MaximumInventoryQuantity { get; }
 
 	/// <summary>
+	/// The transaction log entries for the player.
+	/// </summary>
+	ICollection<ILogEntry> Transactions { get; }
+
+	/// <summary>
 	/// Should adds the desired experience points to the current experience.
 	/// </summary>
 	/// <param name="points">The experience points to add.</param>

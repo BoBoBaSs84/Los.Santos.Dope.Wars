@@ -15,10 +15,12 @@ internal sealed class Player : Notification, IPlayer
 	/// </summary>
 	/// <param name="inventory">The player inventory.</param>
 	/// <param name="experience">The player experience points.</param>
-	internal Player(IInventory inventory, int experience)
+	/// <param name="transactions">The transaction log entries for the player.</param>
+	internal Player(IInventory inventory, int experience, IEnumerable<ILogEntry> transactions)
 	{
 		Inventory = inventory;
 		Experience = experience;
+		Transactions = transactions.ToHashSet();
 	}
 
 	public IInventory Inventory { get; }
@@ -33,6 +35,8 @@ internal sealed class Player : Notification, IPlayer
 
 	public int MaximumInventoryQuantity
 		=> GetMaximumInventoryQuantity();
+
+	public ICollection<ILogEntry> Transactions { get; }
 
 	public void AddExperience(int points)
 		=> Experience += (int)(points * (double)ExperienceMultiplier);

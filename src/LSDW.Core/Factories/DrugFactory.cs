@@ -12,7 +12,7 @@ namespace LSDW.Core.Factories;
 public static class DrugFactory
 {
 	/// <summary>
-	/// Creates a drug instance.
+	/// Creates a new drug instance.
 	/// </summary>
 	/// <param name="drugType">The type of the drug.</param>
 	/// <param name="quantity">The quantity of the drug.</param>
@@ -21,7 +21,7 @@ public static class DrugFactory
 		=> new Drug(drugType, quantity, price);
 
 	/// <summary>
-	/// Creates a drug instance.
+	/// Creates a new drug instance.
 	/// </summary>
 	/// <param name="drugType">The type of the drug.</param>
 	/// <param name="quantity">The quantity of the drug.</param>
@@ -29,7 +29,7 @@ public static class DrugFactory
 		=> new Drug(drugType, quantity, 0);
 
 	/// <summary>
-	/// Creates a drug instance.
+	/// Creates a new drug instance.
 	/// </summary>
 	/// <param name="drugType">The type of the drug.</param>
 	public static IDrug CreateDrug(DrugType drugType)

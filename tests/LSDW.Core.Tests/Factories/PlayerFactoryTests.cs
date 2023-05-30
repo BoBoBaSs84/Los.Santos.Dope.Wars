@@ -1,4 +1,6 @@
-﻿using LSDW.Core.Factories;
+﻿using LSDW.Core.Enumerators;
+using LSDW.Core.Extensions;
+using LSDW.Core.Factories;
 using LSDW.Core.Interfaces.Classes;
 
 namespace LSDW.Core.Tests.Factories;
@@ -30,7 +32,7 @@ public class PlayerFactoryTests
 	}
 
 	[TestMethod]
-	public void CreateExistingPlayerTest()
+	public void CreatePlayerWithExperienceAndInventoryTest()
 	{
 		IPlayer? player;
 		IInventory inventory = InventoryFactory.CreateInventory();
@@ -43,5 +45,28 @@ public class PlayerFactoryTests
 		Assert.IsNotNull(player);
 		Assert.AreEqual(money, player.Inventory.Money);
 		Assert.AreEqual(experience, player.Experience);
+	}
+
+	[TestMethod()]
+	public void CreateExistingPlayerTest()
+	{
+		IPlayer? player;
+		IInventory inventory = InventoryFactory.CreateInventory();
+		_ = inventory.Randomize();
+		int experience = 500;
+		IEnumerable<ILogEntry> logEntries = new List<ILogEntry>()
+		{
+			LogEntryFactory.CreateLogEntry(DateTime.Now, TransactionType.TRAFFIC, DrugType.COKE, 10, 1000),
+			LogEntryFactory.CreateLogEntry(DateTime.Now.AddDays(-1), TransactionType.DEPOSIT, DrugType.METH, 10, 0),
+		};
+
+		player = PlayerFactory.CreatePlayer(inventory, experience, logEntries);
+
+		Assert.IsNotNull(player);
+		Assert.AreEqual(experience, player.Experience);
+		Assert.AreEqual(inventory.Money, player.Inventory.Money);
+		Assert.AreEqual(inventory.Count, player.Inventory.Count);
+		Assert.AreEqual(inventory.TotalQuantity, player.Inventory.TotalQuantity);
+		Assert.AreEqual(logEntries.Count(), player.Transactions.Count);
 	}
 }

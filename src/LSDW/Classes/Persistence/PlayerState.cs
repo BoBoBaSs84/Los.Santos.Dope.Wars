@@ -13,15 +13,22 @@ public sealed class PlayerState
 	{
 		Inventory = PersistenceFactory.CreateInventoryState(player.Inventory);
 		Experience = player.Experience;
+		Transactions = PersistenceFactory.CreateLogEntryStates(player.Transactions);
 	}
 
 	public PlayerState()
 	{
+		Inventory = new();
+		Transactions = new();
 	}
 
 	[XmlElement(nameof(Inventory))]
-	public InventoryState Inventory { get; set; } = default!;
+	public InventoryState Inventory { get; set; }
 
 	[XmlAttribute(nameof(Experience))]
-	public int Experience { get; set; } = default!;
+	public int Experience { get; set; }
+
+	[XmlArray("Transactions")]
+	[XmlArrayItem("Transaction")]
+	public List<LogEntryState> Transactions { get; set; }
 }
