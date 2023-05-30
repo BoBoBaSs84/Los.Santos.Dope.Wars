@@ -9,8 +9,8 @@ public class SettingsServiceTests
 {
 	private static readonly ISettingsService _settingsService = ServiceFactory.CreateSettingsService();
 
-	[ClassInitialize]
-	public static void ClassInitialize(TestContext context)
+	[ClassCleanup]
+	public static void ClassCleanup()
 	{
 		if (File.Exists(Settings.SettingsFileName))
 			File.Delete(Settings.SettingsFileName);

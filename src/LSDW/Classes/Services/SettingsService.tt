@@ -1,12 +1,15 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="$(TargetDir)LSDW.Core.dll" #>
+<#@ import namespace="LSDW.Core.Classes" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Globalization" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Reflection" #>
 <#@ import namespace="System.Text" #>
-<#@ import namespace="System.Collections.Generic" #>
-<#@ import namespace="LSDW.Core.Classes" #>
+<#@ import namespace="System.Threading" #>
 <#@ output extension=".cs" #>
+<# Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US"); #>
 using GTA;
 using LSDW.Core.Classes;
 using LSDW.Interfaces.Services;
@@ -55,7 +58,7 @@ List<PropertyInfo> properties = nestedType.GetProperties().ToList();
 foreach (PropertyInfo prop in properties) { #>
 
 	public <#= TypeNameOrAlias(prop.PropertyType) #> Get<#= prop.Name #>()
-    => _scriptSettings.GetValue("<#= nestedType.Name.ToUpper() #><#= typeof(Settings).Name.ToUpper() #>", "<#= prop.Name.ToUpper() #>", <#= TypeNameOrAlias(prop.PropertyType) #>.Parse("<#= prop.GetValue(this, null) #>"));
+    => _scriptSettings.GetValue("<#= nestedType.Name.ToUpper() #><#= typeof(Settings).Name.ToUpper() #>", "<#= prop.Name.ToUpper() #>", <#= nestedType.Name #>.<#= prop.Name #>);
 
 	public void Set<#= prop.Name #>(<#= TypeNameOrAlias(prop.PropertyType) #> value)
   {
@@ -66,8 +69,8 @@ foreach (PropertyInfo prop in properties) { #>
 }
 <#+
 List<Type> nestedTypes = typeof(Settings).GetNestedTypes().ToList();
-// This is the set of types from the C# keyword list.
-static Dictionary<Type, string> _typeAlias = new Dictionary<Type, string>
+
+private static Dictionary<Type, string> _typeAlias = new Dictionary<Type, string>
 {
     { typeof(bool), "bool" },
     { typeof(byte), "byte" },
@@ -83,7 +86,6 @@ static Dictionary<Type, string> _typeAlias = new Dictionary<Type, string>
     { typeof(string), "string" },
     { typeof(uint), "uint" },
     { typeof(ulong), "ulong" },
-    // Yes, this is an odd one.  Technically it's a type though.
     { typeof(void), "void" }
 };
 
