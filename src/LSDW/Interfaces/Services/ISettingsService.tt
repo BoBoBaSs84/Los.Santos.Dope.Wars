@@ -23,8 +23,8 @@ foreach (PropertyInfo prop in properties) { #>
 }
 <#+
 List<Type> nestedTypes = typeof(Settings).GetNestedTypes().ToList();
-// This is the set of types from the C# keyword list.
-static Dictionary<Type, string> _typeAlias = new Dictionary<Type, string>
+
+private static Dictionary<Type, string> _typeAlias = new Dictionary<Type, string>
 {
     { typeof(bool), "bool" },
     { typeof(byte), "byte" },
@@ -40,17 +40,14 @@ static Dictionary<Type, string> _typeAlias = new Dictionary<Type, string>
     { typeof(string), "string" },
     { typeof(uint), "uint" },
     { typeof(ulong), "ulong" },
-    // Yes, this is an odd one.  Technically it's a type though.
     { typeof(void), "void" }
 };
 
-static string TypeNameOrAlias(Type type)
+private static string TypeNameOrAlias(Type type)
 {
-    // Lookup alias for type
     if (_typeAlias.TryGetValue(type, out string alias))
         return alias;
 
-    // Default to CLR type name
     return type.Name;
 }
 #>
