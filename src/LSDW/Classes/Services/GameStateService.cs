@@ -26,7 +26,7 @@ internal sealed class GameStateService : IGameStateService
 	/// <param name="logger">The logger service instance to use.</param>
 	/// <param name="player">The player instance to save.</param>
 	/// <param name="dealers">The dealer instance colection to save.</param>
-	public GameStateService(ILoggerService logger, IPlayer player, IEnumerable<IDealer> dealers)
+	internal GameStateService(ILoggerService logger, IPlayer player, IEnumerable<IDealer> dealers)
 	{
 		_logger = logger;
 		_player = player;
