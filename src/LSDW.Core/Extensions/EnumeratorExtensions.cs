@@ -70,11 +70,11 @@ public static class EnumeratorExtensions
 	}
 
 	/// <summary>
-	/// Should return the rank of the <see cref="DrugType"/> enumerator.
+	/// Returns the probability property of the <see cref="DrugType"/> enumerator.
 	/// </summary>
 	/// <typeparam name="T">The enmuerator type.</typeparam>
 	/// <param name="value">The enumerator value.</param>
-	internal static int GetRank<T>(this T value) where T : Enum
+	internal static float GetProbability<T>(this T value) where T : Enum
 	{
 		FieldInfo? fieldInfo = GetFieldInfo(value);
 
@@ -83,7 +83,7 @@ public static class EnumeratorExtensions
 			DrugAttribute? attribute = GetDrugTypeAttribute(fieldInfo);
 
 			if (attribute is not null)
-				return attribute.Rank;
+				return attribute.Probability;
 		}
 
 		return default;

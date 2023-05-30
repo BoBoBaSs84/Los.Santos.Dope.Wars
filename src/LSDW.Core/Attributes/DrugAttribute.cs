@@ -1,19 +1,24 @@
 ﻿namespace LSDW.Core.Attributes;
 
+/// <summary>
+/// The drug attribute class.
+/// </summary>
 [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
-internal sealed class DrugAttribute : Attribute
+internal sealed class DrugAttribute : DescriptionAttribute
 {
+	private float probability;
+
 	/// <summary>
 	/// Initializes a instance of the <see cref="DrugAttribute"/> class.
 	/// </summary>
 	/// <param name="displayName">The display name of the drug.</param>
+	/// <param name="description">The description of the drug.</param>
 	/// <param name="marketValue">The normal market value of the drug.</param>
 	/// <param name="rank">The rank or level of the drug.</param>
-	public DrugAttribute(string displayName, int marketValue, int rank)
+	public DrugAttribute(string displayName, string description, int marketValue) : base(description)
 	{
 		DisplayName = displayName;
 		MarketValue = marketValue;
-		Rank = rank;
 	}
 
 	/// <summary>
@@ -27,7 +32,22 @@ internal sealed class DrugAttribute : Attribute
 	public int MarketValue { get; }
 
 	/// <summary>
-	/// The <see cref="Rank"/> property is the rank or level of the drug.
+	/// The availability probability property of a drug.
 	/// </summary>
-	public int Rank { get; }
+	/// <remarks>
+	/// A value between 0 and 1.
+	/// </remarks>
+	public float Probability
+	{
+		get => probability;
+		set => SetProbability(value);
+	}
+
+	private void SetProbability(float value)
+	{
+		if (value is < 0 or > 1)
+			throw new ArgumentOutOfRangeException(nameof(value));
+
+		probability = value;
+	}
 }

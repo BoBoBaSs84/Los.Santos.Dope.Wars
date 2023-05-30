@@ -51,9 +51,9 @@ public class EnumeratorExtensionsTests
 	{
 		DrugType drugType = DrugType.COKE;
 
-		int rank = drugType.GetRank();
+		float probability = drugType.GetProbability();
 
-		Assert.AreNotEqual(rank, 0);
+		Assert.AreNotEqual(0, probability);
 	}
 
 	[TestMethod]
@@ -61,9 +61,9 @@ public class EnumeratorExtensionsTests
 	{
 		TestType testType = TestType.Test;
 
-		int rank = testType.GetRank();
+		float probability = testType.GetProbability();
 
-		Assert.AreEqual(rank, 0);
+		Assert.AreEqual(0, probability);
 	}
 
 	[TestMethod]
