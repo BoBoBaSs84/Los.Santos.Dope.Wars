@@ -10,9 +10,9 @@ public class PlayerTests
 	[ClassInitialize]
 	public static void ClassInitialize(TestContext context)
 	{
-		Settings.PlayerSettings.ExperienceMultiplier = 1;
-		Settings.PlayerSettings.StartingInventory = 100;
-		Settings.PlayerSettings.InventoryExpansionPerLevel = 10;
+		Settings.Player.ExperienceMultiplier = 1;
+		Settings.Player.StartingInventory = 100;
+		Settings.Player.InventoryExpansionPerLevel = 10;
 	}
 
 	[TestMethod]

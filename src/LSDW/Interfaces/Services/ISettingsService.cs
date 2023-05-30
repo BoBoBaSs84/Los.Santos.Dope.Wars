@@ -2,19 +2,31 @@
 
 public interface ISettingsService
 {
+	void Load();
+	void Save();
+
 	int GetDownTimeInHours();
-	int GetInventoryExpansionPerLevel();
+  void SetDownTimeInHours(int value);
+	bool GetHasArmor();
+  void SetHasArmor(bool value);
+	bool GetHasWeapons();
+  void SetHasWeapons(bool value);
+	float GetMaximumDrugValue();
+  void SetMaximumDrugValue(float value);
+	float GetMinimumDrugValue();
+  void SetMinimumDrugValue(float value);
+	float GetExperienceMultiplier();
+  void SetExperienceMultiplier(float value);
 	bool GetLooseDrugsOnDeath();
+  void SetLooseDrugsOnDeath(bool value);
+	bool GetLooseMoneyOnDeath();
+  void SetLooseMoneyOnDeath(bool value);
 	bool GetLooseDrugsWhenBusted();
-	decimal GetMaximumDrugValue();
-	decimal GetMinimumDrugValue();
+  void SetLooseDrugsWhenBusted(bool value);
+	bool GetLooseMoneyWhenBusted();
+  void SetLooseMoneyWhenBusted(bool value);
+	int GetInventoryExpansionPerLevel();
+  void SetInventoryExpansionPerLevel(int value);
 	int GetStartingInventory();
-	bool Save();
-	void SetDownTimeInHours(int value);
-	void SetInventoryExpansionPerLevel(int value);
-	void SetLooseDrugsOnDeath(bool value);
-	void SetLooseDrugsWhenBusted(bool value);
-	void SetMaximumDrugValue(decimal value);
-	void SetMinimumDrugValue(decimal value);
-	void SetStartingInventory(int value);
+  void SetStartingInventory(int value);
 }

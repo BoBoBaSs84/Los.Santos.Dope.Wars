@@ -2,7 +2,7 @@
 using LSDW.Factories;
 using LSDW.Interfaces.Services;
 
-namespace LSDW.Tests.Services;
+namespace LSDW.Tests.Classes.Services;
 
 [TestClass]
 public class LoggerServiceTests

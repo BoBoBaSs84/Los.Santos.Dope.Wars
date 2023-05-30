@@ -9,13 +9,6 @@ namespace LSDW.Core.Tests.Classes;
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public class DrugTests
 {
-	[ClassInitialize]
-	public static void ClassInitialize(TestContext context)
-	{
-		Settings.MarketSettings.MinimumDrugValue = 0.8M;
-		Settings.MarketSettings.MaximumDrugValue = 1.2M;
-	}
-
 	[TestMethod]
 	public void AddSuccessTest()
 	{

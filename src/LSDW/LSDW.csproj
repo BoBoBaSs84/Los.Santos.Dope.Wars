@@ -18,6 +18,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Update="Classes\Services\SettingsService.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>SettingsService.tt</DependentUpon>
+		</Compile>
+		<Compile Update="Interfaces\Services\ISettingsService.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ISettingsService.tt</DependentUpon>
+		</Compile>
 		<Compile Update="Properties\Resources.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
@@ -30,6 +40,17 @@
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Interfaces\Services\ISettingsService.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>ISettingsService.cs</LastGenOutput>
+		</None>
+		<None Update="Classes\Services\SettingsService.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>SettingsService.cs</LastGenOutput>
+		</None>
 	</ItemGroup>
 
 </Project>

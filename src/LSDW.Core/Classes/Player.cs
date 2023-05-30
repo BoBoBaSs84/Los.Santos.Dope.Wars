@@ -1,7 +1,7 @@
 ﻿using LSDW.Core.Classes.Base;
 using LSDW.Core.Constants;
 using LSDW.Core.Interfaces.Classes;
-using static LSDW.Core.Classes.Settings.PlayerSettings;
+using static LSDW.Core.Classes.Settings.Player;
 
 namespace LSDW.Core.Classes;
 

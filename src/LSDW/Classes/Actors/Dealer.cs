@@ -5,7 +5,7 @@ using LSDW.Core.Factories;
 using LSDW.Core.Interfaces.Classes;
 using LSDW.Helpers;
 using LSDW.Interfaces.Actors;
-using static LSDW.Core.Classes.Settings.DealerSettings;
+using static LSDW.Core.Classes.Settings.Dealer;
 
 namespace LSDW.Classes.Actors;
 

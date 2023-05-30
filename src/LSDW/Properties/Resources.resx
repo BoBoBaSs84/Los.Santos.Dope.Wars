@@ -117,6 +117,78 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="UI.Settings.Dealer.DownTimeInHours.Description" xml:space="preserve">
+    <value>How many days it will take for the dealer to return after he has fled or been killed.</value>
+  </data>
+  <data name="UI.Settings.Dealer.DownTimeInHours.Title" xml:space="preserve">
+    <value>Down time in hours</value>
+  </data>
+  <data name="UI.Settings.Dealer.HasArmor.Description" xml:space="preserve">
+    <value>Should the dealer wear armor?</value>
+  </data>
+  <data name="UI.Settings.Dealer.HasArmor.Title" xml:space="preserve">
+    <value>Is wearing armor?</value>
+  </data>
+  <data name="UI.Settings.Dealer.HasWeapons.Description" xml:space="preserve">
+    <value>Should the dealer carry one or more weapons?</value>
+  </data>
+  <data name="UI.Settings.Dealer.HasWeapons.Title" xml:space="preserve">
+    <value>Is the dealer armed?</value>
+  </data>
+  <data name="UI.Settings.Market.MaximumDrugValue.Description" xml:space="preserve">
+    <value>The maximum value of a drug, serves as a multiplier to the nominal market value.</value>
+  </data>
+  <data name="UI.Settings.Market.MaximumDrugValue.Title" xml:space="preserve">
+    <value>Maximum drug value</value>
+  </data>
+  <data name="UI.Settings.Market.MinimumDrugValue.Description" xml:space="preserve">
+    <value>The minimum value of a drug, serves as a multiplier to the nominal market value.</value>
+  </data>
+  <data name="UI.Settings.Market.MinimumDrugValue.Title" xml:space="preserve">
+    <value>Minimum drug value</value>
+  </data>
+  <data name="UI.Settings.Player.ExperienceMultiplier.Description" xml:space="preserve">
+    <value>The experience value multiplier, which is to be applied at each experience gain.</value>
+  </data>
+  <data name="UI.Settings.Player.ExperienceMultiplier.Title" xml:space="preserve">
+    <value>Experience multiplier</value>
+  </data>
+  <data name="UI.Settings.Player.InventoryExpansionPerLevel.Description" xml:space="preserve">
+    <value>The number with which the inventory increases with each level up.</value>
+  </data>
+  <data name="UI.Settings.Player.InventoryExpansionPerLevel.Title" xml:space="preserve">
+    <value>Inventory expansion per level</value>
+  </data>
+  <data name="UI.Settings.Player.LooseDrugsOnDeath.Description" xml:space="preserve">
+    <value>Does the player looses the drugs he is currently carrying when he gets wasted?</value>
+  </data>
+  <data name="UI.Settings.Player.LooseDrugsOnDeath.Title" xml:space="preserve">
+    <value>Loose drugs on death?</value>
+  </data>
+  <data name="UI.Settings.Player.LooseDrugsWhenBusted.Description" xml:space="preserve">
+    <value>Does the player looses the drugs he is currently carrying when he gets busted?</value>
+  </data>
+  <data name="UI.Settings.Player.LooseDrugsWhenBusted.Title" xml:space="preserve">
+    <value>Loose drugs when busted?</value>
+  </data>
+  <data name="UI.Settings.Player.LooseMoneyOnDeath.Description" xml:space="preserve">
+    <value>Does the player looses the drug money he is currently carrying when he gets wasted?</value>
+  </data>
+  <data name="UI.Settings.Player.LooseMoneyOnDeath.Title" xml:space="preserve">
+    <value>Loose drug money on death?</value>
+  </data>
+  <data name="UI.Settings.Player.LooseMoneyWhenBusted.Description" xml:space="preserve">
+    <value>Does the player looses the drug money he is currently carrying when he gets busted?</value>
+  </data>
+  <data name="UI.Settings.Player.LooseMoneyWhenBusted.Title" xml:space="preserve">
+    <value>Loose drug money when busted?</value>
+  </data>
+  <data name="UI.Settings.PLayer.StartingInventory.Description" xml:space="preserve">
+    <value>The size of the starting inventory or the base value of the inventory.</value>
+  </data>
+  <data name="UI.Settings.PLayer.StartingInventory.Title" xml:space="preserve">
+    <value>Starting inventory</value>
+  </data>
   <data name="UI.SettingsMenu.Subtitle" xml:space="preserve">
     <value>Settings will saved on close.</value>
   </data>
