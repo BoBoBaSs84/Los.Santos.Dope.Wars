@@ -12,6 +12,8 @@ public class SettingsServiceTests
 	[ClassInitialize]
 	public static void ClassInitialize(TestContext context)
 	{
+		if (File.Exists(Settings.SettingsFileName))
+			File.Delete(Settings.SettingsFileName);
 	}
 
 	[TestMethod]
@@ -57,37 +59,61 @@ public class SettingsServiceTests
 	[TestMethod]
 	public void GetHasWeaponsTest()
 	{
+		bool b = _settingsService.GetHasWeapons();
 
+		Assert.IsTrue(b);
 	}
 
 	[TestMethod]
 	public void SetHasWeaponsTest()
 	{
+		bool value = false;
+		_settingsService.SetHasWeapons(value);
 
+		bool b = _settingsService.GetHasWeapons();
+
+		Assert.IsFalse(b);
+		Assert.IsFalse(Settings.Dealer.HasArmor);
 	}
 
 	[TestMethod]
 	public void GetMaximumDrugValueTest()
 	{
+		float f = _settingsService.GetMaximumDrugValue();
 
+		Assert.AreNotEqual(0, f);
 	}
 
 	[TestMethod]
 	public void SetMaximumDrugValueTest()
 	{
+		float value = 1.8f;
+		_settingsService.SetMaximumDrugValue(value);
 
+		float f = _settingsService.GetMaximumDrugValue();
+
+		Assert.AreEqual(value, f);
+		Assert.AreEqual(value, Settings.Market.MaximumDrugValue);
 	}
 
 	[TestMethod]
 	public void SetMinimumDrugValueTest()
 	{
+		float f = _settingsService.GetMinimumDrugValue();
 
+		Assert.AreNotEqual(0, f);
 	}
 
 	[TestMethod]
 	public void GetExperienceMultiplierTest()
 	{
+		float value = 0.2f;
+		_settingsService.SetMinimumDrugValue(value);
 
+		float f = _settingsService.GetMinimumDrugValue();
+
+		Assert.AreEqual(value, f);
+		Assert.AreEqual(value, Settings.Market.MinimumDrugValue);
 	}
 
 	[TestMethod]

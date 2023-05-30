@@ -61,7 +61,7 @@ public sealed class SettingsService : ISettingsService
     => _scriptSettings.Save();
 
 	public int GetDownTimeInHours()
-    => _scriptSettings.GetValue("DEALERSETTINGS", "DOWNTIMEINHOURS", 48);
+    => _scriptSettings.GetValue("DEALERSETTINGS", "DOWNTIMEINHOURS", int.Parse("48"));
 
 	public void SetDownTimeInHours(int value)
   {
@@ -70,7 +70,7 @@ public sealed class SettingsService : ISettingsService
   }
 
 	public bool GetHasArmor()
-    => _scriptSettings.GetValue("DEALERSETTINGS", "HASARMOR", true);
+    => _scriptSettings.GetValue("DEALERSETTINGS", "HASARMOR", bool.Parse("True"));
 
 	public void SetHasArmor(bool value)
   {
@@ -79,7 +79,7 @@ public sealed class SettingsService : ISettingsService
   }
 
 	public bool GetHasWeapons()
-    => _scriptSettings.GetValue("DEALERSETTINGS", "HASWEAPONS", true);
+    => _scriptSettings.GetValue("DEALERSETTINGS", "HASWEAPONS", bool.Parse("True"));
 
 	public void SetHasWeapons(bool value)
   {
@@ -88,7 +88,7 @@ public sealed class SettingsService : ISettingsService
   }
 
 	public float GetMaximumDrugValue()
-    => _scriptSettings.GetValue("MARKETSETTINGS", "MAXIMUMDRUGVALUE", 1.2f);
+    => _scriptSettings.GetValue("MARKETSETTINGS", "MAXIMUMDRUGVALUE", float.Parse("1.2"));
 
 	public void SetMaximumDrugValue(float value)
   {
@@ -97,7 +97,7 @@ public sealed class SettingsService : ISettingsService
   }
 
 	public float GetMinimumDrugValue()
-    => _scriptSettings.GetValue("MARKETSETTINGS", "MINIMUMDRUGVALUE", 0.8f);
+    => _scriptSettings.GetValue("MARKETSETTINGS", "MINIMUMDRUGVALUE", float.Parse("0.8"));
 
 	public void SetMinimumDrugValue(float value)
   {
@@ -106,7 +106,7 @@ public sealed class SettingsService : ISettingsService
   }
 
 	public float GetExperienceMultiplier()
-    => _scriptSettings.GetValue("PLAYERSETTINGS", "EXPERIENCEMULTIPLIER", 1);
+    => _scriptSettings.GetValue("PLAYERSETTINGS", "EXPERIENCEMULTIPLIER", float.Parse("1"));
 
 	public void SetExperienceMultiplier(float value)
   {
@@ -115,7 +115,7 @@ public sealed class SettingsService : ISettingsService
   }
 
 	public bool GetLooseDrugsOnDeath()
-    => _scriptSettings.GetValue("PLAYERSETTINGS", "LOOSEDRUGSONDEATH", true);
+    => _scriptSettings.GetValue("PLAYERSETTINGS", "LOOSEDRUGSONDEATH", bool.Parse("True"));
 
 	public void SetLooseDrugsOnDeath(bool value)
   {
@@ -124,7 +124,7 @@ public sealed class SettingsService : ISettingsService
   }
 
 	public bool GetLooseMoneyOnDeath()
-    => _scriptSettings.GetValue("PLAYERSETTINGS", "LOOSEMONEYONDEATH", true);
+    => _scriptSettings.GetValue("PLAYERSETTINGS", "LOOSEMONEYONDEATH", bool.Parse("True"));
 
 	public void SetLooseMoneyOnDeath(bool value)
   {
@@ -133,7 +133,7 @@ public sealed class SettingsService : ISettingsService
   }
 
 	public bool GetLooseDrugsWhenBusted()
-    => _scriptSettings.GetValue("PLAYERSETTINGS", "LOOSEDRUGSWHENBUSTED", true);
+    => _scriptSettings.GetValue("PLAYERSETTINGS", "LOOSEDRUGSWHENBUSTED", bool.Parse("True"));
 
 	public void SetLooseDrugsWhenBusted(bool value)
   {
@@ -142,7 +142,7 @@ public sealed class SettingsService : ISettingsService
   }
 
 	public bool GetLooseMoneyWhenBusted()
-    => _scriptSettings.GetValue("PLAYERSETTINGS", "LOOSEMONEYWHENBUSTED", true);
+    => _scriptSettings.GetValue("PLAYERSETTINGS", "LOOSEMONEYWHENBUSTED", bool.Parse("True"));
 
 	public void SetLooseMoneyWhenBusted(bool value)
   {
@@ -151,7 +151,7 @@ public sealed class SettingsService : ISettingsService
   }
 
 	public int GetInventoryExpansionPerLevel()
-    => _scriptSettings.GetValue("PLAYERSETTINGS", "INVENTORYEXPANSIONPERLEVEL", 10);
+    => _scriptSettings.GetValue("PLAYERSETTINGS", "INVENTORYEXPANSIONPERLEVEL", int.Parse("10"));
 
 	public void SetInventoryExpansionPerLevel(int value)
   {
@@ -160,7 +160,7 @@ public sealed class SettingsService : ISettingsService
   }
 
 	public int GetStartingInventory()
-    => _scriptSettings.GetValue("PLAYERSETTINGS", "STARTINGINVENTORY", 100);
+    => _scriptSettings.GetValue("PLAYERSETTINGS", "STARTINGINVENTORY", int.Parse("100"));
 
 	public void SetStartingInventory(int value)
   {
