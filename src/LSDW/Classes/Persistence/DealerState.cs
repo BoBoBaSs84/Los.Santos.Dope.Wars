@@ -2,10 +2,13 @@
 using GTA.Math;
 using LSDW.Factories;
 using LSDW.Interfaces.Actors;
+using System.Xml.Schema;
 using System.Xml.Serialization;
+using static LSDW.Constants.XmlConstants.NameSpaces;
 
 namespace LSDW.Classes.Persistence;
 
+[XmlRoot("Dealer", Namespace = DealerStateNameSpace)]
 public sealed class DealerState
 {
 	public DealerState(IDealer dealer)
@@ -20,34 +23,31 @@ public sealed class DealerState
 
 	public DealerState()
 	{
-		ClosedUntil = default!;
-		Discovered = default!;
-		Inventory = default!;
-		Name = default!;
-		Position = default!;
-		Hash = default!;
+		Inventory = new();
+		Name = string.Empty;
 	}
 
-	[XmlElement(nameof(ClosedUntil))]
+	[XmlElement(nameof(ClosedUntil), Form = XmlSchemaForm.Qualified)]
 	public DateTime? ClosedUntil { get; set; }
 
-	[XmlAttribute(nameof(Discovered))]
+	[XmlAttribute(nameof(Discovered), Form = XmlSchemaForm.Qualified)]
 	public bool Discovered { get; set; }
 
-	[XmlElement(nameof(Inventory))]
+	[XmlElement(nameof(Inventory), Form = XmlSchemaForm.Qualified)]
 	public InventoryState Inventory { get; set; }
 
-	[XmlAttribute(nameof(Name))]
+	[XmlAttribute(nameof(Name), Form = XmlSchemaForm.Qualified)]
 	public string Name { get; set; }
 
-	[XmlElement(nameof(Position))]
+	[XmlElement(nameof(Position), Form = XmlSchemaForm.Qualified)]
 	public Vector3 Position { get; set; }
 
-	[XmlAttribute(nameof(Position))]
+	[XmlAttribute(nameof(Position), Form = XmlSchemaForm.Qualified)]
 	public PedHash Hash { get; set; }
 
 	public bool ShouldSerializeClosedUntil() => ClosedUntil.HasValue;
-	public bool ShouldSerializeHash() => Discovered;
-	public bool ShouldSerializeName() => Discovered;
-	public bool ShouldSerializeInventory() => Discovered;
+	// TODO: Fix this...
+	public bool ShouldSerializeHash() => false;
+	public bool ShouldSerializeName() => Discovered && !ClosedUntil.HasValue;
+	public bool ShouldSerializeInventory() => Discovered && !ClosedUntil.HasValue;
 }

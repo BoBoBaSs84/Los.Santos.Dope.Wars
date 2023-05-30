@@ -1,13 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GTA.Math;
+﻿using GTA.Math;
 using LSDW.Classes.Persistence;
 using LSDW.Core.Enumerators;
+using LSDW.Core.Extensions;
 using LSDW.Core.Factories;
 using LSDW.Core.Helpers;
 using LSDW.Core.Interfaces.Classes;
 using LSDW.Factories;
 using LSDW.Interfaces.Actors;
-using LSDW.Core.Extensions;
 
 namespace LSDW.Tests.Factories;
 
@@ -27,7 +26,7 @@ public class PersistenceFactoryTests
 		Assert.AreEqual(drug.Price, state.Price);
 	}
 
-	[TestMethod()]
+	[TestMethod]
 	public void CreateDrugTest()
 	{
 		DrugState state = new()
@@ -120,7 +119,7 @@ public class PersistenceFactoryTests
 
 		IPlayer player = PlayerFactory.CreatePlayer(inventory, experience, logEntries);
 		PlayerState playerState = PersistenceFactory.CreatePlayerState(player);
-		
+
 		Assert.IsNotNull(playerState);
 		Assert.AreEqual(experience, player.Experience);
 		Assert.AreEqual(inventory.Count, player.Inventory.Count);
@@ -154,7 +153,47 @@ public class PersistenceFactoryTests
 		Assert.AreEqual(state.Inventory.Drugs.Count, state.Inventory.Drugs.Count);
 	}
 
-	[TestMethod()]
+	[TestMethod]
+	public void CreateDealerStatesTest()
+	{
+		IEnumerable<IDealer> dealers = new List<IDealer>()
+		{
+			ActorFactory.CreateDealer(new Vector3(287.011f, -991.685f, 33.108f)),
+			ActorFactory.CreateDealer(new Vector3(107.011f, 531.685f, 1233.108f)),
+		};
+
+		List<DealerState> states = PersistenceFactory.CreateDealerStates(dealers);
+
+		Assert.IsNotNull(dealers);
+		Assert.AreEqual(dealers.Count(), states.Count);
+	}
+
+	[TestMethod]
+	public void CreateDealersTest()
+	{
+		List<DealerState> states = new()
+		{
+			new DealerState(),
+			new DealerState()
+		};
+
+		IEnumerable<IDealer> dealers = PersistenceFactory.CreateDealers(states);
+
+		Assert.IsNotNull(dealers);
+		Assert.AreEqual(states.Count, dealers.Count());
+	}
+
+	[TestMethod]
+	public void CreateDealerTest()
+	{
+		DealerState state = new();
+
+		IDealer dealer = PersistenceFactory.CreateDealer(state);
+
+		Assert.IsNotNull(dealer);
+	}
+
+	[TestMethod]
 	public void CreateDealerStateTest()
 	{
 		IDealer dealer = ActorFactory.CreateDealer(new Vector3(287.011f, -991.685f, 33.108f));
@@ -164,7 +203,7 @@ public class PersistenceFactoryTests
 		Assert.IsNotNull(state);
 	}
 
-	[TestMethod()]
+	[TestMethod]
 	public void CreateLogEntryStateTest()
 	{
 		ILogEntry logEntry = LogEntryFactory.CreateLogEntry(DateTime.Now, TransactionType.TRAFFIC, DrugType.COKE, 10, 1000);
@@ -174,7 +213,7 @@ public class PersistenceFactoryTests
 		Assert.IsNotNull(state);
 	}
 
-	[TestMethod()]
+	[TestMethod]
 	public void CreateLogEntryTest()
 	{
 		LogEntryState state = new()
@@ -191,7 +230,7 @@ public class PersistenceFactoryTests
 		Assert.IsNotNull(logEntry);
 	}
 
-	[TestMethod()]
+	[TestMethod]
 	public void CreateLogEntryStatesTest()
 	{
 		IEnumerable<ILogEntry> logEntries = new List<ILogEntry>()
@@ -207,7 +246,7 @@ public class PersistenceFactoryTests
 		Assert.AreEqual(logEntries.Count(), states.Count);
 	}
 
-	[TestMethod()]
+	[TestMethod]
 	public void CreateLogEntriesTest()
 	{
 		List<LogEntryState> states = new()
@@ -217,9 +256,52 @@ public class PersistenceFactoryTests
 		};
 
 		IEnumerable<ILogEntry> logEntries = PersistenceFactory.CreateLogEntries(states);
-		
+
 		Assert.IsNotNull(logEntries);
 		Assert.IsTrue(logEntries.Any());
 		Assert.AreEqual(states.Count, logEntries.Count());
+	}
+
+	[TestMethod]
+	public void CreateGameStateTest()
+	{
+		IPlayer player = PlayerFactory.CreatePlayer(RandomHelper.GetInt(123456789, 987654321));
+		_ = player.Inventory.Randomize(100);
+		List<IDealer> dealers = new()
+		{
+			ActorFactory.CreateDealer(new Vector3(287.011f, -991.685f, 33.108f)),
+			ActorFactory.CreateDealer(new Vector3(107.011f, 531.685f, 1233.108f)),
+		};
+		foreach (IDealer dealer in dealers)
+			_ = dealer.Inventory.Randomize(100);
+
+		GameState state = PersistenceFactory.CreateGameState(player, dealers);
+
+		Assert.IsNotNull(state);
+		Assert.AreEqual(player.Experience, state.Player.Experience);
+		Assert.AreEqual(player.Inventory.Money, state.Player.Inventory.Money);
+		Assert.AreEqual(player.Inventory.Count, state.Player.Inventory.Drugs.Count);
+		Assert.AreEqual(dealers.Count, state.Dealers.Count);
+		Assert.AreEqual(dealers.Count, state.Dealers.Count);
+	}
+
+	[TestMethod()]
+	public void CreatePlayerFromGameStateTest()
+	{
+		GameState state = new();
+
+		IPlayer player = PersistenceFactory.CreatePlayer(state);
+
+		Assert.IsNotNull(player);
+	}
+
+	[TestMethod()]
+	public void CreateDealersFromGameStateTest()
+	{
+		GameState state = new();
+
+		IEnumerable<IDealer> dealers = PersistenceFactory.CreateDealers(state);
+
+		Assert.IsNotNull(dealers);
 	}
 }

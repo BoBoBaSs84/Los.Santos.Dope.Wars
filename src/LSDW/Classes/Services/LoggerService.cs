@@ -10,8 +10,17 @@ namespace LSDW.Classes.Services;
 /// </summary>
 public class LoggerService : ILoggerService
 {
-	private readonly string BaseDirectory = AppContext.BaseDirectory;
-	private readonly string LogFileName = Settings.LogFileName;
+	private readonly string _baseDirectory;
+	private readonly string _logFileName;
+
+	/// <summary>
+	/// Initializes a instance of the logger service class.
+	/// </summary>
+	public LoggerService()
+	{
+		_baseDirectory = AppContext.BaseDirectory;
+		_logFileName = Settings.LogFileName;
+	}
 
 	public void Critical(string message, [CallerMemberName] string callerName = "")
 			=> LogToFile("ERROR", callerName, message);
@@ -30,7 +39,7 @@ public class LoggerService : ILoggerService
 	/// <param name="message">The logger message itself.</param>
 	private void LogToFile(string type, string caller, string message)
 	{
-		string path = Path.Combine(BaseDirectory, LogFileName);
+		string path = Path.Combine(_baseDirectory, _logFileName);
 		string content = $"{DateTime.Now:yyyy-MM-ddTHH:mm:ss.fff}\t[{type}]\t<{caller}> - {message}{Environment.NewLine}";
 		File.AppendAllText(path, content, Encoding.UTF8);
 	}

@@ -1,9 +1,12 @@
 ﻿using LSDW.Core.Enumerators;
 using LSDW.Core.Interfaces.Classes;
+using System.Xml.Schema;
 using System.Xml.Serialization;
+using static LSDW.Constants.XmlConstants.NameSpaces;
 
 namespace LSDW.Classes.Persistence;
 
+[XmlRoot("LogEntry", Namespace = LogEntryStateNameSpace)]
 public sealed class LogEntryState
 {
 	public LogEntryState()
@@ -19,18 +22,18 @@ public sealed class LogEntryState
 		TotalValue = logEntry.TotalValue;
 	}
 
-	[XmlElement("Date")]
+	[XmlElement("Date", Form = XmlSchemaForm.Qualified)]
 	public DateTime DateTime { get; set; }
 
-	[XmlAttribute("Type")]
+	[XmlAttribute("Type", Form = XmlSchemaForm.Qualified)]
 	public TransactionType TransactionType { get; set; }
 
-	[XmlElement(nameof(DrugType))]
+	[XmlElement("Drug", Form = XmlSchemaForm.Qualified)]
 	public DrugType DrugType { get; set; }
 
-	[XmlElement(nameof(Quantity))]
+	[XmlElement("Quantity", Form = XmlSchemaForm.Qualified)]
 	public int Quantity { get; set; }
 
-	[XmlElement(nameof(TotalValue))]
+	[XmlElement("TotalValue", Form = XmlSchemaForm.Qualified)]
 	public int TotalValue { get; set; }
 }
