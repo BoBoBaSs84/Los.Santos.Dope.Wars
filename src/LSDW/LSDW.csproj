@@ -19,14 +19,14 @@
 
 	<ItemGroup>
 		<Compile Update="Classes\Services\SettingsService.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>SettingsService.tt</DependentUpon>
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>SettingsService.tt</DependentUpon>
 		</Compile>
 		<Compile Update="Interfaces\Services\ISettingsService.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>ISettingsService.tt</DependentUpon>
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>ISettingsService.tt</DependentUpon>
 		</Compile>
 		<Compile Update="Properties\Resources.Designer.cs">
 			<DesignTime>True</DesignTime>
@@ -51,6 +51,10 @@
 			<Generator>TextTemplatingFileGenerator</Generator>
 			<LastGenOutput>SettingsService.cs</LastGenOutput>
 		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
 	</ItemGroup>
 
 </Project>
