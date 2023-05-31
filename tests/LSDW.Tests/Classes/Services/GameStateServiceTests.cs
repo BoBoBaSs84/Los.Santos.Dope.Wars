@@ -41,7 +41,7 @@ public class GameStateServiceTests
 		IPlayer player = PlayerFactory.CreatePlayer(RandomHelper.GetInt(123456789, 987654321));
 		player.Inventory.Randomize(player.Level);
 		IEnumerable<IDealer> dealers = new List<IDealer>();
-		stateService = ServiceFactory.CreateGameStateService(player, dealers);
+		stateService = LSDW.Factories.ServiceFactory.CreateGameStateService(player, dealers);
 		
 		GameState state = stateService.Load();
 		
@@ -56,7 +56,7 @@ public class GameStateServiceTests
 		if (File.Exists(filePath))
 			File.Delete(filePath);
 
-		IGameStateService stateService = ServiceFactory.CreateGameStateService(null!, null!);
+		IGameStateService stateService = LSDW.Factories.ServiceFactory.CreateGameStateService(null!, null!);
 
 		GameState state = stateService.Load();
 
@@ -70,7 +70,7 @@ public class GameStateServiceTests
 		player.Inventory.Randomize(player.Level);
 		IEnumerable<IDealer> dealers = new List<IDealer>();
 
-		IGameStateService stateService = ServiceFactory.CreateGameStateService(player, dealers);
+		IGameStateService stateService = LSDW.Factories.ServiceFactory.CreateGameStateService(player, dealers);
 
 		bool success = stateService.Save();
 
@@ -80,7 +80,7 @@ public class GameStateServiceTests
 	[TestMethod]
 	public void SaveExceptionTest()
 	{
-		IGameStateService stateService = ServiceFactory.CreateGameStateService(null!, null!);
+		IGameStateService stateService = LSDW.Factories.ServiceFactory.CreateGameStateService(null!, null!);
 
 		bool success = stateService.Save();
 

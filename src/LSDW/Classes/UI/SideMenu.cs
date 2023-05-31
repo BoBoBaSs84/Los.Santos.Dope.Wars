@@ -16,7 +16,7 @@ public sealed class SideMenu : NativeMenu
 	private readonly ObjectPool _processables = new();
 	private readonly MenuType _menuType;
 	private readonly IPlayer _player;
-	private readonly ITransaction _transaction;
+	private readonly ITransactionService _transaction;
 	private readonly IInventory _source;
 	private readonly IInventory _target;
 
@@ -39,7 +39,7 @@ public sealed class SideMenu : NativeMenu
 		(_source, _target) = SMH.GetInventories(menuType, player, inventory);
 		int maximumQuantity = SMH.GetMaximumQuantity(menuType, player);
 
-		_transaction = TransactionFactory.CreateTransaction(menuType, _source, _target, maximumQuantity);
+		_transaction = ServiceFactory.CreateTransaction(menuType, _source, _target, maximumQuantity);
 
 		Alignment = SMH.GetAlignment(menuType);
 		ItemCount = CountVisibility.Never;

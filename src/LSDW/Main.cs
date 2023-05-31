@@ -26,8 +26,8 @@ public sealed class Main : Script
 	/// </summary>
 	public Main()
 	{
-		_logger = ServiceFactory.CreateLoggerService();
-		_settings = ServiceFactory.CreateSettingsService();
+		_logger = Factories.ServiceFactory.CreateLoggerService();
+		_settings = Factories.ServiceFactory.CreateSettingsService();
 		_settingsMenu = MenuFactory.CreateSettingsMenu(_settings, _logger);		
 		_player = PlayerFactory.CreatePlayer();
 		_player.Inventory.Randomize(_player.Level);

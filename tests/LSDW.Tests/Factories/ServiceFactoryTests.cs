@@ -14,7 +14,7 @@ public class ServiceFactoryTests
 	{
 		ISettingsService? settingsService;
 
-		settingsService = ServiceFactory.CreateSettingsService();
+		settingsService = LSDW.Factories.ServiceFactory.CreateSettingsService();
 
 		Assert.IsNotNull(settingsService);
 	}
@@ -24,7 +24,7 @@ public class ServiceFactoryTests
 	{
 		ILoggerService? loggerService;
 
-		loggerService = ServiceFactory.CreateLoggerService();
+		loggerService = LSDW.Factories.ServiceFactory.CreateLoggerService();
 
 		Assert.IsNotNull(loggerService);
 	}
@@ -36,7 +36,7 @@ public class ServiceFactoryTests
 		IPlayer player = PlayerFactory.CreatePlayer();
 		IEnumerable<IDealer> dealers = new List<IDealer>();
 
-		gameStateService = ServiceFactory.CreateGameStateService(player, dealers);
+		gameStateService = LSDW.Factories.ServiceFactory.CreateGameStateService(player, dealers);
 
 		Assert.IsNotNull(gameStateService);
 	}
@@ -45,11 +45,11 @@ public class ServiceFactoryTests
 	public void CreateGetGameStateServiceWithoutLoggerTest()
 	{
 		IGameStateService? gameStateService;
-		ILoggerService logger = ServiceFactory.CreateLoggerService();
+		ILoggerService logger = LSDW.Factories.ServiceFactory.CreateLoggerService();
 		IPlayer player = PlayerFactory.CreatePlayer();
 		IEnumerable<IDealer> dealers = new List<IDealer>();
 
-		gameStateService = ServiceFactory.CreateGameStateService(logger, player, dealers);
+		gameStateService = LSDW.Factories.ServiceFactory.CreateGameStateService(logger, player, dealers);
 
 		Assert.IsNotNull(gameStateService);
 	}
