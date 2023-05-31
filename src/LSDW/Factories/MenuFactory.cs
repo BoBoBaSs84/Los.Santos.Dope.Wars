@@ -22,8 +22,8 @@ public static class MenuFactory
 	/// Creates a new instance of the side menu.
 	/// </summary>
 	/// <param name="menuType">The menu type.</param>
-	/// <param name="source">The source inventory.</param>
-	/// <param name="target">The target inventory.</param>
-	public static SideMenu CreateSideMenu(MenuType menuType, IInventory source, IInventory target)
-		=> new(menuType, source, target);
+	/// <param name="player">The current player.</param>
+	/// <param name="inventory">The opposition inventory.</param>
+	public static SideMenu CreateSideMenu(MenuType menuType, IPlayer player, IInventory inventory)
+		=> new(menuType, player, inventory);
 }

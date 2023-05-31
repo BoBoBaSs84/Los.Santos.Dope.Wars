@@ -30,8 +30,10 @@ public sealed class Main : Script
 		_settings = ServiceFactory.CreateSettingsService();
 		_settingsMenu = MenuFactory.CreateSettingsMenu(_settings, _logger);		
 		_player = PlayerFactory.CreatePlayer();
+		_player.Inventory.Randomize(_player.Level);
 		_dealerInventory = InventoryFactory.CreateInventory();
-		_leftSideMenu = MenuFactory.CreateSideMenu(MenuType.SELL, _player.Inventory.Randomize(_player.Level), _dealerInventory.Randomize(_player.Level));
+		_dealerInventory.Randomize(_player.Level);
+		_leftSideMenu = MenuFactory.CreateSideMenu(MenuType.SELL, _player, _dealerInventory);
 
 		Interval = 5;
 
