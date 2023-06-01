@@ -20,14 +20,14 @@ jobs:
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.2.0
       
+    - name: Setup VSTest
+      uses: darenm/Setup-VSTest@v1.2
+      
     - name: Restore NuGet Packages
       run: nuget restore Los.Santos.Dope.Wars.sln
       
     - name: Build
       run: msbuild Los.Santos.Dope.Wars.sln /t:restore,build /p:Configuration="Release"
-      
-    - name: Setup VSTest
-      uses: darenm/Setup-VSTest@v1.2
       
     - name: Test
       working-directory: LSDW.Tests\bin\x64\Release
