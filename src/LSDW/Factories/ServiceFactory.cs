@@ -11,6 +11,12 @@ namespace LSDW.Factories;
 public static class ServiceFactory
 {
 	/// <summary>
+	/// Creates a new date time service instance.
+	/// </summary>
+	public static IDateTimeService CreateDateTimeService()
+		=> new DateTimeService();
+
+	/// <summary>
 	/// Creates a new settings service instance.
 	/// </summary>
 	public static ISettingsService CreateSettingsService()

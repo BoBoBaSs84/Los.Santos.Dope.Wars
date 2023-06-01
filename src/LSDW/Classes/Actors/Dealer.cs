@@ -3,9 +3,8 @@ using GTA.Math;
 using LSDW.Classes.Actors.Base;
 using LSDW.Core.Factories;
 using LSDW.Core.Interfaces.Models;
-using LSDW.Helpers;
 using LSDW.Interfaces.Actors;
-using static LSDW.Core.Models.Settings.Dealer;
+using DealerSettings = LSDW.Core.Models.Settings.Dealer;
 
 namespace LSDW.Classes.Actors;
 
@@ -14,6 +13,8 @@ namespace LSDW.Classes.Actors;
 /// </summary>
 internal sealed class Dealer : Pedestrian, IDealer
 {
+	private Blip? blip;
+
 	/// <summary>
 	/// Initializes a instance of the dealer class.
 	/// </summary>
@@ -45,49 +46,82 @@ internal sealed class Dealer : Pedestrian, IDealer
 		Inventory.PropertyChanged += OnPropertyChanged;
 	}
 
-	public Blip? Blip { get; private set; }
 	public DateTime? ClosedUntil { get; private set; }
 	public bool Discovered { get; private set; }
+	public bool IsBlipCreated { get; private set; }
 	public IInventory Inventory { get; }
+
+	public new void Create(float healthValue = 100)
+	{
+		if (IsCreated || ClosedUntil.HasValue)
+			return;
+
+		base.Create(healthValue);
+
+		if (DealerSettings.HasWeapons)
+			GiveWeapon(WeaponHash.CombatShotgun, 100);
+
+		if (DealerSettings.HasArmor)
+			GiveArmor(150f);
+	}
 
 	public void CreateBlip(BlipSprite sprite = BlipSprite.Drugs, BlipColor color = BlipColor.White)
 	{
-		if (Blip is not null)
+		if (blip is not null || ClosedUntil.HasValue)
 			return;
 
-		Blip = World.CreateBlip(Position);
-		Blip.Sprite = sprite;
-		Blip.Scale = 0.8f;
-		Blip.Color = color;
-		Blip.Name = Name;
+		blip = World.CreateBlip(Position);
+		blip.Sprite = sprite;
+		blip.Scale = 0.8f;
+		blip.Color = color;
+		blip.Name = Name;
+
+		Discovered = true;
+	}
+
+	public new void Delete()
+	{
+		if (IsCreated)
+			return;
+
+		if (IsBlipCreated)
+			DeleteBlip();
+
+		Inventory.PropertyChanged -= OnPropertyChanged;
+		Inventory.Clear();
+
+		base.Delete();
 	}
 
 	public void DeleteBlip()
-		=> Blip?.Delete();
-
-	public void Flee()
 	{
-		if (!Created)
+		if (blip is null)
 			return;
 
-		Ped?.Task.FleeFrom(Position);
-		ClosedUntil = ScriptHookHelper.GetCurrentDateTime().AddHours(DownTimeInHours);
+		blip.Delete();
 	}
 
-	public void Update(WeaponHash weaponHash, int ammo)
+	public new void Flee()
 	{
-		if (!Created)
+		if (!IsCreated)
 			return;
-		_ = Ped?.Weapons.Give(weaponHash, ammo, true, true);
+
+		DeleteBlip();
+
+		base.Flee();
 	}
+
+	public void SetClosed(DateTime? closedUntil)
+		=> ClosedUntil = closedUntil;
 
 	private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
 	{
-		if (args.PropertyName.Equals(Inventory.Money))
-		{
-			if (Ped is null)
-				return;
-			Ped.Money = Inventory.Money;
-		}
+		if (!args.PropertyName.Equals(Inventory.Money))
+			return;
+
+		if (!IsCreated)
+			return;
+
+		SetMoney(Inventory.Money);
 	}
 }

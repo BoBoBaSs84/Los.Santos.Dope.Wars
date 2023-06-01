@@ -9,11 +9,6 @@ namespace LSDW.Interfaces.Actors;
 public interface IDealer : IPedestrian
 {
 	/// <summary>
-	/// The blip on the map for the dealer.
-	/// </summary>
-	Blip? Blip { get; }
-
-	/// <summary>
 	/// The dealer is gone until this date time.
 	/// </summary>
 	DateTime? ClosedUntil { get; }
@@ -24,14 +19,14 @@ public interface IDealer : IPedestrian
 	bool Discovered { get; }
 
 	/// <summary>
+	/// Is the blip created?
+	/// </summary>
+	bool IsBlipCreated { get; }
+
+	/// <summary>
 	/// The dealer inventory.
 	/// </summary>
 	IInventory Inventory { get; }
-
-	/// <summary>
-	/// The dealer needs to flee.
-	/// </summary>
-	void Flee();
 
 	/// <summary>
 	/// Creates the blip on the map.
@@ -46,9 +41,8 @@ public interface IDealer : IPedestrian
 	void DeleteBlip();
 
 	/// <summary>
-	/// Updates the dealer by giving him a weapon.
+	/// Set the closed or not state.
 	/// </summary>
-	/// <param name="weaponHash">The weapon to give.</param>
-	/// <param name="ammo">The amount of ammo to give.</param>
-	void Update(WeaponHash weaponHash, int ammo);
+	/// <param name="closedUntil">Value for closed or <see langword="null"/> for open again.</param>
+	void SetClosed(DateTime? closedUntil);
 }
