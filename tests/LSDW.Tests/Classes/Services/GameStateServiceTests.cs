@@ -1,4 +1,5 @@
-﻿using LSDW.Classes.Persistence;
+﻿using GTA.Math;
+using LSDW.Classes.Persistence;
 using LSDW.Core.Extensions;
 using LSDW.Core.Factories;
 using LSDW.Core.Helpers;
@@ -42,9 +43,9 @@ public class GameStateServiceTests
 		player.Inventory.Randomize(player.Level);
 		IEnumerable<IDealer> dealers = new List<IDealer>();
 		stateService = LSDW.Factories.ServiceFactory.CreateGameStateService(player, dealers);
-		
+
 		GameState state = stateService.Load();
-		
+
 		Assert.IsNotNull(state);
 	}
 
@@ -68,7 +69,10 @@ public class GameStateServiceTests
 	{
 		IPlayer player = ModelFactory.CreatePlayer(RandomHelper.GetInt(123456789, 987654321));
 		player.Inventory.Randomize(player.Level);
-		IEnumerable<IDealer> dealers = new List<IDealer>();
+		IEnumerable<IDealer> dealers = new List<IDealer>()
+		{
+			ActorFactory.CreateDealer(new Vector3(287.011f, -991.685f, 33.108f), GTA.PedHash.Dealer01SMY, null, true, player.Inventory, "John Smith")
+		};
 
 		IGameStateService stateService = LSDW.Factories.ServiceFactory.CreateGameStateService(player, dealers);
 

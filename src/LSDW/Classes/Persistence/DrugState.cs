@@ -23,9 +23,9 @@ public sealed class DrugState
 	[XmlAttribute("Type", Form = XmlSchemaForm.Qualified)]
 	public DrugType DrugType { get; set; }
 
-	[XmlElement("Quantity", Form = XmlSchemaForm.Qualified)]
+	[XmlAttribute("Quantity", Form = XmlSchemaForm.Qualified)]
 	public int Quantity { get; set; }
 
-	[XmlElement("Price", Form = XmlSchemaForm.Qualified)]
+	[XmlAttribute("Price", Form = XmlSchemaForm.Qualified)]
 	public int Price { get; set; }
 }

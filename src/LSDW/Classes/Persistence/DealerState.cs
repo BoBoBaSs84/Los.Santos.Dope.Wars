@@ -42,12 +42,11 @@ public sealed class DealerState
 	[XmlElement(nameof(Position), Form = XmlSchemaForm.Qualified)]
 	public Vector3 Position { get; set; }
 
-	[XmlAttribute(nameof(Position), Form = XmlSchemaForm.Qualified)]
+	[XmlAttribute(nameof(Hash), Form = XmlSchemaForm.Qualified)]
 	public PedHash Hash { get; set; }
 
 	public bool ShouldSerializeClosedUntil() => ClosedUntil.HasValue;
-	// TODO: Fix this...
-	public bool ShouldSerializeHash() => false;
+	public bool ShouldSerializeHash() => Discovered && !ClosedUntil.HasValue;
 	public bool ShouldSerializeName() => Discovered && !ClosedUntil.HasValue;
 	public bool ShouldSerializeInventory() => Discovered && !ClosedUntil.HasValue;
 }

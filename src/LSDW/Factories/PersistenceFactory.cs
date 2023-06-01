@@ -108,7 +108,7 @@ public static class PersistenceFactory
 	public static IDealer CreateDealer(DealerState state)
 	{
 		IInventory inventory = CreateInventory(state.Inventory);
-		return ActorFactory.CreateDealer(state.Position, state.ClosedUntil, state.Discovered, inventory, state.Name);
+		return ActorFactory.CreateDealer(state.Position, state.Hash, state.ClosedUntil, state.Discovered, inventory, state.Name);
 	}
 
 	/// <summary>
