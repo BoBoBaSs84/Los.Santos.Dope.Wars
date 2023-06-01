@@ -2,16 +2,12 @@
 using LSDW.Core.Factories;
 using LSDW.Core.Interfaces.Models;
 using LSDW.Core.Interfaces.Services;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 
 namespace LSDW.Core.Tests.Services;
 
 [TestClass]
 public class TransactionServiceTests
 {
-	private readonly ICollection<ITransaction> _transactions = new HashSet<ITransaction>();
-
 	[TestMethod]
 	public void CommitDepositSuccessTest()
 	{
@@ -23,8 +19,6 @@ public class TransactionServiceTests
 
 		ITransactionService transactionService =
 			ServiceFactory.CreateTransactionService(TransactionType.DEPOSIT, inventory, player.Inventory, player.MaximumInventoryQuantity);
-
-		transactionService.TransactionsChanged += OnTransactionsChanged;
 
 		bool success = transactionService.Commit(drug.DrugType, drug.Quantity, drug.Price);
 
@@ -90,14 +84,5 @@ public class TransactionServiceTests
 
 		Assert.IsFalse(success);
 		Assert.IsTrue(transactionService.Errors.Any());
-	}
-
-	private void OnTransactionsChanged(object sender, NotifyCollectionChangedEventArgs args)
-	{
-		if (sender is not ObservableCollection<ITransaction> transactions)
-			return;
-
-		if (args.Action == NotifyCollectionChangedAction.Add)
-			_transactions.Add(transactions[args.NewStartingIndex]);
 	}
 }

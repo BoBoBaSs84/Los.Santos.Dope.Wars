@@ -1,9 +1,6 @@
 ﻿using LSDW.Core.Enumerators;
-using LSDW.Core.Factories;
 using LSDW.Core.Interfaces.Models;
 using LSDW.Core.Interfaces.Services;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using RESX = LSDW.Core.Properties.Resources;
 
 namespace LSDW.Core.Services;
@@ -17,9 +14,6 @@ internal sealed class TransactionService : ITransactionService
 	private readonly IInventory _source;
 	private readonly IInventory _target;
 	private readonly int _maximumQuantity;
-	private readonly ObservableCollection<ITransaction> _logEntries;
-
-	public event NotifyCollectionChangedEventHandler? TransactionsChanged;
 
 	/// <summary>
 	/// Initializes a instance of the transaction service class.
@@ -34,11 +28,8 @@ internal sealed class TransactionService : ITransactionService
 		_source = source;
 		_target = target;
 		_maximumQuantity = maximumQuantity;
-		_logEntries = new();
 
 		Errors = new List<string>();
-
-		_logEntries.CollectionChanged += TransactionsChanged;
 	}
 
 	public ICollection<string> Errors { get; }
@@ -57,17 +48,7 @@ internal sealed class TransactionService : ITransactionService
 
 		TransferMoney(quantity, price);
 
-		AddToTransactionLog(drugType, quantity, price);
-
 		return true;
-	}
-
-	private void AddToTransactionLog(DrugType drugType, int quantity, int price)
-	{
-		ITransaction transaction =
-			ModelFactory.CreateTransaction(DateTime.UtcNow, _transactionType, drugType, quantity, price);
-
-		_logEntries.Add(transaction);
 	}
 
 	/// <summary>
