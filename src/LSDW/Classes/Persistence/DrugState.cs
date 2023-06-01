@@ -1,9 +1,12 @@
 ﻿using LSDW.Core.Enumerators;
-using LSDW.Core.Interfaces.Classes;
+using LSDW.Core.Interfaces.Models;
+using System.Xml.Schema;
 using System.Xml.Serialization;
+using static LSDW.Constants.XmlConstants.NameSpaces;
 
 namespace LSDW.Classes.Persistence;
 
+[XmlRoot("Drug", Namespace = DrugStateNameSpace)]
 public sealed class DrugState
 {
 	public DrugState()
@@ -17,12 +20,12 @@ public sealed class DrugState
 		Price = drug.Price;
 	}
 
-	[XmlAttribute("Type")]
+	[XmlAttribute("Type", Form = XmlSchemaForm.Qualified)]
 	public DrugType DrugType { get; set; }
 
-	[XmlElement(nameof(Quantity))]
+	[XmlElement("Quantity", Form = XmlSchemaForm.Qualified)]
 	public int Quantity { get; set; }
 
-	[XmlElement(nameof(Price))]
+	[XmlElement("Price", Form = XmlSchemaForm.Qualified)]
 	public int Price { get; set; }
 }

@@ -1,9 +1,9 @@
-﻿using LSDW.Core.Classes.Base;
-using LSDW.Core.Constants;
-using LSDW.Core.Interfaces.Classes;
-using static LSDW.Core.Classes.Settings.Player;
+﻿using LSDW.Core.Constants;
+using LSDW.Core.Interfaces.Models;
+using LSDW.Core.Models.Base;
+using static LSDW.Core.Models.Settings.Player;
 
-namespace LSDW.Core.Classes;
+namespace LSDW.Core.Models;
 
 /// <summary>
 /// The player class.
@@ -15,10 +15,12 @@ internal sealed class Player : Notification, IPlayer
 	/// </summary>
 	/// <param name="inventory">The player inventory.</param>
 	/// <param name="experience">The player experience points.</param>
-	internal Player(IInventory inventory, int experience)
+	/// <param name="transactions">The transaction log entries for the player.</param>
+	internal Player(IInventory inventory, int experience, IEnumerable<ITransaction> transactions)
 	{
 		Inventory = inventory;
 		Experience = experience;
+		Transactions = transactions.ToHashSet();
 	}
 
 	public IInventory Inventory { get; }
@@ -34,6 +36,8 @@ internal sealed class Player : Notification, IPlayer
 	public int MaximumInventoryQuantity
 		=> GetMaximumInventoryQuantity();
 
+	public ICollection<ITransaction> Transactions { get; }
+
 	public void AddExperience(int points)
 		=> Experience += (int)(points * (double)ExperienceMultiplier);
 
@@ -44,5 +48,5 @@ internal sealed class Player : Notification, IPlayer
 		=> PlayerConstants.CalculateExperienceNextLevel(Level);
 
 	private int GetMaximumInventoryQuantity()
-		=> StartingInventory + (Level * InventoryExpansionPerLevel);
+		=> StartingInventory + Level * InventoryExpansionPerLevel;
 }

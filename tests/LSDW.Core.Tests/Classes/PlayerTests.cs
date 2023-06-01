@@ -1,6 +1,6 @@
-﻿using LSDW.Core.Classes;
-using LSDW.Core.Interfaces.Classes;
-using LSDW.Core.Factories;
+﻿using LSDW.Core.Factories;
+using LSDW.Core.Models;
+using LSDW.Core.Interfaces.Models;
 
 namespace LSDW.Core.Tests.Classes;
 
@@ -18,7 +18,7 @@ public class PlayerTests
 	[TestMethod]
 	public void AddExperienceTest()
 	{
-		IPlayer player = PlayerFactory.CreatePlayer();
+		IPlayer player = ModelFactory.CreatePlayer();
 		int pointsToAdd = 500;
 
 		player.AddExperience(pointsToAdd);
@@ -29,7 +29,7 @@ public class PlayerTests
 	[TestMethod]
 	public void CurrentLevelTest()
 	{
-		IPlayer player = PlayerFactory.CreatePlayer();
+		IPlayer player = ModelFactory.CreatePlayer();
 		int pointsToAdd = 1500;
 
 		player.AddExperience(pointsToAdd);
@@ -41,7 +41,7 @@ public class PlayerTests
 	public void MaximumInventoryQuantityTest()
 	{
 
-		IPlayer player = PlayerFactory.CreatePlayer();
+		IPlayer player = ModelFactory.CreatePlayer();
 		int pointsToAdd = 10000;
 
 		player.AddExperience(pointsToAdd);
@@ -54,7 +54,7 @@ public class PlayerTests
 	{
 		int experience = 1000;
 
-		IPlayer player = PlayerFactory.CreatePlayer(experience);
+		IPlayer player = ModelFactory.CreatePlayer(experience);
 
 		Assert.AreEqual(8000, player.ExperienceNextLevel);
 	}

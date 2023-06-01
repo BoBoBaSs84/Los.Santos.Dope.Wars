@@ -1,4 +1,4 @@
-﻿namespace LSDW.Core.Interfaces.Classes;
+﻿namespace LSDW.Core.Interfaces.Models;
 
 /// <summary>
 /// The player character interface.
@@ -29,6 +29,11 @@ public interface IPlayer
 	/// The current maximum drug amount the player can carry.
 	/// </summary>
 	int MaximumInventoryQuantity { get; }
+
+	/// <summary>
+	/// The transaction log entries for the player.
+	/// </summary>
+	ICollection<ITransaction> Transactions { get; }
 
 	/// <summary>
 	/// Should adds the desired experience points to the current experience.

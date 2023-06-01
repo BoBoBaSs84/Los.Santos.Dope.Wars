@@ -1,7 +1,7 @@
 ﻿using LSDW.Core.Enumerators;
 using LSDW.Core.Extensions;
 using LSDW.Core.Factories;
-using LSDW.Core.Interfaces.Classes;
+using LSDW.Core.Interfaces.Models;
 
 namespace LSDW.Core.Tests.Classes;
 
@@ -12,10 +12,10 @@ public class InventoryTests
 	[TestMethod]
 	public void AddExistingDrugTest()
 	{
-		IInventory inventory = InventoryFactory.CreateInventory();
+		IInventory inventory = ModelFactory.CreateInventory();
 
-		inventory.Add(DrugFactory.CreateDrug(DrugType.COKE, 10, 100));
-		inventory.Add(DrugFactory.CreateDrug(DrugType.COKE, 10, 50));
+		inventory.Add(ModelFactory.CreateDrug(DrugType.COKE, 10, 100));
+		inventory.Add(ModelFactory.CreateDrug(DrugType.COKE, 10, 50));
 
 		Assert.AreEqual(20, inventory.TotalQuantity);
 	}
@@ -23,10 +23,10 @@ public class InventoryTests
 	[TestMethod]
 	public void AddNewDrugTest()
 	{
-		IInventory inventory = InventoryFactory.CreateInventory();
+		IInventory inventory = ModelFactory.CreateInventory();
 
-		inventory.Add(DrugFactory.CreateDrug(DrugType.COKE, 10, 75));
-		inventory.Add(DrugFactory.CreateDrug(DrugType.METH, 10, 100));
+		inventory.Add(ModelFactory.CreateDrug(DrugType.COKE, 10, 75));
+		inventory.Add(ModelFactory.CreateDrug(DrugType.METH, 10, 100));
 
 		Assert.AreEqual(20, inventory.TotalQuantity);
 	}
@@ -34,10 +34,10 @@ public class InventoryTests
 	[TestMethod]
 	public void RemoveExistingDrugTest()
 	{
-		IInventory inventory = InventoryFactory.CreateInventory();
+		IInventory inventory = ModelFactory.CreateInventory();
 
-		inventory.Add(DrugFactory.CreateDrug(DrugType.COKE, 10, 75));
-		inventory.Remove(DrugFactory.CreateDrug(DrugType.COKE, 5, 100));
+		inventory.Add(ModelFactory.CreateDrug(DrugType.COKE, 10, 75));
+		inventory.Remove(ModelFactory.CreateDrug(DrugType.COKE, 5, 100));
 
 		Assert.AreEqual(5, inventory.TotalQuantity);
 	}
@@ -45,8 +45,8 @@ public class InventoryTests
 	[TestMethod]
 	public void RemoveDrugQuantityExceptionTest()
 	{
-		IInventory inventory = InventoryFactory.CreateInventory();
-		IDrug drugToRemove = DrugFactory.CreateDrug(DrugType.COKE, 10, 50);
+		IInventory inventory = ModelFactory.CreateInventory();
+		IDrug drugToRemove = ModelFactory.CreateDrug(DrugType.COKE, 10, 50);
 
 		Assert.ThrowsException<ArgumentOutOfRangeException>(() => inventory.Remove(drugToRemove));
 	}
@@ -54,7 +54,7 @@ public class InventoryTests
 	[TestMethod]
 	public void AddMoneyTest()
 	{
-		IInventory inventory = InventoryFactory.CreateInventory();
+		IInventory inventory = ModelFactory.CreateInventory();
 		int moneyToAdd = 10000;
 
 		inventory.Add(moneyToAdd);
@@ -65,7 +65,7 @@ public class InventoryTests
 	[TestMethod]
 	public void AddNoMoneyTest()
 	{
-		IInventory inventory = InventoryFactory.CreateInventory();
+		IInventory inventory = ModelFactory.CreateInventory();
 
 		inventory.Add(0);
 
@@ -75,8 +75,8 @@ public class InventoryTests
 	[TestMethod]
 	public void RemoveMoneyTest()
 	{
-		IEnumerable<IDrug> drugs = DrugFactory.CreateAllDrugs();
-		IInventory inventory = InventoryFactory.CreateInventory(drugs, 1000);
+		IEnumerable<IDrug> drugs = ModelFactory.CreateAllDrugs();
+		IInventory inventory = ModelFactory.CreateInventory(drugs, 1000);
 
 		inventory.Remove(500);
 
@@ -86,8 +86,8 @@ public class InventoryTests
 	[TestMethod]
 	public void RemoveNoMoneyTest()
 	{
-		IEnumerable<IDrug> drugs = DrugFactory.CreateAllDrugs();
-		IInventory inventory = InventoryFactory.CreateInventory(drugs, 1000);
+		IEnumerable<IDrug> drugs = ModelFactory.CreateAllDrugs();
+		IInventory inventory = ModelFactory.CreateInventory(drugs, 1000);
 
 		inventory.Remove(0);
 
@@ -97,9 +97,9 @@ public class InventoryTests
 	[TestMethod()]
 	public void AddRangeTest()
 	{
-		IEnumerable<IDrug> drugs = DrugFactory.CreateAllDrugs();
+		IEnumerable<IDrug> drugs = ModelFactory.CreateAllDrugs();
 
-		IInventory inventory = InventoryFactory.CreateInventory();
+		IInventory inventory = ModelFactory.CreateInventory();
 		inventory.Add(drugs);
 
 		Assert.AreEqual(drugs.Count(), inventory.Count);
@@ -108,7 +108,7 @@ public class InventoryTests
 	[TestMethod()]
 	public void RemoveTest()
 	{
-		IInventory inventory = InventoryFactory.CreateInventory();
+		IInventory inventory = ModelFactory.CreateInventory();
 		inventory = inventory.Randomize();
 
 		inventory.Remove(inventory);
@@ -116,6 +116,6 @@ public class InventoryTests
 		Assert.AreEqual(15, inventory.Count);
 		Assert.AreEqual(0, inventory.TotalQuantity);
 		Assert.AreEqual(0, inventory.TotalProfit);
-		Assert.AreEqual(0, inventory.TotalMarketValue);
+		Assert.AreEqual(0, inventory.TotalValue);
 	}
 }

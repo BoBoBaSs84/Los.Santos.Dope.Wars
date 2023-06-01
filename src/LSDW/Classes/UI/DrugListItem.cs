@@ -1,6 +1,6 @@
 ﻿using LemonUI.Menus;
 using LSDW.Core.Extensions;
-using LSDW.Core.Interfaces.Classes;
+using LSDW.Core.Interfaces.Models;
 
 namespace LSDW.Classes.UI;
 

@@ -1,6 +1,6 @@
 ﻿using LSDW.Core.Enumerators;
 
-namespace LSDW.Core.Interfaces.Classes;
+namespace LSDW.Core.Interfaces.Models;
 
 /// <summary>
 /// The drug interface.

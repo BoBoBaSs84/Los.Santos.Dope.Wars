@@ -1,6 +1,7 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using LSDW.Core.Enumerators;
+using System.Diagnostics.CodeAnalysis;
 
-namespace LSDW.Core.Interfaces.Classes;
+namespace LSDW.Core.Interfaces.Models;
 
 /// <summary>
 /// The inventory interface.
@@ -24,12 +25,20 @@ public interface IInventory : ICollection<IDrug>, INotifyPropertyChanged
 	/// <summary>
 	/// The total inventory value.
 	/// </summary>
-	int TotalMarketValue { get; }
+	int TotalValue { get; }
 
 	/// <summary>
 	/// The total inventory profit compared to the nominal market prices.
 	/// </summary>
 	int TotalProfit { get; }
+
+	/// <summary>
+	/// Adds a drug to the inventory or add the drug quantity to the existing drugtype.
+	/// </summary>
+	/// <param name="drugType">The drug type to add.</param>
+	/// <param name="quantity">The drug quantity to add.</param>
+	/// <param name="price">The drug price to add.</param>
+	void Add(DrugType drugType, int quantity, int price);
 
 	/// <summary>
 	/// Adds a drug to the inventory or add the drug quantity to the existing drugtype.
@@ -48,6 +57,13 @@ public interface IInventory : ICollection<IDrug>, INotifyPropertyChanged
 	/// </summary>
 	/// <param name="moneyToAdd">The amount of money to add to the inventory.</param>
 	void Add(int moneyToAdd);
+
+	/// <summary>
+	/// Removes the drug from the inventory.
+	/// </summary>
+	/// <param name="drugType">The drug type to remove.</param>
+	/// <param name="quantity">The drug quantity to remove.</param>
+	void Remove(DrugType drugType, int quantity);
 
 	/// <summary>
 	/// Removes the drug from the inventory.

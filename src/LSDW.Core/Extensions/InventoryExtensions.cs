@@ -1,7 +1,7 @@
 ﻿using LSDW.Core.Enumerators;
 using LSDW.Core.Factories;
 using LSDW.Core.Helpers;
-using LSDW.Core.Interfaces.Classes;
+using LSDW.Core.Interfaces.Models;
 
 namespace LSDW.Core.Extensions;
 
@@ -31,7 +31,7 @@ public static class InventoryExtensions
 
 		foreach (DrugType drugType in drugTypes)
 		{
-			IDrug drug = DrugFactory.CreateDrug(drugType);
+			IDrug drug = ModelFactory.CreateDrug(drugType);
 			drug.RandomizeQuantity(playerLevel);
 			drug.RandomizePrice(playerLevel);
 			inventory.Add(drug);

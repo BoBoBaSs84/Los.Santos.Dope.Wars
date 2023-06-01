@@ -1,8 +1,10 @@
-﻿using LSDW.Core.Classes.Base;
-using LSDW.Core.Interfaces.Classes;
+﻿using LSDW.Core.Enumerators;
+using LSDW.Core.Factories;
+using LSDW.Core.Interfaces.Models;
+using LSDW.Core.Models.Base;
 using System.Collections;
 
-namespace LSDW.Core.Classes;
+namespace LSDW.Core.Models;
 
 /// <summary>
 /// The inventory class.
@@ -39,8 +41,8 @@ internal sealed class Inventory : Notification, IInventory
 	public int TotalQuantity
 		=> _drugs.Sum(drug => drug.Quantity);
 
-	public int TotalMarketValue
-		=> _drugs.Sum(drug => drug.MarketValue * drug.Quantity);
+	public int TotalValue
+		=> _drugs.Sum(drug => drug.Price * drug.Quantity);
 
 	public int TotalProfit
 		=> _drugs.Sum(drug => drug.PossibleProfit);
@@ -80,6 +82,9 @@ internal sealed class Inventory : Notification, IInventory
 			Add(drug);
 	}
 
+	public void Add(DrugType drugType, int quantity, int price)
+		=> Add(ModelFactory.CreateDrug(drugType, quantity, price));
+
 	public void Add(int moneyToAdd)
 	{
 		if (moneyToAdd < 1)
@@ -107,6 +112,9 @@ internal sealed class Inventory : Notification, IInventory
 		foreach (IDrug drug in drugsToRemove)
 			_ = Remove(drug);
 	}
+
+	public void Remove(DrugType drugType, int quantity)
+		=> Remove(ModelFactory.CreateDrug(drugType, quantity));
 
 	public void Remove(int moneyToRemove)
 	{

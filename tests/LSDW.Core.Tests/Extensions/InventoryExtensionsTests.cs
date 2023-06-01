@@ -1,6 +1,6 @@
 ﻿using LSDW.Core.Extensions;
 using LSDW.Core.Factories;
-using LSDW.Core.Interfaces.Classes;
+using LSDW.Core.Interfaces.Models;
 
 namespace LSDW.Core.Tests.Extensions;
 
@@ -11,7 +11,7 @@ public class InventoryExtensionsTests
 	[TestMethod]
 	public void RandomizeTest()
 	{
-		IInventory inventory = InventoryFactory.CreateInventory();
+		IInventory inventory = ModelFactory.CreateInventory();
 
 		inventory.Randomize();
 

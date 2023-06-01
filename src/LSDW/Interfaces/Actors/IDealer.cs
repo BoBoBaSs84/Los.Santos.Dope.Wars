@@ -1,5 +1,5 @@
 ﻿using GTA;
-using LSDW.Core.Interfaces.Classes;
+using LSDW.Core.Interfaces.Models;
 
 namespace LSDW.Interfaces.Actors;
 

@@ -1,12 +1,12 @@
-﻿using LSDW.Core.Classes.Base;
-using LSDW.Core.Enumerators;
+﻿using LSDW.Core.Enumerators;
 using LSDW.Core.Extensions;
 using LSDW.Core.Helpers;
-using LSDW.Core.Interfaces.Classes;
-using static LSDW.Core.Classes.Settings.Market;
+using LSDW.Core.Interfaces.Models;
+using LSDW.Core.Models.Base;
+using static LSDW.Core.Models.Settings.Market;
 using RESX = LSDW.Core.Properties.Resources;
 
-namespace LSDW.Core.Classes;
+namespace LSDW.Core.Models;
 
 /// <summary>
 /// The drug class.
@@ -62,7 +62,7 @@ internal sealed class Drug : Notification, IDrug
 			throw new ArgumentOutOfRangeException(nameof(price), message);
 		}
 
-		Price = ((Price * Quantity) + (price * quantity)) / (Quantity + quantity);
+		Price = (Price * Quantity + price * quantity) / (Quantity + quantity);
 		Quantity += quantity;
 	}
 
@@ -91,7 +91,7 @@ internal sealed class Drug : Notification, IDrug
 		}
 
 		int minQuantity = 0 + playerLevel;
-		int maxQuantity = 5 + (playerLevel * 5);
+		int maxQuantity = 5 + playerLevel * 5;
 
 		int newQuantity = RandomHelper.GetInt(minQuantity, maxQuantity);
 		SetQuantity(newQuantity);

@@ -2,10 +2,10 @@
 using GTA.Math;
 using LSDW.Classes.Actors.Base;
 using LSDW.Core.Factories;
-using LSDW.Core.Interfaces.Classes;
+using LSDW.Core.Interfaces.Models;
 using LSDW.Helpers;
 using LSDW.Interfaces.Actors;
-using static LSDW.Core.Classes.Settings.Dealer;
+using static LSDW.Core.Models.Settings.Dealer;
 
 namespace LSDW.Classes.Actors;
 
@@ -21,7 +21,7 @@ internal sealed class Dealer : Pedestrian, IDealer
 	public Dealer(Vector3 position) : base(position)
 	{
 		Discovered = false;
-		Inventory = InventoryFactory.CreateInventory();
+		Inventory = ModelFactory.CreateInventory();
 
 		Inventory.PropertyChanged += OnPropertyChanged;
 	}
