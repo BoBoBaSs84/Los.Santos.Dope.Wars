@@ -12,9 +12,11 @@ internal abstract class Pedestrian : IPedestrian
 	/// Initializes a instance of the pedestrian class.
 	/// </summary>
 	/// <param name="position">The position of the pedestrian.</param>
-	protected Pedestrian(Vector3 position)
+	/// <param name="pedHash">The ped hash of the pedestrian.</param>
+	protected Pedestrian(Vector3 position, PedHash pedHash)
 	{
 		Position = position;
+		Hash = pedHash;
 		Name = RandomHelper.GetFullName();
 	}
 
@@ -22,26 +24,22 @@ internal abstract class Pedestrian : IPedestrian
 	/// Initializes a instance of the pedestrian class.
 	/// </summary>
 	/// <param name="position">The position of the pedestrian.</param>
+	/// <param name="pedHash">The ped hash of the pedestrian.</param>
 	/// <param name="name">The name of the pedestrian.</param>
-	protected Pedestrian(Vector3 position, string name) : this(position) => Name = name;
+	protected Pedestrian(Vector3 position, PedHash pedHash, string name) : this(position, pedHash) => Name = name;
 
 	public bool Created => Ped is not null;
-
 	public Vector3 Position { get; }
-
-	public PedHash Hash { get; private set; }
-
+	public PedHash Hash { get; }
 	public Ped? Ped { get; private set; }
-
 	public string Name { get; }
 
-	public void Create(PedHash pedHash, float health = 50, float armor = 0, int money = 25)
+	public void Create(float health = 100, float armor = 0, int money = 25)
 	{
 		if (Created)
 			return;
 
-		Hash = pedHash;
-		Model model = ScriptHookHelper.RequestModel(pedHash);
+		Model model = ScriptHookHelper.RequestModel(Hash);
 		Ped = World.CreatePed(model, Position);
 		Ped.HealthFloat = health;
 		Ped.ArmorFloat = armor;
@@ -51,7 +49,7 @@ internal abstract class Pedestrian : IPedestrian
 	public void Delete()
 		=> Ped?.Delete();
 
-	public void Update(float health = 50, float armor = 0, int money = 25)
+	public void Update(float health = 100, float armor = 0, int money = 25)
 	{
 		if (Ped is null)
 			return;

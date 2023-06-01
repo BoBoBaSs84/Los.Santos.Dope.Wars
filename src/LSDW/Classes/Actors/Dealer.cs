@@ -18,7 +18,8 @@ internal sealed class Dealer : Pedestrian, IDealer
 	/// Initializes a instance of the dealer class.
 	/// </summary>
 	/// <param name="position">The position of the dealer.</param>
-	public Dealer(Vector3 position) : base(position)
+	/// <param name="pedHash">The ped hash of the dealer.</param>
+	internal Dealer(Vector3 position, PedHash pedHash) : base(position, pedHash)
 	{
 		Discovered = false;
 		Inventory = ModelFactory.CreateInventory();
@@ -30,11 +31,12 @@ internal sealed class Dealer : Pedestrian, IDealer
 	/// Initializes a instance of the dealer class.
 	/// </summary>
 	/// <param name="position">The position of the dealer.</param>
+	/// <param name="pedHash">The ped hash of the dealer.</param>
 	/// <param name="closedUntil">The dealer is gone until this date time.</param>
 	/// <param name="discovered">Has the dealer already been discovered?</param>
 	/// <param name="inventory">The dealer inventory.</param>
 	/// <param name="name">The name of the dealer.</param>
-	public Dealer(Vector3 position, DateTime? closedUntil, bool discovered, IInventory inventory, string name) : base(position, name)
+	internal Dealer(Vector3 position, PedHash pedHash, DateTime? closedUntil, bool discovered, IInventory inventory, string name) : base(position, pedHash, name)
 	{
 		ClosedUntil = closedUntil;
 		Discovered = discovered;

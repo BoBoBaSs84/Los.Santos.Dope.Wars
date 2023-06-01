@@ -36,12 +36,11 @@ public interface IPedestrian
 	/// <summary>
 	/// Creates the pedestrian.
 	/// </summary>
-	/// <param name="pedHash"></param>
 	/// <param name="health"></param>
 	/// <param name="armor"></param>
 	/// <param name="money"></param>
 
-	void Create(PedHash pedHash, float health = 50f, float armor = 0f, int money = 25);
+	void Create(float health = 50f, float armor = 0f, int money = 25);
 
 	/// <summary>
 	/// Updates the pedestrian.
