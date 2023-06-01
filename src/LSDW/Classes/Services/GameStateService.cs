@@ -1,7 +1,7 @@
 ﻿using LSDW.Classes.Persistence;
-using LSDW.Core.Classes;
 using LSDW.Core.Extensions;
-using LSDW.Core.Interfaces.Classes;
+using LSDW.Core.Interfaces.Models;
+using LSDW.Core.Models;
 using LSDW.Factories;
 using LSDW.Interfaces.Actors;
 using LSDW.Interfaces.Services;

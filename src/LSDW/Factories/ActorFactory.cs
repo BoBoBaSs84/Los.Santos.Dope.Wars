@@ -1,6 +1,6 @@
 ﻿using GTA.Math;
 using LSDW.Classes.Actors;
-using LSDW.Core.Interfaces.Classes;
+using LSDW.Core.Interfaces.Models;
 using LSDW.Interfaces.Actors;
 
 namespace LSDW.Factories;

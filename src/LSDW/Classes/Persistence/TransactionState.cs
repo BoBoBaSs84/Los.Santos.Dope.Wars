@@ -1,25 +1,25 @@
 ﻿using LSDW.Core.Enumerators;
-using LSDW.Core.Interfaces.Classes;
+using LSDW.Core.Interfaces.Models;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using static LSDW.Constants.XmlConstants.NameSpaces;
 
 namespace LSDW.Classes.Persistence;
 
-[XmlRoot("LogEntry", Namespace = LogEntryStateNameSpace)]
-public sealed class LogEntryState
+[XmlRoot("Transaction", Namespace = TransactionStateNameSpace)]
+public sealed class TransactionState
 {
-	public LogEntryState()
+	public TransactionState()
 	{
 	}
 
-	public LogEntryState(ILogEntry logEntry)
+	public TransactionState(ITransaction transaction)
 	{
-		DateTime = logEntry.DateTime;
-		TransactionType = logEntry.TransactionType;
-		DrugType = logEntry.DrugType;
-		Quantity = logEntry.Quantity;
-		TotalValue = logEntry.TotalValue;
+		DateTime = transaction.DateTime;
+		TransactionType = transaction.TransactionType;
+		DrugType = transaction.DrugType;
+		Quantity = transaction.Quantity;
+		TotalValue = transaction.Price;
 	}
 
 	[XmlElement("Date", Form = XmlSchemaForm.Qualified)]

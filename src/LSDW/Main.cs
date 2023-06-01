@@ -3,8 +3,7 @@ using LSDW.Classes.UI;
 using LSDW.Core.Enumerators;
 using LSDW.Core.Extensions;
 using LSDW.Core.Factories;
-using LSDW.Core.Interfaces.Classes;
-using LSDW.Factories;
+using LSDW.Core.Interfaces.Models;
 using LSDW.Interfaces.Services;
 
 namespace LSDW;
@@ -28,12 +27,12 @@ public sealed class Main : Script
 	{
 		_logger = Factories.ServiceFactory.CreateLoggerService();
 		_settings = Factories.ServiceFactory.CreateSettingsService();
-		_settingsMenu = MenuFactory.CreateSettingsMenu(_settings, _logger);		
-		_player = PlayerFactory.CreatePlayer();
+		_settingsMenu = Factories.MenuFactory.CreateSettingsMenu(_settings, _logger);
+		_player = ModelFactory.CreatePlayer();
 		_player.Inventory.Randomize(_player.Level);
-		_dealerInventory = InventoryFactory.CreateInventory();
+		_dealerInventory = ModelFactory.CreateInventory();
 		_dealerInventory.Randomize(_player.Level);
-		_leftSideMenu = MenuFactory.CreateSideMenu(MenuType.SELL, _player, _dealerInventory);
+		_leftSideMenu = Factories.MenuFactory.CreateSideMenu(MenuType.SELL, _player, _dealerInventory);
 
 		Interval = 5;
 

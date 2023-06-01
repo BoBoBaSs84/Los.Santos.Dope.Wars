@@ -1,11 +1,11 @@
 ﻿using LSDW.Core.Enumerators;
 
-namespace LSDW.Core.Interfaces.Classes;
+namespace LSDW.Core.Interfaces.Models;
 
 /// <summary>
-/// The log entry interface.
+/// The rransaction interface.
 /// </summary>
-public interface ILogEntry
+public interface ITransaction
 {
 	/// <summary>
 	/// The point in time of the transaction.
@@ -24,7 +24,7 @@ public interface ILogEntry
 	/// </summary>
 	int Quantity { get; }
 	/// <summary>
-	/// The totatl value of the transaction.
+	/// The unit price of the transaction.
 	/// </summary>
-	int TotalValue { get; }
+	int Price { get; }
 }

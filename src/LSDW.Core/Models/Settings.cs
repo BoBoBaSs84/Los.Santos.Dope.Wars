@@ -1,4 +1,4 @@
-﻿namespace LSDW.Core.Classes;
+﻿namespace LSDW.Core.Models;
 
 /// <summary>
 /// The application settings class.

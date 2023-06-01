@@ -1,5 +1,5 @@
 ﻿using LSDW.Classes.Services;
-using LSDW.Core.Interfaces.Classes;
+using LSDW.Core.Interfaces.Models;
 using LSDW.Interfaces.Actors;
 using LSDW.Interfaces.Services;
 

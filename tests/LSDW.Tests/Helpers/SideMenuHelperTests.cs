@@ -1,7 +1,7 @@
 ﻿using GTA.UI;
 using LSDW.Core.Enumerators;
 using LSDW.Core.Factories;
-using LSDW.Core.Interfaces.Classes;
+using LSDW.Core.Interfaces.Models;
 using LSDW.Helpers;
 
 namespace LSDW.Tests.Helpers;
@@ -13,7 +13,7 @@ public class SideMenuHelperTests
 	[DynamicData(nameof(GetRightMenuTypes), DynamicDataSourceType.Method)]
 	public void GetMaximumPlayerQuantityTest(MenuType menuType)
 	{
-		IPlayer player = PlayerFactory.CreatePlayer();
+		IPlayer player = ModelFactory.CreatePlayer();
 
 		int maximumQuantity = SideMenuHelper.GetMaximumQuantity(menuType, player);
 
@@ -24,7 +24,7 @@ public class SideMenuHelperTests
 	[DynamicData(nameof(GetLeftMenuTypes), DynamicDataSourceType.Method)]
 	public void GetMaximumIntQuantityTest(MenuType menuType)
 	{
-		IPlayer player = PlayerFactory.CreatePlayer();
+		IPlayer player = ModelFactory.CreatePlayer();
 
 		int maximumQuantity = SideMenuHelper.GetMaximumQuantity(menuType, player);
 
@@ -111,8 +111,8 @@ public class SideMenuHelperTests
 		};
 	}
 
-	private static readonly IPlayer _player = PlayerFactory.CreatePlayer();
-	private static readonly IInventory _inventory = InventoryFactory.CreateInventory();
+	private static readonly IPlayer _player = ModelFactory.CreatePlayer();
+	private static readonly IInventory _inventory = ModelFactory.CreateInventory();
 
 	private static IEnumerable<object[]> GetPlayerSourceInventory()
 	{

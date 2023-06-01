@@ -1,7 +1,6 @@
-﻿using LSDW.Core.Classes;
-using LSDW.Core.Enumerators;
+﻿using LSDW.Core.Enumerators;
 using LSDW.Core.Factories;
-using LSDW.Core.Interfaces.Classes;
+using LSDW.Core.Interfaces.Models;
 
 namespace LSDW.Core.Tests.Classes;
 
@@ -12,7 +11,7 @@ public class DrugTests
 	[TestMethod]
 	public void AddSuccessTest()
 	{
-		IDrug drug = DrugFactory.CreateDrug(DrugType.COKE, 10, 100);
+		IDrug drug = ModelFactory.CreateDrug(DrugType.COKE, 10, 100);
 
 		drug.Add(10, 50);
 
@@ -24,7 +23,7 @@ public class DrugTests
 	[TestMethod]
 	public void AddPriceLessThanZeroExceptionTest()
 	{
-		IDrug drug = DrugFactory.CreateDrug(DrugType.COKE, 10, 1000);
+		IDrug drug = ModelFactory.CreateDrug(DrugType.COKE, 10, 1000);
 
 		Assert.ThrowsException<ArgumentOutOfRangeException>(() => drug.Add(1, -1));
 	}
@@ -32,7 +31,7 @@ public class DrugTests
 	[TestMethod]
 	public void AddFailureTest()
 	{
-		IDrug drug = DrugFactory.CreateDrug(DrugType.COKE, 10, 1000);
+		IDrug drug = ModelFactory.CreateDrug(DrugType.COKE, 10, 1000);
 
 		drug.Add(5, 0);
 
@@ -44,7 +43,7 @@ public class DrugTests
 	[TestMethod()]
 	public void AddEarlyExitTest()
 	{
-		IDrug drug = DrugFactory.CreateDrug(DrugType.METH, 5);
+		IDrug drug = ModelFactory.CreateDrug(DrugType.METH, 5);
 
 		drug.Add(-5, 0);
 
@@ -54,7 +53,7 @@ public class DrugTests
 	[TestMethod]
 	public void RemoveSuccessTest()
 	{
-		IDrug drug = DrugFactory.CreateDrug(DrugType.COKE, 10, 1000);
+		IDrug drug = ModelFactory.CreateDrug(DrugType.COKE, 10, 1000);
 
 		drug.Remove(5);
 
@@ -64,7 +63,7 @@ public class DrugTests
 	[TestMethod]
 	public void RemoveFailureTest()
 	{
-		IDrug drug = DrugFactory.CreateDrug(DrugType.COKE, 10, 1000);
+		IDrug drug = ModelFactory.CreateDrug(DrugType.COKE, 10, 1000);
 
 		drug.Remove(1);
 
@@ -74,7 +73,7 @@ public class DrugTests
 	[TestMethod]
 	public void RemoveEarlyExitTest()
 	{
-		IDrug drug = DrugFactory.CreateDrug(DrugType.HASH);
+		IDrug drug = ModelFactory.CreateDrug(DrugType.HASH);
 
 		drug.Remove(-1);
 
@@ -84,7 +83,7 @@ public class DrugTests
 	[TestMethod]
 	public void RemovePriceSetZeroTest()
 	{
-		IDrug drug = DrugFactory.CreateDrug(DrugType.LSD, 100, 20);
+		IDrug drug = ModelFactory.CreateDrug(DrugType.LSD, 100, 20);
 
 		drug.Remove(100);
 
@@ -95,7 +94,7 @@ public class DrugTests
 	[TestMethod]
 	public void SetNewPriceTests()
 	{
-		IDrug drug = DrugFactory.CreateDrug(DrugType.SPEED);
+		IDrug drug = ModelFactory.CreateDrug(DrugType.SPEED);
 
 		drug.SetPrice(100);
 
@@ -105,7 +104,7 @@ public class DrugTests
 	[TestMethod]
 	public void SetNewQuantityTests()
 	{
-		IDrug drug = DrugFactory.CreateDrug(DrugType.SPEED);
+		IDrug drug = ModelFactory.CreateDrug(DrugType.SPEED);
 
 		drug.SetQuantity(10);
 
@@ -115,7 +114,7 @@ public class DrugTests
 	[TestMethod]
 	public void RandomizeQuantityTest()
 	{
-		IDrug drug = DrugFactory.CreateDrug(DrugType.CANA, -1);
+		IDrug drug = ModelFactory.CreateDrug(DrugType.CANA, -1);
 
 		drug.RandomizeQuantity(0);
 
@@ -125,7 +124,7 @@ public class DrugTests
 	[TestMethod]
 	public void RandomizePriceTest()
 	{
-		IDrug drug = DrugFactory.CreateDrug(DrugType.CANA, 0, -1);
+		IDrug drug = ModelFactory.CreateDrug(DrugType.CANA, 0, -1);
 
 		drug.RandomizePrice(0);
 

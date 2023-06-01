@@ -2,7 +2,10 @@
 using LemonUI.Menus;
 using LSDW.Core.Enumerators;
 using LSDW.Core.Factories;
-using LSDW.Core.Interfaces.Classes;
+using LSDW.Core.Interfaces.Models;
+using LSDW.Core.Interfaces.Services;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using SMH = LSDW.Helpers.SideMenuHelper;
 
 namespace LSDW.Classes.UI;
@@ -37,9 +40,10 @@ public sealed class SideMenu : NativeMenu
 		_player = player;
 
 		(_source, _target) = SMH.GetInventories(menuType, player, inventory);
-		int maximumQuantity = SMH.GetMaximumQuantity(menuType, player);
 
-		_transaction = ServiceFactory.CreateTransaction(menuType, _source, _target, maximumQuantity);
+		int maximumQuantity = SMH.GetMaximumQuantity(menuType, player);
+		TransactionType transactionType = SMH.GetTransactionType(menuType);
+		_transaction = ServiceFactory.CreateTransactionService(transactionType, _source, _target, maximumQuantity);
 
 		Alignment = SMH.GetAlignment(menuType);
 		ItemCount = CountVisibility.Never;
@@ -54,12 +58,22 @@ public sealed class SideMenu : NativeMenu
 
 		_source.PropertyChanged += OnInventoryPropertyChanged;
 		_target.PropertyChanged += OnInventoryPropertyChanged;
+		_transaction.TransactionsChanged += OnTransactionsChanged;
 
 		_processables.Add(this);
 	}
 
 	internal void OnTick(object sender, EventArgs args)
 		=> _processables.Process();
+
+	private void OnTransactionsChanged(object sender, NotifyCollectionChangedEventArgs args)
+	{
+		if (sender is not ObservableCollection<ITransaction> transactions)
+			return;
+
+		if (args.Action == NotifyCollectionChangedAction.Add)
+			_player.Transactions.Add(transactions[args.NewStartingIndex]);
+	}
 
 	private void OnMenuItemActivated(object sender, EventArgs args)
 	{
@@ -69,11 +83,10 @@ public sealed class SideMenu : NativeMenu
 		int price = _target.Where(x => x.DrugType.Equals(drugType)).Select(x => x.Price).Single();
 		int quantity = item.SelectedItem;
 
-		_transaction.Add(DrugFactory.CreateDrug(drugType, quantity, price));
-		_transaction.Commit();
+		bool succes = _transaction.Commit(drugType, quantity, price);
 
-		if (!_transaction.Result.Successful)
-			foreach (string message in _transaction.Result.Messages)
+		if (!succes)
+			foreach (string message in _transaction.Errors)
 				GTA.UI.Screen.ShowSubtitle(message);
 	}
 

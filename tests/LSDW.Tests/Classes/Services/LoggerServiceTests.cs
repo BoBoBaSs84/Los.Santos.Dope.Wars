@@ -1,4 +1,4 @@
-﻿using LSDW.Core.Classes;
+﻿using LSDW.Core.Models;
 using LSDW.Factories;
 using LSDW.Interfaces.Services;
 

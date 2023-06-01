@@ -1,9 +1,9 @@
 ﻿using GTA;
-using LSDW.Core.Classes;
+using LSDW.Core.Models;
 using LSDW.Interfaces.Services;
-using Dealer = LSDW.Core.Classes.Settings.Dealer;
-using Market = LSDW.Core.Classes.Settings.Market;
-using Player = LSDW.Core.Classes.Settings.Player;
+using Dealer = LSDW.Core.Models.Settings.Dealer;
+using Market = LSDW.Core.Models.Settings.Market;
+using Player = LSDW.Core.Models.Settings.Player;
 
 namespace LSDW.Classes.Services;
 

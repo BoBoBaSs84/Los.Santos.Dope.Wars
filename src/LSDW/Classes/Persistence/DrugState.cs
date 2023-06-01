@@ -1,5 +1,5 @@
 ﻿using LSDW.Core.Enumerators;
-using LSDW.Core.Interfaces.Classes;
+using LSDW.Core.Interfaces.Models;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using static LSDW.Constants.XmlConstants.NameSpaces;

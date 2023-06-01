@@ -1,4 +1,4 @@
-﻿using LSDW.Core.Classes;
+﻿using LSDW.Core.Models;
 using LSDW.Interfaces.Services;
 using System.Runtime.CompilerServices;
 using System.Text;

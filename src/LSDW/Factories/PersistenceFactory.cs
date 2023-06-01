@@ -1,6 +1,6 @@
 ﻿using LSDW.Classes.Persistence;
 using LSDW.Core.Factories;
-using LSDW.Core.Interfaces.Classes;
+using LSDW.Core.Interfaces.Models;
 using LSDW.Interfaces.Actors;
 
 namespace LSDW.Factories;
@@ -22,7 +22,7 @@ public static class PersistenceFactory
 	/// </summary>
 	/// <param name="state">The saved drug state.</param>
 	public static IDrug CreateDrug(DrugState state)
-		=> DrugFactory.CreateDrug(state.DrugType, state.Quantity, state.Price);
+		=> ModelFactory.CreateDrug(state.DrugType, state.Quantity, state.Price);
 
 	/// <summary>
 	/// Creates a new saveable drug state collection from a drug instance collection.
@@ -62,7 +62,7 @@ public static class PersistenceFactory
 	public static IInventory CreateInventory(InventoryState state)
 	{
 		IEnumerable<IDrug> drugs = CreateDrugs(state.Drugs);
-		return InventoryFactory.CreateInventory(drugs, state.Money);
+		return ModelFactory.CreateInventory(drugs, state.Money);
 	}
 
 	/// <summary>
@@ -79,7 +79,7 @@ public static class PersistenceFactory
 	public static IPlayer CreatePlayer(PlayerState state)
 	{
 		IInventory inventory = CreateInventory(state.Inventory);
-		return PlayerFactory.CreatePlayer(inventory, state.Experience);
+		return ModelFactory.CreatePlayer(inventory, state.Experience);
 	}
 
 	/// <summary>
@@ -124,41 +124,41 @@ public static class PersistenceFactory
 	}
 
 	/// <summary>
-	/// Creates a new saveable log entry state from a log entry instance.
+	/// Creates a new saveable transaction state from a transaction instance.
 	/// </summary>
-	/// <param name="logEntry">The log entry instance to save.</param>
-	public static LogEntryState CreateLogEntryState(ILogEntry logEntry)
-		=> new(logEntry);
+	/// <param name="transaction">The transaction instance to save.</param>
+	public static TransactionState CreateTransactionState(ITransaction transaction)
+		=> new(transaction);
 
 	/// <summary>
-	/// Creates a new saveable log entry state collection from a log entry instance collection.
+	/// Creates a new saveable transaction state collection from a transaction instance collection.
 	/// </summary>
-	/// <param name="logEntries">The log entry instance collection to save.</param>
-	public static List<LogEntryState> CreateLogEntryStates(IEnumerable<ILogEntry> logEntries)
+	/// <param name="transactions">The transaction instance collection to save.</param>
+	public static List<TransactionState> CreateTransactionStates(IEnumerable<ITransaction> transactions)
 	{
-		List<LogEntryState> states = new();
-		foreach (ILogEntry logEntry in logEntries)
-			states.Add(CreateLogEntryState(logEntry));
+		List<TransactionState> states = new();
+		foreach (ITransaction transaction in transactions)
+			states.Add(CreateTransactionState(transaction));
 		return states;
 	}
 
 	/// <summary>
-	/// Creates a log entry instance from saved log entry state.
+	/// Creates a transaction instance from saved transaction state.
 	/// </summary>
-	/// <param name="state">The saved log entry state.</param>
-	public static ILogEntry CreateLogEntry(LogEntryState state)
-		=> LogEntryFactory.CreateLogEntry(state.DateTime, state.TransactionType, state.DrugType, state.Quantity, state.TotalValue);
+	/// <param name="state">The saved transaction state.</param>
+	public static ITransaction CreateTransaction(TransactionState state)
+		=> ModelFactory.CreateTransaction(state.DateTime, state.TransactionType, state.DrugType, state.Quantity, state.TotalValue);
 
 	/// <summary>
-	/// Creates a log entry instance collection from saved log entry state collection.
+	/// Creates a transaction instance collection from saved transaction state collection.
 	/// </summary>
-	/// <param name="states">The saved log entry state collection.</param>
-	public static IEnumerable<ILogEntry> CreateLogEntries(List<LogEntryState> states)
+	/// <param name="states">The saved transaction state collection.</param>
+	public static IEnumerable<ITransaction> CreateTransaction(List<TransactionState> states)
 	{
-		List<ILogEntry> logEntries = new();
-		foreach(LogEntryState state in states)
-			logEntries.Add(CreateLogEntry(state));
-		return logEntries;
+		List<ITransaction> transactions = new();
+		foreach(TransactionState state in states)
+			transactions.Add(CreateTransaction(state));
+		return transactions;
 	}
 
 	/// <summary>

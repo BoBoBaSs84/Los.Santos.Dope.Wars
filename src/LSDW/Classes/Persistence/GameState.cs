@@ -1,4 +1,4 @@
-﻿using LSDW.Core.Interfaces.Classes;
+﻿using LSDW.Core.Interfaces.Models;
 using LSDW.Factories;
 using LSDW.Interfaces.Actors;
 using System.Xml.Schema;

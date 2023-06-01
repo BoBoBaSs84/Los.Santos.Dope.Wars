@@ -1,5 +1,5 @@
 ﻿using LSDW.Core.Factories;
-using LSDW.Core.Interfaces.Classes;
+using LSDW.Core.Interfaces.Models;
 using LSDW.Factories;
 using LSDW.Interfaces.Actors;
 using LSDW.Interfaces.Services;
@@ -33,7 +33,7 @@ public class ServiceFactoryTests
 	public void CreateGetGameStateServiceTest()
 	{
 		IGameStateService? gameStateService;
-		IPlayer player = PlayerFactory.CreatePlayer();
+		IPlayer player = ModelFactory.CreatePlayer();
 		IEnumerable<IDealer> dealers = new List<IDealer>();
 
 		gameStateService = LSDW.Factories.ServiceFactory.CreateGameStateService(player, dealers);
@@ -46,7 +46,7 @@ public class ServiceFactoryTests
 	{
 		IGameStateService? gameStateService;
 		ILoggerService logger = LSDW.Factories.ServiceFactory.CreateLoggerService();
-		IPlayer player = PlayerFactory.CreatePlayer();
+		IPlayer player = ModelFactory.CreatePlayer();
 		IEnumerable<IDealer> dealers = new List<IDealer>();
 
 		gameStateService = LSDW.Factories.ServiceFactory.CreateGameStateService(logger, player, dealers);

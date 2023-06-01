@@ -1,4 +1,4 @@
-﻿namespace LSDW.Core.Interfaces.Classes;
+﻿namespace LSDW.Core.Interfaces.Models;
 
 /// <summary>
 /// The player character interface.
@@ -33,7 +33,7 @@ public interface IPlayer
 	/// <summary>
 	/// The transaction log entries for the player.
 	/// </summary>
-	ICollection<ILogEntry> Transactions { get; }
+	ICollection<ITransaction> Transactions { get; }
 
 	/// <summary>
 	/// Should adds the desired experience points to the current experience.

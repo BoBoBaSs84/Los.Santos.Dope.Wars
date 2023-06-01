@@ -20,8 +20,8 @@ internal static class XmlConstants
 		internal const string PlayerStateNameSpacePreFix = "lsdw-pl";
 		internal const string InventoryStateNameSpace = "https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/Inventory";
 		internal const string InventoryStateNameSpacePreFix = "lsdw-in";
-		internal const string LogEntryStateNameSpace = "https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/LogEntry";
-		internal const string LogEntryStateNameSpacePreFix = "lsdw-le";
+		internal const string TransactionStateNameSpace = "https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/LogEntry";
+		internal const string TransactionStateNameSpacePreFix = "lsdw-tr";
 		internal const string DrugStateNameSpace = "https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/Drug";
 		internal const string DrugStateNameSpacePreFix = "lsdw-dr";
 
@@ -36,7 +36,7 @@ internal static class XmlConstants
 			namespaces.Add(GameStateNameSpacePreFix, GameStateNameSpace);
 			namespaces.Add(DrugStateNameSpacePreFix, DrugStateNameSpace);
 			namespaces.Add(DealerStateNameSpacePreFix, DealerStateNameSpace);
-			namespaces.Add(LogEntryStateNameSpacePreFix, LogEntryStateNameSpace);
+			namespaces.Add(TransactionStateNameSpacePreFix, TransactionStateNameSpace);
 			namespaces.Add(InventoryStateNameSpacePreFix, InventoryStateNameSpace);
 			namespaces.Add(PlayerStateNameSpacePreFix, PlayerStateNameSpace);
 

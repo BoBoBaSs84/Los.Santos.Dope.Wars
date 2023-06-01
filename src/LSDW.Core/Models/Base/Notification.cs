@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace LSDW.Core.Classes.Base;
+namespace LSDW.Core.Models.Base;
 
 /// <summary>
 ///	The notification class.

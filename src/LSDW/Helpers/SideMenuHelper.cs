@@ -2,7 +2,7 @@
 using LSDW.Classes.UI;
 using LSDW.Core.Enumerators;
 using LSDW.Core.Extensions;
-using LSDW.Core.Interfaces.Classes;
+using LSDW.Core.Interfaces.Models;
 using RESX = LSDW.Properties.Resources;
 
 namespace LSDW.Helpers;
@@ -15,6 +15,13 @@ namespace LSDW.Helpers;
 /// </remarks>
 public static class SideMenuHelper
 {
+	/// <summary>
+	/// Returns the transaction type for the provided menu type.
+	/// </summary>
+	/// <param name="menuType">The type of the menu.</param>
+	public static TransactionType GetTransactionType(MenuType menuType)
+		=> menuType is MenuType.BUY or MenuType.SELL ? TransactionType.TRAFFIC : TransactionType.DEPOSIT;
+
 	/// <summary>
 	/// Returns the maximum quantity for the transaction based on the menu type.
 	/// </summary>

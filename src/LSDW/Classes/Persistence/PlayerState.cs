@@ -1,4 +1,4 @@
-﻿using LSDW.Core.Interfaces.Classes;
+﻿using LSDW.Core.Interfaces.Models;
 using LSDW.Factories;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -16,13 +16,13 @@ public sealed class PlayerState
 	{
 		Inventory = PersistenceFactory.CreateInventoryState(player.Inventory);
 		Experience = player.Experience;
-		LogEntries = PersistenceFactory.CreateLogEntryStates(player.Transactions);
+		Transactions = PersistenceFactory.CreateTransactionStates(player.Transactions);
 	}
 
 	public PlayerState()
 	{
 		Inventory = new();
-		LogEntries = new();
+		Transactions = new();
 	}
 
 	[XmlElement("Inventory", Form = XmlSchemaForm.Qualified)]
@@ -31,7 +31,7 @@ public sealed class PlayerState
 	[XmlAttribute("Experience", Form = XmlSchemaForm.Qualified)]
 	public int Experience { get; set; }
 
-	[XmlArray("LogEntries", Form = XmlSchemaForm.Qualified)]
-	[XmlArrayItem("LogEntry", Form = XmlSchemaForm.Qualified)]
-	public List<LogEntryState> LogEntries { get; set; }
+	[XmlArray("Transactions", Form = XmlSchemaForm.Qualified)]
+	[XmlArrayItem("Transaction", Form = XmlSchemaForm.Qualified)]
+	public List<TransactionState> Transactions { get; set; }
 }

@@ -4,7 +4,7 @@ using LSDW.Core.Enumerators;
 using LSDW.Core.Extensions;
 using LSDW.Core.Factories;
 using LSDW.Core.Helpers;
-using LSDW.Core.Interfaces.Classes;
+using LSDW.Core.Interfaces.Models;
 using LSDW.Factories;
 using LSDW.Interfaces.Actors;
 
@@ -16,7 +16,7 @@ public class PersistenceFactoryTests
 	[TestMethod]
 	public void CreateDrugStateTest()
 	{
-		IDrug drug = DrugFactory.CreateDrug();
+		IDrug drug = ModelFactory.CreateDrug();
 
 		DrugState state = PersistenceFactory.CreateDrugState(drug);
 
@@ -47,7 +47,7 @@ public class PersistenceFactoryTests
 	[TestMethod]
 	public void CreateDrugStatesTest()
 	{
-		IEnumerable<IDrug> drugs = DrugFactory.CreateAllDrugs();
+		IEnumerable<IDrug> drugs = ModelFactory.CreateAllDrugs();
 
 		List<DrugState> states = PersistenceFactory.CreateDrugStates(drugs);
 
@@ -74,9 +74,9 @@ public class PersistenceFactoryTests
 	[TestMethod]
 	public void CreateInventoryStateTest()
 	{
-		IEnumerable<IDrug> drugs = DrugFactory.CreateAllDrugs();
+		IEnumerable<IDrug> drugs = ModelFactory.CreateAllDrugs();
 		int money = RandomHelper.GetInt();
-		IInventory inventory = InventoryFactory.CreateInventory(drugs, money);
+		IInventory inventory = ModelFactory.CreateInventory(drugs, money);
 
 		InventoryState state = PersistenceFactory.CreateInventoryState(inventory);
 
@@ -108,16 +108,16 @@ public class PersistenceFactoryTests
 	[TestMethod]
 	public void CreatePlayerStateTest()
 	{
-		IInventory inventory = InventoryFactory.CreateInventory();
+		IInventory inventory = ModelFactory.CreateInventory();
 		_ = inventory.Randomize(100);
 		int experience = RandomHelper.GetInt(65000000, 450000000);
-		IEnumerable<ILogEntry> logEntries = new List<ILogEntry>()
+		IEnumerable<ITransaction> logEntries = new List<ITransaction>()
 		{
-			LogEntryFactory.CreateLogEntry(DateTime.Now, TransactionType.TRAFFIC, DrugType.COKE, 10, 1000),
-			LogEntryFactory.CreateLogEntry(DateTime.Now.AddDays(-1), TransactionType.DEPOSIT, DrugType.METH, 15, 2500),
+			ModelFactory.CreateTransaction(DateTime.Now, TransactionType.TRAFFIC, DrugType.COKE, 10, 1000),
+			ModelFactory.CreateTransaction(DateTime.Now.AddDays(-1), TransactionType.DEPOSIT, DrugType.METH, 15, 2500),
 		};
 
-		IPlayer player = PlayerFactory.CreatePlayer(inventory, experience, logEntries);
+		IPlayer player = ModelFactory.CreatePlayer(inventory, experience, logEntries);
 		PlayerState playerState = PersistenceFactory.CreatePlayerState(player);
 
 		Assert.IsNotNull(playerState);
@@ -206,9 +206,9 @@ public class PersistenceFactoryTests
 	[TestMethod]
 	public void CreateLogEntryStateTest()
 	{
-		ILogEntry logEntry = LogEntryFactory.CreateLogEntry(DateTime.Now, TransactionType.TRAFFIC, DrugType.COKE, 10, 1000);
+		ITransaction logEntry = ModelFactory.CreateTransaction(DateTime.Now, TransactionType.TRAFFIC, DrugType.COKE, 10, 1000);
 
-		LogEntryState state = PersistenceFactory.CreateLogEntryState(logEntry);
+		TransactionState state = PersistenceFactory.CreateTransactionState(logEntry);
 
 		Assert.IsNotNull(state);
 	}
@@ -216,7 +216,7 @@ public class PersistenceFactoryTests
 	[TestMethod]
 	public void CreateLogEntryTest()
 	{
-		LogEntryState state = new()
+		TransactionState state = new()
 		{
 			DateTime = DateTime.Now,
 			TransactionType = TransactionType.TRAFFIC,
@@ -225,7 +225,7 @@ public class PersistenceFactoryTests
 			TotalValue = -100
 		};
 
-		ILogEntry logEntry = PersistenceFactory.CreateLogEntry(state);
+		ITransaction logEntry = PersistenceFactory.CreateTransaction(state);
 
 		Assert.IsNotNull(logEntry);
 	}
@@ -233,13 +233,13 @@ public class PersistenceFactoryTests
 	[TestMethod]
 	public void CreateLogEntryStatesTest()
 	{
-		IEnumerable<ILogEntry> logEntries = new List<ILogEntry>()
+		IEnumerable<ITransaction> logEntries = new List<ITransaction>()
 		{
-			LogEntryFactory.CreateLogEntry(DateTime.Now, TransactionType.TRAFFIC, DrugType.COKE, 10, 1000),
-			LogEntryFactory.CreateLogEntry(DateTime.Now.AddDays(-1), TransactionType.DEPOSIT, DrugType.METH, 10, 0),
+			ModelFactory.CreateTransaction(DateTime.Now, TransactionType.TRAFFIC, DrugType.COKE, 10, 1000),
+			ModelFactory.CreateTransaction(DateTime.Now.AddDays(-1), TransactionType.DEPOSIT, DrugType.METH, 10, 0),
 		};
 
-		List<LogEntryState> states = PersistenceFactory.CreateLogEntryStates(logEntries);
+		List<TransactionState> states = PersistenceFactory.CreateTransactionStates(logEntries);
 
 		Assert.IsNotNull(states);
 		Assert.IsTrue(states.Any());
@@ -249,13 +249,13 @@ public class PersistenceFactoryTests
 	[TestMethod]
 	public void CreateLogEntriesTest()
 	{
-		List<LogEntryState> states = new()
+		List<TransactionState> states = new()
 		{
 			new() { DateTime = DateTime.Now, TransactionType = TransactionType.TRAFFIC, DrugType = DrugType.CANA, Quantity = 10, TotalValue = -100 },
 			new() { DateTime = DateTime.Now.AddDays(-2), TransactionType = TransactionType.TRAFFIC, DrugType = DrugType.HASH, Quantity = 5, TotalValue = 5 },
 		};
 
-		IEnumerable<ILogEntry> logEntries = PersistenceFactory.CreateLogEntries(states);
+		IEnumerable<ITransaction> logEntries = PersistenceFactory.CreateTransaction(states);
 
 		Assert.IsNotNull(logEntries);
 		Assert.IsTrue(logEntries.Any());
@@ -265,7 +265,7 @@ public class PersistenceFactoryTests
 	[TestMethod]
 	public void CreateGameStateTest()
 	{
-		IPlayer player = PlayerFactory.CreatePlayer(RandomHelper.GetInt(123456789, 987654321));
+		IPlayer player = ModelFactory.CreatePlayer(RandomHelper.GetInt(123456789, 987654321));
 		_ = player.Inventory.Randomize(100);
 		List<IDealer> dealers = new()
 		{

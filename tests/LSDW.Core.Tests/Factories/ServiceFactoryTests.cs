@@ -1,25 +1,22 @@
-﻿using LSDW.Core.Classes;
+﻿using LSDW.Core.Enumerators;
 using LSDW.Core.Factories;
-using LSDW.Core.Interfaces.Classes;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using LSDW.Core.Interfaces.Models;
+using LSDW.Core.Interfaces.Services;
 
 namespace LSDW.Core.Tests.Factories;
 
-[TestClass()]
+[TestClass]
 public class ServiceFactoryTests
 {
-	[TestMethod()]
+	[TestMethod]
 	public void CreateTransactionServiceTest()
 	{
-		ITransactionService? transactionService;
-		var parameter = new TransactionParameter()
+		IPlayer player = ModelFactory.CreatePlayer();
+		IInventory drugs = ModelFactory.CreateInventory();
 
-		transactionService = ServiceFactory.CreateTransactionService(null);
+		ITransactionService? transactionService;
+
+		transactionService = ServiceFactory.CreateTransactionService(TransactionType.TRAFFIC, drugs, player.Inventory, player.MaximumInventoryQuantity);
 
 		Assert.IsNotNull(transactionService);
 	}

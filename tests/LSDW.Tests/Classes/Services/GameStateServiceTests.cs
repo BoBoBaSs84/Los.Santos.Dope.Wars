@@ -1,9 +1,9 @@
 ﻿using LSDW.Classes.Persistence;
-using LSDW.Core.Classes;
 using LSDW.Core.Extensions;
 using LSDW.Core.Factories;
 using LSDW.Core.Helpers;
-using LSDW.Core.Interfaces.Classes;
+using LSDW.Core.Interfaces.Models;
+using LSDW.Core.Models;
 using LSDW.Factories;
 using LSDW.Interfaces.Actors;
 using LSDW.Interfaces.Services;
@@ -38,7 +38,7 @@ public class GameStateServiceTests
 	public void LoadTest()
 	{
 		IGameStateService? stateService;
-		IPlayer player = PlayerFactory.CreatePlayer(RandomHelper.GetInt(123456789, 987654321));
+		IPlayer player = ModelFactory.CreatePlayer(RandomHelper.GetInt(123456789, 987654321));
 		player.Inventory.Randomize(player.Level);
 		IEnumerable<IDealer> dealers = new List<IDealer>();
 		stateService = LSDW.Factories.ServiceFactory.CreateGameStateService(player, dealers);
@@ -66,7 +66,7 @@ public class GameStateServiceTests
 	[TestMethod]
 	public void SaveTest()
 	{
-		IPlayer player = PlayerFactory.CreatePlayer(RandomHelper.GetInt(123456789, 987654321));
+		IPlayer player = ModelFactory.CreatePlayer(RandomHelper.GetInt(123456789, 987654321));
 		player.Inventory.Randomize(player.Level);
 		IEnumerable<IDealer> dealers = new List<IDealer>();
 

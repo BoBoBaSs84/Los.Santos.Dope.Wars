@@ -1,6 +1,6 @@
 ﻿using LSDW.Classes.UI;
 using LSDW.Core.Enumerators;
-using LSDW.Core.Interfaces.Classes;
+using LSDW.Core.Interfaces.Models;
 using LSDW.Interfaces.Services;
 
 namespace LSDW.Factories;
