@@ -1,5 +1,4 @@
 ﻿using LSDW.Core.Enumerators;
-using System.Collections.Specialized;
 
 namespace LSDW.Core.Interfaces.Services;
 
@@ -8,11 +7,6 @@ namespace LSDW.Core.Interfaces.Services;
 /// </summary>
 public interface ITransactionService
 {
-	/// <summary>
-	/// If a transaction was successful, this is the notifiaction for it.
-	/// </summary>
-	public event NotifyCollectionChangedEventHandler? TransactionsChanged;
-
 	/// <summary>
 	/// Contains the errors if the transaction was not successful.
 	/// </summary>

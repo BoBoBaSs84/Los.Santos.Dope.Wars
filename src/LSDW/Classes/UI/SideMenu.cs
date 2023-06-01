@@ -4,8 +4,6 @@ using LSDW.Core.Enumerators;
 using LSDW.Core.Factories;
 using LSDW.Core.Interfaces.Models;
 using LSDW.Core.Interfaces.Services;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using SMH = LSDW.Helpers.SideMenuHelper;
 
 namespace LSDW.Classes.UI;
@@ -15,13 +13,14 @@ namespace LSDW.Classes.UI;
 /// </summary>
 public sealed class SideMenu : NativeMenu
 {
-	private readonly Size _screenSize = GTA.UI.Screen.Resolution;
 	private readonly ObjectPool _processables = new();
-	private readonly MenuType _menuType;
-	private readonly IPlayer _player;
-	private readonly ITransactionService _transaction;
+	private readonly Size _screenSize = GTA.UI.Screen.Resolution;
 	private readonly IInventory _source;
 	private readonly IInventory _target;
+	private readonly IPlayer _player;
+	private readonly ITransactionService _transaction;
+	private readonly MenuType _menuType;
+	private readonly TransactionType _transactionType;
 
 	/// <summary>
 	/// The menu switch item.
@@ -39,41 +38,31 @@ public sealed class SideMenu : NativeMenu
 		_menuType = menuType;
 		_player = player;
 
-		(_source, _target) = SMH.GetInventories(menuType, player, inventory);
+		(_source, _target) = SMH.GetInventories(_menuType, _player, inventory);
 
-		int maximumQuantity = SMH.GetMaximumQuantity(menuType, player);
-		TransactionType transactionType = SMH.GetTransactionType(menuType);
-		_transaction = ServiceFactory.CreateTransactionService(transactionType, _source, _target, maximumQuantity);
+		int maximumQuantity = SMH.GetMaximumQuantity(_menuType, _player);
+		_transactionType = SMH.GetTransactionType(_menuType);
+		_transaction = ServiceFactory.CreateTransactionService(_transactionType, _source, _target, maximumQuantity);
 
-		Alignment = SMH.GetAlignment(menuType);
+		Alignment = SMH.GetAlignment(_menuType);
 		ItemCount = CountVisibility.Never;
 		Offset = new PointF(_screenSize.Width / 64, _screenSize.Height / 36);
 		UseMouse = false;
 		TitleFont = GTA.UI.Font.Pricedown;
-		Subtitle = SMH.GetSubtitle(menuType, _target.Money);
+		Subtitle = SMH.GetSubtitle(_menuType, _target.Money);
 
-		SwitchItem = new(menuType);
+		SwitchItem = new(_menuType);
 		Add(SwitchItem);
 		AddDrugListItems(_source, _target);
 
 		_source.PropertyChanged += OnInventoryPropertyChanged;
 		_target.PropertyChanged += OnInventoryPropertyChanged;
-		_transaction.TransactionsChanged += OnTransactionsChanged;
 
 		_processables.Add(this);
 	}
 
 	internal void OnTick(object sender, EventArgs args)
 		=> _processables.Process();
-
-	private void OnTransactionsChanged(object sender, NotifyCollectionChangedEventArgs args)
-	{
-		if (sender is not ObservableCollection<ITransaction> transactions)
-			return;
-
-		if (args.Action == NotifyCollectionChangedAction.Add)
-			_player.Transactions.Add(transactions[args.NewStartingIndex]);
-	}
 
 	private void OnMenuItemActivated(object sender, EventArgs args)
 	{
@@ -85,9 +74,14 @@ public sealed class SideMenu : NativeMenu
 
 		bool succes = _transaction.Commit(drugType, quantity, price);
 
-		if (!succes)
-			foreach (string message in _transaction.Errors)
-				GTA.UI.Screen.ShowSubtitle(message);
+		if (succes)
+		{
+			ITransaction transaction = ModelFactory.CreateTransaction(DateTime.Now, _transactionType, drugType, quantity, price);
+			_player.Transactions.Add(transaction);
+		}
+
+		foreach (string message in _transaction.Errors)
+			GTA.UI.Screen.ShowSubtitle(message);
 	}
 
 	private void OnInventoryPropertyChanged(object sender, PropertyChangedEventArgs args)
