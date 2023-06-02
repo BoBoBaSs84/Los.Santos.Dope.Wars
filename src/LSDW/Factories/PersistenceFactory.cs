@@ -156,7 +156,7 @@ public static class PersistenceFactory
 	public static IEnumerable<ITransaction> CreateTransaction(List<TransactionState> states)
 	{
 		List<ITransaction> transactions = new();
-		foreach(TransactionState state in states)
+		foreach (TransactionState state in states)
 			transactions.Add(CreateTransaction(state));
 		return transactions;
 	}

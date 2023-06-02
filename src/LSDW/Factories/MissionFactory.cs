@@ -1,5 +1,4 @@
 ﻿using LSDW.Classes.Missions;
-using LSDW.Core.Interfaces.Models;
 using LSDW.Interfaces.Missions;
 using LSDW.Interfaces.Services;
 
@@ -15,7 +14,7 @@ public static class MissionFactory
 	/// </summary>
 	/// <param name="timeService">The current date and time service to use.</param>
 	/// <param name="logger">The logger service service to use.</param>
-	/// <param name="player">The player instance to use.</param>
-	public static IMission CreateTraffickingMission(IDateTimeService timeService, ILoggerService logger, IPlayer player)
-		=> new Trafficking(timeService, logger, player);
+	/// <param name="stateService">The game state service to use.</param>
+	public static IMission CreateTraffickingMission(IDateTimeService timeService, ILoggerService logger, IGameStateService stateService)
+		=> new Trafficking(timeService, logger, stateService);
 }

@@ -1,6 +1,6 @@
 ﻿using LSDW.Core.Factories;
-using LSDW.Core.Models;
 using LSDW.Core.Interfaces.Models;
+using LSDW.Core.Models;
 
 namespace LSDW.Core.Tests.Classes;
 

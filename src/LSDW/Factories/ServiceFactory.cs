@@ -1,6 +1,4 @@
 ﻿using LSDW.Classes.Services;
-using LSDW.Core.Interfaces.Models;
-using LSDW.Interfaces.Actors;
 using LSDW.Interfaces.Services;
 
 namespace LSDW.Factories;
@@ -31,10 +29,8 @@ public static class ServiceFactory
 	/// <summary>
 	/// Creates a new game state service instance.
 	/// </summary>
-	/// <param name="player">The player instance to save.</param>
-	/// <param name="dealers">The dealer instance colection to save.</param>
-	public static IGameStateService CreateGameStateService(IPlayer player, IEnumerable<IDealer> dealers)
-		=> new GameStateService(CreateLoggerService(), player, dealers);
+	public static IGameStateService CreateGameStateService()
+		=> new GameStateService(CreateLoggerService());
 
 	/// <summary>
 	/// Creates a new game state service instance.
@@ -42,6 +38,6 @@ public static class ServiceFactory
 	/// <param name="logger">The logger service instance to use.</param>
 	/// <param name="player">The player instance to save.</param>
 	/// <param name="dealers">The dealer instance colection to save.</param>
-	public static IGameStateService CreateGameStateService(ILoggerService logger, IPlayer player, IEnumerable<IDealer> dealers)
-		=> new GameStateService(logger, player, dealers);
+	public static IGameStateService CreateGameStateService(ILoggerService logger)
+		=> new GameStateService(logger);
 }

@@ -20,5 +20,9 @@ public enum MissionStatusType
 	/// <summary>
 	/// The mission status is stopped.
 	/// </summary>
-	Stopped = 3
+	Stopped = 3,
+	/// <summary>
+	/// The mission status is aborted.
+	/// </summary>
+	Aborted = 4
 }

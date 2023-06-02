@@ -1,5 +1,4 @@
-﻿using LSDW.Core.Interfaces.Models;
-using LSDW.Factories;
+﻿using LSDW.Factories;
 using LSDW.Interfaces.Missions;
 using LSDW.Interfaces.Services;
 using LSDW.Tests.UnitTestHelpers;
@@ -14,11 +13,11 @@ public class MissionFactoryTests
 	{
 		IDateTimeService timeService = new TestDateTimeService();
 		ILoggerService logger = ServiceFactory.CreateLoggerService();
-		IPlayer player = Core.Factories.ModelFactory.CreatePlayer();
+		IGameStateService stateService = ServiceFactory.CreateGameStateService();
 
 		IMission? mission;
 
-		mission = MissionFactory.CreateTraffickingMission(timeService, logger, player);
+		mission = MissionFactory.CreateTraffickingMission(timeService, logger, stateService);
 
 		Assert.IsNotNull(mission);
 	}
