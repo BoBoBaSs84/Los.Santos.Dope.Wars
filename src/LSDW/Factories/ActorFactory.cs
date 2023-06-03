@@ -30,4 +30,10 @@ public static class ActorFactory
 	/// <param name="name">The name of the dealer.</param>
 	public static IDealer CreateDealer(Vector3 position, PedHash pedHash, DateTime? closedUntil, bool discovered, IInventory inventory, string name)
 		=> new Dealer(position, pedHash, closedUntil, discovered, inventory, name);
+
+	/// <summary>
+	/// Creates a new dealer instance collection.
+	/// </summary>
+	public static IEnumerable<IDealer> CreateDealers()
+		=> new List<IDealer>();
 }

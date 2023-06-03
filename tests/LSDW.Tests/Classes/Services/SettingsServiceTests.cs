@@ -47,7 +47,7 @@ public class SettingsServiceTests
 	[TestMethod]
 	public void SetHasArmorTest()
 	{
-		bool value = false;		
+		bool value = false;
 		_settingsService.SetHasArmor(value);
 
 		bool b = _settingsService.GetHasArmor();

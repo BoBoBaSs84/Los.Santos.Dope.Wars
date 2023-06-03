@@ -8,6 +8,8 @@ namespace LSDW.Classes.Actors.Base;
 
 internal abstract class Pedestrian : IPedestrian
 {
+	private Ped? ped;
+
 	/// <summary>
 	/// Initializes a instance of the pedestrian class.
 	/// </summary>
@@ -28,34 +30,75 @@ internal abstract class Pedestrian : IPedestrian
 	/// <param name="name">The name of the pedestrian.</param>
 	protected Pedestrian(Vector3 position, PedHash pedHash, string name) : this(position, pedHash) => Name = name;
 
-	public bool Created => Ped is not null;
+	public bool IsCreated => ped is not null;
 	public Vector3 Position { get; }
 	public PedHash Hash { get; }
-	public Ped? Ped { get; private set; }
 	public string Name { get; }
 
-	public void Create(float health = 100, float armor = 0, int money = 25)
+	public void Attack(Ped ped)
 	{
-		if (Created)
+		if (ped is null)
+			return;
+
+		ped.Task.FightAgainst(ped, -1);
+	}
+
+	public void Create(float healthValue = 100)
+	{
+		if (ped is null)
 			return;
 
 		Model model = ScriptHookHelper.RequestModel(Hash);
-		Ped = World.CreatePed(model, Position);
-		Ped.HealthFloat = health;
-		Ped.ArmorFloat = armor;
-		Ped.Money = money;
+		ped = World.CreatePed(model, Position);
+		ped.HealthFloat = healthValue;
 	}
 
 	public void Delete()
-		=> Ped?.Delete();
-
-	public void Update(float health = 100, float armor = 0, int money = 25)
 	{
-		if (Ped is null)
+		if (ped is null)
 			return;
 
-		Ped.HealthFloat = health;
-		Ped.ArmorFloat = armor;
-		Ped.Money = money;
+		ped.Delete();
+	}
+
+	public void Flee()
+	{
+		if (ped is null)
+			return;
+
+		ped.Task.FleeFrom(Position);
+		ped.MarkAsNoLongerNeeded();
+	}
+
+	public void GiveArmor(float armorValue)
+	{
+		if (ped is null)
+			return;
+
+		ped.ArmorFloat = armorValue;
+	}
+
+	public void GiveWeapon(WeaponHash weaponHash, int ammo = 0)
+	{
+		if (ped is null)
+			return;
+
+		_ = ped.Weapons.Give(weaponHash, ammo, true, true);
+	}
+
+	public void SetMoney(int amount)
+	{
+		if (ped is null)
+			return;
+
+		ped.Money = amount;
+	}
+
+	public void Update(float health = 100)
+	{
+		if (ped is null)
+			return;
+
+		ped.HealthFloat = health;
 	}
 }

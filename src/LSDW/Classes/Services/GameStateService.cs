@@ -1,5 +1,6 @@
 ﻿using LSDW.Classes.Persistence;
 using LSDW.Core.Extensions;
+using LSDW.Core.Factories;
 using LSDW.Core.Interfaces.Models;
 using LSDW.Core.Models;
 using LSDW.Factories;
@@ -15,8 +16,6 @@ namespace LSDW.Classes.Services;
 internal sealed class GameStateService : IGameStateService
 {
 	private readonly ILoggerService _logger;
-	private readonly IPlayer _player;
-	private readonly IEnumerable<IDealer> _dealers;
 	private readonly string _baseDirectory;
 	private readonly string _saveFileName;
 
@@ -24,26 +23,31 @@ internal sealed class GameStateService : IGameStateService
 	/// Initializes a instance of the game state service class.
 	/// </summary>
 	/// <param name="logger">The logger service instance to use.</param>
-	/// <param name="player">The player instance to save.</param>
-	/// <param name="dealers">The dealer instance colection to save.</param>
-	internal GameStateService(ILoggerService logger, IPlayer player, IEnumerable<IDealer> dealers)
+	internal GameStateService(ILoggerService logger)
 	{
 		_logger = logger;
-		_player = player;
-		_dealers = dealers;
 
 		_baseDirectory = AppContext.BaseDirectory;
 		_saveFileName = Settings.SaveFileName;
+
+		Dealers = ActorFactory.CreateDealers();
+		Player = ModelFactory.CreatePlayer();
+
+		_ = Load();
 	}
 
-	public GameState Load()
+	public IPlayer Player { get; private set; }
+
+	public IEnumerable<IDealer> Dealers { get; private set; }
+
+	public bool Load()
 	{
 		string filePath = Path.Combine(_baseDirectory, _saveFileName);
 
 		try
 		{
 			if (!File.Exists(filePath))
-				throw new FileNotFoundException($"Could not load {filePath}");
+				return Save();
 
 			string fileContent =
 				File.ReadAllText(filePath).Decompress();
@@ -51,12 +55,15 @@ internal sealed class GameStateService : IGameStateService
 			GameState gameState =
 				new GameState().FromXmlString(fileContent);
 
-			return gameState;
+			Dealers = PersistenceFactory.CreateDealers(gameState);
+			Player = PersistenceFactory.CreatePlayer(gameState);
+
+			return true;
 		}
 		catch (Exception ex)
 		{
 			_logger.Critical(ex.Message);
-			return new();
+			return false;
 		}
 	}
 
@@ -67,7 +74,7 @@ internal sealed class GameStateService : IGameStateService
 		try
 		{
 			GameState gameState =
-				PersistenceFactory.CreateGameState(_player, _dealers);
+				PersistenceFactory.CreateGameState(Player, Dealers);
 
 			string fileContent =
 				gameState.ToXmlString(SerializerNamespaces).Compress();
