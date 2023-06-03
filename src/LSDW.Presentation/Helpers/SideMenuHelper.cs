@@ -2,6 +2,7 @@
 using LSDW.Domain.Enumerators;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Interfaces.Models;
+using LSDW.Presentation.Menus;
 using RESX = LSDW.Presentation.Properties.Resources;
 
 namespace LSDW.Presentation.Helpers;
@@ -24,6 +25,7 @@ internal static class SideMenuHelper
 	/// <summary>
 	/// Returns the maximum quantity for the transaction based on the menu type.
 	/// </summary>
+	/// <param name="menuType">The type of the menu.</param>
 	/// <param name="player">The player and his inventory.</param>
 	internal static int GetMaximumQuantity(MenuType menuType, IPlayer player)
 		=> menuType is MenuType.SELL or MenuType.STORE or MenuType.GIVE
@@ -33,6 +35,7 @@ internal static class SideMenuHelper
 	/// <summary>
 	/// Returns the source and target inventory based on the menu type.
 	/// </summary>
+	/// <param name="menuType">The type of the menu.</param>
 	/// <param name="player">The player and his inventory.</param>
 	/// <param name="drugs">The opposing inventory.</param>
 	internal static (IInventory source, IInventory target) GetInventories(MenuType menuType, IPlayer player, IInventory drugs)
@@ -69,6 +72,7 @@ internal static class SideMenuHelper
 	/// Returns the subtitle for the menu type.
 	/// </summary>
 	/// <param name="menuType">The type of the menu.</param>
+	/// <param name="targetMoney">The amount of money of the target.</param>
 	internal static string GetSubtitle(MenuType menuType, int targetMoney)
 		=> menuType switch
 		{

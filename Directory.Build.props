@@ -26,6 +26,7 @@
 		<Deterministic>true</Deterministic>
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<GeneratedAssemblyInfoFile>Properties\AssemblyInfo.cs</GeneratedAssemblyInfoFile>
+		
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">

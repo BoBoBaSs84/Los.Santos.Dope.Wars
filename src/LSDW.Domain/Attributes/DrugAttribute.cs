@@ -14,7 +14,6 @@ internal sealed class DrugAttribute : DescriptionAttribute
 	/// <param name="displayName">The display name of the drug.</param>
 	/// <param name="description">The description of the drug.</param>
 	/// <param name="marketValue">The normal market value of the drug.</param>
-	/// <param name="rank">The rank or level of the drug.</param>
 	public DrugAttribute(string displayName, string description, int marketValue) : base(description)
 	{
 		DisplayName = displayName;

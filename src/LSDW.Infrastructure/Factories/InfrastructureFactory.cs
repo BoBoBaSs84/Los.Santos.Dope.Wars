@@ -24,8 +24,6 @@ public static class InfrastructureFactory
 	/// Creates a new game state service instance.
 	/// </summary>
 	/// <param name="logger">The logger service instance to use.</param>
-	/// <param name="player">The player instance to save.</param>
-	/// <param name="dealers">The dealer instance colection to save.</param>
 	public static IGameStateService CreateGameStateService(ILoggerService logger)
 		=> new GameStateService(logger);
 }

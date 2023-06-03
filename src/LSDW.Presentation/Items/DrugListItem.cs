@@ -16,7 +16,7 @@ public sealed class DrugListItem : NativeListItem<int>
 	/// Initializes a instance of the drug list item class.
 	/// </summary>
 	/// <param name="sourcedrug">The drug for this menu item.</param>
-	/// <param name="tradePrice">The drug trade price.</param>
+	/// <param name="targetDrug">The target drug for this menu item.</param>
 	public DrugListItem(IDrug sourcedrug, IDrug targetDrug) : base(sourcedrug.Name, sourcedrug.Quantity.GetArray())
 	{
 		_sourceDrug = sourcedrug;
