@@ -9,11 +9,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="LemonUI.SHVDN3" Version="1.9.4" ExcludeAssets="runtime" />
-		<PackageReference Include="ScriptHookVDotNet3" Version="3.6.0" ExcludeAssets="runtime" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<ProjectReference Include="..\LSDW.Core\LSDW.Core.csproj" />
 	</ItemGroup>
 
