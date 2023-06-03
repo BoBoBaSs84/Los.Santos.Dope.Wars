@@ -58,12 +58,18 @@
 		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
 		<InternalsVisibleTo Include="$(AssemblyName).Tests" />
 		<Using Include="System.ComponentModel"/>
+		<Using Include="System.Reflection"/>
+		<Using Include="System.Drawing"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('Tests'))">
 		<Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
 		<Using Include="System.Diagnostics.CodeAnalysis" />
 		<Using Include="System.Diagnostics" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="System.Net.Http" />
 	</ItemGroup>
 
 </Project>
