@@ -1,4 +1,5 @@
 ﻿using LemonUI.Menus;
+using LSDW.Abstractions.Interfaces.Presentation;
 using LSDW.Domain.Enumerators;
 using RESX = LSDW.Presentation.Properties.Resources;
 
@@ -7,14 +8,17 @@ namespace LSDW.Presentation.Items;
 /// <summary>
 /// The switch item class.
 /// </summary>
-public sealed class SwitchItem : NativeItem
+internal sealed class SwitchItem : NativeItem, ISwitchItem
 {
 	/// <summary>
 	/// Initializes a instance of the switch item class.
 	/// </summary>
 	/// <param name="menuType">The menu type for the switch item.</param>
-	public SwitchItem(MenuType menuType) : base(GetTitle(menuType), GetDescription(menuType))
+	internal SwitchItem(MenuType menuType) : base(string.Empty)
 	{
+		Title = GetTitle(menuType);
+		Description = GetDescription(menuType);
+		Enabled = true;
 	}
 
 	private static string GetTitle(MenuType menuType)

@@ -59,15 +59,15 @@ internal sealed class Trafficking : IMission
 
 	public void OnTick(object sender, EventArgs args)
 	{
-		// TODO: ScriptHookService
+		while (Game.IsLoading)
+			return;
+
 		if (!Game.Player.CanStartMission)
 			return;
 
 		if (Status is not MissionStatusType.Stopped or MissionStatusType.Aborted)
 			return;
 
-		// TODO: ScriptHookService
 		_character ??= Game.Player.Character;
-
 	}
 }

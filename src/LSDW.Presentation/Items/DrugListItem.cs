@@ -7,7 +7,7 @@ namespace LSDW.Presentation.Items;
 /// <summary>
 /// The drug item class.
 /// </summary>
-public sealed class DrugListItem : NativeListItem<int>
+internal sealed class DrugListItem : NativeListItem<int>
 {
 	private readonly IDrug _sourceDrug;
 	private readonly IDrug _targetDrug;
@@ -17,7 +17,7 @@ public sealed class DrugListItem : NativeListItem<int>
 	/// </summary>
 	/// <param name="sourcedrug">The drug for this menu item.</param>
 	/// <param name="targetDrug">The target drug for this menu item.</param>
-	public DrugListItem(IDrug sourcedrug, IDrug targetDrug) : base(sourcedrug.Name, sourcedrug.Quantity.GetArray())
+	internal DrugListItem(IDrug sourcedrug, IDrug targetDrug) : base(sourcedrug.Name, sourcedrug.Quantity.GetArray())
 	{
 		_sourceDrug = sourcedrug;
 		_targetDrug = targetDrug;

@@ -7,4 +7,8 @@ namespace LSDW.Abstractions.Interfaces.Presentation;
 /// </summary>
 public interface ISideMenu : IMenu
 {
+	/// <summary>
+	/// The item for switching between the side menus.
+	/// </summary>
+	ISwitchItem SwitchItem { get; }
 }

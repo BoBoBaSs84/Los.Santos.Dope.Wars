@@ -24,10 +24,7 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 	private readonly MenuType _menuType;
 	private readonly TransactionType _transactionType;
 
-	/// <summary>
-	/// The menu switch item.
-	/// </summary>
-	public SwitchItem SwitchItem { get; }
+	public ISwitchItem SwitchItem { get; }
 
 	/// <summary>
 	/// Initializes a instance of the side menu class.
@@ -53,8 +50,8 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 		TitleFont = GTA.UI.Font.Pricedown;
 		Subtitle = SMH.GetSubtitle(_menuType, _target.Money);
 
-		SwitchItem = new(_menuType);
-		Add(SwitchItem);
+		SwitchItem = new SwitchItem(_menuType);
+		Add((SwitchItem)SwitchItem);
 		AddDrugListItems(_source, _target);
 
 		_source.PropertyChanged += OnInventoryPropertyChanged;
