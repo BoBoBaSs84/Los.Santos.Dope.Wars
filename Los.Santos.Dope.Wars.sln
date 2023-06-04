@@ -27,15 +27,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW", "src\LSDW\LSDW.cspro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Tests", "tests\LSDW.Tests\LSDW.Tests.csproj", "{70DE3EE6-8863-421B-9F83-29D4D5092D5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LSDW.Domain", "src\LSDW.Domain\LSDW.Domain.csproj", "{E7A89523-F447-4ECC-96C9-B673B5A28164}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Domain", "src\LSDW.Domain\LSDW.Domain.csproj", "{E7A89523-F447-4ECC-96C9-B673B5A28164}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LSDW.Infrastructure", "src\LSDW.Infrastructure\LSDW.Infrastructure.csproj", "{BDF5DD16-F223-4D29-AEA2-5C1B80CBD152}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Infrastructure", "src\LSDW.Infrastructure\LSDW.Infrastructure.csproj", "{BDF5DD16-F223-4D29-AEA2-5C1B80CBD152}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LSDW.Presentation", "src\LSDW.Presentation\LSDW.Presentation.csproj", "{189A0342-9E3B-4F24-A0D0-C010733BBF85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Presentation", "src\LSDW.Presentation\LSDW.Presentation.csproj", "{189A0342-9E3B-4F24-A0D0-C010733BBF85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LSDW.Application", "src\LSDW.Application\LSDW.Application.csproj", "{2429CE52-8AE2-43DB-815A-7D78BF650EAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Application", "src\LSDW.Application\LSDW.Application.csproj", "{2429CE52-8AE2-43DB-815A-7D78BF650EAC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Abstractions", "src\LSDW.Abstractions\LSDW.Abstractions.csproj", "{B6005230-5C7E-43D2-BD06-57ABA0CB80A6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Infrastructure.Tests", "tests\LSDW.Infrastructure.Tests\LSDW.Infrastructure.Tests.csproj", "{FBE72B8C-A47D-4D4F-8880-53EAA7AE5AD6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Presentation.Tests", "tests\LSDW.Presentation.Tests\LSDW.Presentation.Tests.csproj", "{DA62BF1A-A6B2-4FA2-9499-2DD911EE3992}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Domain.Tests", "tests\LSDW.Domain.Tests\LSDW.Domain.Tests.csproj", "{F7EBF88C-0C49-4A7B-A8D5-890793AF7570}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +85,18 @@ Global
 		{B6005230-5C7E-43D2-BD06-57ABA0CB80A6}.Debug|x64.Build.0 = Debug|x64
 		{B6005230-5C7E-43D2-BD06-57ABA0CB80A6}.Release|x64.ActiveCfg = Release|x64
 		{B6005230-5C7E-43D2-BD06-57ABA0CB80A6}.Release|x64.Build.0 = Release|x64
+		{FBE72B8C-A47D-4D4F-8880-53EAA7AE5AD6}.Debug|x64.ActiveCfg = Debug|x64
+		{FBE72B8C-A47D-4D4F-8880-53EAA7AE5AD6}.Debug|x64.Build.0 = Debug|x64
+		{FBE72B8C-A47D-4D4F-8880-53EAA7AE5AD6}.Release|x64.ActiveCfg = Release|x64
+		{FBE72B8C-A47D-4D4F-8880-53EAA7AE5AD6}.Release|x64.Build.0 = Release|x64
+		{DA62BF1A-A6B2-4FA2-9499-2DD911EE3992}.Debug|x64.ActiveCfg = Debug|x64
+		{DA62BF1A-A6B2-4FA2-9499-2DD911EE3992}.Debug|x64.Build.0 = Debug|x64
+		{DA62BF1A-A6B2-4FA2-9499-2DD911EE3992}.Release|x64.ActiveCfg = Release|x64
+		{DA62BF1A-A6B2-4FA2-9499-2DD911EE3992}.Release|x64.Build.0 = Release|x64
+		{F7EBF88C-0C49-4A7B-A8D5-890793AF7570}.Debug|x64.ActiveCfg = Debug|x64
+		{F7EBF88C-0C49-4A7B-A8D5-890793AF7570}.Debug|x64.Build.0 = Debug|x64
+		{F7EBF88C-0C49-4A7B-A8D5-890793AF7570}.Release|x64.ActiveCfg = Release|x64
+		{F7EBF88C-0C49-4A7B-A8D5-890793AF7570}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,9 +111,12 @@ Global
 		{189A0342-9E3B-4F24-A0D0-C010733BBF85} = {0BB98D05-D5EB-494E-85B9-F4C22D02478E}
 		{2429CE52-8AE2-43DB-815A-7D78BF650EAC} = {0BB98D05-D5EB-494E-85B9-F4C22D02478E}
 		{B6005230-5C7E-43D2-BD06-57ABA0CB80A6} = {0BB98D05-D5EB-494E-85B9-F4C22D02478E}
+		{FBE72B8C-A47D-4D4F-8880-53EAA7AE5AD6} = {751C0958-C5D5-45A2-ABEF-A226D5FBC9BF}
+		{DA62BF1A-A6B2-4FA2-9499-2DD911EE3992} = {751C0958-C5D5-45A2-ABEF-A226D5FBC9BF}
+		{F7EBF88C-0C49-4A7B-A8D5-890793AF7570} = {751C0958-C5D5-45A2-ABEF-A226D5FBC9BF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_SortFileContentOnSave = True
 		SolutionGuid = {68F339D1-2669-47D8-9481-679C413F0389}
+		RESX_SortFileContentOnSave = True
 	EndGlobalSection
 EndGlobal

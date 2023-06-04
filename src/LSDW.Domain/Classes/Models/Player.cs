@@ -15,7 +15,7 @@ internal sealed class Player : Notification, IPlayer
 	/// </summary>
 	/// <param name="inventory">The player inventory.</param>
 	/// <param name="experience">The player experience points.</param>
-	/// <param name="transactions">The transaction log entries for the player.</param>
+	/// <param name="transactions">The transactions for the player.</param>
 	internal Player(IInventory inventory, int experience, IEnumerable<ITransaction> transactions)
 	{
 		Inventory = inventory;
