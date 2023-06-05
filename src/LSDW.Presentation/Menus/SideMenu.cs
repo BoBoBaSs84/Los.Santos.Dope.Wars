@@ -74,13 +74,16 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 
 		int price = _target.Where(x => x.DrugType.Equals(drugType)).Select(x => x.Price).Single();
 		int quantity = item.SelectedItem;
-
+		int experience = SMH.GetPossibleExperienceGain(_menuType, _player, drugType, quantity, price);
 		bool succes = _transaction.Commit(drugType, quantity, price);
 
 		if (succes)
 		{
 			ITransaction transaction = DomainFactory.CreateTransaction(DateTime.Now, _transactionType, drugType, quantity, price);
 			_player.Transactions.Add(transaction);
+			
+			if (experience > 0)
+				_player.AddExperience(experience);
 		}
 
 		foreach (string message in _transaction.Errors)
