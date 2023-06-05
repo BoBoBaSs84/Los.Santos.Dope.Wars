@@ -30,6 +30,7 @@ public class GameStateServiceTests
 	[TestMethod]
 	public void LoadExceptionTest()
 	{
+		DeleteSaveFile();
 		string filePath = Path.Combine(_baseDirectory, _saveFileName);
 		File.AppendAllText(filePath, "");
 		IGameStateService stateService = InfrastructureFactory.CreateGameStateService();

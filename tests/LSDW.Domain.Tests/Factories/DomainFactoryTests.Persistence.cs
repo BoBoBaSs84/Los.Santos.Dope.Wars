@@ -9,6 +9,7 @@ using LSDW.Domain.Interfaces.Models;
 
 namespace LSDW.Domain.Tests.Factories;
 
+[SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public partial class DomainFactoryTests
 {
 	[TestMethod]

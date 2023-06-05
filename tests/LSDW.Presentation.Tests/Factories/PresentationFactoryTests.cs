@@ -1,6 +1,6 @@
-﻿namespace LSDW.Presentation.Factories.Tests;
+﻿namespace LSDW.Presentation.Tests.Factories;
 
-[TestClass()]
+[TestClass]
 public class PresentationFactoryTests
 {
 }
