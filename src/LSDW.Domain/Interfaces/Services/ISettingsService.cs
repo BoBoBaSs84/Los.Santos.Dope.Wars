@@ -2,9 +2,7 @@
 
 public interface ISettingsService
 {
-	void Load();
-	void Save();
-
+  void Save();
 	int GetDownTimeInHours();
   void SetDownTimeInHours(int value);
 	bool GetHasArmor();

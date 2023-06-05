@@ -5,7 +5,7 @@ using Dealer = LSDW.Domain.Classes.Models.Settings.Dealer;
 using Market = LSDW.Domain.Classes.Models.Settings.Market;
 using Player = LSDW.Domain.Classes.Models.Settings.Player;
 
-namespace LSDW.Application.Services;
+namespace LSDW.Domain.Classes.Services;
 
 /// <summary>
 /// The settings service class.
@@ -13,14 +13,14 @@ namespace LSDW.Application.Services;
 /// <remarks>
 /// Wrapper for the <see cref="ScriptSettings"/>.
 /// </remarks>
-public sealed class SettingsService : ISettingsService
+internal sealed class SettingsService : ISettingsService
 {
 	private readonly ScriptSettings _scriptSettings;
 
 	/// <summary>
 	/// Initializes a instance of the settings service class.
 	/// </summary>
-	public SettingsService()
+	internal SettingsService()
 	{
 		string settingsFileName = Path.Combine(AppContext.BaseDirectory, Settings.SettingsFileName);
 		_scriptSettings = ScriptSettings.Load(settingsFileName);
@@ -28,34 +28,6 @@ public sealed class SettingsService : ISettingsService
     Load();
     Save();
 	}
-
-  public void Load()
-  {
-    int downtimeinhours = GetDownTimeInHours();
-    SetDownTimeInHours(downtimeinhours);
-    bool hasarmor = GetHasArmor();
-    SetHasArmor(hasarmor);
-    bool hasweapons = GetHasWeapons();
-    SetHasWeapons(hasweapons);
-    float maximumdrugvalue = GetMaximumDrugValue();
-    SetMaximumDrugValue(maximumdrugvalue);
-    float minimumdrugvalue = GetMinimumDrugValue();
-    SetMinimumDrugValue(minimumdrugvalue);
-    float experiencemultiplier = GetExperienceMultiplier();
-    SetExperienceMultiplier(experiencemultiplier);
-    bool loosedrugsondeath = GetLooseDrugsOnDeath();
-    SetLooseDrugsOnDeath(loosedrugsondeath);
-    bool loosemoneyondeath = GetLooseMoneyOnDeath();
-    SetLooseMoneyOnDeath(loosemoneyondeath);
-    bool loosedrugswhenbusted = GetLooseDrugsWhenBusted();
-    SetLooseDrugsWhenBusted(loosedrugswhenbusted);
-    bool loosemoneywhenbusted = GetLooseMoneyWhenBusted();
-    SetLooseMoneyWhenBusted(loosemoneywhenbusted);
-    int inventoryexpansionperlevel = GetInventoryExpansionPerLevel();
-    SetInventoryExpansionPerLevel(inventoryexpansionperlevel);
-    int startinginventory = GetStartingInventory();
-    SetStartingInventory(startinginventory);
-  }
 
   public void Save()
     => _scriptSettings.Save();
@@ -166,5 +138,33 @@ public sealed class SettingsService : ISettingsService
   {
 		_scriptSettings.SetValue("PLAYERSETTINGS", "STARTINGINVENTORY", value);
 		Player.StartingInventory = value;
+  }
+
+  private void Load()
+  {
+    int downtimeinhours = GetDownTimeInHours();
+    SetDownTimeInHours(downtimeinhours);
+    bool hasarmor = GetHasArmor();
+    SetHasArmor(hasarmor);
+    bool hasweapons = GetHasWeapons();
+    SetHasWeapons(hasweapons);
+    float maximumdrugvalue = GetMaximumDrugValue();
+    SetMaximumDrugValue(maximumdrugvalue);
+    float minimumdrugvalue = GetMinimumDrugValue();
+    SetMinimumDrugValue(minimumdrugvalue);
+    float experiencemultiplier = GetExperienceMultiplier();
+    SetExperienceMultiplier(experiencemultiplier);
+    bool loosedrugsondeath = GetLooseDrugsOnDeath();
+    SetLooseDrugsOnDeath(loosedrugsondeath);
+    bool loosemoneyondeath = GetLooseMoneyOnDeath();
+    SetLooseMoneyOnDeath(loosemoneyondeath);
+    bool loosedrugswhenbusted = GetLooseDrugsWhenBusted();
+    SetLooseDrugsWhenBusted(loosedrugswhenbusted);
+    bool loosemoneywhenbusted = GetLooseMoneyWhenBusted();
+    SetLooseMoneyWhenBusted(loosemoneywhenbusted);
+    int inventoryexpansionperlevel = GetInventoryExpansionPerLevel();
+    SetInventoryExpansionPerLevel(inventoryexpansionperlevel);
+    int startinginventory = GetStartingInventory();
+    SetStartingInventory(startinginventory);
   }
 }

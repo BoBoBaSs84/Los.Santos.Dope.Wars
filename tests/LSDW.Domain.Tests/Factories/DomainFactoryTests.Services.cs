@@ -19,4 +19,14 @@ public partial class DomainFactoryTests
 
 		Assert.IsNotNull(transactionService);
 	}
+
+	[TestMethod]
+	public void CreateSettingsServiceTest()
+	{
+		ISettingsService? settingsService;
+
+		settingsService = DomainFactory.CreateSettingsService();
+
+		Assert.IsNotNull(settingsService);
+	}
 }

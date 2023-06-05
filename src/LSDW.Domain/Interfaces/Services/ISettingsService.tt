@@ -11,9 +11,7 @@ namespace LSDW.Domain.Interfaces.Services;
 
 public interface ISettingsService
 {
-	void Load();
-	void Save();
-
+  void Save();
 <# foreach (Type nestedType in nestedTypes) {
 List<PropertyInfo> properties = nestedType.GetProperties().ToList();
 foreach (PropertyInfo prop in properties) { #>

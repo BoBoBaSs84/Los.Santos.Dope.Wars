@@ -8,7 +8,15 @@ namespace LSDW.Application.Providers;
 /// </summary>
 internal sealed class GameTimeProvider : ITimeProvider
 {
-	public DateTime Now => World.CurrentDate;
+	/// <summary>
+	/// Initializes a instance of the game time provider class.
+	/// </summary>
+	internal GameTimeProvider()
+	{
+		Now = World.CurrentDate;
+		TimeOfDay = World.CurrentTimeOfDay;
+	}
 
-	public TimeSpan TimeOfDay => World.CurrentTimeOfDay;
+	public DateTime Now { get; }
+	public TimeSpan TimeOfDay { get; }
 }
