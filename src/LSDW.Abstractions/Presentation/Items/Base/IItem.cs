@@ -1,4 +1,4 @@
-﻿namespace LSDW.Abstractions.Interfaces.Presentation.Items.Base;
+﻿namespace LSDW.Abstractions.Presentation.Items.Base;
 
 /// <summary>
 /// The item base interface.

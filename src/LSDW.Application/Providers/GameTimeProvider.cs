@@ -1,5 +1,5 @@
 ﻿using GTA;
-using LSDW.Abstractions.Interfaces.Application.Providers;
+using LSDW.Abstractions.Application.Providers;
 
 namespace LSDW.Application.Providers;
 

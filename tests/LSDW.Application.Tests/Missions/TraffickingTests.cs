@@ -1,6 +1,6 @@
-﻿using LSDW.Abstractions.Interfaces.Application.Missions;
-using LSDW.Abstractions.Interfaces.Application.Providers;
-using LSDW.Abstractions.Interfaces.Infrastructure.Services;
+﻿using LSDW.Abstractions.Application.Missions;
+using LSDW.Abstractions.Application.Providers;
+using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Application.Missions;
 using LSDW.Application.Tests.Helpers;
 using LSDW.Domain.Enumerators;

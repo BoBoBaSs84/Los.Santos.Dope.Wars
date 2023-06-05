@@ -1,8 +1,8 @@
-﻿using LSDW.Abstractions.Interfaces.Infrastructure.Services;
+﻿using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Domain.Classes.Models;
 using LSDW.Infrastructure.Factories;
 
-namespace LSDW.Infrastructure.Services.Tests;
+namespace LSDW.Infrastructure.Tests.Services;
 
 [TestClass]
 public class LoggerServiceTests

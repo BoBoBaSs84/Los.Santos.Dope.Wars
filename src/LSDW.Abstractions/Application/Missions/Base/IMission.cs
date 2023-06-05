@@ -1,6 +1,6 @@
 ﻿using LSDW.Domain.Enumerators;
 
-namespace LSDW.Abstractions.Interfaces.Application.Missions.Base;
+namespace LSDW.Abstractions.Application.Missions.Base;
 
 /// <summary>
 /// The mission interface.

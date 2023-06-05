@@ -1,4 +1,4 @@
-﻿namespace LSDW.Abstractions.Interfaces.Presentation.Menus.Base;
+﻿namespace LSDW.Abstractions.Presentation.Menus.Base;
 
 /// <summary>
 /// The menu base interface.

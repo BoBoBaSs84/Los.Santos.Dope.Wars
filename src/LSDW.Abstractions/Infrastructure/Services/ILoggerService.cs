@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace LSDW.Abstractions.Interfaces.Infrastructure.Services;
+namespace LSDW.Abstractions.Infrastructure.Services;
 
 /// <summary>
 /// The logger service interface.
