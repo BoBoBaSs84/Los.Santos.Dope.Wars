@@ -91,6 +91,42 @@ public class SideMenuHelperTests
 		Assert.AreEqual(Alignment.Left, alignment);
 	}
 
+	[TestMethod]
+	public void GetPossibleExperienceGainTest()
+	{
+		MenuType menuType = MenuType.SELL;
+		IDrug drugToAdd = DomainFactory.CreateDrug(DrugType.COKE, 10, 50);
+		IPlayer player = DomainFactory.CreatePlayer();
+		player.Inventory.Add(drugToAdd);
+
+		int experience = SideMenuHelper.GetPossibleExperienceGain(menuType, player, drugToAdd.DrugType, 5, 100);
+
+		Assert.AreEqual(250, experience);
+	}
+
+	[TestMethod]
+	public void GetPossibleExperienceGainNoGainTest()
+	{
+		MenuType menuType = MenuType.SELL;
+		IDrug drugToAdd = DomainFactory.CreateDrug(DrugType.COKE, 10, 125);
+		IPlayer player = DomainFactory.CreatePlayer();
+		player.Inventory.Add(drugToAdd);
+
+		int experience = SideMenuHelper.GetPossibleExperienceGain(menuType, player, drugToAdd.DrugType, 5, 100);
+
+		Assert.AreEqual(default, experience);
+	}
+
+	[TestMethod]
+	public void GetPossibleExperienceGainNoSellTest()
+	{
+		MenuType menuType = MenuType.STORE;
+		IPlayer player = DomainFactory.CreatePlayer();
+		int experience = SideMenuHelper.GetPossibleExperienceGain(menuType, player, DrugType.COKE, default, default);
+
+		Assert.AreEqual(default, experience);
+	}
+
 	private static IEnumerable<object[]> GetRightMenuTypes()
 	{
 		yield return new object[]

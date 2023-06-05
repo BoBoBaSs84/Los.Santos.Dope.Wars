@@ -13,8 +13,33 @@ namespace LSDW.Presentation.Helpers;
 /// <remarks>
 /// Contains only things relevant for the <see cref="SideMenu"/> class.
 /// </remarks>
-internal static class SideMenuHelper
+public static class SideMenuHelper
 {
+	/// <summary>
+	/// Returns the possible amount of experience points the player could gain from selling the drug.
+	/// </summary>
+	/// <remarks>
+	/// Currently only selling a drug with profit gains experience points.
+	/// <b>(buy low, sell high)</b>
+	/// </remarks>
+	/// <param name="menuType">The type of the menu.</param>
+	/// <param name="player">The player and his inventory.</param>
+	/// <param name="drugType">The drug type.</param>
+	/// <param name="quantity">The drug quantity.</param>
+	/// <param name="sellPrice">The grug sell price.</param>
+	/// <returns>The gained experience points.</returns>
+	public static int GetPossibleExperienceGain(MenuType menuType, IPlayer player, DrugType drugType, int quantity, int sellPrice)
+	{
+		if (!Equals(menuType, MenuType.SELL))
+			return default;
+
+		int purchasePrice = player.Inventory.Where(x => x.DrugType.Equals(drugType)).Select(x => x.Price).Single();
+
+		int experience = (sellPrice - purchasePrice) * quantity;
+
+		return experience > 0 ? experience : default;
+	}
+
 	/// <summary>
 	/// Returns the transaction type for the provided menu type.
 	/// </summary>
