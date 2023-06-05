@@ -14,7 +14,7 @@ public interface ITransaction
 	/// <summary>
 	/// The type of the transaction.
 	/// </summary>
-	TransactionType TransactionType { get; }
+	TransactionType Type { get; }
 	/// <summary>
 	/// The drug type of the transaction.
 	/// </summary>

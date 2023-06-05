@@ -16,17 +16,17 @@ public sealed class TransactionState
 	internal TransactionState(ITransaction transaction)
 	{
 		DateTime = transaction.DateTime;
-		TransactionType = transaction.TransactionType;
+		Type = transaction.Type;
 		DrugType = transaction.DrugType;
 		Quantity = transaction.Quantity;
-		TotalValue = transaction.Price;
+		Price = transaction.Price;
 	}
 
 	[XmlElement("Date", Form = XmlSchemaForm.Qualified)]
 	public DateTime DateTime { get; set; }
 
 	[XmlAttribute("Type", Form = XmlSchemaForm.Qualified)]
-	public TransactionType TransactionType { get; set; }
+	public TransactionType Type { get; set; }
 
 	[XmlElement("Drug", Form = XmlSchemaForm.Qualified)]
 	public DrugType DrugType { get; set; }
@@ -34,6 +34,6 @@ public sealed class TransactionState
 	[XmlElement("Quantity", Form = XmlSchemaForm.Qualified)]
 	public int Quantity { get; set; }
 
-	[XmlElement("TotalValue", Form = XmlSchemaForm.Qualified)]
-	public int TotalValue { get; set; }
+	[XmlElement("Price", Form = XmlSchemaForm.Qualified)]
+	public int Price { get; set; }
 }

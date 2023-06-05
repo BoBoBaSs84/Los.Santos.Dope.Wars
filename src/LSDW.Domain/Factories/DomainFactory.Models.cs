@@ -34,14 +34,14 @@ public static partial class DomainFactory
 	/// <param name="drugType">The type of the drug.</param>
 	/// <param name="quantity">The quantity of the drug.</param>
 	public static IDrug CreateDrug(DrugType drugType, int quantity)
-		=> new Drug(drugType, quantity, 0);
+		=> new Drug(drugType, quantity, default);
 
 	/// <summary>
 	/// Creates a new drug instance.
 	/// </summary>
 	/// <param name="drugType">The type of the drug.</param>
 	public static IDrug CreateDrug(DrugType drugType)
-		=> new Drug(drugType, 0, 0);
+		=> new Drug(drugType, default, default);
 
 	/// <summary>
 	/// Creates a random drug instance.
@@ -52,7 +52,7 @@ public static partial class DomainFactory
 	public static IDrug CreateDrug()
 	{
 		List<IDrug> drugList = CreateAllDrugs().ToList();
-		return drugList[RandomHelper.GetInt(0, drugList.Count)];
+		return drugList[RandomHelper.GetInt(default, drugList.Count)];
 	}
 
 	/// <summary>
@@ -126,7 +126,7 @@ public static partial class DomainFactory
 	/// </summary>
 	/// <param name="state">The saved transaction state.</param>
 	public static ITransaction CreateTransaction(TransactionState state)
-		=> CreateTransaction(state.DateTime, state.TransactionType, state.DrugType, state.Quantity, state.TotalValue);
+		=> CreateTransaction(state.DateTime, state.Type, state.DrugType, state.Quantity, state.Price);
 
 	/// <summary>
 	/// Creates a transaction instance collection from saved transaction state collection.
@@ -166,9 +166,9 @@ public static partial class DomainFactory
 	/// </summary>
 	/// <param name="inventory">The player inventory.</param>
 	/// <param name="experience">The player experience points.</param>
-	/// <param name="logEntries">The transaction log entries for the player.</param>
-	public static IPlayer CreatePlayer(IInventory inventory, int experience, IEnumerable<ITransaction> logEntries)
-		=> new Player(inventory, experience, logEntries);
+	/// <param name="transactions">The transactions for the player.</param>
+	public static IPlayer CreatePlayer(IInventory inventory, int experience, IEnumerable<ITransaction> transactions)
+		=> new Player(inventory, experience, transactions);
 
 	/// <summary>
 	/// Creates a player instance from a saved player state.

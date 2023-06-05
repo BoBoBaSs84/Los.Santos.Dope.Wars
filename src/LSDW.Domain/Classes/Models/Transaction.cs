@@ -19,14 +19,14 @@ internal sealed class Transaction : ITransaction
 	internal Transaction(DateTime dateTime, TransactionType transactionType, DrugType drugType, int quantity, int price)
 	{
 		DateTime = dateTime;
-		TransactionType = transactionType;
+		Type = transactionType;
 		DrugType = drugType;
 		Quantity = quantity;
 		Price = price;
 	}
 
 	public DateTime DateTime { get; }
-	public TransactionType TransactionType { get; }
+	public TransactionType Type { get; }
 	public DrugType DrugType { get; }
 	public int Quantity { get; }
 	public int Price { get; }

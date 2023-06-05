@@ -1,7 +1,8 @@
 ﻿using GTA;
-using LSDW.Abstractions.Interfaces.Application;
-using LSDW.Abstractions.Interfaces.Infrastructure;
-using LSDW.Abstractions.Interfaces.Presentation;
+using LSDW.Abstractions.Application.Missions;
+using LSDW.Abstractions.Application.Providers;
+using LSDW.Abstractions.Infrastructure.Services;
+using LSDW.Abstractions.Presentation.Menus;
 using LSDW.Domain.Enumerators;
 using LSDW.Domain.Interfaces.Actors;
 using LSDW.Domain.Interfaces.Models;
@@ -11,27 +12,27 @@ namespace LSDW.Application.Missions;
 /// <summary>
 /// The trafficking class.
 /// </summary>
-internal sealed class Trafficking : IMission
+internal sealed class Trafficking : ITrafficking
 {
-	private readonly IDateTimeService _timeService;
+	private readonly ITimeProvider _timeProvider;
 	private readonly ILoggerService _logger;
 	private readonly IGameStateService _stateService;
 	private readonly ICollection<IDealer> _dealers;
 	private readonly IPlayer _player;
 
-	private ISideMenu? leftSideMenu;
-	private ISideMenu? rightSideMenu;
+	private readonly ISideMenu? leftSideMenu;
+	private readonly ISideMenu? rightSideMenu;
 	private Ped? _character;
 
 	/// <summary>
 	/// Initializes a instance of the trafficking class.
 	/// </summary>
-	/// <param name="timeService">The current date and time service to use.</param>
+	/// <param name="timeProvider">The time provider to use.</param>
 	/// <param name="logger">The logger service service to use.</param>
 	/// <param name="stateService">The game state service to use.</param>
-	internal Trafficking(IDateTimeService timeService, ILoggerService logger, IGameStateService stateService)
+	internal Trafficking(ITimeProvider timeProvider, ILoggerService logger, IGameStateService stateService)
 	{
-		_timeService = timeService;
+		_timeProvider = timeProvider;
 		_logger = logger;
 		_stateService = stateService;
 		_dealers = stateService.Dealers.ToList();

@@ -1,4 +1,4 @@
-﻿using LSDW.Abstractions.Interfaces.Infrastructure;
+﻿using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Infrastructure.Services;
 
 namespace LSDW.Infrastructure.Factories;

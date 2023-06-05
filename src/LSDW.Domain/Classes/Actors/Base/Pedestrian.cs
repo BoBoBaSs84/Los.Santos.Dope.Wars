@@ -1,5 +1,6 @@
 ﻿using GTA;
 using GTA.Math;
+using LSDW.Domain.Constants;
 using LSDW.Domain.Helpers;
 using LSDW.Domain.Interfaces.Actors;
 
@@ -18,7 +19,7 @@ internal abstract class Pedestrian : IPedestrian
 	{
 		Position = position;
 		Hash = pedHash;
-		Name = RandomHelper.GetFullName();
+		Name = NameConstants.GetFullName();
 	}
 
 	/// <summary>
@@ -27,7 +28,8 @@ internal abstract class Pedestrian : IPedestrian
 	/// <param name="position">The position of the pedestrian.</param>
 	/// <param name="pedHash">The ped hash of the pedestrian.</param>
 	/// <param name="name">The name of the pedestrian.</param>
-	protected Pedestrian(Vector3 position, PedHash pedHash, string name) : this(position, pedHash) => Name = name;
+	protected Pedestrian(Vector3 position, PedHash pedHash, string name) : this(position, pedHash)
+		=> Name = name;
 
 	public bool IsCreated => ped is not null;
 	public Vector3 Position { get; }
