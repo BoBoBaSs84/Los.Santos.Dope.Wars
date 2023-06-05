@@ -1,8 +1,8 @@
-﻿using LSDW.Abstractions.Interfaces.Application;
-using LSDW.Abstractions.Interfaces.Infrastructure;
-using LSDW.Abstractions.Interfaces.Presentation;
+﻿using LSDW.Abstractions.Interfaces.Infrastructure.Services;
+using LSDW.Abstractions.Interfaces.Presentation.Menus;
 using LSDW.Domain.Enumerators;
 using LSDW.Domain.Interfaces.Models;
+using LSDW.Domain.Interfaces.Services;
 using LSDW.Presentation.Menus;
 
 namespace LSDW.Presentation.Factories;

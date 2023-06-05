@@ -1,6 +1,4 @@
-﻿using LSDW.Domain.Constants;
-
-namespace LSDW.Domain.Helpers;
+﻿namespace LSDW.Domain.Helpers;
 
 /// <summary>
 /// The random helper class.
@@ -39,14 +37,4 @@ public static class RandomHelper
 	/// </summary>
 	/// <returns></returns>
 	public static double GetDouble() => _random.NextDouble();
-
-	/// <summary>
-	/// Returns a random full name (first name and last name)
-	/// </summary>
-	public static string GetFullName()
-	{
-		string firstName = NameConstants.FirstNames[GetInt(0, NameConstants.FirstNames.Length)];
-		string lastName = NameConstants.LastNames[GetInt(0, NameConstants.LastNames.Length)];
-		return string.Concat(firstName, " ", lastName);
-	}
 }

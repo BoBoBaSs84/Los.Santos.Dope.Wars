@@ -5,22 +5,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="Interfaces\Application\ISettingsService.tt">
-	    <LastGenOutput>ISettingsService.cs</LastGenOutput>
-	    <Generator>TextTemplatingFileGenerator</Generator>
-	  </None>
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Compile Update="Interfaces\Application\ISettingsService.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>ISettingsService.tt</DependentUpon>
-	  </Compile>
 	</ItemGroup>
 
 </Project>

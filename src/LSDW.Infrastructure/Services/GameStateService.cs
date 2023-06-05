@@ -1,4 +1,4 @@
-﻿using LSDW.Abstractions.Interfaces.Infrastructure;
+﻿using LSDW.Abstractions.Interfaces.Infrastructure.Services;
 using LSDW.Domain.Classes.Models;
 using LSDW.Domain.Classes.Persistence;
 using LSDW.Domain.Constants;

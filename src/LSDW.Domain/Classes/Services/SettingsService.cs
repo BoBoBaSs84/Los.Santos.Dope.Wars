@@ -1,6 +1,6 @@
 ﻿using GTA;
 using LSDW.Domain.Classes.Models;
-using LSDW.Abstractions.Interfaces.Application;
+using LSDW.Domain.Interfaces.Services;
 using Dealer = LSDW.Domain.Classes.Models.Settings.Dealer;
 using Market = LSDW.Domain.Classes.Models.Settings.Market;
 using Player = LSDW.Domain.Classes.Models.Settings.Player;

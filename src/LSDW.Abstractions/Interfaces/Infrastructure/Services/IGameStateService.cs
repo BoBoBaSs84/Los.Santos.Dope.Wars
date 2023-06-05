@@ -1,7 +1,7 @@
 ﻿using LSDW.Domain.Interfaces.Actors;
 using LSDW.Domain.Interfaces.Models;
 
-namespace LSDW.Abstractions.Interfaces.Infrastructure;
+namespace LSDW.Abstractions.Interfaces.Infrastructure.Services;
 
 /// <summary>
 /// The game state service interface.

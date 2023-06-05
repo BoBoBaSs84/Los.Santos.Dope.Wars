@@ -1,4 +1,4 @@
-﻿namespace LSDW.Abstractions.Interfaces.Application;
+﻿namespace LSDW.Domain.Interfaces.Services;
 
 public interface ISettingsService
 {

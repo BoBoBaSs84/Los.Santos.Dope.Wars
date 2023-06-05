@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\LSDW.Application\LSDW.Application.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -126,7 +126,7 @@ public static partial class DomainFactory
 	/// </summary>
 	/// <param name="state">The saved transaction state.</param>
 	public static ITransaction CreateTransaction(TransactionState state)
-		=> CreateTransaction(state.DateTime, state.TransactionType, state.DrugType, state.Quantity, state.Price);
+		=> CreateTransaction(state.DateTime, state.Type, state.DrugType, state.Quantity, state.Price);
 
 	/// <summary>
 	/// Creates a transaction instance collection from saved transaction state collection.

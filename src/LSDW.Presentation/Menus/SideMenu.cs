@@ -1,6 +1,7 @@
 ﻿using LemonUI;
 using LemonUI.Menus;
-using LSDW.Abstractions.Interfaces.Presentation;
+using LSDW.Abstractions.Interfaces.Presentation.Items;
+using LSDW.Abstractions.Interfaces.Presentation.Menus;
 using LSDW.Domain.Enumerators;
 using LSDW.Domain.Factories;
 using LSDW.Domain.Interfaces.Models;

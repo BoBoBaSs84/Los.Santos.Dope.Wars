@@ -1,9 +1,12 @@
 ﻿using GTA;
-using LSDW.Abstractions.Interfaces.Application;
-using LSDW.Abstractions.Interfaces.Infrastructure;
-using LSDW.Abstractions.Interfaces.Presentation;
+using LSDW.Abstractions.Interfaces.Application.Missions;
+using LSDW.Abstractions.Interfaces.Application.Providers;
+using LSDW.Abstractions.Interfaces.Infrastructure.Services;
+using LSDW.Abstractions.Interfaces.Presentation.Menus;
 using LSDW.Application.Missions;
+using LSDW.Application.Providers;
 using LSDW.Application.Services;
+using LSDW.Domain.Interfaces.Services;
 using LSDW.Infrastructure.Factories;
 using LSDW.Presentation.Factories;
 
@@ -14,24 +17,24 @@ namespace LSDW.Application;
 /// </summary>
 public sealed class Main : Script
 {
-	private readonly IDateTimeService _timeService;
-	private readonly ILoggerService _logger;
-	private readonly ISettingsService _settings;
+	private readonly ITimeProvider _timeProvider;
+	private readonly ILoggerService _loggerService;
+	private readonly ISettingsService _settingsService;
 	private readonly IGameStateService _stateService;
 	private readonly ISettingsMenu _settingsMenu;
-	private readonly IMission _trafficking;
+	private readonly ITrafficking _trafficking;
 
 	/// <summary>
 	/// Initializes a instance of the main class.
 	/// </summary>
 	public Main()
 	{
-		_timeService = new GameTimeService();
-		_logger = InfrastructureFactory.CreateLoggerService();
-		_settings = new SettingsService();
-		_stateService = InfrastructureFactory.CreateGameStateService(_logger);
-		_trafficking = new Trafficking(_timeService, _logger, _stateService);
-		_settingsMenu = PresentationFactory.CreateSettingsMenu(_settings, _logger);
+		_timeProvider = new GameTimeProvider();
+		_loggerService = InfrastructureFactory.CreateLoggerService();
+		_settingsService = new SettingsService();
+		_stateService = InfrastructureFactory.CreateGameStateService(_loggerService);
+		_trafficking = new Trafficking(_timeProvider, _loggerService, _stateService);
+		_settingsMenu = PresentationFactory.CreateSettingsMenu(_settingsService, _loggerService);
 
 		Interval = 5;
 

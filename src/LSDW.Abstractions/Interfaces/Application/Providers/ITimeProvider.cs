@@ -1,9 +1,9 @@
-﻿namespace LSDW.Abstractions.Interfaces.Application;
+﻿namespace LSDW.Abstractions.Interfaces.Application.Providers;
 
 /// <summary>
-/// The date time service interface.
+/// The date and time provider interface.
 /// </summary>
-public interface IDateTimeService
+public interface ITimeProvider
 {
 	/// <summary>
 	/// The current date and time.

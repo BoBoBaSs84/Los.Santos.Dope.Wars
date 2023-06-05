@@ -1,6 +1,7 @@
-﻿using LSDW.Abstractions.Interfaces.Presentation.Base;
+﻿using LSDW.Abstractions.Interfaces.Presentation.Items;
+using LSDW.Abstractions.Interfaces.Presentation.Menus.Base;
 
-namespace LSDW.Abstractions.Interfaces.Presentation;
+namespace LSDW.Abstractions.Interfaces.Presentation.Menus;
 
 /// <summary>
 /// The side menu interface.

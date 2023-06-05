@@ -43,6 +43,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Presentation.Tests", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Domain.Tests", "tests\LSDW.Domain.Tests\LSDW.Domain.Tests.csproj", "{F7EBF88C-0C49-4A7B-A8D5-890793AF7570}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Application.Tests", "tests\LSDW.Application.Tests\LSDW.Application.Tests.csproj", "{F1FDF2FA-379E-4C76-A645-E02B2427B3BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -97,6 +99,10 @@ Global
 		{F7EBF88C-0C49-4A7B-A8D5-890793AF7570}.Debug|x64.Build.0 = Debug|x64
 		{F7EBF88C-0C49-4A7B-A8D5-890793AF7570}.Release|x64.ActiveCfg = Release|x64
 		{F7EBF88C-0C49-4A7B-A8D5-890793AF7570}.Release|x64.Build.0 = Release|x64
+		{F1FDF2FA-379E-4C76-A645-E02B2427B3BA}.Debug|x64.ActiveCfg = Debug|x64
+		{F1FDF2FA-379E-4C76-A645-E02B2427B3BA}.Debug|x64.Build.0 = Debug|x64
+		{F1FDF2FA-379E-4C76-A645-E02B2427B3BA}.Release|x64.ActiveCfg = Release|x64
+		{F1FDF2FA-379E-4C76-A645-E02B2427B3BA}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -114,9 +120,10 @@ Global
 		{FBE72B8C-A47D-4D4F-8880-53EAA7AE5AD6} = {751C0958-C5D5-45A2-ABEF-A226D5FBC9BF}
 		{DA62BF1A-A6B2-4FA2-9499-2DD911EE3992} = {751C0958-C5D5-45A2-ABEF-A226D5FBC9BF}
 		{F7EBF88C-0C49-4A7B-A8D5-890793AF7570} = {751C0958-C5D5-45A2-ABEF-A226D5FBC9BF}
+		{F1FDF2FA-379E-4C76-A645-E02B2427B3BA} = {751C0958-C5D5-45A2-ABEF-A226D5FBC9BF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {68F339D1-2669-47D8-9481-679C413F0389}
 		RESX_SortFileContentOnSave = True
+		SolutionGuid = {68F339D1-2669-47D8-9481-679C413F0389}
 	EndGlobalSection
 EndGlobal

@@ -1,4 +1,4 @@
-﻿using LSDW.Abstractions.Interfaces.Infrastructure;
+﻿using LSDW.Abstractions.Interfaces.Infrastructure.Services;
 using LSDW.Domain.Classes.Models;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -8,7 +8,7 @@ namespace LSDW.Infrastructure.Services;
 /// <summary>
 /// The logger service class.
 /// </summary>
-public class LoggerService : ILoggerService
+internal class LoggerService : ILoggerService
 {
 	private readonly string _baseDirectory;
 	private readonly string _logFileName;
@@ -16,7 +16,7 @@ public class LoggerService : ILoggerService
 	/// <summary>
 	/// Initializes a instance of the logger service class.
 	/// </summary>
-	public LoggerService()
+	internal LoggerService()
 	{
 		_baseDirectory = AppContext.BaseDirectory;
 		_logFileName = Settings.LogFileName;

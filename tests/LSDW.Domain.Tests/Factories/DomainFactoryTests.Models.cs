@@ -1,10 +1,7 @@
-﻿using GTA;
-using GTA.Math;
-using LSDW.Domain.Interfaces.Models;
-using LSDW.Domain.Classes.Persistence;
-using LSDW.Domain.Factories;
-using LSDW.Domain.Interfaces.Actors;
+﻿using LSDW.Domain.Classes.Persistence;
 using LSDW.Domain.Enumerators;
+using LSDW.Domain.Factories;
+using LSDW.Domain.Interfaces.Models;
 
 namespace LSDW.Domain.Tests.Factories;
 
@@ -155,7 +152,7 @@ public partial class DomainFactoryTests
 		Assert.IsNotNull(transaction);
 		Assert.AreEqual(state.DateTime, transaction.DateTime);
 		Assert.AreEqual(state.DrugType, transaction.DrugType);
-		Assert.AreEqual(state.TransactionType, transaction.Type);
+		Assert.AreEqual(state.Type, transaction.Type);
 		Assert.AreEqual(state.Price, transaction.Price);
 		Assert.AreEqual(state.Quantity, transaction.Quantity);
 	}
@@ -295,7 +292,7 @@ public partial class DomainFactoryTests
 			DrugType = DrugType.COKE,
 			Quantity = 10,
 			Price = 100,
-			TransactionType = TransactionType.TRAFFIC
+			Type = TransactionType.TRAFFIC
 		};
 
 	private static GameState GetGameState()
