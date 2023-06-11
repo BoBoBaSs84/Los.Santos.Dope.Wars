@@ -27,18 +27,18 @@ internal sealed class Drug : Notification, IDrug
 	/// <param name="price">The price of the drug.</param>
 	internal Drug(DrugType drugType, int quantity, int price)
 	{
-		DrugType = drugType;
+		Type = drugType;
 		Quantity = quantity;
 		Price = price;
 	}
 
-	public DrugType DrugType { get; }
+	public DrugType Type { get; }
 
 	public string Name
-		=> DrugType.GetDisplayName();
+		=> Type.GetDisplayName();
 
 	public int MarketValue
-		=> DrugType.GetMarketValue();
+		=> Type.GetMarketValue();
 
 	public int Quantity
 	{
@@ -71,7 +71,7 @@ internal sealed class Drug : Notification, IDrug
 		double minimumDrugValue = (double)MinimumDrugValue;
 		double maximumDrugValue = (double)MaximumDrugValue;
 
-		int marketValue = DrugType.GetMarketValue();
+		int marketValue = Type.GetMarketValue();
 		double levelLimit = (double)playerLevel / 1000;
 		double lowerLimit = (minimumDrugValue - levelLimit) * marketValue;
 		double upperLimit = (maximumDrugValue + levelLimit) * marketValue;
@@ -82,7 +82,7 @@ internal sealed class Drug : Notification, IDrug
 
 	public void RandomizeQuantity(int playerLevel)
 	{
-		float nonZeroChance = DrugType.GetProbability();
+		float nonZeroChance = Type.GetProbability();
 
 		if (RandomHelper.GetDouble() > nonZeroChance)
 		{

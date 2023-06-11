@@ -25,7 +25,7 @@ internal sealed class DrugListItem : NativeListItem<int>
 		Description = GetDescription(_sourceDrug.Quantity, _sourceDrug.Price, _targetDrug.Price);
 		Enabled = !Equals(_sourceDrug.Quantity, 0);
 		SelectedIndex = _sourceDrug.Quantity;
-		Tag = sourcedrug.DrugType;
+		Tag = sourcedrug.Type;
 
 		_sourceDrug.PropertyChanged += OnPropertyChanged;
 		ItemChanged += OnItemChanged;

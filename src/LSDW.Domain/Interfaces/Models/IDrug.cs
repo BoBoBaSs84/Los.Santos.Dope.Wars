@@ -10,7 +10,7 @@ public interface IDrug : INotifyPropertyChanged
 	/// <summary>
 	/// The type of the drug.
 	/// </summary>
-	DrugType DrugType { get; }
+	DrugType Type { get; }
 
 	/// <summary>
 	/// The display name of the drug.

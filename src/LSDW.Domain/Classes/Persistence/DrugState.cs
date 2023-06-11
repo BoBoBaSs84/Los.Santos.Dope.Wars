@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace LSDW.Domain.Classes.Persistence;
 
-[XmlRoot("Drug", Namespace = XmlConstants.NameSpace)]
+[XmlRoot(XmlConstants.DrugStateRootName, Namespace = XmlConstants.NameSpace)]
 public sealed class DrugState
 {
 	public DrugState()
@@ -15,17 +15,17 @@ public sealed class DrugState
 
 	internal DrugState(IDrug drug)
 	{
-		DrugType = drug.DrugType;
+		Type = drug.Type;
 		Quantity = drug.Quantity;
 		Price = drug.Price;
 	}
 
-	[XmlAttribute("Type", Form = XmlSchemaForm.Qualified)]
-	public DrugType DrugType { get; set; }
+	[XmlAttribute(nameof(Type), Form = XmlSchemaForm.Qualified)]
+	public DrugType Type { get; set; }
 
-	[XmlAttribute("Quantity", Form = XmlSchemaForm.Qualified)]
+	[XmlAttribute(nameof(Quantity), Form = XmlSchemaForm.Qualified)]
 	public int Quantity { get; set; }
 
-	[XmlAttribute("Price", Form = XmlSchemaForm.Qualified)]
+	[XmlAttribute(nameof(Price), Form = XmlSchemaForm.Qualified)]
 	public int Price { get; set; }
 }

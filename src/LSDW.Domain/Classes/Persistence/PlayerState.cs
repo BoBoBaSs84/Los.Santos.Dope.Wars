@@ -9,7 +9,7 @@ namespace LSDW.Domain.Classes.Persistence;
 /// <summary>
 /// The player state class.
 /// </summary>
-[XmlRoot("Player", Namespace = XmlConstants.NameSpace)]
+[XmlRoot(XmlConstants.PlayerStateRootName, Namespace = XmlConstants.NameSpace)]
 public sealed class PlayerState
 {
 	public PlayerState()
@@ -25,13 +25,13 @@ public sealed class PlayerState
 		Transactions = DomainFactory.CreateTransactionStates(player.Transactions);
 	}
 
-	[XmlElement("Inventory", Form = XmlSchemaForm.Qualified)]
+	[XmlElement(nameof(Inventory), Form = XmlSchemaForm.Qualified)]
 	public InventoryState Inventory { get; set; }
 
-	[XmlAttribute("Experience", Form = XmlSchemaForm.Qualified)]
+	[XmlAttribute(nameof(Experience), Form = XmlSchemaForm.Qualified)]
 	public int Experience { get; set; }
 
-	[XmlArray("Transactions", Form = XmlSchemaForm.Qualified)]
-	[XmlArrayItem("Transaction", Form = XmlSchemaForm.Qualified)]
+	[XmlArray(nameof(Transactions), Form = XmlSchemaForm.Qualified)]
+	[XmlArrayItem(XmlConstants.TransactionStateRootName, Form = XmlSchemaForm.Qualified)]
 	public List<TransactionState> Transactions { get; set; }
 }

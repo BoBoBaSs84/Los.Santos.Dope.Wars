@@ -20,7 +20,7 @@ public class TransactionServiceTests
 		ITransactionService transactionService =
 			DomainFactory.CreateTransactionService(TransactionType.DEPOSIT, inventory, player.Inventory, player.MaximumInventoryQuantity);
 
-		bool success = transactionService.Commit(drug.DrugType, drug.Quantity, drug.Price);
+		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.Price);
 
 		Assert.IsTrue(success);
 		Assert.AreEqual(0, inventory.TotalQuantity);
@@ -41,7 +41,7 @@ public class TransactionServiceTests
 		ITransactionService transactionService =
 			DomainFactory.CreateTransactionService(TransactionType.TRAFFIC, inventory, player.Inventory, player.MaximumInventoryQuantity);
 
-		bool success = transactionService.Commit(drug.DrugType, drug.Quantity, drug.Price);
+		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.Price);
 
 		Assert.IsTrue(success);
 		Assert.AreEqual(0, inventory.TotalQuantity);
@@ -63,7 +63,7 @@ public class TransactionServiceTests
 		ITransactionService transactionService =
 			DomainFactory.CreateTransactionService(TransactionType.TRAFFIC, inventory, player.Inventory, player.MaximumInventoryQuantity);
 
-		bool success = transactionService.Commit(drug.DrugType, drug.Quantity, drug.Price);
+		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.Price);
 
 		Assert.IsFalse(success);
 		Assert.IsTrue(transactionService.Errors.Any());
@@ -80,7 +80,7 @@ public class TransactionServiceTests
 		ITransactionService transactionService =
 			DomainFactory.CreateTransactionService(TransactionType.DEPOSIT, player.Inventory, inventory, 0);
 
-		bool success = transactionService.Commit(drug.DrugType, drug.Quantity, drug.Price);
+		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.Price);
 
 		Assert.IsFalse(success);
 		Assert.IsTrue(transactionService.Errors.Any());

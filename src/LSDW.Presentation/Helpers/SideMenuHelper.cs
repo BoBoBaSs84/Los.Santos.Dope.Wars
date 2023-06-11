@@ -33,7 +33,7 @@ public static class SideMenuHelper
 		if (!Equals(menuType, MenuType.SELL))
 			return default;
 
-		int purchasePrice = player.Inventory.Where(x => x.DrugType.Equals(drugType)).Select(x => x.Price).Single();
+		int purchasePrice = player.Inventory.Where(x => x.Type.Equals(drugType)).Select(x => x.Price).Single();
 
 		int experience = (sellPrice - purchasePrice) * quantity;
 
