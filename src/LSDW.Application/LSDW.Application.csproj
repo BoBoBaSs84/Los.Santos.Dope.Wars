@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<UseWindowsForms>true</UseWindowsForms>
 	</PropertyGroup>
-
+	
 	<ItemGroup>
 		<ProjectReference Include="..\LSDW.Infrastructure\LSDW.Infrastructure.csproj" />
 		<ProjectReference Include="..\LSDW.Presentation\LSDW.Presentation.csproj" />
