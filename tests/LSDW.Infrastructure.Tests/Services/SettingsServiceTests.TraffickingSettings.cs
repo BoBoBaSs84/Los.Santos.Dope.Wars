@@ -5,6 +5,26 @@ namespace LSDW.Infrastructure.Tests.Services;
 public partial class SettingsServiceTests
 {
 	[TestMethod]
+	public void GetDiscoverDealerTest()
+	{
+		bool b = _settingsService.TraffickingSettings.GetDiscoverDealer();
+
+		Assert.IsTrue(b);
+	}
+
+	[TestMethod]
+	public void SetDiscoverDealerTest()
+	{
+		bool value = false;
+		_settingsService.TraffickingSettings.SetDiscoverDealer(value);
+
+		bool b = _settingsService.TraffickingSettings.GetDiscoverDealer();
+
+		Assert.IsFalse(b);
+		Assert.IsFalse(Settings.Trafficking.DiscoverDealer);
+	}
+
+	[TestMethod]
 	public void GetBustChanceTest()
 	{
 		float f = _settingsService.TraffickingSettings.GetBustChance();
@@ -25,6 +45,14 @@ public partial class SettingsServiceTests
 	}
 
 	[TestMethod]
+	public void GetBustChanceValuesTest()
+	{
+		List<float> values = _settingsService.TraffickingSettings.GetBustChanceValues();
+
+		Assert.IsTrue(values.Any());
+	}
+
+	[TestMethod]
 	public void GetWantedLevelTest()
 	{
 		int i = _settingsService.TraffickingSettings.GetWantedLevel();
@@ -42,5 +70,13 @@ public partial class SettingsServiceTests
 
 		Assert.AreEqual(value, i);
 		Assert.AreEqual(value, Settings.Trafficking.WantedLevel);
+	}
+
+	[TestMethod]
+	public void GetWantedLevelValues()
+	{
+		List<int> values = _settingsService.TraffickingSettings.GetWantedLevelValues();
+
+		Assert.IsTrue(values.Any());
 	}
 }

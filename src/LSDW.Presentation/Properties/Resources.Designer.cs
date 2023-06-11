@@ -295,6 +295,24 @@ namespace LSDW.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do the dealers have to be found first or do they appear immediately on the map?.
+        /// </summary>
+        public static string UI_Settings_Trafficking_DiscoverDealer_Description {
+            get {
+                return ResourceManager.GetString("UI.Settings.Trafficking.DiscoverDealer.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Need to discover dealer?.
+        /// </summary>
+        public static string UI_Settings_Trafficking_DiscoverDealer_Title {
+            get {
+                return ResourceManager.GetString("UI.Settings.Trafficking.DiscoverDealer.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to What is the mugshot level for a DEA raid?.
         /// </summary>
         public static string UI_Settings_Trafficking_WantedLevel_Description {

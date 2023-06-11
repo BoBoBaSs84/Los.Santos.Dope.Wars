@@ -25,6 +25,14 @@ public partial class SettingsServiceTests
 	}
 
 	[TestMethod]
+	public void GetMaximumDrugPriceValuesTest()
+	{
+		List<float> values = _settingsService.MarketSettings.GetMaximumDrugPriceValues();
+
+		Assert.IsTrue(values.Any());
+	}
+
+	[TestMethod]
 	public void GetMinimumDrugValueTest()
 	{
 		float f = _settingsService.MarketSettings.GetMinimumDrugPrice();
@@ -42,5 +50,13 @@ public partial class SettingsServiceTests
 
 		Assert.AreEqual(value, f);
 		Assert.AreEqual(value, Settings.Market.MinimumDrugPrice);
+	}
+
+	[TestMethod]
+	public void GetMinimumDrugPriceValuesTest()
+	{
+		List<float> values = _settingsService.MarketSettings.GetMinimumDrugPriceValues();
+
+		Assert.IsTrue(values.Any());
 	}
 }

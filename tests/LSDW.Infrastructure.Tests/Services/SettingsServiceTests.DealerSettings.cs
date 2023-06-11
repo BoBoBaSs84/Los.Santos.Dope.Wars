@@ -63,4 +63,12 @@ public partial class SettingsServiceTests
 		Assert.IsFalse(b);
 		Assert.IsFalse(Settings.Dealer.HasWeapons);
 	}
+
+	[TestMethod]
+	public void GetDownTimeInHoursValuesTest()
+	{
+		List<int> values = _settingsService.DealerSettings.GetDownTimeInHoursValues();
+
+		Assert.IsTrue(values.Any());
+	}
 }

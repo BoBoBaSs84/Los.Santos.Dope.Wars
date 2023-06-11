@@ -62,6 +62,8 @@ internal sealed partial class SettingsService : ISettingsService
     PlayerSettings.SetInventoryExpansionPerLevel(inventoryexpansionperlevel);
     int startinginventory = PlayerSettings.GetStartingInventory();
     PlayerSettings.SetStartingInventory(startinginventory);
+    bool discoverdealer = TraffickingSettings.GetDiscoverDealer();
+    TraffickingSettings.SetDiscoverDealer(discoverdealer);
     float bustchance = TraffickingSettings.GetBustChance();
     TraffickingSettings.SetBustChance(bustchance);
     int wantedlevel = TraffickingSettings.GetWantedLevel();
@@ -223,6 +225,15 @@ internal sealed class TraffickingSettings : ITraffickingSettings
   internal TraffickingSettings(ScriptSettings scriptSettings)
     => _scriptSettings = scriptSettings;
 
+
+  public bool GetDiscoverDealer()
+    => _scriptSettings.GetValue("TRAFFICKINGSETTINGS", "DISCOVERDEALER", Settings.Trafficking.DiscoverDealer);
+
+	public void SetDiscoverDealer(bool value)
+  {
+		_scriptSettings.SetValue("TRAFFICKINGSETTINGS", "DISCOVERDEALER", value);
+		Settings.Trafficking.DiscoverDealer = value;
+  }
   public List<float> GetBustChanceValues()
     => Settings.Trafficking.GetBustChanceValues();
 

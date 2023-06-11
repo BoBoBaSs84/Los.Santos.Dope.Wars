@@ -1,5 +1,4 @@
 ﻿using GTA;
-using System.Drawing;
 
 namespace LSDW.Domain.Helpers;
 

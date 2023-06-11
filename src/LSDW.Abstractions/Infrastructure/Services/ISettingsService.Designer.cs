@@ -60,6 +60,8 @@ public interface IPlayerSettings
 
 public interface ITraffickingSettings
 {
+	bool GetDiscoverDealer();
+  void SetDiscoverDealer(bool value);
   List<float> GetBustChanceValues();
 	float GetBustChance();
   void SetBustChance(float value);

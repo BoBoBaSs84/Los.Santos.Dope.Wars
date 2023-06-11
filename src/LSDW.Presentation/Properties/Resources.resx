@@ -195,6 +195,12 @@
   <data name="UI.Settings.Trafficking.BustChance.Title" xml:space="preserve">
     <value>Bust chance</value>
   </data>
+  <data name="UI.Settings.Trafficking.DiscoverDealer.Description" xml:space="preserve">
+    <value>Do the dealers have to be found first or do they appear immediately on the map?</value>
+  </data>
+  <data name="UI.Settings.Trafficking.DiscoverDealer.Title" xml:space="preserve">
+    <value>Need to discover dealer?</value>
+  </data>
   <data name="UI.Settings.Trafficking.WantedLevel.Description" xml:space="preserve">
     <value>What is the mugshot level for a DEA raid?</value>
   </data>

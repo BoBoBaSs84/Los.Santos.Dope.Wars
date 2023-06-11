@@ -106,6 +106,13 @@ internal sealed partial class SettingsMenu
     };
     playerStartingInventoryItem.ItemChanged += OnPlayerStartingInventoryItemChanged;
     Add(playerStartingInventoryItem);
+    SettingCheckboxItem traffickingDiscoverDealerItem = new(RESX.UI_Settings_Trafficking_DiscoverDealer_Title)
+    {
+      Description = RESX.UI_Settings_Trafficking_DiscoverDealer_Description,
+      Checked = _settingsService.TraffickingSettings.GetDiscoverDealer()
+    };
+    traffickingDiscoverDealerItem.CheckboxChanged += OnTraffickingDiscoverDealerItemCheckboxChanged;
+    Add(traffickingDiscoverDealerItem);
     SettingListItem<float> traffickingBustChanceItem = new(RESX.UI_Settings_Trafficking_BustChance_Title)
     {
       Description = RESX.UI_Settings_Trafficking_BustChance_Description,
@@ -195,6 +202,12 @@ internal sealed partial class SettingsMenu
       return;
     _settingsService.PlayerSettings.SetStartingInventory(item.SelectedItem);
   }
+  private void OnTraffickingDiscoverDealerItemCheckboxChanged(object sender, EventArgs args)
+  {
+    if (sender is not SettingCheckboxItem item)
+      return;
+    _settingsService.TraffickingSettings.SetDiscoverDealer(item.Checked);
+  }  
   private void OnTraffickingBustChanceItemChanged(object sender, ItemChangedEventArgs<float> args)
   {
     if (sender is not SettingListItem<float> item)

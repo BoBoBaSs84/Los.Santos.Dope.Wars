@@ -25,6 +25,14 @@ public partial class SettingsServiceTests
 	}
 
 	[TestMethod]
+	public void GetExperienceMultiplierValuesTest()
+	{
+		List<float> values = _settingsService.PlayerSettings.GetExperienceMultiplierValues();
+
+		Assert.IsTrue(values.Any());
+	}
+
+	[TestMethod]
 	public void GetLooseDrugsOnDeathTest()
 	{
 		bool b = _settingsService.PlayerSettings.GetLooseDrugsOnDeath();
@@ -125,6 +133,14 @@ public partial class SettingsServiceTests
 	}
 
 	[TestMethod]
+	public void GetInventoryExpansionPerLevelValuesTest()
+	{
+		List<int> values = _settingsService.PlayerSettings.GetInventoryExpansionPerLevelValues();
+
+		Assert.IsTrue(values.Any());
+	}
+
+	[TestMethod]
 	public void GetStartingInventoryTest()
 	{
 		int i = _settingsService.PlayerSettings.GetStartingInventory();
@@ -142,5 +158,13 @@ public partial class SettingsServiceTests
 
 		Assert.AreEqual(value, i);
 		Assert.AreEqual(value, Settings.Player.StartingInventory);
+	}
+
+	[TestMethod]
+	public void GetStartingInventoryValuesTest()
+	{
+		List<int> values = _settingsService.PlayerSettings.GetStartingInventoryValues();
+
+		Assert.IsTrue(values.Any());
 	}
 }
