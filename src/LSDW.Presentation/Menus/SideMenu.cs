@@ -72,7 +72,7 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 		if (sender is not SideMenu menu || menu.SelectedItem is not DrugListItem item || item.SelectedItem.Equals(0) || item.Tag is not DrugType drugType)
 			return;
 
-		int price = _target.Where(x => x.DrugType.Equals(drugType)).Select(x => x.Price).Single();
+		int price = _target.Where(x => x.Type.Equals(drugType)).Select(x => x.Price).Single();
 		int quantity = item.SelectedItem;
 		int experience = SMH.GetPossibleExperienceGain(_menuType, _player, drugType, quantity, price);
 		bool succes = _transaction.Commit(drugType, quantity, price);
@@ -105,7 +105,7 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 	{
 		var drugs = from s in source
 								join t in target
-								on s.DrugType equals t.DrugType
+								on s.Type equals t.Type
 								select new { s, t };
 
 		foreach (var drug in drugs)

@@ -99,7 +99,7 @@ public class SideMenuHelperTests
 		IPlayer player = DomainFactory.CreatePlayer();
 		player.Inventory.Add(drugToAdd);
 
-		int experience = SideMenuHelper.GetPossibleExperienceGain(menuType, player, drugToAdd.DrugType, 5, 100);
+		int experience = SideMenuHelper.GetPossibleExperienceGain(menuType, player, drugToAdd.Type, 5, 100);
 
 		Assert.AreEqual(250, experience);
 	}
@@ -112,7 +112,7 @@ public class SideMenuHelperTests
 		IPlayer player = DomainFactory.CreatePlayer();
 		player.Inventory.Add(drugToAdd);
 
-		int experience = SideMenuHelper.GetPossibleExperienceGain(menuType, player, drugToAdd.DrugType, 5, 100);
+		int experience = SideMenuHelper.GetPossibleExperienceGain(menuType, player, drugToAdd.Type, 5, 100);
 
 		Assert.AreEqual(default, experience);
 	}

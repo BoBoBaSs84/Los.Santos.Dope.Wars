@@ -9,7 +9,7 @@ namespace LSDW.Domain.Classes.Persistence;
 /// <summary>
 /// The inventory state class.
 /// </summary>
-[XmlRoot("Inventory", Namespace = XmlConstants.NameSpace)]
+[XmlRoot(XmlConstants.InventoryStateRootName, Namespace = XmlConstants.NameSpace)]
 public sealed class InventoryState
 {
 	public InventoryState()
@@ -21,10 +21,10 @@ public sealed class InventoryState
 		Money = inventory.Money;
 	}
 
-	[XmlArray("Drugs", Form = XmlSchemaForm.Qualified)]
-	[XmlArrayItem("Drug")]
+	[XmlArray(nameof(Drugs), Form = XmlSchemaForm.Qualified)]
+	[XmlArrayItem(XmlConstants.DrugStateRootName)]
 	public List<DrugState> Drugs { get; set; }
 
-	[XmlAttribute("Money", Form = XmlSchemaForm.Qualified)]
+	[XmlAttribute(nameof(Money), Form = XmlSchemaForm.Qualified)]
 	public int Money { get; set; }
 }

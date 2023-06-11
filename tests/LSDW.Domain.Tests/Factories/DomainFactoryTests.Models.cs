@@ -15,7 +15,7 @@ public partial class DomainFactoryTests
 		IDrug drug = DomainFactory.CreateDrug(state);
 
 		Assert.IsNotNull(drug);
-		Assert.AreEqual(state.DrugType, drug.DrugType);
+		Assert.AreEqual(state.Type, drug.Type);
 		Assert.AreEqual(state.Quantity, drug.Quantity);
 		Assert.AreEqual(state.Price, drug.Price);
 	}
@@ -40,7 +40,7 @@ public partial class DomainFactoryTests
 		drug = DomainFactory.CreateDrug(drugType);
 
 		Assert.IsNotNull(drug);
-		Assert.AreEqual(drugType, drug.DrugType);
+		Assert.AreEqual(drugType, drug.Type);
 	}
 
 	[TestMethod]
@@ -53,7 +53,7 @@ public partial class DomainFactoryTests
 		drug = DomainFactory.CreateDrug(drugType, quantity);
 
 		Assert.IsNotNull(drug);
-		Assert.AreEqual(drugType, drug.DrugType);
+		Assert.AreEqual(drugType, drug.Type);
 		Assert.AreEqual(quantity, drug.Quantity);
 	}
 
@@ -68,7 +68,7 @@ public partial class DomainFactoryTests
 		drug = DomainFactory.CreateDrug(drugType, quantity, price);
 
 		Assert.IsNotNull(drug);
-		Assert.AreEqual(drugType, drug.DrugType);
+		Assert.AreEqual(drugType, drug.Type);
 		Assert.AreEqual(quantity, drug.Quantity);
 		Assert.AreEqual(price, drug.Price);
 	}
@@ -265,7 +265,7 @@ public partial class DomainFactoryTests
 	private static DrugState GetDrugState()
 		=> new()
 		{
-			DrugType = Enumerators.DrugType.COKE,
+			Type = Enumerators.DrugType.COKE,
 			Quantity = 10,
 			Price = 100,
 		};
