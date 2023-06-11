@@ -21,18 +21,6 @@ This mod re-adds drug trafficking mini-missions that were scrapped during GTA5 d
 OR
 - build it yourself, copy the Los.Santos.Dope.Wars.dll into your scripts folder
 
-## Usage examples
-
-- tbd
-
-## Help and Support
-
-- tbd
-
-## Features
-
-- tbd
-
 ## Licensing
 
 Los.Santos.Dope.Wars is licensed under the MIT License. See [LICENSE](LICENSE) for the full license text.
