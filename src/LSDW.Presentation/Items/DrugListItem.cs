@@ -38,7 +38,7 @@ internal sealed class DrugListItem : NativeListItem<int>
 
 		Enabled = !Equals(_sourceDrug.Quantity, 0);
 		SelectedIndex = _sourceDrug.Quantity;
-		Items = _sourceDrug.Quantity.GetArray().ToList();
+		Items = _sourceDrug.Quantity.GetList();
 	}
 
 	private void OnItemChanged(object sender, ItemChangedEventArgs<int> args)

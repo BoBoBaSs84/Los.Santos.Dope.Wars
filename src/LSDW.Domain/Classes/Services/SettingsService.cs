@@ -4,6 +4,7 @@ using LSDW.Domain.Interfaces.Services;
 using Dealer = LSDW.Domain.Classes.Models.Settings.Dealer;
 using Market = LSDW.Domain.Classes.Models.Settings.Market;
 using Player = LSDW.Domain.Classes.Models.Settings.Player;
+using Trafficking = LSDW.Domain.Classes.Models.Settings.Trafficking;
 
 namespace LSDW.Domain.Classes.Services;
 
@@ -13,7 +14,7 @@ namespace LSDW.Domain.Classes.Services;
 /// <remarks>
 /// Wrapper for the <see cref="ScriptSettings"/>.
 /// </remarks>
-internal sealed class SettingsService : ISettingsService
+public sealed class SettingsService : ISettingsService
 {
 	private readonly ScriptSettings _scriptSettings;
 
@@ -22,7 +23,7 @@ internal sealed class SettingsService : ISettingsService
 	/// </summary>
 	internal SettingsService()
 	{
-		string settingsFileName = Path.Combine(AppContext.BaseDirectory, Settings.SettingsFileName);
+		string settingsFileName = Path.Combine(AppContext.BaseDirectory, Settings.IniFileName);
 		_scriptSettings = ScriptSettings.Load(settingsFileName);
     
     Load();
@@ -140,6 +141,24 @@ internal sealed class SettingsService : ISettingsService
 		Player.StartingInventory = value;
   }
 
+	public float GetBustChance()
+    => _scriptSettings.GetValue("TRAFFICKINGSETTINGS", "BUSTCHANCE", Trafficking.BustChance);
+
+	public void SetBustChance(float value)
+  {
+		_scriptSettings.SetValue("TRAFFICKINGSETTINGS", "BUSTCHANCE", value);
+		Trafficking.BustChance = value;
+  }
+
+	public int GetWantedLevel()
+    => _scriptSettings.GetValue("TRAFFICKINGSETTINGS", "WANTEDLEVEL", Trafficking.WantedLevel);
+
+	public void SetWantedLevel(int value)
+  {
+		_scriptSettings.SetValue("TRAFFICKINGSETTINGS", "WANTEDLEVEL", value);
+		Trafficking.WantedLevel = value;
+  }
+
   private void Load()
   {
     int downtimeinhours = GetDownTimeInHours();
@@ -166,5 +185,9 @@ internal sealed class SettingsService : ISettingsService
     SetInventoryExpansionPerLevel(inventoryexpansionperlevel);
     int startinginventory = GetStartingInventory();
     SetStartingInventory(startinginventory);
+    float bustchance = GetBustChance();
+    SetBustChance(bustchance);
+    int wantedlevel = GetWantedLevel();
+    SetWantedLevel(wantedlevel);
   }
 }

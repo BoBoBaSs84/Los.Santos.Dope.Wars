@@ -27,4 +27,8 @@ public interface ISettingsService
   void SetInventoryExpansionPerLevel(int value);
 	int GetStartingInventory();
   void SetStartingInventory(int value);
+	float GetBustChance();
+  void SetBustChance(float value);
+	int GetWantedLevel();
+  void SetWantedLevel(int value);
 }

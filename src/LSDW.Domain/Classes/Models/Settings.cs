@@ -5,7 +5,7 @@
 /// </summary>
 public static class Settings
 {
-	public const string SettingsFileName = "LSDW.ini";
+	public const string IniFileName = "LSDW.ini";
 	public const string LogFileName = "LSDW.log";
 	public const string SaveFileName = "LSDW.sav";
 
@@ -40,5 +40,14 @@ public static class Settings
 		public static bool LooseMoneyWhenBusted { get; set; } = true;
 		public static int InventoryExpansionPerLevel { get; set; } = 10;
 		public static int StartingInventory { get; set; } = 100;
+	}
+
+	/// <summary>
+	/// The trafficking settings class.
+	/// </summary>
+	public static class Trafficking
+	{
+		public static float BustChance { get; set; } = 0.1f;
+		public static int WantedLevel { get; set; } = 2;
 	}
 }

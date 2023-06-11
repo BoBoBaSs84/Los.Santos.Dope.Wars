@@ -8,13 +8,13 @@ namespace LSDW.Domain.Tests.Classes.Services;
 public class SettingsServiceTests
 {
 	private static readonly ISettingsService _settingsService = DomainFactory.CreateSettingsService();
-	private static readonly string _settingsFileName = Settings.SettingsFileName;
+	private static readonly string _iniFileName = Settings.IniFileName;
 
 	[ClassCleanup]
 	public static void ClassCleanup()
 	{
-		if (File.Exists(_settingsFileName))
-			File.Delete(_settingsFileName);
+		if (File.Exists(_iniFileName))
+			File.Delete(_iniFileName);
 	}
 
 	[TestMethod]
@@ -255,5 +255,45 @@ public class SettingsServiceTests
 
 		Assert.AreEqual(value, i);
 		Assert.AreEqual(value, Settings.Player.StartingInventory);
+	}
+
+	[TestMethod]
+	public void GetBustChanceTest()
+	{
+		float f = _settingsService.GetBustChance();
+
+		Assert.AreNotEqual(default, f);
+	}
+
+	[TestMethod]
+	public void SetBustChanceTest()
+	{
+		float value = 0.25f;
+		_settingsService.SetBustChance(value);
+
+		float f = _settingsService.GetBustChance();
+
+		Assert.AreEqual(value, f);
+		Assert.AreEqual(value, Settings.Trafficking.BustChance);
+	}
+
+	[TestMethod]
+	public void GetWantedLevelTest()
+	{
+		int i = _settingsService.GetWantedLevel();
+
+		Assert.AreNotEqual(default, i);
+	}
+
+	[TestMethod]
+	public void SetWantedLevelTest()
+	{
+		int value = 3;
+		_settingsService.SetWantedLevel(value);
+
+		int i = _settingsService.GetWantedLevel();
+
+		Assert.AreEqual(value, i);
+		Assert.AreEqual(value, Settings.Trafficking.WantedLevel);
 	}
 }
