@@ -261,18 +261,54 @@ namespace LSDW.Presentation.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The size of the starting inventory or the base value of the inventory..
         /// </summary>
-        public static string UI_Settings_PLayer_StartingInventory_Description {
+        public static string UI_Settings_Player_StartingInventory_Description {
             get {
-                return ResourceManager.GetString("UI.Settings.PLayer.StartingInventory.Description", resourceCulture);
+                return ResourceManager.GetString("UI.Settings.Player.StartingInventory.Description", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Starting inventory.
         /// </summary>
-        public static string UI_Settings_PLayer_StartingInventory_Title {
+        public static string UI_Settings_Player_StartingInventory_Title {
             get {
-                return ResourceManager.GetString("UI.Settings.PLayer.StartingInventory.Title", resourceCulture);
+                return ResourceManager.GetString("UI.Settings.Player.StartingInventory.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to How likely is a DEA raid after the deal is done?.
+        /// </summary>
+        public static string UI_Settings_Trafficking_BustChance_Description {
+            get {
+                return ResourceManager.GetString("UI.Settings.Trafficking.BustChance.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bust chance.
+        /// </summary>
+        public static string UI_Settings_Trafficking_BustChance_Title {
+            get {
+                return ResourceManager.GetString("UI.Settings.Trafficking.BustChance.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to What is the mugshot level for a DEA raid?.
+        /// </summary>
+        public static string UI_Settings_Trafficking_WantedLevel_Description {
+            get {
+                return ResourceManager.GetString("UI.Settings.Trafficking.WantedLevel.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wanted level.
+        /// </summary>
+        public static string UI_Settings_Trafficking_WantedLevel_Title {
+            get {
+                return ResourceManager.GetString("UI.Settings.Trafficking.WantedLevel.Title", resourceCulture);
             }
         }
         

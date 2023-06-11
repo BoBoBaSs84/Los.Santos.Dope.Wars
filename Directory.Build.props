@@ -25,8 +25,7 @@
 		<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
 		<Deterministic>true</Deterministic>
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-		<GeneratedAssemblyInfoFile>Properties\AssemblyInfo.cs</GeneratedAssemblyInfoFile>
-		
+		<GeneratedAssemblyInfoFile>Properties\AssemblyInfo.cs</GeneratedAssemblyInfoFile>		
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -34,9 +33,14 @@
 		<GenerateDocumentationFile>false</GenerateDocumentationFile>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
+		<DebugType>full</DebugType>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>	
+
 	<PropertyGroup Condition="!$(MSBuildProjectName.EndsWith('Tests'))" Label="Metadata">
 		<Authors>BoBoBaSs84</Authors>
-		<Company>BoBoBaSs84</Company>
+		<Company>https://github.com/BoBoBaSs84</Company>
 		<Copyright>Copyright © $(VersionMajor) BoBoBaSs84</Copyright>
 		<Description>The modification is an attempt to bring the "trade" game mechanics from Chinatown Wars to the fictional state of San Andreas.</Description>
 		<Product>Los.Santos.Dope.Wars</Product>
@@ -52,6 +56,7 @@
 	<PropertyGroup Condition="$(MSBuildProjectName.EndsWith('Tests'))">
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup Condition="!$(MSBuildProjectName.EndsWith('Tests'))">
@@ -60,7 +65,7 @@
 		<InternalsVisibleTo Include="$(AssemblyName).Tests" />
 		<Using Include="System.ComponentModel"/>
 		<Using Include="System.Reflection"/>
-		<Using Include="System.Drawing"/>
+		<Using Include="System.Drawing"/>		
 	</ItemGroup>
 
 	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('Tests'))">

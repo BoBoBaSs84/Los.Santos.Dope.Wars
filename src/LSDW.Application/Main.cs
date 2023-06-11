@@ -5,8 +5,6 @@ using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Abstractions.Presentation.Menus;
 using LSDW.Application.Missions;
 using LSDW.Application.Providers;
-using LSDW.Domain.Factories;
-using LSDW.Domain.Interfaces.Services;
 using LSDW.Infrastructure.Factories;
 using LSDW.Presentation.Factories;
 
@@ -31,10 +29,10 @@ public sealed class Main : Script
 	{
 		_timeProvider = new GameTimeProvider();
 		_loggerService = InfrastructureFactory.CreateLoggerService();
-		_settingsService = DomainFactory.CreateSettingsService();
+		_settingsService = InfrastructureFactory.CreateSettingsService();
 		_stateService = InfrastructureFactory.CreateGameStateService(_loggerService);
 		_trafficking = new Trafficking(_timeProvider, _loggerService, _stateService);
-		_settingsMenu = PresentationFactory.CreateSettingsMenu(_settingsService, _loggerService);
+		_settingsMenu = PresentationFactory.CreateSettingsMenu(_settingsService);
 
 		Interval = 5;
 

@@ -183,11 +183,23 @@
   <data name="UI.Settings.Player.LooseMoneyWhenBusted.Title" xml:space="preserve">
     <value>Loose drug money when busted?</value>
   </data>
-  <data name="UI.Settings.PLayer.StartingInventory.Description" xml:space="preserve">
+  <data name="UI.Settings.Player.StartingInventory.Description" xml:space="preserve">
     <value>The size of the starting inventory or the base value of the inventory.</value>
   </data>
-  <data name="UI.Settings.PLayer.StartingInventory.Title" xml:space="preserve">
+  <data name="UI.Settings.Player.StartingInventory.Title" xml:space="preserve">
     <value>Starting inventory</value>
+  </data>
+  <data name="UI.Settings.Trafficking.BustChance.Description" xml:space="preserve">
+    <value>How likely is a DEA raid after the deal is done?</value>
+  </data>
+  <data name="UI.Settings.Trafficking.BustChance.Title" xml:space="preserve">
+    <value>Bust chance</value>
+  </data>
+  <data name="UI.Settings.Trafficking.WantedLevel.Description" xml:space="preserve">
+    <value>What is the mugshot level for a DEA raid?</value>
+  </data>
+  <data name="UI.Settings.Trafficking.WantedLevel.Title" xml:space="preserve">
+    <value>Wanted level</value>
   </data>
   <data name="UI.SettingsMenu.Subtitle" xml:space="preserve">
     <value>Settings will saved on close.</value>

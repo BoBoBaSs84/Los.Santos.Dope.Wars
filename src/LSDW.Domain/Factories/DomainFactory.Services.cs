@@ -19,10 +19,4 @@ public static partial class DomainFactory
 	/// <param name="maximumQuantity">The maximum target quantity.</param>
 	public static ITransactionService CreateTransactionService(TransactionType transactionType, IInventory source, IInventory target, int maximumQuantity = int.MaxValue)
 		=> new TransactionService(transactionType, source, target, maximumQuantity);
-
-	/// <summary>
-	/// Creates a new settings service instance.
-	/// </summary>
-	public static ISettingsService CreateSettingsService()
-		=> new SettingsService();
 }
