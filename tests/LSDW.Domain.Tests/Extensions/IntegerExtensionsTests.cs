@@ -12,6 +12,16 @@ public class IntegerExtensionsTests
 
 		int[] intArray = i.GetArray();
 
-		Assert.AreEqual(11, intArray.Length);
+		Assert.AreEqual(i + 1, intArray.Length);
+	}
+
+	[TestMethod]
+	public void GetListTest()
+	{
+		int i = 10;
+
+		IList<int> ints = i.GetList();
+
+		Assert.AreEqual(i + 1, ints.Count);
 	}
 }

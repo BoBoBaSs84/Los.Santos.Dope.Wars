@@ -135,16 +135,16 @@
   <data name="UI.Settings.Dealer.HasWeapons.Title" xml:space="preserve">
     <value>Is the dealer armed?</value>
   </data>
-  <data name="UI.Settings.Market.MaximumDrugValue.Description" xml:space="preserve">
+  <data name="UI.Settings.Market.MaximumDrugPrice.Description" xml:space="preserve">
     <value>The maximum value of a drug, serves as a multiplier to the nominal market value.</value>
   </data>
-  <data name="UI.Settings.Market.MaximumDrugValue.Title" xml:space="preserve">
+  <data name="UI.Settings.Market.MaximumDrugPrice.Title" xml:space="preserve">
     <value>Maximum drug value</value>
   </data>
-  <data name="UI.Settings.Market.MinimumDrugValue.Description" xml:space="preserve">
+  <data name="UI.Settings.Market.MinimumDrugPrice.Description" xml:space="preserve">
     <value>The minimum value of a drug, serves as a multiplier to the nominal market value.</value>
   </data>
-  <data name="UI.Settings.Market.MinimumDrugValue.Title" xml:space="preserve">
+  <data name="UI.Settings.Market.MinimumDrugPrice.Title" xml:space="preserve">
     <value>Minimum drug value</value>
   </data>
   <data name="UI.Settings.Player.ExperienceMultiplier.Description" xml:space="preserve">
@@ -183,11 +183,29 @@
   <data name="UI.Settings.Player.LooseMoneyWhenBusted.Title" xml:space="preserve">
     <value>Loose drug money when busted?</value>
   </data>
-  <data name="UI.Settings.PLayer.StartingInventory.Description" xml:space="preserve">
+  <data name="UI.Settings.Player.StartingInventory.Description" xml:space="preserve">
     <value>The size of the starting inventory or the base value of the inventory.</value>
   </data>
-  <data name="UI.Settings.PLayer.StartingInventory.Title" xml:space="preserve">
+  <data name="UI.Settings.Player.StartingInventory.Title" xml:space="preserve">
     <value>Starting inventory</value>
+  </data>
+  <data name="UI.Settings.Trafficking.BustChance.Description" xml:space="preserve">
+    <value>How likely is a DEA raid after the deal is done?</value>
+  </data>
+  <data name="UI.Settings.Trafficking.BustChance.Title" xml:space="preserve">
+    <value>Bust chance</value>
+  </data>
+  <data name="UI.Settings.Trafficking.DiscoverDealer.Description" xml:space="preserve">
+    <value>Do the dealers have to be found first or do they appear immediately on the map?</value>
+  </data>
+  <data name="UI.Settings.Trafficking.DiscoverDealer.Title" xml:space="preserve">
+    <value>Need to discover dealer?</value>
+  </data>
+  <data name="UI.Settings.Trafficking.WantedLevel.Description" xml:space="preserve">
+    <value>What is the mugshot level for a DEA raid?</value>
+  </data>
+  <data name="UI.Settings.Trafficking.WantedLevel.Title" xml:space="preserve">
+    <value>Wanted level</value>
   </data>
   <data name="UI.SettingsMenu.Subtitle" xml:space="preserve">
     <value>Settings will saved on close.</value>

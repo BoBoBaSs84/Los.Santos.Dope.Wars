@@ -5,7 +5,24 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="**\*.tt" />
+		<None Include="**\*.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<DependentUpon>%(Filename).cs</DependentUpon>
+			<LastGenOutput>%(Filename).Designer.cs</LastGenOutput>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Infrastructure\Services\ISettingsService.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ISettingsService.tt</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 </Project>

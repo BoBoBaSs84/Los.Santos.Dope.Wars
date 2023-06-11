@@ -1,11 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LSDW.Presentation.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LSDW.Domain.Enumerators;
+﻿using LSDW.Domain.Enumerators;
 using LSDW.Presentation.Properties;
 
 namespace LSDW.Presentation.Helpers.Tests;

@@ -117,36 +117,36 @@ namespace LSDW.Presentation.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The maximum value of a drug, serves as a multiplier to the nominal market value..
         /// </summary>
-        public static string UI_Settings_Market_MaximumDrugValue_Description {
+        public static string UI_Settings_Market_MaximumDrugPrice_Description {
             get {
-                return ResourceManager.GetString("UI.Settings.Market.MaximumDrugValue.Description", resourceCulture);
+                return ResourceManager.GetString("UI.Settings.Market.MaximumDrugPrice.Description", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Maximum drug value.
         /// </summary>
-        public static string UI_Settings_Market_MaximumDrugValue_Title {
+        public static string UI_Settings_Market_MaximumDrugPrice_Title {
             get {
-                return ResourceManager.GetString("UI.Settings.Market.MaximumDrugValue.Title", resourceCulture);
+                return ResourceManager.GetString("UI.Settings.Market.MaximumDrugPrice.Title", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The minimum value of a drug, serves as a multiplier to the nominal market value..
         /// </summary>
-        public static string UI_Settings_Market_MinimumDrugValue_Description {
+        public static string UI_Settings_Market_MinimumDrugPrice_Description {
             get {
-                return ResourceManager.GetString("UI.Settings.Market.MinimumDrugValue.Description", resourceCulture);
+                return ResourceManager.GetString("UI.Settings.Market.MinimumDrugPrice.Description", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Minimum drug value.
         /// </summary>
-        public static string UI_Settings_Market_MinimumDrugValue_Title {
+        public static string UI_Settings_Market_MinimumDrugPrice_Title {
             get {
-                return ResourceManager.GetString("UI.Settings.Market.MinimumDrugValue.Title", resourceCulture);
+                return ResourceManager.GetString("UI.Settings.Market.MinimumDrugPrice.Title", resourceCulture);
             }
         }
         
@@ -261,18 +261,72 @@ namespace LSDW.Presentation.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The size of the starting inventory or the base value of the inventory..
         /// </summary>
-        public static string UI_Settings_PLayer_StartingInventory_Description {
+        public static string UI_Settings_Player_StartingInventory_Description {
             get {
-                return ResourceManager.GetString("UI.Settings.PLayer.StartingInventory.Description", resourceCulture);
+                return ResourceManager.GetString("UI.Settings.Player.StartingInventory.Description", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Starting inventory.
         /// </summary>
-        public static string UI_Settings_PLayer_StartingInventory_Title {
+        public static string UI_Settings_Player_StartingInventory_Title {
             get {
-                return ResourceManager.GetString("UI.Settings.PLayer.StartingInventory.Title", resourceCulture);
+                return ResourceManager.GetString("UI.Settings.Player.StartingInventory.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to How likely is a DEA raid after the deal is done?.
+        /// </summary>
+        public static string UI_Settings_Trafficking_BustChance_Description {
+            get {
+                return ResourceManager.GetString("UI.Settings.Trafficking.BustChance.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bust chance.
+        /// </summary>
+        public static string UI_Settings_Trafficking_BustChance_Title {
+            get {
+                return ResourceManager.GetString("UI.Settings.Trafficking.BustChance.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do the dealers have to be found first or do they appear immediately on the map?.
+        /// </summary>
+        public static string UI_Settings_Trafficking_DiscoverDealer_Description {
+            get {
+                return ResourceManager.GetString("UI.Settings.Trafficking.DiscoverDealer.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Need to discover dealer?.
+        /// </summary>
+        public static string UI_Settings_Trafficking_DiscoverDealer_Title {
+            get {
+                return ResourceManager.GetString("UI.Settings.Trafficking.DiscoverDealer.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to What is the mugshot level for a DEA raid?.
+        /// </summary>
+        public static string UI_Settings_Trafficking_WantedLevel_Description {
+            get {
+                return ResourceManager.GetString("UI.Settings.Trafficking.WantedLevel.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wanted level.
+        /// </summary>
+        public static string UI_Settings_Trafficking_WantedLevel_Title {
+            get {
+                return ResourceManager.GetString("UI.Settings.Trafficking.WantedLevel.Title", resourceCulture);
             }
         }
         

@@ -81,7 +81,7 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 		{
 			ITransaction transaction = DomainFactory.CreateTransaction(DateTime.Now, _transactionType, drugType, quantity, price);
 			_player.Transactions.Add(transaction);
-			
+
 			if (experience > 0)
 				_player.AddExperience(experience);
 		}

@@ -2,7 +2,6 @@
 using LSDW.Abstractions.Presentation.Menus;
 using LSDW.Domain.Enumerators;
 using LSDW.Domain.Interfaces.Models;
-using LSDW.Domain.Interfaces.Services;
 using LSDW.Presentation.Menus;
 
 namespace LSDW.Presentation.Factories;
@@ -16,9 +15,8 @@ public static class PresentationFactory
 	/// Creates a new instance of the settings menu.
 	/// </summary>
 	/// <param name="settingsService">The settings service.</param>
-	/// <param name="loggerService">The logger service.</param>
-	public static ISettingsMenu CreateSettingsMenu(ISettingsService settingsService, ILoggerService loggerService)
-		=> new SettingsMenu(settingsService, loggerService);
+	public static ISettingsMenu CreateSettingsMenu(ISettingsService settingsService)
+		=> new SettingsMenu(settingsService);
 
 	/// <summary>
 	/// Creates a new instance of the side menu.

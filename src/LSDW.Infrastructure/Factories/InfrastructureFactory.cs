@@ -26,4 +26,10 @@ public static class InfrastructureFactory
 	/// <param name="logger">The logger service instance to use.</param>
 	public static IGameStateService CreateGameStateService(ILoggerService logger)
 		=> new GameStateService(logger);
+
+	/// <summary>
+	/// Creates a new settings service instance.
+	/// </summary>
+	public static ISettingsService CreateSettingsService()
+		=> new SettingsService();
 }

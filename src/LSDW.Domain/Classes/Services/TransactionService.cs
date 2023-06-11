@@ -18,13 +18,13 @@ internal sealed class TransactionService : ITransactionService
 	/// <summary>
 	/// Initializes a instance of the transaction service class.
 	/// </summary>
-	/// <param name="transactionType">The type of the transaction.</param>
+	/// <param name="type">The type of the transaction.</param>
 	/// <param name="source">The transaction source.</param>
 	/// <param name="target">The transaction target.</param>
 	/// <param name="maximumQuantity">The maximum target quantity.</param>
-	internal TransactionService(TransactionType transactionType, IInventory source, IInventory target, int maximumQuantity)
+	internal TransactionService(TransactionType type, IInventory source, IInventory target, int maximumQuantity)
 	{
-		_transactionType = transactionType;
+		_transactionType = type;
 		_source = source;
 		_target = target;
 		_maximumQuantity = maximumQuantity;
@@ -34,7 +34,7 @@ internal sealed class TransactionService : ITransactionService
 
 	public ICollection<string> Errors { get; }
 
-	public bool Commit(DrugType drugType, int quantity, int price)
+	public bool Commit(DrugType type, int quantity, int price)
 	{
 		CheckTargetInventory(quantity);
 
@@ -43,8 +43,8 @@ internal sealed class TransactionService : ITransactionService
 		if (Errors.Any())
 			return false;
 
-		_source.Remove(drugType, quantity);
-		_target.Add(drugType, quantity, price);
+		_source.Remove(type, quantity);
+		_target.Add(type, quantity, price);
 
 		TransferMoney(quantity, price);
 

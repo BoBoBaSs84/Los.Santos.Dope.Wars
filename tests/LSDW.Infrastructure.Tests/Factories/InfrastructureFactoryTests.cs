@@ -36,4 +36,14 @@ public class InfrastructureFactoryTests
 
 		Assert.IsNotNull(gameStateService);
 	}
+
+	[TestMethod]
+	public void CreateSettingsServiceTest()
+	{
+		ISettingsService? settingsService;
+
+		settingsService = InfrastructureFactory.CreateSettingsService();
+
+		Assert.IsNotNull(settingsService);
+	}
 }

@@ -68,8 +68,8 @@ internal sealed class Drug : Notification, IDrug
 
 	public void RandomizePrice(int playerLevel)
 	{
-		double minimumDrugValue = (double)MinimumDrugValue;
-		double maximumDrugValue = (double)MaximumDrugValue;
+		double minimumDrugValue = (double)MinimumDrugPrice;
+		double maximumDrugValue = (double)MaximumDrugPrice;
 
 		int marketValue = Type.GetMarketValue();
 		double levelLimit = (double)playerLevel / 1000;

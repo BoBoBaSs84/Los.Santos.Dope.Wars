@@ -8,7 +8,7 @@ public static class IntegerExtensions
 	/// <summary>
 	/// Returns an array of integers starting from zero.
 	/// </summary>
-	/// <param name="value">The integer value.</param>
+	/// <param name="value">The maximum integer value.</param>
 	public static int[] GetArray(this int value)
 	{
 		int[] array = new int[value + 1];
@@ -16,4 +16,11 @@ public static class IntegerExtensions
 			array[i] = i;
 		return array;
 	}
+
+	/// <summary>
+	/// Returns an list of integers starting from zero.
+	/// </summary>
+	/// <param name="value">The maximum integer value.</param>
+	public static List<int> GetList(this int value)
+		=> GetArray(value).ToList();
 }
