@@ -7,7 +7,6 @@ namespace LSDW.Infrastructure.Tests.Services;
 [TestClass]
 public class GameStateServiceTests
 {
-	private static readonly string _cString = @"";
 	private static readonly string _baseDirectory = AppContext.BaseDirectory;
 	private static readonly string _saveFileName = Settings.SaveFileName;
 

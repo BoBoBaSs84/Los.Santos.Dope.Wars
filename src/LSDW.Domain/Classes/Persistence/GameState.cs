@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 namespace LSDW.Domain.Classes.Persistence;
 
-[XmlRoot("Game", Namespace = XmlConstants.NameSpace)]
+[XmlRoot(XmlConstants.GameStateRootName, Namespace = XmlConstants.NameSpace)]
 public sealed class GameState
 {
 	public GameState()
@@ -22,10 +22,12 @@ public sealed class GameState
 		Dealers = DomainFactory.CreateDealerStates(dealers);
 	}
 
-	[XmlElement("Player", Form = XmlSchemaForm.Qualified)]
+	[XmlElement(nameof(Player), Form = XmlSchemaForm.Qualified)]
 	public PlayerState Player { get; set; }
 
-	[XmlArray("Dealers", Form = XmlSchemaForm.Qualified)]
-	[XmlArrayItem("Dealer", Form = XmlSchemaForm.Qualified)]
+	[XmlArray(nameof(Dealers), Form = XmlSchemaForm.Qualified)]
+	[XmlArrayItem(XmlConstants.DealerStateRootName, Form = XmlSchemaForm.Qualified)]
 	public List<DealerState> Dealers { get; set; }
+
+	public bool ShouldSerializeDealers() => Dealers.Any();
 }

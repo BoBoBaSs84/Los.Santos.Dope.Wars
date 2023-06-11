@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace LSDW.Domain.Classes.Persistence;
 
-[XmlRoot("Dealer", Namespace = XmlConstants.NameSpace)]
+[XmlRoot(XmlConstants.DealerStateRootName, Namespace = XmlConstants.NameSpace)]
 public sealed class DealerState
 {
 	public DealerState()

@@ -17,31 +17,31 @@ public static partial class DomainFactory
 	/// </summary>
 	/// <param name="state">The saved drug state.</param>
 	public static IDrug CreateDrug(DrugState state)
-		=> CreateDrug(state.DrugType, state.Quantity, state.Price);
+		=> CreateDrug(state.Type, state.Quantity, state.Price);
 
 	/// <summary>
 	/// Creates a new drug instance.
 	/// </summary>
-	/// <param name="drugType">The type of the drug.</param>
+	/// <param name="type">The type of the drug.</param>
 	/// <param name="quantity">The quantity of the drug.</param>
 	/// <param name="price">The price of the drug.</param>
-	public static IDrug CreateDrug(DrugType drugType, int quantity, int price)
-		=> new Drug(drugType, quantity, price);
+	public static IDrug CreateDrug(DrugType type, int quantity, int price)
+		=> new Drug(type, quantity, price);
 
 	/// <summary>
 	/// Creates a new drug instance.
 	/// </summary>
-	/// <param name="drugType">The type of the drug.</param>
+	/// <param name="type">The type of the drug.</param>
 	/// <param name="quantity">The quantity of the drug.</param>
-	public static IDrug CreateDrug(DrugType drugType, int quantity)
-		=> new Drug(drugType, quantity, default);
+	public static IDrug CreateDrug(DrugType type, int quantity)
+		=> new Drug(type, quantity, default);
 
 	/// <summary>
 	/// Creates a new drug instance.
 	/// </summary>
-	/// <param name="drugType">The type of the drug.</param>
-	public static IDrug CreateDrug(DrugType drugType)
-		=> new Drug(drugType, default, default);
+	/// <param name="type">The type of the drug.</param>
+	public static IDrug CreateDrug(DrugType type)
+		=> new Drug(type, default, default);
 
 	/// <summary>
 	/// Creates a random drug instance.
@@ -114,12 +114,12 @@ public static partial class DomainFactory
 	/// Creates a new transaction instance.
 	/// </summary>
 	/// <param name="dateTime">The point in time of the transaction.</param>
-	/// <param name="transactionType">The type of the transaction.</param>
+	/// <param name="type">The type of the transaction.</param>
 	/// <param name="drugType">The drug type of the transaction.</param>
 	/// <param name="quantity">The quantity of the transaction.</param>
 	/// <param name="price">The unit price of the transaction.</param>
-	public static ITransaction CreateTransaction(DateTime dateTime, TransactionType transactionType, DrugType drugType, int quantity, int price)
-		=> new Transaction(dateTime, transactionType, drugType, quantity, price);
+	public static ITransaction CreateTransaction(DateTime dateTime, TransactionType type, DrugType drugType, int quantity, int price)
+		=> new Transaction(dateTime, type, drugType, quantity, price);
 
 	/// <summary>
 	/// Creates a transaction instance from saved transaction state.

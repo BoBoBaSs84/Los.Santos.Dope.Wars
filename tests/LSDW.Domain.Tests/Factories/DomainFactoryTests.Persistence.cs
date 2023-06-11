@@ -20,7 +20,7 @@ public partial class DomainFactoryTests
 		DrugState state = DomainFactory.CreateDrugState(drug);
 
 		Assert.IsNotNull(state);
-		Assert.AreEqual(drug.DrugType, state.DrugType);
+		Assert.AreEqual(drug.Type, state.Type);
 		Assert.AreEqual(drug.Quantity, state.Quantity);
 		Assert.AreEqual(drug.Price, state.Price);
 	}

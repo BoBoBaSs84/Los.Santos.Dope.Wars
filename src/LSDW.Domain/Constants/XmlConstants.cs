@@ -9,6 +9,12 @@ public static class XmlConstants
 {
 	internal const string NameSpace = "https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars";
 	internal const string NameSpacePreFix = "lsdw";
+	internal const string DealerStateRootName = "Dealer";
+	internal const string DrugStateRootName = "Drug";
+	internal const string GameStateRootName = "Game";
+	internal const string InventoryStateRootName = "Inventory";
+	internal const string PlayerStateRootName = "Player";
+	internal const string TransactionStateRootName = "Transaction";
 
 	/// <summary>
 	/// Gets the necessary namespaces.

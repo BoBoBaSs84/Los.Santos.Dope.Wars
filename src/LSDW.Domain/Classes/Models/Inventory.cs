@@ -67,7 +67,7 @@ internal sealed class Inventory : Notification, IInventory
 	public void Add(IDrug drugToAdd)
 	{
 		IDrug? existingDrug = _drugs
-			.Where(x => x.DrugType.Equals(drugToAdd.DrugType))
+			.Where(x => x.Type.Equals(drugToAdd.Type))
 			.SingleOrDefault();
 
 		if (existingDrug is null)
@@ -96,7 +96,7 @@ internal sealed class Inventory : Notification, IInventory
 	public bool Remove(IDrug drugToRemove)
 	{
 		IDrug? existingDrug = _drugs
-			.Where(x => x.DrugType.Equals(drugToRemove.DrugType))
+			.Where(x => x.Type.Equals(drugToRemove.Type))
 			.SingleOrDefault();
 
 		if (existingDrug is null)

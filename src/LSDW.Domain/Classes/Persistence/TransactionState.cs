@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace LSDW.Domain.Classes.Persistence;
 
-[XmlRoot("Transaction", Namespace = XmlConstants.NameSpace)]
+[XmlRoot(XmlConstants.TransactionStateRootName, Namespace = XmlConstants.NameSpace)]
 public sealed class TransactionState
 {
 	public TransactionState()
@@ -22,18 +22,20 @@ public sealed class TransactionState
 		Price = transaction.Price;
 	}
 
-	[XmlElement("Date", Form = XmlSchemaForm.Qualified)]
+	[XmlElement(nameof(DateTime), Form = XmlSchemaForm.Qualified)]
 	public DateTime DateTime { get; set; }
 
-	[XmlAttribute("Type", Form = XmlSchemaForm.Qualified)]
+	[XmlAttribute(nameof(Type), Form = XmlSchemaForm.Qualified)]
 	public TransactionType Type { get; set; }
 
-	[XmlElement("Drug", Form = XmlSchemaForm.Qualified)]
+	[XmlElement(nameof(DrugType), Form = XmlSchemaForm.Qualified)]
 	public DrugType DrugType { get; set; }
 
-	[XmlElement("Quantity", Form = XmlSchemaForm.Qualified)]
+	[XmlElement(nameof(Quantity), Form = XmlSchemaForm.Qualified)]
 	public int Quantity { get; set; }
 
-	[XmlElement("Price", Form = XmlSchemaForm.Qualified)]
+	[XmlElement(nameof(Price), Form = XmlSchemaForm.Qualified)]
 	public int Price { get; set; }
+
+	public bool ShouldSerializePrice() => Price != default;
 }
