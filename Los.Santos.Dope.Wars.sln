@@ -7,18 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0BB98D05-D5E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{751C0958-C5D5-45A2-ABEF-A226D5FBC9BF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{73C90ACA-82B6-45B7-9CC7-BFFE239E8440}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-		.gitignore = .gitignore
-		AUTHORS.md = AUTHORS.md
-		CHANGES.md = CHANGES.md
-		Directory.Build.props = Directory.Build.props
-		Directory.Packages.props = Directory.Packages.props
-		LICENSE = LICENSE
-		README.md = README.md
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Domain", "src\LSDW.Domain\LSDW.Domain.csproj", "{E7A89523-F447-4ECC-96C9-B673B5A28164}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Infrastructure", "src\LSDW.Infrastructure\LSDW.Infrastructure.csproj", "{BDF5DD16-F223-4D29-AEA2-5C1B80CBD152}"
@@ -36,6 +24,18 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Domain.Tests", "tests\LSDW.Domain.Tests\LSDW.Domain.Tests.csproj", "{F7EBF88C-0C49-4A7B-A8D5-890793AF7570}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Application.Tests", "tests\LSDW.Application.Tests\LSDW.Application.Tests.csproj", "{F1FDF2FA-379E-4C76-A645-E02B2427B3BA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3E0CC88A-4C03-479C-9B75-D8D5C6FBB535}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		AUTHORS.md = AUTHORS.md
+		CHANGES.md = CHANGES.md
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,7 +95,7 @@ Global
 		{F1FDF2FA-379E-4C76-A645-E02B2427B3BA} = {751C0958-C5D5-45A2-ABEF-A226D5FBC9BF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_SortFileContentOnSave = True
 		SolutionGuid = {68F339D1-2669-47D8-9481-679C413F0389}
+		RESX_SortFileContentOnSave = True
 	EndGlobalSection
 EndGlobal
