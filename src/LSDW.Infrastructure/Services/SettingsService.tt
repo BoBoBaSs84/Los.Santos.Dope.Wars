@@ -64,6 +64,11 @@ internal sealed class <#= nestedType.Name #><#= nameof(Settings) #> : I<#= neste
 
 <# List<PropertyInfo> properties = nestedType.GetProperties().ToList();
 foreach (PropertyInfo prop in properties) { #>
+<# if (TypeNameOrAlias(prop.PropertyType) != "bool") {#>
+  public List<<#= TypeNameOrAlias(prop.PropertyType) #>> Get<#= prop.Name #>Values()
+    => <#= nameof(Settings) #>.<#= nestedType.Name #>.Get<#= prop.Name #>Values();
+<# } #>
+
   public <#= TypeNameOrAlias(prop.PropertyType) #> Get<#= prop.Name #>()
     => _scriptSettings.GetValue("<#= nestedType.Name.ToUpper() #><#= typeof(Settings).Name.ToUpper() #>", "<#= prop.Name.ToUpper() #>", <#= nameof(Settings) #>.<#= nestedType.Name #>.<#= prop.Name #>);
 

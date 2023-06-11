@@ -7,7 +7,7 @@ public partial class SettingsServiceTests
 	[TestMethod]
 	public void GetMaximumDrugValueTest()
 	{
-		float f = _settingsService.MarketSettings.GetMaximumDrugValue();
+		float f = _settingsService.MarketSettings.GetMaximumDrugPrice();
 
 		Assert.AreNotEqual(0, f);
 	}
@@ -16,18 +16,18 @@ public partial class SettingsServiceTests
 	public void SetMaximumDrugValueTest()
 	{
 		float value = 1.8f;
-		_settingsService.MarketSettings.SetMaximumDrugValue(value);
+		_settingsService.MarketSettings.SetMaximumDrugPrice(value);
 
-		float f = _settingsService.MarketSettings.GetMaximumDrugValue();
+		float f = _settingsService.MarketSettings.GetMaximumDrugPrice();
 
 		Assert.AreEqual(value, f);
-		Assert.AreEqual(value, Settings.Market.MaximumDrugValue);
+		Assert.AreEqual(value, Settings.Market.MaximumDrugPrice);
 	}
 
 	[TestMethod]
 	public void GetMinimumDrugValueTest()
 	{
-		float f = _settingsService.MarketSettings.GetMinimumDrugValue();
+		float f = _settingsService.MarketSettings.GetMinimumDrugPrice();
 
 		Assert.AreNotEqual(0, f);
 	}
@@ -36,11 +36,11 @@ public partial class SettingsServiceTests
 	public void SetMinimumDrugValueTest()
 	{
 		float value = 0.2f;
-		_settingsService.MarketSettings.SetMinimumDrugValue(value);
+		_settingsService.MarketSettings.SetMinimumDrugPrice(value);
 
-		float f = _settingsService.MarketSettings.GetMinimumDrugValue();
+		float f = _settingsService.MarketSettings.GetMinimumDrugPrice();
 
 		Assert.AreEqual(value, f);
-		Assert.AreEqual(value, Settings.Market.MinimumDrugValue);
+		Assert.AreEqual(value, Settings.Market.MinimumDrugPrice);
 	}
 }

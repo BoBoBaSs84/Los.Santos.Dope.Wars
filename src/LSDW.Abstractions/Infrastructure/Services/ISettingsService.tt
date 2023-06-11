@@ -29,6 +29,9 @@ public interface I<#= nestedType.Name #><#= nameof(Settings) #>
 {
 <# List<PropertyInfo> properties = nestedType.GetProperties().ToList();
 foreach (PropertyInfo prop in properties) { #>
+<# if (TypeNameOrAlias(prop.PropertyType) != "bool") {#>
+  List<<#= TypeNameOrAlias(prop.PropertyType) #>> Get<#= prop.Name #>Values();
+<# } #>
 	<#= TypeNameOrAlias(prop.PropertyType) #> Get<#= prop.Name #>();
   void Set<#= prop.Name #>(<#= TypeNameOrAlias(prop.PropertyType) #> value);
 <# } #>

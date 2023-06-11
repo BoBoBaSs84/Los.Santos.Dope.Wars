@@ -44,10 +44,10 @@ internal sealed partial class SettingsService : ISettingsService
     DealerSettings.SetHasArmor(hasarmor);
     bool hasweapons = DealerSettings.GetHasWeapons();
     DealerSettings.SetHasWeapons(hasweapons);
-    float maximumdrugvalue = MarketSettings.GetMaximumDrugValue();
-    MarketSettings.SetMaximumDrugValue(maximumdrugvalue);
-    float minimumdrugvalue = MarketSettings.GetMinimumDrugValue();
-    MarketSettings.SetMinimumDrugValue(minimumdrugvalue);
+    float maximumdrugprice = MarketSettings.GetMaximumDrugPrice();
+    MarketSettings.SetMaximumDrugPrice(maximumdrugprice);
+    float minimumdrugprice = MarketSettings.GetMinimumDrugPrice();
+    MarketSettings.SetMinimumDrugPrice(minimumdrugprice);
     float experiencemultiplier = PlayerSettings.GetExperienceMultiplier();
     PlayerSettings.SetExperienceMultiplier(experiencemultiplier);
     bool loosedrugsondeath = PlayerSettings.GetLooseDrugsOnDeath();
@@ -76,6 +76,9 @@ internal sealed class DealerSettings : IDealerSettings
   internal DealerSettings(ScriptSettings scriptSettings)
     => _scriptSettings = scriptSettings;
 
+  public List<int> GetDownTimeInHoursValues()
+    => Settings.Dealer.GetDownTimeInHoursValues();
+
   public int GetDownTimeInHours()
     => _scriptSettings.GetValue("DEALERSETTINGS", "DOWNTIMEINHOURS", Settings.Dealer.DownTimeInHours);
 
@@ -84,6 +87,7 @@ internal sealed class DealerSettings : IDealerSettings
 		_scriptSettings.SetValue("DEALERSETTINGS", "DOWNTIMEINHOURS", value);
 		Settings.Dealer.DownTimeInHours = value;
   }
+
   public bool GetHasArmor()
     => _scriptSettings.GetValue("DEALERSETTINGS", "HASARMOR", Settings.Dealer.HasArmor);
 
@@ -92,6 +96,7 @@ internal sealed class DealerSettings : IDealerSettings
 		_scriptSettings.SetValue("DEALERSETTINGS", "HASARMOR", value);
 		Settings.Dealer.HasArmor = value;
   }
+
   public bool GetHasWeapons()
     => _scriptSettings.GetValue("DEALERSETTINGS", "HASWEAPONS", Settings.Dealer.HasWeapons);
 
@@ -109,21 +114,27 @@ internal sealed class MarketSettings : IMarketSettings
   internal MarketSettings(ScriptSettings scriptSettings)
     => _scriptSettings = scriptSettings;
 
-  public float GetMaximumDrugValue()
-    => _scriptSettings.GetValue("MARKETSETTINGS", "MAXIMUMDRUGVALUE", Settings.Market.MaximumDrugValue);
+  public List<float> GetMaximumDrugPriceValues()
+    => Settings.Market.GetMaximumDrugPriceValues();
 
-	public void SetMaximumDrugValue(float value)
+  public float GetMaximumDrugPrice()
+    => _scriptSettings.GetValue("MARKETSETTINGS", "MAXIMUMDRUGPRICE", Settings.Market.MaximumDrugPrice);
+
+	public void SetMaximumDrugPrice(float value)
   {
-		_scriptSettings.SetValue("MARKETSETTINGS", "MAXIMUMDRUGVALUE", value);
-		Settings.Market.MaximumDrugValue = value;
+		_scriptSettings.SetValue("MARKETSETTINGS", "MAXIMUMDRUGPRICE", value);
+		Settings.Market.MaximumDrugPrice = value;
   }
-  public float GetMinimumDrugValue()
-    => _scriptSettings.GetValue("MARKETSETTINGS", "MINIMUMDRUGVALUE", Settings.Market.MinimumDrugValue);
+  public List<float> GetMinimumDrugPriceValues()
+    => Settings.Market.GetMinimumDrugPriceValues();
 
-	public void SetMinimumDrugValue(float value)
+  public float GetMinimumDrugPrice()
+    => _scriptSettings.GetValue("MARKETSETTINGS", "MINIMUMDRUGPRICE", Settings.Market.MinimumDrugPrice);
+
+	public void SetMinimumDrugPrice(float value)
   {
-		_scriptSettings.SetValue("MARKETSETTINGS", "MINIMUMDRUGVALUE", value);
-		Settings.Market.MinimumDrugValue = value;
+		_scriptSettings.SetValue("MARKETSETTINGS", "MINIMUMDRUGPRICE", value);
+		Settings.Market.MinimumDrugPrice = value;
   }
 }
 
@@ -134,6 +145,9 @@ internal sealed class PlayerSettings : IPlayerSettings
   internal PlayerSettings(ScriptSettings scriptSettings)
     => _scriptSettings = scriptSettings;
 
+  public List<float> GetExperienceMultiplierValues()
+    => Settings.Player.GetExperienceMultiplierValues();
+
   public float GetExperienceMultiplier()
     => _scriptSettings.GetValue("PLAYERSETTINGS", "EXPERIENCEMULTIPLIER", Settings.Player.ExperienceMultiplier);
 
@@ -142,6 +156,7 @@ internal sealed class PlayerSettings : IPlayerSettings
 		_scriptSettings.SetValue("PLAYERSETTINGS", "EXPERIENCEMULTIPLIER", value);
 		Settings.Player.ExperienceMultiplier = value;
   }
+
   public bool GetLooseDrugsOnDeath()
     => _scriptSettings.GetValue("PLAYERSETTINGS", "LOOSEDRUGSONDEATH", Settings.Player.LooseDrugsOnDeath);
 
@@ -150,6 +165,7 @@ internal sealed class PlayerSettings : IPlayerSettings
 		_scriptSettings.SetValue("PLAYERSETTINGS", "LOOSEDRUGSONDEATH", value);
 		Settings.Player.LooseDrugsOnDeath = value;
   }
+
   public bool GetLooseMoneyOnDeath()
     => _scriptSettings.GetValue("PLAYERSETTINGS", "LOOSEMONEYONDEATH", Settings.Player.LooseMoneyOnDeath);
 
@@ -158,6 +174,7 @@ internal sealed class PlayerSettings : IPlayerSettings
 		_scriptSettings.SetValue("PLAYERSETTINGS", "LOOSEMONEYONDEATH", value);
 		Settings.Player.LooseMoneyOnDeath = value;
   }
+
   public bool GetLooseDrugsWhenBusted()
     => _scriptSettings.GetValue("PLAYERSETTINGS", "LOOSEDRUGSWHENBUSTED", Settings.Player.LooseDrugsWhenBusted);
 
@@ -166,6 +183,7 @@ internal sealed class PlayerSettings : IPlayerSettings
 		_scriptSettings.SetValue("PLAYERSETTINGS", "LOOSEDRUGSWHENBUSTED", value);
 		Settings.Player.LooseDrugsWhenBusted = value;
   }
+
   public bool GetLooseMoneyWhenBusted()
     => _scriptSettings.GetValue("PLAYERSETTINGS", "LOOSEMONEYWHENBUSTED", Settings.Player.LooseMoneyWhenBusted);
 
@@ -174,6 +192,9 @@ internal sealed class PlayerSettings : IPlayerSettings
 		_scriptSettings.SetValue("PLAYERSETTINGS", "LOOSEMONEYWHENBUSTED", value);
 		Settings.Player.LooseMoneyWhenBusted = value;
   }
+  public List<int> GetInventoryExpansionPerLevelValues()
+    => Settings.Player.GetInventoryExpansionPerLevelValues();
+
   public int GetInventoryExpansionPerLevel()
     => _scriptSettings.GetValue("PLAYERSETTINGS", "INVENTORYEXPANSIONPERLEVEL", Settings.Player.InventoryExpansionPerLevel);
 
@@ -182,6 +203,9 @@ internal sealed class PlayerSettings : IPlayerSettings
 		_scriptSettings.SetValue("PLAYERSETTINGS", "INVENTORYEXPANSIONPERLEVEL", value);
 		Settings.Player.InventoryExpansionPerLevel = value;
   }
+  public List<int> GetStartingInventoryValues()
+    => Settings.Player.GetStartingInventoryValues();
+
   public int GetStartingInventory()
     => _scriptSettings.GetValue("PLAYERSETTINGS", "STARTINGINVENTORY", Settings.Player.StartingInventory);
 
@@ -199,6 +223,9 @@ internal sealed class TraffickingSettings : ITraffickingSettings
   internal TraffickingSettings(ScriptSettings scriptSettings)
     => _scriptSettings = scriptSettings;
 
+  public List<float> GetBustChanceValues()
+    => Settings.Trafficking.GetBustChanceValues();
+
   public float GetBustChance()
     => _scriptSettings.GetValue("TRAFFICKINGSETTINGS", "BUSTCHANCE", Settings.Trafficking.BustChance);
 
@@ -207,6 +234,9 @@ internal sealed class TraffickingSettings : ITraffickingSettings
 		_scriptSettings.SetValue("TRAFFICKINGSETTINGS", "BUSTCHANCE", value);
 		Settings.Trafficking.BustChance = value;
   }
+  public List<int> GetWantedLevelValues()
+    => Settings.Trafficking.GetWantedLevelValues();
+
   public int GetWantedLevel()
     => _scriptSettings.GetValue("TRAFFICKINGSETTINGS", "WANTEDLEVEL", Settings.Trafficking.WantedLevel);
 

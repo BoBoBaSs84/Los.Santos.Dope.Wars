@@ -28,28 +28,43 @@ internal sealed partial class SettingsMenu
 <# foreach (Type nestedType in nestedTypes) {
 List<PropertyInfo> properties = nestedType.GetProperties().ToList();
 foreach (PropertyInfo prop in properties) { #>
-
+<# if (TypeNameOrAlias(prop.PropertyType) != "bool") {#>
     SettingListItem<<#= TypeNameOrAlias(prop.PropertyType) #>> <#= nestedType.Name.ToLower() #><#= prop.Name #>Item = new(RESX.UI_<#= nameof(Settings) #>_<#= nestedType.Name #>_<#= prop.Name #>_Title)
     {
       Description = RESX.UI_<#= nameof(Settings) #>_<#= nestedType.Name #>_<#= prop.Name #>_Description,
-      Items = _<#= nestedType.Name.ToLower() #><#= prop.Name #>Values,
+      Items = _settingsService.<#= nestedType.Name #><#= nameof(Settings) #>.Get<#= prop.Name #>Values(),
       SelectedItem = _settingsService.<#= nestedType.Name #><#= nameof(Settings) #>.Get<#= prop.Name #>()
     };
     <#= nestedType.Name.ToLower() #><#= prop.Name #>Item.ItemChanged += On<#= nestedType.Name #><#= prop.Name #>ItemChanged;
     Add(<#= nestedType.Name.ToLower() #><#= prop.Name #>Item);
-<# }} #>
+<# } else { #>
+    SettingCheckboxItem <#= nestedType.Name.ToLower() #><#= prop.Name #>Item = new(RESX.UI_<#= nameof(Settings) #>_<#= nestedType.Name #>_<#= prop.Name #>_Title)
+    {
+      Description = RESX.UI_<#= nameof(Settings) #>_<#= nestedType.Name #>_<#= prop.Name #>_Description,
+      Checked = _settingsService.<#= nestedType.Name #><#= nameof(Settings) #>.Get<#= prop.Name #>()
+    };
+    <#= nestedType.Name.ToLower() #><#= prop.Name #>Item.CheckboxChanged += On<#= nestedType.Name #><#= prop.Name #>ItemCheckboxChanged;
+    Add(<#= nestedType.Name.ToLower() #><#= prop.Name #>Item);
+<# }}} #>
 	}
-
 <# foreach (Type nestedType in nestedTypes) { 
 List<PropertyInfo> properties = nestedType.GetProperties().ToList();
 foreach (PropertyInfo prop in properties) { #>
+<# if (TypeNameOrAlias(prop.PropertyType) != "bool") {#>
   private void On<#= nestedType.Name #><#= prop.Name #>ItemChanged(object sender, ItemChangedEventArgs<<#= TypeNameOrAlias(prop.PropertyType) #>> args)
   {
     if (sender is not SettingListItem<<#= TypeNameOrAlias(prop.PropertyType) #>> item)
       return;
     _settingsService.<#= nestedType.Name #><#= nameof(Settings) #>.Set<#= prop.Name #>(item.SelectedItem);
   }
-<# }} #>
+<# } else { #>
+  private void On<#= nestedType.Name #><#= prop.Name #>ItemCheckboxChanged(object sender, EventArgs args)
+  {
+    if (sender is not SettingCheckboxItem item)
+      return;
+    _settingsService.<#= nestedType.Name #><#= nameof(Settings) #>.Set<#= prop.Name #>(item.Checked);
+  }  
+<# }}} #>
 }
 <#+
 List<Type> nestedTypes = typeof(Settings).GetNestedTypes().ToList();

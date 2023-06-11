@@ -117,36 +117,36 @@ namespace LSDW.Presentation.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The maximum value of a drug, serves as a multiplier to the nominal market value..
         /// </summary>
-        public static string UI_Settings_Market_MaximumDrugValue_Description {
+        public static string UI_Settings_Market_MaximumDrugPrice_Description {
             get {
-                return ResourceManager.GetString("UI.Settings.Market.MaximumDrugValue.Description", resourceCulture);
+                return ResourceManager.GetString("UI.Settings.Market.MaximumDrugPrice.Description", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Maximum drug value.
         /// </summary>
-        public static string UI_Settings_Market_MaximumDrugValue_Title {
+        public static string UI_Settings_Market_MaximumDrugPrice_Title {
             get {
-                return ResourceManager.GetString("UI.Settings.Market.MaximumDrugValue.Title", resourceCulture);
+                return ResourceManager.GetString("UI.Settings.Market.MaximumDrugPrice.Title", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The minimum value of a drug, serves as a multiplier to the nominal market value..
         /// </summary>
-        public static string UI_Settings_Market_MinimumDrugValue_Description {
+        public static string UI_Settings_Market_MinimumDrugPrice_Description {
             get {
-                return ResourceManager.GetString("UI.Settings.Market.MinimumDrugValue.Description", resourceCulture);
+                return ResourceManager.GetString("UI.Settings.Market.MinimumDrugPrice.Description", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Minimum drug value.
         /// </summary>
-        public static string UI_Settings_Market_MinimumDrugValue_Title {
+        public static string UI_Settings_Market_MinimumDrugPrice_Title {
             get {
-                return ResourceManager.GetString("UI.Settings.Market.MinimumDrugValue.Title", resourceCulture);
+                return ResourceManager.GetString("UI.Settings.Market.MinimumDrugPrice.Title", resourceCulture);
             }
         }
         

@@ -18,6 +18,7 @@ public partial interface ISettingsService
 
 public interface IDealerSettings
 {
+  List<int> GetDownTimeInHoursValues();
 	int GetDownTimeInHours();
   void SetDownTimeInHours(int value);
 	bool GetHasArmor();
@@ -28,14 +29,17 @@ public interface IDealerSettings
 
 public interface IMarketSettings
 {
-	float GetMaximumDrugValue();
-  void SetMaximumDrugValue(float value);
-	float GetMinimumDrugValue();
-  void SetMinimumDrugValue(float value);
+  List<float> GetMaximumDrugPriceValues();
+	float GetMaximumDrugPrice();
+  void SetMaximumDrugPrice(float value);
+  List<float> GetMinimumDrugPriceValues();
+	float GetMinimumDrugPrice();
+  void SetMinimumDrugPrice(float value);
 }
 
 public interface IPlayerSettings
 {
+  List<float> GetExperienceMultiplierValues();
 	float GetExperienceMultiplier();
   void SetExperienceMultiplier(float value);
 	bool GetLooseDrugsOnDeath();
@@ -46,16 +50,20 @@ public interface IPlayerSettings
   void SetLooseDrugsWhenBusted(bool value);
 	bool GetLooseMoneyWhenBusted();
   void SetLooseMoneyWhenBusted(bool value);
+  List<int> GetInventoryExpansionPerLevelValues();
 	int GetInventoryExpansionPerLevel();
   void SetInventoryExpansionPerLevel(int value);
+  List<int> GetStartingInventoryValues();
 	int GetStartingInventory();
   void SetStartingInventory(int value);
 }
 
 public interface ITraffickingSettings
 {
+  List<float> GetBustChanceValues();
 	float GetBustChance();
   void SetBustChance(float value);
+  List<int> GetWantedLevelValues();
 	int GetWantedLevel();
   void SetWantedLevel(int value);
 }

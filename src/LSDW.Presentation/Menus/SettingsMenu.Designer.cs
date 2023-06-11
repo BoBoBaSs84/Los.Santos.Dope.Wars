@@ -16,163 +16,142 @@ internal sealed partial class SettingsMenu
 {
 	private void AddMenuItems()
 	{
-
     SettingListItem<int> dealerDownTimeInHoursItem = new(RESX.UI_Settings_Dealer_DownTimeInHours_Title)
     {
       Description = RESX.UI_Settings_Dealer_DownTimeInHours_Description,
-      Items = _dealerDownTimeInHoursValues,
+      Items = _settingsService.DealerSettings.GetDownTimeInHoursValues(),
       SelectedItem = _settingsService.DealerSettings.GetDownTimeInHours()
     };
     dealerDownTimeInHoursItem.ItemChanged += OnDealerDownTimeInHoursItemChanged;
     Add(dealerDownTimeInHoursItem);
-
-    SettingListItem<bool> dealerHasArmorItem = new(RESX.UI_Settings_Dealer_HasArmor_Title)
+    SettingCheckboxItem dealerHasArmorItem = new(RESX.UI_Settings_Dealer_HasArmor_Title)
     {
       Description = RESX.UI_Settings_Dealer_HasArmor_Description,
-      Items = _dealerHasArmorValues,
-      SelectedItem = _settingsService.DealerSettings.GetHasArmor()
+      Checked = _settingsService.DealerSettings.GetHasArmor()
     };
-    dealerHasArmorItem.ItemChanged += OnDealerHasArmorItemChanged;
+    dealerHasArmorItem.CheckboxChanged += OnDealerHasArmorItemCheckboxChanged;
     Add(dealerHasArmorItem);
-
-    SettingListItem<bool> dealerHasWeaponsItem = new(RESX.UI_Settings_Dealer_HasWeapons_Title)
+    SettingCheckboxItem dealerHasWeaponsItem = new(RESX.UI_Settings_Dealer_HasWeapons_Title)
     {
       Description = RESX.UI_Settings_Dealer_HasWeapons_Description,
-      Items = _dealerHasWeaponsValues,
-      SelectedItem = _settingsService.DealerSettings.GetHasWeapons()
+      Checked = _settingsService.DealerSettings.GetHasWeapons()
     };
-    dealerHasWeaponsItem.ItemChanged += OnDealerHasWeaponsItemChanged;
+    dealerHasWeaponsItem.CheckboxChanged += OnDealerHasWeaponsItemCheckboxChanged;
     Add(dealerHasWeaponsItem);
-
-    SettingListItem<float> marketMaximumDrugValueItem = new(RESX.UI_Settings_Market_MaximumDrugValue_Title)
+    SettingListItem<float> marketMaximumDrugPriceItem = new(RESX.UI_Settings_Market_MaximumDrugPrice_Title)
     {
-      Description = RESX.UI_Settings_Market_MaximumDrugValue_Description,
-      Items = _marketMaximumDrugValueValues,
-      SelectedItem = _settingsService.MarketSettings.GetMaximumDrugValue()
+      Description = RESX.UI_Settings_Market_MaximumDrugPrice_Description,
+      Items = _settingsService.MarketSettings.GetMaximumDrugPriceValues(),
+      SelectedItem = _settingsService.MarketSettings.GetMaximumDrugPrice()
     };
-    marketMaximumDrugValueItem.ItemChanged += OnMarketMaximumDrugValueItemChanged;
-    Add(marketMaximumDrugValueItem);
-
-    SettingListItem<float> marketMinimumDrugValueItem = new(RESX.UI_Settings_Market_MinimumDrugValue_Title)
+    marketMaximumDrugPriceItem.ItemChanged += OnMarketMaximumDrugPriceItemChanged;
+    Add(marketMaximumDrugPriceItem);
+    SettingListItem<float> marketMinimumDrugPriceItem = new(RESX.UI_Settings_Market_MinimumDrugPrice_Title)
     {
-      Description = RESX.UI_Settings_Market_MinimumDrugValue_Description,
-      Items = _marketMinimumDrugValueValues,
-      SelectedItem = _settingsService.MarketSettings.GetMinimumDrugValue()
+      Description = RESX.UI_Settings_Market_MinimumDrugPrice_Description,
+      Items = _settingsService.MarketSettings.GetMinimumDrugPriceValues(),
+      SelectedItem = _settingsService.MarketSettings.GetMinimumDrugPrice()
     };
-    marketMinimumDrugValueItem.ItemChanged += OnMarketMinimumDrugValueItemChanged;
-    Add(marketMinimumDrugValueItem);
-
+    marketMinimumDrugPriceItem.ItemChanged += OnMarketMinimumDrugPriceItemChanged;
+    Add(marketMinimumDrugPriceItem);
     SettingListItem<float> playerExperienceMultiplierItem = new(RESX.UI_Settings_Player_ExperienceMultiplier_Title)
     {
       Description = RESX.UI_Settings_Player_ExperienceMultiplier_Description,
-      Items = _playerExperienceMultiplierValues,
+      Items = _settingsService.PlayerSettings.GetExperienceMultiplierValues(),
       SelectedItem = _settingsService.PlayerSettings.GetExperienceMultiplier()
     };
     playerExperienceMultiplierItem.ItemChanged += OnPlayerExperienceMultiplierItemChanged;
     Add(playerExperienceMultiplierItem);
-
-    SettingListItem<bool> playerLooseDrugsOnDeathItem = new(RESX.UI_Settings_Player_LooseDrugsOnDeath_Title)
+    SettingCheckboxItem playerLooseDrugsOnDeathItem = new(RESX.UI_Settings_Player_LooseDrugsOnDeath_Title)
     {
       Description = RESX.UI_Settings_Player_LooseDrugsOnDeath_Description,
-      Items = _playerLooseDrugsOnDeathValues,
-      SelectedItem = _settingsService.PlayerSettings.GetLooseDrugsOnDeath()
+      Checked = _settingsService.PlayerSettings.GetLooseDrugsOnDeath()
     };
-    playerLooseDrugsOnDeathItem.ItemChanged += OnPlayerLooseDrugsOnDeathItemChanged;
+    playerLooseDrugsOnDeathItem.CheckboxChanged += OnPlayerLooseDrugsOnDeathItemCheckboxChanged;
     Add(playerLooseDrugsOnDeathItem);
-
-    SettingListItem<bool> playerLooseMoneyOnDeathItem = new(RESX.UI_Settings_Player_LooseMoneyOnDeath_Title)
+    SettingCheckboxItem playerLooseMoneyOnDeathItem = new(RESX.UI_Settings_Player_LooseMoneyOnDeath_Title)
     {
       Description = RESX.UI_Settings_Player_LooseMoneyOnDeath_Description,
-      Items = _playerLooseMoneyOnDeathValues,
-      SelectedItem = _settingsService.PlayerSettings.GetLooseMoneyOnDeath()
+      Checked = _settingsService.PlayerSettings.GetLooseMoneyOnDeath()
     };
-    playerLooseMoneyOnDeathItem.ItemChanged += OnPlayerLooseMoneyOnDeathItemChanged;
+    playerLooseMoneyOnDeathItem.CheckboxChanged += OnPlayerLooseMoneyOnDeathItemCheckboxChanged;
     Add(playerLooseMoneyOnDeathItem);
-
-    SettingListItem<bool> playerLooseDrugsWhenBustedItem = new(RESX.UI_Settings_Player_LooseDrugsWhenBusted_Title)
+    SettingCheckboxItem playerLooseDrugsWhenBustedItem = new(RESX.UI_Settings_Player_LooseDrugsWhenBusted_Title)
     {
       Description = RESX.UI_Settings_Player_LooseDrugsWhenBusted_Description,
-      Items = _playerLooseDrugsWhenBustedValues,
-      SelectedItem = _settingsService.PlayerSettings.GetLooseDrugsWhenBusted()
+      Checked = _settingsService.PlayerSettings.GetLooseDrugsWhenBusted()
     };
-    playerLooseDrugsWhenBustedItem.ItemChanged += OnPlayerLooseDrugsWhenBustedItemChanged;
+    playerLooseDrugsWhenBustedItem.CheckboxChanged += OnPlayerLooseDrugsWhenBustedItemCheckboxChanged;
     Add(playerLooseDrugsWhenBustedItem);
-
-    SettingListItem<bool> playerLooseMoneyWhenBustedItem = new(RESX.UI_Settings_Player_LooseMoneyWhenBusted_Title)
+    SettingCheckboxItem playerLooseMoneyWhenBustedItem = new(RESX.UI_Settings_Player_LooseMoneyWhenBusted_Title)
     {
       Description = RESX.UI_Settings_Player_LooseMoneyWhenBusted_Description,
-      Items = _playerLooseMoneyWhenBustedValues,
-      SelectedItem = _settingsService.PlayerSettings.GetLooseMoneyWhenBusted()
+      Checked = _settingsService.PlayerSettings.GetLooseMoneyWhenBusted()
     };
-    playerLooseMoneyWhenBustedItem.ItemChanged += OnPlayerLooseMoneyWhenBustedItemChanged;
+    playerLooseMoneyWhenBustedItem.CheckboxChanged += OnPlayerLooseMoneyWhenBustedItemCheckboxChanged;
     Add(playerLooseMoneyWhenBustedItem);
-
     SettingListItem<int> playerInventoryExpansionPerLevelItem = new(RESX.UI_Settings_Player_InventoryExpansionPerLevel_Title)
     {
       Description = RESX.UI_Settings_Player_InventoryExpansionPerLevel_Description,
-      Items = _playerInventoryExpansionPerLevelValues,
+      Items = _settingsService.PlayerSettings.GetInventoryExpansionPerLevelValues(),
       SelectedItem = _settingsService.PlayerSettings.GetInventoryExpansionPerLevel()
     };
     playerInventoryExpansionPerLevelItem.ItemChanged += OnPlayerInventoryExpansionPerLevelItemChanged;
     Add(playerInventoryExpansionPerLevelItem);
-
     SettingListItem<int> playerStartingInventoryItem = new(RESX.UI_Settings_Player_StartingInventory_Title)
     {
       Description = RESX.UI_Settings_Player_StartingInventory_Description,
-      Items = _playerStartingInventoryValues,
+      Items = _settingsService.PlayerSettings.GetStartingInventoryValues(),
       SelectedItem = _settingsService.PlayerSettings.GetStartingInventory()
     };
     playerStartingInventoryItem.ItemChanged += OnPlayerStartingInventoryItemChanged;
     Add(playerStartingInventoryItem);
-
     SettingListItem<float> traffickingBustChanceItem = new(RESX.UI_Settings_Trafficking_BustChance_Title)
     {
       Description = RESX.UI_Settings_Trafficking_BustChance_Description,
-      Items = _traffickingBustChanceValues,
+      Items = _settingsService.TraffickingSettings.GetBustChanceValues(),
       SelectedItem = _settingsService.TraffickingSettings.GetBustChance()
     };
     traffickingBustChanceItem.ItemChanged += OnTraffickingBustChanceItemChanged;
     Add(traffickingBustChanceItem);
-
     SettingListItem<int> traffickingWantedLevelItem = new(RESX.UI_Settings_Trafficking_WantedLevel_Title)
     {
       Description = RESX.UI_Settings_Trafficking_WantedLevel_Description,
-      Items = _traffickingWantedLevelValues,
+      Items = _settingsService.TraffickingSettings.GetWantedLevelValues(),
       SelectedItem = _settingsService.TraffickingSettings.GetWantedLevel()
     };
     traffickingWantedLevelItem.ItemChanged += OnTraffickingWantedLevelItemChanged;
     Add(traffickingWantedLevelItem);
 	}
-
   private void OnDealerDownTimeInHoursItemChanged(object sender, ItemChangedEventArgs<int> args)
   {
     if (sender is not SettingListItem<int> item)
       return;
     _settingsService.DealerSettings.SetDownTimeInHours(item.SelectedItem);
   }
-  private void OnDealerHasArmorItemChanged(object sender, ItemChangedEventArgs<bool> args)
+  private void OnDealerHasArmorItemCheckboxChanged(object sender, EventArgs args)
   {
-    if (sender is not SettingListItem<bool> item)
+    if (sender is not SettingCheckboxItem item)
       return;
-    _settingsService.DealerSettings.SetHasArmor(item.SelectedItem);
-  }
-  private void OnDealerHasWeaponsItemChanged(object sender, ItemChangedEventArgs<bool> args)
+    _settingsService.DealerSettings.SetHasArmor(item.Checked);
+  }  
+  private void OnDealerHasWeaponsItemCheckboxChanged(object sender, EventArgs args)
   {
-    if (sender is not SettingListItem<bool> item)
+    if (sender is not SettingCheckboxItem item)
       return;
-    _settingsService.DealerSettings.SetHasWeapons(item.SelectedItem);
-  }
-  private void OnMarketMaximumDrugValueItemChanged(object sender, ItemChangedEventArgs<float> args)
-  {
-    if (sender is not SettingListItem<float> item)
-      return;
-    _settingsService.MarketSettings.SetMaximumDrugValue(item.SelectedItem);
-  }
-  private void OnMarketMinimumDrugValueItemChanged(object sender, ItemChangedEventArgs<float> args)
+    _settingsService.DealerSettings.SetHasWeapons(item.Checked);
+  }  
+  private void OnMarketMaximumDrugPriceItemChanged(object sender, ItemChangedEventArgs<float> args)
   {
     if (sender is not SettingListItem<float> item)
       return;
-    _settingsService.MarketSettings.SetMinimumDrugValue(item.SelectedItem);
+    _settingsService.MarketSettings.SetMaximumDrugPrice(item.SelectedItem);
+  }
+  private void OnMarketMinimumDrugPriceItemChanged(object sender, ItemChangedEventArgs<float> args)
+  {
+    if (sender is not SettingListItem<float> item)
+      return;
+    _settingsService.MarketSettings.SetMinimumDrugPrice(item.SelectedItem);
   }
   private void OnPlayerExperienceMultiplierItemChanged(object sender, ItemChangedEventArgs<float> args)
   {
@@ -180,30 +159,30 @@ internal sealed partial class SettingsMenu
       return;
     _settingsService.PlayerSettings.SetExperienceMultiplier(item.SelectedItem);
   }
-  private void OnPlayerLooseDrugsOnDeathItemChanged(object sender, ItemChangedEventArgs<bool> args)
+  private void OnPlayerLooseDrugsOnDeathItemCheckboxChanged(object sender, EventArgs args)
   {
-    if (sender is not SettingListItem<bool> item)
+    if (sender is not SettingCheckboxItem item)
       return;
-    _settingsService.PlayerSettings.SetLooseDrugsOnDeath(item.SelectedItem);
-  }
-  private void OnPlayerLooseMoneyOnDeathItemChanged(object sender, ItemChangedEventArgs<bool> args)
+    _settingsService.PlayerSettings.SetLooseDrugsOnDeath(item.Checked);
+  }  
+  private void OnPlayerLooseMoneyOnDeathItemCheckboxChanged(object sender, EventArgs args)
   {
-    if (sender is not SettingListItem<bool> item)
+    if (sender is not SettingCheckboxItem item)
       return;
-    _settingsService.PlayerSettings.SetLooseMoneyOnDeath(item.SelectedItem);
-  }
-  private void OnPlayerLooseDrugsWhenBustedItemChanged(object sender, ItemChangedEventArgs<bool> args)
+    _settingsService.PlayerSettings.SetLooseMoneyOnDeath(item.Checked);
+  }  
+  private void OnPlayerLooseDrugsWhenBustedItemCheckboxChanged(object sender, EventArgs args)
   {
-    if (sender is not SettingListItem<bool> item)
+    if (sender is not SettingCheckboxItem item)
       return;
-    _settingsService.PlayerSettings.SetLooseDrugsWhenBusted(item.SelectedItem);
-  }
-  private void OnPlayerLooseMoneyWhenBustedItemChanged(object sender, ItemChangedEventArgs<bool> args)
+    _settingsService.PlayerSettings.SetLooseDrugsWhenBusted(item.Checked);
+  }  
+  private void OnPlayerLooseMoneyWhenBustedItemCheckboxChanged(object sender, EventArgs args)
   {
-    if (sender is not SettingListItem<bool> item)
+    if (sender is not SettingCheckboxItem item)
       return;
-    _settingsService.PlayerSettings.SetLooseMoneyWhenBusted(item.SelectedItem);
-  }
+    _settingsService.PlayerSettings.SetLooseMoneyWhenBusted(item.Checked);
+  }  
   private void OnPlayerInventoryExpansionPerLevelItemChanged(object sender, ItemChangedEventArgs<int> args)
   {
     if (sender is not SettingListItem<int> item)

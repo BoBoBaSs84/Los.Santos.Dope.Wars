@@ -135,16 +135,16 @@
   <data name="UI.Settings.Dealer.HasWeapons.Title" xml:space="preserve">
     <value>Is the dealer armed?</value>
   </data>
-  <data name="UI.Settings.Market.MaximumDrugValue.Description" xml:space="preserve">
+  <data name="UI.Settings.Market.MaximumDrugPrice.Description" xml:space="preserve">
     <value>The maximum value of a drug, serves as a multiplier to the nominal market value.</value>
   </data>
-  <data name="UI.Settings.Market.MaximumDrugValue.Title" xml:space="preserve">
+  <data name="UI.Settings.Market.MaximumDrugPrice.Title" xml:space="preserve">
     <value>Maximum drug value</value>
   </data>
-  <data name="UI.Settings.Market.MinimumDrugValue.Description" xml:space="preserve">
+  <data name="UI.Settings.Market.MinimumDrugPrice.Description" xml:space="preserve">
     <value>The minimum value of a drug, serves as a multiplier to the nominal market value.</value>
   </data>
-  <data name="UI.Settings.Market.MinimumDrugValue.Title" xml:space="preserve">
+  <data name="UI.Settings.Market.MinimumDrugPrice.Title" xml:space="preserve">
     <value>Minimum drug value</value>
   </data>
   <data name="UI.Settings.Player.ExperienceMultiplier.Description" xml:space="preserve">
