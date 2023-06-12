@@ -44,6 +44,10 @@ internal sealed partial class SettingsService : ISettingsService
     DealerSettings.SetHasArmor(hasarmor);
     bool hasweapons = DealerSettings.GetHasWeapons();
     DealerSettings.SetHasWeapons(hasweapons);
+    int inventorychangeinterval = MarketSettings.GetInventoryChangeInterval();
+    MarketSettings.SetInventoryChangeInterval(inventorychangeinterval);
+    int pricechangeinterval = MarketSettings.GetPriceChangeInterval();
+    MarketSettings.SetPriceChangeInterval(pricechangeinterval);
     float maximumdrugprice = MarketSettings.GetMaximumDrugPrice();
     MarketSettings.SetMaximumDrugPrice(maximumdrugprice);
     float minimumdrugprice = MarketSettings.GetMinimumDrugPrice();
@@ -116,6 +120,28 @@ internal sealed class MarketSettings : IMarketSettings
   internal MarketSettings(ScriptSettings scriptSettings)
     => _scriptSettings = scriptSettings;
 
+  public List<int> GetInventoryChangeIntervalValues()
+    => Settings.Market.GetInventoryChangeIntervalValues();
+
+  public int GetInventoryChangeInterval()
+    => _scriptSettings.GetValue("MARKETSETTINGS", "INVENTORYCHANGEINTERVAL", Settings.Market.InventoryChangeInterval);
+
+	public void SetInventoryChangeInterval(int value)
+  {
+		_scriptSettings.SetValue("MARKETSETTINGS", "INVENTORYCHANGEINTERVAL", value);
+		Settings.Market.InventoryChangeInterval = value;
+  }
+  public List<int> GetPriceChangeIntervalValues()
+    => Settings.Market.GetPriceChangeIntervalValues();
+
+  public int GetPriceChangeInterval()
+    => _scriptSettings.GetValue("MARKETSETTINGS", "PRICECHANGEINTERVAL", Settings.Market.PriceChangeInterval);
+
+	public void SetPriceChangeInterval(int value)
+  {
+		_scriptSettings.SetValue("MARKETSETTINGS", "PRICECHANGEINTERVAL", value);
+		Settings.Market.PriceChangeInterval = value;
+  }
   public List<float> GetMaximumDrugPriceValues()
     => Settings.Market.GetMaximumDrugPriceValues();
 

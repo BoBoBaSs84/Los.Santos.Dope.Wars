@@ -20,12 +20,12 @@ internal abstract class Mission : IMission
 	public virtual void OnAborted(object sender, EventArgs args) { }
 	public virtual void OnKeyUp(object sender, KeyEventArgs args) { }
 	public virtual void OnTick(object sender, EventArgs args) { }
-	public void StartMission()
+	public virtual void StartMission()
 	{
 		Status = MissionStatusType.Started;
 		Game.IsMissionActive = true;
 	}
-	public void StopMission()
+	public virtual void StopMission()
 	{
 		Status = MissionStatusType.Stopped;
 		Game.IsMissionActive = false;

@@ -16,28 +16,36 @@ namespace LSDW.Application.Missions;
 internal sealed class Trafficking : Mission, ITrafficking
 {
 	private readonly ITimeProvider _timeProvider;
-	private readonly ILoggerService _logger;
+	private readonly ILoggerService _loggerService;
 	private readonly IGameStateService _stateService;
 	private readonly ICollection<IDealer> _dealers;
 	private readonly IPlayer _player;
 
-	private readonly ISideMenu? leftSideMenu;
-	private readonly ISideMenu? rightSideMenu;
-	private Ped? _character;
+	private ISideMenu? leftSideMenu;
+	private ISideMenu? rightSideMenu;
+	private Ped? character;
 
 	/// <summary>
 	/// Initializes a instance of the trafficking class.
 	/// </summary>
 	/// <param name="timeProvider">The time provider to use.</param>
-	/// <param name="logger">The logger service service to use.</param>
+	/// <param name="loggerService">The logger service service to use.</param>
 	/// <param name="stateService">The game state service to use.</param>
-	internal Trafficking(ITimeProvider timeProvider, ILoggerService logger, IGameStateService stateService) : base()
+	internal Trafficking(ITimeProvider timeProvider, ILoggerService loggerService, IGameStateService stateService) : base()
 	{
 		_timeProvider = timeProvider;
-		_logger = logger;
+		_loggerService = loggerService;
 		_stateService = stateService;
 		_dealers = stateService.Dealers.ToList();
 		_player = stateService.Player;
+	}
+
+	public override void StopMission()
+	{
+		character = null;
+		leftSideMenu = null;
+		rightSideMenu = null;		
+		base.StopMission();
 	}
 
 	public override void OnAborted(object sender, EventArgs args)
@@ -57,6 +65,6 @@ internal sealed class Trafficking : Mission, ITrafficking
 		if (Status is not MissionStatusType.Started)
 			return;
 
-		_character ??= Game.Player.Character;
+		character ??= Game.Player.Character;
 	}
 }

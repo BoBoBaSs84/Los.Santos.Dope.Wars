@@ -38,6 +38,22 @@ internal sealed partial class SettingsMenu
     };
     dealerHasWeaponsItem.CheckboxChanged += OnDealerHasWeaponsItemCheckboxChanged;
     Add(dealerHasWeaponsItem);
+    SettingListItem<int> marketInventoryChangeIntervalItem = new(RESX.UI_Settings_Market_InventoryChangeInterval_Title)
+    {
+      Description = RESX.UI_Settings_Market_InventoryChangeInterval_Description,
+      Items = _settingsService.MarketSettings.GetInventoryChangeIntervalValues(),
+      SelectedItem = _settingsService.MarketSettings.GetInventoryChangeInterval()
+    };
+    marketInventoryChangeIntervalItem.ItemChanged += OnMarketInventoryChangeIntervalItemChanged;
+    Add(marketInventoryChangeIntervalItem);
+    SettingListItem<int> marketPriceChangeIntervalItem = new(RESX.UI_Settings_Market_PriceChangeInterval_Title)
+    {
+      Description = RESX.UI_Settings_Market_PriceChangeInterval_Description,
+      Items = _settingsService.MarketSettings.GetPriceChangeIntervalValues(),
+      SelectedItem = _settingsService.MarketSettings.GetPriceChangeInterval()
+    };
+    marketPriceChangeIntervalItem.ItemChanged += OnMarketPriceChangeIntervalItemChanged;
+    Add(marketPriceChangeIntervalItem);
     SettingListItem<float> marketMaximumDrugPriceItem = new(RESX.UI_Settings_Market_MaximumDrugPrice_Title)
     {
       Description = RESX.UI_Settings_Market_MaximumDrugPrice_Description,
@@ -148,6 +164,18 @@ internal sealed partial class SettingsMenu
       return;
     _settingsService.DealerSettings.SetHasWeapons(item.Checked);
   }  
+  private void OnMarketInventoryChangeIntervalItemChanged(object sender, ItemChangedEventArgs<int> args)
+  {
+    if (sender is not SettingListItem<int> item)
+      return;
+    _settingsService.MarketSettings.SetInventoryChangeInterval(item.SelectedItem);
+  }
+  private void OnMarketPriceChangeIntervalItemChanged(object sender, ItemChangedEventArgs<int> args)
+  {
+    if (sender is not SettingListItem<int> item)
+      return;
+    _settingsService.MarketSettings.SetPriceChangeInterval(item.SelectedItem);
+  }
   private void OnMarketMaximumDrugPriceItemChanged(object sender, ItemChangedEventArgs<float> args)
   {
     if (sender is not SettingListItem<float> item)

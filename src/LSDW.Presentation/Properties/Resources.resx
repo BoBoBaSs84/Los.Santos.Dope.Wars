@@ -135,6 +135,12 @@
   <data name="UI.Settings.Dealer.HasWeapons.Title" xml:space="preserve">
     <value>Is the dealer armed?</value>
   </data>
+  <data name="UI.Settings.Market.InventoryChangeInterval.Description" xml:space="preserve">
+    <value>After how many hours does the dealer's drug offer change?</value>
+  </data>
+  <data name="UI.Settings.Market.InventoryChangeInterval.Title" xml:space="preserve">
+    <value>Inventory change interval</value>
+  </data>
   <data name="UI.Settings.Market.MaximumDrugPrice.Description" xml:space="preserve">
     <value>The maximum value of a drug, serves as a multiplier to the nominal market value.</value>
   </data>
@@ -146,6 +152,12 @@
   </data>
   <data name="UI.Settings.Market.MinimumDrugPrice.Title" xml:space="preserve">
     <value>Minimum drug value</value>
+  </data>
+  <data name="UI.Settings.Market.PriceChangeInterval.Description" xml:space="preserve">
+    <value>After how many hours does the current drug price change?</value>
+  </data>
+  <data name="UI.Settings.Market.PriceChangeInterval.Title" xml:space="preserve">
+    <value>Price change interval</value>
   </data>
   <data name="UI.Settings.Player.ExperienceMultiplier.Description" xml:space="preserve">
     <value>The experience value multiplier, which is to be applied at each experience gain.</value>
