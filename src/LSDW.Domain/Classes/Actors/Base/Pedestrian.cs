@@ -6,6 +6,12 @@ using LSDW.Domain.Interfaces.Actors;
 
 namespace LSDW.Domain.Classes.Actors.Base;
 
+/// <summary>
+/// The pedestrian actor base class.
+/// </summary>
+/// <remarks>
+/// Implements the members of the <see cref="IPedestrian"/> interface.
+/// </remarks>
 internal abstract class Pedestrian : IPedestrian
 {
 	private Ped? ped;
@@ -44,7 +50,7 @@ internal abstract class Pedestrian : IPedestrian
 		ped.Task.FightAgainst(ped, -1);
 	}
 
-	public void Create(float healthValue = 100)
+	public virtual void Create(float healthValue = 100)
 	{
 		if (ped is null)
 			return;
@@ -54,7 +60,7 @@ internal abstract class Pedestrian : IPedestrian
 		ped.HealthFloat = healthValue;
 	}
 
-	public void Delete()
+	public virtual void Delete()
 	{
 		if (ped is null)
 			return;
@@ -62,7 +68,7 @@ internal abstract class Pedestrian : IPedestrian
 		ped.Delete();
 	}
 
-	public void Flee()
+	public virtual void Flee()
 	{
 		if (ped is null)
 			return;
