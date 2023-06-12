@@ -38,7 +38,7 @@ public partial class DomainFactoryTests
 	[TestMethod]
 	public void CreateDealersTest()
 	{
-		IEnumerable<IDealer>? dealers;
+		ICollection<IDealer>? dealers;
 
 		dealers = DomainFactory.CreateDealers();
 
@@ -66,7 +66,7 @@ public partial class DomainFactoryTests
 	{
 		List<DealerState> states = new() { GetDealerState() };
 
-		IEnumerable<IDealer> dealers = DomainFactory.CreateDealers(states);
+		ICollection<IDealer> dealers = DomainFactory.CreateDealers(states);
 
 		Assert.IsNotNull(dealers);
 		Assert.AreEqual(states.Count, dealers.Count());
@@ -77,7 +77,7 @@ public partial class DomainFactoryTests
 	{
 		GameState gameState = new();
 
-		IEnumerable<IDealer> dealers = DomainFactory.CreateDealers(gameState);
+		ICollection<IDealer> dealers = DomainFactory.CreateDealers(gameState);
 
 		Assert.IsNotNull(dealers);
 	}

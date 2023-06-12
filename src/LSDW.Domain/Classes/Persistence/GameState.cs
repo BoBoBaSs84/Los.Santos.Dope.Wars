@@ -16,7 +16,7 @@ public sealed class GameState
 		Dealers = new();
 	}
 
-	internal GameState(IPlayer player, IEnumerable<IDealer> dealers)
+	internal GameState(IPlayer player, ICollection<IDealer> dealers)
 	{
 		Player = DomainFactory.CreatePlayerState(player);
 		Dealers = DomainFactory.CreateDealerStates(dealers);

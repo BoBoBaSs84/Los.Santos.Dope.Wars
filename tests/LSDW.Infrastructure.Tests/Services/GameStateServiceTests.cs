@@ -1,5 +1,6 @@
 ﻿using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Domain.Classes.Models;
+using LSDW.Domain.Interfaces.Actors;
 using LSDW.Infrastructure.Factories;
 
 namespace LSDW.Infrastructure.Tests.Services;

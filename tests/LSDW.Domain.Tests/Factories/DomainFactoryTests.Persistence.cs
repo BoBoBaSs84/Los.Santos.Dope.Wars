@@ -74,7 +74,7 @@ public partial class DomainFactoryTests
 	[TestMethod]
 	public void CreateDealerStatesTest()
 	{
-		IEnumerable<IDealer> dealers = new List<IDealer>()
+		ICollection<IDealer> dealers = new List<IDealer>()
 		{
 			DomainFactory.CreateDealer(zeroVector, pedHash),
 			DomainFactory.CreateDealer(zeroVector, pedHash),
