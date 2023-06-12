@@ -1,4 +1,5 @@
 ﻿using GTA.UI;
+using LSDW.Domain.Classes.Models;
 using LSDW.Domain.Enumerators;
 using LSDW.Domain.Factories;
 using LSDW.Domain.Interfaces.Models;
@@ -94,6 +95,7 @@ public class SideMenuHelperTests
 	[TestMethod]
 	public void GetPossibleExperienceGainTest()
 	{
+		Settings.Player.ExperienceMultiplier = 1f;
 		MenuType menuType = MenuType.SELL;
 		IDrug drugToAdd = DomainFactory.CreateDrug(DrugType.COKE, 10, 50);
 		IPlayer player = DomainFactory.CreatePlayer();
@@ -102,6 +104,20 @@ public class SideMenuHelperTests
 		int experience = SideMenuHelper.GetPossibleExperienceGain(menuType, player, drugToAdd.Type, 5, 100);
 
 		Assert.AreEqual(250, experience);
+	}
+
+	[TestMethod]
+	public void GetHalfExperienceGainTest()
+	{
+		Settings.Player.ExperienceMultiplier = 0.5f;
+		MenuType menuType = MenuType.SELL;
+		IDrug drugToAdd = DomainFactory.CreateDrug(DrugType.COKE, 10, 0);
+		IPlayer player = DomainFactory.CreatePlayer();
+		player.Inventory.Add(drugToAdd);
+
+		int experience = SideMenuHelper.GetPossibleExperienceGain(menuType, player, drugToAdd.Type, 10, 100);
+
+		Assert.AreEqual(500, experience);
 	}
 
 	[TestMethod]
