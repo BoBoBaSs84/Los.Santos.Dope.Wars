@@ -9,8 +9,12 @@ using DealerSettings = LSDW.Domain.Classes.Models.Settings.Dealer;
 namespace LSDW.Domain.Classes.Actors;
 
 /// <summary>
-/// The dealer class.
+/// The dealer actor class.
 /// </summary>
+/// <remarks>
+/// Inherits from the <see cref="Pedestrian"/> class and
+/// implements the members of the <see cref="IDealer"/> interface.
+/// </remarks>
 internal sealed class Dealer : Pedestrian, IDealer
 {
 	private Blip? blip;
@@ -51,7 +55,7 @@ internal sealed class Dealer : Pedestrian, IDealer
 	public bool IsBlipCreated { get; private set; }
 	public IInventory Inventory { get; }
 
-	public new void Create(float healthValue = 100)
+	public override void Create(float healthValue = 100)
 	{
 		if (IsCreated || ClosedUntil.HasValue)
 			return;
@@ -79,7 +83,7 @@ internal sealed class Dealer : Pedestrian, IDealer
 		Discovered = true;
 	}
 
-	public new void Delete()
+	public override void Delete()
 	{
 		if (IsCreated)
 			return;
@@ -101,7 +105,7 @@ internal sealed class Dealer : Pedestrian, IDealer
 		blip.Delete();
 	}
 
-	public new void Flee()
+	public override void Flee()
 	{
 		if (!IsCreated)
 			return;
@@ -116,10 +120,7 @@ internal sealed class Dealer : Pedestrian, IDealer
 
 	private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
 	{
-		if (!args.PropertyName.Equals(Inventory.Money))
-			return;
-
-		if (!IsCreated)
+		if (!args.PropertyName.Equals(Inventory.Money) || !IsCreated)
 			return;
 
 		SetMoney(Inventory.Money);

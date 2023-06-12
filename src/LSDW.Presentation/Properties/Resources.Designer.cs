@@ -115,6 +115,24 @@ namespace LSDW.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to After how many hours does the dealer&apos;s drug offer change?.
+        /// </summary>
+        public static string UI_Settings_Market_InventoryChangeInterval_Description {
+            get {
+                return ResourceManager.GetString("UI.Settings.Market.InventoryChangeInterval.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory change interval.
+        /// </summary>
+        public static string UI_Settings_Market_InventoryChangeInterval_Title {
+            get {
+                return ResourceManager.GetString("UI.Settings.Market.InventoryChangeInterval.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The maximum value of a drug, serves as a multiplier to the nominal market value..
         /// </summary>
         public static string UI_Settings_Market_MaximumDrugPrice_Description {
@@ -147,6 +165,24 @@ namespace LSDW.Presentation.Properties {
         public static string UI_Settings_Market_MinimumDrugPrice_Title {
             get {
                 return ResourceManager.GetString("UI.Settings.Market.MinimumDrugPrice.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to After how many hours does the current drug price change?.
+        /// </summary>
+        public static string UI_Settings_Market_PriceChangeInterval_Description {
+            get {
+                return ResourceManager.GetString("UI.Settings.Market.PriceChangeInterval.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Price change interval.
+        /// </summary>
+        public static string UI_Settings_Market_PriceChangeInterval_Title {
+            get {
+                return ResourceManager.GetString("UI.Settings.Market.PriceChangeInterval.Title", resourceCulture);
             }
         }
         

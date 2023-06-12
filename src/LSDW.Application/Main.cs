@@ -36,29 +36,18 @@ public sealed class Main : Script
 
 		Interval = 5;
 
-		Aborted += OnAborted;
 		Aborted += _trafficking.OnAborted;
 
-		KeyDown += OnKeyDown;
 		KeyUp += OnKeyUp;
+		KeyUp += _trafficking.OnKeyUp;
 
-		Tick += OnTick;
 		Tick += _settingsMenu.OnTick;
 		Tick += _trafficking.OnTick;
 	}
 
 	private void OnKeyUp(object sender, KeyEventArgs args)
 	{
-		if (args.KeyCode == Keys.F10)
+		if (Game.Player.CanControlCharacter && Game.Player.CanStartMission && args.KeyCode == Keys.F10)
 			_settingsMenu.SetVisible(true);
 	}
-
-	private void OnKeyDown(object sender, KeyEventArgs args)
-	{ }
-
-	private void OnTick(object sender, EventArgs args)
-	{ }
-
-	private void OnAborted(object sender, EventArgs args)
-	{ }
 }

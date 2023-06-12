@@ -5,11 +5,67 @@ namespace LSDW.Infrastructure.Tests.Services;
 public partial class SettingsServiceTests
 {
 	[TestMethod]
+	public void GetInventoryChangeIntervalTest()
+	{
+		int i = _settingsService.MarketSettings.GetInventoryChangeInterval();
+
+		Assert.AreNotEqual(default, i);
+	}
+
+	[TestMethod]
+	public void SetInventoryChangeIntervalTest()
+	{
+		int value = 99;
+		_settingsService.MarketSettings.SetInventoryChangeInterval(value);
+
+		int i = _settingsService.MarketSettings.GetInventoryChangeInterval();
+
+		Assert.AreEqual(value, i);
+		Assert.AreEqual(value, Settings.Market.InventoryChangeInterval);
+	}
+
+	[TestMethod]
+	public void GetInventoryChangeIntervalValues()
+	{
+		List<int> values = _settingsService.MarketSettings.GetInventoryChangeIntervalValues();
+
+		Assert.IsTrue(values.Any());
+	}
+
+	[TestMethod]
+	public void GetPriceChangeIntervalTest()
+	{
+		int i = _settingsService.MarketSettings.GetPriceChangeInterval();
+
+		Assert.AreNotEqual(default, i);
+	}
+
+	[TestMethod]
+	public void SetPriceChangeIntervalTest()
+	{
+		int value = 99;
+		_settingsService.MarketSettings.SetPriceChangeInterval(value);
+
+		int i = _settingsService.MarketSettings.GetPriceChangeInterval();
+
+		Assert.AreEqual(value, i);
+		Assert.AreEqual(value, Settings.Market.PriceChangeInterval);
+	}
+
+	[TestMethod]
+	public void GetPriceChangeIntervalValuesTest()
+	{
+		List<int> values = _settingsService.MarketSettings.GetPriceChangeIntervalValues();
+
+		Assert.IsTrue(values.Any());
+	}
+
+	[TestMethod]
 	public void GetMaximumDrugValueTest()
 	{
 		float f = _settingsService.MarketSettings.GetMaximumDrugPrice();
 
-		Assert.AreNotEqual(0, f);
+		Assert.AreNotEqual(default, f);
 	}
 
 	[TestMethod]
@@ -37,7 +93,7 @@ public partial class SettingsServiceTests
 	{
 		float f = _settingsService.MarketSettings.GetMinimumDrugPrice();
 
-		Assert.AreNotEqual(0, f);
+		Assert.AreNotEqual(default, f);
 	}
 
 	[TestMethod]

@@ -1,4 +1,5 @@
 ﻿using GTA.UI;
+using LSDW.Domain.Classes.Models;
 using LSDW.Domain.Enumerators;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Interfaces.Models;
@@ -19,8 +20,9 @@ public static class SideMenuHelper
 	/// Returns the possible amount of experience points the player could gain from selling the drug.
 	/// </summary>
 	/// <remarks>
-	/// Currently only selling a drug with profit gains experience points.
-	/// <b>(buy low, sell high)</b>
+	/// Currently only selling a drug with profit gains experience points. <b>(buy low, sell high)</b>
+	/// <br></br>
+	/// The <see cref="Settings.Player.ExperienceMultiplier"/> is taken in account.
 	/// </remarks>
 	/// <param name="menuType">The type of the menu.</param>
 	/// <param name="player">The player and his inventory.</param>
@@ -35,7 +37,7 @@ public static class SideMenuHelper
 
 		int purchasePrice = player.Inventory.Where(x => x.Type.Equals(drugType)).Select(x => x.Price).Single();
 
-		int experience = (sellPrice - purchasePrice) * quantity;
+		int experience = (int)((sellPrice - purchasePrice) * quantity * Settings.Player.ExperienceMultiplier);
 
 		return experience > 0 ? experience : default;
 	}

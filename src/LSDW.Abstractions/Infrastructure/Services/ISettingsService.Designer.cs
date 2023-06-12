@@ -29,6 +29,12 @@ public interface IDealerSettings
 
 public interface IMarketSettings
 {
+  List<int> GetInventoryChangeIntervalValues();
+	int GetInventoryChangeInterval();
+  void SetInventoryChangeInterval(int value);
+  List<int> GetPriceChangeIntervalValues();
+	int GetPriceChangeInterval();
+  void SetPriceChangeInterval(int value);
   List<float> GetMaximumDrugPriceValues();
 	float GetMaximumDrugPrice();
   void SetMaximumDrugPrice(float value);

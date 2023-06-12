@@ -48,6 +48,14 @@ public static class Settings
 	public static class Market
 	{
 		/// <summary>
+		/// The inventory change interval property.
+		/// </summary>
+		public static int InventoryChangeInterval { get; set; } = 24;
+		/// <summary>
+		/// The price change interval property.
+		/// </summary>
+		public static int PriceChangeInterval { get; set; } = 6;
+		/// <summary>
 		/// The maximum drug price factor.
 		/// </summary>
 		public static float MaximumDrugPrice { get; set; } = 1.15f;
@@ -55,6 +63,16 @@ public static class Settings
 		/// The minimum drug price factor.
 		/// </summary>
 		public static float MinimumDrugPrice { get; set; } = 0.85f;
+		/// <summary>
+		/// Returns the possible inventory change interval values.
+		/// </summary>
+		public static List<int> GetInventoryChangeIntervalValues()
+			=> new int[] { 24, 48, 72, 96, 120, 144, 168 }.ToList();
+		/// <summary>
+		/// Returns the possible price change interval values.
+		/// </summary>
+		public static List<int> GetPriceChangeIntervalValues()
+			=> new int[] { 3, 6, 8, 12, 24 }.ToList();
 		/// <summary>
 		/// Returns the possible maximum price factor values.
 		/// </summary>
