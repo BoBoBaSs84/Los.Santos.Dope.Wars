@@ -8,18 +8,18 @@ public class SwitchItemHelperTests
 {
 	[DataTestMethod]
 	[DynamicData(nameof(GetTitles), DynamicDataSourceType.Method)]
-	public void GetTitleTest(MenuType menuType, string expectedTitle)
+	public void GetTitleTest(TransactionType type, string expectedTitle)
 	{
-		string returnTitle = SwitchItemHelper.GetTitle(menuType);
+		string returnTitle = SwitchItemHelper.GetTitle(type);
 
 		Assert.AreEqual(expectedTitle, returnTitle);
 	}
 
 	[DataTestMethod]
 	[DynamicData(nameof(GetDescriptions), DynamicDataSourceType.Method)]
-	public void GetDescriptionTest(MenuType menuType, string expectedDescription)
+	public void GetDescriptionTest(TransactionType type, string expectedDescription)
 	{
-		string returnDescription = SwitchItemHelper.GetDescription(menuType);
+		string returnDescription = SwitchItemHelper.GetDescription(type);
 
 		Assert.AreEqual(expectedDescription, returnDescription);
 	}
@@ -28,32 +28,22 @@ public class SwitchItemHelperTests
 	{
 		yield return new object[]
 		{
-			MenuType.BUY,
+			TransactionType.BUY,
 			Resources.UI_Switch_Item_Title_Buy
 		};
 		yield return new object[]
 		{
-			MenuType.RETRIEVE,
-			Resources.UI_Switch_Item_Title_Retrieve
-		};
-		yield return new object[]
-		{
-			MenuType.TAKE,
+			TransactionType.TAKE,
 			Resources.UI_Switch_Item_Title_Take
 		};
 		yield return new object[]
 		{
-			MenuType.SELL,
+			TransactionType.SELL,
 			Resources.UI_Switch_Item_Title_Sell
 		};
 		yield return new object[]
 		{
-			MenuType.STORE,
-			Resources.UI_Switch_Item_Title_Store
-		};
-		yield return new object[]
-		{
-			MenuType.GIVE,
+			TransactionType.GIVE,
 			Resources.UI_Switch_Item_Title_Give
 		};
 	}
@@ -61,32 +51,22 @@ public class SwitchItemHelperTests
 	{
 		yield return new object[]
 		{
-			MenuType.BUY,
+			TransactionType.BUY,
 			Resources.UI_Switch_Item_Description_Buy
 		};
 		yield return new object[]
 		{
-			MenuType.RETRIEVE,
-			Resources.UI_Switch_Item_Description_Retrieve
-		};
-		yield return new object[]
-		{
-			MenuType.TAKE,
+			TransactionType.TAKE,
 			Resources.UI_Switch_Item_Description_Take
 		};
 		yield return new object[]
 		{
-			MenuType.SELL,
+			TransactionType.SELL,
 			Resources.UI_Switch_Item_Description_Sell
 		};
 		yield return new object[]
 		{
-			MenuType.STORE,
-			Resources.UI_Switch_Item_Description_Store
-		};
-		yield return new object[]
-		{
-			MenuType.GIVE,
+			TransactionType.GIVE,
 			Resources.UI_Switch_Item_Description_Give
 		};
 	}

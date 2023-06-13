@@ -6,17 +6,9 @@
 public enum TransactionType
 {
 	/// <summary>
-	/// The trafficking type enumerator.
-	/// </summary>
-	TRAFFIC = 1,
-	/// <summary>
-	/// The depositing type enumerator.
-	/// </summary>
-	DEPOSIT,
-	/// <summary>
 	/// The buy type enumerator.
 	/// </summary>
-	BUY,
+	BUY = 1,
 	/// <summary>
 	/// The sell type enumerator.
 	/// </summary>

@@ -67,7 +67,7 @@ internal sealed class TransactionService : ITransactionService
 	/// </summary>
 	private void CheckTargetMoney(int quantity, int price)
 	{
-		if (!Equals(_transactionType, TransactionType.TRAFFIC))
+		if (_transactionType is not TransactionType.BUY or TransactionType.SELL)
 			return;
 
 		if (_target.Money >= price * quantity)
@@ -81,7 +81,7 @@ internal sealed class TransactionService : ITransactionService
 	/// </summary>
 	private void TransferMoney(int quantity, int price)
 	{
-		if (!Equals(_transactionType, TransactionType.TRAFFIC))
+		if (_transactionType is not TransactionType.BUY or TransactionType.SELL)
 			return;
 
 		int transactionValue = price * quantity;

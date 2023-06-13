@@ -22,36 +22,34 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 	private readonly IInventory _target;
 	private readonly IPlayer _player;
 	private readonly ITransactionService _transaction;
-	private readonly MenuType _menuType;
-	private readonly TransactionType _transactionType;
+	private readonly TransactionType _type;
 
 	public ISwitchItem SwitchItem { get; }
 
 	/// <summary>
 	/// Initializes a instance of the side menu class.
 	/// </summary>
-	/// <param name="menuType">The menu type.</param>
+	/// <param name="type">The transaction type.</param>
 	/// <param name="player">The current player.</param>
 	/// <param name="inventory">The opposition inventory.</param>
-	internal SideMenu(MenuType menuType, IPlayer player, IInventory inventory) : base(SMH.GetTitle(menuType))
+	internal SideMenu(TransactionType type, IPlayer player, IInventory inventory) : base(SMH.GetTitle(type))
 	{
-		_menuType = menuType;
+		_type = type;
 		_player = player;
 
-		(_source, _target) = SMH.GetInventories(_menuType, _player, inventory);
+		(_source, _target) = SMH.GetInventories(type, player, inventory);
 
-		int maximumQuantity = SMH.GetMaximumQuantity(_menuType, _player);
-		_transactionType = SMH.GetTransactionType(_menuType);
-		_transaction = DomainFactory.CreateTransactionService(_transactionType, _source, _target, maximumQuantity);
+		int maximumQuantity = SMH.GetMaximumQuantity(type, player);
+		_transaction = DomainFactory.CreateTransactionService(type, _source, _target, maximumQuantity);
 
-		Alignment = SMH.GetAlignment(_menuType);
+		Alignment = SMH.GetAlignment(type);
 		ItemCount = CountVisibility.Never;
 		Offset = new PointF(_screenSize.Width / 64, _screenSize.Height / 36);
 		UseMouse = false;
 		TitleFont = GTA.UI.Font.Pricedown;
-		Subtitle = SMH.GetSubtitle(_menuType, _target.Money);
+		Subtitle = SMH.GetSubtitle(type, _target.Money);
 
-		SwitchItem = new SwitchItem(_menuType);
+		SwitchItem = new SwitchItem(type);
 		Add((SwitchItem)SwitchItem);
 		AddDrugListItems(_source, _target);
 
@@ -78,7 +76,7 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 
 		if (succes)
 		{
-			ITransaction transaction = DomainFactory.CreateTransaction(DateTime.Now, _transactionType, drugType, quantity, price);
+			ITransaction transaction = DomainFactory.CreateTransaction(DateTime.Now, _type, drugType, quantity, price);
 			_player.AddTransaction(transaction);
 		}
 
@@ -89,7 +87,7 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 	private void OnInventoryPropertyChanged(object sender, PropertyChangedEventArgs args)
 	{
 		if (args.PropertyName.Equals(nameof(_target.Money), StringComparison.Ordinal))
-			Subtitle = SMH.GetSubtitle(_menuType, _target.Money);
+			Subtitle = SMH.GetSubtitle(_type, _target.Money);
 	}
 
 	/// <summary>

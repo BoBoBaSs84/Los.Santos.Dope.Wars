@@ -10,54 +10,32 @@ namespace LSDW.Presentation.Tests.Helpers;
 public class SideMenuHelperTests
 {
 	[DataTestMethod]
-	[DataRow(MenuType.BUY)]
-	[DataRow(MenuType.SELL)]
-	public void GetTrafficTransactionTypeTest(MenuType menuType)
-	{
-		TransactionType transactionType = SideMenuHelper.GetTransactionType(menuType);
-
-		Assert.AreEqual(TransactionType.TRAFFIC, transactionType);
-	}
-
-	[DataTestMethod]
-	[DataRow(MenuType.GIVE)]
-	[DataRow(MenuType.TAKE)]
-	[DataRow(MenuType.STORE)]
-	[DataRow(MenuType.RETRIEVE)]
-	public void GetDebositTransactionTypeTest(MenuType menuType)
-	{
-		TransactionType transactionType = SideMenuHelper.GetTransactionType(menuType);
-
-		Assert.AreEqual(TransactionType.DEPOSIT, transactionType);
-	}
-
-	[DataTestMethod]
 	[DynamicData(nameof(GetRightMenuTypes), DynamicDataSourceType.Method)]
-	public void GetMaximumPlayerQuantityTest(MenuType menuType)
+	public void GetMaximumPlayerQuantityTest(TransactionType transactionType)
 	{
 		IPlayer player = DomainFactory.CreatePlayer();
 
-		int maximumQuantity = SideMenuHelper.GetMaximumQuantity(menuType, player);
+		int maximumQuantity = SideMenuHelper.GetMaximumQuantity(transactionType, player);
 
 		Assert.AreEqual(int.MaxValue, maximumQuantity);
 	}
 
 	[DataTestMethod]
 	[DynamicData(nameof(GetLeftMenuTypes), DynamicDataSourceType.Method)]
-	public void GetMaximumIntQuantityTest(MenuType menuType)
+	public void GetMaximumIntQuantityTest(TransactionType transactionType)
 	{
 		IPlayer player = DomainFactory.CreatePlayer();
 
-		int maximumQuantity = SideMenuHelper.GetMaximumQuantity(menuType, player);
+		int maximumQuantity = SideMenuHelper.GetMaximumQuantity(transactionType, player);
 
 		Assert.AreEqual(player.MaximumInventoryQuantity, maximumQuantity);
 	}
 
 	[DataTestMethod]
 	[DynamicData(nameof(GetPlayerSourceInventory), DynamicDataSourceType.Method)]
-	public void GetInventoriesSourcePlayerTest(MenuType menuType, IPlayer player, IInventory drugs)
+	public void GetInventoriesSourcePlayerTest(TransactionType transactionType, IPlayer player, IInventory drugs)
 	{
-		(IInventory source, IInventory target) = SideMenuHelper.GetInventories(menuType, player, drugs);
+		(IInventory source, IInventory target) = SideMenuHelper.GetInventories(transactionType, player, drugs);
 
 		Assert.AreEqual(player.Inventory, source);
 		Assert.AreEqual(drugs, target);
@@ -65,9 +43,9 @@ public class SideMenuHelperTests
 
 	[DataTestMethod]
 	[DynamicData(nameof(GetPlayerTargetInventory), DynamicDataSourceType.Method)]
-	public void GetInventoriesTargetPlayerTest(MenuType menuType, IPlayer player, IInventory drugs)
+	public void GetInventoriesTargetPlayerTest(TransactionType transactionType, IPlayer player, IInventory drugs)
 	{
-		(IInventory source, IInventory target) = SideMenuHelper.GetInventories(menuType, player, drugs);
+		(IInventory source, IInventory target) = SideMenuHelper.GetInventories(transactionType, player, drugs);
 
 		Assert.AreEqual(player.Inventory, target);
 		Assert.AreEqual(drugs, source);
@@ -75,18 +53,18 @@ public class SideMenuHelperTests
 
 	[DataTestMethod]
 	[DynamicData(nameof(GetRightMenuTypes), DynamicDataSourceType.Method)]
-	public void GetRightAlignmentTest(MenuType menuType)
+	public void GetRightAlignmentTest(TransactionType transactionType)
 	{
-		Alignment alignment = SideMenuHelper.GetAlignment(menuType);
+		Alignment alignment = SideMenuHelper.GetAlignment(transactionType);
 
 		Assert.AreEqual(Alignment.Right, alignment);
 	}
 
 	[DataTestMethod]
 	[DynamicData(nameof(GetLeftMenuTypes), DynamicDataSourceType.Method)]
-	public void GetLeftAlignmentTest(MenuType menuType)
+	public void GetLeftAlignmentTest(TransactionType transactionType)
 	{
-		Alignment alignment = SideMenuHelper.GetAlignment(menuType);
+		Alignment alignment = SideMenuHelper.GetAlignment(transactionType);
 
 		Assert.AreEqual(Alignment.Left, alignment);
 	}
@@ -95,15 +73,11 @@ public class SideMenuHelperTests
 	{
 		yield return new object[]
 		{
-			MenuType.SELL
+			TransactionType.SELL
 		};
 		yield return new object[]
 		{
-			MenuType.STORE
-		};
-		yield return new object[]
-		{
-			MenuType.GIVE
+			TransactionType.GIVE
 		};
 	}
 
@@ -111,15 +85,11 @@ public class SideMenuHelperTests
 	{
 		yield return new object[]
 		{
-			MenuType.BUY
+			TransactionType.BUY
 		};
 		yield return new object[]
 		{
-			MenuType.RETRIEVE
-		};
-		yield return new object[]
-		{
-			MenuType.TAKE
+			TransactionType.TAKE
 		};
 	}
 
@@ -130,19 +100,13 @@ public class SideMenuHelperTests
 	{
 		yield return new object[]
 		{
-			MenuType.SELL,
+			TransactionType.SELL,
 			_player,
 			_inventory
 		};
 		yield return new object[]
 		{
-			MenuType.STORE,
-			_player,
-			_inventory
-		};
-		yield return new object[]
-		{
-			MenuType.GIVE,
+			TransactionType.GIVE,
 			_player,
 			_inventory
 		};
@@ -152,19 +116,13 @@ public class SideMenuHelperTests
 	{
 		yield return new object[]
 		{
-			MenuType.BUY,
+			TransactionType.BUY,
 			_player,
 			_inventory
 		};
 		yield return new object[]
 		{
-			MenuType.RETRIEVE,
-			_player,
-			_inventory
-		};
-		yield return new object[]
-		{
-			MenuType.TAKE,
+			TransactionType.TAKE,
 			_player,
 			_inventory
 		};

@@ -164,7 +164,7 @@ public partial class DomainFactoryTests
 		DrugType drugType = DrugType.COKE;
 		int quantity = 10;
 		int price = 100;
-		TransactionType transactionType = TransactionType.TRAFFIC;
+		TransactionType transactionType = TransactionType.BUY;
 
 		ITransaction transaction =
 			DomainFactory.CreateTransaction(date, transactionType, drugType, quantity, price);
@@ -291,7 +291,7 @@ public partial class DomainFactoryTests
 			DrugType = DrugType.COKE,
 			Quantity = 10,
 			Price = 100,
-			Type = TransactionType.TRAFFIC
+			Type = TransactionType.TAKE
 		};
 
 	private static GameState GetGameState()
