@@ -44,9 +44,6 @@ internal sealed class Inventory : Notification, IInventory
 	public int TotalValue
 		=> _drugs.Sum(drug => drug.Price * drug.Quantity);
 
-	public int TotalProfit
-		=> _drugs.Sum(drug => drug.PossibleProfit);
-
 	public bool IsReadOnly => false;
 
 	public void Clear()

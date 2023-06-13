@@ -28,11 +28,6 @@ public interface IInventory : ICollection<IDrug>, INotifyPropertyChanged
 	int TotalValue { get; }
 
 	/// <summary>
-	/// The total inventory profit compared to the nominal market prices.
-	/// </summary>
-	int TotalProfit { get; }
-
-	/// <summary>
 	/// Adds a drug to the inventory or add the drug quantity to the existing drugtype.
 	/// </summary>
 	/// <param name="drugType">The drug type to add.</param>
