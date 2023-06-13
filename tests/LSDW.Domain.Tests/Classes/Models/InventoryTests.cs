@@ -115,7 +115,6 @@ public class InventoryTests
 
 		Assert.AreEqual(15, inventory.Count);
 		Assert.AreEqual(0, inventory.TotalQuantity);
-		Assert.AreEqual(0, inventory.TotalProfit);
 		Assert.AreEqual(0, inventory.TotalValue);
 	}
 }

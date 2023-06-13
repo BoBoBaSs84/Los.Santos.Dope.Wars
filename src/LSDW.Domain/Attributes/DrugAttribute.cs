@@ -13,11 +13,11 @@ internal sealed class DrugAttribute : DescriptionAttribute
 	/// </summary>
 	/// <param name="displayName">The display name of the drug.</param>
 	/// <param name="description">The description of the drug.</param>
-	/// <param name="marketValue">The normal market value of the drug.</param>
-	public DrugAttribute(string displayName, string description, int marketValue) : base(description)
+	/// <param name="averagePrice">The normal market value of the drug.</param>
+	public DrugAttribute(string displayName, string description, int averagePrice) : base(description)
 	{
 		DisplayName = displayName;
-		MarketValue = marketValue;
+		AveragePrice = averagePrice;
 	}
 
 	/// <summary>
@@ -26,9 +26,9 @@ internal sealed class DrugAttribute : DescriptionAttribute
 	public string DisplayName { get; }
 
 	/// <summary>
-	/// The <see cref="MarketValue"/> property is the normal market value of the drug.
+	/// The <see cref="AveragePrice"/> property is the average price of the drug.
 	/// </summary>
-	public int MarketValue { get; }
+	public int AveragePrice { get; }
 
 	/// <summary>
 	/// The availability probability property of a drug.

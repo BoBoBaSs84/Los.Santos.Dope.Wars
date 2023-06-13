@@ -70,7 +70,7 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 		if (sender is not SideMenu menu || menu.SelectedItem is not DrugListItem item || item.SelectedItem.Equals(0) || item.Tag is not DrugType drugType)
 			return;
 
-		int price = _target.Where(x => x.Type.Equals(drugType)).Select(x => x.Price).Single();
+		int price = _target.Where(x => x.Type.Equals(drugType)).Select(x => x.CurrentPrice).Single();
 		int quantity = item.SelectedItem;
 		bool succes = _transaction.Commit(drugType, quantity, price);
 

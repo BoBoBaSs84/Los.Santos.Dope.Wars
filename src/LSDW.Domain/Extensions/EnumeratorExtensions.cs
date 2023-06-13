@@ -9,7 +9,7 @@ namespace LSDW.Domain.Extensions;
 public static class EnumeratorExtensions
 {
 	/// <summary>
-	/// Should return the description of the <see cref="DrugType"/> enumerator.
+	/// Returns the description of the <see cref="DrugType"/> enumerator.
 	/// </summary>
 	/// <typeparam name="T">The enmuerator type.</typeparam>
 	/// <param name="value">The enumerator value.</param>
@@ -29,7 +29,7 @@ public static class EnumeratorExtensions
 	}
 
 	/// <summary>
-	/// Should return the display name of the <see cref="DrugType"/> enumerator.
+	/// Returns the display name of the <see cref="DrugType"/> enumerator.
 	/// </summary>
 	/// <typeparam name="T">The enmuerator type.</typeparam>
 	/// <param name="value">The enumerator value.</param>
@@ -49,11 +49,11 @@ public static class EnumeratorExtensions
 	}
 
 	/// <summary>
-	/// Should return the market price of the <see cref="DrugType"/> enumerator.
+	/// Returns the average price of the <see cref="DrugType"/> enumerator.
 	/// </summary>
 	/// <typeparam name="T">The enmuerator type.</typeparam>
 	/// <param name="value">The enumerator value.</param>
-	internal static int GetMarketValue<T>(this T value) where T : Enum
+	internal static int GetAveragePrice<T>(this T value) where T : Enum
 	{
 		FieldInfo? fieldInfo = GetFieldInfo(value);
 
@@ -62,7 +62,7 @@ public static class EnumeratorExtensions
 			DrugAttribute? attribute = GetDrugTypeAttribute(fieldInfo);
 
 			if (attribute is not null)
-				return attribute.MarketValue;
+				return attribute.AveragePrice;
 		}
 
 		return default;
@@ -89,7 +89,7 @@ public static class EnumeratorExtensions
 	}
 
 	/// <summary>
-	/// Should return a list of all enumerators of the given type of enum.
+	/// Returns a list of all enumerators of the given type of enum.
 	/// </summary>
 	/// <typeparam name="T">The enmuerator type.</typeparam>
 	/// <param name="value">The enumerator value.</param>

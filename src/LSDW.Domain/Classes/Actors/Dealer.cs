@@ -80,7 +80,7 @@ internal sealed class Dealer : Pedestrian, IDealer
 		blip.Color = color;
 		blip.Name = Name;
 
-		Discovered = true;
+		SetDiscovered(true);
 	}
 
 	public override void Delete()
@@ -115,8 +115,11 @@ internal sealed class Dealer : Pedestrian, IDealer
 		base.Flee();
 	}
 
-	public void SetClosed(DateTime? closedUntil)
-		=> ClosedUntil = closedUntil;
+	public void SetClosed(DateTime? value)
+		=> ClosedUntil = value;
+	
+	public void SetDiscovered(bool value)
+		=> Discovered = value;
 
 	private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
 	{

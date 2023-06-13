@@ -8,6 +8,11 @@ namespace LSDW.Domain.Interfaces.Models;
 public interface IDrug : INotifyPropertyChanged
 {
 	/// <summary>
+	/// The average price of the drug.
+	/// </summary>
+	int AveragePrice { get; }
+
+	/// <summary>
 	/// The type of the drug.
 	/// </summary>
 	DrugType Type { get; }
@@ -18,11 +23,6 @@ public interface IDrug : INotifyPropertyChanged
 	string Name { get; }
 
 	/// <summary>
-	/// The market price of the drug.
-	/// </summary>
-	int MarketValue { get; }
-
-	/// <summary>
 	/// The quantity of the drug.
 	/// </summary>
 	int Quantity { get; }
@@ -30,12 +30,7 @@ public interface IDrug : INotifyPropertyChanged
 	/// <summary>
 	/// The price of the drug.
 	/// </summary>
-	int Price { get; }
-
-	/// <summary>
-	/// The profit of the drug compared to the nominal market price.
-	/// </summary>
-	int PossibleProfit { get; }
+	int CurrentPrice { get; }
 
 	/// <summary>
 	/// Should add the quantity and price to the drug.
