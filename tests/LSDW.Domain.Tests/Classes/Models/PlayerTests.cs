@@ -96,4 +96,24 @@ public class PlayerTests
 		Assert.IsNotNull(transactions);
 		Assert.AreEqual(player.TransactionCount, transactions.Count);
 	}
+
+	[TestMethod]
+	public void PlayerSettingsChangeTest()
+	{
+		Settings.Player.ExperienceMultiplier = 2.0f;
+		Settings.Player.StartingInventory = 150;
+		Settings.Player.InventoryExpansionPerLevel = 25;
+
+		IPlayer player = DomainFactory.CreatePlayer();
+		ITransaction transaction =
+			DomainFactory.CreateTransaction(DateTime.Now, TransactionType.SELL, DrugType.COKE, 100, 200);
+		
+		player.AddTransaction(transaction);
+
+		Assert.AreEqual(20000, player.Experience);
+		Assert.AreEqual(27000, player.ExperienceNextLevel);
+		Assert.AreEqual(2, player.Level);
+		Assert.AreEqual(200, player.MaximumInventoryQuantity);
+		Assert.AreEqual(1, player.TransactionCount);
+	}
 }
