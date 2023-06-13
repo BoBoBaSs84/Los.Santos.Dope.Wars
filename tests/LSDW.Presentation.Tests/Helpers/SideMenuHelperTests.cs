@@ -1,5 +1,4 @@
 ﻿using GTA.UI;
-using LSDW.Domain.Classes.Models;
 using LSDW.Domain.Enumerators;
 using LSDW.Domain.Factories;
 using LSDW.Domain.Interfaces.Models;
@@ -90,57 +89,6 @@ public class SideMenuHelperTests
 		Alignment alignment = SideMenuHelper.GetAlignment(menuType);
 
 		Assert.AreEqual(Alignment.Left, alignment);
-	}
-
-	[TestMethod]
-	public void GetPossibleExperienceGainTest()
-	{
-		Settings.Player.ExperienceMultiplier = 1f;
-		MenuType menuType = MenuType.SELL;
-		IDrug drugToAdd = DomainFactory.CreateDrug(DrugType.COKE, 10, 50);
-		IPlayer player = DomainFactory.CreatePlayer();
-		player.Inventory.Add(drugToAdd);
-
-		int experience = SideMenuHelper.GetPossibleExperienceGain(menuType, player, drugToAdd.Type, 5, 100);
-
-		Assert.AreEqual(250, experience);
-	}
-
-	[TestMethod]
-	public void GetHalfExperienceGainTest()
-	{
-		Settings.Player.ExperienceMultiplier = 0.5f;
-		MenuType menuType = MenuType.SELL;
-		IDrug drugToAdd = DomainFactory.CreateDrug(DrugType.COKE, 10, 0);
-		IPlayer player = DomainFactory.CreatePlayer();
-		player.Inventory.Add(drugToAdd);
-
-		int experience = SideMenuHelper.GetPossibleExperienceGain(menuType, player, drugToAdd.Type, 10, 100);
-
-		Assert.AreEqual(500, experience);
-	}
-
-	[TestMethod]
-	public void GetPossibleExperienceGainNoGainTest()
-	{
-		MenuType menuType = MenuType.SELL;
-		IDrug drugToAdd = DomainFactory.CreateDrug(DrugType.COKE, 10, 125);
-		IPlayer player = DomainFactory.CreatePlayer();
-		player.Inventory.Add(drugToAdd);
-
-		int experience = SideMenuHelper.GetPossibleExperienceGain(menuType, player, drugToAdd.Type, 5, 100);
-
-		Assert.AreEqual(default, experience);
-	}
-
-	[TestMethod]
-	public void GetPossibleExperienceGainNoSellTest()
-	{
-		MenuType menuType = MenuType.STORE;
-		IPlayer player = DomainFactory.CreatePlayer();
-		int experience = SideMenuHelper.GetPossibleExperienceGain(menuType, player, DrugType.COKE, default, default);
-
-		Assert.AreEqual(default, experience);
 	}
 
 	private static IEnumerable<object[]> GetRightMenuTypes()

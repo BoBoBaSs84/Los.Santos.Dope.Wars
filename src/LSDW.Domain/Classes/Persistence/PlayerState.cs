@@ -22,7 +22,7 @@ public sealed class PlayerState
 	{
 		Inventory = DomainFactory.CreateInventoryState(player.Inventory);
 		Experience = player.Experience;
-		Transactions = DomainFactory.CreateTransactionStates(player.Transactions);
+		Transactions = DomainFactory.CreateTransactionStates(player.GetTransactions());
 	}
 
 	[XmlElement(nameof(Inventory), Form = XmlSchemaForm.Qualified)]

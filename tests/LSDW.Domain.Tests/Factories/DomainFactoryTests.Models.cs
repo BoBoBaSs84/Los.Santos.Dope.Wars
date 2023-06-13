@@ -182,7 +182,7 @@ public partial class DomainFactoryTests
 	{
 		List<TransactionState> states = new() { GetTransactionState() };
 
-		IEnumerable<ITransaction> transactions =
+		ICollection<ITransaction> transactions =
 			DomainFactory.CreateTransactions(states);
 
 		Assert.IsNotNull(transactions);
@@ -230,14 +230,13 @@ public partial class DomainFactoryTests
 	{
 		int experience = 10000;
 		IInventory inventory = DomainFactory.CreateInventory();
-		IEnumerable<ITransaction> transactions = new List<ITransaction>();
+		ICollection<ITransaction> transactions = new HashSet<ITransaction>();
 		IPlayer? player;
 
 		player = DomainFactory.CreatePlayer(inventory, experience, transactions);
 
 		Assert.IsNotNull(player);
 		Assert.IsNotNull(player.Inventory);
-		Assert.IsNotNull(player.Transactions);
 		Assert.AreEqual(experience, player.Experience);
 	}
 

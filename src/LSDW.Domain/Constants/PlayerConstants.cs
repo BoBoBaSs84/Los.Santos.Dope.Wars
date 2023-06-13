@@ -14,14 +14,14 @@ public static class PlayerConstants
 	internal const int MaximumLevel = 100;
 
 	/// <summary>
-	/// Should return the experience points needed for the next level up.
+	/// Returns the experience points needed for the next level up.
 	/// </summary>
 	/// <param name="level">The current player level.</param>
 	public static int CalculateExperienceNextLevel(int level)
 		=> (int)(Math.Pow(level + 1, LevelFactor) * LevelMultiplicator);
 
 	/// <summary>
-	/// Should return the level based on the experience points.
+	/// Returns the level based on the experience points.
 	/// </summary>
 	/// <param name="experience">The current experience points.</param>
 	public static int CalculateCurrentLevel(int experience)
