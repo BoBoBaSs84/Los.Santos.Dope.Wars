@@ -421,29 +421,11 @@ namespace LSDW.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Retrieve.
-        /// </summary>
-        public static string UI_SideMenu_Title_Retrieve {
-            get {
-                return ResourceManager.GetString("UI.SideMenu.Title.Retrieve", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Sell.
         /// </summary>
         public static string UI_SideMenu_Title_Sell {
             get {
                 return ResourceManager.GetString("UI.SideMenu.Title.Sell", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Store.
-        /// </summary>
-        public static string UI_SideMenu_Title_Store {
-            get {
-                return ResourceManager.GetString("UI.SideMenu.Title.Store", resourceCulture);
             }
         }
         
@@ -475,29 +457,11 @@ namespace LSDW.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Want to store something?.
-        /// </summary>
-        public static string UI_Switch_Item_Description_Retrieve {
-            get {
-                return ResourceManager.GetString("UI.Switch.Item.Description.Retrieve", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Want to buy instead of selling?.
         /// </summary>
         public static string UI_Switch_Item_Description_Sell {
             get {
                 return ResourceManager.GetString("UI.Switch.Item.Description.Sell", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Want to retrieve something?.
-        /// </summary>
-        public static string UI_Switch_Item_Description_Store {
-            get {
-                return ResourceManager.GetString("UI.Switch.Item.Description.Store", resourceCulture);
             }
         }
         
@@ -529,29 +493,11 @@ namespace LSDW.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Store.
-        /// </summary>
-        public static string UI_Switch_Item_Title_Retrieve {
-            get {
-                return ResourceManager.GetString("UI.Switch.Item.Title.Retrieve", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Buy.
         /// </summary>
         public static string UI_Switch_Item_Title_Sell {
             get {
                 return ResourceManager.GetString("UI.Switch.Item.Title.Sell", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Retrieve.
-        /// </summary>
-        public static string UI_Switch_Item_Title_Store {
-            get {
-                return ResourceManager.GetString("UI.Switch.Item.Title.Store", resourceCulture);
             }
         }
         

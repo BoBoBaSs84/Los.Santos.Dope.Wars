@@ -237,14 +237,8 @@
   <data name="UI.SideMenu.Title.Give" xml:space="preserve">
     <value>Give</value>
   </data>
-  <data name="UI.SideMenu.Title.Retrieve" xml:space="preserve">
-    <value>Retrieve</value>
-  </data>
   <data name="UI.SideMenu.Title.Sell" xml:space="preserve">
     <value>Sell</value>
-  </data>
-  <data name="UI.SideMenu.Title.Store" xml:space="preserve">
-    <value>Store</value>
   </data>
   <data name="UI.SideMenu.Title.Take" xml:space="preserve">
     <value>Take</value>
@@ -255,14 +249,8 @@
   <data name="UI.Switch.Item.Description.Give" xml:space="preserve">
     <value>Want to take something back?</value>
   </data>
-  <data name="UI.Switch.Item.Description.Retrieve" xml:space="preserve">
-    <value>Want to store something?</value>
-  </data>
   <data name="UI.Switch.Item.Description.Sell" xml:space="preserve">
     <value>Want to buy instead of selling?</value>
-  </data>
-  <data name="UI.Switch.Item.Description.Store" xml:space="preserve">
-    <value>Want to retrieve something?</value>
   </data>
   <data name="UI.Switch.Item.Description.Take" xml:space="preserve">
     <value>Want to give something back?</value>
@@ -273,14 +261,8 @@
   <data name="UI.Switch.Item.Title.Give" xml:space="preserve">
     <value>Take</value>
   </data>
-  <data name="UI.Switch.Item.Title.Retrieve" xml:space="preserve">
-    <value>Store</value>
-  </data>
   <data name="UI.Switch.Item.Title.Sell" xml:space="preserve">
     <value>Buy</value>
-  </data>
-  <data name="UI.Switch.Item.Title.Store" xml:space="preserve">
-    <value>Retrieve</value>
   </data>
   <data name="UI.Switch.Item.Title.Take" xml:space="preserve">
     <value>Give</value>

@@ -54,10 +54,10 @@ public partial class DomainFactoryTests
 	{
 		IInventory inventory = DomainFactory.CreateInventory();
 		int experience = RandomHelper.GetInt(123456789, 987654321);
-		IEnumerable<ITransaction> transactions = new List<ITransaction>()
+		ICollection<ITransaction> transactions = new List<ITransaction>()
 		{
-			DomainFactory.CreateTransaction(DateTime.Now, TransactionType.TRAFFIC, DrugType.COKE, 10, 1000),
-			DomainFactory.CreateTransaction(DateTime.Now.AddDays(-1), TransactionType.DEPOSIT, DrugType.METH, 15, 2500),
+			DomainFactory.CreateTransaction(DateTime.Now, TransactionType.BUY, DrugType.COKE, 10, 75),
+			DomainFactory.CreateTransaction(DateTime.Now.AddDays(-1), TransactionType.SELL, DrugType.METH, 15, 125),
 		};
 		IPlayer player = DomainFactory.CreatePlayer(inventory, experience, transactions);
 		player.Inventory.Randomize(player.Level);
@@ -68,7 +68,7 @@ public partial class DomainFactoryTests
 		Assert.AreEqual(player.Experience, state.Experience);
 		Assert.AreEqual(player.Inventory.Count, state.Inventory.Drugs.Count);
 		Assert.AreEqual(player.Inventory.Money, state.Inventory.Money);
-		Assert.AreEqual(player.Transactions.Count, state.Transactions.Count);
+		Assert.AreEqual(player.TransactionCount, state.Transactions.Count);
 	}
 
 	[TestMethod]
@@ -110,7 +110,7 @@ public partial class DomainFactoryTests
 	[TestMethod]
 	public void CreateTransactionStateTest()
 	{
-		ITransaction transaction = DomainFactory.CreateTransaction(DateTime.MinValue, TransactionType.TRAFFIC, DrugType.COKE, 10, 1000);
+		ITransaction transaction = DomainFactory.CreateTransaction(DateTime.MinValue, TransactionType.TAKE, DrugType.COKE, 10, 100);
 
 		TransactionState state = DomainFactory.CreateTransactionState(transaction);
 
@@ -125,10 +125,10 @@ public partial class DomainFactoryTests
 	[TestMethod]
 	public void CreateTransactionStatesTest()
 	{
-		IEnumerable<ITransaction> transactions = new List<ITransaction>()
+		ICollection<ITransaction> transactions = new List<ITransaction>()
 		{
-			DomainFactory.CreateTransaction(DateTime.MinValue, TransactionType.TRAFFIC, DrugType.COKE, 10, 1000),
-			DomainFactory.CreateTransaction(DateTime.MinValue, TransactionType.DEPOSIT, DrugType.METH, 10, 0),
+			DomainFactory.CreateTransaction(DateTime.MinValue, TransactionType.SELL, DrugType.COKE, 10, 100),
+			DomainFactory.CreateTransaction(DateTime.MinValue, TransactionType.SELL, DrugType.METH, 10, 125),
 		};
 
 		List<TransactionState> states = DomainFactory.CreateTransactionStates(transactions);

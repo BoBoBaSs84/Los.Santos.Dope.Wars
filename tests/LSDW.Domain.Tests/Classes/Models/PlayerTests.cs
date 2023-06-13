@@ -1,4 +1,5 @@
 ﻿using LSDW.Domain.Classes.Models;
+using LSDW.Domain.Enumerators;
 using LSDW.Domain.Factories;
 using LSDW.Domain.Interfaces.Models;
 
@@ -40,7 +41,6 @@ public class PlayerTests
 	[TestMethod]
 	public void MaximumInventoryQuantityTest()
 	{
-
 		IPlayer player = DomainFactory.CreatePlayer();
 		int pointsToAdd = 10000;
 
@@ -57,5 +57,43 @@ public class PlayerTests
 		IPlayer player = DomainFactory.CreatePlayer(experience);
 
 		Assert.AreEqual(8000, player.ExperienceNextLevel);
+	}
+
+	[TestMethod]
+	public void AddGoodTransactionTest()
+	{
+		IPlayer player = DomainFactory.CreatePlayer();
+		ITransaction transaction =
+			DomainFactory.CreateTransaction(DateTime.Now, TransactionType.BUY, DrugType.COKE, 10, 50);
+
+		player.AddTransaction(transaction);
+
+		Assert.AreNotEqual(default, player.Experience);
+	}
+
+	[TestMethod]
+	public void AddBadTransactionTest()
+	{
+		IPlayer player = DomainFactory.CreatePlayer();
+		ITransaction transaction =
+			DomainFactory.CreateTransaction(DateTime.Now, TransactionType.BUY, DrugType.COKE, 10, 150);
+
+		player.AddTransaction(transaction);
+
+		Assert.AreEqual(default, player.Experience);
+	}
+
+	[TestMethod]
+	public void GetTransactionsTest()
+	{
+		IPlayer player = DomainFactory.CreatePlayer();
+		ITransaction transaction =
+			DomainFactory.CreateTransaction(DateTime.Now, TransactionType.BUY, DrugType.COKE, 10, 50);
+		
+		player.AddTransaction(transaction);
+		ICollection<ITransaction> transactions = player.GetTransactions();
+
+		Assert.IsNotNull(transactions);
+		Assert.AreEqual(player.TransactionCount, transactions.Count);
 	}
 }

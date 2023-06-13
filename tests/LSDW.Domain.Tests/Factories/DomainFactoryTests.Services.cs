@@ -10,7 +10,7 @@ public partial class DomainFactoryTests
 	[TestMethod]
 	public void CreateTransactionServiceTest()
 	{
-		TransactionType type = TransactionType.TRAFFIC;
+		TransactionType type = TransactionType.BUY;
 		IInventory source = DomainFactory.CreateInventory();
 		IInventory target = DomainFactory.CreateInventory();
 		ITransactionService? transactionService;

@@ -65,7 +65,7 @@ public static partial class DomainFactory
 	/// Creates a new saveable transaction state collection from a transaction instance collection.
 	/// </summary>
 	/// <param name="transactions">The transaction instance collection to save.</param>
-	public static List<TransactionState> CreateTransactionStates(IEnumerable<ITransaction> transactions)
+	public static List<TransactionState> CreateTransactionStates(ICollection<ITransaction> transactions)
 	{
 		List<TransactionState> states = new();
 		foreach (ITransaction transaction in transactions)

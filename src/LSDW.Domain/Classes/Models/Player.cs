@@ -1,5 +1,6 @@
 ﻿using LSDW.Domain.Classes.Models.Base;
 using LSDW.Domain.Constants;
+using LSDW.Domain.Extensions;
 using LSDW.Domain.Interfaces.Models;
 using static LSDW.Domain.Classes.Models.Settings.Player;
 
@@ -10,17 +11,19 @@ namespace LSDW.Domain.Classes.Models;
 /// </summary>
 internal sealed class Player : Notification, IPlayer
 {
+	private readonly ICollection<ITransaction> _transactions;
+
 	/// <summary>
 	/// Initializes a instance of the player character class.
 	/// </summary>
 	/// <param name="inventory">The player inventory.</param>
 	/// <param name="experience">The player experience points.</param>
 	/// <param name="transactions">The transactions for the player.</param>
-	internal Player(IInventory inventory, int experience, IEnumerable<ITransaction> transactions)
+	internal Player(IInventory inventory, int experience, ICollection<ITransaction> transactions)
 	{
 		Inventory = inventory;
 		Experience = experience;
-		Transactions = transactions.ToHashSet();
+		_transactions = transactions;
 	}
 
 	public IInventory Inventory { get; }
@@ -36,10 +39,20 @@ internal sealed class Player : Notification, IPlayer
 	public int MaximumInventoryQuantity
 		=> GetMaximumInventoryQuantity();
 
-	public ICollection<ITransaction> Transactions { get; }
+	public int TransactionCount
+		=> _transactions.Count;
 
 	public void AddExperience(int points)
-		=> Experience += (int)(points * (double)ExperienceMultiplier);
+		=> Experience += (int)(points * ExperienceMultiplier);
+
+	public void AddTransaction(ITransaction transaction)
+	{
+		AddExperience(transaction.GetValue());
+		_transactions.Add(transaction);
+	}
+
+	public ICollection<ITransaction> GetTransactions()
+		=> _transactions;
 
 	private int GetCurrentLevel()
 		=> PlayerConstants.CalculateCurrentLevel(Experience);
