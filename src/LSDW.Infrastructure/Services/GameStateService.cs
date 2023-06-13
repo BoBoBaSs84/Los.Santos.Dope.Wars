@@ -37,7 +37,7 @@ internal sealed class GameStateService : IGameStateService
 
 	public IPlayer Player { get; private set; }
 
-	public IEnumerable<IDealer> Dealers { get; private set; }
+	public ICollection<IDealer> Dealers { get; private set; }
 
 	public bool Load()
 	{

@@ -27,11 +27,11 @@ internal sealed class Drug : Notification, IDrug
 	/// <param name="currentPrice">The current price of the drug.</param>
 	internal Drug(DrugType drugType, int quantity, int currentPrice)
 	{
-		AveragePrice = Type.GetAveragePrice();
-		Type = drugType;
-		Name = Type.GetDisplayName();
-		Quantity = quantity;
+		AveragePrice = drugType.GetAveragePrice();
 		CurrentPrice = currentPrice;
+		Name = drugType.GetDisplayName();
+		Type = drugType;
+		Quantity = quantity;
 	}
 
 	public int AveragePrice { get; }

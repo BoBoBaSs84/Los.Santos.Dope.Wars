@@ -46,7 +46,7 @@ public static partial class DomainFactory
 	/// Creates a dealer instance collection from a saved dealer state collection.
 	/// </summary>
 	/// <param name="states">The saved dealer state collection.</param>
-	public static IEnumerable<IDealer> CreateDealers(List<DealerState> states)
+	public static ICollection<IDealer> CreateDealers(List<DealerState> states)
 	{
 		List<IDealer> dealers = new();
 		foreach (DealerState state in states)
@@ -57,13 +57,13 @@ public static partial class DomainFactory
 	/// <summary>
 	/// Creates a new dealer instance collection.
 	/// </summary>
-	public static IEnumerable<IDealer> CreateDealers()
+	public static ICollection<IDealer> CreateDealers()
 		=> new List<IDealer>();
 
 	/// <summary>
 	/// Creates a dealer instance collection from a saved game state.
 	/// </summary>
 	/// <param name="state">The saved game state.</param>
-	public static IEnumerable<IDealer> CreateDealers(GameState state)
+	public static ICollection<IDealer> CreateDealers(GameState state)
 		=> CreateDealers(state.Dealers);
 }

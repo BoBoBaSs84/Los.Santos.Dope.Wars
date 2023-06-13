@@ -27,27 +27,27 @@ public class EnumeratorExtensionsTests
 	}
 
 	[TestMethod]
-	public void GetMarketPriceSuccessTest()
+	public void GetAveragePriceSuccessTest()
 	{
 		DrugType drugType = DrugType.COKE;
 
-		int marketPrice = drugType.GetAveragePrice();
+		int averagePrice = drugType.GetAveragePrice();
 
-		Assert.AreNotEqual(marketPrice, 0);
+		Assert.AreNotEqual(default, averagePrice);
 	}
 
 	[TestMethod]
-	public void GetMarketPriceFailedTest()
+	public void GetAveragePriceFailedTest()
 	{
 		TestType testType = TestType.Test;
 
-		int marketPrice = testType.GetAveragePrice();
+		int averagePrice = testType.GetAveragePrice();
 
-		Assert.AreEqual(marketPrice, 0);
+		Assert.AreEqual(default, averagePrice);
 	}
 
 	[TestMethod]
-	public void GetRankSuccessTest()
+	public void GetProbabilitySuccessTest()
 	{
 		DrugType drugType = DrugType.COKE;
 
@@ -57,7 +57,7 @@ public class EnumeratorExtensionsTests
 	}
 
 	[TestMethod]
-	public void GetRankFailedTest()
+	public void GetProbabilityFailedTest()
 	{
 		TestType testType = TestType.Test;
 

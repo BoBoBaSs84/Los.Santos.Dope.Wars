@@ -1,5 +1,6 @@
 ﻿using LSDW.Domain.Classes.Persistence;
 using LSDW.Domain.Enumerators;
+using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
 using LSDW.Domain.Interfaces.Models;
 
@@ -41,6 +42,8 @@ public partial class DomainFactoryTests
 
 		Assert.IsNotNull(drug);
 		Assert.AreEqual(drugType, drug.Type);
+		Assert.AreEqual(drugType.GetDisplayName(), drug.Name);
+		Assert.AreEqual(drugType.GetAveragePrice(), drug.AveragePrice);
 	}
 
 	[TestMethod]
@@ -55,6 +58,8 @@ public partial class DomainFactoryTests
 		Assert.IsNotNull(drug);
 		Assert.AreEqual(drugType, drug.Type);
 		Assert.AreEqual(quantity, drug.Quantity);
+		Assert.AreEqual(drugType.GetDisplayName(), drug.Name);
+		Assert.AreEqual(drugType.GetAveragePrice(), drug.AveragePrice);
 	}
 
 	[TestMethod]
@@ -71,6 +76,8 @@ public partial class DomainFactoryTests
 		Assert.AreEqual(drugType, drug.Type);
 		Assert.AreEqual(quantity, drug.Quantity);
 		Assert.AreEqual(price, drug.CurrentPrice);
+		Assert.AreEqual(drugType.GetDisplayName(), drug.Name);
+		Assert.AreEqual(drugType.GetAveragePrice(), drug.AveragePrice);
 	}
 
 	[TestMethod]

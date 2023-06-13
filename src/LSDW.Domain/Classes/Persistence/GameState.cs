@@ -25,7 +25,7 @@ public sealed class GameState
 	/// <summary>
 	/// Initializes a instance of the game state class.
 	/// </summary>
-	internal GameState(IPlayer player, IEnumerable<IDealer> dealers)
+	internal GameState(IPlayer player, ICollection<IDealer> dealers)
 	{
 		Player = DomainFactory.CreatePlayerState(player);
 		Dealers = DomainFactory.CreateDealerStates(dealers);

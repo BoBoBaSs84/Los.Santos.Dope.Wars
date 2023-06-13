@@ -14,7 +14,7 @@ public static class InventoryExtensions
 	/// Randomizes the inventory depending on the player level.
 	/// </summary>
 	/// <remarks>
-	/// This will randomizes the following things:
+	/// This will randomize the following things:
 	/// <list type="bullet">
 	/// <item>The <see cref="IDrug.CurrentPrice"/></item>
 	/// <item>The <see cref="IDrug.Quantity"/></item>

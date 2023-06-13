@@ -43,6 +43,12 @@ public interface IDealer : IPedestrian
 	/// <summary>
 	/// Set the closed or not state.
 	/// </summary>
-	/// <param name="closedUntil">Value for closed or <see langword="null"/> for open again.</param>
-	void SetClosed(DateTime? closedUntil);
+	/// <param name="value">The value for closed, <see langword="null"/> for open again.</param>
+	void SetClosed(DateTime? value);
+
+	/// <summary>
+	/// Sets if the dealer is discovered or not, maybe good for rediscovering too.
+	/// </summary>
+	/// <param name="value"><see langword="true"/> or <see langword="false"/></param>
+	void SetDiscovered(bool value);
 }
