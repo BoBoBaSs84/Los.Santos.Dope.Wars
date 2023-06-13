@@ -31,7 +31,7 @@ public class EnumeratorExtensionsTests
 	{
 		DrugType drugType = DrugType.COKE;
 
-		int marketPrice = drugType.GetMarketValue();
+		int marketPrice = drugType.GetAveragePrice();
 
 		Assert.AreNotEqual(marketPrice, 0);
 	}
@@ -41,7 +41,7 @@ public class EnumeratorExtensionsTests
 	{
 		TestType testType = TestType.Test;
 
-		int marketPrice = testType.GetMarketValue();
+		int marketPrice = testType.GetAveragePrice();
 
 		Assert.AreEqual(marketPrice, 0);
 	}

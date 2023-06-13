@@ -17,16 +17,16 @@ public static partial class DomainFactory
 	/// </summary>
 	/// <param name="state">The saved drug state.</param>
 	public static IDrug CreateDrug(DrugState state)
-		=> CreateDrug(state.Type, state.Quantity, state.Price);
+		=> CreateDrug(state.Type, state.Quantity, state.CurrentPrice);
 
 	/// <summary>
 	/// Creates a new drug instance.
 	/// </summary>
 	/// <param name="type">The type of the drug.</param>
 	/// <param name="quantity">The quantity of the drug.</param>
-	/// <param name="price">The price of the drug.</param>
-	public static IDrug CreateDrug(DrugType type, int quantity, int price)
-		=> new Drug(type, quantity, price);
+	/// <param name="currentPrice">The current price of the drug.</param>
+	public static IDrug CreateDrug(DrugType type, int quantity, int currentPrice)
+		=> new Drug(type, quantity, currentPrice);
 
 	/// <summary>
 	/// Creates a new drug instance.

@@ -16,7 +16,7 @@ public static class InventoryExtensions
 	/// <remarks>
 	/// This will randomizes the following things:
 	/// <list type="bullet">
-	/// <item>The <see cref="IDrug.Price"/></item>
+	/// <item>The <see cref="IDrug.CurrentPrice"/></item>
 	/// <item>The <see cref="IDrug.Quantity"/></item>
 	/// <item>The <see cref="IInventory.Money"/></item>
 	/// </list>

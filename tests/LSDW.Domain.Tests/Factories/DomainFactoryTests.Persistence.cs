@@ -22,7 +22,7 @@ public partial class DomainFactoryTests
 		Assert.IsNotNull(state);
 		Assert.AreEqual(drug.Type, state.Type);
 		Assert.AreEqual(drug.Quantity, state.Quantity);
-		Assert.AreEqual(drug.Price, state.Price);
+		Assert.AreEqual(drug.CurrentPrice, state.CurrentPrice);
 	}
 
 	[TestMethod]
@@ -134,7 +134,7 @@ public partial class DomainFactoryTests
 		List<TransactionState> states = DomainFactory.CreateTransactionStates(transactions);
 
 		Assert.IsNotNull(states);
-		Assert.AreEqual(transactions.Count(), states.Count);
+		Assert.AreEqual(transactions.Count, states.Count);
 	}
 
 	[TestMethod]

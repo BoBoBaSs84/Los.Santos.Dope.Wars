@@ -24,32 +24,29 @@ internal sealed class Drug : Notification, IDrug
 	/// </summary>
 	/// <param name="drugType">The type of the drug.</param>
 	/// <param name="quantity">The quantity of the drug.</param>
-	/// <param name="price">The price of the drug.</param>
-	internal Drug(DrugType drugType, int quantity, int price)
+	/// <param name="currentPrice">The current price of the drug.</param>
+	internal Drug(DrugType drugType, int quantity, int currentPrice)
 	{
+		AveragePrice = Type.GetAveragePrice();
 		Type = drugType;
+		Name = Type.GetDisplayName();
 		Quantity = quantity;
-		Price = price;
+		CurrentPrice = currentPrice;
 	}
+
+	public int AveragePrice { get; }
+
+	public int CurrentPrice { get; private set; }
 
 	public DrugType Type { get; }
 
-	public string Name
-		=> Type.GetDisplayName();
-
-	public int MarketValue
-		=> Type.GetMarketValue();
+	public string Name { get; }
 
 	public int Quantity
 	{
 		get => quantity;
 		private set => SetProperty(ref quantity, value);
 	}
-
-	public int Price { get; private set; }
-
-	public int PossibleProfit
-		=> CalculatePossibleProfit();
 
 	public void Add(int quantity, int price)
 	{
@@ -62,7 +59,7 @@ internal sealed class Drug : Notification, IDrug
 			throw new ArgumentOutOfRangeException(nameof(price), message);
 		}
 
-		Price = (Price * Quantity + price * quantity) / (Quantity + quantity);
+		CurrentPrice = (CurrentPrice * Quantity + price * quantity) / (Quantity + quantity);
 		Quantity += quantity;
 	}
 
@@ -71,10 +68,9 @@ internal sealed class Drug : Notification, IDrug
 		double minimumDrugValue = (double)MinimumDrugPrice;
 		double maximumDrugValue = (double)MaximumDrugPrice;
 
-		int marketValue = Type.GetMarketValue();
 		double levelLimit = (double)playerLevel / 1000;
-		double lowerLimit = (minimumDrugValue - levelLimit) * marketValue;
-		double upperLimit = (maximumDrugValue + levelLimit) * marketValue;
+		double lowerLimit = (minimumDrugValue - levelLimit) * AveragePrice;
+		double upperLimit = (maximumDrugValue + levelLimit) * AveragePrice;
 
 		int newPrice = RandomHelper.GetInt(lowerLimit, upperLimit);
 		SetPrice(newPrice);
@@ -113,15 +109,12 @@ internal sealed class Drug : Notification, IDrug
 		Quantity -= quantity;
 
 		if (Quantity.Equals(0))
-			Price = 0;
+			CurrentPrice = 0;
 	}
 
 	public void SetPrice(int price)
-		=> Price = price;
+		=> CurrentPrice = price;
 
 	public void SetQuantity(int quantity)
 		=> Quantity = quantity;
-
-	private int CalculatePossibleProfit()
-		=> Quantity.Equals(0) ? 0 : (MarketValue - Price) * Quantity;
 }

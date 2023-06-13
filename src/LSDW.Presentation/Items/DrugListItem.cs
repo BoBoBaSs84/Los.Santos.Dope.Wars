@@ -22,7 +22,7 @@ internal sealed class DrugListItem : NativeListItem<int>
 		_sourceDrug = sourcedrug;
 		_targetDrug = targetDrug;
 
-		Description = GetDescription(_sourceDrug.Quantity, _sourceDrug.Price, _targetDrug.Price);
+		Description = GetDescription(_sourceDrug.Quantity, _sourceDrug.CurrentPrice, _targetDrug.CurrentPrice);
 		Enabled = !Equals(_sourceDrug.Quantity, 0);
 		SelectedIndex = _sourceDrug.Quantity;
 		Tag = sourcedrug.Type;
@@ -42,7 +42,7 @@ internal sealed class DrugListItem : NativeListItem<int>
 	}
 
 	private void OnItemChanged(object sender, ItemChangedEventArgs<int> args)
-		=> Description = GetDescription(args.Object, _sourceDrug.Price, _targetDrug.Price);
+		=> Description = GetDescription(args.Object, _sourceDrug.CurrentPrice, _targetDrug.CurrentPrice);
 
 	private static string GetDescription(int quantity, int sourcePrice, int targetPrice)
 	{

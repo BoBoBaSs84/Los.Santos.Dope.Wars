@@ -16,7 +16,7 @@ public class DrugTests
 		drug.Add(10, 50);
 
 		Assert.IsTrue(drug.Quantity.Equals(20));
-		Assert.IsTrue(drug.Price.Equals(75));
+		Assert.IsTrue(drug.CurrentPrice.Equals(75));
 	}
 
 	[TestMethod]
@@ -35,7 +35,7 @@ public class DrugTests
 		drug.Add(5, 0);
 
 		Assert.IsFalse(drug.Quantity.Equals(20));
-		Assert.IsFalse(drug.Price.Equals(750));
+		Assert.IsFalse(drug.CurrentPrice.Equals(750));
 	}
 
 	[TestMethod()]
@@ -86,7 +86,7 @@ public class DrugTests
 		drug.Remove(100);
 
 		Assert.AreEqual(0, drug.Quantity);
-		Assert.AreEqual(0, drug.Price);
+		Assert.AreEqual(0, drug.CurrentPrice);
 	}
 
 	[TestMethod]
@@ -96,7 +96,7 @@ public class DrugTests
 
 		drug.SetPrice(100);
 
-		Assert.AreEqual(100, drug.Price);
+		Assert.AreEqual(100, drug.CurrentPrice);
 	}
 
 	[TestMethod]
@@ -126,6 +126,6 @@ public class DrugTests
 
 		drug.RandomizePrice(0);
 
-		Assert.AreNotEqual(-1, drug.Price);
+		Assert.AreNotEqual(-1, drug.CurrentPrice);
 	}
 }
