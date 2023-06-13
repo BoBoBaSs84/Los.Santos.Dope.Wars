@@ -13,11 +13,11 @@ internal sealed class SwitchItem : NativeItem, ISwitchItem
 	/// <summary>
 	/// Initializes a instance of the switch item class.
 	/// </summary>
-	/// <param name="menuType">The menu type for the switch item.</param>
-	internal SwitchItem(MenuType menuType) : base(string.Empty)
+	/// <param name="type">The transaction type for the switch item.</param>
+	internal SwitchItem(TransactionType type) : base(string.Empty)
 	{
+		Description = SwitchItemHelper.GetDescription(type);
 		Enabled = true;
-		Title = SwitchItemHelper.GetTitle(menuType);
-		Description = SwitchItemHelper.GetDescription(menuType);
+		Title = SwitchItemHelper.GetTitle(type);
 	}
 }

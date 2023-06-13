@@ -19,7 +19,7 @@ This mod re-adds drug trafficking mini-missions that were scrapped during GTA5 d
 - Download the latest LemonUI Framework for Script Hook V .NET and copy it into your script folder. You may download it from https://github.com/LemonUIbyLemon/LemonUI/releases
 - Download the latest (stable ;) mod assembly from here https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/releases and copy the assembly into your scripts folder
 OR
-- build it yourself, copy the Los.Santos.Dope.Wars.dll into your scripts folder
+- build it yourself, copy the binaries into your scripts folder
 
 ## Licensing
 

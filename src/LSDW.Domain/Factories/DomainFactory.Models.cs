@@ -132,7 +132,7 @@ public static partial class DomainFactory
 	/// Creates a transaction instance collection from saved transaction state collection.
 	/// </summary>
 	/// <param name="states">The saved transaction state collection.</param>
-	public static IEnumerable<ITransaction> CreateTransactions(List<TransactionState> states)
+	public static ICollection<ITransaction> CreateTransactions(List<TransactionState> states)
 	{
 		List<ITransaction> transactions = new();
 		foreach (TransactionState state in states)
@@ -167,7 +167,7 @@ public static partial class DomainFactory
 	/// <param name="inventory">The player inventory.</param>
 	/// <param name="experience">The player experience points.</param>
 	/// <param name="transactions">The transactions for the player.</param>
-	public static IPlayer CreatePlayer(IInventory inventory, int experience, IEnumerable<ITransaction> transactions)
+	public static IPlayer CreatePlayer(IInventory inventory, int experience, ICollection<ITransaction> transactions)
 		=> new Player(inventory, experience, transactions);
 
 	/// <summary>

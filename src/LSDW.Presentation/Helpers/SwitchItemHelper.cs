@@ -9,44 +9,38 @@ namespace LSDW.Presentation.Helpers;
 internal static class SwitchItemHelper
 {
 	/// <summary>
-	/// Gets the title for the switch item depending on the menu type.
+	/// Gets the title for the switch item depending on the transaction type.
 	/// </summary>
-	/// <param name="menuType">The menu type for the switch item.</param>
+	/// <param name="type">The transaction type for the switch item.</param>
 	/// <returns>The title for the switch item.</returns>
-	internal static string GetTitle(MenuType menuType)
+	internal static string GetTitle(TransactionType type)
 	{
-		string title = menuType switch
+		string title = type switch
 		{
-			MenuType.BUY => Resources.UI_Switch_Item_Title_Buy,
-			MenuType.SELL => Resources.UI_Switch_Item_Title_Sell,
-			MenuType.TAKE => Resources.UI_Switch_Item_Title_Take,
-			MenuType.GIVE => Resources.UI_Switch_Item_Title_Give,
-			MenuType.RETRIEVE => Resources.UI_Switch_Item_Title_Retrieve,
-			MenuType.STORE => Resources.UI_Switch_Item_Title_Store,
+			TransactionType.BUY => Resources.UI_Switch_Item_Title_Buy,
+			TransactionType.SELL => Resources.UI_Switch_Item_Title_Sell,
+			TransactionType.TAKE => Resources.UI_Switch_Item_Title_Take,
+			TransactionType.GIVE => Resources.UI_Switch_Item_Title_Give,
 			_ => string.Empty
 		};
-
 		return title;
 	}
 
 	/// <summary>
-	/// Gets the description for the switch item depending on the menu type.
+	/// Gets the description for the switch item depending on the transaction type.
 	/// </summary>
-	/// <param name="menuType">The menu type for the switch item.</param>
+	/// <param name="type">The transaction type for the switch item.</param>
 	/// <returns>The description for the switch item.</returns>
-	internal static string GetDescription(MenuType menuType)
+	internal static string GetDescription(TransactionType type)
 	{
-		string description = menuType switch
+		string description = type switch
 		{
-			MenuType.BUY => Resources.UI_Switch_Item_Description_Buy,
-			MenuType.SELL => Resources.UI_Switch_Item_Description_Sell,
-			MenuType.TAKE => Resources.UI_Switch_Item_Description_Take,
-			MenuType.GIVE => Resources.UI_Switch_Item_Description_Give,
-			MenuType.RETRIEVE => Resources.UI_Switch_Item_Description_Retrieve,
-			MenuType.STORE => Resources.UI_Switch_Item_Description_Store,
+			TransactionType.BUY => Resources.UI_Switch_Item_Description_Buy,
+			TransactionType.SELL => Resources.UI_Switch_Item_Description_Sell,
+			TransactionType.TAKE => Resources.UI_Switch_Item_Description_Take,
+			TransactionType.GIVE => Resources.UI_Switch_Item_Description_Give,
 			_ => string.Empty
 		};
-
 		return description;
 	}
 }

@@ -31,13 +31,24 @@ public interface IPlayer
 	int MaximumInventoryQuantity { get; }
 
 	/// <summary>
-	/// The transaction log entries for the player.
+	/// The transaction count.
 	/// </summary>
-	ICollection<ITransaction> Transactions { get; }
+	int TransactionCount { get; }
 
 	/// <summary>
-	/// Should adds the desired experience points to the current experience.
+	/// Adds the desired experience points to the players current experience.
 	/// </summary>
 	/// <param name="points">The experience points to add.</param>
 	void AddExperience(int points);
+
+	/// <summary>
+	/// Adds the transaction to the players transactions.
+	/// </summary>
+	/// <param name="transaction">The transaction to add.</param>
+	void AddTransaction(ITransaction transaction);
+
+	/// <summary>
+	/// Returns the player transactions.
+	/// </summary>
+	ICollection<ITransaction> GetTransactions();
 }

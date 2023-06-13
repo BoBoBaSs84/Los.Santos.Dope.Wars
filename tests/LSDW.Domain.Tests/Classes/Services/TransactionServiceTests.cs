@@ -18,7 +18,7 @@ public class TransactionServiceTests
 		inventory.Add(drug);
 
 		ITransactionService transactionService =
-			DomainFactory.CreateTransactionService(TransactionType.DEPOSIT, inventory, player.Inventory, player.MaximumInventoryQuantity);
+			DomainFactory.CreateTransactionService(TransactionType.GIVE, inventory, player.Inventory, player.MaximumInventoryQuantity);
 
 		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.Price);
 
@@ -39,7 +39,7 @@ public class TransactionServiceTests
 		inventory.Add(drug);
 
 		ITransactionService transactionService =
-			DomainFactory.CreateTransactionService(TransactionType.TRAFFIC, inventory, player.Inventory, player.MaximumInventoryQuantity);
+			DomainFactory.CreateTransactionService(TransactionType.BUY, inventory, player.Inventory, player.MaximumInventoryQuantity);
 
 		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.Price);
 
@@ -61,7 +61,7 @@ public class TransactionServiceTests
 		inventory.Add(drug);
 
 		ITransactionService transactionService =
-			DomainFactory.CreateTransactionService(TransactionType.TRAFFIC, inventory, player.Inventory, player.MaximumInventoryQuantity);
+			DomainFactory.CreateTransactionService(TransactionType.BUY, inventory, player.Inventory, player.MaximumInventoryQuantity);
 
 		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.Price);
 
@@ -78,7 +78,7 @@ public class TransactionServiceTests
 		inventory.Add(drug);
 
 		ITransactionService transactionService =
-			DomainFactory.CreateTransactionService(TransactionType.DEPOSIT, player.Inventory, inventory, 0);
+			DomainFactory.CreateTransactionService(TransactionType.GIVE, player.Inventory, inventory, 0);
 
 		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.Price);
 

@@ -19,11 +19,34 @@ public static class PresentationFactory
 		=> new SettingsMenu(settingsService);
 
 	/// <summary>
-	/// Creates a new instance of the side menu.
+	/// Creates a new instance of the buy menu.
 	/// </summary>
-	/// <param name="menuType">The menu type.</param>
 	/// <param name="player">The current player.</param>
 	/// <param name="inventory">The opposition inventory.</param>
-	public static ISideMenu CreateSideMenu(MenuType menuType, IPlayer player, IInventory inventory)
-		=> new SideMenu(menuType, player, inventory);
+	public static ISideMenu CreateBuyMenu(IPlayer player, IInventory inventory)
+		=> new SideMenu(TransactionType.BUY, player, inventory);
+
+	/// <summary>
+	/// Creates a new instance of the sell menu.
+	/// </summary>
+	/// <param name="player">The current player.</param>
+	/// <param name="inventory">The opposition inventory.</param>
+	public static ISideMenu CreateSellMenu(IPlayer player, IInventory inventory)
+		=> new SideMenu(TransactionType.SELL, player, inventory);
+
+	/// <summary>
+	/// Creates a new instance of the take menu.
+	/// </summary>
+	/// <param name="player">The current player.</param>
+	/// <param name="inventory">The opposition inventory.</param>
+	public static ISideMenu CreateTakeMenu(IPlayer player, IInventory inventory)
+		=> new SideMenu(TransactionType.TAKE, player, inventory);
+
+	/// <summary>
+	/// Creates a new instance of the give menu.
+	/// </summary>
+	/// <param name="player">The current player.</param>
+	/// <param name="inventory">The opposition inventory.</param>
+	public static ISideMenu CreateGiveMenu(IPlayer player, IInventory inventory)
+		=> new SideMenu(TransactionType.GIVE, player, inventory);
 }

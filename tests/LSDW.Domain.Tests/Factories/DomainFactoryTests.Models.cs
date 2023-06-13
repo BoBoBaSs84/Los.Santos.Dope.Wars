@@ -164,7 +164,7 @@ public partial class DomainFactoryTests
 		DrugType drugType = DrugType.COKE;
 		int quantity = 10;
 		int price = 100;
-		TransactionType transactionType = TransactionType.TRAFFIC;
+		TransactionType transactionType = TransactionType.BUY;
 
 		ITransaction transaction =
 			DomainFactory.CreateTransaction(date, transactionType, drugType, quantity, price);
@@ -182,7 +182,7 @@ public partial class DomainFactoryTests
 	{
 		List<TransactionState> states = new() { GetTransactionState() };
 
-		IEnumerable<ITransaction> transactions =
+		ICollection<ITransaction> transactions =
 			DomainFactory.CreateTransactions(states);
 
 		Assert.IsNotNull(transactions);
@@ -230,14 +230,13 @@ public partial class DomainFactoryTests
 	{
 		int experience = 10000;
 		IInventory inventory = DomainFactory.CreateInventory();
-		IEnumerable<ITransaction> transactions = new List<ITransaction>();
+		ICollection<ITransaction> transactions = new HashSet<ITransaction>();
 		IPlayer? player;
 
 		player = DomainFactory.CreatePlayer(inventory, experience, transactions);
 
 		Assert.IsNotNull(player);
 		Assert.IsNotNull(player.Inventory);
-		Assert.IsNotNull(player.Transactions);
 		Assert.AreEqual(experience, player.Experience);
 	}
 
@@ -292,7 +291,7 @@ public partial class DomainFactoryTests
 			DrugType = DrugType.COKE,
 			Quantity = 10,
 			Price = 100,
-			Type = TransactionType.TRAFFIC
+			Type = TransactionType.TAKE
 		};
 
 	private static GameState GetGameState()
