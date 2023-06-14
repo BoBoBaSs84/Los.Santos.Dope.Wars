@@ -1,12 +1,12 @@
 ﻿using GTA;
 using GTA.Math;
-using LSDW.Domain.Constants;
-using LSDW.Domain.Factories;
-using LSDW.Domain.Interfaces.Actors;
+using LSDW.Abstractions.Domain.Actors;
+using LSDW.Infrastructure.Constants;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using static LSDW.Infrastructure.Factories.InfrastructureFactory;
 
-namespace LSDW.Domain.Classes.Persistence;
+namespace LSDW.Infrastructure.Classes.States;
 
 /// <summary>
 /// The dealer state class.
@@ -31,7 +31,7 @@ public sealed class DealerState
 	{
 		ClosedUntil = dealer.ClosedUntil;
 		Discovered = dealer.Discovered;
-		Inventory = DomainFactory.CreateInventoryState(dealer.Inventory);
+		Inventory = CreateInventoryState(dealer.Inventory);
 		Name = dealer.Name;
 		Position = dealer.Position;
 		Hash = dealer.Hash;

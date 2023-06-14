@@ -1,11 +1,12 @@
-﻿using LSDW.Abstractions.Infrastructure.Services;
+﻿using LSDW.Abstractions.Domain.Actors;
+using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Domain.Classes.Models;
-using LSDW.Domain.Classes.Persistence;
-using LSDW.Domain.Constants;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
-using LSDW.Domain.Interfaces.Actors;
-using LSDW.Domain.Interfaces.Models;
+using LSDW.Infrastructure.Classes.States;
+using LSDW.Infrastructure.Constants;
+using static LSDW.Infrastructure.Factories.InfrastructureFactory;
 
 namespace LSDW.Infrastructure.Services;
 
@@ -54,8 +55,8 @@ internal sealed class GameStateService : IGameStateService
 			GameState gameState =
 				new GameState().FromXmlString(fileContent);
 
-			Dealers = DomainFactory.CreateDealers(gameState);
-			Player = DomainFactory.CreatePlayer(gameState);
+			Dealers = CreateDealers(gameState);
+			Player = CreatePlayer(gameState);
 
 			return true;
 		}
@@ -72,8 +73,7 @@ internal sealed class GameStateService : IGameStateService
 
 		try
 		{
-			GameState gameState =
-				DomainFactory.CreateGameState(Player, Dealers);
+			GameState gameState = CreateGameState(Player, Dealers);
 
 			string fileContent =
 				gameState.ToXmlString(XmlConstants.SerializerNamespaces).Compress();

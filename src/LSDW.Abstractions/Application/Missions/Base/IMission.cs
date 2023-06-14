@@ -1,4 +1,4 @@
-﻿using LSDW.Domain.Enumerators;
+﻿using LSDW.Abstractions.Enumerators;
 
 namespace LSDW.Abstractions.Application.Missions.Base;
 

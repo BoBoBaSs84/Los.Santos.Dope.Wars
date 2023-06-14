@@ -1,6 +1,6 @@
-﻿using LSDW.Domain.Enumerators;
+﻿using LSDW.Abstractions.Enumerators;
 
-namespace LSDW.Domain.Interfaces.Models;
+namespace LSDW.Abstractions.Domain.Models;
 
 /// <summary>
 /// The rransaction interface.

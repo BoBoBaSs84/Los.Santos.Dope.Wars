@@ -1,7 +1,7 @@
-﻿using LSDW.Domain.Attributes;
-using LSDW.Domain.Enumerators;
+﻿using LSDW.Abstractions.Attributes;
+using LSDW.Abstractions.Enumerators;
 
-namespace LSDW.Domain.Extensions;
+namespace LSDW.Abstractions.Extensions;
 
 /// <summary>
 /// The enumerator extensions class.
@@ -13,7 +13,7 @@ public static class EnumeratorExtensions
 	/// </summary>
 	/// <typeparam name="T">The enmuerator type.</typeparam>
 	/// <param name="value">The enumerator value.</param>
-	internal static string GetDescription<T>(this T value) where T : Enum
+	public static string GetDescription<T>(this T value) where T : Enum
 	{
 		FieldInfo? fieldInfo = GetFieldInfo(value);
 
@@ -33,7 +33,7 @@ public static class EnumeratorExtensions
 	/// </summary>
 	/// <typeparam name="T">The enmuerator type.</typeparam>
 	/// <param name="value">The enumerator value.</param>
-	internal static string GetDisplayName<T>(this T value) where T : Enum
+	public static string GetDisplayName<T>(this T value) where T : Enum
 	{
 		FieldInfo? fieldInfo = GetFieldInfo(value);
 
@@ -53,7 +53,7 @@ public static class EnumeratorExtensions
 	/// </summary>
 	/// <typeparam name="T">The enmuerator type.</typeparam>
 	/// <param name="value">The enumerator value.</param>
-	internal static int GetAveragePrice<T>(this T value) where T : Enum
+	public static int GetAveragePrice<T>(this T value) where T : Enum
 	{
 		FieldInfo? fieldInfo = GetFieldInfo(value);
 
@@ -73,7 +73,7 @@ public static class EnumeratorExtensions
 	/// </summary>
 	/// <typeparam name="T">The enmuerator type.</typeparam>
 	/// <param name="value">The enumerator value.</param>
-	internal static float GetProbability<T>(this T value) where T : Enum
+	public static float GetProbability<T>(this T value) where T : Enum
 	{
 		FieldInfo? fieldInfo = GetFieldInfo(value);
 

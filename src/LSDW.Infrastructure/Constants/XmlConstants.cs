@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace LSDW.Domain.Constants;
+namespace LSDW.Infrastructure.Constants;
 
 /// <summary>
 /// The xml constants class.

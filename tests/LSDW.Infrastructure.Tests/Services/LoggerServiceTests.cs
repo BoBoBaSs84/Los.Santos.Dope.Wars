@@ -1,6 +1,6 @@
 ﻿using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Domain.Classes.Models;
-using LSDW.Infrastructure.Factories;
+using static LSDW.Infrastructure.Factories.InfrastructureFactory;
 
 namespace LSDW.Infrastructure.Tests.Services;
 
@@ -8,7 +8,7 @@ namespace LSDW.Infrastructure.Tests.Services;
 public class LoggerServiceTests
 {
 	private readonly string logFileNamePath = Path.Combine(Environment.CurrentDirectory, Settings.LogFileName);
-	private readonly ILoggerService logger = InfrastructureFactory.CreateLoggerService();
+	private readonly ILoggerService logger = CreateLoggerService();
 
 	[TestCleanup]
 	public void TestCleanup()

@@ -1,6 +1,6 @@
-﻿using LSDW.Domain.Enumerators;
+﻿using LSDW.Abstractions.Enumerators;
 
-namespace LSDW.Domain.Interfaces.Services;
+namespace LSDW.Abstractions.Domain.Services;
 
 /// <summary>
 /// The transaction service interface.

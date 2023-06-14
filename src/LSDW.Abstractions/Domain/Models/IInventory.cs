@@ -1,7 +1,7 @@
-﻿using LSDW.Domain.Enumerators;
+﻿using LSDW.Abstractions.Enumerators;
 using System.Diagnostics.CodeAnalysis;
 
-namespace LSDW.Domain.Interfaces.Models;
+namespace LSDW.Abstractions.Domain.Models;
 
 /// <summary>
 /// The inventory interface.

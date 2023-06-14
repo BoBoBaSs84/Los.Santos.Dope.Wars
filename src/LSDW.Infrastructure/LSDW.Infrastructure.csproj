@@ -2,6 +2,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\LSDW.Abstractions\LSDW.Abstractions.csproj" />
+		<ProjectReference Include="..\LSDW.Domain\LSDW.Domain.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

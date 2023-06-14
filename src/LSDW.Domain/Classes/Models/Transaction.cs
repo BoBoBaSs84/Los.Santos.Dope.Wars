@@ -1,5 +1,5 @@
-﻿using LSDW.Domain.Enumerators;
-using LSDW.Domain.Interfaces.Models;
+﻿using LSDW.Abstractions.Enumerators;
+using LSDW.Abstractions.Domain.Models;
 
 namespace LSDW.Domain.Classes.Models;
 

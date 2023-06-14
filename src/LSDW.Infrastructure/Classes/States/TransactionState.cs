@@ -1,10 +1,10 @@
-﻿using LSDW.Domain.Constants;
-using LSDW.Domain.Enumerators;
-using LSDW.Domain.Interfaces.Models;
+﻿using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Enumerators;
+using LSDW.Infrastructure.Constants;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace LSDW.Domain.Classes.Persistence;
+namespace LSDW.Infrastructure.Classes.States;
 
 /// <summary>
 /// The transaction state class.

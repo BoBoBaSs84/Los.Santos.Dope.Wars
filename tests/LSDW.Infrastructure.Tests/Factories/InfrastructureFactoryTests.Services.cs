@@ -1,17 +1,18 @@
 ﻿using LSDW.Abstractions.Infrastructure.Services;
-using LSDW.Infrastructure.Factories;
+using static LSDW.Infrastructure.Factories.InfrastructureFactory;
 
 namespace LSDW.Infrastructure.Tests.Factories;
 
 [TestClass]
-public class InfrastructureFactoryTests
+[SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
+public partial class InfrastructureFactoryTests
 {
 	[TestMethod]
 	public void CreateLoggerServiceTest()
 	{
 		ILoggerService? loggerService;
 
-		loggerService = InfrastructureFactory.CreateLoggerService();
+		loggerService = CreateLoggerService();
 
 		Assert.IsNotNull(loggerService);
 	}
@@ -19,10 +20,10 @@ public class InfrastructureFactoryTests
 	[TestMethod]
 	public void CreateGameStateServiceTest()
 	{
-		ILoggerService loggerService = InfrastructureFactory.CreateLoggerService();
+		ILoggerService loggerService = CreateLoggerService();
 		IGameStateService? gameStateService;
 
-		gameStateService = InfrastructureFactory.CreateGameStateService(loggerService);
+		gameStateService = CreateGameStateService(loggerService);
 
 		Assert.IsNotNull(gameStateService);
 	}
@@ -32,7 +33,7 @@ public class InfrastructureFactoryTests
 	{
 		IGameStateService? gameStateService;
 
-		gameStateService = InfrastructureFactory.CreateGameStateService();
+		gameStateService = CreateGameStateService();
 
 		Assert.IsNotNull(gameStateService);
 	}
@@ -42,7 +43,7 @@ public class InfrastructureFactoryTests
 	{
 		ISettingsService? settingsService;
 
-		settingsService = InfrastructureFactory.CreateSettingsService();
+		settingsService = CreateSettingsService();
 
 		Assert.IsNotNull(settingsService);
 	}

@@ -1,11 +1,11 @@
-﻿using LSDW.Domain.Constants;
-using LSDW.Domain.Factories;
-using LSDW.Domain.Interfaces.Actors;
-using LSDW.Domain.Interfaces.Models;
+﻿using LSDW.Abstractions.Domain.Actors;
+using LSDW.Abstractions.Domain.Models;
+using LSDW.Infrastructure.Constants;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using static LSDW.Infrastructure.Factories.InfrastructureFactory;
 
-namespace LSDW.Domain.Classes.Persistence;
+namespace LSDW.Infrastructure.Classes.States;
 
 /// <summary>
 /// The game state class.
@@ -27,8 +27,8 @@ public sealed class GameState
 	/// </summary>
 	internal GameState(IPlayer player, ICollection<IDealer> dealers)
 	{
-		Player = DomainFactory.CreatePlayerState(player);
-		Dealers = DomainFactory.CreateDealerStates(dealers);
+		Player = CreatePlayerState(player);
+		Dealers = CreateDealerStates(dealers);
 	}
 
 	/// <summary>

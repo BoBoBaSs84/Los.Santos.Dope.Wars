@@ -1,6 +1,6 @@
 ﻿using GTA;
 using LSDW.Abstractions.Application.Missions.Base;
-using LSDW.Domain.Enumerators;
+using LSDW.Abstractions.Enumerators;
 
 namespace LSDW.Application.Missions.Base;
 

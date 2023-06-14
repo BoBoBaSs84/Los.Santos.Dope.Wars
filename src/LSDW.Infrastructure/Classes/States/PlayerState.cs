@@ -1,10 +1,10 @@
-﻿using LSDW.Domain.Constants;
-using LSDW.Domain.Factories;
-using LSDW.Domain.Interfaces.Models;
+﻿using LSDW.Abstractions.Domain.Models;
+using LSDW.Infrastructure.Constants;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using static LSDW.Infrastructure.Factories.InfrastructureFactory;
 
-namespace LSDW.Domain.Classes.Persistence;
+namespace LSDW.Infrastructure.Classes.States;
 
 /// <summary>
 /// The player state class.
@@ -12,25 +12,41 @@ namespace LSDW.Domain.Classes.Persistence;
 [XmlRoot(XmlConstants.PlayerStateRootName, Namespace = XmlConstants.NameSpace)]
 public sealed class PlayerState
 {
+	/// <summary>
+	/// Initializes a instance of the player state class.
+	/// </summary>
 	public PlayerState()
 	{
 		Inventory = new();
 		Transactions = new();
 	}
 
+	/// <summary>
+	/// Initializes a instance of the player state class.
+	/// </summary>
+	/// <param name="player">The player to use.</param>
 	internal PlayerState(IPlayer player)
 	{
-		Inventory = DomainFactory.CreateInventoryState(player.Inventory);
+		Inventory = CreateInventoryState(player.Inventory);
 		Experience = player.Experience;
-		Transactions = DomainFactory.CreateTransactionStates(player.GetTransactions());
+		Transactions = CreateTransactionStates(player.GetTransactions());
 	}
 
+	/// <summary>
+	/// The inventory property of the player state.
+	/// </summary>
 	[XmlElement(nameof(Inventory), Form = XmlSchemaForm.Qualified)]
 	public InventoryState Inventory { get; set; }
 
+	/// <summary>
+	/// The experience property of the player state.
+	/// </summary>
 	[XmlAttribute(nameof(Experience), Form = XmlSchemaForm.Qualified)]
 	public int Experience { get; set; }
 
+	/// <summary>
+	/// The transactions property of the player state.
+	/// </summary>
 	[XmlArray(nameof(Transactions), Form = XmlSchemaForm.Qualified)]
 	[XmlArrayItem(XmlConstants.TransactionStateRootName, Form = XmlSchemaForm.Qualified)]
 	public List<TransactionState> Transactions { get; set; }

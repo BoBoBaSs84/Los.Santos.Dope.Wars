@@ -1,4 +1,4 @@
-﻿namespace LSDW.Domain.Attributes;
+﻿namespace LSDW.Abstractions.Attributes;
 
 /// <summary>
 /// The drug attribute class.
@@ -14,7 +14,7 @@ internal sealed class DrugAttribute : DescriptionAttribute
 	/// <param name="displayName">The display name of the drug.</param>
 	/// <param name="description">The description of the drug.</param>
 	/// <param name="averagePrice">The normal market value of the drug.</param>
-	public DrugAttribute(string displayName, string description, int averagePrice) : base(description)
+	internal DrugAttribute(string displayName, string description, int averagePrice) : base(description)
 	{
 		DisplayName = displayName;
 		AveragePrice = averagePrice;

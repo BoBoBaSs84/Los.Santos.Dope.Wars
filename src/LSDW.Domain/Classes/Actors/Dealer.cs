@@ -1,9 +1,9 @@
 ﻿using GTA;
 using GTA.Math;
+using LSDW.Abstractions.Domain.Actors;
+using LSDW.Abstractions.Domain.Models;
 using LSDW.Domain.Classes.Actors.Base;
 using LSDW.Domain.Factories;
-using LSDW.Domain.Interfaces.Actors;
-using LSDW.Domain.Interfaces.Models;
 using DealerSettings = LSDW.Domain.Classes.Models.Settings.Dealer;
 
 namespace LSDW.Domain.Classes.Actors;
@@ -117,7 +117,7 @@ internal sealed class Dealer : Pedestrian, IDealer
 
 	public void SetClosed(DateTime? value)
 		=> ClosedUntil = value;
-	
+
 	public void SetDiscovered(bool value)
 		=> Discovered = value;
 

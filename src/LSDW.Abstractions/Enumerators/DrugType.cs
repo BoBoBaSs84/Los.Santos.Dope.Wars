@@ -1,6 +1,6 @@
-﻿using LSDW.Domain.Attributes;
+﻿using LSDW.Abstractions.Attributes;
 
-namespace LSDW.Domain.Enumerators;
+namespace LSDW.Abstractions.Enumerators;
 
 /// <summary>
 /// The drug type enumerator.

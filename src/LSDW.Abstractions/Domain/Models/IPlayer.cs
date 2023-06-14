@@ -1,4 +1,4 @@
-﻿namespace LSDW.Domain.Interfaces.Models;
+﻿namespace LSDW.Abstractions.Domain.Models;
 
 /// <summary>
 /// The player character interface.

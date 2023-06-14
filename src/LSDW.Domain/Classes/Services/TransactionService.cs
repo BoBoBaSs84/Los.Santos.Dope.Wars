@@ -1,6 +1,6 @@
-﻿using LSDW.Domain.Enumerators;
-using LSDW.Domain.Interfaces.Models;
-using LSDW.Domain.Interfaces.Services;
+﻿using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Domain.Services;
+using LSDW.Abstractions.Enumerators;
 using RESX = LSDW.Domain.Properties.Resources;
 
 namespace LSDW.Domain.Classes.Services;

@@ -1,7 +1,7 @@
 ﻿using GTA;
-using LSDW.Domain.Interfaces.Models;
+using LSDW.Abstractions.Domain.Models;
 
-namespace LSDW.Domain.Interfaces.Actors;
+namespace LSDW.Abstractions.Domain.Actors;
 
 /// <summary>
 /// The dealer interface.

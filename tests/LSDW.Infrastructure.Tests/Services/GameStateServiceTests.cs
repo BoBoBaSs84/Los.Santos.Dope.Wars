@@ -1,6 +1,6 @@
 ﻿using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Domain.Classes.Models;
-using LSDW.Infrastructure.Factories;
+using static LSDW.Infrastructure.Factories.InfrastructureFactory;
 
 namespace LSDW.Infrastructure.Tests.Services;
 
@@ -18,7 +18,7 @@ public class GameStateServiceTests
 	public void LoadTest()
 	{
 		string filePath = Path.Combine(_baseDirectory, _saveFileName);
-		IGameStateService stateService = InfrastructureFactory.CreateGameStateService();
+		IGameStateService stateService = CreateGameStateService();
 
 		bool success = stateService.Load();
 
@@ -32,7 +32,7 @@ public class GameStateServiceTests
 		DeleteSaveFile();
 		string filePath = Path.Combine(_baseDirectory, _saveFileName);
 		File.AppendAllText(filePath, "");
-		IGameStateService stateService = InfrastructureFactory.CreateGameStateService();
+		IGameStateService stateService = CreateGameStateService();
 
 		bool success = stateService.Load();
 
@@ -43,7 +43,7 @@ public class GameStateServiceTests
 	public void SaveTest()
 	{
 		string filePath = Path.Combine(_baseDirectory, _saveFileName);
-		IGameStateService stateService = InfrastructureFactory.CreateGameStateService();
+		IGameStateService stateService = CreateGameStateService();
 
 		bool success = stateService.Save();
 

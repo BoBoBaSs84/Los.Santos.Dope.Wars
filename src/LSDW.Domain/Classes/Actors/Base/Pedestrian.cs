@@ -1,8 +1,8 @@
 ﻿using GTA;
 using GTA.Math;
+using LSDW.Abstractions.Domain.Actors;
 using LSDW.Domain.Constants;
 using LSDW.Domain.Helpers;
-using LSDW.Domain.Interfaces.Actors;
 
 namespace LSDW.Domain.Classes.Actors.Base;
 

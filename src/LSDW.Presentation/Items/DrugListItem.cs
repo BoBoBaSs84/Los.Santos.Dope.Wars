@@ -1,6 +1,6 @@
 ﻿using LemonUI.Menus;
+using LSDW.Abstractions.Domain.Models;
 using LSDW.Domain.Extensions;
-using LSDW.Domain.Interfaces.Models;
 
 namespace LSDW.Presentation.Items;
 

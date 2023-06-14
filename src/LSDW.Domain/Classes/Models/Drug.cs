@@ -1,8 +1,9 @@
-﻿using LSDW.Domain.Classes.Models.Base;
-using LSDW.Domain.Enumerators;
+﻿using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Enumerators;
+using LSDW.Abstractions.Extensions;
+using LSDW.Domain.Classes.Models.Base;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Helpers;
-using LSDW.Domain.Interfaces.Models;
 using static LSDW.Domain.Classes.Models.Settings.Market;
 using RESX = LSDW.Domain.Properties.Resources;
 

@@ -1,4 +1,4 @@
-﻿namespace LSDW.Domain.Enumerators;
+﻿namespace LSDW.Abstractions.Enumerators;
 
 /// <summary>
 /// The mission status type enumerator.

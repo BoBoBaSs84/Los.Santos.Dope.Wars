@@ -1,37 +1,12 @@
-﻿using LSDW.Domain.Classes.Persistence;
-using LSDW.Domain.Enumerators;
-using LSDW.Domain.Extensions;
+﻿using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Enumerators;
+using LSDW.Abstractions.Extensions;
 using LSDW.Domain.Factories;
-using LSDW.Domain.Interfaces.Models;
 
 namespace LSDW.Domain.Tests.Factories;
 
 public partial class DomainFactoryTests
 {
-	[TestMethod]
-	public void CreateDrugFromStateTest()
-	{
-		DrugState state = GetDrugState();
-
-		IDrug drug = DomainFactory.CreateDrug(state);
-
-		Assert.IsNotNull(drug);
-		Assert.AreEqual(state.Type, drug.Type);
-		Assert.AreEqual(state.Quantity, drug.Quantity);
-		Assert.AreEqual(state.CurrentPrice, drug.CurrentPrice);
-	}
-
-	[TestMethod]
-	public void CreateDrugsFromStatesTest()
-	{
-		List<DrugState> states = new() { GetDrugState() };
-
-		IEnumerable<IDrug> drugs = DomainFactory.CreateDrugs(states);
-
-		Assert.IsNotNull(drugs);
-		Assert.AreEqual(states.Count, drugs.Count());
-	}
-
 	[TestMethod]
 	public void CreateDrugWithDrugTypeTest()
 	{
@@ -138,33 +113,6 @@ public partial class DomainFactoryTests
 	}
 
 	[TestMethod]
-	public void CreateInventoryFromStateTest()
-	{
-		InventoryState state = GetInventoryState();
-
-		IInventory inventory = DomainFactory.CreateInventory(state);
-
-		Assert.IsNotNull(inventory);
-		Assert.AreEqual(state.Money, inventory.Money);
-		Assert.AreEqual(state.Drugs.Count, inventory.Count);
-	}
-
-	[TestMethod]
-	public void CreateTransactionFromStateTest()
-	{
-		TransactionState state = GetTransactionState();
-
-		ITransaction transaction = DomainFactory.CreateTransaction(state);
-
-		Assert.IsNotNull(transaction);
-		Assert.AreEqual(state.DateTime, transaction.DateTime);
-		Assert.AreEqual(state.DrugType, transaction.DrugType);
-		Assert.AreEqual(state.Type, transaction.Type);
-		Assert.AreEqual(state.Price, transaction.Price);
-		Assert.AreEqual(state.Quantity, transaction.Quantity);
-	}
-
-	[TestMethod]
 	public void CreateTransactionTest()
 	{
 		DateTime date = DateTime.MinValue;
@@ -182,18 +130,6 @@ public partial class DomainFactoryTests
 		Assert.AreEqual(transactionType, transaction.Type);
 		Assert.AreEqual(quantity, transaction.Quantity);
 		Assert.AreEqual(price, transaction.Price);
-	}
-
-	[TestMethod]
-	public void CreateTransactionsFromStatesTest()
-	{
-		List<TransactionState> states = new() { GetTransactionState() };
-
-		ICollection<ITransaction> transactions =
-			DomainFactory.CreateTransactions(states);
-
-		Assert.IsNotNull(transactions);
-		Assert.AreEqual(states.Count, transactions.Count);
 	}
 
 	[TestMethod]
@@ -246,65 +182,4 @@ public partial class DomainFactoryTests
 		Assert.IsNotNull(player.Inventory);
 		Assert.AreEqual(experience, player.Experience);
 	}
-
-	[TestMethod]
-	public void CreatePLayerFromState()
-	{
-		PlayerState state = GetPlayerState();
-
-		IPlayer player = DomainFactory.CreatePlayer(state);
-
-		Assert.IsNotNull(player);
-		Assert.AreEqual(state.Experience, player.Experience);
-	}
-
-	[TestMethod]
-	public void CreatePLayerFromGameState()
-	{
-		GameState state = GetGameState();
-
-		IPlayer player = DomainFactory.CreatePlayer(state);
-
-		Assert.IsNotNull(player);
-	}
-
-	private static DrugState GetDrugState()
-		=> new()
-		{
-			Type = Enumerators.DrugType.COKE,
-			Quantity = 10,
-			CurrentPrice = 100,
-		};
-
-	private static InventoryState GetInventoryState()
-		=> new()
-		{
-			Drugs = new(),
-			Money = 100
-		};
-
-	private static PlayerState GetPlayerState()
-		=> new()
-		{
-			Experience = 10000,
-			Inventory = new(),
-			Transactions = new()
-		};
-
-	private static TransactionState GetTransactionState()
-		=> new()
-		{
-			DateTime = DateTime.MinValue,
-			DrugType = DrugType.COKE,
-			Quantity = 10,
-			Price = 100,
-			Type = TransactionType.TAKE
-		};
-
-	private static GameState GetGameState()
-		=> new()
-		{
-			Player = new(),
-			Dealers = new()
-		};
 }

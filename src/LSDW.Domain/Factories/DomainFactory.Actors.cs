@@ -1,9 +1,8 @@
 ﻿using GTA;
 using GTA.Math;
+using LSDW.Abstractions.Domain.Actors;
+using LSDW.Abstractions.Domain.Models;
 using LSDW.Domain.Classes.Actors;
-using LSDW.Domain.Classes.Persistence;
-using LSDW.Domain.Interfaces.Actors;
-using LSDW.Domain.Interfaces.Models;
 
 namespace LSDW.Domain.Factories;
 
@@ -33,37 +32,8 @@ public static partial class DomainFactory
 		=> new Dealer(position, pedHash, closedUntil, discovered, inventory, name);
 
 	/// <summary>
-	/// Creates a dealer instance from a saved dealer state.
-	/// </summary>
-	/// <param name="state">The saved dealer state.</param>
-	public static IDealer CreateDealer(DealerState state)
-	{
-		IInventory inventory = CreateInventory(state.Inventory);
-		return CreateDealer(state.Position, state.Hash, state.ClosedUntil, state.Discovered, inventory, state.Name);
-	}
-
-	/// <summary>
-	/// Creates a dealer instance collection from a saved dealer state collection.
-	/// </summary>
-	/// <param name="states">The saved dealer state collection.</param>
-	public static ICollection<IDealer> CreateDealers(List<DealerState> states)
-	{
-		List<IDealer> dealers = new();
-		foreach (DealerState state in states)
-			dealers.Add(CreateDealer(state));
-		return dealers;
-	}
-
-	/// <summary>
 	/// Creates a new dealer instance collection.
 	/// </summary>
 	public static ICollection<IDealer> CreateDealers()
 		=> new List<IDealer>();
-
-	/// <summary>
-	/// Creates a dealer instance collection from a saved game state.
-	/// </summary>
-	/// <param name="state">The saved game state.</param>
-	public static ICollection<IDealer> CreateDealers(GameState state)
-		=> CreateDealers(state.Dealers);
 }
