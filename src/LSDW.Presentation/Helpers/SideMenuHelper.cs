@@ -1,7 +1,7 @@
 ﻿using GTA.UI;
-using LSDW.Domain.Enumerators;
+using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Enumerators;
 using LSDW.Domain.Extensions;
-using LSDW.Domain.Interfaces.Models;
 using LSDW.Presentation.Menus;
 using RESX = LSDW.Presentation.Properties.Resources;
 

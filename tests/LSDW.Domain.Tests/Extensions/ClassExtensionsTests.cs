@@ -1,11 +1,4 @@
-﻿using LSDW.Domain.Classes.Persistence;
-using LSDW.Domain.Constants;
-using LSDW.Domain.Enumerators;
-using LSDW.Domain.Extensions;
-using LSDW.Domain.Factories;
-using LSDW.Domain.Helpers;
-using LSDW.Domain.Interfaces.Actors;
-using LSDW.Domain.Interfaces.Models;
+﻿using LSDW.Domain.Extensions;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -68,38 +61,6 @@ public class ClassExtensionsTests
 		Assert.AreNotEqual(Guid.Parse("348798ae-12f2-4a20-b030-756bb6a4134d"), fancy.Id);
 		Assert.AreNotEqual("UnitTes", fancy.Name);
 		Assert.AreNotEqual("UnitTestDescriptio", fancy.Description);
-	}
-
-	[TestMethod]
-	public void HugeGameStateTest()
-	{
-		IPlayer player = DomainFactory.CreatePlayer();
-		for (int i = 0; i < 1000; i++)
-		{
-			IDrug drug = DomainFactory.CreateDrug();
-			ITransaction transaction =
-				DomainFactory.CreateTransaction(DateTime.Now, TransactionType.BUY, drug.Type, RandomHelper.GetInt(10, 25), RandomHelper.GetInt(drug.AveragePrice - 10, drug.AveragePrice + 10));
-			player.AddTransaction(transaction);
-		}
-		_ = player.Inventory.Randomize(player.Level);
-		ICollection<IDealer> dealers = new HashSet<IDealer>();
-		for (int i = 0; i < 80; i++)
-		{
-			IDealer dealer = DomainFactory.CreateDealer(new GTA.Math.Vector3(0, 0, 0));
-			_ = dealer.Inventory.Randomize(player.Level);
-			dealer.SetDiscovered(true);
-			dealers.Add(dealer);
-		}
-		GameState gameState = DomainFactory.CreateGameState(player, dealers);
-
-		string gameStateXml = gameState.ToXmlString(XmlConstants.SerializerNamespaces);
-		string compressedGameStateXml = gameStateXml.Compress();
-
-		File.WriteAllText($"{nameof(gameStateXml)}.xml", gameStateXml);
-		File.WriteAllText($"{nameof(compressedGameStateXml)}.xml", compressedGameStateXml);
-
-		Assert.IsFalse(string.IsNullOrWhiteSpace(gameStateXml));
-		Assert.IsFalse(string.IsNullOrWhiteSpace(compressedGameStateXml));
 	}
 
 	[XmlRoot("Fancy")]

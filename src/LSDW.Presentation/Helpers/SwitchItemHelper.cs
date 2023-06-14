@@ -1,4 +1,4 @@
-﻿using LSDW.Domain.Enumerators;
+﻿using LSDW.Abstractions.Enumerators;
 using LSDW.Presentation.Properties;
 
 namespace LSDW.Presentation.Helpers;

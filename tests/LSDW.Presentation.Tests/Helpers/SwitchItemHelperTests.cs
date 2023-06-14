@@ -1,7 +1,8 @@
-﻿using LSDW.Domain.Enumerators;
+﻿using LSDW.Abstractions.Enumerators;
+using LSDW.Presentation.Helpers;
 using LSDW.Presentation.Properties;
 
-namespace LSDW.Presentation.Helpers.Tests;
+namespace LSDW.Presentation.Tests.Helpers;
 
 [TestClass]
 public class SwitchItemHelperTests

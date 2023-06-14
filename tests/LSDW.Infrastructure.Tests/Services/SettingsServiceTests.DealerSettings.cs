@@ -1,4 +1,4 @@
-﻿using LSDW.Domain.Classes.Models;
+﻿using LSDW.Domain.Models;
 
 namespace LSDW.Infrastructure.Tests.Services;
 

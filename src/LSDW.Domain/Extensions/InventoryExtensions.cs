@@ -1,7 +1,8 @@
-﻿using LSDW.Domain.Enumerators;
+﻿using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Enumerators;
+using LSDW.Abstractions.Extensions;
 using LSDW.Domain.Factories;
 using LSDW.Domain.Helpers;
-using LSDW.Domain.Interfaces.Models;
 
 namespace LSDW.Domain.Extensions;
 

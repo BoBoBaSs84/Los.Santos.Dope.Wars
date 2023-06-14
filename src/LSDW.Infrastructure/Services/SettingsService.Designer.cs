@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 using GTA;
 using LSDW.Abstractions.Infrastructure.Services;
-using LSDW.Domain.Classes.Models;
+using LSDW.Domain.Models;
 
 namespace LSDW.Infrastructure.Services;
 

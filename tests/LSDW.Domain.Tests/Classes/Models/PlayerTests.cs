@@ -1,7 +1,7 @@
-﻿using LSDW.Domain.Classes.Models;
-using LSDW.Domain.Enumerators;
+﻿using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Enumerators;
 using LSDW.Domain.Factories;
-using LSDW.Domain.Interfaces.Models;
+using LSDW.Domain.Models;
 
 namespace LSDW.Domain.Tests.Classes.Models;
 
@@ -89,7 +89,7 @@ public class PlayerTests
 		IPlayer player = DomainFactory.CreatePlayer();
 		ITransaction transaction =
 			DomainFactory.CreateTransaction(DateTime.Now, TransactionType.BUY, DrugType.COKE, 10, 50);
-		
+
 		player.AddTransaction(transaction);
 		ICollection<ITransaction> transactions = player.GetTransactions();
 

@@ -1,9 +1,9 @@
-﻿using LSDW.Domain.Classes.Models;
-using LSDW.Domain.Classes.Persistence;
-using LSDW.Domain.Enumerators;
+﻿using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Enumerators;
+using LSDW.Abstractions.Extensions;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Helpers;
-using LSDW.Domain.Interfaces.Models;
+using LSDW.Domain.Models;
 
 namespace LSDW.Domain.Factories;
 
@@ -12,13 +12,6 @@ namespace LSDW.Domain.Factories;
 /// </summary>
 public static partial class DomainFactory
 {
-	/// <summary>
-	/// Creates a drug instance from saved drug state.
-	/// </summary>
-	/// <param name="state">The saved drug state.</param>
-	public static IDrug CreateDrug(DrugState state)
-		=> CreateDrug(state.Type, state.Quantity, state.CurrentPrice);
-
 	/// <summary>
 	/// Creates a new drug instance.
 	/// </summary>
@@ -56,18 +49,6 @@ public static partial class DomainFactory
 	}
 
 	/// <summary>
-	/// Creates a drug collection instance from a saved drug collection state.
-	/// </summary>
-	/// <param name="states">The saved drug collection state.</param>
-	public static IEnumerable<IDrug> CreateDrugs(List<DrugState> states)
-	{
-		List<IDrug> drugList = new();
-		foreach (DrugState state in states)
-			drugList.Add(CreateDrug(state));
-		return drugList;
-	}
-
-	/// <summary>
 	/// Creates a drug collection instance of all available drugs.
 	/// </summary>
 	public static IEnumerable<IDrug> CreateAllDrugs()
@@ -101,16 +82,6 @@ public static partial class DomainFactory
 		=> new Inventory(drugs, money);
 
 	/// <summary>
-	/// Creates a new inventory instance from a collection of saved drugs.
-	/// </summary>
-	/// <param name="state">The saved inventory state.</param>
-	public static IInventory CreateInventory(InventoryState state)
-	{
-		IEnumerable<IDrug> drugs = CreateDrugs(state.Drugs);
-		return CreateInventory(drugs, state.Money);
-	}
-
-	/// <summary>
 	/// Creates a new transaction instance.
 	/// </summary>
 	/// <param name="dateTime">The point in time of the transaction.</param>
@@ -120,25 +91,6 @@ public static partial class DomainFactory
 	/// <param name="price">The unit price of the transaction.</param>
 	public static ITransaction CreateTransaction(DateTime dateTime, TransactionType type, DrugType drugType, int quantity, int price)
 		=> new Transaction(dateTime, type, drugType, quantity, price);
-
-	/// <summary>
-	/// Creates a transaction instance from saved transaction state.
-	/// </summary>
-	/// <param name="state">The saved transaction state.</param>
-	public static ITransaction CreateTransaction(TransactionState state)
-		=> CreateTransaction(state.DateTime, state.Type, state.DrugType, state.Quantity, state.Price);
-
-	/// <summary>
-	/// Creates a transaction instance collection from saved transaction state collection.
-	/// </summary>
-	/// <param name="states">The saved transaction state collection.</param>
-	public static ICollection<ITransaction> CreateTransactions(List<TransactionState> states)
-	{
-		List<ITransaction> transactions = new();
-		foreach (TransactionState state in states)
-			transactions.Add(CreateTransaction(state));
-		return transactions;
-	}
 
 	/// <summary>
 	/// Creates a new player instance.
@@ -169,21 +121,4 @@ public static partial class DomainFactory
 	/// <param name="transactions">The transactions for the player.</param>
 	public static IPlayer CreatePlayer(IInventory inventory, int experience, ICollection<ITransaction> transactions)
 		=> new Player(inventory, experience, transactions);
-
-	/// <summary>
-	/// Creates a player instance from a saved player state.
-	/// </summary>
-	/// <param name="state">The saved player state.</param>
-	public static IPlayer CreatePlayer(PlayerState state)
-	{
-		IInventory inventory = CreateInventory(state.Inventory);
-		return CreatePlayer(inventory, state.Experience);
-	}
-
-	/// <summary>
-	/// Creates a player instance from a saved game state.
-	/// </summary>
-	/// <param name="state">The saved game state.</param>
-	public static IPlayer CreatePlayer(GameState state)
-		=> CreatePlayer(state.Player);
 }

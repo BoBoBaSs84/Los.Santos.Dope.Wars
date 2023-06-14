@@ -1,5 +1,5 @@
-﻿using LSDW.Domain.Enumerators;
-using LSDW.Domain.Extensions;
+﻿using LSDW.Abstractions.Enumerators;
+using LSDW.Abstractions.Extensions;
 
 namespace LSDW.Domain.Tests.Extensions;
 

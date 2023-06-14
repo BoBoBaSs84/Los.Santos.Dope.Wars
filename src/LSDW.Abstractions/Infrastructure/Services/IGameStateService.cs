@@ -1,5 +1,4 @@
-﻿using LSDW.Domain.Interfaces.Actors;
-using LSDW.Domain.Interfaces.Models;
+﻿using LSDW.Abstractions.Domain.Models;
 
 namespace LSDW.Abstractions.Infrastructure.Services;
 

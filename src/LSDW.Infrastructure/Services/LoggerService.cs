@@ -1,5 +1,5 @@
 ﻿using LSDW.Abstractions.Infrastructure.Services;
-using LSDW.Domain.Classes.Models;
+using LSDW.Domain.Models;
 using System.Runtime.CompilerServices;
 using System.Text;
 
