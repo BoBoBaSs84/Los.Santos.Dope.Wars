@@ -19,14 +19,6 @@ public static class StringExtensions
 		=> string.Format(CultureInfo.InvariantCulture, inputString, paramaters);
 
 	/// <summary>
-	/// Formats the string to <see cref="CultureInfo.InvariantCulture"/>.
-	/// </summary>
-	/// <param name="inputString">The input string to format.</param>
-	/// <returns>The formated string.</returns>
-	public static string ToInvariant(this string inputString)
-		=> string.Format(CultureInfo.InvariantCulture, inputString);
-
-	/// <summary>
 	/// Compresses a string and returns a deflate compressed, Base64 encoded string.
 	/// </summary>
 	/// <param name="inputString">Input string to compress.</param>

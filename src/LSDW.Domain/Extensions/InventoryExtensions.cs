@@ -12,20 +12,20 @@ namespace LSDW.Domain.Extensions;
 public static class InventoryExtensions
 {
 	/// <summary>
-	/// Randomizes the inventory depending on the player level.
+	/// Restocks the inventory depending on the player level.
 	/// </summary>
 	/// <remarks>
-	/// This will randomize the following things:
+	/// This will do the following things:
 	/// <list type="bullet">
 	/// <item>The <see cref="IDrug.CurrentPrice"/></item>
 	/// <item>The <see cref="IDrug.Quantity"/></item>
 	/// <item>The <see cref="IInventory.Money"/></item>
 	/// </list>
-	/// If no <paramref name="playerLevel"/> is provided, no bonuses are applied.
+	/// If no <paramref name="playerLevel"/> is provided, no level bonuses are applied.
 	/// </remarks>
-	/// <param name="inventory">The inventory to randomize.</param>
+	/// <param name="inventory">The inventory to restock.</param>
 	/// <param name="playerLevel">The current player level.</param>
-	public static IInventory Randomize(this IInventory inventory, int playerLevel = 0)
+	public static IInventory Restock(this IInventory inventory, int playerLevel = 0)
 	{
 		inventory.Clear();
 		IEnumerable<DrugType> drugTypes = DrugType.COKE.GetList();
@@ -44,6 +44,26 @@ public static class InventoryExtensions
 		int money = RandomHelper.GetInt(minMoney, maxMoney);
 		inventory.Add(money);
 
+		return inventory;
+	}
+
+	/// <summary>
+	/// Refreshes the inventory depending on the player level.
+	/// </summary>
+	/// <remarks>
+	/// This will do the following things:
+	/// <list type="bullet">
+	/// <item>The <see cref="IDrug.CurrentPrice"/></item>
+	/// </list>
+	/// If no <paramref name="playerLevel"/> is provided, no level bonuses are applied.
+	/// </remarks>
+	/// <param name="inventory">The inventory to refresh.</param>
+	/// <param name="playerLevel">The current player level.</param>
+	/// <returns></returns>
+	public static IInventory Refresh(this IInventory inventory, int playerLevel = 0)
+	{
+		foreach (IDrug drug in inventory)
+			drug.RandomizePrice(playerLevel);
 		return inventory;
 	}
 }

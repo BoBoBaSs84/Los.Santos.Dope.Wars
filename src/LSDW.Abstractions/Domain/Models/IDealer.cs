@@ -13,6 +13,16 @@ public interface IDealer : IPedestrian
 	DateTime? ClosedUntil { get; }
 
 	/// <summary>
+	/// When was the inventory prices the last time refreshed?
+	/// </summary>
+	DateTime LastRefresh { get; }
+
+	/// <summary>
+	/// When was the inventory the last time restocked?
+	/// </summary>
+	DateTime LastRestock { get; }
+
+	/// <summary>
 	/// Has the dealer already been discovered?
 	/// </summary>
 	bool Discovered { get; }
@@ -50,4 +60,16 @@ public interface IDealer : IPedestrian
 	/// </summary>
 	/// <param name="value"><see langword="true"/> or <see langword="false"/></param>
 	void SetDiscovered(bool value);
+
+	/// <summary>
+	/// Sets the last refresh date time.
+	/// </summary>
+	/// <param name="value">The date time to set.</param>
+	void SetLastRefresh(DateTime value);
+
+	/// <summary>
+	/// Sets the last restock date time. 
+	/// </summary>
+	/// <param name="value">The date time to set.</param>
+	void SetLastRestock(DateTime value);
 }

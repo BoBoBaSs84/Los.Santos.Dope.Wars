@@ -53,6 +53,8 @@ internal sealed class Dealer : Pedestrian, IDealer
 	public bool Discovered { get; private set; }
 	public bool IsBlipCreated { get; private set; }
 	public IInventory Inventory { get; }
+	public DateTime LastRefresh { get; private set; }
+	public DateTime LastRestock { get; private set; }
 
 	public override void Create(float healthValue = 100)
 	{
@@ -119,6 +121,12 @@ internal sealed class Dealer : Pedestrian, IDealer
 
 	public void SetDiscovered(bool value)
 		=> Discovered = value;
+
+	public void SetLastRefresh(DateTime value)
+		=> LastRefresh = value;
+
+	public void SetLastRestock(DateTime value)
+		=> LastRestock = value;
 
 	private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
 	{

@@ -109,7 +109,7 @@ public class InventoryTests
 	public void RemoveTest()
 	{
 		IInventory inventory = DomainFactory.CreateInventory();
-		inventory = inventory.Randomize();
+		inventory = inventory.Restock();
 
 		inventory.Remove(inventory);
 

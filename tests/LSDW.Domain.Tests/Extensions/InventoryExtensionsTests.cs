@@ -9,12 +9,22 @@ namespace LSDW.Domain.Tests.Extensions;
 public class InventoryExtensionsTests
 {
 	[TestMethod]
-	public void RandomizeTest()
+	public void RestockTest()
 	{
 		IInventory inventory = DomainFactory.CreateInventory();
 
-		inventory.Randomize();
+		inventory.Restock();
 
-		Assert.AreNotEqual(0, inventory.Money);
+		Assert.AreNotEqual(default, inventory.Money);
+	}
+
+	[TestMethod()]
+	public void RefreshTest()
+	{
+		IInventory inventory = DomainFactory.CreateInventory();
+
+		inventory.Refresh();
+
+		Assert.AreEqual(default, inventory.Money);
 	}
 }

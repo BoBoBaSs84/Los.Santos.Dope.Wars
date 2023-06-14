@@ -90,7 +90,7 @@ public partial class InfrastructureFactoryTests
 			DomainFactory.CreateTransaction(DateTime.Now.AddDays(-1), TransactionType.SELL, DrugType.METH, 15, 125),
 		};
 		IPlayer player = DomainFactory.CreatePlayer(inventory, experience, transactions);
-		player.Inventory.Randomize(player.Level);
+		player.Inventory.Restock(player.Level);
 
 		PlayerState state = CreatePlayerState(player);
 
@@ -210,14 +210,14 @@ public partial class InfrastructureFactoryTests
 	public void CreateGameStateTest()
 	{
 		IPlayer player = DomainFactory.CreatePlayer(RandomHelper.GetInt(123456789, 987654321));
-		player.Inventory.Randomize(player.Level);
+		player.Inventory.Restock(player.Level);
 		List<IDealer> dealers = new()
 		{
 			DomainFactory.CreateDealer(zeroVector),
 			DomainFactory.CreateDealer(zeroVector),
 		};
 		foreach (IDealer dealer in dealers)
-			_ = dealer.Inventory.Randomize(player.Level);
+			_ = dealer.Inventory.Restock(player.Level);
 
 		GameState state = CreateGameState(player, dealers);
 
@@ -298,12 +298,12 @@ public partial class InfrastructureFactoryTests
 				DomainFactory.CreateTransaction(DateTime.Now, TransactionType.BUY, drug.Type, RandomHelper.GetInt(10, 25), RandomHelper.GetInt(drug.AveragePrice - 10, drug.AveragePrice + 10));
 			player.AddTransaction(transaction);
 		}
-		_ = player.Inventory.Randomize(player.Level);
+		_ = player.Inventory.Restock(player.Level);
 		ICollection<IDealer> dealers = new HashSet<IDealer>();
 		for (int i = 0; i < 80; i++)
 		{
 			IDealer dealer = DomainFactory.CreateDealer(new GTA.Math.Vector3(0, 0, 0));
-			_ = dealer.Inventory.Randomize(player.Level);
+			_ = dealer.Inventory.Restock(player.Level);
 			dealer.SetDiscovered(true);
 			dealers.Add(dealer);
 		}
