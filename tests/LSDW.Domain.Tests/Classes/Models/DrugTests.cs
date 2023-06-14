@@ -1,6 +1,6 @@
-﻿using LSDW.Abstractions.Enumerators;
+﻿using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Enumerators;
 using LSDW.Domain.Factories;
-using LSDW.Abstractions.Domain.Models;
 
 namespace LSDW.Domain.Tests.Classes.Models;
 

@@ -44,7 +44,7 @@ internal sealed class Trafficking : Mission, ITrafficking
 	{
 		character = null;
 		leftSideMenu = null;
-		rightSideMenu = null;		
+		rightSideMenu = null;
 		base.StopMission();
 	}
 

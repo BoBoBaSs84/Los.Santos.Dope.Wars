@@ -1,7 +1,7 @@
 ﻿using LSDW.Abstractions.Domain.Actors;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Domain.Factories;
-using LSDW.Infrastructure.Classes.States;
+using LSDW.Infrastructure.Models;
 
 namespace LSDW.Infrastructure.Factories;
 
@@ -134,7 +134,7 @@ public static partial class InfrastructureFactory
 	public static ICollection<ITransaction> CreateTransactions(List<TransactionState> states)
 	{
 		ICollection<ITransaction> transactions = new HashSet<ITransaction>();
-		foreach(TransactionState state in states)
+		foreach (TransactionState state in states)
 			transactions.Add(CreateTransaction(state));
 		return transactions;
 	}

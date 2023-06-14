@@ -4,7 +4,7 @@ using System.Xml.Schema;
 using System.Xml.Serialization;
 using static LSDW.Infrastructure.Factories.InfrastructureFactory;
 
-namespace LSDW.Infrastructure.Classes.States;
+namespace LSDW.Infrastructure.Models;
 
 /// <summary>
 /// The inventory state class.

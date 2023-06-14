@@ -4,7 +4,7 @@ using LSDW.Infrastructure.Constants;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace LSDW.Infrastructure.Classes.States;
+namespace LSDW.Infrastructure.Models;
 
 /// <summary>
 /// The transaction state class.

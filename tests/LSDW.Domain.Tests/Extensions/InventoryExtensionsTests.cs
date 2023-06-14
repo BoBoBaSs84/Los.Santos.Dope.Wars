@@ -1,6 +1,6 @@
-﻿using LSDW.Domain.Extensions;
+﻿using LSDW.Abstractions.Domain.Models;
+using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
-using LSDW.Abstractions.Domain.Models;
 
 namespace LSDW.Domain.Tests.Extensions;
 

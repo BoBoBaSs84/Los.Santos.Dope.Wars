@@ -7,8 +7,8 @@ using LSDW.Domain.Constants;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
 using LSDW.Domain.Helpers;
-using LSDW.Infrastructure.Classes.States;
 using LSDW.Infrastructure.Constants;
+using LSDW.Infrastructure.Models;
 using static LSDW.Infrastructure.Factories.InfrastructureFactory;
 
 namespace LSDW.Infrastructure.Tests.Factories;

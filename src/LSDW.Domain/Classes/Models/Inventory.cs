@@ -1,7 +1,7 @@
-﻿using LSDW.Domain.Classes.Models.Base;
+﻿using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Enumerators;
+using LSDW.Domain.Classes.Models.Base;
 using LSDW.Domain.Factories;
-using LSDW.Abstractions.Domain.Models;
 using System.Collections;
 
 namespace LSDW.Domain.Classes.Models;

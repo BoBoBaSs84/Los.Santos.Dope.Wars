@@ -4,8 +4,8 @@ using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Domain.Classes.Models;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
-using LSDW.Infrastructure.Classes.States;
 using LSDW.Infrastructure.Constants;
+using LSDW.Infrastructure.Models;
 using static LSDW.Infrastructure.Factories.InfrastructureFactory;
 
 namespace LSDW.Infrastructure.Services;
