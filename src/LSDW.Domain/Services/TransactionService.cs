@@ -3,7 +3,7 @@ using LSDW.Abstractions.Domain.Services;
 using LSDW.Abstractions.Enumerators;
 using RESX = LSDW.Domain.Properties.Resources;
 
-namespace LSDW.Domain.Classes.Services;
+namespace LSDW.Domain.Services;
 
 /// <summary>
 /// The transaction service class.

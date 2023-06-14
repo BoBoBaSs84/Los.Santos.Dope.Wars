@@ -1,10 +1,10 @@
 ﻿using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Enumerators;
-using LSDW.Domain.Classes.Models.Base;
 using LSDW.Domain.Factories;
+using LSDW.Domain.Models.Base;
 using System.Collections;
 
-namespace LSDW.Domain.Classes.Models;
+namespace LSDW.Domain.Models;
 
 /// <summary>
 /// The inventory class.

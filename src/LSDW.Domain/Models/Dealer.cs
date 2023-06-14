@@ -1,12 +1,11 @@
 ﻿using GTA;
 using GTA.Math;
-using LSDW.Abstractions.Domain.Actors;
 using LSDW.Abstractions.Domain.Models;
-using LSDW.Domain.Classes.Actors.Base;
 using LSDW.Domain.Factories;
-using DealerSettings = LSDW.Domain.Classes.Models.Settings.Dealer;
+using LSDW.Domain.Models.Base;
+using DealerSettings = LSDW.Domain.Models.Settings.Dealer;
 
-namespace LSDW.Domain.Classes.Actors;
+namespace LSDW.Domain.Models;
 
 /// <summary>
 /// The dealer actor class.

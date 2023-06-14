@@ -1,7 +1,7 @@
 ﻿using GTA;
 using GTA.Math;
 
-namespace LSDW.Abstractions.Domain.Actors;
+namespace LSDW.Abstractions.Domain.Models;
 
 /// <summary>
 /// The pedestrian interface.

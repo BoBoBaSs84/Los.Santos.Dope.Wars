@@ -1,6 +1,5 @@
 ﻿using GTA;
 using GTA.Math;
-using LSDW.Abstractions.Domain.Actors;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Domain.Constants;

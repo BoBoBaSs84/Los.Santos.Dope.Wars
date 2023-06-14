@@ -1,7 +1,7 @@
 ﻿using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Enumerators;
 
-namespace LSDW.Domain.Classes.Models;
+namespace LSDW.Domain.Models;
 
 /// <summary>
 /// The transaction class.

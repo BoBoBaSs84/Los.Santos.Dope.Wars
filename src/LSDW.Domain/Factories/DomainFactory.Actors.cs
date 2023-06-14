@@ -1,8 +1,7 @@
 ﻿using GTA;
 using GTA.Math;
-using LSDW.Abstractions.Domain.Actors;
 using LSDW.Abstractions.Domain.Models;
-using LSDW.Domain.Classes.Actors;
+using LSDW.Domain.Models;
 
 namespace LSDW.Domain.Factories;
 

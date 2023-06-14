@@ -1,6 +1,6 @@
 ﻿using GTA;
 using GTA.Math;
-using LSDW.Abstractions.Domain.Actors;
+using LSDW.Abstractions.Domain.Models;
 using LSDW.Infrastructure.Constants;
 using System.Xml.Schema;
 using System.Xml.Serialization;

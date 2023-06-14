@@ -5,7 +5,7 @@ namespace LSDW.Infrastructure.Constants;
 /// <summary>
 /// The xml constants class.
 /// </summary>
-public static class XmlConstants
+internal static class XmlConstants
 {
 	internal const string NameSpace = "https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars";
 	internal const string NameSpacePreFix = "lsdw";
@@ -19,7 +19,7 @@ public static class XmlConstants
 	/// <summary>
 	/// Gets the necessary namespaces.
 	/// </summary>
-	public static XmlSerializerNamespaces SerializerNamespaces => GetNameSpaces();
+	internal static XmlSerializerNamespaces SerializerNamespaces => GetNameSpaces();
 
 	private static XmlSerializerNamespaces GetNameSpaces()
 	{

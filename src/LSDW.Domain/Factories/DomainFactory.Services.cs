@@ -1,7 +1,7 @@
 ﻿using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Services;
 using LSDW.Abstractions.Enumerators;
-using LSDW.Domain.Classes.Services;
+using LSDW.Domain.Services;
 
 namespace LSDW.Domain.Factories;
 

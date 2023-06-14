@@ -1,10 +1,10 @@
 ﻿using GTA;
 using GTA.Math;
-using LSDW.Abstractions.Domain.Actors;
+using LSDW.Abstractions.Domain.Models;
 using LSDW.Domain.Constants;
 using LSDW.Domain.Helpers;
 
-namespace LSDW.Domain.Classes.Actors.Base;
+namespace LSDW.Domain.Models.Base;
 
 /// <summary>
 /// The pedestrian actor base class.

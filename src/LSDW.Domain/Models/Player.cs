@@ -1,10 +1,10 @@
 ﻿using LSDW.Abstractions.Domain.Models;
-using LSDW.Domain.Classes.Models.Base;
 using LSDW.Domain.Constants;
 using LSDW.Domain.Extensions;
-using static LSDW.Domain.Classes.Models.Settings.Player;
+using LSDW.Domain.Models.Base;
+using static LSDW.Domain.Models.Settings.Player;
 
-namespace LSDW.Domain.Classes.Models;
+namespace LSDW.Domain.Models;
 
 /// <summary>
 /// The player class.
