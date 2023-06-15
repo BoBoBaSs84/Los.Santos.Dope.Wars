@@ -23,7 +23,7 @@ public class InventoryExtensionsTests
 	{
 		IInventory inventory = DomainFactory.CreateInventory();
 
-		inventory.Refresh();
+		inventory.ChangePrices();
 
 		Assert.AreEqual(default, inventory.Money);
 	}

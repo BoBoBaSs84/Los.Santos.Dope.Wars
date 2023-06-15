@@ -31,14 +31,14 @@ public class DealerExtensionsTests
 	public void ChangePricesCollectionTest()
 	{
 		ITimeProvider timeProvider = new TestTimeProvider();
-	  ICollection<IDealer> dealers = new HashSet<IDealer>();
-		
+		ICollection<IDealer> dealers = new HashSet<IDealer>();
+
 		for (int i = 0; i < 5; i++)
 			dealers.Add(DomainFactory.CreateDealer(_zeroVector));
 
 		dealers.ChangePrices(timeProvider, 100);
 
-		foreach(IDealer dealer in dealers)
+		foreach (IDealer dealer in dealers)
 		{
 			Assert.AreNotEqual(default, dealer.Inventory.Sum(x => x.CurrentPrice));
 			Assert.AreEqual(default, dealer.Inventory.Money);
@@ -48,7 +48,7 @@ public class DealerExtensionsTests
 		}
 	}
 
-	[TestMethod()]
+	[TestMethod]
 	public void RestockInventoryTest()
 	{
 		ITimeProvider timeProvider = new TestTimeProvider();
@@ -63,16 +63,30 @@ public class DealerExtensionsTests
 		Assert.AreEqual(DateTime.MinValue, dealer.LastRefresh);
 	}
 
-	[TestMethod()]
+	[TestMethod]
 	public void RestockCollectionTest()
 	{
-		Assert.Fail();
+		ITimeProvider timeProvider = new TestTimeProvider();
+		ICollection<IDealer> dealers = new HashSet<IDealer>();
+
+		for (int i = 0; i < 5; i++)
+			dealers.Add(DomainFactory.CreateDealer(_zeroVector));
+
+		dealers.RestockInventory(timeProvider, 100);
+
+		foreach (IDealer dealer in dealers)
+		{
+			Assert.AreNotEqual(default, dealer.Inventory.Sum(x => x.CurrentPrice));
+			Assert.AreNotEqual(default, dealer.Inventory.Money);
+			Assert.AreNotEqual(default, dealer.Inventory.TotalQuantity);
+			Assert.AreEqual(DateTime.MaxValue, dealer.LastRestock);
+			Assert.AreEqual(DateTime.MinValue, dealer.LastRefresh);
+		}
 	}
 
-	private class TestTimeProvider : ITimeProvider
+	private sealed class TestTimeProvider : ITimeProvider
 	{
 		public DateTime Now => DateTime.MaxValue;
-
 		public TimeSpan TimeOfDay => Now.TimeOfDay;
 	}
 }

@@ -11,20 +11,20 @@ namespace LSDW.Domain.Extensions;
 public static class DealerExtensions
 {
 	/// <summary>
-	/// Refreshes the drug prices of the dealer.
+	/// Changes the drug prices of the dealer.
 	/// </summary>
 	/// <param name="dealer">The dealer to refresh.</param>
 	/// <param name="timeProvider">The date time provider to use.</param>
 	/// <param name="playerLevel">The current player level.</param>
 	public static IDealer ChangePrices(this IDealer dealer, ITimeProvider timeProvider, int playerLevel)
 	{
-		dealer.Inventory.Refresh(playerLevel);
+		dealer.Inventory.ChangePrices(playerLevel);
 		dealer.SetLastRefresh(timeProvider.Now);
 		return dealer;
 	}
 
 	/// <summary>
-	/// Refreshes the drug prices of the dealer collection.
+	/// Changes the drug prices of the dealer collection.
 	/// </summary>
 	/// <param name="dealers">The dealer collection to refresh.</param>
 	/// <param name="timeProvider">The date time provider to use.</param>
@@ -55,7 +55,7 @@ public static class DealerExtensions
 	/// <param name="dealers">The dealer collection to restock.</param>
 	/// <param name="timeProvider">The date time provider to use.</param>
 	/// <param name="playerLevel">The current player level.</param>
-	public static ICollection<IDealer> Restock(this ICollection<IDealer> dealers, ITimeProvider timeProvider, int playerLevel)
+	public static ICollection<IDealer> RestockInventory(this ICollection<IDealer> dealers, ITimeProvider timeProvider, int playerLevel)
 	{
 		foreach (IDealer dealer in dealers)
 			dealer.RestockInventory(timeProvider, playerLevel);

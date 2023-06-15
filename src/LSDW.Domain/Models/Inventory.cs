@@ -82,12 +82,12 @@ internal sealed class Inventory : Notification, IInventory
 	public void Add(DrugType drugType, int quantity, int price)
 		=> Add(DomainFactory.CreateDrug(drugType, quantity, price));
 
-	public void Add(int moneyToAdd)
+	public void Add(int money)
 	{
-		if (moneyToAdd < 1)
+		if (money < 1)
 			return;
 
-		Money += moneyToAdd;
+		Money += money;
 	}
 
 	public bool Remove(IDrug drugToRemove)
@@ -113,12 +113,12 @@ internal sealed class Inventory : Notification, IInventory
 	public void Remove(DrugType drugType, int quantity)
 		=> Remove(DomainFactory.CreateDrug(drugType, quantity));
 
-	public void Remove(int moneyToRemove)
+	public void Remove(int money)
 	{
-		if (moneyToRemove < 1)
+		if (money < 1)
 			return;
 
-		Money -= moneyToRemove;
+		Money -= money;
 	}
 
 	IEnumerator IEnumerable.GetEnumerator() => _drugs.GetEnumerator();

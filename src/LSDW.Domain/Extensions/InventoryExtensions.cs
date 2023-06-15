@@ -48,7 +48,7 @@ public static class InventoryExtensions
 	}
 
 	/// <summary>
-	/// Refreshes the inventory depending on the player level.
+	/// Changes the prices of the drugs depending on the player level.
 	/// </summary>
 	/// <remarks>
 	/// This will do the following things:
@@ -60,7 +60,7 @@ public static class InventoryExtensions
 	/// <param name="inventory">The inventory to refresh.</param>
 	/// <param name="playerLevel">The current player level.</param>
 	/// <returns></returns>
-	public static IInventory Refresh(this IInventory inventory, int playerLevel = 0)
+	public static IInventory ChangePrices(this IInventory inventory, int playerLevel = 0)
 	{
 		foreach (IDrug drug in inventory)
 			drug.RandomizePrice(playerLevel);

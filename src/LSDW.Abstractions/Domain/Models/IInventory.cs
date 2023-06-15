@@ -50,8 +50,8 @@ public interface IInventory : ICollection<IDrug>, INotifyPropertyChanged
 	/// <summary>
 	/// Adds the amount of money to the inventory.
 	/// </summary>
-	/// <param name="moneyToAdd">The amount of money to add to the inventory.</param>
-	void Add(int moneyToAdd);
+	/// <param name="money">The amount of money to add to the inventory.</param>
+	void Add(int money);
 
 	/// <summary>
 	/// Removes the drug from the inventory.
@@ -75,6 +75,6 @@ public interface IInventory : ICollection<IDrug>, INotifyPropertyChanged
 	/// <summary>
 	/// Removes the amount of money from the inventory.
 	/// </summary>
-	/// <param name="moneyToRemove">The amount of money to remove from the inventory.</param>
-	void Remove(int moneyToRemove);
+	/// <param name="money">The amount of money to remove from the inventory.</param>
+	void Remove(int money);
 }
