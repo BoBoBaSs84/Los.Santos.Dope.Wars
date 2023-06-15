@@ -29,10 +29,11 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 	/// <summary>
 	/// Initializes a instance of the side menu class.
 	/// </summary>
+	/// <param name="notificationService">The notification service to use.</param>
 	/// <param name="type">The transaction type.</param>
 	/// <param name="player">The current player.</param>
 	/// <param name="inventory">The opposition inventory.</param>
-	internal SideMenu(TransactionType type, IPlayer player, IInventory inventory) : base(SMH.GetTitle(type))
+	internal SideMenu(INotificationService notificationService, TransactionType type, IPlayer player, IInventory inventory) : base(SMH.GetTitle(type))
 	{
 		_type = type;
 		_player = player;
@@ -40,7 +41,7 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 		(_source, _target) = SMH.GetInventories(type, player, inventory);
 
 		int maximumQuantity = SMH.GetMaximumQuantity(type, player);
-		_transaction = DomainFactory.CreateTransactionService(type, _source, _target, maximumQuantity);
+		_transaction = DomainFactory.CreateTransactionService(notificationService, type, _source, _target, maximumQuantity);
 
 		Alignment = SMH.GetAlignment(type);
 		ItemCount = CountVisibility.Never;
@@ -79,9 +80,6 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 			ITransaction transaction = DomainFactory.CreateTransaction(DateTime.Now, _type, drugType, quantity, price);
 			_player.AddTransaction(transaction);
 		}
-
-		foreach (string message in _transaction.Errors)
-			GTA.UI.Screen.ShowSubtitle(message);
 	}
 
 	private void OnInventoryPropertyChanged(object sender, PropertyChangedEventArgs args)

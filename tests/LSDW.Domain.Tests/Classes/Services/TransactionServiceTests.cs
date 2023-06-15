@@ -1,4 +1,5 @@
-﻿using LSDW.Abstractions.Domain.Models;
+﻿using GTA.UI;
+using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Services;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Domain.Factories;
@@ -8,8 +9,10 @@ namespace LSDW.Domain.Tests.Classes.Services;
 [TestClass]
 public class TransactionServiceTests
 {
+	private readonly INotificationService _notificationService = new TestNotificationService();
+
 	[TestMethod]
-	public void CommitDepositSuccessTest()
+	public void CommitGiveSuccessTest()
 	{
 		IDrug drug = DomainFactory.CreateDrug(DrugType.COKE, 10, 90);
 		IPlayer player = DomainFactory.CreatePlayer(32000);
@@ -18,7 +21,7 @@ public class TransactionServiceTests
 		inventory.Add(drug);
 
 		ITransactionService transactionService =
-			DomainFactory.CreateTransactionService(TransactionType.GIVE, inventory, player.Inventory, player.MaximumInventoryQuantity);
+			DomainFactory.CreateTransactionService(_notificationService, TransactionType.GIVE, inventory, player.Inventory, player.MaximumInventoryQuantity);
 
 		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.CurrentPrice);
 
@@ -30,7 +33,7 @@ public class TransactionServiceTests
 	}
 
 	[TestMethod]
-	public void CommitTrafficSuccessTest()
+	public void CommitBuySuccessTest()
 	{
 		IDrug drug = DomainFactory.CreateDrug(DrugType.COKE, 10, 90);
 		IPlayer player = DomainFactory.CreatePlayer();
@@ -39,7 +42,7 @@ public class TransactionServiceTests
 		inventory.Add(drug);
 
 		ITransactionService transactionService =
-			DomainFactory.CreateTransactionService(TransactionType.BUY, inventory, player.Inventory, player.MaximumInventoryQuantity);
+			DomainFactory.CreateTransactionService(_notificationService, TransactionType.BUY, inventory, player.Inventory, player.MaximumInventoryQuantity);
 
 		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.CurrentPrice);
 
@@ -52,7 +55,7 @@ public class TransactionServiceTests
 	}
 
 	[TestMethod]
-	public void CommitTrafficNotEnoughMoneyTest()
+	public void CommitBuyNotEnoughMoneyTest()
 	{
 		IDrug drug = DomainFactory.CreateDrug(DrugType.COKE, 10, 90);
 		IPlayer player = DomainFactory.CreatePlayer();
@@ -61,16 +64,15 @@ public class TransactionServiceTests
 		inventory.Add(drug);
 
 		ITransactionService transactionService =
-			DomainFactory.CreateTransactionService(TransactionType.BUY, inventory, player.Inventory, player.MaximumInventoryQuantity);
+			DomainFactory.CreateTransactionService(_notificationService, TransactionType.BUY, inventory, player.Inventory, player.MaximumInventoryQuantity);
 
 		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.CurrentPrice);
 
 		Assert.IsFalse(success);
-		Assert.IsTrue(transactionService.Errors.Any());
 	}
 
 	[TestMethod]
-	public void CommitDepositNotEnoughInventoryTest()
+	public void CommitGiveNotEnoughInventoryTest()
 	{
 		IDrug drug = DomainFactory.CreateDrug(DrugType.COKE, 100, 100);
 		IPlayer player = DomainFactory.CreatePlayer();
@@ -78,11 +80,28 @@ public class TransactionServiceTests
 		inventory.Add(drug);
 
 		ITransactionService transactionService =
-			DomainFactory.CreateTransactionService(TransactionType.GIVE, player.Inventory, inventory, 0);
+			DomainFactory.CreateTransactionService(_notificationService, TransactionType.GIVE, player.Inventory, inventory, 0);
 
 		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.CurrentPrice);
 
 		Assert.IsFalse(success);
-		Assert.IsTrue(transactionService.Errors.Any());
+	}
+
+	private sealed class TestNotificationService : INotificationService
+	{
+		public Task Show(string message, bool blinking = false, int duration = 2500)
+			=> Task.CompletedTask;
+		public Task Show(NotificationIcon icon, string sender, string subject, string message, bool fadeIn = false, bool blinking = false, int duration = 2500)
+			=> Task.CompletedTask;
+		public void ShowHelpText(string helpText, int duration = -1, bool beep = true, bool looped = false)
+			=> Trace.WriteLine($"{nameof(helpText)}: {helpText}");
+		public void ShowHelpTextThisFrame(string helpText)
+			=> Trace.WriteLine($"{nameof(helpText)}: {helpText}");
+		public void ShowHelpTextThisFrame(string helpText, bool beep)
+			=> Trace.WriteLine($"{nameof(helpText)}: {helpText}");
+		public void ShowSubtitle(string message, int duration = 2500)
+			=> Trace.WriteLine($"{nameof(message)}: {message}");
+		public void ShowSubtitle(string message, int duration, bool drawImmediately = true)
+			=> Trace.WriteLine($"{nameof(message)}: {message}");
 	}
 }

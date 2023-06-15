@@ -10,12 +10,13 @@ public partial class DomainFactoryTests
 	[TestMethod]
 	public void CreateTransactionServiceTest()
 	{
+		INotificationService? notificationService = DomainFactory.CreateNotificationService();
 		TransactionType type = TransactionType.BUY;
 		IInventory source = DomainFactory.CreateInventory();
 		IInventory target = DomainFactory.CreateInventory();
 		ITransactionService? transactionService;
 
-		transactionService = DomainFactory.CreateTransactionService(type, source, target);
+		transactionService = DomainFactory.CreateTransactionService(notificationService, type, source, target);
 
 		Assert.IsNotNull(transactionService);
 	}
