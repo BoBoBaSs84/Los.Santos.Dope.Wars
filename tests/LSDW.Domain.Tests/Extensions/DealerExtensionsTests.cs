@@ -1,8 +1,10 @@
 ﻿using GTA.Math;
 using LSDW.Abstractions.Application.Providers;
 using LSDW.Abstractions.Domain.Models;
+using LSDW.Base.Tests.Helpers;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
+using Moq;
 
 namespace LSDW.Domain.Tests.Extensions;
 
@@ -15,10 +17,10 @@ public class DealerExtensionsTests
 	[TestMethod]
 	public void ChangePricesTest()
 	{
-		ITimeProvider timeProvider = new TestTimeProvider();
+		Mock<ITimeProvider> mock = MockHelper.GetTimeProviderMock();
 		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
 
-		dealer.ChangePrices(timeProvider, 100);
+		dealer.ChangePrices(mock.Object, 100);
 
 		Assert.AreNotEqual(default, dealer.Inventory.Sum(x => x.CurrentPrice));
 		Assert.AreEqual(default, dealer.Inventory.Money);
@@ -30,13 +32,13 @@ public class DealerExtensionsTests
 	[TestMethod]
 	public void ChangePricesCollectionTest()
 	{
-		ITimeProvider timeProvider = new TestTimeProvider();
+		Mock<ITimeProvider> mock = MockHelper.GetTimeProviderMock();
 		ICollection<IDealer> dealers = new HashSet<IDealer>();
 
 		for (int i = 0; i < 5; i++)
 			dealers.Add(DomainFactory.CreateDealer(_zeroVector));
 
-		dealers.ChangePrices(timeProvider, 100);
+		dealers.ChangePrices(mock.Object, 100);
 
 		foreach (IDealer dealer in dealers)
 		{
@@ -51,10 +53,10 @@ public class DealerExtensionsTests
 	[TestMethod]
 	public void RestockInventoryTest()
 	{
-		ITimeProvider timeProvider = new TestTimeProvider();
+		Mock<ITimeProvider> mock = MockHelper.GetTimeProviderMock();
 		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
 
-		dealer.RestockInventory(timeProvider, 100);
+		dealer.RestockInventory(mock.Object, 100);
 
 		Assert.AreNotEqual(default, dealer.Inventory.Sum(x => x.CurrentPrice));
 		Assert.AreNotEqual(default, dealer.Inventory.Money);
@@ -66,13 +68,13 @@ public class DealerExtensionsTests
 	[TestMethod]
 	public void RestockCollectionTest()
 	{
-		ITimeProvider timeProvider = new TestTimeProvider();
+		Mock<ITimeProvider> mock = MockHelper.GetTimeProviderMock();
 		ICollection<IDealer> dealers = new HashSet<IDealer>();
 
 		for (int i = 0; i < 5; i++)
 			dealers.Add(DomainFactory.CreateDealer(_zeroVector));
 
-		dealers.RestockInventory(timeProvider, 100);
+		dealers.RestockInventory(mock.Object, 100);
 
 		foreach (IDealer dealer in dealers)
 		{
@@ -82,11 +84,5 @@ public class DealerExtensionsTests
 			Assert.AreEqual(DateTime.MaxValue, dealer.LastRestock);
 			Assert.AreEqual(DateTime.MinValue, dealer.LastRefresh);
 		}
-	}
-
-	private sealed class TestTimeProvider : ITimeProvider
-	{
-		public DateTime Now => DateTime.MaxValue;
-		public TimeSpan TimeOfDay => Now.TimeOfDay;
 	}
 }

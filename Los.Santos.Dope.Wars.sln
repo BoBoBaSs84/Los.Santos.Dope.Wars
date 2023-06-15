@@ -38,6 +38,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Abstractions.Tests", "tests\LSDW.Abstractions.Tests\LSDW.Abstractions.Tests.csproj", "{A31B1A27-DD62-496B-B85C-FF0B258CF780}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LSDW.Base.Tests", "tests\LSDW.Base.Tests\LSDW.Base.Tests.csproj", "{CB07EEC7-D35F-4420-9507-8D833EF6738F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -80,6 +84,14 @@ Global
 		{F1FDF2FA-379E-4C76-A645-E02B2427B3BA}.Debug|x64.Build.0 = Debug|x64
 		{F1FDF2FA-379E-4C76-A645-E02B2427B3BA}.Release|x64.ActiveCfg = Release|x64
 		{F1FDF2FA-379E-4C76-A645-E02B2427B3BA}.Release|x64.Build.0 = Release|x64
+		{A31B1A27-DD62-496B-B85C-FF0B258CF780}.Debug|x64.ActiveCfg = Debug|x64
+		{A31B1A27-DD62-496B-B85C-FF0B258CF780}.Debug|x64.Build.0 = Debug|x64
+		{A31B1A27-DD62-496B-B85C-FF0B258CF780}.Release|x64.ActiveCfg = Release|x64
+		{A31B1A27-DD62-496B-B85C-FF0B258CF780}.Release|x64.Build.0 = Release|x64
+		{CB07EEC7-D35F-4420-9507-8D833EF6738F}.Debug|x64.ActiveCfg = Debug|x64
+		{CB07EEC7-D35F-4420-9507-8D833EF6738F}.Debug|x64.Build.0 = Debug|x64
+		{CB07EEC7-D35F-4420-9507-8D833EF6738F}.Release|x64.ActiveCfg = Release|x64
+		{CB07EEC7-D35F-4420-9507-8D833EF6738F}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,9 +106,11 @@ Global
 		{DA62BF1A-A6B2-4FA2-9499-2DD911EE3992} = {751C0958-C5D5-45A2-ABEF-A226D5FBC9BF}
 		{F7EBF88C-0C49-4A7B-A8D5-890793AF7570} = {751C0958-C5D5-45A2-ABEF-A226D5FBC9BF}
 		{F1FDF2FA-379E-4C76-A645-E02B2427B3BA} = {751C0958-C5D5-45A2-ABEF-A226D5FBC9BF}
+		{A31B1A27-DD62-496B-B85C-FF0B258CF780} = {751C0958-C5D5-45A2-ABEF-A226D5FBC9BF}
+		{CB07EEC7-D35F-4420-9507-8D833EF6738F} = {751C0958-C5D5-45A2-ABEF-A226D5FBC9BF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_SortFileContentOnSave = True
 		SolutionGuid = {68F339D1-2669-47D8-9481-679C413F0389}
+		RESX_SortFileContentOnSave = True
 	EndGlobalSection
 EndGlobal

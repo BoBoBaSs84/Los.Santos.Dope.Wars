@@ -1,7 +1,7 @@
 ﻿using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Extensions;
 
-namespace LSDW.Domain.Tests.Extensions;
+namespace LSDW.Abstractions.Tests.Extensions;
 
 [TestClass]
 public class EnumeratorExtensionsTests
