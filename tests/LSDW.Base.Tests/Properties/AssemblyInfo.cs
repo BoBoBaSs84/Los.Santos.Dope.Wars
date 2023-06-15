@@ -11,12 +11,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("LSDW.Infrastructure.Tests")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("LSDW.Base.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("2023.6.15.1013")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("2023.6.15.1013-dev")]
-[assembly: System.Reflection.AssemblyProductAttribute("LSDW.Infrastructure.Tests")]
-[assembly: System.Reflection.AssemblyTitleAttribute("LSDW.Infrastructure.Tests")]
+[assembly: System.Reflection.AssemblyProductAttribute("LSDW.Base.Tests")]
+[assembly: System.Reflection.AssemblyTitleAttribute("LSDW.Base.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("2023.6.15.1013")]
 [assembly: System.Resources.NeutralResourcesLanguageAttribute("en-US")]
 
