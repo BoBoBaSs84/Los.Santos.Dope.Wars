@@ -19,4 +19,14 @@ public partial class DomainFactoryTests
 
 		Assert.IsNotNull(transactionService);
 	}
+
+	[TestMethod]
+	public void CreateNotificationServiceTest()
+	{
+		INotificationService? notificationService;
+
+		notificationService = DomainFactory.CreateNotificationService();
+
+		Assert.IsNotNull(notificationService);
+	}
 }
