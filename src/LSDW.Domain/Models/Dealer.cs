@@ -36,15 +36,19 @@ internal sealed class Dealer : Pedestrian, IDealer
 	/// </summary>
 	/// <param name="position">The position of the dealer.</param>
 	/// <param name="pedHash">The ped hash of the dealer.</param>
+	/// <param name="name">The name of the dealer.</param>
 	/// <param name="closedUntil">The dealer is gone until this date time.</param>
 	/// <param name="discovered">Has the dealer already been discovered?</param>
 	/// <param name="inventory">The dealer inventory.</param>
-	/// <param name="name">The name of the dealer.</param>
-	internal Dealer(Vector3 position, PedHash pedHash, DateTime? closedUntil, bool discovered, IInventory inventory, string name) : base(position, pedHash, name)
+	/// <param name="lastRefresh">When was the inventory prices the last time refreshed?</param>
+	/// <param name="lastRestock">When was the inventory the last time restocked?</param>
+	internal Dealer(Vector3 position, PedHash pedHash, string name, DateTime? closedUntil, bool discovered, IInventory inventory, DateTime lastRefresh, DateTime lastRestock) : base(position, pedHash, name)
 	{
 		ClosedUntil = closedUntil;
 		Discovered = discovered;
 		Inventory = inventory;
+		LastRefresh = lastRefresh;
+		LastRestock = lastRestock;
 
 		Inventory.PropertyChanged += OnPropertyChanged;
 	}

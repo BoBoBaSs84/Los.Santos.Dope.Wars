@@ -30,6 +30,8 @@ public sealed class DealerState
 	internal DealerState(IDealer dealer)
 	{
 		ClosedUntil = dealer.ClosedUntil;
+		LastRefresh = dealer.LastRefresh;
+		LastRestock = dealer.LastRestock;
 		Discovered = dealer.Discovered;
 		Inventory = CreateInventoryState(dealer.Inventory);
 		Name = dealer.Name;
@@ -42,6 +44,18 @@ public sealed class DealerState
 	/// </summary>
 	[XmlElement(nameof(ClosedUntil), Form = XmlSchemaForm.Qualified)]
 	public DateTime? ClosedUntil { get; set; }
+
+	/// <summary>
+	/// The last refresh property of the dealer state.
+	/// </summary>
+	[XmlElement(nameof(LastRefresh), Form = XmlSchemaForm.Qualified)]
+	public DateTime LastRefresh { get; set; }
+
+	/// <summary>
+	/// The last restock property of the dealer state.
+	/// </summary>
+	[XmlElement(nameof(LastRestock), Form = XmlSchemaForm.Qualified)]
+	public DateTime LastRestock { get; set; }
 
 	/// <summary>
 	/// The discovered property of the dealer state.
@@ -77,6 +91,14 @@ public sealed class DealerState
 	/// Should the <see cref="ClosedUntil"/> property be serialized?
 	/// </summary>
 	public bool ShouldSerializeClosedUntil() => ClosedUntil.HasValue;
+	/// <summary>
+	/// Should the <see cref="LastRefresh"/> property be serialized?
+	/// </summary>
+	public bool ShouldSerializeLastRefresh() => Discovered && !ClosedUntil.HasValue;
+	/// <summary>
+	/// Should the <see cref="LastRestock"/> property be serialized?
+	/// </summary>
+	public bool ShouldSerializeLastRestock() => Discovered && !ClosedUntil.HasValue;
 	/// <summary>
 	/// Should the <see cref="Hash"/> property be serialized?
 	/// </summary>

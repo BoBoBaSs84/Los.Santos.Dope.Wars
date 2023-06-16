@@ -15,8 +15,8 @@ namespace LSDW.Infrastructure.Tests.Factories;
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public partial class InfrastructureFactoryTests
 {
-	private readonly Vector3 zeroVector = new(0, 0, 0);
-	private readonly PedHash pedHash = PedHash.Clown01SMY;
+	private readonly Vector3 _zeroVector = new(0, 0, 0);
+	private readonly PedHash _pedHash = PedHash.Clown01SMY;
 
 	[TestMethod]
 	public void CreateDrugFromStateTest()
@@ -106,8 +106,8 @@ public partial class InfrastructureFactoryTests
 	{
 		ICollection<IDealer> dealers = new List<IDealer>()
 		{
-			DomainFactory.CreateDealer(zeroVector, pedHash),
-			DomainFactory.CreateDealer(zeroVector, pedHash),
+			DomainFactory.CreateDealer(_zeroVector, _pedHash),
+			DomainFactory.CreateDealer(_zeroVector, _pedHash),
 		};
 
 		List<DealerState> states = CreateDealerStates(dealers);
@@ -119,9 +119,10 @@ public partial class InfrastructureFactoryTests
 	[TestMethod]
 	public void CreateDealerStateTest()
 	{
+		DateTime date = DateTime.Now;
 		string name = NameConstants.GetFullName();
 		IInventory drugs = DomainFactory.CreateInventory(10000);
-		IDealer dealer = DomainFactory.CreateDealer(zeroVector, pedHash, DateTime.MinValue, true, drugs, name);
+		IDealer dealer = DomainFactory.CreateDealer(_zeroVector, _pedHash, name, date, true, drugs, date, date);
 
 		DealerState state = CreateDealerState(dealer);
 
@@ -135,6 +136,8 @@ public partial class InfrastructureFactoryTests
 		Assert.AreEqual(dealer.ClosedUntil, state.ClosedUntil);
 		Assert.AreEqual(dealer.Discovered, state.Discovered);
 		Assert.AreEqual(dealer.Name, state.Name);
+		Assert.AreEqual(dealer.LastRefresh, state.LastRefresh);
+		Assert.AreEqual(dealer.LastRestock, state.LastRestock);
 	}
 
 	[TestMethod]
@@ -213,8 +216,8 @@ public partial class InfrastructureFactoryTests
 		player.Inventory.Restock(player.Level);
 		List<IDealer> dealers = new()
 		{
-			DomainFactory.CreateDealer(zeroVector),
-			DomainFactory.CreateDealer(zeroVector),
+			DomainFactory.CreateDealer(_zeroVector),
+			DomainFactory.CreateDealer(_zeroVector),
 		};
 		foreach (IDealer dealer in dealers)
 			_ = dealer.Inventory.Restock(player.Level);
@@ -302,7 +305,7 @@ public partial class InfrastructureFactoryTests
 		ICollection<IDealer> dealers = new HashSet<IDealer>();
 		for (int i = 0; i < 80; i++)
 		{
-			IDealer dealer = DomainFactory.CreateDealer(new GTA.Math.Vector3(0, 0, 0));
+			IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
 			_ = dealer.Inventory.Restock(player.Level);
 			dealer.SetDiscovered(true);
 			dealers.Add(dealer);
