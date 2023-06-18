@@ -17,9 +17,9 @@ internal abstract class Mission : IMission
 
 	public MissionStatusType Status { get; private set; }
 
-	public virtual void OnAborted(object sender, EventArgs args) { }
-	public virtual void OnKeyUp(object sender, KeyEventArgs args) { }
-	public virtual void OnTick(object sender, EventArgs args) { }
+	public abstract void OnAborted(object sender, EventArgs args);
+	public abstract void OnKeyUp(object sender, KeyEventArgs args);
+	public abstract void OnTick(object sender, EventArgs args);
 	public virtual void StartMission()
 	{
 		Status = MissionStatusType.Started;

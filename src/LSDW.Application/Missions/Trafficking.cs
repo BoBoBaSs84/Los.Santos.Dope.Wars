@@ -1,7 +1,6 @@
 ﻿using GTA;
 using LSDW.Abstractions.Application.Missions;
 using LSDW.Abstractions.Application.Providers;
-using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Abstractions.Presentation.Menus;
@@ -17,8 +16,6 @@ internal sealed class Trafficking : Mission, ITrafficking
 	private readonly ITimeProvider _timeProvider;
 	private readonly ILoggerService _loggerService;
 	private readonly IGameStateService _stateService;
-	private readonly ICollection<IDealer> _dealers;
-	private readonly IPlayer _player;
 
 	private ISideMenu? leftSideMenu;
 	private ISideMenu? rightSideMenu;
@@ -30,13 +27,11 @@ internal sealed class Trafficking : Mission, ITrafficking
 	/// <param name="timeProvider">The time provider to use.</param>
 	/// <param name="loggerService">The logger service service to use.</param>
 	/// <param name="stateService">The game state service to use.</param>
-	internal Trafficking(ITimeProvider timeProvider, ILoggerService loggerService, IGameStateService stateService) : base()
+	internal Trafficking(ITimeProvider timeProvider, ILoggerService loggerService, IGameStateService stateService)
 	{
 		_timeProvider = timeProvider;
 		_loggerService = loggerService;
 		_stateService = stateService;
-		_dealers = stateService.Dealers.ToList();
-		_player = stateService.Player;
 	}
 
 	public override void StopMission()
@@ -58,10 +53,10 @@ internal sealed class Trafficking : Mission, ITrafficking
 
 	public override void OnTick(object sender, EventArgs args)
 	{
-		if (!Game.Player.CanControlCharacter && !Game.Player.CanStartMission)
+		if (Status is not MissionStatusType.Started)
 			return;
 
-		if (Status is not MissionStatusType.Started)
+		if (!Game.Player.CanControlCharacter && !Game.Player.CanStartMission)
 			return;
 
 		character ??= Game.Player.Character;
