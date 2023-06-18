@@ -1,10 +1,12 @@
 ﻿using GTA;
 using LSDW.Abstractions.Application.Missions;
 using LSDW.Abstractions.Application.Providers;
+using LSDW.Abstractions.Domain.Services;
 using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Abstractions.Presentation.Menus;
 using LSDW.Application.Missions;
 using LSDW.Application.Providers;
+using LSDW.Domain.Factories;
 using LSDW.Infrastructure.Factories;
 using LSDW.Presentation.Factories;
 
@@ -15,6 +17,7 @@ namespace LSDW.Application;
 /// </summary>
 public sealed class Main : Script
 {
+	private readonly INotificationService _notificationService;
 	private readonly ITimeProvider _timeProvider;
 	private readonly ILoggerService _loggerService;
 	private readonly ISettingsService _settingsService;
@@ -27,11 +30,12 @@ public sealed class Main : Script
 	/// </summary>
 	public Main()
 	{
+		_notificationService = DomainFactory.CreateNotificationService();
 		_timeProvider = new GameTimeProvider();
 		_loggerService = InfrastructureFactory.CreateLoggerService();
 		_settingsService = InfrastructureFactory.CreateSettingsService();
 		_stateService = InfrastructureFactory.CreateGameStateService(_loggerService);
-		_trafficking = new Trafficking(_timeProvider, _loggerService, _stateService);
+		_trafficking = new Trafficking(_timeProvider, _loggerService, _stateService, _notificationService);
 		_settingsMenu = PresentationFactory.CreateSettingsMenu(_settingsService);
 
 		Interval = 5;
@@ -47,7 +51,10 @@ public sealed class Main : Script
 
 	private void OnKeyUp(object sender, KeyEventArgs args)
 	{
-		if (Game.Player.CanControlCharacter && Game.Player.CanStartMission && args.KeyCode == Keys.F10)
-			_settingsMenu.SetVisible(true);
+		if (args.KeyCode == Keys.F10)
+		{
+			if (Game.Player.CanControlCharacter && Game.Player.CanStartMission)
+				_settingsMenu.SetVisible(true);
+		}
 	}
 }
