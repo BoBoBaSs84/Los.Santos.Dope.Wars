@@ -7,6 +7,7 @@ using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Abstractions.Presentation.Menus;
 using LSDW.Application.Extensions;
 using LSDW.Application.Missions.Base;
+using LSDW.Domain.Extensions;
 
 namespace LSDW.Application.Missions;
 
@@ -19,13 +20,10 @@ namespace LSDW.Application.Missions;
 /// </remarks>
 internal sealed class Trafficking : Mission, ITrafficking
 {
-	private readonly ITimeProvider _timeProvider;
-	private readonly ILoggerService _loggerService;
 	private readonly IGameStateService _stateService;
 
 	private ISideMenu? leftSideMenu;
 	private ISideMenu? rightSideMenu;
-	private Ped? character;
 
 	/// <summary>
 	/// Initializes a instance of the trafficking class.
@@ -35,21 +33,26 @@ internal sealed class Trafficking : Mission, ITrafficking
 	/// <param name="stateService">The game state service interface to use.</param>
 	/// <param name="notificationService">The notification service interface to use.</param>
 	internal Trafficking(ITimeProvider timeProvider, ILoggerService loggerService, IGameStateService stateService, INotificationService notificationService)
+		: base(loggerService, nameof(Trafficking))
 	{
-		_timeProvider = timeProvider;
-		_loggerService = loggerService;
+		TimeProvider = timeProvider;
+		LoggerService = loggerService;
 		_stateService = stateService;
 
 		NotificationService = notificationService;
 	}
 
+	public ILoggerService LoggerService { get; }
 	public INotificationService NotificationService { get; }
+	public ITimeProvider TimeProvider { get; }
+	public DateTime LastChange { get; private set; }
+	public DateTime LastRenew { get; private set; }
 
 	public override void StopMission()
 	{
-		character = null;
 		leftSideMenu = null;
 		rightSideMenu = null;
+		_ = _stateService.Dealers.DeleteDealers();
 		base.StopMission();
 	}
 
@@ -76,13 +79,13 @@ internal sealed class Trafficking : Mission, ITrafficking
 
 		try
 		{
-			_ = this.TrackDealers(_stateService.Dealers);
-			_ = this.RestockDealerInventories(_stateService, _timeProvider);
-			_ = this.ChangeDealerPrices(_stateService, _timeProvider);
+			_ = this.TrackDealers(_stateService)
+				.ChangeDealerPrices(_stateService)
+				.ChangeDealerInventories(_stateService);
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Critical(ex.Message);
+			LoggerService.Critical(ex.Message);
 		}
 	}
 }

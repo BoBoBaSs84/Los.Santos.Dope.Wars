@@ -13,7 +13,7 @@ public static class DealerExtensions
 	/// <summary>
 	/// Changes the drug prices of the dealer.
 	/// </summary>
-	/// <param name="dealer">The dealer to refresh.</param>
+	/// <param name="dealer">The dealer to change.</param>
 	/// <param name="timeProvider">The date time provider to use.</param>
 	/// <param name="playerLevel">The current player level.</param>
 	public static IDealer ChangePrices(this IDealer dealer, ITimeProvider timeProvider, int playerLevel)
@@ -26,7 +26,7 @@ public static class DealerExtensions
 	/// <summary>
 	/// Changes the drug prices of the dealer collection.
 	/// </summary>
-	/// <param name="dealers">The dealer collection to refresh.</param>
+	/// <param name="dealers">The dealer collection to change.</param>
 	/// <param name="timeProvider">The date time provider to use.</param>
 	/// <param name="playerLevel">The current player level.</param>
 	public static ICollection<IDealer> ChangePrices(this ICollection<IDealer> dealers, ITimeProvider timeProvider, int playerLevel)
@@ -37,28 +37,40 @@ public static class DealerExtensions
 	}
 
 	/// <summary>
-	/// Restocks the inventory of the dealer.
+	/// Changes the inventory of the dealer.
 	/// </summary>
-	/// <param name="dealer">The dealer to refresh.</param>
+	/// <param name="dealer">The dealer to change.</param>
 	/// <param name="timeProvider">The date time provider to use.</param>
 	/// <param name="playerLevel">The current player level.</param>
-	public static IDealer RestockInventory(this IDealer dealer, ITimeProvider timeProvider, int playerLevel)
+	public static IDealer ChangeInventory(this IDealer dealer, ITimeProvider timeProvider, int playerLevel)
 	{
 		dealer.Inventory.Restock(playerLevel);
 		dealer.SetLastRestock(timeProvider.Now);
+		dealer.SetLastRefresh(timeProvider.Now);
 		return dealer;
 	}
 
 	/// <summary>
-	/// Restocks the inventory of the dealer collection.
+	/// Changes the inventories of the dealer collection.
 	/// </summary>
-	/// <param name="dealers">The dealer collection to restock.</param>
+	/// <param name="dealers">The dealer collection to change.</param>
 	/// <param name="timeProvider">The date time provider to use.</param>
 	/// <param name="playerLevel">The current player level.</param>
-	public static ICollection<IDealer> RestockInventory(this ICollection<IDealer> dealers, ITimeProvider timeProvider, int playerLevel)
+	public static ICollection<IDealer> ChangeInventories(this ICollection<IDealer> dealers, ITimeProvider timeProvider, int playerLevel)
 	{
 		foreach (IDealer dealer in dealers)
-			dealer.RestockInventory(timeProvider, playerLevel);
+			dealer.ChangeInventory(timeProvider, playerLevel);
+		return dealers;
+	}
+
+	/// <summary>
+	/// Deletes all the dealers within the collection.
+	/// </summary>
+	/// <param name="dealers">The dealer collection to delete.</param>
+	public static ICollection<IDealer> DeleteDealers(this ICollection<IDealer> dealers)
+	{
+		foreach (IDealer dealer in dealers)
+			dealer.Delete();
 		return dealers;
 	}
 }

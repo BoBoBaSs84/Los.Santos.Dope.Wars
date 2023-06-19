@@ -14,6 +14,7 @@ internal static class XmlConstants
 	internal const string GameStateRootName = "Game";
 	internal const string InventoryStateRootName = "Inventory";
 	internal const string PlayerStateRootName = "Player";
+	internal const string TraffickingStateRootName = "Trafficking";
 	internal const string TransactionStateRootName = "Transaction";
 
 	/// <summary>

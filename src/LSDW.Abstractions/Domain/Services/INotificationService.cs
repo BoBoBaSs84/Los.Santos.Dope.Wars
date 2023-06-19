@@ -47,12 +47,21 @@ public interface INotificationService
 	void ShowHelpText(string helpText, int duration = -1, bool beep = true, bool looped = false);
 
 	/// <summary>
+	/// Creates a more advanced notification above the minimap showing a sender icon, subject and the message.
+	/// </summary>
+	/// <param name="sender">The sender name.</param>
+	/// <param name="subject">The subject line.</param>
+	/// <param name="message">The message itself.</param>
+	/// <param name="blinking">If set to true the notification will blink.</param>
+	void Show(string sender, string subject, string message, bool blinking = false);
+
+	/// <summary>
 	/// Shows a notification above the minimap with the given message.
 	/// </summary>
 	/// <param name="message">The message in the notification.</param>
 	/// <param name="blinking">If set to true the notification will blink.</param>
-	/// <param name="duration">The duration to display the notification in milliseconds.</param>
-	Task Show(string message, bool blinking = false, int duration = 2500);
+	/// <returns>The handle of the <see cref="Notification"/> which can be used to hide it.</returns>
+	int Show(string message, bool blinking = false);
 
 	/// <summary>
 	/// Creates a more advanced notification above the minimap showing a sender icon, subject and the message.
@@ -63,6 +72,12 @@ public interface INotificationService
 	/// <param name="message">The message itself.</param>
 	/// <param name="fadeIn">If true the message will fade in.</param>
 	/// <param name="blinking">if set to true the notification will blink.</param>
-	/// <param name="duration">The duration to display the notification in milliseconds.</param>
-	Task Show(NotificationIcon icon, string sender, string subject, string message, bool fadeIn = false, bool blinking = false, int duration = 2500);
+	/// <returns>The handle of the <see cref="Notification"/> which can be used to hide it.</returns>
+	int Show(NotificationIcon icon, string sender, string subject, string message, bool fadeIn = false, bool blinking = false);
+
+	/// <summary>
+	/// Hides a <see cref="Notification"/> instantly.
+	/// </summary>
+	/// <param name="handle">The handle of the <see cref="Notification"/> to hide.</param>
+	void Hide(int handle);
 }

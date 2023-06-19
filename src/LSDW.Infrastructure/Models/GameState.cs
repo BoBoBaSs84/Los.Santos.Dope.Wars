@@ -1,4 +1,5 @@
-﻿using LSDW.Abstractions.Domain.Models;
+﻿using LSDW.Abstractions.Application.Missions;
+using LSDW.Abstractions.Domain.Models;
 using LSDW.Infrastructure.Constants;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -17,18 +18,30 @@ public sealed class GameState
 	/// </summary>
 	public GameState()
 	{
-		Player = new();
 		Dealers = new();
+		Player = new();
+		Trafficking = new();
 	}
 
 	/// <summary>
 	/// Initializes a instance of the game state class.
 	/// </summary>
-	internal GameState(IPlayer player, ICollection<IDealer> dealers)
+	/// <param name="dealers">The dealer instance colection to save.</param>
+	/// <param name="player">The player instance to save.</param>
+	/// <param name="trafficking">The trafficking instance to save.</param>
+	internal GameState(ICollection<IDealer> dealers, IPlayer player, ITrafficking trafficking)
 	{
-		Player = CreatePlayerState(player);
 		Dealers = CreateDealerStates(dealers);
+		Player = CreatePlayerState(player);
+		Trafficking = CreateTraffickingState(trafficking);
 	}
+
+	/// <summary>
+	/// The dealers property of the game state.
+	/// </summary>
+	[XmlArray(nameof(Dealers), Form = XmlSchemaForm.Qualified)]
+	[XmlArrayItem(XmlConstants.DealerStateRootName, Form = XmlSchemaForm.Qualified)]
+	public List<DealerState> Dealers { get; set; }
 
 	/// <summary>
 	/// The player property of the game state.
@@ -37,11 +50,10 @@ public sealed class GameState
 	public PlayerState Player { get; set; }
 
 	/// <summary>
-	/// The dealers property of the game state.
+	/// The trafficking property of the game state.
 	/// </summary>
-	[XmlArray(nameof(Dealers), Form = XmlSchemaForm.Qualified)]
-	[XmlArrayItem(XmlConstants.DealerStateRootName, Form = XmlSchemaForm.Qualified)]
-	public List<DealerState> Dealers { get; set; }
+	[XmlElement(nameof(Trafficking), Form = XmlSchemaForm.Qualified)]
+	public TraffickingState Trafficking { get; set; }
 
 	/// <summary>
 	/// Should the <see cref="Dealers"/> property be serialized?

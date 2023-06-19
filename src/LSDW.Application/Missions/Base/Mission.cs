@@ -1,6 +1,7 @@
 ﻿using GTA;
 using LSDW.Abstractions.Application.Missions.Base;
 using LSDW.Abstractions.Enumerators;
+using LSDW.Abstractions.Infrastructure.Services;
 
 namespace LSDW.Application.Missions.Base;
 
@@ -12,9 +13,21 @@ namespace LSDW.Application.Missions.Base;
 /// </remarks>
 internal abstract class Mission : IMission
 {
-	public Mission()
-		=> Status = MissionStatusType.Stopped;
+	private readonly ILoggerService _loggerService;
 
+	/// <summary>
+	/// Initializes a instance of the mission class.
+	/// </summary>
+	/// <param name="loggerService">The loger service interface to use.</param>
+	/// <param name="name">The name of the mission.</param>
+	protected Mission(ILoggerService loggerService, string name)
+	{
+		_loggerService = loggerService;
+		Name = name;
+		Status = MissionStatusType.Stopped;
+	}
+
+	public string Name { get; }
 	public MissionStatusType Status { get; private set; }
 
 	public abstract void OnAborted(object sender, EventArgs args);
@@ -22,11 +35,13 @@ internal abstract class Mission : IMission
 	public abstract void OnTick(object sender, EventArgs args);
 	public virtual void StartMission()
 	{
+		_loggerService.Information($"{Name} started.");
 		Status = MissionStatusType.Started;
 		Game.IsMissionActive = true;
 	}
 	public virtual void StopMission()
 	{
+		_loggerService.Information($"{Name} stopped.");
 		Status = MissionStatusType.Stopped;
 		Game.IsMissionActive = false;
 	}

@@ -8,6 +8,11 @@ namespace LSDW.Abstractions.Application.Missions.Base;
 public interface IMission
 {
 	/// <summary>
+	/// The name of the mission.
+	/// </summary>
+	string Name { get; }
+	
+	/// <summary>
 	/// The current mission status.
 	/// </summary>
 	MissionStatusType Status { get; }

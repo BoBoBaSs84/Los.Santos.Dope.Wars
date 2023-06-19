@@ -11,21 +11,17 @@ namespace LSDW.Domain.Services;
 /// </remarks>
 internal sealed class NotificationService : INotificationService
 {
-	public async Task Show(string message, bool blinking = false, int duration = 2500)
-	{
-		int handle = Notification.Show(message, blinking);
-		await Task.Delay(duration);
-		Notification.Hide(handle);
-		await Task.CompletedTask;
-	}
+	public void Hide(int handle)
+		=> Notification.Hide(handle);
 
-	public async Task Show(NotificationIcon icon, string sender, string subject, string message, bool fadeIn = false, bool blinking = false, int duration = 2500)
-	{
-		int hanle = Notification.Show(icon, sender, subject, message, fadeIn, blinking);
-		await Task.Delay(duration);
-		Notification.Hide(hanle);
-		await Task.CompletedTask;
-	}
+	public int Show(string message, bool blinking = false)
+		=> Notification.Show(message, blinking);
+
+	public int Show(NotificationIcon icon, string sender, string subject, string message, bool fadeIn = false, bool blinking = false)
+		=> Notification.Show(icon, sender, subject, message, fadeIn, blinking);
+
+	public void Show(string sender, string subject, string message, bool blinking = false)
+		=> Show(NotificationIcon.Default, sender, subject, message, false, blinking);
 
 	public void ShowHelpText(string helpText, int duration = -1, bool beep = true, bool looped = false)
 		=> Screen.ShowHelpText(helpText, duration, beep, looped);

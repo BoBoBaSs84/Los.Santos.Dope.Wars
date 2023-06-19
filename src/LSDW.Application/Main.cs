@@ -38,7 +38,7 @@ public sealed class Main : Script
 		_trafficking = new Trafficking(_timeProvider, _loggerService, _stateService, _notificationService);
 		_settingsMenu = PresentationFactory.CreateSettingsMenu(_settingsService);
 
-		Interval = 5;
+		Interval = 10;
 
 		Aborted += _trafficking.OnAborted;
 

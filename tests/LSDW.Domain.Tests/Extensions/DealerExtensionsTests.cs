@@ -56,13 +56,13 @@ public class DealerExtensionsTests
 		Mock<ITimeProvider> mock = MockHelper.GetTimeProviderMock();
 		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
 
-		dealer.RestockInventory(mock.Object, 100);
+		dealer.ChangeInventory(mock.Object, 100);
 
 		Assert.AreNotEqual(default, dealer.Inventory.Sum(x => x.CurrentPrice));
 		Assert.AreNotEqual(default, dealer.Inventory.Money);
 		Assert.AreNotEqual(default, dealer.Inventory.TotalQuantity);
 		Assert.AreEqual(DateTime.MaxValue, dealer.LastRestock);
-		Assert.AreEqual(DateTime.MinValue, dealer.LastRefresh);
+		Assert.AreEqual(DateTime.MaxValue, dealer.LastRefresh);
 	}
 
 	[TestMethod]
@@ -74,7 +74,7 @@ public class DealerExtensionsTests
 		for (int i = 0; i < 5; i++)
 			dealers.Add(DomainFactory.CreateDealer(_zeroVector));
 
-		dealers.RestockInventory(mock.Object, 100);
+		dealers.ChangeInventories(mock.Object, 100);
 
 		foreach (IDealer dealer in dealers)
 		{
@@ -82,7 +82,7 @@ public class DealerExtensionsTests
 			Assert.AreNotEqual(default, dealer.Inventory.Money);
 			Assert.AreNotEqual(default, dealer.Inventory.TotalQuantity);
 			Assert.AreEqual(DateTime.MaxValue, dealer.LastRestock);
-			Assert.AreEqual(DateTime.MinValue, dealer.LastRefresh);
+			Assert.AreEqual(DateTime.MaxValue, dealer.LastRefresh);
 		}
 	}
 }

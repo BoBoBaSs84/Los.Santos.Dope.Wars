@@ -1,4 +1,5 @@
-﻿using LSDW.Abstractions.Domain.Models;
+﻿using LSDW.Abstractions.Application.Missions;
+using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
@@ -35,9 +36,10 @@ internal sealed class GameStateService : IGameStateService
 		_ = Load();
 	}
 
-	public IPlayer Player { get; private set; }
-
 	public ICollection<IDealer> Dealers { get; private set; }
+	public IPlayer Player { get; private set; }
+	public ITrafficking Trafficking { get; private set; }
+	
 
 	public bool Load()
 	{
@@ -72,7 +74,7 @@ internal sealed class GameStateService : IGameStateService
 
 		try
 		{
-			GameState gameState = CreateGameState(Player, Dealers);
+			GameState gameState = CreateGameState(Dealers, Player, Trafficking);
 
 			string fileContent =
 				gameState.ToXmlString(XmlConstants.SerializerNamespaces).Compress();
