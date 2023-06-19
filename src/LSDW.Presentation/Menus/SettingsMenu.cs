@@ -12,7 +12,6 @@ namespace LSDW.Presentation.Menus;
 internal sealed partial class SettingsMenu : NativeMenu, ISettingsMenu
 {
 	private readonly ISettingsService _settingsService;
-	private readonly ObjectPool _processables = new();
 
 	/// <summary>
 	/// Initializes a instance of the settings menu class.
@@ -26,12 +25,10 @@ internal sealed partial class SettingsMenu : NativeMenu, ISettingsMenu
 		Closing += OnClosing;
 
 		AddMenuItems();
-
-		_processables.Add(this);
 	}
 
-	public void OnTick(object sender, EventArgs args)
-		=> _processables.Process();
+	public void Add(ObjectPool processables)
+		=> processables.Add(this);
 
 	public void SetVisible(bool value)
 		=> Visible = value;

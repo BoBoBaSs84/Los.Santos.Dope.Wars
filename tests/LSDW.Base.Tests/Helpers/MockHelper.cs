@@ -1,5 +1,8 @@
 ﻿using LSDW.Abstractions.Application.Providers;
+using LSDW.Abstractions.Domain.Missions;
+using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Services;
+using LSDW.Abstractions.Infrastructure.Services;
 using Moq;
 
 namespace LSDW.Base.Tests.Helpers;
@@ -17,4 +20,16 @@ public static class MockHelper
 		mock.Setup(x => x.TimeOfDay).Returns(DateTime.MaxValue.TimeOfDay);
 		return mock;
 	}
+
+	public static Mock<ILoggerService> GetLoggerServiceMock()
+		=> new();
+
+	public static Mock<IGameStateService> GetGameStateServiceMock()
+		=> new();
+
+	public static Mock<ITrafficking> GetTraffickingMock()
+		=> new();
+
+	public static Mock<IInventory> GetInventoryMock()
+		=> new();
 }

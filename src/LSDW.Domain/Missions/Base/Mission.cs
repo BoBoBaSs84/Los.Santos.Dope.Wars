@@ -1,9 +1,9 @@
 ﻿using GTA;
-using LSDW.Abstractions.Application.Missions.Base;
+using LSDW.Abstractions.Domain.Missions.Base;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Infrastructure.Services;
 
-namespace LSDW.Application.Missions.Base;
+namespace LSDW.Domain.Missions.Base;
 
 /// <summary>
 /// The mission base class.
@@ -31,7 +31,6 @@ internal abstract class Mission : IMission
 	public MissionStatusType Status { get; private set; }
 
 	public abstract void OnAborted(object sender, EventArgs args);
-	public abstract void OnKeyUp(object sender, KeyEventArgs args);
 	public abstract void OnTick(object sender, EventArgs args);
 	public virtual void StartMission()
 	{

@@ -3,7 +3,6 @@ using static LSDW.Infrastructure.Factories.InfrastructureFactory;
 
 namespace LSDW.Infrastructure.Tests.Factories;
 
-[TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public partial class InfrastructureFactoryTests
 {
@@ -20,10 +19,9 @@ public partial class InfrastructureFactoryTests
 	[TestMethod]
 	public void CreateGameStateServiceTest()
 	{
-		ILoggerService loggerService = CreateLoggerService();
 		IGameStateService? gameStateService;
 
-		gameStateService = CreateGameStateService(loggerService);
+		gameStateService = CreateGameStateService(_loggerMock.Object);
 
 		Assert.IsNotNull(gameStateService);
 	}
@@ -33,7 +31,7 @@ public partial class InfrastructureFactoryTests
 	{
 		IGameStateService? gameStateService;
 
-		gameStateService = CreateGameStateService();
+		gameStateService = CreateGameStateService(_loggerMock.Object);
 
 		Assert.IsNotNull(gameStateService);
 	}

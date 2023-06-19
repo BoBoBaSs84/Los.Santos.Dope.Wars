@@ -16,7 +16,6 @@ namespace LSDW.Presentation.Menus;
 /// </summary>
 internal sealed class SideMenu : NativeMenu, ISideMenu
 {
-	private readonly ObjectPool _processables = new();
 	private readonly Size _screenSize = GTA.UI.Screen.Resolution;
 	private readonly IInventory _source;
 	private readonly IInventory _target;
@@ -56,15 +55,13 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 
 		_source.PropertyChanged += OnInventoryPropertyChanged;
 		_target.PropertyChanged += OnInventoryPropertyChanged;
-
-		_processables.Add(this);
 	}
+
+	public void Add(ObjectPool processables)
+		=> processables.Add(this);
 
 	public void SetVisible(bool value)
 		=> Visible = value;
-
-	public void OnTick(object sender, EventArgs args)
-		=> _processables.Process();
 
 	private void OnMenuItemActivated(object sender, EventArgs args)
 	{

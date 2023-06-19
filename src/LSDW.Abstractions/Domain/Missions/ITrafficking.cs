@@ -1,9 +1,9 @@
-﻿using LSDW.Abstractions.Application.Missions.Base;
-using LSDW.Abstractions.Application.Providers;
+﻿using LSDW.Abstractions.Application.Providers;
+using LSDW.Abstractions.Domain.Missions.Base;
 using LSDW.Abstractions.Domain.Services;
 using LSDW.Abstractions.Infrastructure.Services;
 
-namespace LSDW.Abstractions.Application.Missions;
+namespace LSDW.Abstractions.Domain.Missions;
 
 /// <summary>
 /// The trafficking mission interface.
@@ -25,13 +25,5 @@ public interface ITrafficking : IMission
 	/// </summary>
 	ITimeProvider TimeProvider { get; }
 
-	/// <summary>
-	/// When was the last time market prices were changed?
-	/// </summary>
-	DateTime LastChange { get; }
 
-	/// <summary>
-	/// When was the last time the market was completely renewed?
-	/// </summary>
-	DateTime LastRenew { get; }
 }

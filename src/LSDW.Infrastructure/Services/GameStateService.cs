@@ -1,4 +1,4 @@
-﻿using LSDW.Abstractions.Application.Missions;
+﻿using LSDW.Abstractions.Domain.Missions;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Domain.Extensions;
@@ -15,9 +15,9 @@ namespace LSDW.Infrastructure.Services;
 /// </summary>
 internal sealed class GameStateService : IGameStateService
 {
+	private readonly string _baseDirectory = AppContext.BaseDirectory;
+	private readonly string _saveFileName = Settings.SaveFileName;
 	private readonly ILoggerService _logger;
-	private readonly string _baseDirectory;
-	private readonly string _saveFileName;
 
 	/// <summary>
 	/// Initializes a instance of the game state service class.
@@ -26,20 +26,15 @@ internal sealed class GameStateService : IGameStateService
 	internal GameStateService(ILoggerService logger)
 	{
 		_logger = logger;
-
-		_baseDirectory = AppContext.BaseDirectory;
-		_saveFileName = Settings.SaveFileName;
-
+		
 		Dealers = DomainFactory.CreateDealers();
 		Player = DomainFactory.CreatePlayer();
-
+		
 		_ = Load();
 	}
 
 	public ICollection<IDealer> Dealers { get; private set; }
 	public IPlayer Player { get; private set; }
-	public ITrafficking Trafficking { get; private set; }
-	
 
 	public bool Load()
 	{
@@ -74,7 +69,7 @@ internal sealed class GameStateService : IGameStateService
 
 		try
 		{
-			GameState gameState = CreateGameState(Dealers, Player, Trafficking);
+			GameState gameState = CreateGameState(Dealers, Player);
 
 			string fileContent =
 				gameState.ToXmlString(XmlConstants.SerializerNamespaces).Compress();

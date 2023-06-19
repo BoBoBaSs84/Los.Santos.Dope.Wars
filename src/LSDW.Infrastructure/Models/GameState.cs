@@ -1,5 +1,4 @@
-﻿using LSDW.Abstractions.Application.Missions;
-using LSDW.Abstractions.Domain.Models;
+﻿using LSDW.Abstractions.Domain.Models;
 using LSDW.Infrastructure.Constants;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -20,7 +19,6 @@ public sealed class GameState
 	{
 		Dealers = new();
 		Player = new();
-		Trafficking = new();
 	}
 
 	/// <summary>
@@ -28,12 +26,10 @@ public sealed class GameState
 	/// </summary>
 	/// <param name="dealers">The dealer instance colection to save.</param>
 	/// <param name="player">The player instance to save.</param>
-	/// <param name="trafficking">The trafficking instance to save.</param>
-	internal GameState(ICollection<IDealer> dealers, IPlayer player, ITrafficking trafficking)
+	internal GameState(ICollection<IDealer> dealers, IPlayer player)
 	{
 		Dealers = CreateDealerStates(dealers);
 		Player = CreatePlayerState(player);
-		Trafficking = CreateTraffickingState(trafficking);
 	}
 
 	/// <summary>
@@ -48,12 +44,6 @@ public sealed class GameState
 	/// </summary>
 	[XmlElement(nameof(Player), Form = XmlSchemaForm.Qualified)]
 	public PlayerState Player { get; set; }
-
-	/// <summary>
-	/// The trafficking property of the game state.
-	/// </summary>
-	[XmlElement(nameof(Trafficking), Form = XmlSchemaForm.Qualified)]
-	public TraffickingState Trafficking { get; set; }
 
 	/// <summary>
 	/// Should the <see cref="Dealers"/> property be serialized?

@@ -1,6 +1,6 @@
 ﻿using LSDW.Abstractions.Enumerators;
 
-namespace LSDW.Abstractions.Application.Missions.Base;
+namespace LSDW.Abstractions.Domain.Missions.Base;
 
 /// <summary>
 /// The mission interface.
@@ -11,7 +11,7 @@ public interface IMission
 	/// The name of the mission.
 	/// </summary>
 	string Name { get; }
-	
+
 	/// <summary>
 	/// The current mission status.
 	/// </summary>
@@ -31,11 +31,6 @@ public interface IMission
 	/// Should be used for cleaning up anything created if something goes wrong.
 	/// </summary>
 	void OnAborted(object sender, EventArgs args);
-
-	/// <summary>
-	/// An event that is raised when a key is lifted.
-	/// </summary>
-	void OnKeyUp(object sender, KeyEventArgs args);
 
 	/// <summary>
 	/// Put code that needs to be looped each frame in here.

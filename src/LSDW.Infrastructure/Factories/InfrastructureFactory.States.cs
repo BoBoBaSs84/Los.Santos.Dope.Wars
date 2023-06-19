@@ -1,4 +1,4 @@
-﻿using LSDW.Abstractions.Application.Missions;
+﻿using LSDW.Abstractions.Domain.Missions;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Domain.Factories;
 using LSDW.Infrastructure.Models;
@@ -176,18 +176,10 @@ public static partial class InfrastructureFactory
 		=> new(player);
 
 	/// <summary>
-	/// Creates a new saveable trafficking state from a trafficking instance.
-	/// </summary>
-	/// <param name="trafficking">The trafficking instance to save.</param>
-	public static TraffickingState CreateTraffickingState(ITrafficking trafficking)
-		=> new(trafficking);
-
-	/// <summary>
 	/// Creates a new saveable game state.
 	/// </summary>
 	/// <param name="dealers">The dealer instance colection to save.</param>
 	/// <param name="player">The player instance to save.</param>
-	/// <param name="trafficking">The trafficking instance to save.</param>
-	public static GameState CreateGameState(ICollection<IDealer> dealers, IPlayer player, ITrafficking trafficking)
-		=> new(dealers, player, trafficking);
+	public static GameState CreateGameState(ICollection<IDealer> dealers, IPlayer player)
+		=> new(dealers, player);
 }

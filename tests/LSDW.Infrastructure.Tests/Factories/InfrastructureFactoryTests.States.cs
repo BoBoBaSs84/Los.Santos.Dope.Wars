@@ -1,5 +1,4 @@
 ﻿using GTA;
-using GTA.Math;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Domain.Constants;
@@ -15,9 +14,6 @@ namespace LSDW.Infrastructure.Tests.Factories;
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public partial class InfrastructureFactoryTests
 {
-	private readonly Vector3 _zeroVector = new(0, 0, 0);
-	private readonly PedHash _pedHash = PedHash.Clown01SMY;
-
 	[TestMethod]
 	public void CreateDrugFromStateTest()
 	{
@@ -222,7 +218,7 @@ public partial class InfrastructureFactoryTests
 		foreach (IDealer dealer in dealers)
 			_ = dealer.Inventory.Restock(player.Level);
 
-		GameState state = CreateGameState(player, dealers);
+		GameState state = CreateGameState(dealers, player);
 
 		Assert.IsNotNull(state);
 		Assert.AreEqual(player.Experience, state.Player.Experience);
@@ -310,7 +306,7 @@ public partial class InfrastructureFactoryTests
 			dealer.SetDiscovered(true);
 			dealers.Add(dealer);
 		}
-		GameState gameState = CreateGameState(player, dealers);
+		GameState gameState = CreateGameState(dealers, player);
 
 		string gameStateXml = gameState.ToXmlString(XmlConstants.SerializerNamespaces);
 		string compressedGameStateXml = gameStateXml.Compress();

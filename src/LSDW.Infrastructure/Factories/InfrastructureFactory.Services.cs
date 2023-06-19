@@ -17,12 +17,6 @@ public static partial class InfrastructureFactory
 	/// <summary>
 	/// Creates a new game state service instance.
 	/// </summary>
-	public static IGameStateService CreateGameStateService()
-		=> new GameStateService(CreateLoggerService());
-
-	/// <summary>
-	/// Creates a new game state service instance.
-	/// </summary>
 	/// <param name="logger">The logger service instance to use.</param>
 	public static IGameStateService CreateGameStateService(ILoggerService logger)
 		=> new GameStateService(logger);
