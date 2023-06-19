@@ -3,6 +3,7 @@ using GTA.Math;
 using LSDW.Abstractions.Domain.Missions;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Domain.Factories;
+using System.Diagnostics.CodeAnalysis;
 using MarketSettings = LSDW.Domain.Models.Settings.Market;
 
 namespace LSDW.Domain.Extensions;
@@ -10,6 +11,7 @@ namespace LSDW.Domain.Extensions;
 /// <summary>
 /// The trafficking extensions class.
 /// </summary>
+[SuppressMessage("Style", "IDE0058", Justification = "Extension methods.")]
 public static class TraffickingExtensions
 {
 	private const float TrackDistance = 250;
@@ -59,8 +61,10 @@ public static class TraffickingExtensions
 			return trafficking;
 
 		foreach (IDealer dealer in dealers.Where(x => x.Discovered))
+		{
 			if (dealer.LastRefresh < trafficking.TimeProvider.Now.AddHours(MarketSettings.PriceChangeInterval))
-				_ = dealer.ChangePrices(trafficking.TimeProvider, player.Level);
+				dealer.ChangePrices(trafficking.TimeProvider, player.Level);
+		}
 		return trafficking;
 	}
 
@@ -76,11 +80,13 @@ public static class TraffickingExtensions
 			return trafficking;
 
 		foreach (IDealer dealer in dealers.Where(x => x.Discovered))
+		{
 			if (dealer.LastRefresh < trafficking.TimeProvider.Now.AddHours(MarketSettings.InventoryChangeInterval))
 			{
-				_ = dealer.ChangeInventory(trafficking.TimeProvider, player.Level);
+				dealer.ChangeInventory(trafficking.TimeProvider, player.Level);
 				trafficking.NotificationService.Show(dealer.Name, "Tip-off", "Hey dude, i got new stuff in stock!");
 			}
+		}
 		return trafficking;
 	}
 }

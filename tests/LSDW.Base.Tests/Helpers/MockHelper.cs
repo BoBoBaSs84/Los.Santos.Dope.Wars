@@ -32,4 +32,7 @@ public static class MockHelper
 
 	public static Mock<IInventory> GetInventoryMock()
 		=> new();
+
+	public static Mock<IPlayer> GetPlayerMock()
+		=> new();
 }
