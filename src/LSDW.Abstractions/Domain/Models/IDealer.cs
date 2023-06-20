@@ -30,7 +30,7 @@ public interface IDealer : IPedestrian
 	/// <summary>
 	/// Is the blip created?
 	/// </summary>
-	bool IsBlipCreated { get; }
+	bool BlipCreated { get; }
 
 	/// <summary>
 	/// The dealer inventory.

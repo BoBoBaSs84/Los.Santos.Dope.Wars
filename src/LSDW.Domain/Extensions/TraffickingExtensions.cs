@@ -15,6 +15,7 @@ public static class TraffickingExtensions
 {
 	private const float TrackDistance = 250;
 	private const float DiscoverDistance = 100;
+	private const float CreateDistance = 100;
 
 	/// <summary>
 	/// Creates and keeps track of the dealers around the world.
@@ -36,15 +37,28 @@ public static class TraffickingExtensions
 		foreach (IDealer dealer in dealers)
 		{
 			if (!dealer.Discovered)
+			{
 				if (dealer.Position.DistanceTo(playerPosition) <= DiscoverDistance)
 				{
 					dealer.CreateBlip();
 					dealer.ChangeInventory(trafficking.TimeProvider, player.Level);
 					trafficking.NotificationService.Show(dealer.Name, "Greetings", $"Hey, if your around {World.GetZoneLocalizedName(dealer.Position)} come see me.");
 				}
+			}
 
-			if (dealer.Discovered && !dealer.IsBlipCreated)
+			if (dealer.Discovered && !dealer.ClosedUntil.HasValue)
+			{
 				dealer.CreateBlip();
+
+				if (dealer.Position.DistanceTo(playerPosition) <= DiscoverDistance)
+				{
+					dealer.Create();
+				}
+				else
+				{
+					dealer.Delete();
+				}
+			}
 		}
 		return trafficking;
 	}

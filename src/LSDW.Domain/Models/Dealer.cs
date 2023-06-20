@@ -55,14 +55,14 @@ internal sealed class Dealer : Pedestrian, IDealer
 
 	public DateTime? ClosedUntil { get; private set; }
 	public bool Discovered { get; private set; }
-	public bool IsBlipCreated { get; private set; }
+	public bool BlipCreated => blip is not null;
 	public IInventory Inventory { get; }
 	public DateTime NextPriceChange { get; private set; }
 	public DateTime NextInventoryChange { get; private set; }
 
 	public override void Create(float healthValue = 100)
 	{
-		if (IsCreated || ClosedUntil.HasValue)
+		if (Created || ClosedUntil.HasValue)
 			return;
 
 		base.Create(healthValue);
@@ -90,10 +90,10 @@ internal sealed class Dealer : Pedestrian, IDealer
 
 	public override void Delete()
 	{
-		if (IsBlipCreated)
+		if (BlipCreated)
 			DeleteBlip();
 
-		if (IsCreated)
+		if (Created)
 			return;
 
 		Inventory.PropertyChanged -= OnPropertyChanged;
@@ -112,7 +112,7 @@ internal sealed class Dealer : Pedestrian, IDealer
 
 	public override void Flee()
 	{
-		if (!IsCreated)
+		if (!Created)
 			return;
 
 		DeleteBlip();
@@ -134,7 +134,7 @@ internal sealed class Dealer : Pedestrian, IDealer
 
 	private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
 	{
-		if (!args.PropertyName.Equals(Inventory.Money) || !IsCreated)
+		if (!args.PropertyName.Equals(Inventory.Money) || !Created)
 			return;
 
 		SetMoney(Inventory.Money);

@@ -37,7 +37,7 @@ internal abstract class Pedestrian : IPedestrian
 	protected Pedestrian(Vector3 position, PedHash pedHash, string name) : this(position, pedHash)
 		=> Name = name;
 
-	public bool IsCreated => ped is not null;
+	public bool Created => ped is not null;
 	public Vector3 Position { get; }
 	public PedHash Hash { get; }
 	public string Name { get; }
@@ -58,6 +58,7 @@ internal abstract class Pedestrian : IPedestrian
 		Model model = ScriptHookHelper.RequestModel(Hash);
 		ped = World.CreatePed(model, Position);
 		ped.HealthFloat = healthValue;
+		ped.Task.WanderAround(Position, 2);
 	}
 
 	public virtual void Delete()

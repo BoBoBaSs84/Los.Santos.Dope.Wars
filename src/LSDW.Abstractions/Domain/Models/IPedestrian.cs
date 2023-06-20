@@ -11,7 +11,7 @@ public interface IPedestrian
 	/// <summary>
 	/// Is the pedestrian created?
 	/// </summary>
-	bool IsCreated { get; }
+	bool Created { get; }
 
 	/// <summary>
 	/// The name of the pedestrian.
