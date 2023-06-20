@@ -132,8 +132,8 @@ public partial class InfrastructureFactoryTests
 		Assert.AreEqual(dealer.ClosedUntil, state.ClosedUntil);
 		Assert.AreEqual(dealer.Discovered, state.Discovered);
 		Assert.AreEqual(dealer.Name, state.Name);
-		Assert.AreEqual(dealer.LastRefresh, state.LastRefresh);
-		Assert.AreEqual(dealer.LastRestock, state.LastRestock);
+		Assert.AreEqual(dealer.NextPriceChange, state.NextPriceChange);
+		Assert.AreEqual(dealer.NextInventoryChange, state.NextInventoryChange);
 	}
 
 	[TestMethod]

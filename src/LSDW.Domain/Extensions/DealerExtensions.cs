@@ -1,6 +1,7 @@
 ﻿using LSDW.Abstractions.Application.Providers;
 using LSDW.Abstractions.Domain.Models;
 using System.Diagnostics.CodeAnalysis;
+using MarketSettings = LSDW.Domain.Models.Settings.Market;
 
 namespace LSDW.Domain.Extensions;
 
@@ -19,7 +20,7 @@ public static class DealerExtensions
 	public static IDealer ChangePrices(this IDealer dealer, ITimeProvider timeProvider, int playerLevel)
 	{
 		dealer.Inventory.ChangePrices(playerLevel);
-		dealer.SetLastRefresh(timeProvider.Now);
+		dealer.SetNextPriceChange(timeProvider.Now.AddHours(MarketSettings.PriceChangeInterval));
 		return dealer;
 	}
 
@@ -45,8 +46,8 @@ public static class DealerExtensions
 	public static IDealer ChangeInventory(this IDealer dealer, ITimeProvider timeProvider, int playerLevel)
 	{
 		dealer.Inventory.Restock(playerLevel);
-		dealer.SetLastRestock(timeProvider.Now);
-		dealer.SetLastRefresh(timeProvider.Now);
+		dealer.SetNextInventoryChange(timeProvider.Now.AddHours(MarketSettings.InventoryChangeInterval));
+		dealer.SetNextPriceChange(timeProvider.Now.AddHours(MarketSettings.PriceChangeInterval));
 		return dealer;
 	}
 

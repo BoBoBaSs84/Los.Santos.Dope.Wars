@@ -16,8 +16,8 @@ public static class MockHelper
 	public static Mock<ITimeProvider> GetTimeProviderMock()
 	{
 		Mock<ITimeProvider> mock = new();
-		mock.Setup(x => x.Now).Returns(DateTime.MaxValue);
-		mock.Setup(x => x.TimeOfDay).Returns(DateTime.MaxValue.TimeOfDay);
+		mock.Setup(x => x.Now).Returns(DateTime.MinValue.AddYears(100));
+		mock.Setup(x => x.TimeOfDay).Returns(DateTime.MinValue.AddYears(100).TimeOfDay);
 		return mock;
 	}
 

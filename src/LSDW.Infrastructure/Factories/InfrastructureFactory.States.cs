@@ -17,7 +17,7 @@ public static partial class InfrastructureFactory
 	public static IDealer CreateDealer(DealerState state)
 	{
 		IInventory inventory = CreateInventory(state.Inventory);
-		return DomainFactory.CreateDealer(state.Position, state.Hash, state.Name, state.ClosedUntil, state.Discovered, inventory, state.LastRefresh, state.LastRestock);
+		return DomainFactory.CreateDealer(state.Position, state.Hash, state.Name, state.ClosedUntil, state.Discovered, inventory, state.NextPriceChange, state.NextInventoryChange);
 	}
 
 	/// <summary>

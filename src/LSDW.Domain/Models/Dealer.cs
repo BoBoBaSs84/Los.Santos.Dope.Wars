@@ -47,8 +47,8 @@ internal sealed class Dealer : Pedestrian, IDealer
 		ClosedUntil = closedUntil;
 		Discovered = discovered;
 		Inventory = inventory;
-		LastRefresh = lastRefresh;
-		LastRestock = lastRestock;
+		NextPriceChange = lastRefresh;
+		NextInventoryChange = lastRestock;
 
 		Inventory.PropertyChanged += OnPropertyChanged;
 	}
@@ -57,8 +57,8 @@ internal sealed class Dealer : Pedestrian, IDealer
 	public bool Discovered { get; private set; }
 	public bool IsBlipCreated { get; private set; }
 	public IInventory Inventory { get; }
-	public DateTime LastRefresh { get; private set; }
-	public DateTime LastRestock { get; private set; }
+	public DateTime NextPriceChange { get; private set; }
+	public DateTime NextInventoryChange { get; private set; }
 
 	public override void Create(float healthValue = 100)
 	{
@@ -90,11 +90,11 @@ internal sealed class Dealer : Pedestrian, IDealer
 
 	public override void Delete()
 	{
-		if (IsCreated)
-			return;
-
 		if (IsBlipCreated)
 			DeleteBlip();
+
+		if (IsCreated)
+			return;
 
 		Inventory.PropertyChanged -= OnPropertyChanged;
 		Inventory.Clear();
@@ -126,11 +126,11 @@ internal sealed class Dealer : Pedestrian, IDealer
 	public void SetDiscovered(bool value)
 		=> Discovered = value;
 
-	public void SetLastRefresh(DateTime value)
-		=> LastRefresh = value;
+	public void SetNextPriceChange(DateTime value)
+		=> NextPriceChange = value;
 
-	public void SetLastRestock(DateTime value)
-		=> LastRestock = value;
+	public void SetNextInventoryChange(DateTime value)
+		=> NextInventoryChange = value;
 
 	private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
 	{

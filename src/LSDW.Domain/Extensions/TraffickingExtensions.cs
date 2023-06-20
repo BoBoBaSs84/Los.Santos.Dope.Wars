@@ -4,7 +4,6 @@ using LSDW.Abstractions.Domain.Missions;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Domain.Factories;
 using System.Diagnostics.CodeAnalysis;
-using MarketSettings = LSDW.Domain.Models.Settings.Market;
 
 namespace LSDW.Domain.Extensions;
 
@@ -22,7 +21,7 @@ public static class TraffickingExtensions
 	/// </summary>
 	/// <param name="trafficking">The trafficking interface to use.</param>
 	/// <param name="dealers">The dealer collection instance to use.</param>
-	public static ITrafficking TrackDealers(this ITrafficking trafficking, ICollection<IDealer> dealers)
+	public static ITrafficking TrackDealers(this ITrafficking trafficking, ICollection<IDealer> dealers, IPlayer player)
 	{
 		Vector3 playerPosition = Game.Player.Character.Position;
 		Vector3 possiblePosition = World.GetNextPositionOnSidewalk(playerPosition.Around(TrackDistance));
@@ -40,6 +39,7 @@ public static class TraffickingExtensions
 				if (dealer.Position.DistanceTo(playerPosition) <= DiscoverDistance)
 				{
 					dealer.CreateBlip();
+					dealer.ChangeInventory(trafficking.TimeProvider, player.Level);
 					trafficking.NotificationService.Show(dealer.Name, "Greetings", $"Hey, if your around {World.GetZoneLocalizedName(dealer.Position)} come see me.");
 				}
 
@@ -60,11 +60,9 @@ public static class TraffickingExtensions
 		if (!dealers.Any(x => x.Discovered))
 			return trafficking;
 
-		foreach (IDealer dealer in dealers.Where(x => x.Discovered))
-		{
-			if (dealer.LastRefresh < trafficking.TimeProvider.Now.AddHours(MarketSettings.PriceChangeInterval))
-				dealer.ChangePrices(trafficking.TimeProvider, player.Level);
-		}
+		foreach (IDealer dealer in dealers.Where(x => x.Discovered && x.NextPriceChange < trafficking.TimeProvider.Now))
+			dealer.ChangePrices(trafficking.TimeProvider, player.Level);
+
 		return trafficking;
 	}
 
@@ -79,14 +77,12 @@ public static class TraffickingExtensions
 		if (!dealers.Any(x => x.Discovered))
 			return trafficking;
 
-		foreach (IDealer dealer in dealers.Where(x => x.Discovered))
+		foreach (IDealer dealer in dealers.Where(x => x.Discovered && x.NextInventoryChange < trafficking.TimeProvider.Now))
 		{
-			if (dealer.LastRefresh < trafficking.TimeProvider.Now.AddHours(MarketSettings.InventoryChangeInterval))
-			{
-				dealer.ChangeInventory(trafficking.TimeProvider, player.Level);
-				trafficking.NotificationService.Show(dealer.Name, "Tip-off", "Hey dude, i got new stuff in stock!");
-			}
+			dealer.ChangeInventory(trafficking.TimeProvider, player.Level);
+			trafficking.NotificationService.Show(dealer.Name, "Tip-off", "Hey dude, i got new stuff in stock!");
 		}
+
 		return trafficking;
 	}
 }

@@ -70,9 +70,9 @@ internal sealed class Trafficking : Mission, ITrafficking
 
 		try
 		{
-			_ = this.TrackDealers(_dealers)
-				.ChangeDealerPrices(_dealers, _player)
-				.ChangeDealerInventories(_dealers, _player);
+			_ = this.TrackDealers(_dealers, _player)				
+				.ChangeDealerInventories(_dealers, _player)
+				.ChangeDealerPrices(_dealers, _player);
 		}
 		catch (Exception ex)
 		{

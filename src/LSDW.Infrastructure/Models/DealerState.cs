@@ -30,8 +30,8 @@ public sealed class DealerState
 	internal DealerState(IDealer dealer)
 	{
 		ClosedUntil = dealer.ClosedUntil;
-		LastRefresh = dealer.LastRefresh;
-		LastRestock = dealer.LastRestock;
+		NextPriceChange = dealer.NextPriceChange;
+		NextInventoryChange = dealer.NextInventoryChange;
 		Discovered = dealer.Discovered;
 		Inventory = CreateInventoryState(dealer.Inventory);
 		Name = dealer.Name;
@@ -46,16 +46,16 @@ public sealed class DealerState
 	public DateTime? ClosedUntil { get; set; }
 
 	/// <summary>
-	/// The last refresh property of the dealer state.
+	/// The next price change property of the dealer state.
 	/// </summary>
-	[XmlElement(nameof(LastRefresh), Form = XmlSchemaForm.Qualified)]
-	public DateTime LastRefresh { get; set; }
+	[XmlElement(nameof(NextPriceChange), Form = XmlSchemaForm.Qualified)]
+	public DateTime NextPriceChange { get; set; }
 
 	/// <summary>
-	/// The last restock property of the dealer state.
+	/// The next inventory change property of the dealer state.
 	/// </summary>
-	[XmlElement(nameof(LastRestock), Form = XmlSchemaForm.Qualified)]
-	public DateTime LastRestock { get; set; }
+	[XmlElement(nameof(NextInventoryChange), Form = XmlSchemaForm.Qualified)]
+	public DateTime NextInventoryChange { get; set; }
 
 	/// <summary>
 	/// The discovered property of the dealer state.
@@ -92,11 +92,11 @@ public sealed class DealerState
 	/// </summary>
 	public bool ShouldSerializeClosedUntil() => ClosedUntil.HasValue;
 	/// <summary>
-	/// Should the <see cref="LastRefresh"/> property be serialized?
+	/// Should the <see cref="NextPriceChange"/> property be serialized?
 	/// </summary>
 	public bool ShouldSerializeLastRefresh() => Discovered && !ClosedUntil.HasValue;
 	/// <summary>
-	/// Should the <see cref="LastRestock"/> property be serialized?
+	/// Should the <see cref="NextInventoryChange"/> property be serialized?
 	/// </summary>
 	public bool ShouldSerializeLastRestock() => Discovered && !ClosedUntil.HasValue;
 	/// <summary>
