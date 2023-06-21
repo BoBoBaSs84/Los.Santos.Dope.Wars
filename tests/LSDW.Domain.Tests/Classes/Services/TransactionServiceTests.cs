@@ -1,4 +1,5 @@
 ﻿using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Domain.Providers;
 using LSDW.Abstractions.Domain.Services;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Domain.Factories;
@@ -12,7 +13,7 @@ public class TransactionServiceTests
 	[TestMethod]
 	public void CommitGiveSuccessTest()
 	{
-		Mock<INotificationService> notificationMock = new();
+		Mock<INotificationProvider> notificationMock = new();
 		IDrug drug = DomainFactory.CreateDrug(DrugType.COKE, 10, 90);
 		IPlayer player = DomainFactory.CreatePlayer(32000);
 		player.Inventory.Add(1000);
@@ -34,7 +35,7 @@ public class TransactionServiceTests
 	[TestMethod]
 	public void CommitBuySuccessTest()
 	{
-		Mock<INotificationService> notificationMock = new();
+		Mock<INotificationProvider> notificationMock = new();
 		IDrug drug = DomainFactory.CreateDrug(DrugType.COKE, 10, 90);
 		IPlayer player = DomainFactory.CreatePlayer();
 		player.Inventory.Add(1000);
@@ -57,7 +58,7 @@ public class TransactionServiceTests
 	[TestMethod]
 	public void CommitBuyNotEnoughMoneyTest()
 	{
-		Mock<INotificationService> notificationMock = new();
+		Mock<INotificationProvider> notificationMock = new();
 		IDrug drug = DomainFactory.CreateDrug(DrugType.COKE, 10, 90);
 		IPlayer player = DomainFactory.CreatePlayer();
 		player.Inventory.Add(800);
@@ -75,7 +76,7 @@ public class TransactionServiceTests
 	[TestMethod]
 	public void CommitGiveNotEnoughInventoryTest()
 	{
-		Mock<INotificationService> notificationMock = new();
+		Mock<INotificationProvider> notificationMock = new();
 		IDrug drug = DomainFactory.CreateDrug(DrugType.COKE, 100, 100);
 		IPlayer player = DomainFactory.CreatePlayer();
 		IInventory inventory = DomainFactory.CreateInventory();

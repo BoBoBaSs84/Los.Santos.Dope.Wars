@@ -1,7 +1,6 @@
 ﻿using LSDW.Abstractions.Domain.Missions;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Providers;
-using LSDW.Abstractions.Domain.Services;
 using LSDW.Abstractions.Infrastructure.Services;
 using Moq;
 
@@ -10,7 +9,7 @@ namespace LSDW.Base.Tests.Helpers;
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public static class MockHelper
 {
-	public static Mock<INotificationService> GetNotificationServiceMock()
+	public static Mock<INotificationProvider> GetNotificationServiceMock()
 		=> new();
 
 	public static Mock<ITimeProvider> GetTimeProviderMock()

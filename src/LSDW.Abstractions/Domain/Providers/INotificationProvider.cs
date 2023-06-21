@@ -1,11 +1,11 @@
 ﻿using GTA.UI;
 
-namespace LSDW.Abstractions.Domain.Services;
+namespace LSDW.Abstractions.Domain.Providers;
 
 /// <summary>
-/// The notification service interface.
+/// The notification provider interface.
 /// </summary>
-public interface INotificationService
+public interface INotificationProvider
 {
 	/// <summary>
 	/// Shows a subtitle at the bottom of the screen for a given time.

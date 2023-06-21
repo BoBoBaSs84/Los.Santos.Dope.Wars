@@ -1,4 +1,4 @@
-﻿using LSDW.Abstractions.Domain.Services;
+﻿using LSDW.Abstractions.Domain.Providers;
 using LSDW.Abstractions.Infrastructure.Services;
 
 namespace LSDW.Abstractions.Application.Managers;
@@ -8,10 +8,6 @@ namespace LSDW.Abstractions.Application.Managers;
 /// </summary>
 public interface IServiceManager
 {
-	/// <summary>
-	/// The notification service.
-	/// </summary>
-	INotificationService NotificationService { get; }
 	/// <summary>
 	/// The game state service.
 	/// </summary>

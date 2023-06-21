@@ -7,6 +7,9 @@ namespace LSDW.Domain.Providers;
 /// <summary>
 /// The location provider class.
 /// </summary>
+/// <remarks>
+/// Wrapper for the <see cref="World"/> methods and <see cref="Game"/> properties.
+/// </remarks>
 internal sealed class LocationProvider : ILocationProvider
 {
 	/// <summary>

@@ -2,7 +2,6 @@
 using LSDW.Abstractions.Domain.Missions;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Providers;
-using LSDW.Abstractions.Domain.Services;
 using LSDW.Domain.Factories;
 using System.Diagnostics.CodeAnalysis;
 
@@ -28,7 +27,7 @@ public static class TraffickingExtensions
 		IPlayer player = trafficking.ServiceManager.StateService.Player;
 		ITimeProvider timeProvider = trafficking.ProviderManager.TimeProvider;
 		ILocationProvider locationProvider = trafficking.ProviderManager.LocationProvider;
-		INotificationService notificationService = trafficking.ServiceManager.NotificationService;
+		INotificationProvider notificationProvider = trafficking.ProviderManager.NotificationProvider;
 
 		Vector3 playerPosition = locationProvider.PlayerPosition;
 		Vector3 possiblePosition = locationProvider.GetNextPositionOnSidewalk(playerPosition.Around(TrackDistance));
@@ -48,7 +47,7 @@ public static class TraffickingExtensions
 				{
 					dealer.CreateBlip();
 					dealer.ChangeInventory(timeProvider, player.Level);
-					notificationService.Show(dealer.Name, "Greetings", $"Hey, if your around {locationProvider.GetZoneLocalizedName(dealer.Position)} come see me.");
+					notificationProvider.Show(dealer.Name, "Greetings", $"Hey, if your around {locationProvider.GetZoneLocalizedName(dealer.Position)} come see me.");
 				}
 			}
 
@@ -78,7 +77,6 @@ public static class TraffickingExtensions
 		ICollection<IDealer> dealers = trafficking.ServiceManager.StateService.Dealers;
 		IPlayer player = trafficking.ServiceManager.StateService.Player;
 		ITimeProvider timeProvider = trafficking.ProviderManager.TimeProvider;
-		INotificationService notificationService = trafficking.ServiceManager.NotificationService;
 
 		if (!dealers.Any(x => x.Discovered))
 			return trafficking;
@@ -98,7 +96,7 @@ public static class TraffickingExtensions
 		ICollection<IDealer> dealers = trafficking.ServiceManager.StateService.Dealers;
 		IPlayer player = trafficking.ServiceManager.StateService.Player;
 		ITimeProvider timeProvider = trafficking.ProviderManager.TimeProvider;
-		INotificationService notificationService = trafficking.ServiceManager.NotificationService;
+		INotificationProvider notificationProvider = trafficking.ProviderManager.NotificationProvider;
 
 		if (!dealers.Any(x => x.Discovered))
 			return trafficking;
@@ -106,7 +104,7 @@ public static class TraffickingExtensions
 		foreach (IDealer dealer in dealers.Where(x => x.Discovered && x.NextInventoryChange < timeProvider.Now))
 		{
 			dealer.ChangeInventory(timeProvider, player.Level);
-			notificationService.Show(dealer.Name, "Tip-off", "Hey dude, i got new stuff in stock!");
+			notificationProvider.Show(dealer.Name, "Tip-off", "Hey dude, i got new stuff in stock!");
 		}
 
 		return trafficking;

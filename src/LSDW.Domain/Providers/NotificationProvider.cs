@@ -1,15 +1,15 @@
 ﻿using GTA.UI;
-using LSDW.Abstractions.Domain.Services;
+using LSDW.Abstractions.Domain.Providers;
 
-namespace LSDW.Domain.Services;
+namespace LSDW.Domain.Providers;
 
 /// <summary>
-/// The notification service class.
+/// The notification provider class.
 /// </summary>
 /// <remarks>
 /// Wrapper for the <see cref="Screen"/> and <see cref="Notification"/> methods.
 /// </remarks>
-internal sealed class NotificationService : INotificationService
+internal sealed class NotificationProvider : INotificationProvider
 {
 	public void Hide(int handle)
 		=> Notification.Hide(handle);

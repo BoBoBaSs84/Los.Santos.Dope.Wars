@@ -16,4 +16,9 @@ public interface IProviderManager
 	/// The location provider.
 	/// </summary>
 	ILocationProvider LocationProvider { get; }
+
+	/// <summary>
+	/// The notification provider.
+	/// </summary>
+	INotificationProvider NotificationProvider { get; }
 }

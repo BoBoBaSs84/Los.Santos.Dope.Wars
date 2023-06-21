@@ -16,4 +16,10 @@ public static partial class DomainFactory
 	/// </summary>
 	public static ILocationProvider CreateLocationProvider()
 		=> new LocationProvider();
+
+	/// <summary>
+	/// Creates a new notification provider instance.
+	/// </summary>
+	public static INotificationProvider CreateNotificationProvider()
+		=> new NotificationProvider();
 }

@@ -40,7 +40,8 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 		(_source, _target) = SMH.GetInventories(type, _player, inventory);
 
 		int maximumQuantity = SMH.GetMaximumQuantity(type, _player);
-		_transaction = DomainFactory.CreateTransactionService(serviceManager.NotificationService, type, _source, _target, maximumQuantity);
+		// TODO: not Null!!
+		_transaction = DomainFactory.CreateTransactionService(null, type, _source, _target, maximumQuantity);
 
 		Alignment = SMH.GetAlignment(type);
 		ItemCount = CountVisibility.Never;

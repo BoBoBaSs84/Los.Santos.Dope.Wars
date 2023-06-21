@@ -11,6 +11,7 @@ internal sealed class ProviderManager : IProviderManager
 {
 	private readonly Lazy<ILocationProvider> _lazyLocationProvider;
 	private readonly Lazy<ITimeProvider> _lazyTimeProvider;
+	private readonly Lazy<INotificationProvider> _lazyNotificationProvider;
 
 	/// <summary>
 	/// Initializes a instance of the location provider manager class.
@@ -19,6 +20,7 @@ internal sealed class ProviderManager : IProviderManager
 	{
 		_lazyLocationProvider = new Lazy<ILocationProvider>(DomainFactory.CreateLocationProvider);
 		_lazyTimeProvider = new Lazy<ITimeProvider>(DomainFactory.CreateTimeProvider);
+		_lazyNotificationProvider = new Lazy<INotificationProvider>(DomainFactory.CreateNotificationProvider);
 	}
 
 	public ILocationProvider LocationProvider
@@ -26,4 +28,7 @@ internal sealed class ProviderManager : IProviderManager
 
 	public ITimeProvider TimeProvider
 		=> _lazyTimeProvider.Value;
+
+	public INotificationProvider NotificationProvider
+		=> _lazyNotificationProvider.Value;
 }
