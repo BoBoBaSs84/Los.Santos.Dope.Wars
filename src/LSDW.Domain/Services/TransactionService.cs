@@ -1,7 +1,7 @@
 ﻿using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Domain.Providers;
 using LSDW.Abstractions.Domain.Services;
 using LSDW.Abstractions.Enumerators;
-using LSDW.Domain.Factories;
 using RESX = LSDW.Domain.Properties.Resources;
 
 namespace LSDW.Domain.Services;
@@ -11,7 +11,7 @@ namespace LSDW.Domain.Services;
 /// </summary>
 internal sealed class TransactionService : ITransactionService
 {
-	private readonly INotificationService _notificationService;
+	private readonly INotificationProvider _notificationService;
 	private readonly TransactionType _type;
 	private readonly IInventory _source;
 	private readonly IInventory _target;
@@ -25,7 +25,7 @@ internal sealed class TransactionService : ITransactionService
 	/// <param name="source">The transaction source.</param>
 	/// <param name="target">The transaction target.</param>
 	/// <param name="maxQuantity">The maximum target quantity.</param>
-	internal TransactionService(INotificationService notificationService, TransactionType type, IInventory source, IInventory target, int maxQuantity)
+	internal TransactionService(INotificationProvider notificationService, TransactionType type, IInventory source, IInventory target, int maxQuantity)
 	{
 		_notificationService = notificationService;
 		_type = type;

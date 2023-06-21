@@ -1,4 +1,4 @@
-﻿namespace LSDW.Abstractions.Application.Providers;
+﻿namespace LSDW.Abstractions.Domain.Providers;
 
 /// <summary>
 /// The date and time provider interface.

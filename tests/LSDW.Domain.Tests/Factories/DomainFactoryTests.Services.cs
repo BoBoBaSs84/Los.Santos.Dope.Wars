@@ -1,4 +1,5 @@
 ﻿using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Domain.Providers;
 using LSDW.Abstractions.Domain.Services;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Domain.Factories;
@@ -10,7 +11,7 @@ public partial class DomainFactoryTests
 	[TestMethod]
 	public void CreateTransactionServiceTest()
 	{
-		INotificationService? notificationService = DomainFactory.CreateNotificationService();
+		INotificationProvider? notificationService = DomainFactory.CreateNotificationProvider();
 		TransactionType type = TransactionType.BUY;
 		IInventory source = DomainFactory.CreateInventory();
 		IInventory target = DomainFactory.CreateInventory();
@@ -24,9 +25,9 @@ public partial class DomainFactoryTests
 	[TestMethod]
 	public void CreateNotificationServiceTest()
 	{
-		INotificationService? notificationService;
+		INotificationProvider? notificationService;
 
-		notificationService = DomainFactory.CreateNotificationService();
+		notificationService = DomainFactory.CreateNotificationProvider();
 
 		Assert.IsNotNull(notificationService);
 	}

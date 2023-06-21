@@ -1,5 +1,6 @@
 ﻿using LemonUI;
 using LemonUI.Menus;
+using LSDW.Abstractions.Application.Managers;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Services;
 using LSDW.Abstractions.Enumerators;
@@ -28,19 +29,19 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 	/// <summary>
 	/// Initializes a instance of the side menu class.
 	/// </summary>
-	/// <param name="notificationService">The notification service to use.</param>
-	/// <param name="type">The transaction type.</param>
-	/// <param name="player">The current player.</param>
+	/// <param name="type">The type of the transaction.</param>
+	/// <param name="serviceManager">The service manager instance to use.</param>
 	/// <param name="inventory">The opposition inventory.</param>
-	internal SideMenu(INotificationService notificationService, TransactionType type, IPlayer player, IInventory inventory) : base(SMH.GetTitle(type))
+	internal SideMenu(TransactionType type, IServiceManager serviceManager, IInventory inventory) : base(SMH.GetTitle(type))
 	{
 		_type = type;
-		_player = player;
+		_player = serviceManager.StateService.Player;
 
-		(_source, _target) = SMH.GetInventories(type, player, inventory);
+		(_source, _target) = SMH.GetInventories(type, _player, inventory);
 
-		int maximumQuantity = SMH.GetMaximumQuantity(type, player);
-		_transaction = DomainFactory.CreateTransactionService(notificationService, type, _source, _target, maximumQuantity);
+		int maximumQuantity = SMH.GetMaximumQuantity(type, _player);
+		// TODO: not Null!!
+		_transaction = DomainFactory.CreateTransactionService(null, type, _source, _target, maximumQuantity);
 
 		Alignment = SMH.GetAlignment(type);
 		ItemCount = CountVisibility.Never;
