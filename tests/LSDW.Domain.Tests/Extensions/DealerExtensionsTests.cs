@@ -1,6 +1,6 @@
 ﻿using GTA.Math;
-using LSDW.Abstractions.Application.Providers;
 using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Domain.Providers;
 using LSDW.Base.Tests.Helpers;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;

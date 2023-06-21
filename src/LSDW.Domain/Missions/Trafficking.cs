@@ -1,8 +1,6 @@
 ﻿using GTA;
-using LSDW.Abstractions.Application.Providers;
+using LSDW.Abstractions.Application.Managers;
 using LSDW.Abstractions.Domain.Missions;
-using LSDW.Abstractions.Domain.Models;
-using LSDW.Abstractions.Domain.Services;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Abstractions.Presentation.Menus;
@@ -20,8 +18,7 @@ namespace LSDW.Domain.Missions;
 /// </remarks>
 internal sealed class Trafficking : Mission, ITrafficking
 {
-	private readonly IPlayer _player;
-	private readonly ICollection<IDealer> _dealers;
+	private readonly ILoggerService _loggerService;
 
 	private ISideMenu? leftSideMenu;
 	private ISideMenu? rightSideMenu;
@@ -29,31 +26,23 @@ internal sealed class Trafficking : Mission, ITrafficking
 	/// <summary>
 	/// Initializes a instance of the trafficking class.
 	/// </summary>
-	/// <param name="player">The player instance to use.</param>
-	/// <param name="dealers">The dealer collection instance to use.</param>
-	/// <param name="timeProvider">The time provider instance to use.</param>
-	/// <param name="loggerService">The logger service instance to use.</param>
-	/// <param name="notificationService">The notification service instance to use.</param>
-	internal Trafficking(IPlayer player, ICollection<IDealer> dealers, ITimeProvider timeProvider, ILoggerService loggerService, INotificationService notificationService)
-		: base(loggerService, nameof(Trafficking))
+	/// <param name="serviceManager">The service manager instance to use.</param>
+	/// <param name="providerManager">The provider manager instance to use.</param>
+	internal Trafficking(IServiceManager serviceManager, IProviderManager providerManager) : base(serviceManager.LoggerService, nameof(Trafficking))
 	{
-		_player = player;
-		_dealers = dealers;
-
-		TimeProvider = timeProvider;
-		LoggerService = loggerService;
-		NotificationService = notificationService;
+		_loggerService = serviceManager.LoggerService;
+		ServiceManager = serviceManager;
+		ProviderManager = providerManager;
 	}
 
-	public ILoggerService LoggerService { get; }
-	public INotificationService NotificationService { get; }
-	public ITimeProvider TimeProvider { get; }
+	public IServiceManager ServiceManager { get; }
+	public IProviderManager ProviderManager { get; }
 
 	public override void StopMission()
 	{
 		leftSideMenu = null;
 		rightSideMenu = null;
-		_ = _dealers.DeleteDealers();
+		_ = ServiceManager.StateService.Dealers.DeleteDealers();
 		base.StopMission();
 	}
 
@@ -70,13 +59,13 @@ internal sealed class Trafficking : Mission, ITrafficking
 
 		try
 		{
-			_ = this.TrackDealers(_dealers, _player)				
-				.ChangeDealerInventories(_dealers, _player)
-				.ChangeDealerPrices(_dealers, _player);
+			_ = this.TrackDealers()
+				.ChangeDealerInventories()
+				.ChangeDealerPrices();
 		}
 		catch (Exception ex)
 		{
-			LoggerService.Critical(ex.Message);
+			_loggerService.Critical(ex.Message);
 		}
 	}
 }

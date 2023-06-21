@@ -1,5 +1,5 @@
-﻿using LSDW.Abstractions.Application.Providers;
-using LSDW.Abstractions.Domain.Models;
+﻿using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Domain.Providers;
 using System.Diagnostics.CodeAnalysis;
 using MarketSettings = LSDW.Domain.Models.Settings.Market;
 

@@ -1,16 +1,10 @@
-﻿using GTA;
-using GTA.Math;
-using LSDW.Abstractions.Domain.Models;
+﻿using LSDW.Abstractions.Domain.Models;
 using LSDW.Domain.Factories;
 
 namespace LSDW.Domain.Tests.Factories;
 
-[TestClass]
 public partial class DomainFactoryTests
 {
-	private readonly Vector3 zeroVector = new(0, 0, 0);
-	private readonly PedHash pedHash = PedHash.Clown01SMY;
-
 	[TestMethod]
 	public void CreateDealerTest()
 	{

@@ -1,13 +1,10 @@
 ﻿using GTA;
 using LemonUI;
-using LSDW.Abstractions.Application.Providers;
+using LSDW.Abstractions.Application.Managers;
 using LSDW.Abstractions.Domain.Missions;
-using LSDW.Abstractions.Domain.Services;
-using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Abstractions.Presentation.Menus;
-using LSDW.Application.Providers;
+using LSDW.Application.Managers;
 using LSDW.Domain.Factories;
-using LSDW.Infrastructure.Factories;
 using LSDW.Presentation.Factories;
 
 namespace LSDW.Application;
@@ -18,11 +15,8 @@ namespace LSDW.Application;
 public sealed class Main : Script
 {
 	private readonly ObjectPool _processables = new();
-	private readonly INotificationService _notificationService = DomainFactory.CreateNotificationService();
-	private readonly ITimeProvider _timeProvider = new GameTimeProvider();
-	private readonly ILoggerService _loggerService = InfrastructureFactory.CreateLoggerService();
-	private readonly ISettingsService _settingsService = InfrastructureFactory.CreateSettingsService();
-	private readonly IGameStateService _stateService;
+	private readonly IProviderManager _providerManager;
+	private readonly IServiceManager _serviceManager;
 	private readonly ISettingsMenu _settingsMenu;
 	private readonly ITrafficking _trafficking;
 
@@ -31,10 +25,11 @@ public sealed class Main : Script
 	/// </summary>
 	public Main()
 	{
-		_stateService = InfrastructureFactory.CreateGameStateService(_loggerService);
-		_settingsMenu = PresentationFactory.CreateSettingsMenu(_settingsService);
+		_providerManager = new ProviderManager();
+		_serviceManager = new ServiceManager();
+		_settingsMenu = PresentationFactory.CreateSettingsMenu(_serviceManager);
 		_settingsMenu.Add(_processables);
-		_trafficking = DomainFactory.CreateTraffickingMission(_stateService.Player, _stateService.Dealers, _timeProvider, _loggerService, _notificationService);
+		_trafficking = DomainFactory.CreateTraffickingMission(_serviceManager, _providerManager);
 
 		Interval = 10;
 
