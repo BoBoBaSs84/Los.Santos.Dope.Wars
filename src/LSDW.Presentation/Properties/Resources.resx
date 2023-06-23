@@ -219,16 +219,16 @@
   <data name="UI.Settings.Trafficking.WantedLevel.Title" xml:space="preserve">
     <value>Wanted level</value>
   </data>
-  <data name="UI.SettingsMenu.Subtitle" xml:space="preserve">
+  <data name="UI.SettingsMenu.Name" xml:space="preserve">
     <value>Settings will saved on close.</value>
   </data>
   <data name="UI.SettingsMenu.Title" xml:space="preserve">
     <value>Settings</value>
   </data>
-  <data name="UI.SideMenu.Subtitle.Buy" xml:space="preserve">
+  <data name="UI.SideMenu.Name.Buy" xml:space="preserve">
     <value>Your Money: {0}</value>
   </data>
-  <data name="UI.SideMenu.Subtitle.Sell" xml:space="preserve">
+  <data name="UI.SideMenu.Name.Sell" xml:space="preserve">
     <value>Dealer Money: {0}</value>
   </data>
   <data name="UI.SideMenu.Title.Buy" xml:space="preserve">

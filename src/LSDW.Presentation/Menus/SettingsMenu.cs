@@ -21,10 +21,8 @@ internal sealed partial class SettingsMenu : NativeMenu, ISettingsMenu
 	internal SettingsMenu(IServiceManager serviceManager) : base(RESX.UI_SettingsMenu_Title)
 	{
 		_settingsService = serviceManager.SettingsService;
-
-		Subtitle = RESX.UI_SettingsMenu_Subtitle;
+		Name = RESX.UI_SettingsMenu_Name;
 		Closing += OnClosing;
-
 		AddMenuItems();
 	}
 
