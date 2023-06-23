@@ -1,8 +1,8 @@
 ﻿using GTA.Math;
 using LSDW.Abstractions.Domain.Missions;
 using LSDW.Abstractions.Domain.Models;
-using LSDW.Abstractions.Domain.Providers;
 using LSDW.Domain.Factories;
+using LSDW.Domain.Models;
 using System.Diagnostics.CodeAnalysis;
 
 namespace LSDW.Domain.Extensions;
@@ -13,100 +13,152 @@ namespace LSDW.Domain.Extensions;
 [SuppressMessage("Style", "IDE0058", Justification = "Extension methods.")]
 public static class TraffickingExtensions
 {
-	private const float TrackDistance = 250;
-	private const float DiscoverDistance = 100;
+	private const float TrackDistance = 400;
+	private const float TerritoryDistance = 250;
+	private const float DiscoverDistance = 150;
 	private const float CreateDistance = 100;
 
 	/// <summary>
-	/// Creates and keeps track of the dealers around the world.
+	/// Tracks new dealers around the world and adds them to the dealer collection.
 	/// </summary>
-	/// <param name="trafficking">The trafficking interface to use.</param>
-	public static ITrafficking TrackDealers(this ITrafficking trafficking)
+	/// <param name="trafficking">The trafficking instance to use.</param>
+	/// <param name="dealers">The dealer collection instance to use.</param>
+	public static ITrafficking TrackDealers(this ITrafficking trafficking, ICollection<IDealer> dealers)
 	{
-		ICollection<IDealer> dealers = trafficking.ServiceManager.StateService.Dealers;
-		IPlayer player = trafficking.ServiceManager.StateService.Player;
-		ITimeProvider timeProvider = trafficking.ProviderManager.TimeProvider;
-		ILocationProvider locationProvider = trafficking.ProviderManager.LocationProvider;
-		INotificationProvider notificationProvider = trafficking.ProviderManager.NotificationProvider;
+		Vector3 randomPosition = trafficking.LocationProvider.PlayerPosition.Around(TrackDistance);
+		Vector3 dealerPosition = trafficking.LocationProvider.GetNextPositionOnSidewalk(randomPosition);
 
-		Vector3 playerPosition = locationProvider.PlayerPosition;
-		Vector3 possiblePosition = locationProvider.GetNextPositionOnSidewalk(playerPosition.Around(TrackDistance));
-		string zone = locationProvider.GetZoneDisplayName(possiblePosition);
+		if (dealerPosition.Equals(new(0, 0, 0)))
+			return trafficking;
 
-		if (!dealers.Any(x => locationProvider.GetZoneDisplayName(x.Position) == zone) && !dealers.Any(x => x.Position.DistanceTo(possiblePosition) <= TrackDistance))
+		string zoneDisplayName = trafficking.LocationProvider.GetZoneDisplayName(dealerPosition);
+
+		if (!dealers.Any(x => trafficking.LocationProvider.GetZoneDisplayName(x.Position) == zoneDisplayName) && !dealers.Any(x => x.Position.DistanceTo(dealerPosition) <= TerritoryDistance))
 		{
-			IDealer newDealer = DomainFactory.CreateDealer(possiblePosition);
+			IDealer newDealer = DomainFactory.CreateDealer(dealerPosition);
 			dealers.Add(newDealer);
+
+			string message = $"A dealer has appeared in '{trafficking.LocationProvider.GetZoneLocalizedName(dealerPosition)}' at '{dealerPosition}'.";
+			trafficking.LoggerService.Debug(message);
 		}
 
-		foreach (IDealer dealer in dealers)
+		return trafficking;
+	}
+
+	/// <summary>
+	/// Discovers the dealers. 
+	/// </summary>
+	/// <remarks>
+	/// Does the following things:
+	/// <list type="bullet">
+	/// <item>Set the dealer to discovered to true</item>
+	/// <item>Creates a blip on the map for the dealer</item>
+	/// <item>Notificates the player about the discovery</item>
+	/// </list>
+	/// </remarks>
+	/// <param name="trafficking">The trafficking instance to use.</param>
+	/// <param name="dealers">The dealer collection instance to use.</param>
+	/// <param name="player">The player instance to use.</param>
+	public static ITrafficking DiscoverDealers(this ITrafficking trafficking, ICollection<IDealer> dealers, IPlayer player)
+	{
+		Vector3 playerPosition = trafficking.LocationProvider.PlayerPosition;
+
+		foreach (IDealer dealer in dealers.Where(x => x.Discovered.Equals(false)))
 		{
-			if (!dealer.Discovered)
+			if (!Settings.Trafficking.DiscoverDealer)
 			{
-				if (dealer.Position.DistanceTo(playerPosition) <= DiscoverDistance)
-				{
-					dealer.CreateBlip();
-					dealer.ChangeInventory(timeProvider, player.Level);
-					notificationProvider.Show(dealer.Name, "Greetings", $"Hey, if your around {locationProvider.GetZoneLocalizedName(dealer.Position)} come see me.");
-				}
+				DiscoverDealer(trafficking, dealer, player);
+				continue;
 			}
 
-			if (dealer.Discovered && !dealer.ClosedUntil.HasValue)
-			{
-				dealer.CreateBlip();
-
-				if (dealer.Position.DistanceTo(playerPosition) <= DiscoverDistance)
-				{
-					dealer.Create();
-				}
-				else
-				{
-					dealer.Delete();
-				}
-			}
+			if (dealer.Position.DistanceTo(playerPosition) <= DiscoverDistance)
+				DiscoverDealer(trafficking, dealer, player);
 		}
+
+		return trafficking;
+	}
+
+	/// <summary>
+	/// Handles already discovered dealers.
+	/// </summary>
+	/// <remarks>
+	/// Does the following things:
+	/// <list type="bullet">
+	/// <item>Checks if the dealers is discovered</item>
+	/// <item>Checks if the dealer is closed and tries to reopen</item>
+	/// <item>Checks if the dealer blip can be created</item>
+	/// </list>
+	/// </remarks>
+	/// <param name="trafficking">The trafficking instance to use.</param>
+	/// <param name="dealers">The dealer collection instance to use.</param>
+	public static ITrafficking DiscoveredDealers(this ITrafficking trafficking, ICollection<IDealer> dealers)
+	{
+		foreach (IDealer dealer in dealers.Where(x => x.Discovered && !x.BlipCreated))
+		{
+			if (dealer.Closed)
+			{
+				if (dealer.ClosedUntil.HasValue && dealer.ClosedUntil < trafficking.TimeProvider.Now)
+					dealer.SetOpen();
+				else
+					continue;
+			}
+
+			dealer.CreateBlip();
+		}
+
 		return trafficking;
 	}
 
 	/// <summary>
 	/// Checks and changes the dealer drug prices for each discovered dealer.
 	/// </summary>
-	/// <param name="trafficking">The trafficking interface to use.</param>	
-	public static ITrafficking ChangeDealerPrices(this ITrafficking trafficking)
+	/// <param name="trafficking">The trafficking instance to use.</param>
+	/// <param name="dealers">The dealer collection instance to use.</param>
+	/// <param name="player">The player instance to use.</param>
+	public static ITrafficking ChangeDealerPrices(this ITrafficking trafficking, ICollection<IDealer> dealers, IPlayer player)
 	{
-		ICollection<IDealer> dealers = trafficking.ServiceManager.StateService.Dealers;
-		IPlayer player = trafficking.ServiceManager.StateService.Player;
-		ITimeProvider timeProvider = trafficking.ProviderManager.TimeProvider;
-
 		if (!dealers.Any(x => x.Discovered))
 			return trafficking;
 
-		foreach (IDealer dealer in dealers.Where(x => x.Discovered && x.NextPriceChange < timeProvider.Now))
-			dealer.ChangePrices(timeProvider, player.Level);
+		foreach (IDealer dealer in dealers.Where(x => x.Discovered && x.NextPriceChange < trafficking.TimeProvider.Now))
+			dealer.ChangePrices(trafficking.TimeProvider, player.Level);
 
 		return trafficking;
 	}
 
 	/// <summary>
-	/// Checks and changes the dealer inventories.
+	/// Checks and changes the dealer inventories for each discovered dealer.
 	/// </summary>
-	/// <param name="trafficking">The trafficking interface to use.</param>
-	public static ITrafficking ChangeDealerInventories(this ITrafficking trafficking)
+	/// <param name="trafficking">The trafficking instance to use.</param>
+	/// <param name="dealers">The dealer collection instance to use.</param>
+	/// <param name="player">The player instance to use.</param>
+	public static ITrafficking ChangeDealerInventories(this ITrafficking trafficking, ICollection<IDealer> dealers, IPlayer player)
 	{
-		ICollection<IDealer> dealers = trafficking.ServiceManager.StateService.Dealers;
-		IPlayer player = trafficking.ServiceManager.StateService.Player;
-		ITimeProvider timeProvider = trafficking.ProviderManager.TimeProvider;
-		INotificationProvider notificationProvider = trafficking.ProviderManager.NotificationProvider;
-
 		if (!dealers.Any(x => x.Discovered))
 			return trafficking;
 
-		foreach (IDealer dealer in dealers.Where(x => x.Discovered && x.NextInventoryChange < timeProvider.Now))
+		foreach (IDealer dealer in dealers.Where(x => x.Discovered && x.NextInventoryChange < trafficking.TimeProvider.Now))
 		{
-			dealer.ChangeInventory(timeProvider, player.Level);
-			notificationProvider.Show(dealer.Name, "Tip-off", "Hey dude, i got new stuff in stock!");
+			dealer.ChangeInventory(trafficking.TimeProvider, player.Level);
+			trafficking.NotificationProvider.Show(dealer.Name, "Tip-off", "Hey dude, i got new stuff in stock!");
 		}
 
 		return trafficking;
+	}
+
+	/// <summary>
+	/// Discovers the dealer, creates the blip on the map and show the notification.
+	/// </summary>
+	/// <param name="trafficking">The trafficking instance to use.</param>
+	/// <param name="dealer">The dealer instance to use.</param>
+	/// <param name="player">The player instance to use.</param>
+	private static void DiscoverDealer(this ITrafficking trafficking, IDealer dealer, IPlayer player)
+	{
+		dealer.SetDiscovered(true);
+		dealer.ChangeInventory(trafficking.TimeProvider, player.Level);
+		dealer.CreateBlip();
+		string locationName = trafficking.LocationProvider.GetZoneLocalizedName(dealer.Position);
+		string message = $"Hey dude, if your around {locationName}, come see me.";
+		trafficking.NotificationProvider.Show(dealer.Name, "Greetings", message);
 	}
 }

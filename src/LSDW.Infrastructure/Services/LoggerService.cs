@@ -23,13 +23,16 @@ internal class LoggerService : ILoggerService
 	}
 
 	public void Critical(string message, [CallerMemberName] string callerName = "")
-			=> LogToFile("ERROR", callerName, message);
+		=> LogToFile("FTL", callerName, message);
+
+	public void Debug(string message, [CallerMemberName] string callerName = "")
+		=> LogToFile("DBG", callerName, message);
 
 	public void Information(string message, [CallerMemberName] string callerName = "")
-			=> LogToFile("INFO", callerName, message);
+		=> LogToFile("INF", callerName, message);
 
 	public void Warning(string message, [CallerMemberName] string callerName = "")
-			=> LogToFile("WARN", callerName, message);
+		=> LogToFile("WRN", callerName, message);
 
 	/// <summary>
 	/// Lofs the message content to the log file.

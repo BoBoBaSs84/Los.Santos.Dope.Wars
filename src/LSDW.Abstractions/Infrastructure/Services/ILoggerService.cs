@@ -8,6 +8,13 @@ namespace LSDW.Abstractions.Infrastructure.Services;
 public interface ILoggerService
 {
 	/// <summary>
+	/// Logs debug related things.
+	/// </summary>
+	/// <param name="message">The message to log.</param>
+	/// <param name="callerName">The message caller.</param>
+	void Debug(string message, [CallerMemberName] string callerName = "");
+
+	/// <summary>
 	/// Logs informational related things.
 	/// </summary>
 	/// <param name="message">The message to log.</param>

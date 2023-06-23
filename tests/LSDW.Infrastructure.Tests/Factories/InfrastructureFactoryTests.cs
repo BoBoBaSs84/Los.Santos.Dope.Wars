@@ -10,8 +10,8 @@ namespace LSDW.Infrastructure.Tests.Factories;
 [TestClass]
 public partial class InfrastructureFactoryTests
 {
-	private static readonly Mock<ILoggerService> _loggerMock = MockHelper.GetLoggerServiceMock();
-	private static readonly Mock<ITrafficking> _traffickingMock = MockHelper.GetTraffickingMock();
+	private static readonly Mock<ILoggerService> _loggerMock = MockHelper.GetLoggerService();
+	private static readonly Mock<ITrafficking> _traffickingMock = MockHelper.GetTrafficking();
 	private static readonly Vector3 _zeroVector = new(0, 0, 0);
 	private static readonly PedHash _pedHash = PedHash.Clown01SMY;
 }

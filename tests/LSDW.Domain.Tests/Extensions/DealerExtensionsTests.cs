@@ -18,7 +18,7 @@ public class DealerExtensionsTests
 	[TestMethod]
 	public void ChangePricesTest()
 	{
-		Mock<ITimeProvider> mock = MockHelper.GetTimeProviderMock();
+		Mock<ITimeProvider> mock = MockHelper.GetTimeProvider();
 		DateTime nextPriceChange = mock.Object.Now.AddHours(Settings.Market.PriceChangeInterval);
 		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
 
@@ -34,7 +34,7 @@ public class DealerExtensionsTests
 	[TestMethod]
 	public void ChangePricesCollectionTest()
 	{
-		Mock<ITimeProvider> mock = MockHelper.GetTimeProviderMock();
+		Mock<ITimeProvider> mock = MockHelper.GetTimeProvider();
 		DateTime nextPriceChange = mock.Object.Now.AddHours(Settings.Market.PriceChangeInterval);
 		ICollection<IDealer> dealers = new HashSet<IDealer>();
 
@@ -56,7 +56,7 @@ public class DealerExtensionsTests
 	[TestMethod]
 	public void RestockInventoryTest()
 	{
-		Mock<ITimeProvider> mock = MockHelper.GetTimeProviderMock();
+		Mock<ITimeProvider> mock = MockHelper.GetTimeProvider();
 		DateTime nextPriceChange = mock.Object.Now.AddHours(Settings.Market.PriceChangeInterval);
 		DateTime nextInventoryChange = mock.Object.Now.AddHours(Settings.Market.InventoryChangeInterval);
 		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
@@ -73,7 +73,7 @@ public class DealerExtensionsTests
 	[TestMethod]
 	public void RestockCollectionTest()
 	{
-		Mock<ITimeProvider> mock = MockHelper.GetTimeProviderMock();
+		Mock<ITimeProvider> mock = MockHelper.GetTimeProvider();
 		DateTime nextPriceChange = mock.Object.Now.AddHours(Settings.Market.PriceChangeInterval);
 		DateTime nextInventoryChange = mock.Object.Now.AddHours(Settings.Market.InventoryChangeInterval);
 		ICollection<IDealer> dealers = new HashSet<IDealer>();

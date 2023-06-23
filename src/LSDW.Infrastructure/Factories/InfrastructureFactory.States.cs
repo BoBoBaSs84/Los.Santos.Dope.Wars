@@ -1,13 +1,9 @@
-﻿using LSDW.Abstractions.Domain.Missions;
-using LSDW.Abstractions.Domain.Models;
+﻿using LSDW.Abstractions.Domain.Models;
 using LSDW.Domain.Factories;
 using LSDW.Infrastructure.Models;
 
 namespace LSDW.Infrastructure.Factories;
 
-/// <summary>
-/// The infrastructure factory class.
-/// </summary>
 public static partial class InfrastructureFactory
 {
 	/// <summary>

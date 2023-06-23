@@ -5,7 +5,7 @@ using LSDW.Abstractions.Enumerators;
 using LSDW.Domain.Factories;
 using Moq;
 
-namespace LSDW.Domain.Tests.Classes.Services;
+namespace LSDW.Domain.Tests.Services;
 
 [TestClass]
 public class TransactionServiceTests

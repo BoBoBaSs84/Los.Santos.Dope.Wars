@@ -1,7 +1,7 @@
-﻿using LSDW.Abstractions.Domain.Models;
+﻿using GTA;
+using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Providers;
 using System.Diagnostics.CodeAnalysis;
-using MarketSettings = LSDW.Domain.Models.Settings.Market;
 
 namespace LSDW.Domain.Extensions;
 
@@ -20,7 +20,7 @@ public static class DealerExtensions
 	public static IDealer ChangePrices(this IDealer dealer, ITimeProvider timeProvider, int playerLevel)
 	{
 		dealer.Inventory.ChangePrices(playerLevel);
-		dealer.SetNextPriceChange(timeProvider.Now.AddHours(MarketSettings.PriceChangeInterval));
+		dealer.SetNextPriceChange(timeProvider);
 		return dealer;
 	}
 
@@ -46,8 +46,8 @@ public static class DealerExtensions
 	public static IDealer ChangeInventory(this IDealer dealer, ITimeProvider timeProvider, int playerLevel)
 	{
 		dealer.Inventory.Restock(playerLevel);
-		dealer.SetNextInventoryChange(timeProvider.Now.AddHours(MarketSettings.InventoryChangeInterval));
-		dealer.SetNextPriceChange(timeProvider.Now.AddHours(MarketSettings.PriceChangeInterval));
+		dealer.SetNextInventoryChange(timeProvider);
+		dealer.SetNextPriceChange(timeProvider);
 		return dealer;
 	}
 
@@ -65,10 +65,13 @@ public static class DealerExtensions
 	}
 
 	/// <summary>
-	/// Deletes all the dealers within the collection.
+	/// Cleans up all the dealers within the collection.
 	/// </summary>
-	/// <param name="dealers">The dealer collection to delete.</param>
-	public static ICollection<IDealer> DeleteDealers(this ICollection<IDealer> dealers)
+	/// <remarks>
+	/// This removes the <see cref="Blip"/> from the map and deletes the dealer <see cref="Ped"/>.
+	/// </remarks>
+	/// <param name="dealers">The dealer collection to clean up.</param>
+	public static ICollection<IDealer> CleanUpDealers(this ICollection<IDealer> dealers)
 	{
 		foreach (IDealer dealer in dealers)
 			dealer.Delete();

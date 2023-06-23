@@ -94,11 +94,11 @@ public sealed class DealerState
 	/// <summary>
 	/// Should the <see cref="NextPriceChange"/> property be serialized?
 	/// </summary>
-	public bool ShouldSerializeLastRefresh() => Discovered && !ClosedUntil.HasValue;
+	public bool ShouldSerializeNextPriceChange() => Discovered && !ClosedUntil.HasValue;
 	/// <summary>
 	/// Should the <see cref="NextInventoryChange"/> property be serialized?
 	/// </summary>
-	public bool ShouldSerializeLastRestock() => Discovered && !ClosedUntil.HasValue;
+	public bool ShouldSerializeNextInventoryChange() => Discovered && !ClosedUntil.HasValue;
 	/// <summary>
 	/// Should the <see cref="Hash"/> property be serialized?
 	/// </summary>

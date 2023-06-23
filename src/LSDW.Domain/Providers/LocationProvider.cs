@@ -12,20 +12,18 @@ namespace LSDW.Domain.Providers;
 /// </remarks>
 internal sealed class LocationProvider : ILocationProvider
 {
-	/// <summary>
-	/// Initializes a instance of the location provider class.
-	/// </summary>
-	public LocationProvider()
-		=> PlayerPosition = Game.Player.Character.Position;
-
-	public Vector3 PlayerPosition { get; }
+	public Vector3 PlayerPosition
+		=> Game.Player.Character.Position;
 
 	public Vector3 GetNextPositionOnSidewalk(Vector3 position)
 		=> World.GetNextPositionOnSidewalk(position);
+	
+	public Vector3 GetNextPositionOnStreet(Vector3 position, bool unoccupied = false)
+		=> World.GetNextPositionOnStreet(position, unoccupied);
 
 	public string GetZoneDisplayName(Vector3 position)
 		=> World.GetZoneDisplayName(position);
 
 	public string GetZoneLocalizedName(Vector3 position)
-		=> World.GetZoneDisplayName(position);
+		=> World.GetZoneLocalizedName(position);
 }

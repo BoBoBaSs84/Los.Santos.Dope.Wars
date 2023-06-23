@@ -3,7 +3,7 @@ using LSDW.Abstractions.Enumerators;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
 
-namespace LSDW.Domain.Tests.Classes.Models;
+namespace LSDW.Domain.Tests.Models;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]

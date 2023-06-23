@@ -1,5 +1,6 @@
-﻿using LSDW.Abstractions.Application.Managers;
-using LSDW.Abstractions.Domain.Missions.Base;
+﻿using LSDW.Abstractions.Domain.Missions.Base;
+using LSDW.Abstractions.Domain.Providers;
+using LSDW.Abstractions.Infrastructure.Services;
 
 namespace LSDW.Abstractions.Domain.Missions;
 
@@ -9,12 +10,19 @@ namespace LSDW.Abstractions.Domain.Missions;
 public interface ITrafficking : IMission
 {
 	/// <summary>
-	/// The service manager instance to use.
+	/// The logger service instance to use.
 	/// </summary>
-	IServiceManager ServiceManager { get; }
-
+	ILoggerService LoggerService { get; }
 	/// <summary>
-	/// The provider manager instance to use.
+	/// The location provider instance to use.
 	/// </summary>
-	IProviderManager ProviderManager { get; }
+	ILocationProvider LocationProvider { get; }
+	/// <summary>
+	/// The notification provider instance to use.
+	/// </summary>
+	INotificationProvider NotificationProvider { get; }
+	/// <summary>
+	/// The time provider instance to use.
+	/// </summary>
+	ITimeProvider TimeProvider { get; }
 }

@@ -237,9 +237,12 @@ public partial class InfrastructureFactoryTests
 
 		Assert.IsNotNull(dealer);
 		Assert.IsNotNull(dealer.Inventory);
+		Assert.IsTrue(dealer.Closed);
 		Assert.AreEqual(state.ClosedUntil, dealer.ClosedUntil);
 		Assert.AreEqual(state.Discovered, dealer.Discovered);
 		Assert.AreEqual(state.Name, dealer.Name);
+		Assert.AreEqual(state.NextInventoryChange, dealer.NextInventoryChange);
+		Assert.AreEqual(state.NextPriceChange, dealer.NextPriceChange);
 		Assert.AreEqual(state.Position, dealer.Position);
 		Assert.AreEqual(state.Hash, dealer.Hash);
 	}
@@ -321,9 +324,12 @@ public partial class InfrastructureFactoryTests
 	private static DealerState GetDealerState()
 		=> new()
 		{
+			
 			ClosedUntil = DateTime.MinValue,
 			Discovered = true,
 			Name = "Dealer",
+			NextInventoryChange = DateTime.MinValue,
+			NextPriceChange = DateTime.MinValue,
 			Position = new(0, 0, 0),
 			Hash = PedHash.AcidLabCook,
 			Inventory = new()

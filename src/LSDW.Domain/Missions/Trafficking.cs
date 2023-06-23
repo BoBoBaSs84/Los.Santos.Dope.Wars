@@ -1,11 +1,14 @@
 ﻿using GTA;
 using LSDW.Abstractions.Application.Managers;
 using LSDW.Abstractions.Domain.Missions;
+using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Domain.Providers;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Abstractions.Presentation.Menus;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Missions.Base;
+using System.Diagnostics.CodeAnalysis;
 
 namespace LSDW.Domain.Missions;
 
@@ -18,7 +21,10 @@ namespace LSDW.Domain.Missions;
 /// </remarks>
 internal sealed class Trafficking : Mission, ITrafficking
 {
-	private readonly ILoggerService _loggerService;
+	private readonly ICollection<IDealer> _dealers;
+	private readonly IPlayer _player;
+	private readonly IServiceManager _serviceManager;
+	private readonly IProviderManager _providerManager;
 
 	private ISideMenu? leftSideMenu;
 	private ISideMenu? rightSideMenu;
@@ -30,19 +36,27 @@ internal sealed class Trafficking : Mission, ITrafficking
 	/// <param name="providerManager">The provider manager instance to use.</param>
 	internal Trafficking(IServiceManager serviceManager, IProviderManager providerManager) : base(serviceManager.LoggerService, nameof(Trafficking))
 	{
-		_loggerService = serviceManager.LoggerService;
-		ServiceManager = serviceManager;
-		ProviderManager = providerManager;
+		_dealers = serviceManager.StateService.Dealers;
+		_player = serviceManager.StateService.Player;
+		_serviceManager = serviceManager;
+		_providerManager = providerManager;
+
+		LoggerService = serviceManager.LoggerService;
+		LocationProvider = providerManager.LocationProvider;
+		NotificationProvider = providerManager.NotificationProvider;
+		TimeProvider = providerManager.TimeProvider;
 	}
 
-	public IServiceManager ServiceManager { get; }
-	public IProviderManager ProviderManager { get; }
+	public ILocationProvider LocationProvider { get; }
+	public ILoggerService LoggerService { get; }
+	public INotificationProvider NotificationProvider { get; }
+	public ITimeProvider TimeProvider { get; }
 
 	public override void StopMission()
 	{
 		leftSideMenu = null;
 		rightSideMenu = null;
-		_ = ServiceManager.StateService.Dealers.DeleteDealers();
+		_ = _dealers.CleanUpDealers();
 		base.StopMission();
 	}
 
@@ -59,13 +73,14 @@ internal sealed class Trafficking : Mission, ITrafficking
 
 		try
 		{
-			_ = this.TrackDealers()
-				.ChangeDealerInventories()
-				.ChangeDealerPrices();
+			_ = this.TrackDealers(_dealers)
+				.DiscoverDealers(_dealers, _player)
+				.ChangeDealerInventories(_dealers, _player)
+				.ChangeDealerPrices(_dealers, _player);
 		}
 		catch (Exception ex)
 		{
-			_loggerService.Critical(ex.Message);
+			LoggerService.Critical(ex.Message);
 		}
 	}
 }

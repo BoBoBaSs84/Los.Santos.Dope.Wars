@@ -11,7 +11,7 @@ public class GameStateServiceTests
 {
 	private static readonly string _baseDirectory = AppContext.BaseDirectory;
 	private static readonly string _saveFileName = Settings.SaveFileName;
-	private static readonly Mock<ILoggerService> _logger = MockHelper.GetLoggerServiceMock();
+	private static readonly Mock<ILoggerService> _logger = MockHelper.GetLoggerService();
 
 	[TestCleanup]
 	public void TestCleanup()
@@ -21,7 +21,7 @@ public class GameStateServiceTests
 	public void LoadTest()
 	{
 		string filePath = Path.Combine(_baseDirectory, _saveFileName);
-		IGameStateService stateService = CreateGameStateService(_logger.Object);
+		IStateService stateService = CreateGameStateService(_logger.Object);
 
 		bool success = stateService.Load();
 
@@ -35,7 +35,7 @@ public class GameStateServiceTests
 		DeleteSaveFile();
 		string filePath = Path.Combine(_baseDirectory, _saveFileName);
 		File.AppendAllText(filePath, "");
-		IGameStateService stateService = CreateGameStateService(_logger.Object);
+		IStateService stateService = CreateGameStateService(_logger.Object);
 
 		bool success = stateService.Load();
 
@@ -46,7 +46,7 @@ public class GameStateServiceTests
 	public void SaveTest()
 	{
 		string filePath = Path.Combine(_baseDirectory, _saveFileName);
-		IGameStateService stateService = CreateGameStateService(_logger.Object);
+		IStateService stateService = CreateGameStateService(_logger.Object);
 
 		bool success = stateService.Save();
 
