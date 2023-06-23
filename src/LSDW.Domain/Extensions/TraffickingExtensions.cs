@@ -15,7 +15,8 @@ namespace LSDW.Domain.Extensions;
 [SuppressMessage("Style", "IDE0058", Justification = "Extension methods.")]
 public static class TraffickingExtensions
 {
-	private const float TrackDistance = 300;
+	private const float TrackDistance = 500;
+	private const float TerritoryDistance = 250;
 	private const float DiscoverDistance = 150;
 	private const float CreateDistance = 100;
 
@@ -31,12 +32,12 @@ public static class TraffickingExtensions
 		Vector3 possiblePosition = trafficking.LocationProvider.GetNextPositionOnSidewalk(playerPosition.Around(TrackDistance));
 		string zoneDisplayName = trafficking.LocationProvider.GetZoneDisplayName(possiblePosition);
 
-		if (!dealers.Any(x => trafficking.LocationProvider.GetZoneDisplayName(x.Position) == zoneDisplayName) && !dealers.Any(x => x.Position.DistanceTo(possiblePosition) <= TrackDistance))
+		if (!dealers.Any(x => trafficking.LocationProvider.GetZoneDisplayName(x.Position) == zoneDisplayName) && !dealers.Any(x => x.Position.DistanceTo(possiblePosition) <= TerritoryDistance))
 		{
 			IDealer newDealer = DomainFactory.CreateDealer(possiblePosition);
 			newDealer.ChangeInventory(trafficking.TimeProvider, player.Level);
 			dealers.Add(newDealer);
-			
+
 			string message = $"A dealer has appeared in '{trafficking.LocationProvider.GetZoneLocalizedName(possiblePosition)}' at '{possiblePosition}'.";
 			trafficking.LoggerService.Debug(message);
 		}
@@ -47,7 +48,7 @@ public static class TraffickingExtensions
 	/// <summary>
 	/// Discovers dealers and does the following things:
 	/// <list type="bullet">
-	/// <item>Set the dealer to discovered = <see langword="true"/></item>
+	/// <item>Set the dealer to discovered to <see langword="true"/></item>
 	/// <item>Creates a blip on the map for the dealer</item>
 	/// <item>Notificates the player about the discovery</item>
 	/// </list>
@@ -94,7 +95,7 @@ public static class TraffickingExtensions
 	}
 
 	/// <summary>
-	/// Checks and changes the dealer inventories.
+	/// Checks and changes the dealer inventories for each discovered dealer.
 	/// </summary>
 	/// <param name="trafficking">The trafficking instance to use.</param>
 	/// <param name="dealers">The dealer collection instance to use.</param>
@@ -113,7 +114,13 @@ public static class TraffickingExtensions
 		return trafficking;
 	}
 
-
+	/// <summary>
+	/// Discovers the dealer, creates the blip on the map and show the notification.
+	/// </summary>
+	/// <param name="dealer">The dealer instance to use.</param>
+	/// <param name="loggerService">The logger service instance to use.</param>
+	/// <param name="locationProvider">The location provider instance to use.</param>
+	/// <param name="notificationProvider">The notification provider instance to use.</param>
 	private static void DiscoverDealer(IDealer dealer, ILoggerService loggerService, ILocationProvider locationProvider, INotificationProvider notificationProvider)
 	{
 		dealer.SetDiscovered(true);

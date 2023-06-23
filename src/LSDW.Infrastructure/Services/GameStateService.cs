@@ -1,5 +1,4 @@
-﻿using LSDW.Abstractions.Domain.Missions;
-using LSDW.Abstractions.Domain.Models;
+﻿using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
@@ -26,17 +25,15 @@ internal sealed class GameStateService : IGameStateService
 	internal GameStateService(ILoggerService logger)
 	{
 		_logger = logger;
-		
+
 		Dealers = DomainFactory.CreateDealers();
 		Player = DomainFactory.CreatePlayer();
-		
-		_ = Load();
 	}
 
 	public ICollection<IDealer> Dealers { get; private set; }
 	public IPlayer Player { get; private set; }
 
-	public bool Load()
+	public bool Load(bool decompress = true)
 	{
 		string filePath = Path.Combine(_baseDirectory, _saveFileName);
 
@@ -45,11 +42,12 @@ internal sealed class GameStateService : IGameStateService
 			if (!File.Exists(filePath))
 				return Save();
 
-			string fileContent =
-				File.ReadAllText(filePath).Decompress();
+			string fileContent = File.ReadAllText(filePath);
 
-			GameState gameState =
-				new GameState().FromXmlString(fileContent);
+			if (decompress)
+				fileContent = fileContent.Decompress();
+
+			GameState gameState = new GameState().FromXmlString(fileContent);
 
 			Dealers = CreateDealers(gameState);
 			Player = CreatePlayer(gameState);
@@ -63,7 +61,7 @@ internal sealed class GameStateService : IGameStateService
 		}
 	}
 
-	public bool Save()
+	public bool Save(bool compress = true)
 	{
 		string filePath = Path.Combine(_baseDirectory, _saveFileName);
 
@@ -71,8 +69,10 @@ internal sealed class GameStateService : IGameStateService
 		{
 			GameState gameState = CreateGameState(Dealers, Player);
 
-			string fileContent =
-				gameState.ToXmlString(XmlConstants.SerializerNamespaces).Compress();
+			string fileContent = gameState.ToXmlString(XmlConstants.SerializerNamespaces);
+
+			if (compress)
+				fileContent = fileContent.Compress();
 
 			File.WriteAllText(filePath, fileContent);
 

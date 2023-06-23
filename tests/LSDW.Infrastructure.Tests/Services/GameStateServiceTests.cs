@@ -11,7 +11,7 @@ public class GameStateServiceTests
 {
 	private static readonly string _baseDirectory = AppContext.BaseDirectory;
 	private static readonly string _saveFileName = Settings.SaveFileName;
-	private static readonly Mock<ILoggerService> _logger = MockHelper.GetLoggerServiceMock();
+	private static readonly Mock<ILoggerService> _logger = MockHelper.GetLoggerService();
 
 	[TestCleanup]
 	public void TestCleanup()

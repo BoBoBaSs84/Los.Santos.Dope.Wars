@@ -20,15 +20,17 @@ public interface IGameStateService
 	/// <summary>
 	/// Loads the game state from file.
 	/// </summary>
+	/// <param name="decompress">Should the content be decompressed?</param>
 	/// <remarks>
 	/// If no save file is found, a new save file will be created.
 	/// </remarks>
 	/// <returns><see langword="true"/> or <see langword="false"/> if successful.</returns>
-	bool Load();
+	bool Load(bool decompress = true);
 
 	/// <summary>
 	/// Saves the current game state.
 	/// </summary>
+	/// <param name="compress">Should the content be compressed?</param>
 	/// <returns><see langword="true"/> or <see langword="false"/> if successful.</returns>
-	bool Save();
+	bool Save(bool compress = true);
 }
