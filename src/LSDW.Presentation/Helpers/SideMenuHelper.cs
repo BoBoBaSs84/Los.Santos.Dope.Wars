@@ -60,15 +60,15 @@ public static class SideMenuHelper
 		};
 
 	/// <summary>
-	/// Returns the subtitle for the menu based on the transaction type.
+	/// Returns the name for the menu based on the transaction type.
 	/// </summary>
 	/// <param name="type">The transaction type for the menu.</param>
 	/// <param name="targetMoney">The amount of money of the target.</param>
-	internal static string GetSubtitle(TransactionType type, int targetMoney)
+	internal static string GetName(TransactionType type, int targetMoney)
 		=> type switch
 		{
-			TransactionType.BUY => RESX.UI_SideMenu_Subtitle_Buy.FormatInvariant(targetMoney),
-			TransactionType.SELL => RESX.UI_SideMenu_Subtitle_Sell.FormatInvariant(targetMoney),
+			TransactionType.BUY => RESX.UI_SideMenu_Name_Buy.FormatInvariant(targetMoney),
+			TransactionType.SELL => RESX.UI_SideMenu_Name_Sell.FormatInvariant(targetMoney),
 			_ => string.Empty
 		};
 }

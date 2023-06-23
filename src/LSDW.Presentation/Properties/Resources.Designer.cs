@@ -369,9 +369,9 @@ namespace LSDW.Presentation.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Settings will saved on close..
         /// </summary>
-        public static string UI_SettingsMenu_Subtitle {
+        public static string UI_SettingsMenu_Name {
             get {
-                return ResourceManager.GetString("UI.SettingsMenu.Subtitle", resourceCulture);
+                return ResourceManager.GetString("UI.SettingsMenu.Name", resourceCulture);
             }
         }
         
@@ -387,18 +387,18 @@ namespace LSDW.Presentation.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Your Money: {0}.
         /// </summary>
-        public static string UI_SideMenu_Subtitle_Buy {
+        public static string UI_SideMenu_Name_Buy {
             get {
-                return ResourceManager.GetString("UI.SideMenu.Subtitle.Buy", resourceCulture);
+                return ResourceManager.GetString("UI.SideMenu.Name.Buy", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Dealer Money: {0}.
         /// </summary>
-        public static string UI_SideMenu_Subtitle_Sell {
+        public static string UI_SideMenu_Name_Sell {
             get {
-                return ResourceManager.GetString("UI.SideMenu.Subtitle.Sell", resourceCulture);
+                return ResourceManager.GetString("UI.SideMenu.Name.Sell", resourceCulture);
             }
         }
         

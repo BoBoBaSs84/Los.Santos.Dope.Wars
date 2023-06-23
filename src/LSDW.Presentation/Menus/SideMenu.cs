@@ -47,8 +47,8 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 		ItemCount = CountVisibility.Never;
 		Offset = new PointF(_screenSize.Width / 64, _screenSize.Height / 36);
 		UseMouse = false;
-		TitleFont = GTA.UI.Font.Pricedown;
-		Subtitle = SMH.GetSubtitle(type, _target.Money);
+		BannerText.Font = GTA.UI.Font.Pricedown;
+		Name = SMH.GetName(type, _target.Money);
 
 		SwitchItem = new SwitchItem(type);
 		Add((SwitchItem)SwitchItem);
@@ -83,7 +83,7 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 	private void OnInventoryPropertyChanged(object sender, PropertyChangedEventArgs args)
 	{
 		if (args.PropertyName.Equals(nameof(_target.Money), StringComparison.Ordinal))
-			Subtitle = SMH.GetSubtitle(_type, _target.Money);
+			Name = SMH.GetName(_type, _target.Money);
 	}
 
 	/// <summary>
