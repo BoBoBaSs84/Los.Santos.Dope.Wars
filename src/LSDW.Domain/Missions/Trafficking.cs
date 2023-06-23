@@ -8,7 +8,6 @@ using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Abstractions.Presentation.Menus;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Missions.Base;
-using System.Diagnostics.CodeAnalysis;
 
 namespace LSDW.Domain.Missions;
 
@@ -23,8 +22,6 @@ internal sealed class Trafficking : Mission, ITrafficking
 {
 	private readonly ICollection<IDealer> _dealers;
 	private readonly IPlayer _player;
-	private readonly IServiceManager _serviceManager;
-	private readonly IProviderManager _providerManager;
 
 	private ISideMenu? leftSideMenu;
 	private ISideMenu? rightSideMenu;
@@ -38,13 +35,14 @@ internal sealed class Trafficking : Mission, ITrafficking
 	{
 		_dealers = serviceManager.StateService.Dealers;
 		_player = serviceManager.StateService.Player;
-		_serviceManager = serviceManager;
-		_providerManager = providerManager;
 
 		LoggerService = serviceManager.LoggerService;
 		LocationProvider = providerManager.LocationProvider;
 		NotificationProvider = providerManager.NotificationProvider;
 		TimeProvider = providerManager.TimeProvider;
+
+		// TODO: debug message
+		LoggerService.Debug($"Dealers in collection: {_dealers.Count}");
 	}
 
 	public ILocationProvider LocationProvider { get; }
@@ -75,6 +73,7 @@ internal sealed class Trafficking : Mission, ITrafficking
 		{
 			_ = this.TrackDealers(_dealers)
 				.DiscoverDealers(_dealers, _player)
+				.DiscoveredDealers(_dealers)
 				.ChangeDealerInventories(_dealers, _player)
 				.ChangeDealerPrices(_dealers, _player);
 		}

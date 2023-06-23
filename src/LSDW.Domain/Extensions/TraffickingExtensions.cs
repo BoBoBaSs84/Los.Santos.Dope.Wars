@@ -46,7 +46,7 @@ public static class TraffickingExtensions
 	}
 
 	/// <summary>
-	/// Discovers the dealers. 
+	/// Takes care of the undiscovered dealers.
 	/// </summary>
 	/// <remarks>
 	/// Does the following things:
@@ -79,7 +79,7 @@ public static class TraffickingExtensions
 	}
 
 	/// <summary>
-	/// Handles already discovered dealers.
+	/// Takes care of the already discovered dealers.
 	/// </summary>
 	/// <remarks>
 	/// Does the following things:

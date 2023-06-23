@@ -13,6 +13,9 @@ internal sealed class ServiceManager : IServiceManager
 	private readonly Lazy<ILoggerService> _lazyLoggerService;
 	private readonly Lazy<ISettingsService> _lazySettingsService;
 
+	/// <summary>
+	/// Initializes a instance of the service manager class.
+	/// </summary>
 	public ServiceManager()
 	{
 		_lazyLoggerService = new Lazy<ILoggerService>(InfrastructureFactory.CreateLoggerService);

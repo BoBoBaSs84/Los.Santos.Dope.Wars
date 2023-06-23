@@ -44,7 +44,6 @@ internal sealed class StateService : IStateService
 				_logger.Information($"'{filePath}' was not found.");
 				return Save(decompress);
 			}
-				
 
 			string fileContent = File.ReadAllText(filePath);
 
@@ -52,10 +51,8 @@ internal sealed class StateService : IStateService
 				fileContent = fileContent.Decompress();
 
 			GameState gameState = new GameState().FromXmlString(fileContent);
-			_logger.Debug($"States of {nameof(gameState.Dealers)}: {gameState.Dealers.Count}.");
 
 			Dealers = CreateDealers(gameState);
-			_logger.Debug($"Instances of {nameof(Dealers)}: {Dealers.Count}.");
 			Player = CreatePlayer(gameState);
 
 			_logger.Information($"'{filePath}' was loaded.");

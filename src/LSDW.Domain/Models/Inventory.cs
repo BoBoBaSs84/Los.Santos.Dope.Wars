@@ -47,10 +47,7 @@ internal sealed class Inventory : Notification, IInventory
 	public bool IsReadOnly => false;
 
 	public void Clear()
-	{
-		Money = 0;
-		_drugs.Clear();
-	}
+		=> _drugs.Clear();
 
 	public bool Contains(IDrug item)
 		=> _drugs.Contains(item);

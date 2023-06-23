@@ -95,9 +95,6 @@ internal sealed class Dealer : Pedestrian, IDealer
 		if (BlipCreated)
 			DeleteBlip();
 
-		Inventory.PropertyChanged -= OnPropertyChanged;
-		Inventory.Clear();
-
 		base.Delete();
 	}
 
