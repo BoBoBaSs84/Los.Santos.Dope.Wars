@@ -83,9 +83,7 @@ internal sealed class Dealer : Pedestrian, IDealer
 		blip.Sprite = sprite;
 		blip.Scale = 0.75f;
 		blip.Color = color;
-		blip.Name = Name;
-
-		SetDiscovered(true);
+		blip.IsShortRange = true;
 	}
 
 	public override void Delete()

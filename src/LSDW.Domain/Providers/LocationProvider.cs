@@ -27,5 +27,5 @@ internal sealed class LocationProvider : ILocationProvider
 		=> World.GetZoneDisplayName(position);
 
 	public string GetZoneLocalizedName(Vector3 position)
-		=> World.GetZoneDisplayName(position);
+		=> World.GetZoneLocalizedName(position);
 }
