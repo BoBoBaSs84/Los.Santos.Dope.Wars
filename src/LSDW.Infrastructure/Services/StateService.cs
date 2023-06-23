@@ -10,19 +10,19 @@ using static LSDW.Infrastructure.Factories.InfrastructureFactory;
 namespace LSDW.Infrastructure.Services;
 
 /// <summary>
-/// The game state service class.
+/// The state service class.
 /// </summary>
-internal sealed class GameStateService : IGameStateService
+internal sealed class StateService : IStateService
 {
 	private readonly string _baseDirectory = AppContext.BaseDirectory;
 	private readonly string _saveFileName = Settings.SaveFileName;
 	private readonly ILoggerService _logger;
 
 	/// <summary>
-	/// Initializes a instance of the game state service class.
+	/// Initializes a instance of the state service class.
 	/// </summary>
 	/// <param name="logger">The logger service instance to use.</param>
-	internal GameStateService(ILoggerService logger)
+	internal StateService(ILoggerService logger)
 	{
 		_logger = logger;
 
@@ -40,7 +40,11 @@ internal sealed class GameStateService : IGameStateService
 		try
 		{
 			if (!File.Exists(filePath))
-				return Save();
+			{
+				_logger.Information($"'{filePath}' was not found.");
+				return Save(decompress);
+			}
+				
 
 			string fileContent = File.ReadAllText(filePath);
 
@@ -48,10 +52,13 @@ internal sealed class GameStateService : IGameStateService
 				fileContent = fileContent.Decompress();
 
 			GameState gameState = new GameState().FromXmlString(fileContent);
+			_logger.Debug($"States of {nameof(gameState.Dealers)}: {gameState.Dealers.Count}.");
 
 			Dealers = CreateDealers(gameState);
+			_logger.Debug($"Instances of {nameof(Dealers)}: {Dealers.Count}.");
 			Player = CreatePlayer(gameState);
 
+			_logger.Information($"'{filePath}' was loaded.");
 			return true;
 		}
 		catch (Exception ex)
@@ -76,6 +83,7 @@ internal sealed class GameStateService : IGameStateService
 
 			File.WriteAllText(filePath, fileContent);
 
+			_logger.Information($"'{filePath}' was saved.");
 			return true;
 		}
 		catch (Exception ex)

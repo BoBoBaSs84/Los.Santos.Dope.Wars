@@ -3,7 +3,7 @@ using LSDW.Abstractions.Enumerators;
 using LSDW.Domain.Factories;
 using LSDW.Domain.Models;
 
-namespace LSDW.Domain.Tests.Classes.Models;
+namespace LSDW.Domain.Tests.Models;
 
 [TestClass]
 public class PlayerTests
@@ -107,7 +107,7 @@ public class PlayerTests
 		IPlayer player = DomainFactory.CreatePlayer();
 		ITransaction transaction =
 			DomainFactory.CreateTransaction(DateTime.Now, TransactionType.SELL, DrugType.COKE, 100, 200);
-		
+
 		player.AddTransaction(transaction);
 
 		Assert.AreEqual(20000, player.Experience);

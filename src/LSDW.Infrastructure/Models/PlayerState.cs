@@ -2,6 +2,7 @@
 using LSDW.Infrastructure.Constants;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using static LSDW.Domain.Models.Settings;
 using static LSDW.Infrastructure.Factories.InfrastructureFactory;
 
 namespace LSDW.Infrastructure.Models;
@@ -50,4 +51,9 @@ public sealed class PlayerState
 	[XmlArray(nameof(Transactions), Form = XmlSchemaForm.Qualified)]
 	[XmlArrayItem(XmlConstants.TransactionStateRootName, Form = XmlSchemaForm.Qualified)]
 	public List<TransactionState> Transactions { get; set; }
+
+	/// <summary>
+	/// Should the <see cref="Transactions"/> property be serialized?
+	/// </summary>
+	public bool ShouldSerializeTransactions() => Transactions.Any();
 }

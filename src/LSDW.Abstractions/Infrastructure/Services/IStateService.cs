@@ -3,17 +3,17 @@
 namespace LSDW.Abstractions.Infrastructure.Services;
 
 /// <summary>
-/// The game state service interface.
+/// The state service interface.
 /// </summary>
-public interface IGameStateService
+public interface IStateService
 {
 	/// <summary>
-	/// The loaded player instance.
+	/// The player instance to use.
 	/// </summary>
 	IPlayer Player { get; }
 
 	/// <summary>
-	/// The loaded dealer instance collection.
+	/// The dealer collection instance to use.
 	/// </summary>
 	ICollection<IDealer> Dealers { get; }
 

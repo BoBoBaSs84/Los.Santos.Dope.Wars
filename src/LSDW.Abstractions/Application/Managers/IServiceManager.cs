@@ -1,5 +1,4 @@
-﻿using LSDW.Abstractions.Domain.Providers;
-using LSDW.Abstractions.Infrastructure.Services;
+﻿using LSDW.Abstractions.Infrastructure.Services;
 
 namespace LSDW.Abstractions.Application.Managers;
 
@@ -9,9 +8,9 @@ namespace LSDW.Abstractions.Application.Managers;
 public interface IServiceManager
 {
 	/// <summary>
-	/// The game state service.
+	/// The state service.
 	/// </summary>
-	IGameStateService StateService { get; }
+	IStateService StateService { get; }
 	/// <summary>
 	/// The logger service.
 	/// </summary>

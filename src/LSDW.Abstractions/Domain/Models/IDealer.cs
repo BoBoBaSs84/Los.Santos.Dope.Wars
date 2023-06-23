@@ -1,4 +1,5 @@
 ﻿using GTA;
+using LSDW.Abstractions.Domain.Providers;
 
 namespace LSDW.Abstractions.Domain.Models;
 
@@ -21,6 +22,11 @@ public interface IDealer : IPedestrian
 	/// When does the whole inventory changes itself next time?
 	/// </summary>
 	DateTime NextInventoryChange { get; }
+
+	/// <summary>
+	/// Is the dealer closed for business?
+	/// </summary>
+	bool Closed { get; }
 
 	/// <summary>
 	/// Has the dealer already been discovered?
@@ -50,10 +56,10 @@ public interface IDealer : IPedestrian
 	void DeleteBlip();
 
 	/// <summary>
-	/// Set the closed or not state.
+	/// Sets <see cref="Closed"/> to <see langword="true"/> and sets the <see cref="ClosedUntil"/> value.
 	/// </summary>
-	/// <param name="value">The value for closed, <see langword="null"/> for open again.</param>
-	void SetClosed(DateTime? value);
+	/// <param name="timeProvider">The time provider instance to use.</param>
+	void SetClosed(ITimeProvider timeProvider);
 
 	/// <summary>
 	/// Sets if the dealer is discovered or not, maybe good for rediscovering too.
@@ -62,14 +68,19 @@ public interface IDealer : IPedestrian
 	void SetDiscovered(bool value);
 
 	/// <summary>
+	/// Sets <see cref="Closed"/> to <see langword="false"/> and unsets the <see cref="ClosedUntil"/> value.
+	/// </summary>
+	void SetOpen();
+
+	/// <summary>
 	/// Sets the next price change date time.
 	/// </summary>
-	/// <param name="value">The date time to set.</param>
-	void SetNextPriceChange(DateTime value);
+	/// <param name="timeProvider">The time provider instance to use.</param>
+	void SetNextPriceChange(ITimeProvider timeProvider);
 
 	/// <summary>
 	/// Sets the next inventory change date time. 
 	/// </summary>
-	/// <param name="value">The date time to set.</param>
-	void SetNextInventoryChange(DateTime value);
+	/// <param name="timeProvider">The time provider instance to use.</param>
+	void SetNextInventoryChange(ITimeProvider timeProvider);
 }

@@ -21,7 +21,7 @@ public class GameStateServiceTests
 	public void LoadTest()
 	{
 		string filePath = Path.Combine(_baseDirectory, _saveFileName);
-		IGameStateService stateService = CreateGameStateService(_logger.Object);
+		IStateService stateService = CreateGameStateService(_logger.Object);
 
 		bool success = stateService.Load();
 
@@ -35,7 +35,7 @@ public class GameStateServiceTests
 		DeleteSaveFile();
 		string filePath = Path.Combine(_baseDirectory, _saveFileName);
 		File.AppendAllText(filePath, "");
-		IGameStateService stateService = CreateGameStateService(_logger.Object);
+		IStateService stateService = CreateGameStateService(_logger.Object);
 
 		bool success = stateService.Load();
 
@@ -46,7 +46,7 @@ public class GameStateServiceTests
 	public void SaveTest()
 	{
 		string filePath = Path.Combine(_baseDirectory, _saveFileName);
-		IGameStateService stateService = CreateGameStateService(_logger.Object);
+		IStateService stateService = CreateGameStateService(_logger.Object);
 
 		bool success = stateService.Save();
 

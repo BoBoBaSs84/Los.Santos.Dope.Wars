@@ -19,7 +19,7 @@ public partial class InfrastructureFactoryTests
 	[TestMethod]
 	public void CreateGameStateServiceTest()
 	{
-		IGameStateService? gameStateService;
+		IStateService? gameStateService;
 
 		gameStateService = CreateGameStateService(_loggerMock.Object);
 
@@ -29,7 +29,7 @@ public partial class InfrastructureFactoryTests
 	[TestMethod]
 	public void CreateGameStateServiceWithoutLoggerTest()
 	{
-		IGameStateService? gameStateService;
+		IStateService? gameStateService;
 
 		gameStateService = CreateGameStateService(_loggerMock.Object);
 

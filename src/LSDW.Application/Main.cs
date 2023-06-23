@@ -2,6 +2,7 @@
 using LemonUI;
 using LSDW.Abstractions.Application.Managers;
 using LSDW.Abstractions.Domain.Missions;
+using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Presentation.Menus;
 using LSDW.Application.Managers;
 using LSDW.Domain.Factories;
@@ -20,16 +21,26 @@ public sealed class Main : Script
 	private readonly ISettingsMenu _settingsMenu;
 	private readonly ITrafficking _trafficking;
 
+	private DateTime dateTime = DateTime.Now;
+	private bool isDebug;
+
 	/// <summary>
 	/// Initializes a instance of the main class.
 	/// </summary>
 	public Main()
 	{
+#if DEBUG
+		isDebug = true;
+#else
+		isDebug = false;
+#endif
+
 		_providerManager = new ProviderManager();
 		_serviceManager = new ServiceManager();
 		_settingsMenu = PresentationFactory.CreateSettingsMenu(_serviceManager);
 		_settingsMenu.Add(_processables);
 		_trafficking = DomainFactory.CreateTraffickingMission(_serviceManager, _providerManager);
+		_serviceManager.StateService.Load(!isDebug);
 
 		Interval = 10;
 
@@ -42,20 +53,45 @@ public sealed class Main : Script
 	}
 
 	private void OnTick(object sender, EventArgs e)
-		=> _processables.Process();
+	{
+		_processables.Process();
+
+		if (dateTime.AddMinutes(5) <= DateTime.Now)
+		{
+			_serviceManager.StateService.Save(!isDebug);
+			dateTime = DateTime.Now;
+		}
+	}
 
 	private void OnKeyUp(object sender, KeyEventArgs args)
 	{
+		if (!(Game.Player.CanControlCharacter && Game.Player.CanStartMission))
+			return;
+
 		if (args.KeyCode == Keys.F10)
 		{
-			if (Game.Player.CanControlCharacter && Game.Player.CanStartMission)
-				_settingsMenu.SetVisible(true);
+			_settingsMenu.SetVisible(true);
 		}
 
 		if (args.KeyCode == Keys.F9)
 		{
-			if (Game.Player.CanControlCharacter && Game.Player.CanStartMission)
+			if (_trafficking.Status.Equals(MissionStatusType.Stopped))
+			{
 				_trafficking.StartMission();
+				return;
+			}
+
+			if (_trafficking.Status.Equals(MissionStatusType.Started))
+			{
+				_serviceManager.StateService.Save(!isDebug);
+				_trafficking.StopMission();
+				return;
+			}
+		}
+
+		if (args.KeyCode == Keys.F8)
+		{
+			_providerManager.NotificationProvider.ShowSubtitle($"{_providerManager.LocationProvider.PlayerPosition}");
 		}
 	}
 }

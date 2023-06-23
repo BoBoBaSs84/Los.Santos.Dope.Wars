@@ -56,14 +56,13 @@ internal sealed class Trafficking : Mission, ITrafficking
 	{
 		leftSideMenu = null;
 		rightSideMenu = null;
-		_dealers.DeleteDealers();
+		_ = _dealers.CleanUpDealers();
 		base.StopMission();
 	}
 
 	public override void OnAborted(object sender, EventArgs args)
 		=> StopMission();
 
-	[SuppressMessage("Style", "IDE0058", Justification = "Extension methods.")]
 	public override void OnTick(object sender, EventArgs args)
 	{
 		if (Status is not MissionStatusType.Started)
@@ -74,8 +73,8 @@ internal sealed class Trafficking : Mission, ITrafficking
 
 		try
 		{
-			this.TrackDealers(_dealers, _player)
-				.DiscoverDealers(_dealers)
+			_ = this.TrackDealers(_dealers)
+				.DiscoverDealers(_dealers, _player)
 				.ChangeDealerInventories(_dealers, _player)
 				.ChangeDealerPrices(_dealers, _player);
 		}

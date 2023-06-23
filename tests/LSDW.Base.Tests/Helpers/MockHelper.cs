@@ -48,9 +48,9 @@ public static class MockHelper
 	public static Mock<ILoggerService> GetLoggerService()
 		=> new();
 
-	public static Mock<IGameStateService> GetStateService()
+	public static Mock<IStateService> GetStateService()
 	{
-		Mock<IGameStateService> mock = new();
+		Mock<IStateService> mock = new();
 		mock.Setup(x=>x.Player).Returns(GetPlayer().Object);
 		return mock;
 	}

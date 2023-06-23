@@ -1,9 +1,11 @@
 ﻿using GTA;
 using GTA.Math;
 using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Domain.Providers;
 using LSDW.Domain.Factories;
 using LSDW.Domain.Models.Base;
 using DealerSettings = LSDW.Domain.Models.Settings.Dealer;
+using MarketSettings = LSDW.Domain.Models.Settings.Market;
 
 namespace LSDW.Domain.Models;
 
@@ -44,6 +46,7 @@ internal sealed class Dealer : Pedestrian, IDealer
 	/// <param name="lastRestock">When was the inventory the last time restocked?</param>
 	internal Dealer(Vector3 position, PedHash pedHash, string name, DateTime? closedUntil, bool discovered, IInventory inventory, DateTime lastRefresh, DateTime lastRestock) : base(position, pedHash, name)
 	{
+		Closed = closedUntil.HasValue;
 		ClosedUntil = closedUntil;
 		Discovered = discovered;
 		Inventory = inventory;
@@ -54,6 +57,7 @@ internal sealed class Dealer : Pedestrian, IDealer
 	}
 
 	public DateTime? ClosedUntil { get; private set; }
+	public bool Closed { get; private set; }
 	public bool Discovered { get; private set; }
 	public bool BlipCreated => blip is not null;
 	public IInventory Inventory { get; }
@@ -62,7 +66,7 @@ internal sealed class Dealer : Pedestrian, IDealer
 
 	public override void Create(float healthValue = 100)
 	{
-		if (Created || ClosedUntil.HasValue)
+		if (Created || Closed)
 			return;
 
 		base.Create(healthValue);
@@ -76,7 +80,7 @@ internal sealed class Dealer : Pedestrian, IDealer
 
 	public void CreateBlip(BlipSprite sprite = BlipSprite.Drugs, BlipColor color = BlipColor.White)
 	{
-		if (blip is not null || ClosedUntil.HasValue)
+		if (blip is not null || Closed)
 			return;
 
 		blip = World.CreateBlip(Position);
@@ -90,9 +94,6 @@ internal sealed class Dealer : Pedestrian, IDealer
 	{
 		if (BlipCreated)
 			DeleteBlip();
-
-		if (Created)
-			return;
 
 		Inventory.PropertyChanged -= OnPropertyChanged;
 		Inventory.Clear();
@@ -118,17 +119,26 @@ internal sealed class Dealer : Pedestrian, IDealer
 		base.Flee();
 	}
 
-	public void SetClosed(DateTime? value)
-		=> ClosedUntil = value;
+	public void SetClosed(ITimeProvider timeProvider)
+	{
+		ClosedUntil = timeProvider.Now.AddHours(DealerSettings.DownTimeInHours);
+		Closed = true;
+	}
 
 	public void SetDiscovered(bool value)
 		=> Discovered = value;
 
-	public void SetNextPriceChange(DateTime value)
-		=> NextPriceChange = value;
+	public void SetOpen()
+	{
+		ClosedUntil = null;
+		Closed = false;
+	}
 
-	public void SetNextInventoryChange(DateTime value)
-		=> NextInventoryChange = value;
+	public void SetNextPriceChange(ITimeProvider timeProvider)
+		=> NextPriceChange = timeProvider.Now.AddHours(MarketSettings.PriceChangeInterval);
+
+	public void SetNextInventoryChange(ITimeProvider timeProvider)
+		=> NextInventoryChange = timeProvider.Now.AddHours(MarketSettings.InventoryChangeInterval);
 
 	private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
 	{

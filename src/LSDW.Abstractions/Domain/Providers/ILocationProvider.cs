@@ -14,6 +14,13 @@ public interface ILocationProvider
 	Vector3 PlayerPosition { get; }
 
 	/// <summary>
+	/// Gets the next position on the street where a <see cref="Vehicle"/> can be placed.
+	/// </summary>
+	/// <param name="position">The position to check around.</param>
+	/// <param name="unoccupied">If set to true only find positions that dont already have a vehicle in them.</param>
+	Vector3 GetNextPositionOnStreet(Vector3 position, bool unoccupied = false);
+
+	/// <summary>
 	/// Gets the next position on the street where a <see cref="Ped"/> can be placed.
 	/// </summary>
 	/// <param name="position">The position to check around.</param>
