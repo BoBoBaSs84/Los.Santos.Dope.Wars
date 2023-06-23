@@ -25,6 +25,9 @@ internal class LoggerService : ILoggerService
 	public void Critical(string message, [CallerMemberName] string callerName = "")
 		=> LogToFile("FTL", callerName, message);
 
+	public void Critical(string message, Exception exception, [CallerMemberName] string callerName = "")
+		=> LogToFile("FTL", callerName, $"{message} - {exception}");
+
 	public void Debug(string message, [CallerMemberName] string callerName = "")
 		=> LogToFile("DBG", callerName, message);
 

@@ -5,6 +5,7 @@ using LSDW.Abstractions.Domain.Missions;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Presentation.Menus;
 using LSDW.Application.Managers;
+using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
 using LSDW.Presentation.Factories;
 
@@ -86,6 +87,11 @@ public sealed class Main : Script
 			var position = _providerManager.LocationProvider.PlayerPosition;
 			var gameTime = _providerManager.TimeProvider.Now;
 			_providerManager.NotificationProvider.ShowSubtitle($"{position} - {gameTime}");
+
+			foreach(Abstractions.Domain.Models.IDealer dealer in _serviceManager.StateService.Dealers)
+			{
+				_ = dealer.Inventory.Restock();
+			}
 		}
 	}
 }

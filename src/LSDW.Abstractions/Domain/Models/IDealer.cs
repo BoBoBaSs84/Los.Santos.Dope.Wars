@@ -44,6 +44,14 @@ public interface IDealer : IPedestrian
 	IInventory Inventory { get; }
 
 	/// <summary>
+	/// This will clean up the dealer.
+	/// </summary>
+	/// <remarks>
+	/// Removing the <see cref="Blip"/> and deleting the <see cref="Ped"/>.
+	/// </remarks>
+	void CleanUp();
+
+	/// <summary>
 	/// Creates the blip on the map.
 	/// </summary>
 	/// <param name="sprite"></param>

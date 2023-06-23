@@ -5,7 +5,6 @@ namespace LSDW.Domain.Helpers;
 /// <summary>
 /// The script hook helper class.
 /// </summary>
-
 internal static class ScriptHookHelper
 {
 	/// <summary>

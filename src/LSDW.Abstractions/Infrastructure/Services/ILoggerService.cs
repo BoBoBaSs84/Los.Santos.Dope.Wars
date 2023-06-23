@@ -29,9 +29,17 @@ public interface ILoggerService
 	void Warning(string message, [CallerMemberName] string callerName = "");
 
 	/// <summary>
-	/// Logs error related things.
+	/// Logs critical error related things.
 	/// </summary>
 	/// <param name="message">The message to log.</param>
 	/// <param name="callerName">The message caller.</param>
 	void Critical(string message, [CallerMemberName] string callerName = "");
+
+	/// <summary>
+	/// Logs critical error related things.
+	/// </summary>
+	/// <param name="message">The message to log.</param>
+	/// <param name="exception">The exception to log.</param>
+	/// <param name="callerName">The message caller.</param>
+	void Critical(string message, Exception exception, [CallerMemberName] string callerName = "");
 }

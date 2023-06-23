@@ -74,7 +74,7 @@ public static class DealerExtensions
 	public static ICollection<IDealer> CleanUpDealers(this ICollection<IDealer> dealers)
 	{
 		foreach (IDealer dealer in dealers)
-			dealer.Delete();
+			dealer.CleanUp();
 		return dealers;
 	}
 }

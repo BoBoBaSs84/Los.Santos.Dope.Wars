@@ -64,6 +64,12 @@ internal sealed class Dealer : Pedestrian, IDealer
 	public DateTime NextPriceChange { get; private set; }
 	public DateTime NextInventoryChange { get; private set; }
 
+	public void CleanUp()
+	{
+		DeleteBlip();
+		Delete();
+	}
+
 	public override void Create(float healthValue = 100)
 	{
 		if (Created || Closed)
@@ -88,14 +94,6 @@ internal sealed class Dealer : Pedestrian, IDealer
 		blip.Scale = 0.75f;
 		blip.Color = color;
 		blip.IsShortRange = true;
-	}
-
-	public override void Delete()
-	{
-		if (BlipCreated)
-			DeleteBlip();
-
-		base.Delete();
 	}
 
 	public void DeleteBlip()

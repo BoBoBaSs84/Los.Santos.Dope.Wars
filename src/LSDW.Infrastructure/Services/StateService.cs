@@ -60,7 +60,7 @@ internal sealed class StateService : IStateService
 		}
 		catch (Exception ex)
 		{
-			_logger.Critical(ex.Message);
+			_logger.Critical("Error while loading.", ex);
 			return false;
 		}
 	}
@@ -85,7 +85,7 @@ internal sealed class StateService : IStateService
 		}
 		catch (Exception ex)
 		{
-			_logger.Critical(ex.Message);
+			_logger.Critical("Error while saving.", ex);
 			return false;
 		}
 	}

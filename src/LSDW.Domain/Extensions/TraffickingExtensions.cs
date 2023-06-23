@@ -147,6 +147,37 @@ public static class TraffickingExtensions
 	}
 
 	/// <summary>
+	/// Takes care of the creation and deletion of the discovered dealers.
+	/// </summary>
+	/// <param name="trafficking">The trafficking instance to use.</param>
+	/// <param name="dealers">The dealer collection instance to use.</param>
+	public static ITrafficking CreateDealers(this ITrafficking trafficking, ICollection<IDealer> dealers)
+	{
+		if (!dealers.Any(x => x.Discovered))
+			return trafficking;
+
+		Vector3 playerPosition = trafficking.LocationProvider.PlayerPosition;
+
+		foreach (IDealer dealer in dealers.Where(x => x.Discovered))
+		{
+			if (dealer.Position.DistanceTo(playerPosition) < CreateDistance)
+			{
+				if (dealer.Created || dealer.Closed)
+					continue;
+
+				dealer.Create();
+			}
+			if (dealer.Position.DistanceTo(playerPosition) > CreateDistance)
+			{
+				if (dealer.Created)
+					dealer.Delete();
+			}
+		}
+
+		return trafficking;
+	}
+
+	/// <summary>
 	/// Discovers the dealer, creates the blip on the map and show the notification.
 	/// </summary>
 	/// <param name="trafficking">The trafficking instance to use.</param>

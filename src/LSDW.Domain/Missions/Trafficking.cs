@@ -75,7 +75,8 @@ internal sealed class Trafficking : Mission, ITrafficking
 				.DiscoverDealers(_dealers, _player)
 				.DiscoveredDealers(_dealers)
 				.ChangeDealerInventories(_dealers, _player)
-				.ChangeDealerPrices(_dealers, _player);
+				.ChangeDealerPrices(_dealers, _player)
+				.CreateDealers(_dealers);
 		}
 		catch (Exception ex)
 		{
