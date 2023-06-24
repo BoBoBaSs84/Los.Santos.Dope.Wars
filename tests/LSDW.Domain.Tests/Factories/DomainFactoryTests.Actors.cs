@@ -1,4 +1,5 @@
 ﻿using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Enumerators;
 using LSDW.Domain.Factories;
 
 namespace LSDW.Domain.Tests.Factories;
@@ -14,6 +15,7 @@ public partial class DomainFactoryTests
 
 		Assert.IsNotNull(dealer);
 		Assert.AreEqual(dealer.Position, zeroVector);
+		Assert.AreEqual(TaskType.NoTask, dealer.CurrentTask);
 	}
 
 	[TestMethod]
@@ -26,6 +28,7 @@ public partial class DomainFactoryTests
 		Assert.IsNotNull(dealer);
 		Assert.AreEqual(dealer.Position, zeroVector);
 		Assert.AreEqual(dealer.Hash, pedHash);
+		Assert.AreEqual(TaskType.NoTask, dealer.CurrentTask);
 	}
 
 	[TestMethod]

@@ -11,6 +11,6 @@ internal static partial class ApplicationFactory
 	/// </summary>
 	/// <param name="serviceManager">The service manager instance to use.</param>
 	/// <param name="providerManager">The provider manager instance to use.</param>
-	public static ITrafficking CreateTraffickingMission(IServiceManager serviceManager, IProviderManager providerManager)
+	internal static ITrafficking CreateTraffickingMission(IServiceManager serviceManager, IProviderManager providerManager)
 		=> new Trafficking(serviceManager, providerManager);
 }
