@@ -1,15 +1,16 @@
 ﻿using GTA;
 using LSDW.Abstractions.Application.Managers;
-using LSDW.Abstractions.Domain.Missions;
+using LSDW.Abstractions.Application.Models.Missions;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Providers;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Abstractions.Presentation.Menus;
+using LSDW.Application.Extensions;
+using LSDW.Application.Models.Missions.Base;
 using LSDW.Domain.Extensions;
-using LSDW.Domain.Missions.Base;
 
-namespace LSDW.Domain.Missions;
+namespace LSDW.Application.Models.Missions;
 
 /// <summary>
 /// The trafficking class.

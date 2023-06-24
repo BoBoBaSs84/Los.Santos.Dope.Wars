@@ -1,9 +1,9 @@
 ﻿using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Application.Managers;
-using LSDW.Abstractions.Domain.Missions;
 using LSDW.Base.Tests.Helpers;
 using LSDW.Domain.Factories;
 using Moq;
+using LSDW.Abstractions.Application.Models.Missions;
 
 namespace LSDW.Domain.Tests.Factories;
 

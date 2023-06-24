@@ -1,12 +1,13 @@
 ﻿using GTA;
 using GTA.Math;
-using LSDW.Abstractions.Domain.Missions;
+using LSDW.Abstractions.Application.Models.Missions;
 using LSDW.Abstractions.Domain.Models;
+using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
 using LSDW.Domain.Models;
 using System.Diagnostics.CodeAnalysis;
 
-namespace LSDW.Domain.Extensions;
+namespace LSDW.Application.Extensions;
 
 /// <summary>
 /// The trafficking extensions class.
@@ -71,12 +72,12 @@ public static class TraffickingExtensions
 		{
 			if (!Settings.Trafficking.DiscoverDealer)
 			{
-				DiscoverDealer(trafficking, dealer, player);
+				trafficking.DiscoverDealer(dealer, player);
 				continue;
 			}
 
 			if (dealer.Position.DistanceTo(playerPosition) <= DiscoverDistance)
-				DiscoverDealer(trafficking, dealer, player);
+				trafficking.DiscoverDealer(dealer, player);
 		}
 
 		return trafficking;
@@ -100,12 +101,10 @@ public static class TraffickingExtensions
 		foreach (IDealer dealer in dealers.Where(x => x.Discovered && !x.BlipCreated))
 		{
 			if (dealer.Closed)
-			{
 				if (dealer.ClosedUntil.HasValue && dealer.ClosedUntil < trafficking.TimeProvider.Now)
 					dealer.SetOpen();
 				else
 					continue;
-			}
 
 			dealer.CreateBlip();
 		}
@@ -173,10 +172,8 @@ public static class TraffickingExtensions
 			}
 
 			if (dealer.Position.DistanceTo(playerPosition) > CreateDistance)
-			{
 				if (dealer.Created)
 					dealer.Delete();
-			}
 		}
 
 		return trafficking;
@@ -200,9 +197,7 @@ public static class TraffickingExtensions
 				dealer.SetClosed(trafficking.TimeProvider);
 
 			if (dealer.Position.DistanceTo(playerPosition) < CloseRangeDistance)
-			{
 				dealer.WanderAround(5);
-			}
 
 			if (dealer.Position.DistanceTo(playerPosition) < RealCloseRangeDistance)
 			{
@@ -231,11 +226,9 @@ public static class TraffickingExtensions
 			return trafficking;
 
 		foreach (IDealer dealer in dealers)
-		{
 			if (dealer.Created && !dealer.IsDead && !dealer.Closed && Game.Player.WantedLevel.Equals(0))
 			{
 			}
-		}
 
 		return trafficking;
 	}

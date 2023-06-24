@@ -1,6 +1,6 @@
 ﻿using GTA;
 using GTA.Math;
-using LSDW.Abstractions.Domain.Missions;
+using LSDW.Abstractions.Application.Models.Missions;
 using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Base.Tests.Helpers;
 using Moq;

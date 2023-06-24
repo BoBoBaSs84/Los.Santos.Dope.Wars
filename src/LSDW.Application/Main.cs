@@ -1,12 +1,11 @@
 ﻿using GTA;
 using LemonUI;
 using LSDW.Abstractions.Application.Managers;
-using LSDW.Abstractions.Domain.Missions;
+using LSDW.Abstractions.Application.Models.Missions;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Presentation.Menus;
+using LSDW.Application.Factories;
 using LSDW.Application.Managers;
-using LSDW.Domain.Extensions;
-using LSDW.Domain.Factories;
 using LSDW.Presentation.Factories;
 
 namespace LSDW.Application;
@@ -22,8 +21,8 @@ public sealed class Main : Script
 	private readonly ISettingsMenu _settingsMenu;
 	private readonly ITrafficking _trafficking;
 
-	private bool isLoaded;
-	private bool isDebug;
+	private DateTime dateTime = DateTime.Now;
+	private readonly bool isDebug;
 
 	/// <summary>
 	/// Initializes a instance of the main class.
@@ -38,10 +37,10 @@ public sealed class Main : Script
 
 		_providerManager = new ProviderManager();
 		_serviceManager = new ServiceManager();
-		isLoaded = _serviceManager.StateService.Load(!isDebug);
-		_settingsMenu = PresentationFactory.CreateSettingsMenu(_serviceManager);		
-		_trafficking = DomainFactory.CreateTraffickingMission(_serviceManager, _providerManager);
+		_settingsMenu = PresentationFactory.CreateSettingsMenu(_serviceManager);
 		_settingsMenu.Add(_processables);
+		_trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManager, _providerManager);
+		_serviceManager.StateService.Load(!isDebug);
 
 		Interval = 10;
 
@@ -54,7 +53,15 @@ public sealed class Main : Script
 	}
 
 	private void OnTick(object sender, EventArgs e)
-		=> _processables.Process();
+	{
+		_processables.Process();
+
+		if (dateTime.AddMinutes(5) <= DateTime.Now)
+		{
+			_ = _serviceManager.StateService.Save(!isDebug);
+			dateTime = DateTime.Now;
+		}
+	}
 
 	private void OnKeyUp(object sender, KeyEventArgs args)
 	{
@@ -76,22 +83,15 @@ public sealed class Main : Script
 
 			if (_trafficking.Status.Equals(MissionStatusType.Started))
 			{
-				_trafficking.StopMission();
 				_ = _serviceManager.StateService.Save(!isDebug);
+				_trafficking.StopMission();
 				return;
 			}
 		}
 
 		if (args.KeyCode == Keys.F8)
 		{
-			var position = _providerManager.LocationProvider.PlayerPosition;
-			var gameTime = _providerManager.TimeProvider.Now;
-			_providerManager.NotificationProvider.ShowSubtitle($"{position} - {gameTime}");
-
-			foreach(Abstractions.Domain.Models.IDealer dealer in _serviceManager.StateService.Dealers)
-			{
-				_ = dealer.Inventory.Restock();
-			}
+			_providerManager.NotificationProvider.ShowSubtitle($"{_providerManager.LocationProvider.PlayerPosition}");
 		}
 	}
 }
