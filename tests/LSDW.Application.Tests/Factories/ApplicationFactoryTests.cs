@@ -1,13 +1,14 @@
-﻿using LSDW.Abstractions.Enumerators;
-using LSDW.Abstractions.Application.Managers;
-using LSDW.Base.Tests.Helpers;
-using LSDW.Domain.Factories;
-using Moq;
+﻿using LSDW.Abstractions.Application.Managers;
 using LSDW.Abstractions.Application.Models.Missions;
+using LSDW.Abstractions.Enumerators;
+using LSDW.Application.Factories;
+using LSDW.Base.Tests.Helpers;
+using Moq;
 
-namespace LSDW.Domain.Tests.Factories;
+namespace LSDW.Application.Tests.Factories;
 
-public partial class DomainFactoryTests
+[TestClass]
+public class ApplicationFactoryTests
 {
 	[TestMethod]
 	public void CreateTraffickingMissionTest()
@@ -16,7 +17,7 @@ public partial class DomainFactoryTests
 		Mock<IProviderManager> providerManagerMock = MockHelper.GetProviderManager();
 		ITrafficking? trafficking;
 
-		trafficking = DomainFactory.CreateTraffickingMission(serviceManagerMock.Object, providerManagerMock.Object);
+		trafficking = ApplicationFactory.CreateTraffickingMission(serviceManagerMock.Object, providerManagerMock.Object);
 
 		Assert.IsNotNull(trafficking);
 		Assert.AreEqual("Trafficking", trafficking.Name);

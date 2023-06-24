@@ -1,15 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.NET.Test.Sdk" />
-		<PackageReference Include="MSTest.TestAdapter" />
-		<PackageReference Include="MSTest.TestFramework" />
-		<PackageReference Include="coverlet.collector" />
-		<PackageReference Include="FluentAssertions" />
-		<PackageReference Include="Moq" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<ProjectReference Include="..\..\src\LSDW.Abstractions\LSDW.Abstractions.csproj" />
 	</ItemGroup>
 
