@@ -1,8 +1,8 @@
 ﻿using LSDW.Abstractions.Application.Managers;
-using LSDW.Abstractions.Domain.Missions.Base;
+using LSDW.Abstractions.Application.Models.Missions.Base;
 using LSDW.Abstractions.Enumerators;
 
-namespace LSDW.Domain.Missions.Base;
+namespace LSDW.Application.Models.Missions.Base;
 
 /// <summary>
 /// The mission base class.

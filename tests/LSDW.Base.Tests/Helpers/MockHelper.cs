@@ -1,5 +1,5 @@
 ﻿using LSDW.Abstractions.Application.Managers;
-using LSDW.Abstractions.Domain.Missions;
+using LSDW.Abstractions.Application.Models.Missions;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Providers;
 using LSDW.Abstractions.Infrastructure.Services;

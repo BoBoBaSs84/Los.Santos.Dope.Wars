@@ -1,13 +1,14 @@
 ﻿using GTA.Math;
 using LSDW.Abstractions.Application.Managers;
-using LSDW.Abstractions.Domain.Missions;
+using LSDW.Abstractions.Application.Models.Missions;
 using LSDW.Abstractions.Domain.Models;
+using LSDW.Application.Extensions;
+using LSDW.Application.Factories;
 using LSDW.Base.Tests.Helpers;
-using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
 using Moq;
 
-namespace LSDW.Domain.Tests.Extensions;
+namespace LSDW.Application.Tests.Extensions;
 
 [TestClass]
 [SuppressMessage("Style", "IDE0058", Justification = "Unit tests.")]
@@ -22,7 +23,7 @@ public class TraffickingExtensionsTests
 	[TestMethod]
 	public void ChangeDealerPricesNonDiscoveredTest()
 	{
-		ITrafficking trafficking = DomainFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
+		ITrafficking trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
 		_dealers.Add(DomainFactory.CreateDealer(_zeroVector));
 
 		trafficking.ChangeDealerPrices(_dealers, _player);
@@ -33,7 +34,7 @@ public class TraffickingExtensionsTests
 	[TestMethod]
 	public void ChangeDealerPricesTest()
 	{
-		ITrafficking trafficking = DomainFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
+		ITrafficking trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
 		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
 		dealer.SetDiscovered(true);
 		_dealers.Add(dealer);
@@ -46,7 +47,7 @@ public class TraffickingExtensionsTests
 	[TestMethod]
 	public void ChangeDealerInventoriesNonDiscoveredTest()
 	{
-		ITrafficking trafficking = DomainFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
+		ITrafficking trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
 		_dealers.Add(DomainFactory.CreateDealer(_zeroVector));
 
 		trafficking.ChangeDealerInventories(_dealers, _player);
@@ -58,7 +59,7 @@ public class TraffickingExtensionsTests
 	[TestMethod]
 	public void ChangeDealerInventoriesTest()
 	{
-		ITrafficking trafficking = DomainFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
+		ITrafficking trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
 		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
 		dealer.SetDiscovered(true);
 		_dealers.Add(dealer);

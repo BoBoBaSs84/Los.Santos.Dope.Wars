@@ -1,10 +1,10 @@
 ﻿using LSDW.Abstractions.Application.Managers;
-using LSDW.Abstractions.Domain.Missions;
-using LSDW.Domain.Missions;
+using LSDW.Abstractions.Application.Models.Missions;
+using LSDW.Application.Models.Missions;
 
-namespace LSDW.Domain.Factories;
+namespace LSDW.Application.Factories;
 
-public static partial class DomainFactory
+internal static partial class ApplicationFactory
 {
 	/// <summary>
 	/// Creates a new trafficking mission instance.
