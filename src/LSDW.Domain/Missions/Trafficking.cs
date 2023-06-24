@@ -40,9 +40,6 @@ internal sealed class Trafficking : Mission, ITrafficking
 		LocationProvider = providerManager.LocationProvider;
 		NotificationProvider = providerManager.NotificationProvider;
 		TimeProvider = providerManager.TimeProvider;
-
-		// TODO: debug message
-		LoggerService.Debug($"Dealers in collection: {_dealers.Count}");
 	}
 
 	public ILocationProvider LocationProvider { get; }
@@ -59,7 +56,10 @@ internal sealed class Trafficking : Mission, ITrafficking
 	}
 
 	public override void OnAborted(object sender, EventArgs args)
-		=> StopMission();
+	{
+		if (Status is MissionStatusType.Started)
+			StopMission();
+	}
 
 	public override void OnTick(object sender, EventArgs args)
 	{
@@ -76,11 +76,12 @@ internal sealed class Trafficking : Mission, ITrafficking
 				.DiscoveredDealers(_dealers)
 				.ChangeDealerInventories(_dealers, _player)
 				.ChangeDealerPrices(_dealers, _player)
-				.CreateDealers(_dealers);
+				.CreateDealers(_dealers)
+				.CloseRange(_dealers);
 		}
 		catch (Exception ex)
 		{
-			LoggerService.Critical(ex.Message);
+			LoggerService.Critical($"There was an error.", ex);
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using GTA.Math;
+﻿using GTA;
+using GTA.Math;
 using LSDW.Abstractions.Domain.Missions;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Domain.Factories;
@@ -17,6 +18,8 @@ public static class TraffickingExtensions
 	private const float TerritoryDistance = 250;
 	private const float DiscoverDistance = 150;
 	private const float CreateDistance = 100;
+	private const float CloseRangeDistance = 50;
+	private const float RealCloseRangeDistance = 10;
 
 	/// <summary>
 	/// Tracks new dealers around the world and adds them to the dealer collection.
@@ -153,12 +156,12 @@ public static class TraffickingExtensions
 	/// <param name="dealers">The dealer collection instance to use.</param>
 	public static ITrafficking CreateDealers(this ITrafficking trafficking, ICollection<IDealer> dealers)
 	{
-		if (!dealers.Any(x => x.Discovered))
+		if (!dealers.Any())
 			return trafficking;
 
 		Vector3 playerPosition = trafficking.LocationProvider.PlayerPosition;
 
-		foreach (IDealer dealer in dealers.Where(x => x.Discovered))
+		foreach (IDealer dealer in dealers)
 		{
 			if (dealer.Position.DistanceTo(playerPosition) < CreateDistance)
 			{
@@ -167,10 +170,48 @@ public static class TraffickingExtensions
 
 				dealer.Create();
 			}
+
 			if (dealer.Position.DistanceTo(playerPosition) > CreateDistance)
 			{
 				if (dealer.Created)
 					dealer.Delete();
+			}
+		}
+
+		return trafficking;
+	}
+
+	/// <summary>
+	/// Takes care of every thing if the player is in close range to the dealer.
+	/// </summary>
+	/// <param name="trafficking">The trafficking instance to use.</param>
+	/// <param name="dealers">The dealer collection instance to use.</param>
+	public static ITrafficking CloseRange(this ITrafficking trafficking, ICollection<IDealer> dealers)
+	{
+		if (!dealers.Any())
+			return trafficking;
+
+		Vector3 playerPosition = trafficking.LocationProvider.PlayerPosition;
+
+		foreach (IDealer dealer in dealers)
+		{
+			if (dealer.IsDead && dealer.Created)
+				dealer.SetClosed(trafficking.TimeProvider);
+
+			if (dealer.Position.DistanceTo(playerPosition) < CloseRangeDistance)
+			{
+				dealer.WanderAround();
+			}
+
+			if (dealer.Position.DistanceTo(playerPosition) < RealCloseRangeDistance)
+			{
+				dealer.TurnTo(Game.Player.Character);
+
+				if (Game.Player.WantedLevel > 0)
+				{
+					dealer.Flee();
+					dealer.SetClosed(trafficking.TimeProvider);
+				}
 			}
 		}
 

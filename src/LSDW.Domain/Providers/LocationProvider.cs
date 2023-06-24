@@ -16,8 +16,8 @@ internal sealed class LocationProvider : ILocationProvider
 		=> Game.Player.Character.Position;
 
 	public Vector3 GetNextPositionOnSidewalk(Vector3 position)
-		=> World.GetNextPositionOnSidewalk(position);
-	
+		=> World.GetSafeCoordForPed(position, true, 1);
+
 	public Vector3 GetNextPositionOnStreet(Vector3 position, bool unoccupied = false)
 		=> World.GetNextPositionOnStreet(position, unoccupied);
 

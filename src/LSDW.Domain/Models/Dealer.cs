@@ -64,6 +64,12 @@ internal sealed class Dealer : Pedestrian, IDealer
 	public DateTime NextPriceChange { get; private set; }
 	public DateTime NextInventoryChange { get; private set; }
 
+	public override void Attack(Ped ped)
+	{
+		DeleteBlip();
+		base.Attack(ped);
+	}
+
 	public void CleanUp()
 	{
 		DeleteBlip();
@@ -72,9 +78,6 @@ internal sealed class Dealer : Pedestrian, IDealer
 
 	public override void Create(float healthValue = 100)
 	{
-		if (Created || Closed)
-			return;
-
 		base.Create(healthValue);
 
 		if (DealerSettings.HasWeapons)
@@ -106,11 +109,7 @@ internal sealed class Dealer : Pedestrian, IDealer
 
 	public override void Flee()
 	{
-		if (!Created)
-			return;
-
 		DeleteBlip();
-
 		base.Flee();
 	}
 
