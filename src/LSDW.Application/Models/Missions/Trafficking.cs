@@ -21,8 +21,13 @@ namespace LSDW.Application.Models.Missions;
 /// </remarks>
 internal sealed class Trafficking : Mission, ITrafficking
 {
+	private readonly IServiceManager _serviceManager;
+	private readonly IProviderManager _providerManager;
 	private readonly ICollection<IDealer> _dealers;
 	private readonly IPlayer _player;
+
+	private ISideMenu? leftSideMenu;
+	private ISideMenu? rightSideMenu;
 
 	/// <summary>
 	/// Initializes a instance of the trafficking class.
@@ -31,24 +36,38 @@ internal sealed class Trafficking : Mission, ITrafficking
 	/// <param name="providerManager">The provider manager instance to use.</param>
 	internal Trafficking(IServiceManager serviceManager, IProviderManager providerManager) : base(serviceManager, nameof(Trafficking))
 	{
-		_dealers = serviceManager.StateService.Dealers;
-		_player = serviceManager.StateService.Player;
+		_serviceManager = serviceManager;
+		_providerManager = providerManager;
+		_dealers = _serviceManager.StateService.Dealers;
+		_player = _serviceManager.StateService.Player;
 
-		LoggerService = serviceManager.LoggerService;
-		LocationProvider = providerManager.LocationProvider;
-		NotificationProvider = providerManager.NotificationProvider;
-		TimeProvider = providerManager.TimeProvider;
+		LoggerService = _serviceManager.LoggerService;
+		LocationProvider = _providerManager.LocationProvider;
+		NotificationProvider = _providerManager.NotificationProvider;
+		TimeProvider = _providerManager.TimeProvider;
 	}
 
+	public bool MenusInitialized => leftSideMenu is not null && rightSideMenu is not null;
 	public ILocationProvider LocationProvider { get; }
 	public ILoggerService LoggerService { get; }
 	public INotificationProvider NotificationProvider { get; }
 	public ITimeProvider TimeProvider { get; }
-	public ISideMenu? LeftSideMenu { get; private set; }
-	public ISideMenu? RightSideMenu { get; private set; }
+
+	public void CleanUpMenus()
+	{
+		leftSideMenu = null;
+		rightSideMenu = null;
+	}
+
+	public void SetMenus(ISideMenu leftSideMenu, ISideMenu rightSideMenu)
+	{
+		this.leftSideMenu = leftSideMenu;
+		this.rightSideMenu = rightSideMenu;
+	}
 
 	public override void StopMission()
 	{
+		CleanUpMenus();
 		_ = _dealers.CleanUpDealers();
 		base.StopMission();
 	}
@@ -75,8 +94,8 @@ internal sealed class Trafficking : Mission, ITrafficking
 				.ChangeDealerInventories(_dealers, _player)
 				.ChangeDealerPrices(_dealers, _player)
 				.CreateDealers(_dealers)
-				.CloseRange(_dealers)
-				.DealerInteraction(_dealers, _player);
+				.CloseRange(_serviceManager, _providerManager, _dealers, _player)
+				.DealerInteraction(_dealers);
 		}
 		catch (Exception ex)
 		{

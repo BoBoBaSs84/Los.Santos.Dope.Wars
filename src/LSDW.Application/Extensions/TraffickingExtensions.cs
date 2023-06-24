@@ -1,10 +1,14 @@
 ﻿using GTA;
 using GTA.Math;
+using LSDW.Abstractions.Application.Managers;
 using LSDW.Abstractions.Application.Models.Missions;
 using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Presentation.Menus;
+using LSDW.Application.Managers;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
 using LSDW.Domain.Models;
+using LSDW.Presentation.Factories;
 using System.Diagnostics.CodeAnalysis;
 
 namespace LSDW.Application.Extensions;
@@ -183,8 +187,11 @@ public static class TraffickingExtensions
 	/// Takes care of every thing if the player is in close range to the dealer.
 	/// </summary>
 	/// <param name="trafficking">The trafficking instance to use.</param>
+	/// <param name="serviceManager">The service manager instance to use.</param>
+	/// <param name="providerManager">The provider manager instance to use.</param>
 	/// <param name="dealers">The dealer collection instance to use.</param>
-	public static ITrafficking CloseRange(this ITrafficking trafficking, ICollection<IDealer> dealers)
+	/// <param name="player">The player instance to use.</param>
+	public static ITrafficking CloseRange(this ITrafficking trafficking, IServiceManager serviceManager, IProviderManager providerManager, ICollection<IDealer> dealers, IPlayer player)
 	{
 		if (!dealers.Any())
 			return trafficking;
@@ -197,16 +204,32 @@ public static class TraffickingExtensions
 				dealer.SetClosed(trafficking.TimeProvider);
 
 			if (dealer.Position.DistanceTo(playerPosition) < CloseRangeDistance)
-				dealer.WanderAround(5);
+				dealer.GuardPosition();
 
 			if (dealer.Position.DistanceTo(playerPosition) < RealCloseRangeDistance)
 			{
 				dealer.TurnTo(Game.Player.Character);
 
-				if (Game.Player.WantedLevel > 0)
+				if (trafficking.MenusInitialized.Equals(false))
 				{
-					dealer.Flee();
-					dealer.SetClosed(trafficking.TimeProvider);
+					trafficking.LoggerService.Debug($"{trafficking.MenusInitialized}");
+					InitializeMenus(trafficking, serviceManager, providerManager, dealer, player);
+					trafficking.LoggerService.Debug($"{trafficking.MenusInitialized}");
+				}
+
+				//if (Game.Player.WantedLevel > 0)
+				//{
+				//	dealer.Flee();
+				//	dealer.SetClosed(trafficking.TimeProvider);
+				//}
+			}
+			else
+			{
+				if (trafficking.MenusInitialized.Equals(true))
+				{
+					trafficking.LoggerService.Debug($"{trafficking.MenusInitialized}");
+					trafficking.CleanUpMenus();
+					trafficking.LoggerService.Debug($"{trafficking.MenusInitialized}");
 				}
 			}
 		}
@@ -219,16 +242,26 @@ public static class TraffickingExtensions
 	/// </summary>
 	/// <param name="trafficking">The trafficking instance to use.</param>
 	/// <param name="dealers">The dealer collection instance to use.</param>
-	/// <param name="player">The player instance to use.</param>
-	public static ITrafficking DealerInteraction(this ITrafficking trafficking, ICollection<IDealer> dealers, IPlayer player)
+	public static ITrafficking DealerInteraction(this ITrafficking trafficking, ICollection<IDealer> dealers)
 	{
 		if (!dealers.Any())
 			return trafficking;
 
-		foreach (IDealer dealer in dealers)
-			if (dealer.Created && !dealer.IsDead && !dealer.Closed && Game.Player.WantedLevel.Equals(0))
+		Vector3 playerPosition = trafficking.LocationProvider.PlayerPosition;
+
+		foreach (IDealer dealer in dealers.Where(x => x.Closed.Equals(false)))
+		{
+			if (dealer.Position.DistanceTo(playerPosition) <= InteractionDistance)
 			{
+				if (trafficking.MenusInitialized)
+				{
+					trafficking.NotificationProvider.ShowHelpTextThisFrame($"~b~Press ~INPUT_CONTEXT~ ~w~to start a warehouse mission.");
+					if (Game.IsControlJustPressed(GTA.Control.Context))
+					{
+					}
+				}
 			}
+		}
 
 		return trafficking;
 	}
@@ -247,5 +280,20 @@ public static class TraffickingExtensions
 		string locationName = trafficking.LocationProvider.GetZoneLocalizedName(dealer.Position);
 		string message = $"Hey dude, if your around {locationName}, come see me.";
 		trafficking.NotificationProvider.Show(dealer.Name, "Greetings", message);
+	}
+
+	/// <summary>
+	/// Initializes the trafficking menus.
+	/// </summary>
+	/// <param name="trafficking">The trafficking instance to use.</param>
+	/// <param name="serviceManager">The service manager instance to use.</param>
+	/// <param name="providerManager">The provider manager instance to use.</param>
+	/// <param name="dealer">The dealer instance to use.</param>
+	/// <param name="player">The player instance to use.</param>
+	private static void InitializeMenus(ITrafficking trafficking, IServiceManager serviceManager, IProviderManager providerManager, IDealer dealer, IPlayer player)
+	{
+		ISideMenu leftSideMenu = PresentationFactory.CreateBuyMenu(serviceManager, providerManager, player.Inventory);
+		ISideMenu rightSideMenu = PresentationFactory.CreateSellMenu(serviceManager, providerManager, dealer.Inventory);
+		trafficking.SetMenus(leftSideMenu, rightSideMenu);
 	}
 }
