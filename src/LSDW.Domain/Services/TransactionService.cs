@@ -11,7 +11,7 @@ namespace LSDW.Domain.Services;
 /// </summary>
 internal sealed class TransactionService : ITransactionService
 {
-	private readonly INotificationProvider _notificationService;
+	private readonly INotificationProvider _notificationProvider;
 	private readonly TransactionType _type;
 	private readonly IInventory _source;
 	private readonly IInventory _target;
@@ -20,14 +20,14 @@ internal sealed class TransactionService : ITransactionService
 	/// <summary>
 	/// Initializes a instance of the transaction service class.
 	/// </summary>
-	/// <param name="notificationService">The notification service to use.</param>
+	/// <param name="notificationProvider">The notification provider instance to use.</param>
 	/// <param name="type">The type of the transaction.</param>
 	/// <param name="source">The transaction source.</param>
 	/// <param name="target">The transaction target.</param>
 	/// <param name="maxQuantity">The maximum target quantity.</param>
-	internal TransactionService(INotificationProvider notificationService, TransactionType type, IInventory source, IInventory target, int maxQuantity)
+	internal TransactionService(INotificationProvider notificationProvider, TransactionType type, IInventory source, IInventory target, int maxQuantity)
 	{
-		_notificationService = notificationService;
+		_notificationProvider = notificationProvider;
 		_type = type;
 		_source = source;
 		_target = target;
@@ -60,7 +60,7 @@ internal sealed class TransactionService : ITransactionService
 	{
 		if (quantity + _target.Sum(d => d.Quantity) >= _maxQuantity)
 		{
-			_notificationService.ShowSubtitle(RESX.Transaction_Result_Message_NoInventory);
+			_notificationProvider.ShowSubtitle(RESX.Transaction_Result_Message_NoInventory);
 			return false;
 		}
 
@@ -79,7 +79,7 @@ internal sealed class TransactionService : ITransactionService
 
 		if (_target.Money <= transactionValue)
 		{
-			_notificationService.ShowSubtitle(RESX.Transaction_Result_Message_NoMoney);
+			_notificationProvider.ShowSubtitle(RESX.Transaction_Result_Message_NoMoney);
 			return false;
 		}
 

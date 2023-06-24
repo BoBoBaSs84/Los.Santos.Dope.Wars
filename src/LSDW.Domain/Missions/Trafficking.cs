@@ -23,9 +23,6 @@ internal sealed class Trafficking : Mission, ITrafficking
 	private readonly ICollection<IDealer> _dealers;
 	private readonly IPlayer _player;
 
-	private ISideMenu? leftSideMenu;
-	private ISideMenu? rightSideMenu;
-
 	/// <summary>
 	/// Initializes a instance of the trafficking class.
 	/// </summary>
@@ -46,6 +43,8 @@ internal sealed class Trafficking : Mission, ITrafficking
 	public ILoggerService LoggerService { get; }
 	public INotificationProvider NotificationProvider { get; }
 	public ITimeProvider TimeProvider { get; }
+	public ISideMenu? LeftSideMenu { get; private set; }
+	public ISideMenu? RightSideMenu { get; private set; }
 
 	public override void StopMission()
 	{
@@ -75,7 +74,8 @@ internal sealed class Trafficking : Mission, ITrafficking
 				.ChangeDealerInventories(_dealers, _player)
 				.ChangeDealerPrices(_dealers, _player)
 				.CreateDealers(_dealers)
-				.CloseRange(_dealers);
+				.CloseRange(_dealers)
+				.DealerInteraction(_dealers, _player);
 		}
 		catch (Exception ex)
 		{

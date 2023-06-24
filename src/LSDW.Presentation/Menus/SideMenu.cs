@@ -31,8 +31,9 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 	/// </summary>
 	/// <param name="type">The type of the transaction.</param>
 	/// <param name="serviceManager">The service manager instance to use.</param>
+	/// <param name="providerManager">The provider manager instance to use.</param>
 	/// <param name="inventory">The opposition inventory.</param>
-	internal SideMenu(TransactionType type, IServiceManager serviceManager, IInventory inventory) : base(SMH.GetTitle(type))
+	internal SideMenu(TransactionType type, IServiceManager serviceManager, IProviderManager providerManager, IInventory inventory) : base(SMH.GetTitle(type))
 	{
 		_type = type;
 		_player = serviceManager.StateService.Player;
@@ -40,8 +41,7 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 		(_source, _target) = SMH.GetInventories(type, _player, inventory);
 
 		int maximumQuantity = SMH.GetMaximumQuantity(type, _player);
-		// TODO: not Null!!
-		_transaction = DomainFactory.CreateTransactionService(null, type, _source, _target, maximumQuantity);
+		_transaction = DomainFactory.CreateTransactionService(providerManager.NotificationProvider, type, _source, _target, maximumQuantity);
 
 		Alignment = SMH.GetAlignment(type);
 		ItemCount = CountVisibility.Never;

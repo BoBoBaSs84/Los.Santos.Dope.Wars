@@ -20,6 +20,7 @@ public static class TraffickingExtensions
 	private const float CreateDistance = 100;
 	private const float CloseRangeDistance = 50;
 	private const float RealCloseRangeDistance = 10;
+	private const float InteractionDistance = 2;
 
 	/// <summary>
 	/// Tracks new dealers around the world and adds them to the dealer collection.
@@ -200,7 +201,7 @@ public static class TraffickingExtensions
 
 			if (dealer.Position.DistanceTo(playerPosition) < CloseRangeDistance)
 			{
-				dealer.GuardPosition();
+				dealer.WanderAround(5);
 			}
 
 			if (dealer.Position.DistanceTo(playerPosition) < RealCloseRangeDistance)
@@ -212,6 +213,27 @@ public static class TraffickingExtensions
 					dealer.Flee();
 					dealer.SetClosed(trafficking.TimeProvider);
 				}
+			}
+		}
+
+		return trafficking;
+	}
+
+	/// <summary>
+	/// Takes care of the interactions between the player and the dealers.
+	/// </summary>
+	/// <param name="trafficking">The trafficking instance to use.</param>
+	/// <param name="dealers">The dealer collection instance to use.</param>
+	/// <param name="player">The player instance to use.</param>
+	public static ITrafficking DealerInteraction(this ITrafficking trafficking, ICollection<IDealer> dealers, IPlayer player)
+	{
+		if (!dealers.Any())
+			return trafficking;
+
+		foreach (IDealer dealer in dealers)
+		{
+			if (dealer.Created && !dealer.IsDead && !dealer.Closed && Game.Player.WantedLevel.Equals(0))
+			{
 			}
 		}
 

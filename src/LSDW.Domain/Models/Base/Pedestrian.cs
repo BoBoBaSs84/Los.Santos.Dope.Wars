@@ -44,7 +44,7 @@ internal abstract class Pedestrian : IPedestrian
 
 	public TaskType CurrentTask { get; private set; }
 	public bool Created => ped is not null;
-	public bool IsDead => ped is null || ped.IsDead;
+	public bool IsDead => ped is not null && ped.IsDead;
 	public Vector3 Position { get; }
 	public PedHash Hash { get; }
 	public string Name { get; }
