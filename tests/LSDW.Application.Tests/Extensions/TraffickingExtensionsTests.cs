@@ -1,12 +1,12 @@
 ﻿using GTA.Math;
-using LSDW.Abstractions.Application.Managers;
 using LSDW.Abstractions.Application.Models.Missions;
 using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Application.Extensions;
 using LSDW.Application.Factories;
 using LSDW.Base.Tests.Helpers;
 using LSDW.Domain.Factories;
-using Moq;
+using LSDW.Infrastructure.Factories;
 
 namespace LSDW.Application.Tests.Extensions;
 
@@ -15,58 +15,52 @@ namespace LSDW.Application.Tests.Extensions;
 public class TraffickingExtensionsTests
 {
 	private readonly Vector3 _zeroVector = new(0, 0, 0);
-	private readonly Mock<IServiceManager> _serviceManagerMock = MockHelper.GetServiceManager();
-	private readonly Mock<IProviderManager> _providerManagerMock = MockHelper.GetProviderManager();
-	private readonly ICollection<IDealer> _dealers = DomainFactory.CreateDealers();
-	private readonly IPlayer _player = DomainFactory.CreatePlayer();
+	private readonly ITrafficking _trafficking = ApplicationFactory.CreateTraffickingMission(MockHelper.GetServiceManager().Object, MockHelper.GetProviderManager().Object);
+	private readonly IStateService _stateService = InfrastructureFactory.CreateGameStateService(MockHelper.GetLoggerService().Object);
 
 	[TestMethod]
 	public void ChangeDealerPricesNonDiscoveredTest()
 	{
-		ITrafficking trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
-		_dealers.Add(DomainFactory.CreateDealer(_zeroVector));
+		_stateService.Dealers.Add(DomainFactory.CreateDealer(_zeroVector));
 
-		trafficking.ChangeDealerPrices(_dealers, _player);
+		_trafficking.ChangeDealerPrices(_stateService);
 
-		Assert.AreEqual(0, _dealers.First().Inventory.Sum(x => x.CurrentPrice));
+		Assert.AreEqual(0, _stateService.Dealers.First().Inventory.Sum(x => x.CurrentPrice));
 	}
 
 	[TestMethod]
 	public void ChangeDealerPricesTest()
 	{
-		ITrafficking trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
 		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
 		dealer.SetDiscovered(true);
-		_dealers.Add(dealer);
+		_stateService.Dealers.Add(dealer);
 
-		trafficking.ChangeDealerPrices(_dealers, _player);
+		_trafficking.ChangeDealerPrices(_stateService);
 
-		Assert.AreNotEqual(0, _dealers.First().Inventory.Sum(x => x.CurrentPrice));
+		Assert.AreNotEqual(0, _stateService.Dealers.First().Inventory.Sum(x => x.CurrentPrice));
 	}
 
 	[TestMethod]
 	public void ChangeDealerInventoriesNonDiscoveredTest()
 	{
-		ITrafficking trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
-		_dealers.Add(DomainFactory.CreateDealer(_zeroVector));
+		_stateService.Dealers.Add(DomainFactory.CreateDealer(_zeroVector));
 
-		trafficking.ChangeDealerInventories(_dealers, _player);
+		_trafficking.ChangeDealerInventories(_stateService);
 
-		Assert.AreEqual(0, _dealers.First().Inventory.Sum(x => x.CurrentPrice));
-		Assert.AreEqual(0, _dealers.First().Inventory.Sum(x => x.Quantity));
+		Assert.AreEqual(0, _stateService.Dealers.First().Inventory.Sum(x => x.CurrentPrice));
+		Assert.AreEqual(0, _stateService.Dealers.First().Inventory.Sum(x => x.Quantity));
 	}
 
 	[TestMethod]
 	public void ChangeDealerInventoriesTest()
 	{
-		ITrafficking trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
 		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
 		dealer.SetDiscovered(true);
-		_dealers.Add(dealer);
+		_stateService.Dealers.Add(dealer);
 
-		trafficking.ChangeDealerInventories(_dealers, _player);
+		_trafficking.ChangeDealerInventories(_stateService);
 
-		Assert.AreNotEqual(0, _dealers.First().Inventory.Sum(x => x.CurrentPrice));
-		Assert.AreNotEqual(0, _dealers.First().Inventory.Sum(x => x.Quantity));
+		Assert.AreNotEqual(0, _stateService.Dealers.First().Inventory.Sum(x => x.CurrentPrice));
+		Assert.AreNotEqual(0, _stateService.Dealers.First().Inventory.Sum(x => x.Quantity));
 	}
 }

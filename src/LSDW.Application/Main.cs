@@ -21,7 +21,6 @@ public sealed class Main : Script
 	private readonly ISettingsMenu _settingsMenu;
 	private readonly ITrafficking _trafficking;
 
-	private DateTime dateTime = DateTime.Now;
 	private readonly bool isDebug;
 
 	/// <summary>
@@ -34,13 +33,16 @@ public sealed class Main : Script
 #else
 		isDebug = false;
 #endif
-
 		_providerManager = new ProviderManager();
 		_serviceManager = new ServiceManager();
+		_serviceManager.StateService.Load(!isDebug);
+
 		_settingsMenu = PresentationFactory.CreateSettingsMenu(_serviceManager);
 		_settingsMenu.Add(_processables);
+
 		_trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManager, _providerManager);
-		_serviceManager.StateService.Load(!isDebug);
+		_trafficking.LeftSideMenu.Add(_processables);
+		_trafficking.RightSideMenu.Add(_processables);
 
 		Interval = 10;
 
@@ -53,20 +55,12 @@ public sealed class Main : Script
 	}
 
 	private void OnTick(object sender, EventArgs e)
-	{
-		_processables.Process();
-
-		if (dateTime.AddMinutes(5) <= DateTime.Now)
-		{
-			_ = _serviceManager.StateService.Save(!isDebug);
-			dateTime = DateTime.Now;
-		}
-	}
+		=> _processables.Process();
 
 	private void OnKeyUp(object sender, KeyEventArgs args)
 	{
-		if (!(Game.Player.CanControlCharacter && Game.Player.CanStartMission))
-			return;
+		while (!Game.Player.CanControlCharacter)
+			Yield();
 
 		if (args.KeyCode == Keys.F10)
 		{
@@ -87,11 +81,6 @@ public sealed class Main : Script
 				_trafficking.StopMission();
 				return;
 			}
-		}
-
-		if (args.KeyCode == Keys.F8)
-		{
-			_providerManager.NotificationProvider.ShowSubtitle($"{_providerManager.LocationProvider.PlayerPosition}");
 		}
 	}
 }

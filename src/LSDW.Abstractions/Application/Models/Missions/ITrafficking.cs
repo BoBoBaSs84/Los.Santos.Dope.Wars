@@ -11,9 +11,14 @@ namespace LSDW.Abstractions.Application.Models.Missions;
 public interface ITrafficking : IMission
 {
 	/// <summary>
-	/// Indicates if the left and right side menus are initialized.
+	/// The side menu on the left of the screen.
 	/// </summary>
-	bool MenusInitialized { get; }
+	ISideMenu LeftSideMenu { get; }
+
+	/// <summary>
+	/// The side menu on the right of the screen.
+	/// </summary>
+	ISideMenu RightSideMenu { get; }
 
 	/// <summary>
 	/// The logger service instance to use.
@@ -34,16 +39,4 @@ public interface ITrafficking : IMission
 	/// The time provider instance to use.
 	/// </summary>
 	ITimeProvider TimeProvider { get; }
-
-	/// <summary>
-	/// Cleans up the side menus.
-	/// </summary>
-	void CleanUpMenus();
-
-	/// <summary>
-	/// Sets the left side menu.
-	/// </summary>
-	/// <param name="leftSideMenu">The left menu instance to set.</param>
-	/// <param name="rightSideMenu">The right menu instance to set.</param>
-	void SetMenus(ISideMenu leftSideMenu, ISideMenu rightSideMenu);
 }

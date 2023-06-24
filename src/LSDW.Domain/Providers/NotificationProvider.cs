@@ -23,6 +23,9 @@ internal sealed class NotificationProvider : INotificationProvider
 	public void Show(string sender, string subject, string message, bool blinking = false)
 		=> Show(NotificationIcon.Default, sender, subject, message, false, blinking);
 
+	public void Show(string subject, string message, bool blinking = false)
+		=> Show("Anonymous", subject, message, blinking);
+
 	public void ShowHelpText(string helpText, int duration = -1, bool beep = true, bool looped = false)
 		=> Screen.ShowHelpText(helpText, duration, beep, looped);
 

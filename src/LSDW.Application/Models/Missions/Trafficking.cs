@@ -9,6 +9,7 @@ using LSDW.Abstractions.Presentation.Menus;
 using LSDW.Application.Extensions;
 using LSDW.Application.Models.Missions.Base;
 using LSDW.Domain.Extensions;
+using LSDW.Presentation.Factories;
 
 namespace LSDW.Application.Models.Missions;
 
@@ -23,11 +24,9 @@ internal sealed class Trafficking : Mission, ITrafficking
 {
 	private readonly IServiceManager _serviceManager;
 	private readonly IProviderManager _providerManager;
-	private readonly ICollection<IDealer> _dealers;
-	private readonly IPlayer _player;
-
-	private ISideMenu? leftSideMenu;
-	private ISideMenu? rightSideMenu;
+	private readonly IStateService _stateService;
+	private readonly Lazy<ISideMenu> _lazyLeftSideMenu;
+	private readonly Lazy<ISideMenu> _lazyRightSideMenu;
 
 	/// <summary>
 	/// Initializes a instance of the trafficking class.
@@ -38,8 +37,9 @@ internal sealed class Trafficking : Mission, ITrafficking
 	{
 		_serviceManager = serviceManager;
 		_providerManager = providerManager;
-		_dealers = _serviceManager.StateService.Dealers;
-		_player = _serviceManager.StateService.Player;
+		_stateService = serviceManager.StateService;
+		_lazyLeftSideMenu = new Lazy<ISideMenu>(() => PresentationFactory.CreateBuyMenu(_providerManager));
+		_lazyRightSideMenu = new Lazy<ISideMenu>(() => PresentationFactory.CreateSellMenu(_providerManager));
 
 		LoggerService = _serviceManager.LoggerService;
 		LocationProvider = _providerManager.LocationProvider;
@@ -47,28 +47,18 @@ internal sealed class Trafficking : Mission, ITrafficking
 		TimeProvider = _providerManager.TimeProvider;
 	}
 
-	public bool MenusInitialized => leftSideMenu is not null && rightSideMenu is not null;
+	public ISideMenu LeftSideMenu => _lazyLeftSideMenu.Value;
+	public ISideMenu RightSideMenu => _lazyRightSideMenu.Value;
 	public ILocationProvider LocationProvider { get; }
 	public ILoggerService LoggerService { get; }
 	public INotificationProvider NotificationProvider { get; }
 	public ITimeProvider TimeProvider { get; }
 
-	public void CleanUpMenus()
-	{
-		leftSideMenu = null;
-		rightSideMenu = null;
-	}
-
-	public void SetMenus(ISideMenu leftSideMenu, ISideMenu rightSideMenu)
-	{
-		this.leftSideMenu = leftSideMenu;
-		this.rightSideMenu = rightSideMenu;
-	}
-
 	public override void StopMission()
 	{
-		CleanUpMenus();
-		_ = _dealers.CleanUpDealers();
+		_ = _stateService.Dealers.CleanUpDealers();
+		LeftSideMenu.CleanUp();
+		RightSideMenu.CleanUp();
 		base.StopMission();
 	}
 
@@ -88,14 +78,11 @@ internal sealed class Trafficking : Mission, ITrafficking
 
 		try
 		{
-			_ = this.TrackDealers(_dealers)
-				.DiscoverDealers(_dealers, _player)
-				.DiscoveredDealers(_dealers)
-				.ChangeDealerInventories(_dealers, _player)
-				.ChangeDealerPrices(_dealers, _player)
-				.CreateDealers(_dealers)
-				.CloseRange(_serviceManager, _providerManager, _dealers, _player)
-				.DealerInteraction(_dealers);
+			_ = this.TrackDealers(_stateService)
+				.DiscoverDealers(_stateService)
+				.ChangeDealerInventories(_stateService)
+				.ChangeDealerPrices(_stateService)
+				.InProximity(_stateService);
 		}
 		catch (Exception ex)
 		{

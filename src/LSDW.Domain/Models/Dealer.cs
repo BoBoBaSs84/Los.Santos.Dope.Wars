@@ -108,13 +108,11 @@ internal sealed class Dealer : Pedestrian, IDealer
 	}
 
 	public override void Flee()
-	{
-		DeleteBlip();
-		base.Flee();
-	}
+		=> base.Flee();
 
 	public void SetClosed(ITimeProvider timeProvider)
 	{
+		DeleteBlip();
 		ClosedUntil = timeProvider.Now.AddHours(DealerSettings.DownTimeInHours);
 		Closed = true;
 	}

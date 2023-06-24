@@ -56,6 +56,17 @@ public interface INotificationProvider
 	void Show(string sender, string subject, string message, bool blinking = false);
 
 	/// <summary>
+	/// Creates a more advanced notification above the minimap showing a sender icon, subject and the message.
+	/// </summary>
+	/// <remarks>
+	/// The sender will anonymous.
+	/// </remarks>
+	/// <param name="subject">The subject line.</param>
+	/// <param name="message">The message itself.</param>
+	/// <param name="blinking">If set to true the notification will blink.</param>
+	void Show(string subject, string message, bool blinking = false);
+
+	/// <summary>
 	/// Shows a notification above the minimap with the given message.
 	/// </summary>
 	/// <param name="message">The message in the notification.</param>

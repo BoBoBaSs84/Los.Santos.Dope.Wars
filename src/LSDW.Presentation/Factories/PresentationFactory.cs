@@ -21,36 +21,28 @@ public static class PresentationFactory
 	/// <summary>
 	/// Creates a new instance of the buy menu.
 	/// </summary>
-	/// <param name="serviceManager">The service manager instance to use.</param>
 	/// <param name="providerManager">The provider manager instance to use.</param>
-	/// <param name="inventory">The opposition inventory.</param>
-	public static ISideMenu CreateBuyMenu(IServiceManager serviceManager, IProviderManager providerManager, IInventory inventory)
-		=> new SideMenu(TransactionType.BUY, serviceManager, providerManager, inventory);
+	public static ISideMenu CreateBuyMenu(IProviderManager providerManager)
+		=> new SideMenu(TransactionType.BUY, providerManager);
 
 	/// <summary>
 	/// Creates a new instance of the sell menu.
 	/// </summary>
-	/// <param name="serviceManager">The service manager instance to use.</param>
 	/// <param name="providerManager">The provider manager instance to use.</param>
-	/// <param name="inventory">The opposition inventory.</param>
-	public static ISideMenu CreateSellMenu(IServiceManager serviceManager, IProviderManager providerManager, IInventory inventory)
-		=> new SideMenu(TransactionType.SELL, serviceManager, providerManager, inventory);
+	public static ISideMenu CreateSellMenu(IProviderManager providerManager)
+		=> new SideMenu(TransactionType.SELL, providerManager);
 
 	/// <summary>
 	/// Creates a new instance of the take menu.
 	/// </summary>
-	/// <param name="serviceManager">The service manager instance to use.</param>
 	/// <param name="providerManager">The provider manager instance to use.</param>
-	/// <param name="inventory">The opposition inventory.</param>
-	public static ISideMenu CreateTakeMenu(IServiceManager serviceManager, IProviderManager providerManager, IInventory inventory)
-		=> new SideMenu(TransactionType.TAKE, serviceManager, providerManager, inventory);
+	public static ISideMenu CreateTakeMenu(IProviderManager providerManager)
+		=> new SideMenu(TransactionType.TAKE, providerManager);
 
 	/// <summary>
 	/// Creates a new instance of the give menu.
 	/// </summary>
-	/// <param name="serviceManager">The service manager instance to use.</param>
 	/// <param name="providerManager">The provider manager instance to use.</param>
-	/// <param name="inventory">The opposition inventory.</param>
-	public static ISideMenu CreateGiveMenu(IServiceManager serviceManager, IProviderManager providerManager, IInventory inventory)
-		=> new SideMenu(TransactionType.GIVE, serviceManager, providerManager, inventory);
+	public static ISideMenu CreateGiveMenu(IProviderManager providerManager)
+		=> new SideMenu(TransactionType.GIVE, providerManager);
 }
