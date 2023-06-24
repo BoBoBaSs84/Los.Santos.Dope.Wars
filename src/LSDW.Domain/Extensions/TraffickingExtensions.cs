@@ -200,7 +200,7 @@ public static class TraffickingExtensions
 
 			if (dealer.Position.DistanceTo(playerPosition) < CloseRangeDistance)
 			{
-				dealer.WanderAround();
+				dealer.GuardPosition();
 			}
 
 			if (dealer.Position.DistanceTo(playerPosition) < RealCloseRangeDistance)

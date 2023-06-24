@@ -1,7 +1,6 @@
-﻿using GTA;
+﻿using LSDW.Abstractions.Application.Managers;
 using LSDW.Abstractions.Domain.Missions.Base;
 using LSDW.Abstractions.Enumerators;
-using LSDW.Abstractions.Infrastructure.Services;
 
 namespace LSDW.Domain.Missions.Base;
 
@@ -13,16 +12,16 @@ namespace LSDW.Domain.Missions.Base;
 /// </remarks>
 internal abstract class Mission : IMission
 {
-	private readonly ILoggerService _loggerService;
+	private readonly IServiceManager _serviceManager;
 
 	/// <summary>
 	/// Initializes a instance of the mission class.
 	/// </summary>
-	/// <param name="loggerService">The loger service interface to use.</param>
+	/// <param name="serviceManager">The service manager instance to use.</param>
 	/// <param name="name">The name of the mission.</param>
-	protected Mission(ILoggerService loggerService, string name)
+	protected Mission(IServiceManager serviceManager, string name)
 	{
-		_loggerService = loggerService;
+		_serviceManager = serviceManager;
 		Name = name;
 		Status = MissionStatusType.Stopped;
 	}
@@ -31,17 +30,18 @@ internal abstract class Mission : IMission
 	public MissionStatusType Status { get; private set; }
 
 	public abstract void OnAborted(object sender, EventArgs args);
+
 	public abstract void OnTick(object sender, EventArgs args);
+
 	public virtual void StartMission()
 	{
-		_loggerService.Information($"{Name} started.");
+		_serviceManager.LoggerService.Information($"{Name} started.");
 		Status = MissionStatusType.Started;
-		Game.IsMissionActive = true;
 	}
+
 	public virtual void StopMission()
 	{
-		_loggerService.Information($"{Name} stopped.");
+		_serviceManager.LoggerService.Information($"{Name} stopped.");
 		Status = MissionStatusType.Stopped;
-		Game.IsMissionActive = false;
 	}
 }

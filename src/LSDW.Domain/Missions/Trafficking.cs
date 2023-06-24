@@ -31,7 +31,7 @@ internal sealed class Trafficking : Mission, ITrafficking
 	/// </summary>
 	/// <param name="serviceManager">The service manager instance to use.</param>
 	/// <param name="providerManager">The provider manager instance to use.</param>
-	internal Trafficking(IServiceManager serviceManager, IProviderManager providerManager) : base(serviceManager.LoggerService, nameof(Trafficking))
+	internal Trafficking(IServiceManager serviceManager, IProviderManager providerManager) : base(serviceManager, nameof(Trafficking))
 	{
 		_dealers = serviceManager.StateService.Dealers;
 		_player = serviceManager.StateService.Player;
@@ -49,8 +49,6 @@ internal sealed class Trafficking : Mission, ITrafficking
 
 	public override void StopMission()
 	{
-		leftSideMenu = null;
-		rightSideMenu = null;
 		_ = _dealers.CleanUpDealers();
 		base.StopMission();
 	}

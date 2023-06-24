@@ -91,7 +91,7 @@ internal sealed class Dealer : Pedestrian, IDealer
 	{
 		if (blip is not null || Closed)
 			return;
-
+		
 		blip = World.CreateBlip(Position);
 		blip.Sprite = sprite;
 		blip.Scale = 0.75f;

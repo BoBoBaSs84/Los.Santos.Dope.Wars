@@ -112,12 +112,12 @@ internal abstract class Pedestrian : IPedestrian
 		SetTaskType(TaskType.Guard);
 	}
 
-	public void TurnTo(Ped pedToTurnTo)
+	public void TurnTo(Ped entity, int duration = -1)
 	{
 		if (ped is null || CurrentTask is TaskType.TurnTo)
 			return;
 
-		ped.Task.TurnTo(pedToTurnTo);
+		ped.Task.TurnTo(entity, duration);
 		SetTaskType(TaskType.TurnTo);
 	}
 

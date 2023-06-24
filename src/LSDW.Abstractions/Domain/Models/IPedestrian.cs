@@ -88,8 +88,9 @@ public interface IPedestrian
 	/// <summary>
 	/// Turns to and looks at the provided ped.
 	/// </summary>
-	/// <param name="ped">The ped to look at.</param>
-	void TurnTo(Ped ped);
+	/// <param name="entity">The ped to look at.</param>
+	/// <param name="duration">The duration in milliseconds.</param>
+	void TurnTo(Ped entity, int duration = -1);
 
 	/// <summary>
 	/// Give the pedestrian the amount of money.
