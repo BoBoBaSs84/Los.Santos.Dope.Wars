@@ -81,15 +81,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Remove="**\*.tt" />
-		<None Include="**\*.tt">
-			<Generator>TextTemplatingFileGenerator</Generator>
-			<DependentUpon>%(Filename).cs</DependentUpon>
-			<LastGenOutput>%(Filename).Designer.cs</LastGenOutput>
-		</None>
-	</ItemGroup>
-
-	<ItemGroup>
 		<Reference Include="System.Net.Http" />
 	</ItemGroup>
 

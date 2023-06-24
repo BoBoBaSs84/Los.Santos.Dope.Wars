@@ -5,7 +5,7 @@
 <#@ import namespace="System.Reflection" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-<#@ import namespace="LSDW.Domain.Classes.Models" #>
+<#@ import namespace="LSDW.Domain.Models" #>
 <#@ output extension="Designer.cs" #>
 #pragma warning disable CS1591
 //------------------------------------------------------------------------------
@@ -17,7 +17,7 @@
 //------------------------------------------------------------------------------
 using GTA;
 using LSDW.Abstractions.Infrastructure.Services;
-using LSDW.Domain.Classes.Models;
+using LSDW.Domain.Models;
 
 namespace LSDW.Infrastructure.Services;
 
