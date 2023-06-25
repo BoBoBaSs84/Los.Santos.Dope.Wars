@@ -69,13 +69,13 @@ public sealed class Main : Script
 
 		if (args.KeyCode == Keys.F9)
 		{
-			if (_trafficking.Status.Equals(MissionStatusType.Stopped))
+			if (_trafficking.Status.Equals(MissionStatusType.STOPPED))
 			{
 				_trafficking.StartMission();
 				return;
 			}
 
-			if (_trafficking.Status.Equals(MissionStatusType.Started))
+			if (_trafficking.Status.Equals(MissionStatusType.STARTED))
 			{
 				_ = _serviceManager.StateService.Save(!isDebug);
 				_trafficking.StopMission();

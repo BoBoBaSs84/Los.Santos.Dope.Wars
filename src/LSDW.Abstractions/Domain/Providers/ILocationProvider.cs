@@ -9,11 +9,6 @@ namespace LSDW.Abstractions.Domain.Providers;
 public interface ILocationProvider
 {
 	/// <summary>
-	/// Gets the position of the player character.
-	/// </summary>
-	Vector3 PlayerPosition { get; }
-
-	/// <summary>
 	/// Gets the next position on the street where a <see cref="Vehicle"/> can be placed.
 	/// </summary>
 	/// <param name="position">The position to check around.</param>

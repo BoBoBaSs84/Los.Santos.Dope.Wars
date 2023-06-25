@@ -24,12 +24,16 @@ public static class MockHelper
 	public static Mock<ILocationProvider> GetLocationProvider()
 		=> new();
 
+	public static Mock<IPlayerProvider> GetPlayerProvider()
+		=> new();
+
 	public static Mock<IProviderManager> GetProviderManager()
 	{
 		Mock<IProviderManager> mock = new();
 		mock.Setup(x => x.LocationProvider).Returns(GetLocationProvider().Object);
 		mock.Setup(x => x.TimeProvider).Returns(GetTimeProvider().Object);
 		mock.Setup(x => x.NotificationProvider).Returns(GetNotificationProvider().Object);
+		mock.Setup(x => x.PlayerProvider).Returns(GetPlayerProvider().Object);
 		return mock;
 	}
 
@@ -51,7 +55,7 @@ public static class MockHelper
 	public static Mock<IStateService> GetStateService()
 	{
 		Mock<IStateService> mock = new();
-		mock.Setup(x=>x.Player).Returns(GetPlayer().Object);
+		mock.Setup(x => x.Player).Returns(GetPlayer().Object);
 		return mock;
 	}
 

@@ -18,6 +18,11 @@ public interface IProviderManager
 	ILocationProvider LocationProvider { get; }
 
 	/// <summary>
+	/// The player provider.
+	/// </summary>
+	IPlayerProvider PlayerProvider { get; }
+
+	/// <summary>
 	/// The notification provider.
 	/// </summary>
 	INotificationProvider NotificationProvider { get; }
