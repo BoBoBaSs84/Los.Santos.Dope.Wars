@@ -21,6 +21,6 @@ public class ApplicationFactoryTests
 
 		Assert.IsNotNull(trafficking);
 		Assert.AreEqual("Trafficking", trafficking.Name);
-		Assert.AreEqual(MissionStatusType.Stopped, trafficking.Status);
+		Assert.AreEqual(MissionStatusType.STOPPED, trafficking.Status);
 	}
 }

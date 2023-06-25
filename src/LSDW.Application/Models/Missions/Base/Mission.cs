@@ -1,6 +1,8 @@
 ﻿using LSDW.Abstractions.Application.Managers;
 using LSDW.Abstractions.Application.Models.Missions.Base;
+using LSDW.Abstractions.Domain.Providers;
 using LSDW.Abstractions.Enumerators;
+using LSDW.Abstractions.Infrastructure.Services;
 
 namespace LSDW.Application.Models.Missions.Base;
 
@@ -12,22 +14,31 @@ namespace LSDW.Application.Models.Missions.Base;
 /// </remarks>
 internal abstract class Mission : IMission
 {
-	private readonly IServiceManager _serviceManager;
-
 	/// <summary>
-	/// Initializes a instance of the mission class.
+	/// Initializes a instance of the mission base class.
 	/// </summary>
 	/// <param name="serviceManager">The service manager instance to use.</param>
+	/// <param name="providerManager">The provider manager instance to use.</param>
 	/// <param name="name">The name of the mission.</param>
-	protected Mission(IServiceManager serviceManager, string name)
+	protected Mission(IServiceManager serviceManager, IProviderManager providerManager, string name)
 	{
-		_serviceManager = serviceManager;
 		Name = name;
-		Status = MissionStatusType.Stopped;
+		Status = MissionStatusType.STOPPED;
+
+		LoggerService = serviceManager.LoggerService;
+		LocationProvider = providerManager.LocationProvider;
+		NotificationProvider = providerManager.NotificationProvider;
+		PlayerProvider = providerManager.PlayerProvider;
+		TimeProvider = providerManager.TimeProvider;
 	}
 
 	public string Name { get; }
 	public MissionStatusType Status { get; private set; }
+	public ILoggerService LoggerService { get; }
+	public ILocationProvider LocationProvider { get; }
+	public INotificationProvider NotificationProvider { get; }
+	public IPlayerProvider PlayerProvider { get; }
+	public ITimeProvider TimeProvider { get; }
 
 	public abstract void OnAborted(object sender, EventArgs args);
 
@@ -35,13 +46,13 @@ internal abstract class Mission : IMission
 
 	public virtual void StartMission()
 	{
-		_serviceManager.LoggerService.Information($"{Name} started.");
-		Status = MissionStatusType.Started;
+		LoggerService.Information($"{Name} started.");
+		Status = MissionStatusType.STARTED;
 	}
 
 	public virtual void StopMission()
 	{
-		_serviceManager.LoggerService.Information($"{Name} stopped.");
-		Status = MissionStatusType.Stopped;
+		LoggerService.Information($"{Name} stopped.");
+		Status = MissionStatusType.STOPPED;
 	}
 }

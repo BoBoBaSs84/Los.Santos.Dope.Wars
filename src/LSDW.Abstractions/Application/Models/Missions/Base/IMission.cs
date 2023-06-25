@@ -1,4 +1,6 @@
-﻿using LSDW.Abstractions.Enumerators;
+﻿using LSDW.Abstractions.Domain.Providers;
+using LSDW.Abstractions.Enumerators;
+using LSDW.Abstractions.Infrastructure.Services;
 
 namespace LSDW.Abstractions.Application.Models.Missions.Base;
 
@@ -16,6 +18,31 @@ public interface IMission
 	/// The current mission status.
 	/// </summary>
 	MissionStatusType Status { get; }
+
+	/// <summary>
+	/// The logger service instance to use.
+	/// </summary>
+	ILoggerService LoggerService { get; }
+
+	/// <summary>
+	/// The location provider instance to use.
+	/// </summary>
+	ILocationProvider LocationProvider { get; }
+
+	/// <summary>
+	/// The notification provider instance to use.
+	/// </summary>
+	INotificationProvider NotificationProvider { get; }
+
+	/// <summary>
+	/// The player provider instance to use.
+	/// </summary>
+	IPlayerProvider PlayerProvider { get; }
+
+	/// <summary>
+	/// The time provider instance to use.
+	/// </summary>
+	ITimeProvider TimeProvider { get; }
 
 	/// <summary>
 	/// Should be used for starting the mission.

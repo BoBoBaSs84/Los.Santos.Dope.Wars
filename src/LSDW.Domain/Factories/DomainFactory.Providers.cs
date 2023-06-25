@@ -18,6 +18,12 @@ public static partial class DomainFactory
 		=> new LocationProvider();
 
 	/// <summary>
+	/// Creates a new player provider instance.
+	/// </summary>
+	public static IPlayerProvider CreatePlayerProvider()
+		=> new PlayerProvider();
+
+	/// <summary>
 	/// Creates a new notification provider instance.
 	/// </summary>
 	public static INotificationProvider CreateNotificationProvider()
