@@ -54,9 +54,10 @@ public interface IDealer : IPedestrian
 	/// <summary>
 	/// Creates the blip on the map.
 	/// </summary>
-	/// <param name="sprite"></param>
-	/// <param name="color"></param>
-	void CreateBlip(BlipSprite sprite = BlipSprite.Drugs, BlipColor color = BlipColor.White);
+	/// <param name="worldProvider">The world provider instance to use.</param>
+	/// <param name="sprite">The sprite to use for the blip.</param>
+	/// <param name="color">The color tu use for the blip.</param>
+	void CreateBlip(IWorldProvider worldProvider, BlipSprite sprite = BlipSprite.Drugs, BlipColor color = BlipColor.White);
 
 	/// <summary>
 	/// Deletes the blip on the map.

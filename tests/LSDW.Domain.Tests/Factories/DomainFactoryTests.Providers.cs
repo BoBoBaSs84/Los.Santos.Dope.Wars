@@ -6,16 +6,6 @@ namespace LSDW.Domain.Tests.Factories;
 public partial class DomainFactoryTests
 {
 	[TestMethod]
-	public void LocationProviderTest()
-	{
-		ILocationProvider? provider;
-
-		provider = DomainFactory.CreateLocationProvider();
-
-		Assert.IsNotNull(provider);
-	}
-
-	[TestMethod]
 	public void NotificationProviderTest()
 	{
 		INotificationProvider? provider;
@@ -41,6 +31,16 @@ public partial class DomainFactoryTests
 		ITimeProvider? provider;
 
 		provider = DomainFactory.CreateTimeProvider();
+
+		Assert.IsNotNull(provider);
+	}
+
+	[TestMethod]
+	public void WorldProviderTest()
+	{
+		IWorldProvider? provider;
+
+		provider = DomainFactory.CreateWorldProvider();
 
 		Assert.IsNotNull(provider);
 	}

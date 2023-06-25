@@ -13,9 +13,9 @@ public interface IProviderManager
 	ITimeProvider TimeProvider { get; }
 
 	/// <summary>
-	/// The location provider.
+	/// The world provider.
 	/// </summary>
-	ILocationProvider LocationProvider { get; }
+	IWorldProvider WorldProvider { get; }
 
 	/// <summary>
 	/// The player provider.

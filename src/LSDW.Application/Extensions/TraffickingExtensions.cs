@@ -34,14 +34,14 @@ public static class TraffickingExtensions
 	public static ITrafficking TrackDealers(this ITrafficking trafficking, IStateService stateService)
 	{
 		Vector3 randomPosition = trafficking.PlayerProvider.Position.Around(TrackDistance);
-		Vector3 dealerPosition = trafficking.LocationProvider.GetNextPositionOnSidewalk(randomPosition);
+		Vector3 dealerPosition = trafficking.WorldProvider.GetNextPositionOnSidewalk(randomPosition);
 
 		if (dealerPosition.Equals(new(0, 0, 0)))
 			return trafficking;
 
-		string zoneDisplayName = trafficking.LocationProvider.GetZoneDisplayName(dealerPosition);
+		string zoneDisplayName = trafficking.WorldProvider.GetZoneDisplayName(dealerPosition);
 
-		if (!stateService.Dealers.Any(x => trafficking.LocationProvider.GetZoneDisplayName(x.Position) == zoneDisplayName) && !stateService.Dealers.Any(x => x.Position.DistanceTo(dealerPosition) <= TerritoryDistance))
+		if (!stateService.Dealers.Any(x => trafficking.WorldProvider.GetZoneDisplayName(x.Position) == zoneDisplayName) && !stateService.Dealers.Any(x => x.Position.DistanceTo(dealerPosition) <= TerritoryDistance))
 		{
 			IDealer newDealer = DomainFactory.CreateDealer(dealerPosition);
 			stateService.Dealers.Add(newDealer);
@@ -93,7 +93,7 @@ public static class TraffickingExtensions
 				else
 					continue;
 
-			dealer.CreateBlip();
+			dealer.CreateBlip(trafficking.WorldProvider);
 		}
 
 		return trafficking;
@@ -160,7 +160,7 @@ public static class TraffickingExtensions
 		if (ClosestDealer is not null)
 		{
 			if (ClosestDealer.Position.DistanceTo(playerPosition) < CreateDistance && !ClosestDealer.Created)
-				ClosestDealer.Create();
+				ClosestDealer.Create(trafficking.WorldProvider);
 
 			if (ClosestDealer.Position.DistanceTo(playerPosition) is < CloseRangeDistance and > RealCloseRangeDistance)
 				ClosestDealer.GuardPosition();
@@ -222,8 +222,8 @@ public static class TraffickingExtensions
 	{
 		dealer.SetDiscovered(true);
 		dealer.ChangeInventory(trafficking.TimeProvider, player.Level);
-		dealer.CreateBlip();
-		string locationName = trafficking.LocationProvider.GetZoneLocalizedName(dealer.Position);
+		dealer.CreateBlip(trafficking.WorldProvider);
+		string locationName = trafficking.WorldProvider.GetZoneLocalizedName(dealer.Position);
 		string message = $"Hey dude, if your around {locationName}, come see me.";
 		trafficking.NotificationProvider.Show(dealer.Name, "Greetings", message);
 	}

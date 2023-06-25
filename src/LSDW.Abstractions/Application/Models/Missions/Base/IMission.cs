@@ -27,7 +27,7 @@ public interface IMission
 	/// <summary>
 	/// The location provider instance to use.
 	/// </summary>
-	ILocationProvider LocationProvider { get; }
+	IWorldProvider WorldProvider { get; }
 
 	/// <summary>
 	/// The notification provider instance to use.

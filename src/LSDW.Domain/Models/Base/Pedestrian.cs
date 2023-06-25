@@ -1,6 +1,7 @@
 ﻿using GTA;
 using GTA.Math;
 using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Domain.Providers;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Domain.Constants;
 using LSDW.Domain.Helpers;
@@ -24,7 +25,7 @@ internal abstract class Pedestrian : IPedestrian
 	/// <param name="pedHash">The ped hash of the pedestrian.</param>
 	protected Pedestrian(Vector3 position, PedHash pedHash)
 	{
-		CurrentTask = TaskType.NoTask;
+		CurrentTask = TaskType.NOTASK;
 		Position = position;
 		Hash = pedHash;
 		Name = NameConstants.GetFullName();
@@ -38,7 +39,7 @@ internal abstract class Pedestrian : IPedestrian
 	/// <param name="name">The name of the pedestrian.</param>
 	protected Pedestrian(Vector3 position, PedHash pedHash, string name) : this(position, pedHash)
 	{
-		CurrentTask = TaskType.NoTask;
+		CurrentTask = TaskType.NOTASK;
 		Name = name;
 	}
 
@@ -51,20 +52,20 @@ internal abstract class Pedestrian : IPedestrian
 
 	public virtual void Attack(Ped ped)
 	{
-		if (ped is null || CurrentTask is TaskType.FightAgainst)
+		if (ped is null || CurrentTask is TaskType.FIGHT)
 			return;
 
 		ped.Task.FightAgainst(ped, -1);
-		SetTaskType(TaskType.FightAgainst);
+		SetTaskType(TaskType.FIGHT);
 	}
 
-	public virtual void Create(float healthValue = 100)
+	public virtual void Create(IWorldProvider worldProvider, float healthValue = 100)
 	{
 		if (ped is not null)
 			return;
 
 		Model model = ScriptHookHelper.GetPedModel(Hash);
-		ped = World.CreatePed(model, Position);
+		ped = worldProvider.CreatePed(model, Position);
 		ped.HealthFloat = healthValue;
 		StandStill();
 	}
@@ -79,12 +80,12 @@ internal abstract class Pedestrian : IPedestrian
 
 	public virtual void Flee()
 	{
-		if (ped is null || CurrentTask is TaskType.FleeFrom)
+		if (ped is null || CurrentTask is TaskType.FLEE)
 			return;
 
 		ped.Task.FleeFrom(Position);
 		ped.MarkAsNoLongerNeeded();
-		SetTaskType(TaskType.FleeFrom);
+		SetTaskType(TaskType.FLEE);
 	}
 
 	public void GiveArmor(float armorValue)
@@ -105,20 +106,20 @@ internal abstract class Pedestrian : IPedestrian
 
 	public void GuardPosition()
 	{
-		if (ped is null || CurrentTask is TaskType.Guard)
+		if (ped is null || CurrentTask is TaskType.GUARD)
 			return;
 
 		ped.Task.GuardCurrentPosition();
-		SetTaskType(TaskType.Guard);
+		SetTaskType(TaskType.GUARD);
 	}
 
 	public void TurnTo(Ped entity, int duration = -1)
 	{
-		if (ped is null || CurrentTask is TaskType.TurnTo)
+		if (ped is null || CurrentTask is TaskType.TURNTO)
 			return;
 
 		ped.Task.TurnTo(entity, duration);
-		SetTaskType(TaskType.TurnTo);
+		SetTaskType(TaskType.TURNTO);
 	}
 
 	public void SetMoney(int amount)
@@ -131,11 +132,11 @@ internal abstract class Pedestrian : IPedestrian
 
 	public void StandStill(int duartion = -1)
 	{
-		if (ped is null || CurrentTask is TaskType.StandStill)
+		if (ped is null || CurrentTask is TaskType.STAND)
 			return;
 
 		ped.Task.StandStill(duartion);
-		SetTaskType(TaskType.StandStill);
+		SetTaskType(TaskType.STAND);
 	}
 
 	public void Update(float health = 100)
@@ -148,29 +149,29 @@ internal abstract class Pedestrian : IPedestrian
 
 	public void WanderAround()
 	{
-		if (ped is null || CurrentTask is TaskType.WanderAround)
+		if (ped is null || CurrentTask is TaskType.WANDER)
 			return;
 
 		ped.Task.WanderAround();
-		SetTaskType(TaskType.WanderAround);
+		SetTaskType(TaskType.WANDER);
 	}
 
 	public void WanderAround(float radius = 0)
 	{
-		if (ped is null || CurrentTask is TaskType.WanderAround)
+		if (ped is null || CurrentTask is TaskType.WANDER)
 			return;
 
 		ped.Task.WanderAround(Position, radius);
-		SetTaskType(TaskType.WanderAround);
+		SetTaskType(TaskType.WANDER);
 	}
 
 	public void Wait(int duration)
 	{
-		if (ped is null || CurrentTask is TaskType.Wait)
+		if (ped is null || CurrentTask is TaskType.WAIT)
 			return;
 
 		ped.Task.Wait(duration);
-		SetTaskType(TaskType.Wait);
+		SetTaskType(TaskType.WAIT);
 	}
 
 	/// <summary>

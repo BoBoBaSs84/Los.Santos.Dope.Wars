@@ -9,7 +9,7 @@ namespace LSDW.Application.Managers;
 /// </summary>
 internal sealed class ProviderManager : IProviderManager
 {
-	private readonly Lazy<ILocationProvider> _lazyLocationProvider;
+	private readonly Lazy<IWorldProvider> _lazyLocationProvider;
 	private readonly Lazy<ITimeProvider> _lazyTimeProvider;	
 	private readonly Lazy<INotificationProvider> _lazyNotificationProvider;
 	private readonly Lazy<IPlayerProvider> _lazyPlayerProvider;
@@ -20,13 +20,13 @@ internal sealed class ProviderManager : IProviderManager
 	/// </summary>
 	public ProviderManager()
 	{
-		_lazyLocationProvider = new Lazy<ILocationProvider>(DomainFactory.CreateLocationProvider);
+		_lazyLocationProvider = new Lazy<IWorldProvider>(DomainFactory.CreateWorldProvider);
 		_lazyTimeProvider = new Lazy<ITimeProvider>(DomainFactory.CreateTimeProvider);
 		_lazyNotificationProvider = new Lazy<INotificationProvider>(DomainFactory.CreateNotificationProvider);
 		_lazyPlayerProvider = new Lazy<IPlayerProvider>(DomainFactory.CreatePlayerProvider);
 	}
 
-	public ILocationProvider LocationProvider
+	public IWorldProvider WorldProvider
 		=> _lazyLocationProvider.Value;
 
 	public ITimeProvider TimeProvider

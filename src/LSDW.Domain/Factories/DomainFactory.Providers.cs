@@ -12,10 +12,10 @@ public static partial class DomainFactory
 		=> new TimeProvider();
 
 	/// <summary>
-	/// Creates a new location provider instance.
+	/// Creates a new world provider instance.
 	/// </summary>
-	public static ILocationProvider CreateLocationProvider()
-		=> new LocationProvider();
+	public static IWorldProvider CreateWorldProvider()
+		=> new WorldProvider();
 
 	/// <summary>
 	/// Creates a new player provider instance.

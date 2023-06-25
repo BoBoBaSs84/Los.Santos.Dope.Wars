@@ -21,7 +21,7 @@ public static class MockHelper
 		return mock;
 	}
 
-	public static Mock<ILocationProvider> GetLocationProvider()
+	public static Mock<IWorldProvider> GetWorldProvider()
 		=> new();
 
 	public static Mock<IPlayerProvider> GetPlayerProvider()
@@ -30,7 +30,7 @@ public static class MockHelper
 	public static Mock<IProviderManager> GetProviderManager()
 	{
 		Mock<IProviderManager> mock = new();
-		mock.Setup(x => x.LocationProvider).Returns(GetLocationProvider().Object);
+		mock.Setup(x => x.WorldProvider).Returns(GetWorldProvider().Object);
 		mock.Setup(x => x.TimeProvider).Returns(GetTimeProvider().Object);
 		mock.Setup(x => x.NotificationProvider).Returns(GetNotificationProvider().Object);
 		mock.Setup(x => x.PlayerProvider).Returns(GetPlayerProvider().Object);
@@ -62,7 +62,7 @@ public static class MockHelper
 	public static Mock<ITrafficking> GetTrafficking()
 	{
 		Mock<ITrafficking> mock = new();
-		mock.Setup(x => x.LocationProvider).Returns(GetLocationProvider().Object);
+		mock.Setup(x => x.WorldProvider).Returns(GetWorldProvider().Object);
 		mock.Setup(x => x.LoggerService).Returns(GetLoggerService().Object);
 		mock.Setup(x => x.NotificationProvider).Returns(GetNotificationProvider().Object);
 		mock.Setup(x => x.TimeProvider).Returns(GetTimeProvider().Object);
