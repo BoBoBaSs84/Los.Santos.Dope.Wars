@@ -6,11 +6,11 @@
 public enum MissionStatusType
 {
 	/// <summary>
-	/// The mission status is started.
-	/// </summary>
-	Started = 1,
-	/// <summary>
 	/// The mission status is stopped.
 	/// </summary>
-	Stopped = 2
+	STOPPED,
+	/// <summary>
+	/// The mission status is started.
+	/// </summary>
+	STARTED
 }

@@ -1,8 +1,5 @@
-﻿using GTA;
-using LSDW.Abstractions.Application.Managers;
+﻿using LSDW.Abstractions.Application.Managers;
 using LSDW.Abstractions.Application.Models.Missions;
-using LSDW.Abstractions.Domain.Models;
-using LSDW.Abstractions.Domain.Providers;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Abstractions.Presentation.Menus;
@@ -33,26 +30,18 @@ internal sealed class Trafficking : Mission, ITrafficking
 	/// </summary>
 	/// <param name="serviceManager">The service manager instance to use.</param>
 	/// <param name="providerManager">The provider manager instance to use.</param>
-	internal Trafficking(IServiceManager serviceManager, IProviderManager providerManager) : base(serviceManager, nameof(Trafficking))
+	internal Trafficking(IServiceManager serviceManager, IProviderManager providerManager)
+		: base(serviceManager, providerManager, nameof(Trafficking))
 	{
 		_serviceManager = serviceManager;
 		_providerManager = providerManager;
 		_stateService = serviceManager.StateService;
 		_lazyLeftSideMenu = new Lazy<ISideMenu>(() => PresentationFactory.CreateBuyMenu(_providerManager));
 		_lazyRightSideMenu = new Lazy<ISideMenu>(() => PresentationFactory.CreateSellMenu(_providerManager));
-
-		LoggerService = _serviceManager.LoggerService;
-		LocationProvider = _providerManager.LocationProvider;
-		NotificationProvider = _providerManager.NotificationProvider;
-		TimeProvider = _providerManager.TimeProvider;
 	}
 
 	public ISideMenu LeftSideMenu => _lazyLeftSideMenu.Value;
 	public ISideMenu RightSideMenu => _lazyRightSideMenu.Value;
-	public ILocationProvider LocationProvider { get; }
-	public ILoggerService LoggerService { get; }
-	public INotificationProvider NotificationProvider { get; }
-	public ITimeProvider TimeProvider { get; }
 
 	public override void StopMission()
 	{
@@ -64,16 +53,16 @@ internal sealed class Trafficking : Mission, ITrafficking
 
 	public override void OnAborted(object sender, EventArgs args)
 	{
-		if (Status is MissionStatusType.Started)
+		if (Status is MissionStatusType.STARTED)
 			StopMission();
 	}
 
 	public override void OnTick(object sender, EventArgs args)
 	{
-		if (Status is not MissionStatusType.Started)
+		if (Status is not MissionStatusType.STARTED)
 			return;
 
-		if (!Game.Player.CanControlCharacter && !Game.Player.CanStartMission)
+		if (!PlayerProvider.CanControlCharacter && !PlayerProvider.CanStartMission)
 			return;
 
 		try

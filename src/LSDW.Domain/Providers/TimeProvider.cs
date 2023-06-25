@@ -11,6 +11,15 @@ namespace LSDW.Domain.Providers;
 /// </remarks>
 internal sealed class TimeProvider : ITimeProvider
 {
-	public DateTime Now => World.CurrentDate;
-	public TimeSpan TimeOfDay => World.CurrentTimeOfDay;
+	public DateTime Now
+	{
+		get => World.CurrentDate;
+		set => World.CurrentDate = value;
+	}
+
+	public TimeSpan TimeOfDay
+	{
+		get => World.CurrentTimeOfDay;
+		set => World.CurrentTimeOfDay = value;
+	}
 }

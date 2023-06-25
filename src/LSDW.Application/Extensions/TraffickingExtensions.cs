@@ -33,7 +33,7 @@ public static class TraffickingExtensions
 	/// <param name="stateService">The state service instance to use.</param>
 	public static ITrafficking TrackDealers(this ITrafficking trafficking, IStateService stateService)
 	{
-		Vector3 randomPosition = trafficking.LocationProvider.PlayerPosition.Around(TrackDistance);
+		Vector3 randomPosition = trafficking.PlayerProvider.Position.Around(TrackDistance);
 		Vector3 dealerPosition = trafficking.LocationProvider.GetNextPositionOnSidewalk(randomPosition);
 
 		if (dealerPosition.Equals(new(0, 0, 0)))
@@ -71,7 +71,7 @@ public static class TraffickingExtensions
 		if (ClosestDealer is not null)
 			return trafficking;
 
-		Vector3 playerPosition = trafficking.LocationProvider.PlayerPosition;
+		Vector3 playerPosition = trafficking.PlayerProvider.Position;
 
 		foreach (IDealer dealer in stateService.Dealers.Where(x => x.Discovered.Equals(false)))
 		{
@@ -144,7 +144,7 @@ public static class TraffickingExtensions
 		if (!stateService.Dealers.Any())
 			return trafficking;
 
-		Vector3 playerPosition = trafficking.LocationProvider.PlayerPosition;
+		Vector3 playerPosition = trafficking.PlayerProvider.Position;
 
 		// looking for the closest dealer, if found, no more iterations
 		if (ClosestDealer is null)
@@ -167,8 +167,7 @@ public static class TraffickingExtensions
 
 			if (ClosestDealer.Position.DistanceTo(playerPosition) is < RealCloseRangeDistance and > InteractionDistance)
 			{
-				// Todo: IPlayerProvider
-				ClosestDealer.TurnTo(Game.Player.Character);
+				ClosestDealer.TurnTo(trafficking.PlayerProvider.Character);
 
 				if (trafficking.LeftSideMenu.Initialized.Equals(false))
 					trafficking.LeftSideMenu.Initialize(stateService.Player, ClosestDealer.Inventory);
@@ -186,7 +185,7 @@ public static class TraffickingExtensions
 			}
 
 			// cleanup everything
-			if (ClosestDealer.Position.DistanceTo(playerPosition) > CreateDistance || ClosestDealer.IsDead || Game.Player.WantedLevel > 0)
+			if (ClosestDealer.Position.DistanceTo(playerPosition) > CreateDistance || ClosestDealer.IsDead || trafficking.PlayerProvider.WantedLevel > 0)
 			{
 				if (ClosestDealer.IsDead)
 				{
@@ -195,8 +194,7 @@ public static class TraffickingExtensions
 					trafficking.NotificationProvider.Show("ICED!", message);
 				}
 
-				// Todo: IPlayerProvider
-				if (Game.Player.WantedLevel > 0)
+				if (trafficking.PlayerProvider.WantedLevel > 0)
 				{
 					ClosestDealer.Flee();
 					string message = $"{ClosestDealer.Name} had to flee from the cops!";

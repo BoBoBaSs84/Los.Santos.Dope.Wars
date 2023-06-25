@@ -8,13 +8,10 @@ namespace LSDW.Domain.Providers;
 /// The location provider class.
 /// </summary>
 /// <remarks>
-/// Wrapper for the <see cref="World"/> methods and <see cref="Game"/> properties.
+/// Wrapper for the <see cref="World"/> methods and properties.
 /// </remarks>
 internal sealed class LocationProvider : ILocationProvider
 {
-	public Vector3 PlayerPosition
-		=> Game.Player.Character.Position;
-
 	public Vector3 GetNextPositionOnSidewalk(Vector3 position)
 		=> World.GetSafeCoordForPed(position, true, 1);
 
