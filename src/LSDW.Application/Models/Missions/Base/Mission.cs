@@ -29,7 +29,6 @@ internal abstract class Mission : IMission
 		WorldProvider = providerManager.WorldProvider;
 		NotificationProvider = providerManager.NotificationProvider;
 		PlayerProvider = providerManager.PlayerProvider;
-		TimeProvider = providerManager.TimeProvider;
 	}
 
 	public string Name { get; }
@@ -38,7 +37,6 @@ internal abstract class Mission : IMission
 	public IWorldProvider WorldProvider { get; }
 	public INotificationProvider NotificationProvider { get; }
 	public IPlayerProvider PlayerProvider { get; }
-	public ITimeProvider TimeProvider { get; }
 
 	public abstract void OnAborted(object sender, EventArgs args);
 

@@ -13,16 +13,13 @@ public static class MockHelper
 	public static Mock<INotificationProvider> GetNotificationProvider()
 		=> new();
 
-	public static Mock<ITimeProvider> GetTimeProvider()
+	public static Mock<IWorldProvider> GetWorldProvider()
 	{
-		Mock<ITimeProvider> mock = new();
+		Mock<IWorldProvider> mock = new();
 		mock.Setup(x => x.Now).Returns(DateTime.MinValue.AddYears(100));
 		mock.Setup(x => x.TimeOfDay).Returns(DateTime.MinValue.AddYears(100).TimeOfDay);
 		return mock;
 	}
-
-	public static Mock<IWorldProvider> GetWorldProvider()
-		=> new();
 
 	public static Mock<IPlayerProvider> GetPlayerProvider()
 		=> new();
@@ -31,7 +28,6 @@ public static class MockHelper
 	{
 		Mock<IProviderManager> mock = new();
 		mock.Setup(x => x.WorldProvider).Returns(GetWorldProvider().Object);
-		mock.Setup(x => x.TimeProvider).Returns(GetTimeProvider().Object);
 		mock.Setup(x => x.NotificationProvider).Returns(GetNotificationProvider().Object);
 		mock.Setup(x => x.PlayerProvider).Returns(GetPlayerProvider().Object);
 		return mock;
@@ -65,7 +61,6 @@ public static class MockHelper
 		mock.Setup(x => x.WorldProvider).Returns(GetWorldProvider().Object);
 		mock.Setup(x => x.LoggerService).Returns(GetLoggerService().Object);
 		mock.Setup(x => x.NotificationProvider).Returns(GetNotificationProvider().Object);
-		mock.Setup(x => x.TimeProvider).Returns(GetTimeProvider().Object);
 		return mock;
 	}
 

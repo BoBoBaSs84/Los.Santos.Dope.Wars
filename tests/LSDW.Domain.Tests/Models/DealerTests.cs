@@ -12,24 +12,24 @@ namespace LSDW.Domain.Tests.Models;
 public class DealerTests
 {
 	private readonly IDealer _dealer = DomainFactory.CreateDealer(new(0, 0, 0));
-	private readonly Mock<ITimeProvider> _timeProviderMock = MockHelper.GetTimeProvider();
+	private readonly Mock<IWorldProvider> _worldProviderMock = MockHelper.GetWorldProvider();
 
 	[TestMethod]
 	public void SetClosedTest()
 	{
-		ITimeProvider timeProvider = _timeProviderMock.Object;
+		IWorldProvider provider = _worldProviderMock.Object;
 
-		_dealer.SetClosed(timeProvider);
+		_dealer.SetClosed(provider);
 
 		Assert.IsTrue(_dealer.Closed);
-		Assert.AreEqual(timeProvider.Now.AddHours(DealerSettings.DownTimeInHours), _dealer.ClosedUntil);
+		Assert.AreEqual(provider.Now.AddHours(DealerSettings.DownTimeInHours), _dealer.ClosedUntil);
 	}
 
 	[TestMethod]
 	public void SetOpenTest()
 	{
-		ITimeProvider timeProvider = _timeProviderMock.Object;
-		_dealer.SetClosed(timeProvider);
+		IWorldProvider provider = _worldProviderMock.Object;
+		_dealer.SetClosed(provider);
 
 		_dealer.SetOpen();
 
@@ -49,20 +49,20 @@ public class DealerTests
 	[TestMethod]
 	public void SetNextPriceChangeTest()
 	{
-		ITimeProvider timeProvider = _timeProviderMock.Object;
+		IWorldProvider provider = _worldProviderMock.Object;
 
-		_dealer.SetNextPriceChange(timeProvider);
+		_dealer.SetNextPriceChange(provider);
 
-		Assert.AreEqual(timeProvider.Now.AddHours(MarketSettings.PriceChangeInterval), _dealer.NextPriceChange);
+		Assert.AreEqual(provider.Now.AddHours(MarketSettings.PriceChangeInterval), _dealer.NextPriceChange);
 	}
 
 	[TestMethod]
 	public void SetNextInventoryChangeTest()
 	{
-		ITimeProvider timeProvider = _timeProviderMock.Object;
+		IWorldProvider provider = _worldProviderMock.Object;
 
-		_dealer.SetNextInventoryChange(timeProvider);
+		_dealer.SetNextInventoryChange(provider);
 
-		Assert.AreEqual(timeProvider.Now.AddHours(MarketSettings.InventoryChangeInterval), _dealer.NextInventoryChange);
+		Assert.AreEqual(provider.Now.AddHours(MarketSettings.InventoryChangeInterval), _dealer.NextInventoryChange);
 	}
 }

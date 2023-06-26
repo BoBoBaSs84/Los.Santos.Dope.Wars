@@ -67,8 +67,8 @@ public interface IDealer : IPedestrian
 	/// <summary>
 	/// Sets <see cref="Closed"/> to <see langword="true"/> and sets the <see cref="ClosedUntil"/> value.
 	/// </summary>
-	/// <param name="timeProvider">The time provider instance to use.</param>
-	void SetClosed(ITimeProvider timeProvider);
+	/// <param name="worldProvider">The world provider instance to use.</param>
+	void SetClosed(IWorldProvider worldProvider);
 
 	/// <summary>
 	/// Sets if the dealer is discovered or not, maybe good for rediscovering too.
@@ -84,12 +84,12 @@ public interface IDealer : IPedestrian
 	/// <summary>
 	/// Sets the next price change date time.
 	/// </summary>
-	/// <param name="timeProvider">The time provider instance to use.</param>
-	void SetNextPriceChange(ITimeProvider timeProvider);
+	/// <param name="worldProvider">The world provider instance to use.</param>
+	void SetNextPriceChange(IWorldProvider worldProvider);
 
 	/// <summary>
 	/// Sets the next inventory change date time. 
 	/// </summary>
-	/// <param name="timeProvider">The time provider instance to use.</param>
-	void SetNextInventoryChange(ITimeProvider timeProvider);
+	/// <param name="worldProvider">The world provider instance to use.</param>
+	void SetNextInventoryChange(IWorldProvider worldProvider);
 }

@@ -26,16 +26,6 @@ public partial class DomainFactoryTests
 	}
 
 	[TestMethod]
-	public void TimeProviderTest()
-	{
-		ITimeProvider? provider;
-
-		provider = DomainFactory.CreateTimeProvider();
-
-		Assert.IsNotNull(provider);
-	}
-
-	[TestMethod]
 	public void WorldProviderTest()
 	{
 		IWorldProvider? provider;

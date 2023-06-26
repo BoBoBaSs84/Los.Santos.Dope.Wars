@@ -110,10 +110,10 @@ internal sealed class Dealer : Pedestrian, IDealer
 	public override void Flee()
 		=> base.Flee();
 
-	public void SetClosed(ITimeProvider timeProvider)
+	public void SetClosed(IWorldProvider worldProvider)
 	{
 		DeleteBlip();
-		ClosedUntil = timeProvider.Now.AddHours(DealerSettings.DownTimeInHours);
+		ClosedUntil = worldProvider.Now.AddHours(DealerSettings.DownTimeInHours);
 		Closed = true;
 	}
 
@@ -126,11 +126,11 @@ internal sealed class Dealer : Pedestrian, IDealer
 		Closed = false;
 	}
 
-	public void SetNextPriceChange(ITimeProvider timeProvider)
-		=> NextPriceChange = timeProvider.Now.AddHours(MarketSettings.PriceChangeInterval);
+	public void SetNextPriceChange(IWorldProvider worldProvider)
+		=> NextPriceChange = worldProvider.Now.AddHours(MarketSettings.PriceChangeInterval);
 
-	public void SetNextInventoryChange(ITimeProvider timeProvider)
-		=> NextInventoryChange = timeProvider.Now.AddHours(MarketSettings.InventoryChangeInterval);
+	public void SetNextInventoryChange(IWorldProvider worldProvider)
+		=> NextInventoryChange = worldProvider.Now.AddHours(MarketSettings.InventoryChangeInterval);
 
 	private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
 	{

@@ -40,11 +40,6 @@ public interface IMission
 	IPlayerProvider PlayerProvider { get; }
 
 	/// <summary>
-	/// The time provider instance to use.
-	/// </summary>
-	ITimeProvider TimeProvider { get; }
-
-	/// <summary>
 	/// Should be used for starting the mission.
 	/// </summary>
 	void StartMission();

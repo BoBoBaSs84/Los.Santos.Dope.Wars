@@ -6,12 +6,6 @@ namespace LSDW.Domain.Factories;
 public static partial class DomainFactory
 {
 	/// <summary>
-	/// Creates a new time provider instance.
-	/// </summary>
-	public static ITimeProvider CreateTimeProvider()
-		=> new TimeProvider();
-
-	/// <summary>
 	/// Creates a new world provider instance.
 	/// </summary>
 	public static IWorldProvider CreateWorldProvider()
