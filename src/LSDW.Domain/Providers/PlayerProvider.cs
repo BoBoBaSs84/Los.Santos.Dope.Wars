@@ -5,7 +5,7 @@ using LSDW.Abstractions.Domain.Providers;
 namespace LSDW.Domain.Providers;
 
 /// <summary>
-/// The PlayerProvider class.
+/// The player provider class.
 /// </summary>
 /// <remarks>
 /// Wrapper for the <see cref="Player"/> methods and properties.
