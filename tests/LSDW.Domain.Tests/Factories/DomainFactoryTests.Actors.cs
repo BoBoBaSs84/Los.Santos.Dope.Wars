@@ -15,7 +15,7 @@ public partial class DomainFactoryTests
 
 		Assert.IsNotNull(dealer);
 		Assert.AreEqual(dealer.Position, zeroVector);
-		Assert.AreEqual(TaskType.NoTask, dealer.CurrentTask);
+		Assert.AreEqual(TaskType.NOTASK, dealer.CurrentTask);
 	}
 
 	[TestMethod]
@@ -28,7 +28,7 @@ public partial class DomainFactoryTests
 		Assert.IsNotNull(dealer);
 		Assert.AreEqual(dealer.Position, zeroVector);
 		Assert.AreEqual(dealer.Hash, pedHash);
-		Assert.AreEqual(TaskType.NoTask, dealer.CurrentTask);
+		Assert.AreEqual(TaskType.NOTASK, dealer.CurrentTask);
 	}
 
 	[TestMethod]

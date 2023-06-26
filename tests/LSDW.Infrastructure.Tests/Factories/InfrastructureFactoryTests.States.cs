@@ -238,7 +238,7 @@ public partial class InfrastructureFactoryTests
 		Assert.IsNotNull(dealer);
 		Assert.IsNotNull(dealer.Inventory);
 		Assert.IsTrue(dealer.Closed);
-		Assert.AreEqual(TaskType.NoTask, dealer.CurrentTask);
+		Assert.AreEqual(TaskType.NOTASK, dealer.CurrentTask);
 		Assert.AreEqual(state.ClosedUntil, dealer.ClosedUntil);
 		Assert.AreEqual(state.Discovered, dealer.Discovered);
 		Assert.AreEqual(state.Name, dealer.Name);

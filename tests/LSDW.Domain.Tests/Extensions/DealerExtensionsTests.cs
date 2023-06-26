@@ -14,15 +14,16 @@ namespace LSDW.Domain.Tests.Extensions;
 public class DealerExtensionsTests
 {
 	private readonly Vector3 _zeroVector = new(0, 0, 0);
+	private readonly Mock<IWorldProvider> _worldProviderMock = MockHelper.GetWorldProvider();
 
 	[TestMethod]
 	public void ChangePricesTest()
 	{
-		Mock<ITimeProvider> mock = MockHelper.GetTimeProvider();
-		DateTime nextPriceChange = mock.Object.Now.AddHours(Settings.Market.PriceChangeInterval);
+		IWorldProvider provider = _worldProviderMock.Object;
+		DateTime nextPriceChange = provider.Now.AddHours(Settings.Market.PriceChangeInterval);
 		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
 
-		dealer.ChangePrices(mock.Object, 100);
+		dealer.ChangePrices(provider, 100);
 
 		Assert.AreNotEqual(default, dealer.Inventory.Sum(x => x.CurrentPrice));
 		Assert.AreEqual(default, dealer.Inventory.Money);
@@ -34,14 +35,14 @@ public class DealerExtensionsTests
 	[TestMethod]
 	public void ChangePricesCollectionTest()
 	{
-		Mock<ITimeProvider> mock = MockHelper.GetTimeProvider();
-		DateTime nextPriceChange = mock.Object.Now.AddHours(Settings.Market.PriceChangeInterval);
+		IWorldProvider provider = _worldProviderMock.Object;
+		DateTime nextPriceChange = provider.Now.AddHours(Settings.Market.PriceChangeInterval);
 		ICollection<IDealer> dealers = new HashSet<IDealer>();
 
 		for (int i = 0; i < 5; i++)
 			dealers.Add(DomainFactory.CreateDealer(_zeroVector));
 
-		dealers.ChangePrices(mock.Object, 100);
+		dealers.ChangePrices(provider, 100);
 
 		foreach (IDealer dealer in dealers)
 		{
@@ -56,12 +57,12 @@ public class DealerExtensionsTests
 	[TestMethod]
 	public void RestockInventoryTest()
 	{
-		Mock<ITimeProvider> mock = MockHelper.GetTimeProvider();
-		DateTime nextPriceChange = mock.Object.Now.AddHours(Settings.Market.PriceChangeInterval);
-		DateTime nextInventoryChange = mock.Object.Now.AddHours(Settings.Market.InventoryChangeInterval);
+		IWorldProvider provider = _worldProviderMock.Object;
+		DateTime nextPriceChange = provider.Now.AddHours(Settings.Market.PriceChangeInterval);
+		DateTime nextInventoryChange = provider.Now.AddHours(Settings.Market.InventoryChangeInterval);
 		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
 
-		dealer.ChangeInventory(mock.Object, 100);
+		dealer.ChangeInventory(provider, 100);
 
 		Assert.AreNotEqual(default, dealer.Inventory.Sum(x => x.CurrentPrice));
 		Assert.AreNotEqual(default, dealer.Inventory.Money);
@@ -73,15 +74,15 @@ public class DealerExtensionsTests
 	[TestMethod]
 	public void RestockCollectionTest()
 	{
-		Mock<ITimeProvider> mock = MockHelper.GetTimeProvider();
-		DateTime nextPriceChange = mock.Object.Now.AddHours(Settings.Market.PriceChangeInterval);
-		DateTime nextInventoryChange = mock.Object.Now.AddHours(Settings.Market.InventoryChangeInterval);
+		IWorldProvider provider = _worldProviderMock.Object;
+		DateTime nextPriceChange = provider.Now.AddHours(Settings.Market.PriceChangeInterval);
+		DateTime nextInventoryChange = provider.Now.AddHours(Settings.Market.InventoryChangeInterval);
 		ICollection<IDealer> dealers = new HashSet<IDealer>();
 
 		for (int i = 0; i < 5; i++)
 			dealers.Add(DomainFactory.CreateDealer(_zeroVector));
 
-		dealers.ChangeInventories(mock.Object, 100);
+		dealers.ChangeInventories(provider, 100);
 
 		foreach (IDealer dealer in dealers)
 		{

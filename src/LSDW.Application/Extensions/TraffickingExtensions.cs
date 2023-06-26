@@ -34,14 +34,14 @@ public static class TraffickingExtensions
 	public static ITrafficking TrackDealers(this ITrafficking trafficking, IStateService stateService)
 	{
 		Vector3 randomPosition = trafficking.PlayerProvider.Position.Around(TrackDistance);
-		Vector3 dealerPosition = trafficking.LocationProvider.GetNextPositionOnSidewalk(randomPosition);
+		Vector3 dealerPosition = trafficking.WorldProvider.GetNextPositionOnSidewalk(randomPosition);
 
 		if (dealerPosition.Equals(new(0, 0, 0)))
 			return trafficking;
 
-		string zoneDisplayName = trafficking.LocationProvider.GetZoneDisplayName(dealerPosition);
+		string zoneDisplayName = trafficking.WorldProvider.GetZoneDisplayName(dealerPosition);
 
-		if (!stateService.Dealers.Any(x => trafficking.LocationProvider.GetZoneDisplayName(x.Position) == zoneDisplayName) && !stateService.Dealers.Any(x => x.Position.DistanceTo(dealerPosition) <= TerritoryDistance))
+		if (!stateService.Dealers.Any(x => trafficking.WorldProvider.GetZoneDisplayName(x.Position) == zoneDisplayName) && !stateService.Dealers.Any(x => x.Position.DistanceTo(dealerPosition) <= TerritoryDistance))
 		{
 			IDealer newDealer = DomainFactory.CreateDealer(dealerPosition);
 			stateService.Dealers.Add(newDealer);
@@ -88,12 +88,12 @@ public static class TraffickingExtensions
 		foreach (IDealer dealer in stateService.Dealers.Where(x => x.Discovered.Equals(true) && x.BlipCreated.Equals(false)))
 		{
 			if (dealer.Closed)
-				if (dealer.ClosedUntil.HasValue && dealer.ClosedUntil < trafficking.TimeProvider.Now)
+				if (dealer.ClosedUntil.HasValue && dealer.ClosedUntil < trafficking.WorldProvider.Now)
 					dealer.SetOpen();
 				else
 					continue;
 
-			dealer.CreateBlip();
+			dealer.CreateBlip(trafficking.WorldProvider);
 		}
 
 		return trafficking;
@@ -109,8 +109,8 @@ public static class TraffickingExtensions
 		if (ClosestDealer is not null || !stateService.Dealers.Any(x => x.Discovered))
 			return trafficking;
 
-		foreach (IDealer dealer in stateService.Dealers.Where(x => x.Discovered && x.NextPriceChange < trafficking.TimeProvider.Now))
-			dealer.ChangePrices(trafficking.TimeProvider, stateService.Player.Level);
+		foreach (IDealer dealer in stateService.Dealers.Where(x => x.Discovered && x.NextPriceChange < trafficking.WorldProvider.Now))
+			dealer.ChangePrices(trafficking.WorldProvider, stateService.Player.Level);
 
 		return trafficking;
 	}
@@ -125,9 +125,9 @@ public static class TraffickingExtensions
 		if (ClosestDealer is not null || !stateService.Dealers.Any(x => x.Discovered))
 			return trafficking;
 
-		foreach (IDealer dealer in stateService.Dealers.Where(x => x.Discovered && x.NextInventoryChange < trafficking.TimeProvider.Now))
+		foreach (IDealer dealer in stateService.Dealers.Where(x => x.Discovered && x.NextInventoryChange < trafficking.WorldProvider.Now))
 		{
-			dealer.ChangeInventory(trafficking.TimeProvider, stateService.Player.Level);
+			dealer.ChangeInventory(trafficking.WorldProvider, stateService.Player.Level);
 			trafficking.NotificationProvider.Show(dealer.Name, "Tip-off", "Hey dude, i got new stuff in stock!");
 		}
 
@@ -160,7 +160,7 @@ public static class TraffickingExtensions
 		if (ClosestDealer is not null)
 		{
 			if (ClosestDealer.Position.DistanceTo(playerPosition) < CreateDistance && !ClosestDealer.Created)
-				ClosestDealer.Create();
+				ClosestDealer.Create(trafficking.WorldProvider);
 
 			if (ClosestDealer.Position.DistanceTo(playerPosition) is < CloseRangeDistance and > RealCloseRangeDistance)
 				ClosestDealer.GuardPosition();
@@ -189,7 +189,7 @@ public static class TraffickingExtensions
 			{
 				if (ClosestDealer.IsDead)
 				{
-					ClosestDealer.SetClosed(trafficking.TimeProvider);
+					ClosestDealer.SetClosed(trafficking.WorldProvider);
 					string message = $"{ClosestDealer.Name} was made cold, the store is closed for the time being!";
 					trafficking.NotificationProvider.Show("ICED!", message);
 				}
@@ -221,9 +221,9 @@ public static class TraffickingExtensions
 	private static void DiscoverDealer(this ITrafficking trafficking, IDealer dealer, IPlayer player)
 	{
 		dealer.SetDiscovered(true);
-		dealer.ChangeInventory(trafficking.TimeProvider, player.Level);
-		dealer.CreateBlip();
-		string locationName = trafficking.LocationProvider.GetZoneLocalizedName(dealer.Position);
+		dealer.ChangeInventory(trafficking.WorldProvider, player.Level);
+		dealer.CreateBlip(trafficking.WorldProvider);
+		string locationName = trafficking.WorldProvider.GetZoneLocalizedName(dealer.Position);
 		string message = $"Hey dude, if your around {locationName}, come see me.";
 		trafficking.NotificationProvider.Show(dealer.Name, "Greetings", message);
 	}

@@ -8,7 +8,7 @@ public enum TransactionType
 	/// <summary>
 	/// The buy type enumerator.
 	/// </summary>
-	BUY = 1,
+	BUY,
 	/// <summary>
 	/// The sell type enumerator.
 	/// </summary>

@@ -26,19 +26,17 @@ internal abstract class Mission : IMission
 		Status = MissionStatusType.STOPPED;
 
 		LoggerService = serviceManager.LoggerService;
-		LocationProvider = providerManager.LocationProvider;
+		WorldProvider = providerManager.WorldProvider;
 		NotificationProvider = providerManager.NotificationProvider;
 		PlayerProvider = providerManager.PlayerProvider;
-		TimeProvider = providerManager.TimeProvider;
 	}
 
 	public string Name { get; }
 	public MissionStatusType Status { get; private set; }
 	public ILoggerService LoggerService { get; }
-	public ILocationProvider LocationProvider { get; }
+	public IWorldProvider WorldProvider { get; }
 	public INotificationProvider NotificationProvider { get; }
 	public IPlayerProvider PlayerProvider { get; }
-	public ITimeProvider TimeProvider { get; }
 
 	public abstract void OnAborted(object sender, EventArgs args);
 

@@ -54,9 +54,10 @@ public interface IDealer : IPedestrian
 	/// <summary>
 	/// Creates the blip on the map.
 	/// </summary>
-	/// <param name="sprite"></param>
-	/// <param name="color"></param>
-	void CreateBlip(BlipSprite sprite = BlipSprite.Drugs, BlipColor color = BlipColor.White);
+	/// <param name="worldProvider">The world provider instance to use.</param>
+	/// <param name="sprite">The sprite to use for the blip.</param>
+	/// <param name="color">The color tu use for the blip.</param>
+	void CreateBlip(IWorldProvider worldProvider, BlipSprite sprite = BlipSprite.Drugs, BlipColor color = BlipColor.White);
 
 	/// <summary>
 	/// Deletes the blip on the map.
@@ -66,8 +67,8 @@ public interface IDealer : IPedestrian
 	/// <summary>
 	/// Sets <see cref="Closed"/> to <see langword="true"/> and sets the <see cref="ClosedUntil"/> value.
 	/// </summary>
-	/// <param name="timeProvider">The time provider instance to use.</param>
-	void SetClosed(ITimeProvider timeProvider);
+	/// <param name="worldProvider">The world provider instance to use.</param>
+	void SetClosed(IWorldProvider worldProvider);
 
 	/// <summary>
 	/// Sets if the dealer is discovered or not, maybe good for rediscovering too.
@@ -83,12 +84,12 @@ public interface IDealer : IPedestrian
 	/// <summary>
 	/// Sets the next price change date time.
 	/// </summary>
-	/// <param name="timeProvider">The time provider instance to use.</param>
-	void SetNextPriceChange(ITimeProvider timeProvider);
+	/// <param name="worldProvider">The world provider instance to use.</param>
+	void SetNextPriceChange(IWorldProvider worldProvider);
 
 	/// <summary>
 	/// Sets the next inventory change date time. 
 	/// </summary>
-	/// <param name="timeProvider">The time provider instance to use.</param>
-	void SetNextInventoryChange(ITimeProvider timeProvider);
+	/// <param name="worldProvider">The world provider instance to use.</param>
+	void SetNextInventoryChange(IWorldProvider worldProvider);
 }
