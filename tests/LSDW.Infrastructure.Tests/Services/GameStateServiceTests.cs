@@ -1,6 +1,6 @@
 ﻿using LSDW.Abstractions.Infrastructure.Services;
+using LSDW.Abstractions.Models;
 using LSDW.Base.Tests.Helpers;
-using LSDW.Domain.Models;
 using Moq;
 using static LSDW.Infrastructure.Factories.InfrastructureFactory;
 

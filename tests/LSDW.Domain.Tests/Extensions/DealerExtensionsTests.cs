@@ -1,10 +1,10 @@
 ﻿using GTA.Math;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Providers;
+using LSDW.Abstractions.Models;
 using LSDW.Base.Tests.Helpers;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
-using LSDW.Domain.Models;
 using Moq;
 
 namespace LSDW.Domain.Tests.Extensions;

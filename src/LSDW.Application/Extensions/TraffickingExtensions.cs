@@ -3,9 +3,9 @@ using GTA.Math;
 using LSDW.Abstractions.Application.Models.Missions;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Infrastructure.Services;
+using LSDW.Abstractions.Models;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
-using LSDW.Domain.Models;
 using System.Diagnostics.CodeAnalysis;
 
 namespace LSDW.Application.Extensions;

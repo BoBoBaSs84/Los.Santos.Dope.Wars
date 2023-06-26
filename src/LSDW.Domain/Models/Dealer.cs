@@ -4,8 +4,8 @@ using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Providers;
 using LSDW.Domain.Factories;
 using LSDW.Domain.Models.Base;
-using DealerSettings = LSDW.Domain.Models.Settings.Dealer;
-using MarketSettings = LSDW.Domain.Models.Settings.Market;
+using DealerSettings = LSDW.Abstractions.Models.Settings.Dealer;
+using MarketSettings = LSDW.Abstractions.Models.Settings.Market;
 
 namespace LSDW.Domain.Models;
 
