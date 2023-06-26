@@ -2,7 +2,7 @@
 using LSDW.Infrastructure.Constants;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using static LSDW.Domain.Models.Settings;
+using static LSDW.Abstractions.Models.Settings;
 using static LSDW.Infrastructure.Factories.InfrastructureFactory;
 
 namespace LSDW.Infrastructure.Models;

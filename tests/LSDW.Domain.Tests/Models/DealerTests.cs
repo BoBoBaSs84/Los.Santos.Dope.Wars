@@ -3,8 +3,8 @@ using LSDW.Abstractions.Domain.Providers;
 using LSDW.Base.Tests.Helpers;
 using LSDW.Domain.Factories;
 using Moq;
-using DealerSettings = LSDW.Domain.Models.Settings.Dealer;
-using MarketSettings = LSDW.Domain.Models.Settings.Market;
+using DealerSettings = LSDW.Abstractions.Models.Settings.Dealer;
+using MarketSettings = LSDW.Abstractions.Models.Settings.Market;
 
 namespace LSDW.Domain.Tests.Models;
 

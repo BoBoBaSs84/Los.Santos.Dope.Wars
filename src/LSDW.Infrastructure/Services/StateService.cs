@@ -1,8 +1,8 @@
 ﻿using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Infrastructure.Services;
+using LSDW.Abstractions.Models;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
-using LSDW.Domain.Models;
 using LSDW.Infrastructure.Constants;
 using LSDW.Infrastructure.Models;
 using static LSDW.Infrastructure.Factories.InfrastructureFactory;
