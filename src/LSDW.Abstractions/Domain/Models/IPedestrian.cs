@@ -1,5 +1,6 @@
 ﻿using GTA;
 using GTA.Math;
+using LSDW.Abstractions.Domain.Providers;
 using LSDW.Abstractions.Enumerators;
 
 namespace LSDW.Abstractions.Domain.Models;
@@ -48,8 +49,9 @@ public interface IPedestrian
 	/// <summary>
 	/// Creates the pedestrian.
 	/// </summary>
+	/// <param name="worldProvider">The world provider insatnce to use.</param>
 	/// <param name="healthValue">The health points to give.</param>
-	void Create(float healthValue = 100f);
+	void Create(IWorldProvider worldProvider, float healthValue = 100f);
 
 	/// <summary>
 	/// Deletes the pedestrian.

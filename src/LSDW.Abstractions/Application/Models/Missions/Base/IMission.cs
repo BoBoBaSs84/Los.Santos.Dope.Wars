@@ -27,7 +27,7 @@ public interface IMission
 	/// <summary>
 	/// The location provider instance to use.
 	/// </summary>
-	ILocationProvider LocationProvider { get; }
+	IWorldProvider WorldProvider { get; }
 
 	/// <summary>
 	/// The notification provider instance to use.
@@ -38,11 +38,6 @@ public interface IMission
 	/// The player provider instance to use.
 	/// </summary>
 	IPlayerProvider PlayerProvider { get; }
-
-	/// <summary>
-	/// The time provider instance to use.
-	/// </summary>
-	ITimeProvider TimeProvider { get; }
 
 	/// <summary>
 	/// Should be used for starting the mission.

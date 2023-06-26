@@ -55,5 +55,5 @@ public sealed class PlayerState
 	/// <summary>
 	/// Should the <see cref="Transactions"/> property be serialized?
 	/// </summary>
-	public bool ShouldSerializeTransactions() => Transactions.Any();
+	public bool ShouldSerializeTransactions() => !Equals(Transactions.Count, 0);
 }

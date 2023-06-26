@@ -29,7 +29,7 @@ public partial class SettingsServiceTests
 	{
 		List<int> values = _settingsService.MarketSettings.GetInventoryChangeIntervalValues();
 
-		Assert.IsTrue(values.Any());
+		Assert.IsFalse(Equals(values.Count, 0));
 	}
 
 	[TestMethod]
@@ -57,7 +57,7 @@ public partial class SettingsServiceTests
 	{
 		List<int> values = _settingsService.MarketSettings.GetPriceChangeIntervalValues();
 
-		Assert.IsTrue(values.Any());
+		Assert.IsFalse(Equals(values.Count, 0));
 	}
 
 	[TestMethod]
@@ -85,7 +85,7 @@ public partial class SettingsServiceTests
 	{
 		List<float> values = _settingsService.MarketSettings.GetMaximumDrugPriceValues();
 
-		Assert.IsTrue(values.Any());
+		Assert.IsFalse(Equals(values.Count, 0));
 	}
 
 	[TestMethod]
@@ -113,6 +113,6 @@ public partial class SettingsServiceTests
 	{
 		List<float> values = _settingsService.MarketSettings.GetMinimumDrugPriceValues();
 
-		Assert.IsTrue(values.Any());
+		Assert.IsFalse(Equals(values.Count, 0));
 	}
 }

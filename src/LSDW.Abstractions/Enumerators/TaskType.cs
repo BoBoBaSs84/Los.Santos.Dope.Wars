@@ -8,33 +8,33 @@ public enum TaskType
 	/// <summary>
 	/// The pedestrian has no task enumerator.
 	/// </summary>
-	NoTask,
+	NOTASK,
 	/// <summary>
 	/// The pedestrian stands still enumerator.
 	/// </summary>
-	StandStill,
+	STAND,
 	/// <summary>
 	/// The pedestrian fight against enumerator.
 	/// </summary>
-	FightAgainst,
+	FIGHT,
 	/// <summary>
 	/// The pedestrian flee from enumerator.
 	/// </summary>
-	FleeFrom,
+	FLEE,
 	/// <summary>
 	/// The pedestrian guard position enumerator.
 	/// </summary>	
-	Guard,
+	GUARD,
 	/// <summary>
 	/// The pedestrian wander around enumerator.
 	/// </summary>
-	WanderAround,
+	WANDER,
 	/// <summary>
 	/// The pedestrian turn to enumerator.
 	/// </summary>
-	TurnTo,
+	TURNTO,
 	/// <summary>
 	/// The pedestrian wait enumerator.
 	/// </summary>
-	Wait,
+	WAIT,
 }

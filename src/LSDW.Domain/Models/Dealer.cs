@@ -76,9 +76,9 @@ internal sealed class Dealer : Pedestrian, IDealer
 		Delete();
 	}
 
-	public override void Create(float healthValue = 100)
+	public override void Create(IWorldProvider worldProvider, float healthValue = 100)
 	{
-		base.Create(healthValue);
+		base.Create(worldProvider, healthValue);
 
 		if (DealerSettings.HasWeapons)
 			GiveWeapon(WeaponHash.CombatShotgun, 100);
@@ -87,12 +87,12 @@ internal sealed class Dealer : Pedestrian, IDealer
 			GiveArmor(150f);
 	}
 
-	public void CreateBlip(BlipSprite sprite = BlipSprite.Drugs, BlipColor color = BlipColor.White)
+	public void CreateBlip(IWorldProvider worldProvider, BlipSprite sprite = BlipSprite.Drugs, BlipColor color = BlipColor.White)
 	{
 		if (blip is not null || Closed)
 			return;
 		
-		blip = World.CreateBlip(Position);
+		blip = worldProvider.CreateBlip(Position);
 		blip.Sprite = sprite;
 		blip.Scale = 0.75f;
 		blip.Color = color;
@@ -110,10 +110,10 @@ internal sealed class Dealer : Pedestrian, IDealer
 	public override void Flee()
 		=> base.Flee();
 
-	public void SetClosed(ITimeProvider timeProvider)
+	public void SetClosed(IWorldProvider worldProvider)
 	{
 		DeleteBlip();
-		ClosedUntil = timeProvider.Now.AddHours(DealerSettings.DownTimeInHours);
+		ClosedUntil = worldProvider.Now.AddHours(DealerSettings.DownTimeInHours);
 		Closed = true;
 	}
 
@@ -126,11 +126,11 @@ internal sealed class Dealer : Pedestrian, IDealer
 		Closed = false;
 	}
 
-	public void SetNextPriceChange(ITimeProvider timeProvider)
-		=> NextPriceChange = timeProvider.Now.AddHours(MarketSettings.PriceChangeInterval);
+	public void SetNextPriceChange(IWorldProvider worldProvider)
+		=> NextPriceChange = worldProvider.Now.AddHours(MarketSettings.PriceChangeInterval);
 
-	public void SetNextInventoryChange(ITimeProvider timeProvider)
-		=> NextInventoryChange = timeProvider.Now.AddHours(MarketSettings.InventoryChangeInterval);
+	public void SetNextInventoryChange(IWorldProvider worldProvider)
+		=> NextInventoryChange = worldProvider.Now.AddHours(MarketSettings.InventoryChangeInterval);
 
 	private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
 	{

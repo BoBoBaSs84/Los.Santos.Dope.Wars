@@ -69,6 +69,6 @@ public partial class SettingsServiceTests
 	{
 		List<int> values = _settingsService.DealerSettings.GetDownTimeInHoursValues();
 
-		Assert.IsTrue(values.Any());
+		Assert.IsTrue(!Equals(values.Count, 0));
 	}
 }

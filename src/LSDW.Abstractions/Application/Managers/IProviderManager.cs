@@ -8,14 +8,9 @@ namespace LSDW.Abstractions.Application.Managers;
 public interface IProviderManager
 {
 	/// <summary>
-	/// The time provider.
+	/// The world provider.
 	/// </summary>
-	ITimeProvider TimeProvider { get; }
-
-	/// <summary>
-	/// The location provider.
-	/// </summary>
-	ILocationProvider LocationProvider { get; }
+	IWorldProvider WorldProvider { get; }
 
 	/// <summary>
 	/// The player provider.

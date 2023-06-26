@@ -15,12 +15,12 @@ public static class DealerExtensions
 	/// Changes the drug prices of the dealer.
 	/// </summary>
 	/// <param name="dealer">The dealer to change.</param>
-	/// <param name="timeProvider">The date time provider to use.</param>
+	/// <param name="worldProvider">The world provider instance to use.</param>
 	/// <param name="playerLevel">The current player level.</param>
-	public static IDealer ChangePrices(this IDealer dealer, ITimeProvider timeProvider, int playerLevel)
+	public static IDealer ChangePrices(this IDealer dealer, IWorldProvider worldProvider, int playerLevel)
 	{
 		dealer.Inventory.ChangePrices(playerLevel);
-		dealer.SetNextPriceChange(timeProvider);
+		dealer.SetNextPriceChange(worldProvider);
 		return dealer;
 	}
 
@@ -28,12 +28,12 @@ public static class DealerExtensions
 	/// Changes the drug prices of the dealer collection.
 	/// </summary>
 	/// <param name="dealers">The dealer collection to change.</param>
-	/// <param name="timeProvider">The date time provider to use.</param>
+	/// <param name="worldProvider">The world provider instance to use.</param>
 	/// <param name="playerLevel">The current player level.</param>
-	public static ICollection<IDealer> ChangePrices(this ICollection<IDealer> dealers, ITimeProvider timeProvider, int playerLevel)
+	public static ICollection<IDealer> ChangePrices(this ICollection<IDealer> dealers, IWorldProvider worldProvider, int playerLevel)
 	{
 		foreach (IDealer dealer in dealers)
-			dealer.ChangePrices(timeProvider, playerLevel);
+			dealer.ChangePrices(worldProvider, playerLevel);
 		return dealers;
 	}
 
@@ -41,13 +41,13 @@ public static class DealerExtensions
 	/// Changes the inventory of the dealer.
 	/// </summary>
 	/// <param name="dealer">The dealer to change.</param>
-	/// <param name="timeProvider">The date time provider to use.</param>
+	/// <param name="worldProvider">The world provider instance to use.</param>
 	/// <param name="playerLevel">The current player level.</param>
-	public static IDealer ChangeInventory(this IDealer dealer, ITimeProvider timeProvider, int playerLevel)
+	public static IDealer ChangeInventory(this IDealer dealer, IWorldProvider worldProvider, int playerLevel)
 	{
 		dealer.Inventory.Restock(playerLevel);
-		dealer.SetNextInventoryChange(timeProvider);
-		dealer.SetNextPriceChange(timeProvider);
+		dealer.SetNextInventoryChange(worldProvider);
+		dealer.SetNextPriceChange(worldProvider);
 		return dealer;
 	}
 
@@ -55,12 +55,12 @@ public static class DealerExtensions
 	/// Changes the inventories of the dealer collection.
 	/// </summary>
 	/// <param name="dealers">The dealer collection to change.</param>
-	/// <param name="timeProvider">The date time provider to use.</param>
+	/// <param name="worldProvider">The world provider instance to use.</param>
 	/// <param name="playerLevel">The current player level.</param>
-	public static ICollection<IDealer> ChangeInventories(this ICollection<IDealer> dealers, ITimeProvider timeProvider, int playerLevel)
+	public static ICollection<IDealer> ChangeInventories(this ICollection<IDealer> dealers, IWorldProvider worldProvider, int playerLevel)
 	{
 		foreach (IDealer dealer in dealers)
-			dealer.ChangeInventory(timeProvider, playerLevel);
+			dealer.ChangeInventory(worldProvider, playerLevel);
 		return dealers;
 	}
 
