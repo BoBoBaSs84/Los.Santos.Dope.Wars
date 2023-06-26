@@ -48,5 +48,5 @@ public sealed class GameState
 	/// <summary>
 	/// Should the <see cref="Dealers"/> property be serialized?
 	/// </summary>
-	public bool ShouldSerializeDealers() => Dealers.Any();
+	public bool ShouldSerializeDealers() => !Equals(Dealers.Count, 0);
 }

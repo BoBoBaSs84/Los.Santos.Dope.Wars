@@ -125,7 +125,7 @@ public partial class InfrastructureFactoryTests
 		Assert.IsNotNull(state);
 		Assert.IsNotNull(state.Inventory);
 		Assert.IsNotNull(state.Inventory.Drugs);
-		Assert.IsTrue(state.Inventory.Drugs.Any());
+		Assert.IsFalse(Equals(state.Inventory.Drugs.Count, 0));
 		Assert.AreEqual(drugs.Money, state.Inventory.Money);
 		Assert.AreEqual(dealer.Position, state.Position);
 		Assert.AreEqual(dealer.Hash, state.Hash);

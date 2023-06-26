@@ -29,7 +29,7 @@ public partial class SettingsServiceTests
 	{
 		List<float> values = _settingsService.PlayerSettings.GetExperienceMultiplierValues();
 
-		Assert.IsTrue(values.Any());
+		Assert.IsFalse(Equals(values.Count, 0));
 	}
 
 	[TestMethod]
@@ -137,7 +137,7 @@ public partial class SettingsServiceTests
 	{
 		List<int> values = _settingsService.PlayerSettings.GetInventoryExpansionPerLevelValues();
 
-		Assert.IsTrue(values.Any());
+		Assert.IsFalse(Equals(values.Count, 0));
 	}
 
 	[TestMethod]
@@ -165,6 +165,6 @@ public partial class SettingsServiceTests
 	{
 		List<int> values = _settingsService.PlayerSettings.GetStartingInventoryValues();
 
-		Assert.IsTrue(values.Any());
+		Assert.IsFalse(Equals(values.Count, 0));
 	}
 }

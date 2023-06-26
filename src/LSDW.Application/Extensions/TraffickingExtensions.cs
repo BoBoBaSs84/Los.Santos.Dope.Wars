@@ -141,7 +141,7 @@ public static class TraffickingExtensions
 	/// <param name="stateService">The state service instance to use.</param>
 	public static ITrafficking InProximity(this ITrafficking trafficking, IStateService stateService)
 	{
-		if (!stateService.Dealers.Any())
+		if (Equals(stateService.Dealers.Count, 0))
 			return trafficking;
 
 		Vector3 playerPosition = trafficking.PlayerProvider.Position;
