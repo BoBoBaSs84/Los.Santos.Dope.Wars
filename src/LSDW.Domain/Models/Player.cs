@@ -2,7 +2,7 @@
 using LSDW.Domain.Constants;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Models.Base;
-using static LSDW.Domain.Models.Settings.Player;
+using static LSDW.Abstractions.Models.Settings.Player;
 
 namespace LSDW.Domain.Models;
 

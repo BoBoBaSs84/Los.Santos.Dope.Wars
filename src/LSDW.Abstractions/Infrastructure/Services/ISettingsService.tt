@@ -1,11 +1,11 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
-<#@ assembly name="$(TargetDir)LSDW.Domain.dll" #>
+<#@ assembly name="$(TargetDir)LSDW.Abstractions.dll" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Reflection" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-<#@ import namespace="LSDW.Domain.Classes.Models" #>
+<#@ import namespace="LSDW.Abstractions.Models" #>
 <#@ output extension="Designer.cs" #>
 #pragma warning disable CS1591
 //------------------------------------------------------------------------------

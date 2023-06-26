@@ -1,7 +1,7 @@
 ﻿using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Enumerators;
+using LSDW.Abstractions.Models;
 using LSDW.Domain.Factories;
-using LSDW.Domain.Models;
 
 namespace LSDW.Domain.Tests.Models;
 

@@ -4,7 +4,7 @@ using LSDW.Abstractions.Extensions;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Helpers;
 using LSDW.Domain.Models.Base;
-using static LSDW.Domain.Models.Settings.Market;
+using static LSDW.Abstractions.Models.Settings.Market;
 using RESX = LSDW.Domain.Properties.Resources;
 
 namespace LSDW.Domain.Models;
