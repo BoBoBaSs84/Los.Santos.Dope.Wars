@@ -11,17 +11,17 @@ public interface IDealer : IPedestrian
 	/// <summary>
 	/// The dealer is gone until this date time.
 	/// </summary>
-	DateTime? ClosedUntil { get; }
+	DateTime? ClosedUntil { get; set; }
 
 	/// <summary>
 	/// When does only the inventory prices change the next time?
 	/// </summary>
-	DateTime NextPriceChange { get; }
+	DateTime NextPriceChange { get; set; }
 
 	/// <summary>
 	/// When does the whole inventory changes itself next time?
 	/// </summary>
-	DateTime NextInventoryChange { get; }
+	DateTime NextInventoryChange { get; set; }
 
 	/// <summary>
 	/// Is the dealer closed for business?
@@ -31,7 +31,7 @@ public interface IDealer : IPedestrian
 	/// <summary>
 	/// Has the dealer already been discovered?
 	/// </summary>
-	bool Discovered { get; }
+	bool Discovered { get; set; }
 
 	/// <summary>
 	/// Is the blip created?
@@ -42,14 +42,6 @@ public interface IDealer : IPedestrian
 	/// The dealer inventory.
 	/// </summary>
 	IInventory Inventory { get; }
-
-	/// <summary>
-	/// This will clean up the dealer.
-	/// </summary>
-	/// <remarks>
-	/// Removing the <see cref="Blip"/> and deleting the <see cref="Ped"/>.
-	/// </remarks>
-	void CleanUp();
 
 	/// <summary>
 	/// Creates the blip on the map.
@@ -63,33 +55,4 @@ public interface IDealer : IPedestrian
 	/// Deletes the blip on the map.
 	/// </summary>
 	void DeleteBlip();
-
-	/// <summary>
-	/// Sets <see cref="Closed"/> to <see langword="true"/> and sets the <see cref="ClosedUntil"/> value.
-	/// </summary>
-	/// <param name="worldProvider">The world provider instance to use.</param>
-	void SetClosed(IWorldProvider worldProvider);
-
-	/// <summary>
-	/// Sets if the dealer is discovered or not, maybe good for rediscovering too.
-	/// </summary>
-	/// <param name="value"><see langword="true"/> or <see langword="false"/></param>
-	void SetDiscovered(bool value);
-
-	/// <summary>
-	/// Sets <see cref="Closed"/> to <see langword="false"/> and unsets the <see cref="ClosedUntil"/> value.
-	/// </summary>
-	void SetOpen();
-
-	/// <summary>
-	/// Sets the next price change date time.
-	/// </summary>
-	/// <param name="worldProvider">The world provider instance to use.</param>
-	void SetNextPriceChange(IWorldProvider worldProvider);
-
-	/// <summary>
-	/// Sets the next inventory change date time. 
-	/// </summary>
-	/// <param name="worldProvider">The world provider instance to use.</param>
-	void SetNextInventoryChange(IWorldProvider worldProvider);
 }

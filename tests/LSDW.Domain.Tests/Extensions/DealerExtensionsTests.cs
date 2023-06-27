@@ -1,4 +1,5 @@
-﻿using GTA.Math;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using GTA.Math;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Providers;
 using LSDW.Abstractions.Models;
@@ -33,28 +34,6 @@ public class DealerExtensionsTests
 	}
 
 	[TestMethod]
-	public void ChangePricesCollectionTest()
-	{
-		IWorldProvider provider = _worldProviderMock.Object;
-		DateTime nextPriceChange = provider.Now.AddHours(Settings.Market.PriceChangeInterval);
-		ICollection<IDealer> dealers = new HashSet<IDealer>();
-
-		for (int i = 0; i < 5; i++)
-			dealers.Add(DomainFactory.CreateDealer(_zeroVector));
-
-		dealers.ChangePrices(provider, 100);
-
-		foreach (IDealer dealer in dealers)
-		{
-			Assert.AreNotEqual(default, dealer.Inventory.Sum(x => x.CurrentPrice));
-			Assert.AreEqual(default, dealer.Inventory.Money);
-			Assert.AreEqual(default, dealer.Inventory.TotalQuantity);
-			Assert.AreEqual(nextPriceChange, dealer.NextPriceChange);
-			Assert.AreEqual(DateTime.MinValue, dealer.NextInventoryChange);
-		}
-	}
-
-	[TestMethod]
 	public void RestockInventoryTest()
 	{
 		IWorldProvider provider = _worldProviderMock.Object;
@@ -72,25 +51,13 @@ public class DealerExtensionsTests
 	}
 
 	[TestMethod]
-	public void RestockCollectionTest()
+	public void CleanUpTest()
 	{
-		IWorldProvider provider = _worldProviderMock.Object;
-		DateTime nextPriceChange = provider.Now.AddHours(Settings.Market.PriceChangeInterval);
-		DateTime nextInventoryChange = provider.Now.AddHours(Settings.Market.InventoryChangeInterval);
-		ICollection<IDealer> dealers = new HashSet<IDealer>();
+		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
 
-		for (int i = 0; i < 5; i++)
-			dealers.Add(DomainFactory.CreateDealer(_zeroVector));
+		dealer.CleanUp();
 
-		dealers.ChangeInventories(provider, 100);
-
-		foreach (IDealer dealer in dealers)
-		{
-			Assert.AreNotEqual(default, dealer.Inventory.Sum(x => x.CurrentPrice));
-			Assert.AreNotEqual(default, dealer.Inventory.Money);
-			Assert.AreNotEqual(default, dealer.Inventory.TotalQuantity);
-			Assert.AreEqual(nextInventoryChange, dealer.NextInventoryChange);
-			Assert.AreEqual(nextPriceChange, dealer.NextPriceChange);
-		}
+		Assert.IsFalse(dealer.Created);
+		Assert.IsFalse(dealer.BlipCreated);
 	}
 }

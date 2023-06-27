@@ -307,7 +307,7 @@ public partial class InfrastructureFactoryTests
 		{
 			IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
 			_ = dealer.Inventory.Restock(player.Level);
-			dealer.SetDiscovered(true);
+			dealer.Discovered = true;
 			dealers.Add(dealer);
 		}
 		GameState gameState = CreateGameState(dealers, player);
