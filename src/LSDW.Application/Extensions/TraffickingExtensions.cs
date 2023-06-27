@@ -7,6 +7,8 @@ using LSDW.Abstractions.Models;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
 using System.Diagnostics.CodeAnalysis;
+using DealerSettings = LSDW.Abstractions.Models.Settings.Dealer;
+
 
 namespace LSDW.Application.Extensions;
 
@@ -88,10 +90,12 @@ public static class TraffickingExtensions
 		foreach (IDealer dealer in stateService.Dealers.Where(x => x.Discovered.Equals(true) && x.BlipCreated.Equals(false)))
 		{
 			if (dealer.Closed)
-				if (dealer.ClosedUntil.HasValue && dealer.ClosedUntil < trafficking.WorldProvider.Now)
-					dealer.SetOpen();
+			{
+				if (dealer.ClosedUntil < trafficking.WorldProvider.Now)
+					dealer.ClosedUntil = null;
 				else
 					continue;
+			}
 
 			dealer.CreateBlip(trafficking.WorldProvider);
 		}
@@ -189,7 +193,7 @@ public static class TraffickingExtensions
 			{
 				if (ClosestDealer.IsDead)
 				{
-					ClosestDealer.SetClosed(trafficking.WorldProvider);
+					ClosestDealer.ClosedUntil = trafficking.WorldProvider.Now.AddHours(DealerSettings.DownTimeInHours);
 					string message = $"{ClosestDealer.Name} was made cold, the store is closed for the time being!";
 					trafficking.NotificationProvider.Show("ICED!", message);
 				}
@@ -220,7 +224,7 @@ public static class TraffickingExtensions
 	/// <param name="player">The player instance to use.</param>
 	private static void DiscoverDealer(this ITrafficking trafficking, IDealer dealer, IPlayer player)
 	{
-		dealer.SetDiscovered(true);
+		dealer.Discovered = true;
 		dealer.ChangeInventory(trafficking.WorldProvider, player.Level);
 		dealer.CreateBlip(trafficking.WorldProvider);
 		string locationName = trafficking.WorldProvider.GetZoneLocalizedName(dealer.Position);
