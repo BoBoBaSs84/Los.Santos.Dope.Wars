@@ -93,4 +93,14 @@ public class DealerExtensionsTests
 			Assert.AreEqual(nextPriceChange, dealer.NextPriceChange);
 		}
 	}
+
+	[TestMethod]
+	public void CleanUpTest()
+	{
+		ICollection<IDealer> dealers = new HashSet<IDealer>();
+		for (int i = 0; i < 5; i++)
+			dealers.Add(MockHelper.GetDealer().Object);
+
+		dealers.CleanUp();
+	}
 }

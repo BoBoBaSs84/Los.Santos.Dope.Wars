@@ -83,9 +83,6 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 		Initialized = true;
 	}
 
-	public void SetVisible(bool value)
-		=> Visible = value;
-
 	private void OnMenuItemActivated(object sender, EventArgs args)
 	{
 		if (transactionService is not null && player is not null)
