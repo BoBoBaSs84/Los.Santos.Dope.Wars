@@ -5,6 +5,7 @@ using LSDW.Abstractions.Domain.Providers;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Domain.Constants;
 using LSDW.Domain.Helpers;
+using System.Security.Cryptography.X509Certificates;
 
 namespace LSDW.Domain.Models.Base;
 
@@ -59,14 +60,14 @@ internal abstract class Pedestrian : IPedestrian
 		SetTaskType(TaskType.FIGHT);
 	}
 
-	public virtual void Create(IWorldProvider worldProvider, float healthValue = 100)
+	public virtual void Create(IWorldProvider worldProvider, int health = 100)
 	{
 		if (ped is not null)
 			return;
 
 		Model model = ScriptHookHelper.GetPedModel(Hash);
 		ped = worldProvider.CreatePed(model, Position);
-		ped.HealthFloat = healthValue;
+		ped.Health = health;
 		StandStill();
 	}
 
@@ -88,12 +89,12 @@ internal abstract class Pedestrian : IPedestrian
 		SetTaskType(TaskType.FLEE);
 	}
 
-	public void GiveArmor(float armorValue)
+	public void GiveArmor(int armor)
 	{
 		if (ped is null)
 			return;
 
-		ped.ArmorFloat = armorValue;
+		ped.Armor = armor;
 	}
 
 	public void GiveWeapon(WeaponHash weaponHash, int ammo = 0)
@@ -102,6 +103,7 @@ internal abstract class Pedestrian : IPedestrian
 			return;
 
 		_ = ped.Weapons.Give(weaponHash, ammo, true, true);
+		ped.CanSwitchWeapons = true;
 	}
 
 	public void GuardPosition()
@@ -111,6 +113,24 @@ internal abstract class Pedestrian : IPedestrian
 
 		ped.Task.GuardCurrentPosition();
 		SetTaskType(TaskType.GUARD);
+	}
+
+	public void Idle()
+	{
+		if (ped is null || CurrentTask is TaskType.IDLE)
+			return;
+
+		TaskSequence taskSequence = new();
+		taskSequence.AddTask.UseMobilePhone(20000);
+		taskSequence.AddTask.PutAwayMobilePhone();
+		taskSequence.AddTask.Wait(20000);
+		taskSequence.AddTask.WanderAround(Position, 0.5f);
+		taskSequence.Close(true);
+
+		using (taskSequence)
+		{
+			ped.Task.PerformSequence(taskSequence);
+		}
 	}
 
 	public void TurnTo(Ped entity, int duration = -1)
@@ -139,12 +159,12 @@ internal abstract class Pedestrian : IPedestrian
 		SetTaskType(TaskType.STAND);
 	}
 
-	public void Update(float health = 100)
+	public void Update(int health = 100)
 	{
 		if (ped is null)
 			return;
 
-		ped.HealthFloat = health;
+		ped.Health = health;
 	}
 
 	public void WanderAround()

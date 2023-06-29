@@ -68,15 +68,15 @@ internal sealed class Dealer : Pedestrian, IDealer
 		base.Attack(ped);
 	}
 
-	public override void Create(IWorldProvider worldProvider, float healthValue = 100)
+	public override void Create(IWorldProvider worldProvider, int health = 100)
 	{
-		base.Create(worldProvider, healthValue);
+		base.Create(worldProvider, health);
 
 		if (DealerSettings.HasWeapons)
-			GiveWeapon(WeaponHash.CombatShotgun, 100);
+			GiveWeapon(WeaponHash.Pistol, 100);
 
 		if (DealerSettings.HasArmor)
-			GiveArmor(150f);
+			GiveArmor(100);
 	}
 
 	public void CreateBlip(IWorldProvider worldProvider, BlipSprite sprite = BlipSprite.Drugs, BlipColor color = BlipColor.White)

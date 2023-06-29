@@ -10,6 +10,10 @@ public enum TaskType
 	/// </summary>
 	NOTASK,
 	/// <summary>
+	/// The pedestrian idle enumerator.
+	/// </summary>	
+	IDLE,
+	/// <summary>
 	/// The pedestrian stands still enumerator.
 	/// </summary>
 	STAND,

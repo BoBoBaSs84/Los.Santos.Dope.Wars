@@ -172,7 +172,7 @@ public static class TraffickingExtensions
 			}
 
 			if (ClosestDealer.Position.DistanceTo(playerPosition) is < CloseRangeDistance and > RealCloseRangeDistance)
-				ClosestDealer.WanderAround(1);
+				ClosestDealer.Wait();
 
 			if (ClosestDealer.Position.DistanceTo(playerPosition) is < RealCloseRangeDistance and > InteractionDistance)
 			{
