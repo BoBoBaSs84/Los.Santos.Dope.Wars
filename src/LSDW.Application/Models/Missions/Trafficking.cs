@@ -43,9 +43,18 @@ internal sealed class Trafficking : Mission, ITrafficking
 	public ISideMenu LeftSideMenu => _lazyLeftSideMenu.Value;
 	public ISideMenu RightSideMenu => _lazyRightSideMenu.Value;
 
+	public override void StartMission()
+	{
+		LeftSideMenu.SwitchItem.Activated += OnSwitchItemActivated;
+		RightSideMenu.SwitchItem.Activated -= OnSwitchItemActivated;
+		base.StartMission();
+	}
+
 	public override void StopMission()
 	{
-		_ = _stateService.Dealers.CleanUpDealers();
+		_ = _stateService.Dealers.CleanUp();
+		LeftSideMenu.SwitchItem.Activated -= OnSwitchItemActivated;
+		RightSideMenu.SwitchItem.Activated -= OnSwitchItemActivated;
 		LeftSideMenu.CleanUp();
 		RightSideMenu.CleanUp();
 		base.StopMission();
@@ -77,5 +86,11 @@ internal sealed class Trafficking : Mission, ITrafficking
 		{
 			LoggerService.Critical($"There was an error.", ex);
 		}
+	}
+
+	private void OnSwitchItemActivated(object sender, EventArgs e)
+	{
+		LeftSideMenu.Visible = !LeftSideMenu.Visible;
+		RightSideMenu.Visible = !RightSideMenu.Visible;
 	}
 }

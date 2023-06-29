@@ -71,5 +71,5 @@ public static class MockHelper
 		=> new();
 
 	public static Mock<IDealer> GetDealer()
-		=> new();
+		=> new();		
 }

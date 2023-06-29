@@ -8,14 +8,13 @@ namespace LSDW.Abstractions.Presentation.Menus.Base;
 public interface IMenu
 {
 	/// <summary>
+	/// Gets or sets the menu visible.
+	/// </summary>
+	bool Visible { get; set; }
+
+	/// <summary>
 	/// Add the menu to process pool.
 	/// </summary>
 	/// <param name="processables">The manager for menus and items.</param>
 	void Add(ObjectPool processables);
-
-	/// <summary>
-	/// Sets the menu visibility.
-	/// </summary>
-	/// <param name="value"><see langword="true"/> or <see langword="false"/></param>
-	void SetVisible(bool value);
 }

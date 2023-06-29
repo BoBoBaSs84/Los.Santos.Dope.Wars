@@ -64,7 +64,7 @@ public sealed class Main : Script
 
 		if (args.KeyCode == Keys.F10)
 		{
-			_settingsMenu.SetVisible(true);
+			_settingsMenu.Visible = true;
 		}
 
 		if (args.KeyCode == Keys.F9)

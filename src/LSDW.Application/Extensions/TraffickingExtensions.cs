@@ -110,10 +110,10 @@ public static class TraffickingExtensions
 	/// <param name="stateService">The state service instance to use.</param>
 	public static ITrafficking ChangeDealerPrices(this ITrafficking trafficking, IStateService stateService)
 	{
-		if (ClosestDealer is not null || !stateService.Dealers.Any(x => x.Discovered))
+		if (!stateService.Dealers.Any(x => x.Discovered.Equals(true)))
 			return trafficking;
 
-		foreach (IDealer dealer in stateService.Dealers.Where(x => x.Discovered && x.NextPriceChange < trafficking.WorldProvider.Now))
+		foreach (IDealer dealer in stateService.Dealers.Where(x => x.Discovered && x.Closed.Equals(false) && x.NextPriceChange < trafficking.WorldProvider.Now))
 			dealer.ChangePrices(trafficking.WorldProvider, stateService.Player.Level);
 
 		return trafficking;
@@ -126,10 +126,10 @@ public static class TraffickingExtensions
 	/// <param name="stateService">The state service instance to use.</param>
 	public static ITrafficking ChangeDealerInventories(this ITrafficking trafficking, IStateService stateService)
 	{
-		if (ClosestDealer is not null || !stateService.Dealers.Any(x => x.Discovered))
+		if (!stateService.Dealers.Any(x => x.Discovered.Equals(true)))
 			return trafficking;
 
-		foreach (IDealer dealer in stateService.Dealers.Where(x => x.Discovered && x.NextInventoryChange < trafficking.WorldProvider.Now))
+		foreach (IDealer dealer in stateService.Dealers.Where(x => x.Discovered && x.Closed.Equals(false) && x.NextInventoryChange < trafficking.WorldProvider.Now))
 		{
 			dealer.ChangeInventory(trafficking.WorldProvider, stateService.Player.Level);
 			trafficking.NotificationProvider.Show(dealer.Name, "Tip-off", "Hey dude, i got new stuff in stock!");
@@ -155,19 +155,24 @@ public static class TraffickingExtensions
 		{
 			foreach (IDealer dealer in stateService.Dealers.Where(x => x.Closed.Equals(false)))
 			{
-				if (dealer.Position.DistanceTo(playerPosition) < CreateDistance)
+				if (dealer.Position.DistanceTo(playerPosition) <= CreateDistance)
+				{
 					ClosestDealer = dealer;
-				break;
+					break;
+				}
 			}
 		}
 
 		if (ClosestDealer is not null)
 		{
-			if (ClosestDealer.Position.DistanceTo(playerPosition) < CreateDistance && !ClosestDealer.Created)
+			if (ClosestDealer.Position.DistanceTo(playerPosition) < CreateDistance)
+			{
 				ClosestDealer.Create(trafficking.WorldProvider);
+				ClosestDealer.Wait();
+			}
 
 			if (ClosestDealer.Position.DistanceTo(playerPosition) is < CloseRangeDistance and > RealCloseRangeDistance)
-				ClosestDealer.GuardPosition();
+				ClosestDealer.WanderAround(1);
 
 			if (ClosestDealer.Position.DistanceTo(playerPosition) is < RealCloseRangeDistance and > InteractionDistance)
 			{
@@ -182,27 +187,37 @@ public static class TraffickingExtensions
 
 			if (ClosestDealer.Position.DistanceTo(playerPosition) <= InteractionDistance)
 			{
-				trafficking.NotificationProvider.ShowHelpTextThisFrame($"~b~Press ~INPUT_CONTEXT~ ~w~to start a warehouse mission.");
-				if (Game.IsControlJustPressed(GTA.Control.Context))
+				if (!trafficking.LeftSideMenu.Visible && !trafficking.RightSideMenu.Visible)
 				{
+					trafficking.NotificationProvider.ShowHelpTextThisFrame($"~b~Press ~INPUT_CONTEXT~ ~w~to start a warehouse mission.");
+
+					if (Game.IsControlJustPressed(GTA.Control.Context))
+						trafficking.LeftSideMenu.Visible = true;
 				}
 			}
 
 			// cleanup everything
 			if (ClosestDealer.Position.DistanceTo(playerPosition) > CreateDistance || ClosestDealer.IsDead || trafficking.PlayerProvider.WantedLevel > 0)
 			{
-				if (ClosestDealer.IsDead)
+				if (!ClosestDealer.Closed)
 				{
-					ClosestDealer.ClosedUntil = trafficking.WorldProvider.Now.AddHours(DealerSettings.DownTimeInHours);
-					string message = $"{ClosestDealer.Name} was made cold, the store is closed for the time being!";
-					trafficking.NotificationProvider.Show("ICED!", message);
-				}
+					if (!ClosestDealer.IsDead)
+					{
+						if (trafficking.PlayerProvider.WantedLevel > 0)
+						{
+							ClosestDealer.Flee();
+							string message = $"{ClosestDealer.Name} had to flee from the cops!";
+							trafficking.NotificationProvider.Show("BUST!", message);
+						}
+					}
 
-				if (trafficking.PlayerProvider.WantedLevel > 0)
-				{
-					ClosestDealer.Flee();
-					string message = $"{ClosestDealer.Name} had to flee from the cops!";
-					trafficking.NotificationProvider.Show("BUST!", message);
+					if (ClosestDealer.IsDead)
+					{
+						ClosestDealer.DeleteBlip();
+						ClosestDealer.ClosedUntil = trafficking.WorldProvider.Now.AddHours(DealerSettings.DownTimeInHours);
+						string message = $"{ClosestDealer.Name} was made cold, the store is closed for the time being!";
+						trafficking.NotificationProvider.Show("ICED!", message);
+					}
 				}
 
 				if (ClosestDealer.Position.DistanceTo(playerPosition) > CreateDistance)

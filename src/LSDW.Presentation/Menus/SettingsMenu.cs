@@ -29,9 +29,6 @@ internal sealed partial class SettingsMenu : NativeMenu, ISettingsMenu
 	public void Add(ObjectPool processables)
 		=> processables.Add(this);
 
-	public void SetVisible(bool value)
-		=> Visible = value;
-
 	private void OnClosing(object sender, CancelEventArgs args)
 		=> _settingsService.Save();
 }

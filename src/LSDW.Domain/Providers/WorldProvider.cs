@@ -25,7 +25,7 @@ internal sealed class WorldProvider : IWorldProvider
 	}
 
 	public Blip CreateBlip(Vector3 position)
-		=> throw new NotImplementedException();
+		=> World.CreateBlip(position);
 
 	public Ped CreatePed(Model model, Vector3 position, float heading = 0f)
 		=> World.CreatePed(model, position, heading);

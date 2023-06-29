@@ -13,11 +13,10 @@ internal sealed class ProviderManager : IProviderManager
 	private readonly Lazy<INotificationProvider> _lazyNotificationProvider;
 	private readonly Lazy<IPlayerProvider> _lazyPlayerProvider;
 
-
 	/// <summary>
 	/// Initializes a instance of the location provider manager class.
 	/// </summary>
-	public ProviderManager()
+	internal ProviderManager()
 	{
 		_lazyLocationProvider = new Lazy<IWorldProvider>(DomainFactory.CreateWorldProvider);
 		_lazyNotificationProvider = new Lazy<INotificationProvider>(DomainFactory.CreateNotificationProvider);
