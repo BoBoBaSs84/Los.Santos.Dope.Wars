@@ -51,7 +51,7 @@ public class DealerExtensionsTests
 	}
 
 	[TestMethod]
-	public void CleanUpTest()
+	public void CleanUpDealerTest()
 	{
 		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
 
@@ -62,7 +62,7 @@ public class DealerExtensionsTests
 	}
 
 	[TestMethod]
-	public void CleanUpTest()
+	public void CleanUpDealersTest()
 	{
 		ICollection<IDealer> dealers = new HashSet<IDealer>();
 		for (int i = 0; i < 5; i++)

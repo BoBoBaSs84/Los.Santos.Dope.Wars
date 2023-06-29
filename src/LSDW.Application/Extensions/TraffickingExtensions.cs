@@ -190,6 +190,7 @@ public static class TraffickingExtensions
 				if (!trafficking.LeftSideMenu.Visible && !trafficking.RightSideMenu.Visible)
 				{
 					trafficking.NotificationProvider.ShowHelpTextThisFrame($"~b~Press ~INPUT_CONTEXT~ ~w~to start a warehouse mission.");
+
 					if (Game.IsControlJustPressed(GTA.Control.Context))
 						trafficking.LeftSideMenu.Visible = true;
 				}
@@ -212,7 +213,8 @@ public static class TraffickingExtensions
 
 					if (ClosestDealer.IsDead)
 					{
-						ClosestDealer.SetClosed(trafficking.WorldProvider);
+						ClosestDealer.DeleteBlip();
+						ClosestDealer.ClosedUntil = trafficking.WorldProvider.Now.AddHours(DealerSettings.DownTimeInHours);
 						string message = $"{ClosestDealer.Name} was made cold, the store is closed for the time being!";
 						trafficking.NotificationProvider.Show("ICED!", message);
 					}
