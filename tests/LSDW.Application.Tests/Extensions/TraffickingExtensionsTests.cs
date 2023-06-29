@@ -32,7 +32,7 @@ public class TraffickingExtensionsTests
 	public void ChangeDealerPricesTest()
 	{
 		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
-		dealer.SetDiscovered(true);
+		dealer.Discovered = true;
 		_stateService.Dealers.Add(dealer);
 
 		_trafficking.ChangeDealerPrices(_stateService);
@@ -55,7 +55,7 @@ public class TraffickingExtensionsTests
 	public void ChangeDealerInventoriesTest()
 	{
 		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
-		dealer.SetDiscovered(true);
+		dealer.Discovered = true;
 		_stateService.Dealers.Add(dealer);
 
 		_trafficking.ChangeDealerInventories(_stateService);

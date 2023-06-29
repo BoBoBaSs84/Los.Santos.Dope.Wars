@@ -2,6 +2,7 @@
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Providers;
 using System.Diagnostics.CodeAnalysis;
+using MarketSettings = LSDW.Abstractions.Models.Settings.Market;
 
 namespace LSDW.Domain.Extensions;
 
@@ -20,21 +21,8 @@ public static class DealerExtensions
 	public static IDealer ChangePrices(this IDealer dealer, IWorldProvider worldProvider, int playerLevel)
 	{
 		dealer.Inventory.ChangePrices(playerLevel);
-		dealer.SetNextPriceChange(worldProvider);
+		dealer.NextPriceChange = worldProvider.Now.AddHours(MarketSettings.PriceChangeInterval);
 		return dealer;
-	}
-
-	/// <summary>
-	/// Changes the drug prices of the dealer collection.
-	/// </summary>
-	/// <param name="dealers">The dealer collection to change.</param>
-	/// <param name="worldProvider">The world provider instance to use.</param>
-	/// <param name="playerLevel">The current player level.</param>
-	public static ICollection<IDealer> ChangePrices(this ICollection<IDealer> dealers, IWorldProvider worldProvider, int playerLevel)
-	{
-		foreach (IDealer dealer in dealers)
-			dealer.ChangePrices(worldProvider, playerLevel);
-		return dealers;
 	}
 
 	/// <summary>
@@ -46,22 +34,23 @@ public static class DealerExtensions
 	public static IDealer ChangeInventory(this IDealer dealer, IWorldProvider worldProvider, int playerLevel)
 	{
 		dealer.Inventory.Restock(playerLevel);
-		dealer.SetNextInventoryChange(worldProvider);
-		dealer.SetNextPriceChange(worldProvider);
+		dealer.NextInventoryChange = worldProvider.Now.AddHours(MarketSettings.InventoryChangeInterval);
+		dealer.NextPriceChange = worldProvider.Now.AddHours(MarketSettings.PriceChangeInterval);
 		return dealer;
 	}
 
 	/// <summary>
-	/// Changes the inventories of the dealer collection.
+	/// Cleans up the dealer.
 	/// </summary>
-	/// <param name="dealers">The dealer collection to change.</param>
-	/// <param name="worldProvider">The world provider instance to use.</param>
-	/// <param name="playerLevel">The current player level.</param>
-	public static ICollection<IDealer> ChangeInventories(this ICollection<IDealer> dealers, IWorldProvider worldProvider, int playerLevel)
+	/// <remarks>
+	/// Removing the <see cref="Blip"/> and deleting the <see cref="Ped"/>.
+	/// </remarks>
+	/// <param name="dealer"></param>
+	public static IDealer CleanUp(this IDealer dealer)
 	{
-		foreach (IDealer dealer in dealers)
-			dealer.ChangeInventory(worldProvider, playerLevel);
-		return dealers;
+		dealer.DeleteBlip();
+		dealer.Delete();
+		return dealer;
 	}
 
 	/// <summary>

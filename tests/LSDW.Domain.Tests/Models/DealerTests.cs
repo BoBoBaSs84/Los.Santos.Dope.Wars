@@ -18,20 +18,21 @@ public class DealerTests
 	public void SetClosedTest()
 	{
 		IWorldProvider provider = _worldProviderMock.Object;
+		DateTime closedUnitl = provider.Now.AddHours(DealerSettings.DownTimeInHours);
 
-		_dealer.SetClosed(provider);
+		_dealer.ClosedUntil = closedUnitl;
 
 		Assert.IsTrue(_dealer.Closed);
-		Assert.AreEqual(provider.Now.AddHours(DealerSettings.DownTimeInHours), _dealer.ClosedUntil);
+		Assert.AreEqual(closedUnitl, _dealer.ClosedUntil);
 	}
 
 	[TestMethod]
 	public void SetOpenTest()
 	{
 		IWorldProvider provider = _worldProviderMock.Object;
-		_dealer.SetClosed(provider);
+		_dealer.ClosedUntil = provider.Now.AddHours(DealerSettings.DownTimeInHours);
 
-		_dealer.SetOpen();
+		_dealer.ClosedUntil = null;
 
 		Assert.IsFalse(_dealer.Closed);
 		Assert.IsNull(_dealer.ClosedUntil);
@@ -39,30 +40,24 @@ public class DealerTests
 	}
 
 	[TestMethod]
-	public void SetDiscoveredTest()
-	{
-		_dealer.SetDiscovered(true);
-
-		Assert.IsTrue(_dealer.Discovered);
-	}
-
-	[TestMethod]
 	public void SetNextPriceChangeTest()
 	{
 		IWorldProvider provider = _worldProviderMock.Object;
+		DateTime nextChange = provider.Now.AddHours(MarketSettings.PriceChangeInterval);
 
-		_dealer.SetNextPriceChange(provider);
+		_dealer.NextPriceChange = nextChange;
 
-		Assert.AreEqual(provider.Now.AddHours(MarketSettings.PriceChangeInterval), _dealer.NextPriceChange);
+		Assert.AreEqual(nextChange, _dealer.NextPriceChange);
 	}
 
 	[TestMethod]
 	public void SetNextInventoryChangeTest()
 	{
 		IWorldProvider provider = _worldProviderMock.Object;
+		DateTime nextChange = provider.Now.AddHours(MarketSettings.InventoryChangeInterval);
 
-		_dealer.SetNextInventoryChange(provider);
+		_dealer.NextInventoryChange = nextChange;
 
-		Assert.AreEqual(provider.Now.AddHours(MarketSettings.InventoryChangeInterval), _dealer.NextInventoryChange);
+		Assert.AreEqual(nextChange, _dealer.NextInventoryChange);
 	}
 }
