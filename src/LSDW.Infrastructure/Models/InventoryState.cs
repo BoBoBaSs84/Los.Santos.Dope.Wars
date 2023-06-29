@@ -40,4 +40,9 @@ public sealed class InventoryState
 	/// </summary>
 	[XmlAttribute(nameof(Money), Form = XmlSchemaForm.Qualified)]
 	public int Money { get; set; }
+
+	/// <summary>
+	/// Should the money property be serialized?
+	/// </summary>
+	public bool ShouldSerializeMoney() => Money != default;
 }
