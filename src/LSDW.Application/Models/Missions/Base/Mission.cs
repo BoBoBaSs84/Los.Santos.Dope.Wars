@@ -3,6 +3,8 @@ using LSDW.Abstractions.Application.Models.Missions.Base;
 using LSDW.Abstractions.Domain.Providers;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Infrastructure.Services;
+using LSDW.Domain.Extensions;
+using RESX = LSDW.Application.Properties.Resources;
 
 namespace LSDW.Application.Models.Missions.Base;
 
@@ -44,13 +46,13 @@ internal abstract class Mission : IMission
 
 	public virtual void StartMission()
 	{
-		LoggerService.Information($"{Name} started.");
+		LoggerService.Information(RESX.Mission_Information_Started.FormatInvariant(Name));
 		Status = MissionStatusType.STARTED;
 	}
 
 	public virtual void StopMission()
 	{
-		LoggerService.Information($"{Name} stopped.");
+		LoggerService.Information(RESX.Mission_Information_Stopped.FormatInvariant(Name));
 		Status = MissionStatusType.STOPPED;
 	}
 }

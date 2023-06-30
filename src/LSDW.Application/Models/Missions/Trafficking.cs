@@ -7,6 +7,7 @@ using LSDW.Application.Extensions;
 using LSDW.Application.Models.Missions.Base;
 using LSDW.Domain.Extensions;
 using LSDW.Presentation.Factories;
+using RESX = LSDW.Application.Properties.Resources;
 
 namespace LSDW.Application.Models.Missions;
 
@@ -84,7 +85,7 @@ internal sealed class Trafficking : Mission, ITrafficking
 		}
 		catch (Exception ex)
 		{
-			LoggerService.Critical($"There was an error.", ex);
+			LoggerService.Critical(RESX.Trafficking_Error_Critical, ex);
 		}
 	}
 

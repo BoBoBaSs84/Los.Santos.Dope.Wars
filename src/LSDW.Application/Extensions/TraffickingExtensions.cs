@@ -8,6 +8,7 @@ using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
 using System.Diagnostics.CodeAnalysis;
 using DealerSettings = LSDW.Abstractions.Models.Settings.Dealer;
+using RESX = LSDW.Application.Properties.Resources;
 
 
 namespace LSDW.Application.Extensions;
@@ -16,7 +17,6 @@ namespace LSDW.Application.Extensions;
 /// The trafficking extensions class.
 /// </summary>
 [SuppressMessage("Style", "IDE0058", Justification = "Extension methods.")]
-// Todo: Resources!
 public static class TraffickingExtensions
 {
 	private const float TrackDistance = 400;
@@ -132,7 +132,11 @@ public static class TraffickingExtensions
 		foreach (IDealer dealer in stateService.Dealers.Where(x => x.Discovered && x.Closed.Equals(false) && x.NextInventoryChange < trafficking.WorldProvider.Now))
 		{
 			dealer.ChangeInventory(trafficking.WorldProvider, stateService.Player.Level);
-			trafficking.NotificationProvider.Show(dealer.Name, "Tip-off", "Hey dude, i got new stuff in stock!");
+			trafficking.NotificationProvider.Show(
+				sender: dealer.Name,
+				subject: RESX.Trafficking_Notification_Restock_Subject,
+				message: RESX.Trafficking_Notification_Restock_Message
+				);
 		}
 
 		return trafficking;
@@ -189,7 +193,7 @@ public static class TraffickingExtensions
 			{
 				if (!trafficking.LeftSideMenu.Visible && !trafficking.RightSideMenu.Visible)
 				{
-					trafficking.NotificationProvider.ShowHelpTextThisFrame($"~b~Press ~INPUT_CONTEXT~ ~w~to start a warehouse mission.");
+					trafficking.NotificationProvider.ShowHelpTextThisFrame(RESX.Trafficking_HelpText_DealMenu);
 
 					if (Game.IsControlJustPressed(GTA.Control.Context))
 						trafficking.LeftSideMenu.Visible = true;
@@ -204,20 +208,11 @@ public static class TraffickingExtensions
 					if (!ClosestDealer.IsDead)
 					{
 						if (trafficking.PlayerProvider.WantedLevel > 0)
-						{
-							ClosestDealer.Flee();
-							string message = $"{ClosestDealer.Name} had to flee from the cops!";
-							trafficking.NotificationProvider.Show("BUST!", message);
-						}
+							trafficking.LetDealerFlee(ClosestDealer);
 					}
 
 					if (ClosestDealer.IsDead)
-					{
-						ClosestDealer.DeleteBlip();
-						ClosestDealer.ClosedUntil = trafficking.WorldProvider.Now.AddHours(DealerSettings.DownTimeInHours);
-						string message = $"{ClosestDealer.Name} was made cold, the store is closed for the time being!";
-						trafficking.NotificationProvider.Show("ICED!", message);
-					}
+						trafficking.CloseDealer(ClosestDealer);
 				}
 
 				if (ClosestDealer.Position.DistanceTo(playerPosition) > CreateDistance)
@@ -243,7 +238,39 @@ public static class TraffickingExtensions
 		dealer.ChangeInventory(trafficking.WorldProvider, player.Level);
 		dealer.CreateBlip(trafficking.WorldProvider);
 		string locationName = trafficking.WorldProvider.GetZoneLocalizedName(dealer.Position);
-		string message = $"Hey dude, if your around {locationName}, come see me.";
-		trafficking.NotificationProvider.Show(dealer.Name, "Greetings", message);
+		trafficking.NotificationProvider.Show(
+			sender: dealer.Name,
+			subject: RESX.Trafficking_Notification_Discovery_Subject,
+			message: RESX.Trafficking_Notification_Discovery_Message.FormatInvariant(locationName)
+			);
+	}
+
+	/// <summary>
+	/// Closes the dealer, deletes the blip on the map and show the notification.
+	/// </summary>
+	/// <param name="trafficking">The trafficking instance to use.</param>
+	/// <param name="dealer">The dealer instance to use.</param>
+	private static void CloseDealer(this ITrafficking trafficking, IDealer dealer)
+	{
+		dealer.ClosedUntil = trafficking.WorldProvider.Now.AddHours(DealerSettings.DownTimeInHours);
+		dealer.DeleteBlip();
+		trafficking.NotificationProvider.Show(
+			subject: RESX.Trafficking_Notification_Iced_Subject,
+			message: RESX.Trafficking_Notification_Iced_Message.FormatInvariant(dealer.Name)
+			);
+	}
+
+	/// <summary>
+	/// Lets the dealer flee and show the notification.
+	/// </summary>
+	/// <param name="trafficking">The trafficking instance to use.</param>
+	/// <param name="dealer">The dealer instance to use.</param>
+	private static void LetDealerFlee(this ITrafficking trafficking, IDealer dealer)
+	{
+		dealer.Flee();
+		trafficking.NotificationProvider.Show(
+			subject: RESX.Trafficking_Notification_Bust_Subject,
+			message: RESX.Trafficking_Notification_Bust_Message.FormatInvariant(dealer.Name)
+			);
 	}
 }
