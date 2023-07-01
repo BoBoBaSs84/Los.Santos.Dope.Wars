@@ -4,8 +4,8 @@ using LSDW.Abstractions.Application.Managers;
 using LSDW.Abstractions.Application.Models.Missions;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Presentation.Menus;
+using LSDW.Application.Constants;
 using LSDW.Application.Factories;
-using LSDW.Application.Managers;
 using LSDW.Presentation.Factories;
 
 namespace LSDW.Application;
@@ -13,6 +13,7 @@ namespace LSDW.Application;
 /// <summary>
 /// The Main class.
 /// </summary>
+[ScriptAttributes(Author = ApplicationConstants.Author, SupportURL = ApplicationConstants.SupportURL)]
 public sealed class Main : Script
 {
 	private readonly ObjectPool _processables = new();
@@ -33,8 +34,8 @@ public sealed class Main : Script
 #else
 		isDebug = false;
 #endif
-		_providerManager = new ProviderManager();
-		_serviceManager = new ServiceManager();
+		_providerManager = ApplicationFactory.CreateProviderManager();
+		_serviceManager = ApplicationFactory.CreateServiceManager();
 		_serviceManager.StateService.Load(!isDebug);
 
 		_settingsMenu = PresentationFactory.CreateSettingsMenu(_serviceManager);
