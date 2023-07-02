@@ -81,7 +81,7 @@ internal sealed class Dealer : Pedestrian, IDealer
 
 	public void CreateBlip(IWorldProvider worldProvider, BlipSprite sprite = BlipSprite.Drugs, BlipColor color = BlipColor.White)
 	{
-		if (blip is not null || Closed)
+		if (BlipCreated || Closed)
 			return;
 
 		blip = worldProvider.CreateBlip(Position);
@@ -92,15 +92,7 @@ internal sealed class Dealer : Pedestrian, IDealer
 	}
 
 	public void DeleteBlip()
-	{
-		if (blip is null)
-			return;
-
-		blip.Delete();
-	}
-
-	public override void Flee()
-		=> base.Flee();
+		=> blip?.Delete();
 
 	private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
 	{

@@ -48,10 +48,10 @@ public static partial class DomainFactory
 	/// <summary>
 	/// Creates a drug collection instance of all available drugs.
 	/// </summary>
-	public static IEnumerable<IDrug> CreateAllDrugs()
+	public static ICollection<IDrug> CreateAllDrugs()
 	{
 		IEnumerable<DrugType> drugTypes = DrugType.COKE.GetList();
-		List<IDrug> drugs = new();
+		ICollection<IDrug> drugs = new HashSet<IDrug>();
 		foreach (DrugType drugType in drugTypes)
 			drugs.Add(CreateDrug(drugType));
 		return drugs;
@@ -61,21 +61,21 @@ public static partial class DomainFactory
 	/// Creates a new inventory instance.
 	/// </summary>
 	public static IInventory CreateInventory()
-		=> new Inventory(CreateAllDrugs().ToList(), default);
+		=> new Inventory(CreateAllDrugs(), default);
 
 	/// <summary>
 	/// Creates a new inventory instance.
 	/// </summary>
 	/// <param name="money">The money to add to the inventory.</param>
 	public static IInventory CreateInventory(int money)
-		=> new Inventory(CreateAllDrugs().ToList(), money);
+		=> new Inventory(CreateAllDrugs(), money);
 
 	/// <summary>
 	/// Creates a new inventory instance.
 	/// </summary>
 	/// <param name="drugs">The collection of drugs to add to the inventory.</param>
 	/// <param name="money">The money to add to the inventory.</param>
-	public static IInventory CreateInventory(IEnumerable<IDrug> drugs, int money)
+	public static IInventory CreateInventory(ICollection<IDrug> drugs, int money)
 		=> new Inventory(drugs, money);
 
 	/// <summary>

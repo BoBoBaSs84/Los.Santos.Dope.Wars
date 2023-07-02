@@ -14,7 +14,7 @@ public class GameStateTests
 		ICollection<IDealer> dealers = DomainFactory.CreateDealers();
 		IPlayer player = DomainFactory.CreatePlayer();
 
-		GameState state =
+		State state =
 			InfrastructureFactory.CreateGameState(dealers, player);
 
 		Assert.IsFalse(state.ShouldSerializeDealers());

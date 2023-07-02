@@ -7,40 +7,40 @@ using static LSDW.Infrastructure.Factories.InfrastructureFactory;
 namespace LSDW.Infrastructure.Models;
 
 /// <summary>
-/// The game state class.
+/// The state class.
 /// </summary>
-[XmlRoot(XmlConstants.GameStateRootName, Namespace = XmlConstants.NameSpace)]
-public sealed class GameState
+[XmlRoot(XmlConstants.StateRootName, Namespace = XmlConstants.NameSpace)]
+public sealed class State
 {
 	/// <summary>
-	/// Initializes a instance of the game state class.
+	/// Initializes a instance of the state class.
 	/// </summary>
-	public GameState()
+	public State()
 	{
 		Dealers = new();
 		Player = new();
 	}
 
 	/// <summary>
-	/// Initializes a instance of the game state class.
+	/// Initializes a instance of the state class.
 	/// </summary>
 	/// <param name="dealers">The dealer instance colection to save.</param>
 	/// <param name="player">The player instance to save.</param>
-	internal GameState(ICollection<IDealer> dealers, IPlayer player)
+	internal State(ICollection<IDealer> dealers, IPlayer player)
 	{
 		Dealers = CreateDealerStates(dealers);
 		Player = CreatePlayerState(player);
 	}
 
 	/// <summary>
-	/// The dealers property of the game state.
+	/// The dealers property of the state.
 	/// </summary>
 	[XmlArray(nameof(Dealers), Form = XmlSchemaForm.Qualified)]
 	[XmlArrayItem(XmlConstants.DealerStateRootName, Form = XmlSchemaForm.Qualified)]
 	public List<DealerState> Dealers { get; set; }
 
 	/// <summary>
-	/// The player property of the game state.
+	/// The player property of the state.
 	/// </summary>
 	[XmlElement(nameof(Player), Form = XmlSchemaForm.Qualified)]
 	public PlayerState Player { get; set; }

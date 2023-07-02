@@ -11,7 +11,7 @@ internal static class XmlConstants
 	internal const string NameSpacePreFix = "lsdw";
 	internal const string DealerStateRootName = "Dealer";
 	internal const string DrugStateRootName = "Drug";
-	internal const string GameStateRootName = "Game";
+	internal const string StateRootName = "State";
 	internal const string InventoryStateRootName = "Inventory";
 	internal const string PlayerStateRootName = "Player";
 	internal const string TraffickingStateRootName = "Trafficking";

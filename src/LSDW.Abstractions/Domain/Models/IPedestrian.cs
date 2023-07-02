@@ -82,11 +82,6 @@ public interface IPedestrian
 	void GuardPosition();
 
 	/// <summary>
-	/// Lets the pedestrian idle at the current position.
-	/// </summary>
-	void Idle();
-
-	/// <summary>
 	/// Lets the pedestrian stand still.
 	/// </summary>
 	/// <param name="duration">The duration in milliseconds.</param>

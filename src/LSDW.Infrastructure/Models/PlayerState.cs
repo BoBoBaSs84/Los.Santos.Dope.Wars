@@ -52,7 +52,13 @@ public sealed class PlayerState
 	public List<TransactionState> Transactions { get; set; }
 
 	/// <summary>
-	/// Should the <see cref="Transactions"/> property be serialized?
+	/// Should the experience property be serialized?
+	/// </summary>
+	/// <returns></returns>
+	public bool ShouldSerializeExperience() => Experience != default;
+
+	/// <summary>
+	/// Should the transactions property be serialized?
 	/// </summary>
 	public bool ShouldSerializeTransactions() => Transactions.Count != default;
 }

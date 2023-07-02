@@ -53,10 +53,10 @@ internal sealed class StateService : IStateService
 			if (decompress)
 				fileContent = fileContent.Decompress();
 
-			GameState gameState = new GameState().FromXmlString(fileContent);
+			State state = new State().FromXmlString(fileContent);
 
-			Dealers = CreateDealers(gameState);
-			Player = CreatePlayer(gameState);
+			Dealers = CreateDealers(state);
+			Player = CreatePlayer(state);
 
 			_logger.Information(RESX.StateService_Load_Loaded.FormatInvariant(filePath));
 			return true;
@@ -74,9 +74,9 @@ internal sealed class StateService : IStateService
 
 		try
 		{
-			GameState gameState = CreateGameState(Dealers, Player);
+			State state = CreateGameState(Dealers, Player);
 
-			string fileContent = gameState.ToXmlString(_namespaces);
+			string fileContent = state.ToXmlString(_namespaces);
 
 			if (compress)
 				fileContent = fileContent.Compress();

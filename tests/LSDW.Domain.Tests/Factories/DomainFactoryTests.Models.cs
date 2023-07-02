@@ -68,7 +68,7 @@ public partial class DomainFactoryTests
 	[TestMethod]
 	public void CreateAllDrugsTest()
 	{
-		IEnumerable<IDrug>? drugs;
+		ICollection<IDrug>? drugs;
 
 		drugs = DomainFactory.CreateAllDrugs();
 
@@ -102,14 +102,14 @@ public partial class DomainFactoryTests
 	public void CreateInventoryWithDrugsAndMoneyTest()
 	{
 		int money = 1000;
-		IEnumerable<IDrug> drugs = DomainFactory.CreateAllDrugs();
+		ICollection<IDrug> drugs = DomainFactory.CreateAllDrugs();
 		IInventory? inventory;
 
 		inventory = DomainFactory.CreateInventory(drugs, money);
 
 		Assert.IsNotNull(inventory);
 		Assert.AreEqual(money, inventory.Money);
-		Assert.AreEqual(drugs.Count(), inventory.Count);
+		Assert.AreEqual(drugs.Count, inventory.Count);
 	}
 
 	[TestMethod]
