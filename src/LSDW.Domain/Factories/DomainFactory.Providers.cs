@@ -6,10 +6,10 @@ namespace LSDW.Domain.Factories;
 public static partial class DomainFactory
 {
 	/// <summary>
-	/// Creates a new world provider instance.
+	/// Creates a new notification provider instance.
 	/// </summary>
-	public static IWorldProvider CreateWorldProvider()
-		=> new WorldProvider();
+	public static INotificationProvider CreateNotificationProvider()
+		=> new NotificationProvider();
 
 	/// <summary>
 	/// Creates a new player provider instance.
@@ -18,8 +18,14 @@ public static partial class DomainFactory
 		=> new PlayerProvider();
 
 	/// <summary>
-	/// Creates a new notification provider instance.
+	/// Creates a new random provider instance.
 	/// </summary>
-	public static INotificationProvider CreateNotificationProvider()
-		=> new NotificationProvider();
+	public static IRandomProvider CreateRandomProvider()
+		=> new RandomProvider();
+
+	/// <summary>
+	/// Creates a new world provider instance.
+	/// </summary>
+	public static IWorldProvider CreateWorldProvider()
+		=> new WorldProvider();
 }
