@@ -66,12 +66,12 @@ internal sealed class Drug : Notification, IDrug
 
 	public void RandomizePrice(int playerLevel)
 	{
-		double minimumDrugValue = (double)Settings.Market.MinimumDrugPrice;
-		double maximumDrugValue = (double)Settings.Market.MaximumDrugPrice;
+		float minimumDrugValue = Settings.Market.MinimumDrugPrice;
+		float maximumDrugValue = Settings.Market.MaximumDrugPrice;
 
-		double levelLimit = (double)playerLevel / 1000;
-		double lowerLimit = (minimumDrugValue - levelLimit) * AveragePrice;
-		double upperLimit = (maximumDrugValue + levelLimit) * AveragePrice;
+		float levelLimit = (float)playerLevel / 1000;
+		float lowerLimit = (minimumDrugValue - levelLimit) * AveragePrice;
+		float upperLimit = (maximumDrugValue + levelLimit) * AveragePrice;
 
 		int newPrice = RandomHelper.GetInt(lowerLimit, upperLimit);
 		SetPrice(newPrice);

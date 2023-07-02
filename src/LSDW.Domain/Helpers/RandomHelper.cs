@@ -30,7 +30,7 @@ public static class RandomHelper
 	/// </summary>
 	/// <param name="min">The inclusive lower bound of the random number returned.</param>
 	/// <param name="max">The exclusive upper bound of the random number returned.</param>
-	public static int GetInt(double min, double max) => _random.Next((int)min, (int)max);
+	public static int GetInt(float min, float max) => _random.Next((int)min, (int)max);
 
 	/// <summary>
 	/// Returns a random floating-point number that is greater than or equal to 0.0 and less than 1.0.

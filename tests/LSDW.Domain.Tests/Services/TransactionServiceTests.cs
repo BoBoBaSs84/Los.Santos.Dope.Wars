@@ -88,4 +88,18 @@ public class TransactionServiceTests
 
 		Assert.IsFalse(success);
 	}
+
+	[DataTestMethod]
+	[DataRow(TransactionType.GIVE)]
+	[DataRow(TransactionType.TAKE)]
+	public void BustOrNoBustGiveTakeTest(TransactionType transactionType)
+	{
+		IProviderManager providerManager = _providerManagerMock.Object;
+		IInventory source = DomainFactory.CreateInventory();
+		IInventory target = DomainFactory.CreateInventory();
+		ITransactionService transactionService =
+			DomainFactory.CreateTransactionService(providerManager, transactionType, source, target);
+
+		transactionService.BustOrNoBust();		
+	}
 }

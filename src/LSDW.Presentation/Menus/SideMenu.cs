@@ -99,6 +99,7 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 				DateTime dateTime = _providerManager.WorldProvider.Now;
 				ITransaction transaction = DomainFactory.CreateTransaction(dateTime, _type, drugType, quantity, price);
 				player.AddTransaction(transaction);
+				transactionService.BustOrNoBust();
 			}
 		}
 	}
