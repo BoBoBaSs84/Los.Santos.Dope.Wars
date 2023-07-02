@@ -11,31 +11,35 @@ namespace LSDW.Base.Tests.Helpers;
 public static class MockHelper
 {
 	public static Mock<INotificationProvider> GetNotificationProvider()
-		=> new();
+		=> new(MockBehavior.Loose);
 
 	public static Mock<IWorldProvider> GetWorldProvider()
 	{
-		Mock<IWorldProvider> mock = new();
+		Mock<IWorldProvider> mock = new(MockBehavior.Loose);
 		mock.Setup(x => x.Now).Returns(DateTime.MinValue.AddYears(100));
 		mock.Setup(x => x.TimeOfDay).Returns(DateTime.MinValue.AddYears(100).TimeOfDay);
 		return mock;
 	}
 
+	public static Mock<IRandomProvider> GetRandomProvider()
+		=> new(MockBehavior.Loose);
+
 	public static Mock<IPlayerProvider> GetPlayerProvider()
-		=> new();
+		=> new(MockBehavior.Loose);
 
 	public static Mock<IProviderManager> GetProviderManager()
 	{
-		Mock<IProviderManager> mock = new();
-		mock.Setup(x => x.WorldProvider).Returns(GetWorldProvider().Object);
+		Mock<IProviderManager> mock = new(MockBehavior.Loose);
 		mock.Setup(x => x.NotificationProvider).Returns(GetNotificationProvider().Object);
 		mock.Setup(x => x.PlayerProvider).Returns(GetPlayerProvider().Object);
+		mock.Setup(x => x.RandomProvider).Returns(GetRandomProvider().Object);
+		mock.Setup(x => x.WorldProvider).Returns(GetWorldProvider().Object);
 		return mock;
 	}
 
 	public static Mock<IServiceManager> GetServiceManager()
 	{
-		Mock<IServiceManager> mock = new();
+		Mock<IServiceManager> mock = new(MockBehavior.Loose);
 		mock.Setup(x => x.SettingsService).Returns(GetSettingsService().Object);
 		mock.Setup(x => x.StateService).Returns(GetStateService().Object);
 		mock.Setup(x => x.LoggerService).Returns(GetLoggerService().Object);
@@ -43,21 +47,21 @@ public static class MockHelper
 	}
 
 	public static Mock<ISettingsService> GetSettingsService()
-		=> new();
+		=> new(MockBehavior.Loose);
 
 	public static Mock<ILoggerService> GetLoggerService()
-		=> new();
+		=> new(MockBehavior.Loose);
 
 	public static Mock<IStateService> GetStateService()
 	{
-		Mock<IStateService> mock = new();
+		Mock<IStateService> mock = new(MockBehavior.Loose);
 		mock.Setup(x => x.Player).Returns(GetPlayer().Object);
 		return mock;
 	}
 
 	public static Mock<ITrafficking> GetTrafficking()
 	{
-		Mock<ITrafficking> mock = new();
+		Mock<ITrafficking> mock = new(MockBehavior.Loose);
 		mock.Setup(x => x.WorldProvider).Returns(GetWorldProvider().Object);
 		mock.Setup(x => x.LoggerService).Returns(GetLoggerService().Object);
 		mock.Setup(x => x.NotificationProvider).Returns(GetNotificationProvider().Object);
@@ -65,11 +69,11 @@ public static class MockHelper
 	}
 
 	public static Mock<IInventory> GetInventory()
-		=> new();
+		=> new(MockBehavior.Loose);
 
 	public static Mock<IPlayer> GetPlayer()
-		=> new();
+		=> new(MockBehavior.Loose);
 
 	public static Mock<IDealer> GetDealer()
-		=> new();		
+		=> new(MockBehavior.Loose);
 }

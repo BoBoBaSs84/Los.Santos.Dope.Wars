@@ -26,6 +26,16 @@ public partial class DomainFactoryTests
 	}
 
 	[TestMethod]
+	public void CreateRandomProviderTest()
+	{
+		IRandomProvider? provider;
+
+		provider = DomainFactory.CreateRandomProvider();
+
+		Assert.IsNotNull(provider);
+	}
+
+	[TestMethod]
 	public void WorldProviderTest()
 	{
 		IWorldProvider? provider;

@@ -1,50 +1,48 @@
-﻿namespace LSDW.Domain.Helpers;
+﻿namespace LSDW.Abstractions.Domain.Providers;
 
 /// <summary>
-/// The random helper class.
+/// The random provider interface.
 /// </summary>
-public static class RandomHelper
+public interface IRandomProvider
 {
-	private static readonly Random _random = new(Guid.NewGuid().GetHashCode());
-
 	/// <summary>
 	/// Returns a non-negative random integer.
 	/// </summary>
-	public static int GetInt() => _random.Next();
+	int GetInt();
 
 	/// <summary>
 	/// Returns a non-negative random integer that is less than the specified maximum.
 	/// </summary>
 	/// <param name="max">The exclusive upper bound of the random number to be generated.</param>
-	public static int GetInt(int max) => _random.Next(max);
+	int GetInt(int max);
 
 	/// <summary>
 	/// Returns a non-negative random integer that is less than the specified maximum.
 	/// </summary>
 	/// <param name="max">The exclusive upper bound of the random number to be generated.</param>
-	public static int GetInt(float max) => GetInt((int)max);
+	int GetInt(float max);
 
 	/// <summary>
 	/// Returns a random integer that is within a specified range.
 	/// </summary>
 	/// <param name="min">The inclusive lower bound of the random number returned.</param>
 	/// <param name="max">The exclusive upper bound of the random number returned.</param>
-	public static int GetInt(int min, int max) => _random.Next(min, max);
+	int GetInt(int min, int max);
 
 	/// <summary>
 	/// Returns a random integer that is within a specified range.
 	/// </summary>
 	/// <param name="min">The inclusive lower bound of the random number returned.</param>
 	/// <param name="max">The exclusive upper bound of the random number returned.</param>
-	public static int GetInt(float min, float max) => GetInt((int)min, (int)max);
+	int GetInt(float min, float max);
 
 	/// <summary>
 	/// Returns a random floating-point number that is greater than or equal to 0.0 and less than 1.0.
 	/// </summary>
-	public static double GetDouble() => _random.NextDouble();
+	double GetDouble();
 
 	/// <summary>
 	/// Returns a random floating-point number that is greater than or equal to 0.0 and less than 1.0.
 	/// </summary>
-	public static float GetFloat() => (float)GetDouble();
+	float GetFloat();
 }
