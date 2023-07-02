@@ -10,22 +10,21 @@ namespace LSDW.Presentation.Items;
 internal sealed class DrugListItem : NativeListItem<int>
 {
 	private readonly IDrug _sourceDrug;
-	private readonly IDrug _targetDrug;
+	private readonly int _comparisonPrice;
 
 	/// <summary>
 	/// Initializes a instance of the drug list item class.
 	/// </summary>
 	/// <param name="sourcedrug">The drug for this menu item.</param>
-	/// <param name="targetDrug">The target drug for this menu item.</param>
-	internal DrugListItem(IDrug sourcedrug, IDrug targetDrug) : base(sourcedrug.Name, sourcedrug.Quantity.GetArray())
+	/// <param name="comparisonPrice">Comparison price used as a reference basis.</param>
+	internal DrugListItem(IDrug sourcedrug, int comparisonPrice) : base(sourcedrug.Name, sourcedrug.Quantity.GetArray())
 	{
 		_sourceDrug = sourcedrug;
-		_targetDrug = targetDrug;
+		_comparisonPrice = comparisonPrice;
 
-		Description = GetDescription(_sourceDrug.Quantity, _sourceDrug.CurrentPrice, _targetDrug.CurrentPrice);
+		Description = GetDescription(_sourceDrug.Quantity, _sourceDrug.CurrentPrice, _comparisonPrice);
 		Enabled = !Equals(_sourceDrug.Quantity, 0);
 		SelectedIndex = _sourceDrug.Quantity;
-		Tag = sourcedrug.Type;
 
 		_sourceDrug.PropertyChanged += OnPropertyChanged;
 		ItemChanged += OnItemChanged;
@@ -42,7 +41,7 @@ internal sealed class DrugListItem : NativeListItem<int>
 	}
 
 	private void OnItemChanged(object sender, ItemChangedEventArgs<int> args)
-		=> Description = GetDescription(args.Object, _sourceDrug.CurrentPrice, _targetDrug.CurrentPrice);
+		=> Description = GetDescription(args.Object, _sourceDrug.CurrentPrice, _comparisonPrice);
 
 	private static string GetDescription(int quantity, int sourcePrice, int targetPrice)
 	{

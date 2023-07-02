@@ -122,7 +122,15 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 
 		foreach (var drug in drugs)
 		{
-			DrugListItem item = new(drug.s, drug.t);
+			int comparisonPrice = _type switch
+			{
+				TransactionType.BUY => drug.t.AveragePrice,
+				TransactionType.SELL => drug.t.CurrentPrice,
+				TransactionType.TAKE => drug.t.AveragePrice,
+				_ => default
+			};
+
+			DrugListItem item = new(drug.s, comparisonPrice);
 			item.Activated += OnMenuItemActivated;
 			Add(item);
 		}
