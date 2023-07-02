@@ -25,7 +25,11 @@ public static class MockHelper
 		=> new(MockBehavior.Loose);
 
 	public static Mock<IPlayerProvider> GetPlayerProvider()
-		=> new(MockBehavior.Loose);
+	{
+		Mock<IPlayerProvider> mock = new();
+		mock.SetupAllProperties();
+		return mock;
+	}
 
 	public static Mock<IProviderManager> GetProviderManager()
 	{

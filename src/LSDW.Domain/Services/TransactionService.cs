@@ -41,7 +41,9 @@ internal sealed class TransactionService : ITransactionService
 		if (_type is TransactionType.TAKE or TransactionType.GIVE)
 			return;
 
-		if ((float)RandomHelper.GetDouble() >= Settings.Trafficking.BustChance)
+		float random = _providerManager.RandomProvider.GetFloat();
+
+		if (random >= Settings.Trafficking.BustChance)
 			return;
 
 		_providerManager.NotificationProvider.ShowSubtitle(Resources.Transaction_Message_Bust);

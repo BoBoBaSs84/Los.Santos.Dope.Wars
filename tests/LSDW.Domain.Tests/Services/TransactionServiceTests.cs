@@ -1,9 +1,12 @@
 ﻿using LSDW.Abstractions.Application.Managers;
 using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Domain.Providers;
 using LSDW.Abstractions.Domain.Services;
 using LSDW.Abstractions.Enumerators;
+using LSDW.Abstractions.Models;
 using LSDW.Base.Tests.Helpers;
 using LSDW.Domain.Factories;
+using LSDW.Domain.Properties;
 using Moq;
 
 namespace LSDW.Domain.Tests.Services;
@@ -12,6 +15,7 @@ namespace LSDW.Domain.Tests.Services;
 public class TransactionServiceTests
 {
 	private readonly Mock<IProviderManager> _providerManagerMock = MockHelper.GetProviderManager();
+	private readonly Mock<IInventory> _inventoryMock = MockHelper.GetInventory();
 
 	[TestMethod]
 	public void CommitGiveSuccessTest()
@@ -95,11 +99,48 @@ public class TransactionServiceTests
 	public void BustOrNoBustGiveTakeTest(TransactionType transactionType)
 	{
 		IProviderManager providerManager = _providerManagerMock.Object;
-		IInventory source = DomainFactory.CreateInventory();
-		IInventory target = DomainFactory.CreateInventory();
 		ITransactionService transactionService =
-			DomainFactory.CreateTransactionService(providerManager, transactionType, source, target);
+			DomainFactory.CreateTransactionService(providerManager, transactionType, _inventoryMock.Object, _inventoryMock.Object);
 
 		transactionService.BustOrNoBust();		
+	}
+
+	[TestMethod]
+	public void BustOrNoBustBelowBustChanceTest()
+	{
+		TransactionType transactionType = TransactionType.BUY;
+		Mock<INotificationProvider> notificationProviderMock = MockHelper.GetNotificationProvider();
+		Mock<IRandomProvider> mockRandomProvider = MockHelper.GetRandomProvider();
+		mockRandomProvider.Setup(x => x.GetFloat()).Returns(0.15f);
+		Mock<IPlayerProvider> mockPlayerProvider = MockHelper.GetPlayerProvider();
+		Mock<IProviderManager> providerManagerMock = new(MockBehavior.Loose);
+		providerManagerMock.Setup(x=>x.PlayerProvider).Returns(mockPlayerProvider.Object);
+		providerManagerMock.Setup(x=>x.RandomProvider).Returns(mockRandomProvider.Object);
+		providerManagerMock.Setup(x=>x.NotificationProvider).Returns(notificationProviderMock.Object);
+		ITransactionService transactionService =
+			DomainFactory.CreateTransactionService(providerManagerMock.Object, transactionType, _inventoryMock.Object, _inventoryMock.Object);
+
+		transactionService.BustOrNoBust();
+	}
+
+	[TestMethod]
+	public void BustOrNoBustAboveBustChanceTest()
+	{
+		TransactionType transactionType = TransactionType.BUY;
+		Mock<INotificationProvider> notificationProviderMock = MockHelper.GetNotificationProvider();
+		Mock<IRandomProvider> mockRandomProvider = MockHelper.GetRandomProvider();
+		mockRandomProvider.Setup(x => x.GetFloat()).Returns(0.05f);
+		Mock<IPlayerProvider> playerProviderMock = MockHelper.GetPlayerProvider();
+		Mock<IProviderManager> providerManagerMock = new(MockBehavior.Loose);
+		providerManagerMock.Setup(x => x.PlayerProvider).Returns(playerProviderMock.Object);
+		providerManagerMock.Setup(x => x.RandomProvider).Returns(mockRandomProvider.Object);
+		providerManagerMock.Setup(x => x.NotificationProvider).Returns(notificationProviderMock.Object);
+		ITransactionService transactionService =
+			DomainFactory.CreateTransactionService(providerManagerMock.Object, transactionType, _inventoryMock.Object, _inventoryMock.Object);
+
+		transactionService.BustOrNoBust();
+
+		notificationProviderMock.Verify(x => x.ShowSubtitle(Resources.Transaction_Message_Bust, 2500));
+		Assert.AreEqual(Settings.Trafficking.WantedLevel, playerProviderMock.Object.WantedLevel);
 	}
 }
