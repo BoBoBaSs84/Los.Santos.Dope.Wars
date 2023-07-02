@@ -96,7 +96,8 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 
 			if (succes)
 			{
-				ITransaction transaction = DomainFactory.CreateTransaction(DateTime.Now, _type, drugType, quantity, price);
+				DateTime dateTime = _providerManager.WorldProvider.Now;
+				ITransaction transaction = DomainFactory.CreateTransaction(dateTime, _type, drugType, quantity, price);
 				player.AddTransaction(transaction);
 			}
 		}
@@ -118,19 +119,19 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 		var drugs = from s in source
 								join t in target
 								on s.Type equals t.Type
-								select new { s, t };
+								select new { SourceDrug = s, t.CurrentPrice };
 
 		foreach (var drug in drugs)
 		{
 			int comparisonPrice = _type switch
 			{
-				TransactionType.BUY => drug.t.AveragePrice,
-				TransactionType.SELL => drug.t.CurrentPrice,
-				TransactionType.TAKE => drug.t.AveragePrice,
+				TransactionType.BUY => drug.SourceDrug.AveragePrice,
+				TransactionType.SELL => drug.CurrentPrice,
+				TransactionType.TAKE => drug.SourceDrug.AveragePrice,
 				_ => default
 			};
 
-			DrugListItem item = new(drug.s, comparisonPrice);
+			DrugListItem item = new(drug.SourceDrug, comparisonPrice);
 			item.Activated += OnMenuItemActivated;
 			Add(item);
 		}

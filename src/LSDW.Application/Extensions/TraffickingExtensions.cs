@@ -38,7 +38,7 @@ public static class TraffickingExtensions
 		Vector3 randomPosition = trafficking.PlayerProvider.Position.Around(TrackDistance);
 		Vector3 dealerPosition = trafficking.WorldProvider.GetNextPositionOnSidewalk(randomPosition);
 
-		if (dealerPosition.Equals(new(0, 0, 0)))
+		if (dealerPosition.Equals(Vector3.Zero))
 			return trafficking;
 
 		string zoneDisplayName = trafficking.WorldProvider.GetZoneDisplayName(dealerPosition);
@@ -187,6 +187,15 @@ public static class TraffickingExtensions
 
 			if (ClosestDealer.Position.DistanceTo(playerPosition) <= InteractionDistance)
 			{
+				if (trafficking.PlayerProvider.WantedLevel > 0)
+				{
+					trafficking.PlayerProvider.CanControlCharacter = true;
+					trafficking.LeftSideMenu.Visible = trafficking.RightSideMenu.Visible = false;
+					trafficking.LetDealerFlee(ClosestDealer);
+					ClosestDealer = null;
+					return trafficking;
+				}
+
 				if (!trafficking.LeftSideMenu.Visible && !trafficking.RightSideMenu.Visible)
 				{
 					trafficking.NotificationProvider.ShowHelpTextThisFrame(RESX.Trafficking_HelpText_DealMenu);
@@ -194,17 +203,15 @@ public static class TraffickingExtensions
 					if (Game.IsControlJustPressed(GTA.Control.Context))
 						trafficking.LeftSideMenu.Visible = true;
 				}
-
-				if (trafficking.PlayerProvider.WantedLevel > 0)
-				{
-					trafficking.LeftSideMenu.Visible = trafficking.RightSideMenu.Visible = false;
-					trafficking.LetDealerFlee(ClosestDealer);
-					ClosestDealer = null;
-					return trafficking;
-				}
 			}
 
-			if (ClosestDealer.IsDead)
+			if (ClosestDealer.Position.DistanceTo(playerPosition) > InteractionDistance)
+			{
+				if (trafficking.LeftSideMenu.Visible || trafficking.RightSideMenu.Visible)
+					trafficking.LeftSideMenu.Visible = trafficking.RightSideMenu.Visible = false;
+			}
+
+				if (ClosestDealer.IsDead)
 			{
 				trafficking.CloseDealer(ClosestDealer);
 				ClosestDealer = null;

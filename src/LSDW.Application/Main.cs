@@ -22,21 +22,23 @@ public sealed class Main : Script
 	private readonly ISettingsMenu _settingsMenu;
 	private readonly ITrafficking _trafficking;
 
-	private readonly bool isDebug;
+	/// <summary>
+	/// Determines if the application is developer mode or not.
+	/// </summary>
+	public static bool IsDevelopment { get; private set; }
 
 	/// <summary>
 	/// Initializes a instance of the main class.
 	/// </summary>
 	public Main()
 	{
-#if DEBUG
-		isDebug = true;
+#if DEBUG		
+		IsDevelopment = true;
 #else
-		isDebug = false;
+		IsDevelopment = false;
 #endif
 		_providerManager = ApplicationFactory.CreateProviderManager();
-		_serviceManager = ApplicationFactory.CreateServiceManager();
-		_serviceManager.StateService.Load(!isDebug);
+		_serviceManager = ApplicationFactory.CreateServiceManager();		
 
 		_settingsMenu = PresentationFactory.CreateSettingsMenu(_serviceManager);
 		_settingsMenu.Add(_processables);
@@ -72,13 +74,14 @@ public sealed class Main : Script
 		{
 			if (_trafficking.Status.Equals(MissionStatusType.STOPPED))
 			{
+				_serviceManager.StateService.Load(!IsDevelopment);
 				_trafficking.StartMission();
 				return;
 			}
 
 			if (_trafficking.Status.Equals(MissionStatusType.STARTED))
 			{
-				_ = _serviceManager.StateService.Save(!isDebug);
+				_serviceManager.StateService.Save(!IsDevelopment);
 				_trafficking.StopMission();
 				return;
 			}

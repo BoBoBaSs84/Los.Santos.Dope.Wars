@@ -35,6 +35,7 @@ internal sealed class PlayerProvider : IPlayerProvider
 		get => Game.Player.CanControlCharacter;
 		set => Game.Player.CanControlCharacter = value;
 	}
+
 	public bool DispatchsCops
 	{
 		set => Game.Player.DispatchsCops = value;
