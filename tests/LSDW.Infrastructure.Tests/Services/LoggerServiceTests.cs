@@ -1,20 +1,31 @@
 ﻿using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Abstractions.Models;
-using static LSDW.Infrastructure.Factories.InfrastructureFactory;
+using LSDW.Infrastructure.Factories;
 
 namespace LSDW.Infrastructure.Tests.Services;
 
 [TestClass]
+[SuppressMessage("Usage", "CA2201", Justification = "Unit testing.")]
 public class LoggerServiceTests
 {
 	private readonly string logFileNamePath = Path.Combine(Environment.CurrentDirectory, Settings.LogFileName);
-	private readonly ILoggerService logger = CreateLoggerService();
+	private readonly ILoggerService logger = InfrastructureFactory.CreateLoggerService();
 
 	[TestCleanup]
 	public void TestCleanup()
 	{
 		if (File.Exists(logFileNamePath))
 			File.Delete(logFileNamePath);
+	}
+
+	[TestMethod]
+	public void DebugTest()
+	{
+		string message = "This is a debug message";
+
+		logger.Debug(message);
+
+		Assert.IsTrue(File.Exists(logFileNamePath));
 	}
 
 	[TestMethod]
@@ -43,6 +54,18 @@ public class LoggerServiceTests
 		string message = "This is a critical error message";
 
 		logger.Critical(message);
+
+		Assert.IsTrue(File.Exists(logFileNamePath));
+	}
+
+	[TestMethod]
+
+	public void CriticalWithExceptionTest()
+	{
+		string message = "This is a critical error message";
+		Exception exception = new("This is a test exception message");
+
+		logger.Critical(message, exception);
 
 		Assert.IsTrue(File.Exists(logFileNamePath));
 	}
