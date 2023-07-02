@@ -47,7 +47,7 @@ internal sealed class Trafficking : Mission, ITrafficking
 	public override void StartMission()
 	{
 		LeftSideMenu.SwitchItem.Activated += OnSwitchItemActivated;
-		RightSideMenu.SwitchItem.Activated -= OnSwitchItemActivated;
+		RightSideMenu.SwitchItem.Activated += OnSwitchItemActivated;
 		base.StartMission();
 	}
 

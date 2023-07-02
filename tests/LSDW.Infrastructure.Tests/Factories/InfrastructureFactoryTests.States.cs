@@ -127,7 +127,7 @@ public partial class InfrastructureFactoryTests
 		Assert.IsNotNull(state.Inventory.Drugs);
 		Assert.IsFalse(Equals(state.Inventory.Drugs.Count, 0));
 		Assert.AreEqual(drugs.Money, state.Inventory.Money);
-		Assert.AreEqual(dealer.Position, state.Position);
+		Assert.AreEqual(dealer.SpawnPosition, state.SpawnPosition);
 		Assert.AreEqual(dealer.Hash, state.Hash);
 		Assert.AreEqual(dealer.ClosedUntil, state.ClosedUntil);
 		Assert.AreEqual(dealer.Discovered, state.Discovered);
@@ -244,7 +244,7 @@ public partial class InfrastructureFactoryTests
 		Assert.AreEqual(state.Name, dealer.Name);
 		Assert.AreEqual(state.NextInventoryChange, dealer.NextInventoryChange);
 		Assert.AreEqual(state.NextPriceChange, dealer.NextPriceChange);
-		Assert.AreEqual(state.Position, dealer.Position);
+		Assert.AreEqual(state.SpawnPosition, dealer.SpawnPosition);
 		Assert.AreEqual(state.Hash, dealer.Hash);
 	}
 
@@ -331,7 +331,7 @@ public partial class InfrastructureFactoryTests
 			Name = "Dealer",
 			NextInventoryChange = DateTime.MinValue,
 			NextPriceChange = DateTime.MinValue,
-			Position = new(0, 0, 0),
+			SpawnPosition = new(0, 0, 0),
 			Hash = PedHash.AcidLabCook,
 			Inventory = new()
 		};

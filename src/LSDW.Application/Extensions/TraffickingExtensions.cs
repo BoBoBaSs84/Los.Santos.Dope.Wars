@@ -43,7 +43,8 @@ public static class TraffickingExtensions
 
 		string zoneDisplayName = trafficking.WorldProvider.GetZoneDisplayName(dealerPosition);
 
-		if (!stateService.Dealers.Any(x => trafficking.WorldProvider.GetZoneDisplayName(x.Position) == zoneDisplayName) && !stateService.Dealers.Any(x => x.Position.DistanceTo(dealerPosition) <= TerritoryDistance))
+		if (!stateService.Dealers.Any(x => trafficking.WorldProvider.GetZoneDisplayName(x.SpawnPosition) == zoneDisplayName)
+			&& !stateService.Dealers.Any(x => x.SpawnPosition.DistanceTo(dealerPosition) <= TerritoryDistance))
 		{
 			IDealer newDealer = DomainFactory.CreateDealer(dealerPosition);
 			stateService.Dealers.Add(newDealer);
@@ -83,7 +84,7 @@ public static class TraffickingExtensions
 				continue;
 			}
 
-			if (dealer.Position.DistanceTo(playerPosition) <= DiscoverDistance)
+			if (dealer.SpawnPosition.DistanceTo(playerPosition) <= DiscoverDistance)
 				trafficking.DiscoverDealer(dealer, stateService.Player);
 		}
 
@@ -159,9 +160,10 @@ public static class TraffickingExtensions
 		{
 			foreach (IDealer dealer in stateService.Dealers.Where(x => x.Closed.Equals(false)))
 			{
-				if (dealer.Position.DistanceTo(playerPosition) <= CreateDistance)
+				if (dealer.SpawnPosition.DistanceTo(playerPosition) < CreateDistance)
 				{
 					ClosestDealer = dealer;
+					ClosestDealer.Create(trafficking.WorldProvider);
 					break;
 				}
 			}
@@ -169,14 +171,8 @@ public static class TraffickingExtensions
 
 		if (ClosestDealer is not null)
 		{
-			if (ClosestDealer.Position.DistanceTo(playerPosition) < CreateDistance)
-			{
-				ClosestDealer.Create(trafficking.WorldProvider);
-				ClosestDealer.Wait();
-			}
-
 			if (ClosestDealer.Position.DistanceTo(playerPosition) is < CloseRangeDistance and > RealCloseRangeDistance)
-				ClosestDealer.Wait();
+				ClosestDealer.GuardPosition();
 
 			if (ClosestDealer.Position.DistanceTo(playerPosition) is < RealCloseRangeDistance and > InteractionDistance)
 			{
@@ -198,28 +194,28 @@ public static class TraffickingExtensions
 					if (Game.IsControlJustPressed(GTA.Control.Context))
 						trafficking.LeftSideMenu.Visible = true;
 				}
+
+				if (trafficking.PlayerProvider.WantedLevel > 0)
+				{
+					trafficking.LeftSideMenu.Visible = trafficking.RightSideMenu.Visible = false;
+					trafficking.LetDealerFlee(ClosestDealer);
+					ClosestDealer = null;
+					return trafficking;
+				}
 			}
 
-			// cleanup everything
-			if (ClosestDealer.Position.DistanceTo(playerPosition) > CreateDistance || ClosestDealer.IsDead || trafficking.PlayerProvider.WantedLevel > 0)
+			if (ClosestDealer.IsDead)
 			{
-				if (!ClosestDealer.Closed)
-				{
-					if (!ClosestDealer.IsDead)
-					{
-						if (trafficking.PlayerProvider.WantedLevel > 0)
-							trafficking.LetDealerFlee(ClosestDealer);
-					}
+				trafficking.CloseDealer(ClosestDealer);
+				ClosestDealer = null;
+				return trafficking;
+			}
 
-					if (ClosestDealer.IsDead)
-						trafficking.CloseDealer(ClosestDealer);
-				}
-
-				if (ClosestDealer.Position.DistanceTo(playerPosition) > CreateDistance)
-				{
-					ClosestDealer.Delete();
-					ClosestDealer = null;
-				}
+			if (ClosestDealer.Position.DistanceTo(playerPosition) > CreateDistance)
+			{
+				ClosestDealer.Delete();
+				ClosestDealer = null;
+				return trafficking;
 			}
 		}
 
@@ -237,7 +233,7 @@ public static class TraffickingExtensions
 		dealer.Discovered = true;
 		dealer.ChangeInventory(trafficking.WorldProvider, player.Level);
 		dealer.CreateBlip(trafficking.WorldProvider);
-		string locationName = trafficking.WorldProvider.GetZoneLocalizedName(dealer.Position);
+		string locationName = trafficking.WorldProvider.GetZoneLocalizedName(dealer.SpawnPosition);
 		trafficking.NotificationProvider.Show(
 			sender: dealer.Name,
 			subject: RESX.Trafficking_Notification_Discovery_Subject,
@@ -253,7 +249,7 @@ public static class TraffickingExtensions
 	private static void CloseDealer(this ITrafficking trafficking, IDealer dealer)
 	{
 		dealer.ClosedUntil = trafficking.WorldProvider.Now.AddHours(DealerSettings.DownTimeInHours);
-		dealer.DeleteBlip();
+		dealer.CleanUp();
 		trafficking.NotificationProvider.Show(
 			subject: RESX.Trafficking_Notification_Iced_Subject,
 			message: RESX.Trafficking_Notification_Iced_Message.FormatInvariant(dealer.Name)

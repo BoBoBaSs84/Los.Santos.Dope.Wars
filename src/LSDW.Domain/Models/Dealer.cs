@@ -84,7 +84,7 @@ internal sealed class Dealer : Pedestrian, IDealer
 		if (BlipCreated || Closed)
 			return;
 
-		blip = worldProvider.CreateBlip(Position);
+		blip = worldProvider.CreateBlip(SpawnPosition);
 		blip.Sprite = sprite;
 		blip.Scale = 0.75f;
 		blip.Color = color;

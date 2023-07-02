@@ -26,7 +26,7 @@ internal abstract class Pedestrian : IPedestrian
 	protected Pedestrian(Vector3 position, PedHash pedHash)
 	{
 		CurrentTask = TaskType.NOTASK;
-		Position = position;
+		SpawnPosition = position;
 		Hash = pedHash;
 		Name = NameConstants.GetFullName();
 	}
@@ -46,9 +46,10 @@ internal abstract class Pedestrian : IPedestrian
 	public TaskType CurrentTask { get; private set; }
 	public bool Created => ped is not null && ped.Exists();
 	public bool IsDead => ped is not null && ped.IsDead;
-	public Vector3 Position { get; }
+	public Vector3 Position => ped is not null ? ped.Position : Vector3.Zero;
+	public Vector3 SpawnPosition { get; }
 	public PedHash Hash { get; }
-	public string Name { get; }
+	public string Name { get; }	
 
 	public virtual void Attack(Ped ped)
 	{
@@ -65,7 +66,7 @@ internal abstract class Pedestrian : IPedestrian
 			return;
 
 		Model model = ScriptHookHelper.GetPedModel(Hash);
-		ped = worldProvider.CreatePed(model, Position);
+		ped = worldProvider.CreatePed(model, SpawnPosition);
 		ped.Health = health;
 		ped.CanSwitchWeapons = true;
 		ped.BlockPermanentEvents = false;
@@ -87,7 +88,7 @@ internal abstract class Pedestrian : IPedestrian
 		if (!Created || CurrentTask is TaskType.FLEE)
 			return;
 
-		ped?.Task.FleeFrom(Position);
+		ped?.Task.FleeFrom(SpawnPosition);
 		Delete();
 		SetTaskType(TaskType.FLEE);
 	}
@@ -165,7 +166,7 @@ internal abstract class Pedestrian : IPedestrian
 		if (!Created || CurrentTask is TaskType.WANDER)
 			return;
 
-		ped?.Task.WanderAround(Position, radius);
+		ped?.Task.WanderAround(SpawnPosition, radius);
 		SetTaskType(TaskType.WANDER);
 	}
 

@@ -14,7 +14,7 @@ public partial class DomainFactoryTests
 		dealer = DomainFactory.CreateDealer(zeroVector);
 
 		Assert.IsNotNull(dealer);
-		Assert.AreEqual(dealer.Position, zeroVector);
+		Assert.AreEqual(dealer.SpawnPosition, zeroVector);
 		Assert.AreEqual(TaskType.NOTASK, dealer.CurrentTask);
 	}
 
@@ -26,7 +26,7 @@ public partial class DomainFactoryTests
 		dealer = DomainFactory.CreateDealer(zeroVector, pedHash);
 
 		Assert.IsNotNull(dealer);
-		Assert.AreEqual(dealer.Position, zeroVector);
+		Assert.AreEqual(dealer.SpawnPosition, zeroVector);
 		Assert.AreEqual(dealer.Hash, pedHash);
 		Assert.AreEqual(TaskType.NOTASK, dealer.CurrentTask);
 	}

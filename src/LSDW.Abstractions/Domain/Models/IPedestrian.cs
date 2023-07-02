@@ -31,9 +31,14 @@ public interface IPedestrian
 	string Name { get; }
 
 	/// <summary>
-	/// The position of the pedestrian.
+	/// The current position of the pedestrian.
 	/// </summary>
 	Vector3 Position { get; }
+
+	/// <summary>
+	/// The spawn position of the pedestrian.
+	/// </summary>
+	Vector3 SpawnPosition { get; }
 
 	/// <summary>
 	/// The peds hash.
