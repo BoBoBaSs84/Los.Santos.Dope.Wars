@@ -32,7 +32,7 @@ public class DrugTests
 	{
 		IDrug drug = DomainFactory.CreateDrug(DrugType.COKE, 10, 1000);
 
-		drug.Add(5, 0);
+		drug.Add(5, default);
 
 		Assert.IsFalse(drug.Quantity.Equals(20));
 		Assert.IsFalse(drug.CurrentPrice.Equals(750));
@@ -43,7 +43,7 @@ public class DrugTests
 	{
 		IDrug drug = DomainFactory.CreateDrug(DrugType.METH, 5);
 
-		drug.Add(-5, 0);
+		drug.Add(-5, default);
 
 		Assert.AreEqual(5, drug.Quantity);
 	}
@@ -75,7 +75,7 @@ public class DrugTests
 
 		drug.Remove(-1);
 
-		Assert.AreEqual(0, drug.Quantity);
+		Assert.AreEqual(default, drug.Quantity);
 	}
 
 	[TestMethod]
@@ -85,28 +85,8 @@ public class DrugTests
 
 		drug.Remove(100);
 
-		Assert.AreEqual(0, drug.Quantity);
-		Assert.AreEqual(0, drug.CurrentPrice);
-	}
-
-	[TestMethod]
-	public void SetNewPriceTests()
-	{
-		IDrug drug = DomainFactory.CreateDrug(DrugType.SPEED);
-
-		drug.SetPrice(100);
-
-		Assert.AreEqual(100, drug.CurrentPrice);
-	}
-
-	[TestMethod]
-	public void SetNewQuantityTests()
-	{
-		IDrug drug = DomainFactory.CreateDrug(DrugType.SPEED);
-
-		drug.SetQuantity(10);
-
-		Assert.AreEqual(10, drug.Quantity);
+		Assert.AreEqual(default, drug.Quantity);
+		Assert.AreEqual(default, drug.CurrentPrice);
 	}
 
 	[TestMethod]
@@ -114,7 +94,7 @@ public class DrugTests
 	{
 		IDrug drug = DomainFactory.CreateDrug(DrugType.CANA, -1);
 
-		drug.RandomizeQuantity(0);
+		drug.RandomizeQuantity(default);
 
 		Assert.AreNotEqual(-1, drug.Quantity);
 	}
@@ -122,9 +102,9 @@ public class DrugTests
 	[TestMethod]
 	public void RandomizePriceTest()
 	{
-		IDrug drug = DomainFactory.CreateDrug(DrugType.CANA, 0, -1);
+		IDrug drug = DomainFactory.CreateDrug(DrugType.CANA, default, -1);
 
-		drug.RandomizePrice(0);
+		drug.RandomizePrice(default);
 
 		Assert.AreNotEqual(-1, drug.CurrentPrice);
 	}

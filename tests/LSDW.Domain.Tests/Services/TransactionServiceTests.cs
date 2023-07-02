@@ -41,12 +41,16 @@ public class TransactionServiceTests
 	[TestMethod]
 	public void CommitBuySuccessTest()
 	{
+		Mock<IPlayerProvider> playerProviderMock = MockHelper.GetPlayerProvider();
+		playerProviderMock.Object.Money = 1000;
+		Mock<INotificationProvider> notificationProviderMock = MockHelper.GetNotificationProvider();
 		IDrug drug = DomainFactory.CreateDrug(DrugType.COKE, 10, 90);
 		IPlayer player = DomainFactory.CreatePlayer();
-		player.Inventory.Add(1000);
 		IInventory inventory = DomainFactory.CreateInventory();
 		inventory.Add(drug);
-
+		_providerManagerMock.Setup(x => x.PlayerProvider).Returns(playerProviderMock.Object);
+		_providerManagerMock.Setup(x=>x.NotificationProvider).Returns(notificationProviderMock.Object);
+		
 		ITransactionService transactionService =
 			DomainFactory.CreateTransactionService(_providerManagerMock.Object, TransactionType.BUY, inventory, player.Inventory, player.MaximumInventoryQuantity);
 
@@ -56,8 +60,34 @@ public class TransactionServiceTests
 		Assert.AreEqual(0, inventory.TotalQuantity);
 		Assert.AreEqual(drug.Quantity, player.Inventory.TotalQuantity);
 		Assert.AreEqual(drug.Quantity * drug.CurrentPrice, player.Inventory.TotalValue);
-		Assert.AreEqual(100, player.Inventory.Money);
+		Assert.AreEqual(100, playerProviderMock.Object.Money);
 		Assert.AreEqual(900, inventory.Money);
+	}
+
+	[TestMethod]
+	public void CommitSellSuccessTest()
+	{
+		Mock<IPlayerProvider> playerProviderMock = MockHelper.GetPlayerProvider();
+		playerProviderMock.Object.Money = 0;
+		Mock<INotificationProvider> notificationProviderMock = MockHelper.GetNotificationProvider();
+		IDrug drug = DomainFactory.CreateDrug(DrugType.COKE, 10, 90);
+		IPlayer player = DomainFactory.CreatePlayer();
+		player.Inventory.Add(drug);
+		IInventory inventory = DomainFactory.CreateInventory(1000);		
+		_providerManagerMock.Setup(x => x.PlayerProvider).Returns(playerProviderMock.Object);
+		_providerManagerMock.Setup(x => x.NotificationProvider).Returns(notificationProviderMock.Object);
+
+		ITransactionService transactionService =
+			DomainFactory.CreateTransactionService(_providerManagerMock.Object, TransactionType.SELL, player.Inventory, inventory);
+
+		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.CurrentPrice);
+
+		Assert.IsTrue(success);
+		Assert.AreEqual(drug.Quantity, inventory.TotalQuantity);
+		Assert.AreEqual(default, player.Inventory.TotalQuantity);
+		Assert.AreEqual(drug.Quantity * drug.CurrentPrice, inventory.TotalValue);
+		Assert.AreEqual(900, playerProviderMock.Object.Money);
+		Assert.AreEqual(100, inventory.Money);
 	}
 
 	[TestMethod]
@@ -65,12 +95,27 @@ public class TransactionServiceTests
 	{
 		IDrug drug = DomainFactory.CreateDrug(DrugType.COKE, 10, 90);
 		IPlayer player = DomainFactory.CreatePlayer();
-		player.Inventory.Add(800);
 		IInventory inventory = DomainFactory.CreateInventory();
 		inventory.Add(drug);
 
 		ITransactionService transactionService =
 			DomainFactory.CreateTransactionService(_providerManagerMock.Object, TransactionType.BUY, inventory, player.Inventory, player.MaximumInventoryQuantity);
+
+		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.CurrentPrice);
+
+		Assert.IsFalse(success);
+	}
+
+	[TestMethod]
+	public void CommitSellNotEnoughMoneyTest()
+	{
+		IDrug drug = DomainFactory.CreateDrug(DrugType.COKE, 10, 90);
+		IPlayer player = DomainFactory.CreatePlayer();
+		player.Inventory.Add(drug);
+		IInventory inventory = DomainFactory.CreateInventory(800);
+
+		ITransactionService transactionService =
+			DomainFactory.CreateTransactionService(_providerManagerMock.Object, TransactionType.SELL, player.Inventory, inventory);
 
 		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.CurrentPrice);
 
@@ -102,7 +147,7 @@ public class TransactionServiceTests
 		ITransactionService transactionService =
 			DomainFactory.CreateTransactionService(providerManager, transactionType, _inventoryMock.Object, _inventoryMock.Object);
 
-		transactionService.BustOrNoBust();		
+		transactionService.BustOrNoBust();
 	}
 
 	[TestMethod]
@@ -114,9 +159,9 @@ public class TransactionServiceTests
 		mockRandomProvider.Setup(x => x.GetFloat()).Returns(0.15f);
 		Mock<IPlayerProvider> mockPlayerProvider = MockHelper.GetPlayerProvider();
 		Mock<IProviderManager> providerManagerMock = new(MockBehavior.Loose);
-		providerManagerMock.Setup(x=>x.PlayerProvider).Returns(mockPlayerProvider.Object);
-		providerManagerMock.Setup(x=>x.RandomProvider).Returns(mockRandomProvider.Object);
-		providerManagerMock.Setup(x=>x.NotificationProvider).Returns(notificationProviderMock.Object);
+		providerManagerMock.Setup(x => x.PlayerProvider).Returns(mockPlayerProvider.Object);
+		providerManagerMock.Setup(x => x.RandomProvider).Returns(mockRandomProvider.Object);
+		providerManagerMock.Setup(x => x.NotificationProvider).Returns(notificationProviderMock.Object);
 		ITransactionService transactionService =
 			DomainFactory.CreateTransactionService(providerManagerMock.Object, transactionType, _inventoryMock.Object, _inventoryMock.Object);
 

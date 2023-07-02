@@ -3,7 +3,7 @@ using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Services;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Models;
-using LSDW.Domain.Helpers;
+using LSDW.Domain.Extensions;
 using LSDW.Domain.Properties;
 
 namespace LSDW.Domain.Services;
@@ -72,7 +72,7 @@ internal sealed class TransactionService : ITransactionService
 	/// Checks if the target has enough room for the transaction.
 	/// </summary>
 	/// <param name="quantity">The quantity to add.</param>
-	/// <returns></returns>
+	/// <returns><see langword="true"/> or <see langword="false"/></returns>
 	private bool CheckInventory(int quantity)
 	{
 		if (quantity + _target.Sum(d => d.Quantity) >= _maxQuantity)
@@ -88,30 +88,51 @@ internal sealed class TransactionService : ITransactionService
 	/// Checks if the target has enough money for the transaction.
 	/// </summary>
 	/// <param name="transactionValue">The transaction value to check.</param>
-	/// <returns></returns>
+	/// <returns><see langword="true"/> or <see langword="false"/></returns>
 	private bool CheckMoney(int transactionValue)
 	{
-		if (_type is not TransactionType.BUY or TransactionType.SELL)
-			return true;
-
-		if (_target.Money <= transactionValue)
+		if (_type is TransactionType.BUY)
 		{
-			_providerManager.NotificationProvider.ShowSubtitle(Resources.Transaction_Message_NoMoney);
-			return false;
+			int playerMoney = _providerManager.PlayerProvider.Money;
+			if (playerMoney < transactionValue)
+			{
+				string message = Resources.Transaction_Message_Player_NoMoney.FormatInvariant(transactionValue, playerMoney);
+				_providerManager.NotificationProvider.ShowSubtitle(message);
+				return false;
+			}
+		}
+
+		if (_type is TransactionType.SELL)
+		{
+			int dealerMoney = _target.Money;
+			if (dealerMoney < transactionValue)
+			{
+				string message = Resources.Transaction_Message_Dealer_NoMoney.FormatInvariant(transactionValue, dealerMoney);
+				_providerManager.NotificationProvider.ShowSubtitle(message);
+				return false;
+			}
 		}
 
 		return true;
 	}
 
 	/// <summary>
-	/// Transfer the money from the target inventory to the source inventory.
+	/// Depending on the transaction type, the money is either transferred from the
+	/// player to the dealer or the other way around.
 	/// </summary>
+	/// <param name="transactionValue">The transaction value to transfer.</param>
 	private void TransferMoney(int transactionValue)
 	{
-		if (_type is not TransactionType.BUY or TransactionType.SELL)
-			return;
+		if (_type is TransactionType.BUY)
+		{
+			_providerManager.PlayerProvider.Money -= transactionValue;
+			_source.Add(transactionValue);
+		}
 
-		_source.Add(transactionValue);
-		_target.Remove(transactionValue);
+		if (_type is TransactionType.SELL)
+		{
+			_target.Remove(transactionValue);
+			_providerManager.PlayerProvider.Money += transactionValue;
+		}
 	}
 }

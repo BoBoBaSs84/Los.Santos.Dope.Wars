@@ -126,10 +126,13 @@
   <data name="Transaction.Message.Bust" xml:space="preserve">
     <value>DEA is on your tail, get off your ass and get to safety!</value>
   </data>
+  <data name="Transaction.Message.Dealer.NoMoney" xml:space="preserve">
+    <value>You want to sell the dealer goods for ${0} but he only has ${1} with him, are you stupid?</value>
+  </data>
   <data name="Transaction.Message.NoInventory" xml:space="preserve">
     <value>Not enough room in inventory for transaction.</value>
   </data>
-  <data name="Transaction.Message.NoMoney" xml:space="preserve">
-    <value>Not enough money for transaction.</value>
+  <data name="Transaction.Message.Player.NoMoney" xml:space="preserve">
+    <value>You want to buy for ${0} and you only have ${1} with you, are you an idiot?</value>
   </data>
 </root>

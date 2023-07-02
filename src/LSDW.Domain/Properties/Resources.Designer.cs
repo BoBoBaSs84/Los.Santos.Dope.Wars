@@ -88,6 +88,15 @@ namespace LSDW.Domain.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You want to sell the dealer goods for ${0} but he only has ${1} with him, are you stupid?.
+        /// </summary>
+        internal static string Transaction_Message_Dealer_NoMoney {
+            get {
+                return ResourceManager.GetString("Transaction.Message.Dealer.NoMoney", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not enough room in inventory for transaction..
         /// </summary>
         internal static string Transaction_Message_NoInventory {
@@ -97,11 +106,11 @@ namespace LSDW.Domain.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not enough money for transaction..
+        ///   Looks up a localized string similar to You want to buy for ${0} and you only have ${1} with you, are you an idiot?.
         /// </summary>
-        internal static string Transaction_Message_NoMoney {
+        internal static string Transaction_Message_Player_NoMoney {
             get {
-                return ResourceManager.GetString("Transaction.Message.NoMoney", resourceCulture);
+                return ResourceManager.GetString("Transaction.Message.Player.NoMoney", resourceCulture);
             }
         }
     }

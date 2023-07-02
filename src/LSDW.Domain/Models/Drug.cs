@@ -73,8 +73,7 @@ internal sealed class Drug : Notification, IDrug
 		float lowerLimit = (minimumDrugValue - levelLimit) * AveragePrice;
 		float upperLimit = (maximumDrugValue + levelLimit) * AveragePrice;
 
-		int newPrice = RandomHelper.GetInt(lowerLimit, upperLimit);
-		SetPrice(newPrice);
+		CurrentPrice = RandomHelper.GetInt(lowerLimit, upperLimit);
 	}
 
 	public void RandomizeQuantity(int playerLevel)
@@ -83,15 +82,14 @@ internal sealed class Drug : Notification, IDrug
 
 		if (RandomHelper.GetDouble() > nonZeroChance)
 		{
-			SetQuantity(0);
+			Quantity = 0;
 			return;
 		}
 
 		int minQuantity = 0 + playerLevel;
 		int maxQuantity = 5 + playerLevel * 5;
 
-		int newQuantity = RandomHelper.GetInt(minQuantity, maxQuantity);
-		SetQuantity(newQuantity);
+		Quantity = RandomHelper.GetInt(minQuantity, maxQuantity);
 	}
 
 	public void Remove(int quantity)
@@ -110,12 +108,6 @@ internal sealed class Drug : Notification, IDrug
 		Quantity -= quantity;
 
 		if (Quantity.Equals(0))
-			CurrentPrice = 0;
+			CurrentPrice = Quantity;
 	}
-
-	public void SetPrice(int price)
-		=> CurrentPrice = price;
-
-	public void SetQuantity(int quantity)
-		=> Quantity = quantity;
 }

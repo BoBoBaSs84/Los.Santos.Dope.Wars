@@ -2,6 +2,7 @@
 using LSDW.Abstractions.Application.Models.Missions;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Providers;
+using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Infrastructure.Services;
 using Moq;
 
@@ -16,8 +17,9 @@ public static class MockHelper
 	public static Mock<IWorldProvider> GetWorldProvider()
 	{
 		Mock<IWorldProvider> mock = new(MockBehavior.Loose);
-		mock.Setup(x => x.Now).Returns(DateTime.MinValue.AddYears(100));
-		mock.Setup(x => x.TimeOfDay).Returns(DateTime.MinValue.AddYears(100).TimeOfDay);
+		mock.SetupAllProperties();
+		mock.Object.Now = DateTime.MinValue.AddYears(100);
+		mock.Object.TimeOfDay = DateTime.MinValue.AddYears(100).TimeOfDay;
 		return mock;
 	}
 
@@ -73,11 +75,34 @@ public static class MockHelper
 	}
 
 	public static Mock<IInventory> GetInventory()
-		=> new(MockBehavior.Loose);
+	{
+		Mock<IInventory> mock = new(MockBehavior.Loose);
+		mock.SetupAllProperties();		
+		return mock;
+	}
 
 	public static Mock<IPlayer> GetPlayer()
-		=> new(MockBehavior.Loose);
+	{
+		Mock<IPlayer> mock = new(MockBehavior.Loose);
+		mock.SetupAllProperties();
+		mock.Setup(x => x.Inventory).Returns(GetInventory().Object);
+		return mock;
+	}
 
 	public static Mock<IDealer> GetDealer()
-		=> new(MockBehavior.Loose);
+	{
+		Mock<IDealer> mock = new(MockBehavior.Loose);
+		mock.SetupAllProperties();
+		return mock;
+	}
+
+	public static Mock<IDrug> GetDrug(DrugType type, int quantity = default, int currentPrice = default)
+	{
+		Mock<IDrug> mock = new(MockBehavior.Loose);
+		mock.Setup(x => x.Type).Returns(type);
+		mock.Setup(x => x.Quantity).Returns(quantity);
+		mock.Setup(x => x.CurrentPrice).Returns(currentPrice);
+		mock.SetupAllProperties();
+		return mock;
+	}
 }
