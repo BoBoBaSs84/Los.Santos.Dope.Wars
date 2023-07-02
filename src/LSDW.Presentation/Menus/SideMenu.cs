@@ -76,7 +76,7 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 		source.PropertyChanged += OnInventoryPropertyChanged;
 		target.PropertyChanged += OnInventoryPropertyChanged;
 		maximumQuantity = SMH.GetMaximumQuantity(_type, player);
-		transactionService = DomainFactory.CreateTransactionService(_providerManager.NotificationProvider, _type, source, target, maximumQuantity);
+		transactionService = DomainFactory.CreateTransactionService(_providerManager, _type, source, target, maximumQuantity);
 		Name = SMH.GetName(_type, target.Money);
 		Add((SwitchItem)SwitchItem);
 		AddDrugListItems(source, target);

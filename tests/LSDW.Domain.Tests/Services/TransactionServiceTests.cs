@@ -1,7 +1,8 @@
-﻿using LSDW.Abstractions.Domain.Models;
-using LSDW.Abstractions.Domain.Providers;
+﻿using LSDW.Abstractions.Application.Managers;
+using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Services;
 using LSDW.Abstractions.Enumerators;
+using LSDW.Base.Tests.Helpers;
 using LSDW.Domain.Factories;
 using Moq;
 
@@ -10,10 +11,11 @@ namespace LSDW.Domain.Tests.Services;
 [TestClass]
 public class TransactionServiceTests
 {
+	private readonly Mock<IProviderManager> _providerManagerMock = MockHelper.GetProviderManager();
+
 	[TestMethod]
 	public void CommitGiveSuccessTest()
 	{
-		Mock<INotificationProvider> notificationMock = new();
 		IDrug drug = DomainFactory.CreateDrug(DrugType.COKE, 10, 90);
 		IPlayer player = DomainFactory.CreatePlayer(32000);
 		player.Inventory.Add(1000);
@@ -21,7 +23,7 @@ public class TransactionServiceTests
 		inventory.Add(drug);
 
 		ITransactionService transactionService =
-			DomainFactory.CreateTransactionService(notificationMock.Object, TransactionType.GIVE, inventory, player.Inventory, player.MaximumInventoryQuantity);
+			DomainFactory.CreateTransactionService(_providerManagerMock.Object, TransactionType.GIVE, inventory, player.Inventory, player.MaximumInventoryQuantity);
 
 		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.CurrentPrice);
 
@@ -35,7 +37,6 @@ public class TransactionServiceTests
 	[TestMethod]
 	public void CommitBuySuccessTest()
 	{
-		Mock<INotificationProvider> notificationMock = new();
 		IDrug drug = DomainFactory.CreateDrug(DrugType.COKE, 10, 90);
 		IPlayer player = DomainFactory.CreatePlayer();
 		player.Inventory.Add(1000);
@@ -43,7 +44,7 @@ public class TransactionServiceTests
 		inventory.Add(drug);
 
 		ITransactionService transactionService =
-			DomainFactory.CreateTransactionService(notificationMock.Object, TransactionType.BUY, inventory, player.Inventory, player.MaximumInventoryQuantity);
+			DomainFactory.CreateTransactionService(_providerManagerMock.Object, TransactionType.BUY, inventory, player.Inventory, player.MaximumInventoryQuantity);
 
 		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.CurrentPrice);
 
@@ -58,7 +59,6 @@ public class TransactionServiceTests
 	[TestMethod]
 	public void CommitBuyNotEnoughMoneyTest()
 	{
-		Mock<INotificationProvider> notificationMock = new();
 		IDrug drug = DomainFactory.CreateDrug(DrugType.COKE, 10, 90);
 		IPlayer player = DomainFactory.CreatePlayer();
 		player.Inventory.Add(800);
@@ -66,7 +66,7 @@ public class TransactionServiceTests
 		inventory.Add(drug);
 
 		ITransactionService transactionService =
-			DomainFactory.CreateTransactionService(notificationMock.Object, TransactionType.BUY, inventory, player.Inventory, player.MaximumInventoryQuantity);
+			DomainFactory.CreateTransactionService(_providerManagerMock.Object, TransactionType.BUY, inventory, player.Inventory, player.MaximumInventoryQuantity);
 
 		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.CurrentPrice);
 
@@ -76,14 +76,13 @@ public class TransactionServiceTests
 	[TestMethod]
 	public void CommitGiveNotEnoughInventoryTest()
 	{
-		Mock<INotificationProvider> notificationMock = new();
 		IDrug drug = DomainFactory.CreateDrug(DrugType.COKE, 100, 100);
 		IPlayer player = DomainFactory.CreatePlayer();
 		IInventory inventory = DomainFactory.CreateInventory();
 		inventory.Add(drug);
 
 		ITransactionService transactionService =
-			DomainFactory.CreateTransactionService(notificationMock.Object, TransactionType.GIVE, player.Inventory, inventory, 0);
+			DomainFactory.CreateTransactionService(_providerManagerMock.Object, TransactionType.GIVE, player.Inventory, inventory, 0);
 
 		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.CurrentPrice);
 

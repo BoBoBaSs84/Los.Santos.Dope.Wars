@@ -1,11 +1,11 @@
 ﻿using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Extensions;
+using LSDW.Abstractions.Models;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Helpers;
 using LSDW.Domain.Models.Base;
-using static LSDW.Abstractions.Models.Settings.Market;
-using RESX = LSDW.Domain.Properties.Resources;
+using LSDW.Domain.Properties;
 
 namespace LSDW.Domain.Models;
 
@@ -56,7 +56,7 @@ internal sealed class Drug : Notification, IDrug
 
 		if (price < 0)
 		{
-			string message = RESX.Exception_Drug_Add.FormatInvariant(price);
+			string message = Resources.Exception_Drug_Add.FormatInvariant(price);
 			throw new ArgumentOutOfRangeException(nameof(price), message);
 		}
 
@@ -66,8 +66,8 @@ internal sealed class Drug : Notification, IDrug
 
 	public void RandomizePrice(int playerLevel)
 	{
-		double minimumDrugValue = (double)MinimumDrugPrice;
-		double maximumDrugValue = (double)MaximumDrugPrice;
+		double minimumDrugValue = (double)Settings.Market.MinimumDrugPrice;
+		double maximumDrugValue = (double)Settings.Market.MaximumDrugPrice;
 
 		double levelLimit = (double)playerLevel / 1000;
 		double lowerLimit = (minimumDrugValue - levelLimit) * AveragePrice;
@@ -103,7 +103,7 @@ internal sealed class Drug : Notification, IDrug
 
 		if (resultingQuantity < 0)
 		{
-			string message = RESX.Exception_Drug_Remove.FormatInvariant(resultingQuantity);
+			string message = Resources.Exception_Drug_Remove.FormatInvariant(resultingQuantity);
 			throw new ArgumentOutOfRangeException(nameof(quantity), message);
 		}
 

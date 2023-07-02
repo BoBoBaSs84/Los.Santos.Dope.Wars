@@ -22,7 +22,7 @@ namespace LSDW.Domain.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
+    internal class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace LSDW.Domain.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("LSDW.Domain.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace LSDW.Domain.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace LSDW.Domain.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The price of a drug can not be smaller than zero. Value: &apos;{0}&apos;.
         /// </summary>
-        public static string Exception_Drug_Add {
+        internal static string Exception_Drug_Add {
             get {
                 return ResourceManager.GetString("Exception.Drug.Add", resourceCulture);
             }
@@ -72,27 +72,36 @@ namespace LSDW.Domain.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The resulting quantity of a drug can not be smaller than zero. Value: &apos;{0}&apos;.
         /// </summary>
-        public static string Exception_Drug_Remove {
+        internal static string Exception_Drug_Remove {
             get {
                 return ResourceManager.GetString("Exception.Drug.Remove", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DEA is on your tail, get off your ass and get to safety!.
+        /// </summary>
+        internal static string Transaction_Message_Bust {
+            get {
+                return ResourceManager.GetString("Transaction.Message.Bust", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not enough room in inventory for transaction..
         /// </summary>
-        public static string Transaction_Result_Message_NoInventory {
+        internal static string Transaction_Message_NoInventory {
             get {
-                return ResourceManager.GetString("Transaction.Result.Message.NoInventory", resourceCulture);
+                return ResourceManager.GetString("Transaction.Message.NoInventory", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Not enough money for transaction..
         /// </summary>
-        public static string Transaction_Result_Message_NoMoney {
+        internal static string Transaction_Message_NoMoney {
             get {
-                return ResourceManager.GetString("Transaction.Result.Message.NoMoney", resourceCulture);
+                return ResourceManager.GetString("Transaction.Message.NoMoney", resourceCulture);
             }
         }
     }

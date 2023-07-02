@@ -182,4 +182,39 @@ public partial class DomainFactoryTests
 		Assert.IsNotNull(player.Inventory);
 		Assert.AreEqual(experience, player.Experience);
 	}
+
+	[TestMethod]
+	public void CreateDealerTest()
+	{
+		IDealer? dealer;
+
+		dealer = DomainFactory.CreateDealer(_zeroVector);
+
+		Assert.IsNotNull(dealer);
+		Assert.AreEqual(dealer.SpawnPosition, _zeroVector);
+		Assert.AreEqual(TaskType.NOTASK, dealer.CurrentTask);
+	}
+
+	[TestMethod]
+	public void CreateDealerWithParamsTest()
+	{
+		IDealer? dealer;
+
+		dealer = DomainFactory.CreateDealer(_zeroVector, _pedHash);
+
+		Assert.IsNotNull(dealer);
+		Assert.AreEqual(dealer.SpawnPosition, _zeroVector);
+		Assert.AreEqual(dealer.Hash, _pedHash);
+		Assert.AreEqual(TaskType.NOTASK, dealer.CurrentTask);
+	}
+
+	[TestMethod]
+	public void CreateDealersTest()
+	{
+		ICollection<IDealer>? dealers;
+
+		dealers = DomainFactory.CreateDealers();
+
+		Assert.IsNotNull(dealers);
+	}
 }

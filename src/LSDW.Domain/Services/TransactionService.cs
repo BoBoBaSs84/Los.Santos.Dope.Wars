@@ -1,8 +1,10 @@
-﻿using LSDW.Abstractions.Domain.Models;
-using LSDW.Abstractions.Domain.Providers;
+﻿using LSDW.Abstractions.Application.Managers;
+using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Services;
 using LSDW.Abstractions.Enumerators;
-using RESX = LSDW.Domain.Properties.Resources;
+using LSDW.Abstractions.Models;
+using LSDW.Domain.Helpers;
+using LSDW.Domain.Properties;
 
 namespace LSDW.Domain.Services;
 
@@ -11,7 +13,7 @@ namespace LSDW.Domain.Services;
 /// </summary>
 internal sealed class TransactionService : ITransactionService
 {
-	private readonly INotificationProvider _notificationProvider;
+	private readonly IProviderManager _providerManager;
 	private readonly TransactionType _type;
 	private readonly IInventory _source;
 	private readonly IInventory _target;
@@ -20,18 +22,31 @@ internal sealed class TransactionService : ITransactionService
 	/// <summary>
 	/// Initializes a instance of the transaction service class.
 	/// </summary>
-	/// <param name="notificationProvider">The notification provider instance to use.</param>
+	/// <param name="providerManager">The provider manager instance to use.</param>
 	/// <param name="type">The type of the transaction.</param>
 	/// <param name="source">The transaction source.</param>
 	/// <param name="target">The transaction target.</param>
 	/// <param name="maxQuantity">The maximum target quantity.</param>
-	internal TransactionService(INotificationProvider notificationProvider, TransactionType type, IInventory source, IInventory target, int maxQuantity)
+	internal TransactionService(IProviderManager providerManager, TransactionType type, IInventory source, IInventory target, int maxQuantity)
 	{
-		_notificationProvider = notificationProvider;
+		_providerManager = providerManager;
 		_type = type;
 		_source = source;
 		_target = target;
 		_maxQuantity = maxQuantity;
+	}
+
+	public void BustOrNoBust()
+	{
+		if (_type is TransactionType.TAKE or TransactionType.GIVE)
+			return;
+
+		if ((float)RandomHelper.GetDouble() >= Settings.Trafficking.BustChance)
+			return;
+
+		_providerManager.NotificationProvider.ShowSubtitle(Resources.Transaction_Message_Bust);
+		_providerManager.PlayerProvider.WantedLevel = Settings.Trafficking.WantedLevel;
+		_providerManager.PlayerProvider.DispatchsCops = true;
 	}
 
 	public bool Commit(DrugType type, int quantity, int price)
@@ -60,7 +75,7 @@ internal sealed class TransactionService : ITransactionService
 	{
 		if (quantity + _target.Sum(d => d.Quantity) >= _maxQuantity)
 		{
-			_notificationProvider.ShowSubtitle(RESX.Transaction_Result_Message_NoInventory);
+			_providerManager.NotificationProvider.ShowSubtitle(Resources.Transaction_Message_NoInventory);
 			return false;
 		}
 
@@ -79,7 +94,7 @@ internal sealed class TransactionService : ITransactionService
 
 		if (_target.Money <= transactionValue)
 		{
-			_notificationProvider.ShowSubtitle(RESX.Transaction_Result_Message_NoMoney);
+			_providerManager.NotificationProvider.ShowSubtitle(Resources.Transaction_Message_NoMoney);
 			return false;
 		}
 

@@ -8,6 +8,11 @@ namespace LSDW.Abstractions.Domain.Services;
 public interface ITransactionService
 {
 	/// <summary>
+	/// Checks whether the drug enforcement agency should be alerted or not and informs them if necessary.
+	/// </summary>
+	void BustOrNoBust();
+
+	/// <summary>
 	/// Commits the transaction from the source inventory to the target inventory.
 	/// </summary>
 	/// <param name="type">The type of the drug to transact.</param>
