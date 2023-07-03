@@ -14,7 +14,7 @@ internal sealed class NotificationProvider : INotificationProvider
 	/// <summary>
 	/// The notification provider singleton instance.
 	/// </summary>
-	public static readonly NotificationProvider Instance = new();
+	public static NotificationProvider Instance => new();
 
 	public void Hide(int handle)
 		=> Notification.Hide(handle);

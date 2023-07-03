@@ -15,7 +15,7 @@ internal sealed class WorldProvider : IWorldProvider
 	/// <summary>
 	/// The world provider singleton instance.
 	/// </summary>
-	public static readonly WorldProvider Instance = new();
+	public static WorldProvider Instance => new();
 
 	public DateTime Now
 	{

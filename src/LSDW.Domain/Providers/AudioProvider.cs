@@ -14,7 +14,7 @@ internal sealed class AudioProvider : IAudioProvider
 	/// <summary>
 	/// The audio provider singleton instance.
 	/// </summary>
-	public static readonly AudioProvider Instance = new();
+	public static AudioProvider Instance => new();
 
 	public void PlayMusic(string musicFile)
 		=> Audio.PlayMusic(musicFile);

@@ -15,7 +15,7 @@ internal sealed class PlayerProvider : IPlayerProvider
 	/// <summary>
 	/// The player provider singleton instance.
 	/// </summary>
-	public static readonly PlayerProvider Instance = new();
+	public static PlayerProvider Instance => new();
 
 	public Ped Character
 		=> Game.Player.Character;
