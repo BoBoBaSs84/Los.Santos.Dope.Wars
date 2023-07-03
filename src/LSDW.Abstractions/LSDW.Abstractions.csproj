@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<UseWindowsForms>true</UseWindowsForms>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="ScriptHookVDotNet3" />
+		<PackageReference Include="LemonUI.SHVDN3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="**\*.tt" />
+		<None Include="**\*.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<DependentUpon>%(Filename).cs</DependentUpon>
+			<LastGenOutput>%(Filename).Designer.cs</LastGenOutput>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Infrastructure\Services\ISettingsService.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ISettingsService.tt</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Infrastructure\Services\ISettingsService.tt">
+			<LastGenOutput>ISettingsService.Designer.cs</LastGenOutput>
+		</None>
+	</ItemGroup>
+
+</Project>

@@ -1,4 +1,4 @@
-name: Build and Tests .NET Framework
+name: .NET48 Build & Test
 
 on:
   push:
@@ -14,21 +14,14 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
       
-    - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1.2.0
-      
-    - name: Setup VSTest
-      uses: darenm/Setup-VSTest@v1.2
-      
-    - name: Navigate to Workspace
-      run: cd $GITHUB_WORKSPACE
-      
-    - name: Restore NuGet Packages
-      run: nuget restore Los.Santos.Dope.Wars.sln
+    - name: Restore dependencies
+      run: dotnet restore
       
     - name: Build
-      run: msbuild Los.Santos.Dope.Wars.sln /t:restore,build /p:Configuration="Release"
+      run: dotnet build --no-restore --configuration release --verbosity minimal
       
+    - name: Test
+      run: dotnet test --no-build --configuration release --verbosity minimal

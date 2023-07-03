@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<UseWindowsForms>true</UseWindowsForms>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="ScriptHookVDotNet3" ExcludeAssets="runtime" />
+		<PackageReference Include="LemonUI.SHVDN3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\LSDW.Infrastructure\LSDW.Infrastructure.csproj" />
+		<ProjectReference Include="..\LSDW.Presentation\LSDW.Presentation.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+	</ItemGroup>
+
+</Project>
