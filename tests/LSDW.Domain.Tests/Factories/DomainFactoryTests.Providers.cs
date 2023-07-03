@@ -6,7 +6,17 @@ namespace LSDW.Domain.Tests.Factories;
 public partial class DomainFactoryTests
 {
 	[TestMethod]
-	public void NotificationProviderTest()
+	public void CreateAudioProviderTest()
+	{
+		IAudioProvider? provider;
+
+		provider = DomainFactory.CreateAudioProvider();
+
+		Assert.IsNotNull(provider);
+	}
+
+	[TestMethod]
+	public void CreateNotificationProviderTest()
 	{
 		INotificationProvider? provider;
 
@@ -36,7 +46,7 @@ public partial class DomainFactoryTests
 	}
 
 	[TestMethod]
-	public void WorldProviderTest()
+	public void CreateWorldProviderTest()
 	{
 		IWorldProvider? provider;
 

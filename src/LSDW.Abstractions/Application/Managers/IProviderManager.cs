@@ -8,7 +8,12 @@ namespace LSDW.Abstractions.Application.Managers;
 public interface IProviderManager
 {
 	/// <summary>
-	/// The notification provider.
+	/// The audio provider
+	/// </summary>
+	IAudioProvider AudioProvider { get; }
+
+	/// <summary>
+	/// The world provider.
 	/// </summary>
 	INotificationProvider NotificationProvider { get; }
 

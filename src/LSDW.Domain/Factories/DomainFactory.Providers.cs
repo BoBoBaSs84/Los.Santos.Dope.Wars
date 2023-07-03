@@ -6,7 +6,13 @@ namespace LSDW.Domain.Factories;
 public static partial class DomainFactory
 {
 	/// <summary>
-	/// Creates a new notification provider instance.
+	/// Creates a new audio provider instance.
+	/// </summary>
+	public static IAudioProvider CreateAudioProvider()
+		=> new AudioProvider();
+
+	/// <summary>
+	/// Creates a new world provider instance.
 	/// </summary>
 	public static INotificationProvider CreateNotificationProvider()
 		=> new NotificationProvider();
