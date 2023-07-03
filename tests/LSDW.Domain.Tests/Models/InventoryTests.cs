@@ -75,7 +75,7 @@ public class InventoryTests
 	[TestMethod]
 	public void RemoveMoneyTest()
 	{
-		IEnumerable<IDrug> drugs = DomainFactory.CreateAllDrugs();
+		ICollection<IDrug> drugs = DomainFactory.CreateAllDrugs();
 		IInventory inventory = DomainFactory.CreateInventory(drugs, 1000);
 
 		inventory.Remove(500);
@@ -86,7 +86,7 @@ public class InventoryTests
 	[TestMethod]
 	public void RemoveNoMoneyTest()
 	{
-		IEnumerable<IDrug> drugs = DomainFactory.CreateAllDrugs();
+		ICollection<IDrug> drugs = DomainFactory.CreateAllDrugs();
 		IInventory inventory = DomainFactory.CreateInventory(drugs, 1000);
 
 		inventory.Remove(0);
@@ -97,12 +97,12 @@ public class InventoryTests
 	[TestMethod()]
 	public void AddRangeTest()
 	{
-		IEnumerable<IDrug> drugs = DomainFactory.CreateAllDrugs();
+		ICollection<IDrug> drugs = DomainFactory.CreateAllDrugs();
 
 		IInventory inventory = DomainFactory.CreateInventory();
 		inventory.Add(drugs);
 
-		Assert.AreEqual(drugs.Count(), inventory.Count);
+		Assert.AreEqual(drugs.Count, inventory.Count);
 	}
 
 	[TestMethod()]

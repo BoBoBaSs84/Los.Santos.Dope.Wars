@@ -33,17 +33,14 @@ internal static class ScriptHookHelper
 	/// </summary>
 	/// <param name="model">The model to load.</param>
 	/// <param name="timeout">The time in milliseconds before giving up trying to load this <see cref="Model"/>.</param>
-	/// <param name="ms">The time in milliseconds to pause for.</param>
-	private static Model RequestModel(this Model model, int timeout = 250, int ms = 50)
+	private static Model RequestModel(this Model model, int timeout = 250)
 	{
-		_ = model.Request(timeout);
+		model.Request(timeout);
 		if (model.IsInCdImage && model.IsValid)
 		{
-			while (!model.IsLoaded)
-				Script.Wait(ms);
-			return model;
+			while (model.IsLoaded.Equals(false))
+				Script.Wait(50);
 		}
-		model.MarkAsNoLongerNeeded();
 		return model;
 	}
 }

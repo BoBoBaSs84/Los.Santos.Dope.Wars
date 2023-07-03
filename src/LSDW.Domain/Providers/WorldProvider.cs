@@ -12,6 +12,11 @@ namespace LSDW.Domain.Providers;
 /// </remarks>
 internal sealed class WorldProvider : IWorldProvider
 {
+	/// <summary>
+	/// The world provider singleton instance.
+	/// </summary>
+	public static WorldProvider Instance => new();
+
 	public DateTime Now
 	{
 		get => World.CurrentDate;
@@ -25,7 +30,7 @@ internal sealed class WorldProvider : IWorldProvider
 	}
 
 	public Blip CreateBlip(Vector3 position)
-		=> throw new NotImplementedException();
+		=> World.CreateBlip(position);
 
 	public Ped CreatePed(Model model, Vector3 position, float heading = 0f)
 		=> World.CreatePed(model, position, heading);

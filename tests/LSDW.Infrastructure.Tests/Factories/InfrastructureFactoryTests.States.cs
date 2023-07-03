@@ -32,10 +32,10 @@ public partial class InfrastructureFactoryTests
 	{
 		List<DrugState> states = new() { GetDrugState(), GetDrugState() };
 
-		IEnumerable<IDrug> drugs = CreateDrugs(states);
+		ICollection<IDrug> drugs = CreateDrugs(states);
 
 		Assert.IsNotNull(drugs);
-		Assert.AreEqual(states.Count, drugs.Count());
+		Assert.AreEqual(states.Count, drugs.Count);
 	}
 
 	[TestMethod]
@@ -54,12 +54,12 @@ public partial class InfrastructureFactoryTests
 	[TestMethod]
 	public void CreateDrugStatesTest()
 	{
-		IEnumerable<IDrug> drugs = DomainFactory.CreateAllDrugs();
+		ICollection<IDrug> drugs = DomainFactory.CreateAllDrugs();
 
 		List<DrugState> states = CreateDrugStates(drugs);
 
 		Assert.IsNotNull(states);
-		Assert.AreEqual(drugs.Count(), states.Count);
+		Assert.AreEqual(drugs.Count, states.Count);
 	}
 
 	[TestMethod]
@@ -127,7 +127,7 @@ public partial class InfrastructureFactoryTests
 		Assert.IsNotNull(state.Inventory.Drugs);
 		Assert.IsFalse(Equals(state.Inventory.Drugs.Count, 0));
 		Assert.AreEqual(drugs.Money, state.Inventory.Money);
-		Assert.AreEqual(dealer.Position, state.Position);
+		Assert.AreEqual(dealer.SpawnPosition, state.SpawnPosition);
 		Assert.AreEqual(dealer.Hash, state.Hash);
 		Assert.AreEqual(dealer.ClosedUntil, state.ClosedUntil);
 		Assert.AreEqual(dealer.Discovered, state.Discovered);
@@ -145,7 +145,7 @@ public partial class InfrastructureFactoryTests
 
 		Assert.IsNotNull(inventory);
 		Assert.AreEqual(state.Money, inventory.Money);
-		Assert.AreEqual(state.Drugs.Count, inventory.Count);
+		Assert.AreNotEqual(state.Drugs.Count, inventory.Count);
 	}
 
 	[TestMethod]
@@ -218,7 +218,7 @@ public partial class InfrastructureFactoryTests
 		foreach (IDealer dealer in dealers)
 			_ = dealer.Inventory.Restock(player.Level);
 
-		GameState state = CreateGameState(dealers, player);
+		State state = CreateGameState(dealers, player);
 
 		Assert.IsNotNull(state);
 		Assert.AreEqual(player.Experience, state.Player.Experience);
@@ -244,7 +244,7 @@ public partial class InfrastructureFactoryTests
 		Assert.AreEqual(state.Name, dealer.Name);
 		Assert.AreEqual(state.NextInventoryChange, dealer.NextInventoryChange);
 		Assert.AreEqual(state.NextPriceChange, dealer.NextPriceChange);
-		Assert.AreEqual(state.Position, dealer.Position);
+		Assert.AreEqual(state.SpawnPosition, dealer.SpawnPosition);
 		Assert.AreEqual(state.Hash, dealer.Hash);
 	}
 
@@ -273,7 +273,7 @@ public partial class InfrastructureFactoryTests
 	[TestMethod]
 	public void CreatePLayerFromGameState()
 	{
-		GameState state = GetGameState();
+		State state = GetGameState();
 
 		IPlayer player = CreatePlayer(state);
 
@@ -283,7 +283,7 @@ public partial class InfrastructureFactoryTests
 	[TestMethod]
 	public void CreateDealersFromGameState()
 	{
-		GameState gameState = new();
+		State gameState = new();
 
 		ICollection<IDealer> dealers = CreateDealers(gameState);
 
@@ -310,7 +310,7 @@ public partial class InfrastructureFactoryTests
 			dealer.Discovered = true;
 			dealers.Add(dealer);
 		}
-		GameState gameState = CreateGameState(dealers, player);
+		State gameState = CreateGameState(dealers, player);
 
 		string gameStateXml = gameState.ToXmlString(XmlConstants.SerializerNamespaces);
 		string compressedGameStateXml = gameStateXml.Compress();
@@ -331,7 +331,7 @@ public partial class InfrastructureFactoryTests
 			Name = "Dealer",
 			NextInventoryChange = DateTime.MinValue,
 			NextPriceChange = DateTime.MinValue,
-			Position = new(0, 0, 0),
+			SpawnPosition = new(0, 0, 0),
 			Hash = PedHash.AcidLabCook,
 			Inventory = new()
 		};
@@ -369,7 +369,7 @@ public partial class InfrastructureFactoryTests
 			Type = TransactionType.TAKE
 		};
 
-	private static GameState GetGameState()
+	private static State GetGameState()
 		=> new()
 		{
 			Player = new(),

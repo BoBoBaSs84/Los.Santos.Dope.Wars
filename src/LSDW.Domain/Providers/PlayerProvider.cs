@@ -5,13 +5,18 @@ using LSDW.Abstractions.Domain.Providers;
 namespace LSDW.Domain.Providers;
 
 /// <summary>
-/// The PlayerProvider class.
+/// The player provider class.
 /// </summary>
 /// <remarks>
 /// Wrapper for the <see cref="Player"/> methods and properties.
 /// </remarks>
 internal sealed class PlayerProvider : IPlayerProvider
 {
+	/// <summary>
+	/// The player provider singleton instance.
+	/// </summary>
+	public static PlayerProvider Instance => new();
+
 	public Ped Character
 		=> Game.Player.Character;
 
@@ -35,6 +40,7 @@ internal sealed class PlayerProvider : IPlayerProvider
 		get => Game.Player.CanControlCharacter;
 		set => Game.Player.CanControlCharacter = value;
 	}
+
 	public bool DispatchsCops
 	{
 		set => Game.Player.DispatchsCops = value;

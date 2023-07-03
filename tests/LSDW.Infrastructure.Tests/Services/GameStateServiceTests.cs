@@ -1,7 +1,5 @@
 ﻿using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Abstractions.Models;
-using LSDW.Base.Tests.Helpers;
-using Moq;
 using static LSDW.Infrastructure.Factories.InfrastructureFactory;
 
 namespace LSDW.Infrastructure.Tests.Services;
@@ -9,9 +7,9 @@ namespace LSDW.Infrastructure.Tests.Services;
 [TestClass]
 public class GameStateServiceTests
 {
+	private readonly IStateService _stateService = GetStateService();
 	private static readonly string _baseDirectory = AppContext.BaseDirectory;
 	private static readonly string _saveFileName = Settings.SaveFileName;
-	private static readonly Mock<ILoggerService> _logger = MockHelper.GetLoggerService();
 
 	[TestCleanup]
 	public void TestCleanup()
@@ -21,9 +19,8 @@ public class GameStateServiceTests
 	public void LoadTest()
 	{
 		string filePath = Path.Combine(_baseDirectory, _saveFileName);
-		IStateService stateService = CreateGameStateService(_logger.Object);
 
-		bool success = stateService.Load();
+		bool success = _stateService.Load();
 
 		Assert.IsTrue(success);
 		Assert.IsTrue(File.Exists(filePath));
@@ -35,9 +32,8 @@ public class GameStateServiceTests
 		DeleteSaveFile();
 		string filePath = Path.Combine(_baseDirectory, _saveFileName);
 		File.AppendAllText(filePath, "");
-		IStateService stateService = CreateGameStateService(_logger.Object);
 
-		bool success = stateService.Load();
+		bool success = _stateService.Load();
 
 		Assert.IsFalse(success);
 	}
@@ -46,9 +42,8 @@ public class GameStateServiceTests
 	public void SaveTest()
 	{
 		string filePath = Path.Combine(_baseDirectory, _saveFileName);
-		IStateService stateService = CreateGameStateService(_logger.Object);
 
-		bool success = stateService.Save();
+		bool success = _stateService.Save();
 
 		Assert.IsTrue(success);
 		Assert.IsTrue(File.Exists(filePath));

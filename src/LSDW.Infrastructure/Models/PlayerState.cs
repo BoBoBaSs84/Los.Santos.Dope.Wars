@@ -2,7 +2,6 @@
 using LSDW.Infrastructure.Constants;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using static LSDW.Abstractions.Models.Settings;
 using static LSDW.Infrastructure.Factories.InfrastructureFactory;
 
 namespace LSDW.Infrastructure.Models;
@@ -53,7 +52,13 @@ public sealed class PlayerState
 	public List<TransactionState> Transactions { get; set; }
 
 	/// <summary>
-	/// Should the <see cref="Transactions"/> property be serialized?
+	/// Should the experience property be serialized?
 	/// </summary>
-	public bool ShouldSerializeTransactions() => !Equals(Transactions.Count, 0);
+	/// <returns></returns>
+	public bool ShouldSerializeExperience() => Experience != default;
+
+	/// <summary>
+	/// Should the transactions property be serialized?
+	/// </summary>
+	public bool ShouldSerializeTransactions() => Transactions.Count != default;
 }

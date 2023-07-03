@@ -60,7 +60,7 @@ public static class DealerExtensions
 	/// This removes the <see cref="Blip"/> from the map and deletes the dealer <see cref="Ped"/>.
 	/// </remarks>
 	/// <param name="dealers">The dealer collection to clean up.</param>
-	public static ICollection<IDealer> CleanUpDealers(this ICollection<IDealer> dealers)
+	public static ICollection<IDealer> CleanUp(this ICollection<IDealer> dealers)
 	{
 		foreach (IDealer dealer in dealers)
 			dealer.CleanUp();

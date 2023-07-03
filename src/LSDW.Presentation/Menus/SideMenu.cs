@@ -25,7 +25,6 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 	private IInventory? target;
 	private IPlayer? player;
 	private ITransactionService? transactionService;
-	private int maximumQuantity;
 
 	/// <summary>
 	/// Initializes a instance of the side menu class.
@@ -75,34 +74,41 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 		(source, target) = SMH.GetInventories(_type, player, inventory);
 		source.PropertyChanged += OnInventoryPropertyChanged;
 		target.PropertyChanged += OnInventoryPropertyChanged;
-		maximumQuantity = SMH.GetMaximumQuantity(_type, player);
-		transactionService = DomainFactory.CreateTransactionService(_providerManager.NotificationProvider, _type, source, target, maximumQuantity);
+		transactionService = DomainFactory.CreateTransactionService(_providerManager, _type, player, inventory);
 		Name = SMH.GetName(_type, target.Money);
 		Add((SwitchItem)SwitchItem);
 		AddDrugListItems(source, target);
 		Initialized = true;
 	}
 
-	public void SetVisible(bool value)
-		=> Visible = value;
-
 	private void OnMenuItemActivated(object sender, EventArgs args)
 	{
-		if (transactionService is not null && player is not null)
+		if (transactionService is null)
+			return;
+
+		if (player is null)
+			return;
+
+		if (sender is not SideMenu menu || menu.SelectedItem is not DrugListItem item || item.SelectedItem.Equals(0) || item.Tag is not DrugType drugType)
+			return;
+
+		int oldSelectedItem = item.SelectedItem;
+
+		int price = target.Where(x => x.Type.Equals(drugType)).Select(x => x.CurrentPrice).Single();
+		int quantity = item.SelectedItem;
+		item.SelectedItem = default;
+		bool succes = transactionService.Commit(drugType, quantity, price);
+
+		if (!succes)
 		{
-			if (sender is not SideMenu menu || menu.SelectedItem is not DrugListItem item || item.SelectedItem.Equals(0) || item.Tag is not DrugType drugType)
-				return;
-
-			int price = target.Where(x => x.Type.Equals(drugType)).Select(x => x.CurrentPrice).Single();
-			int quantity = item.SelectedItem;
-			bool succes = transactionService.Commit(drugType, quantity, price);
-
-			if (succes)
-			{
-				ITransaction transaction = DomainFactory.CreateTransaction(DateTime.Now, _type, drugType, quantity, price);
-				player.AddTransaction(transaction);
-			}
+			item.SelectedItem = oldSelectedItem;
+			return;
 		}
+
+		DateTime dateTime = _providerManager.WorldProvider.Now;
+		ITransaction transaction = DomainFactory.CreateTransaction(dateTime, _type, drugType, quantity, price);
+		player.AddTransaction(transaction);
+		transactionService.BustOrNoBust();
 	}
 
 	private void OnInventoryPropertyChanged(object sender, PropertyChangedEventArgs args)
@@ -121,11 +127,19 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 		var drugs = from s in source
 								join t in target
 								on s.Type equals t.Type
-								select new { s, t };
+								select new { SourceDrug = s, t.CurrentPrice };
 
 		foreach (var drug in drugs)
 		{
-			DrugListItem item = new(drug.s, drug.t);
+			int comparisonPrice = _type switch
+			{
+				TransactionType.BUY => drug.SourceDrug.AveragePrice,
+				TransactionType.SELL => drug.CurrentPrice,
+				TransactionType.TAKE => drug.SourceDrug.AveragePrice,
+				_ => default
+			};
+
+			DrugListItem item = new(drug.SourceDrug, comparisonPrice);
 			item.Activated += OnMenuItemActivated;
 			Add(item);
 		}

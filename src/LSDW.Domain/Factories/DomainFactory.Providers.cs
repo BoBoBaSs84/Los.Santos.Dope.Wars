@@ -6,26 +6,32 @@ namespace LSDW.Domain.Factories;
 public static partial class DomainFactory
 {
 	/// <summary>
-	/// Creates a new audio provider instance.
+	/// Returns the audio provider singleton instance.
 	/// </summary>
-	public static IAudioProvider CreateAudioProvider()
-		=> new AudioProvider();
+	public static IAudioProvider GetAudioProvider()
+		=> AudioProvider.Instance;
 
 	/// <summary>
-	/// Creates a new world provider instance.
+	/// Returns the world provider singleton instance.
 	/// </summary>
-	public static IWorldProvider CreateWorldProvider()
-		=> new WorldProvider();
+	public static INotificationProvider GetNotificationProvider()
+		=> NotificationProvider.Instance;
 
 	/// <summary>
-	/// Creates a new player provider instance.
+	/// Returns the player provider singleton instance.
 	/// </summary>
-	public static IPlayerProvider CreatePlayerProvider()
-		=> new PlayerProvider();
+	public static IPlayerProvider GetPlayerProvider()
+		=> PlayerProvider.Instance;
 
 	/// <summary>
-	/// Creates a new notification provider instance.
+	/// Returns the random provider singleton instance.
 	/// </summary>
-	public static INotificationProvider CreateNotificationProvider()
-		=> new NotificationProvider();
+	public static IRandomProvider GetRandomProvider()
+		=> RandomProvider.Instance;
+
+	/// <summary>
+	/// Returns the world provider singleton instance.
+	/// </summary>
+	public static IWorldProvider GetWorldProvider()
+		=> WorldProvider.Instance;
 }

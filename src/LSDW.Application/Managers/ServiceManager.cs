@@ -18,10 +18,15 @@ internal sealed class ServiceManager : IServiceManager
 	/// </summary>
 	public ServiceManager()
 	{
-		_lazyLoggerService = new Lazy<ILoggerService>(InfrastructureFactory.CreateLoggerService);
-		_lazyStateService = new Lazy<IStateService>(() => InfrastructureFactory.CreateGameStateService(_lazyLoggerService.Value));
-		_lazySettingsService = new Lazy<ISettingsService>(InfrastructureFactory.CreateSettingsService);
+		_lazyLoggerService = new Lazy<ILoggerService>(InfrastructureFactory.GetLoggerService);
+		_lazyStateService = new Lazy<IStateService>(InfrastructureFactory.GetStateService);
+		_lazySettingsService = new Lazy<ISettingsService>(InfrastructureFactory.GetSettingsService);
 	}
+
+	/// <summary>
+	/// The service manager singleton instance.
+	/// </summary>
+	public readonly static ServiceManager Instance = new();
 
 	public IStateService StateService
 		=> _lazyStateService.Value;

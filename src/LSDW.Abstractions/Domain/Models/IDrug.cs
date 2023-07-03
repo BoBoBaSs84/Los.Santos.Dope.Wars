@@ -46,18 +46,6 @@ public interface IDrug : INotifyPropertyChanged
 	void Remove(int quantity);
 
 	/// <summary>
-	/// Sets the current quantity for the drug.
-	/// </summary>
-	/// <param name="quantity">The new quantity of the drug.</param>
-	void SetQuantity(int quantity);
-
-	/// <summary>
-	/// Sets the current price for the drug.
-	/// </summary>
-	/// <param name="price">The new price of the drug.</param>
-	void SetPrice(int price);
-
-	/// <summary>
 	/// Randomizes the price for the provided drug.
 	/// </summary>
 	/// <remarks>

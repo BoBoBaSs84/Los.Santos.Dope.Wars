@@ -1,11 +1,11 @@
 ﻿using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Extensions;
+using LSDW.Abstractions.Models;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Helpers;
 using LSDW.Domain.Models.Base;
-using static LSDW.Abstractions.Models.Settings.Market;
-using RESX = LSDW.Domain.Properties.Resources;
+using LSDW.Domain.Properties;
 
 namespace LSDW.Domain.Models;
 
@@ -56,7 +56,7 @@ internal sealed class Drug : Notification, IDrug
 
 		if (price < 0)
 		{
-			string message = RESX.Exception_Drug_Add.FormatInvariant(price);
+			string message = Resources.Exception_Drug_Add.FormatInvariant(price);
 			throw new ArgumentOutOfRangeException(nameof(price), message);
 		}
 
@@ -66,15 +66,14 @@ internal sealed class Drug : Notification, IDrug
 
 	public void RandomizePrice(int playerLevel)
 	{
-		double minimumDrugValue = (double)MinimumDrugPrice;
-		double maximumDrugValue = (double)MaximumDrugPrice;
+		float minimumDrugValue = Settings.Market.MinimumDrugPrice;
+		float maximumDrugValue = Settings.Market.MaximumDrugPrice;
 
-		double levelLimit = (double)playerLevel / 1000;
-		double lowerLimit = (minimumDrugValue - levelLimit) * AveragePrice;
-		double upperLimit = (maximumDrugValue + levelLimit) * AveragePrice;
+		float levelLimit = (float)playerLevel / 1000;
+		float lowerLimit = (minimumDrugValue - levelLimit) * AveragePrice;
+		float upperLimit = (maximumDrugValue + levelLimit) * AveragePrice;
 
-		int newPrice = RandomHelper.GetInt(lowerLimit, upperLimit);
-		SetPrice(newPrice);
+		CurrentPrice = RandomHelper.GetInt(lowerLimit, upperLimit);
 	}
 
 	public void RandomizeQuantity(int playerLevel)
@@ -83,15 +82,14 @@ internal sealed class Drug : Notification, IDrug
 
 		if (RandomHelper.GetDouble() > nonZeroChance)
 		{
-			SetQuantity(0);
+			Quantity = 0;
 			return;
 		}
 
 		int minQuantity = 0 + playerLevel;
 		int maxQuantity = 5 + playerLevel * 5;
 
-		int newQuantity = RandomHelper.GetInt(minQuantity, maxQuantity);
-		SetQuantity(newQuantity);
+		Quantity = RandomHelper.GetInt(minQuantity, maxQuantity);
 	}
 
 	public void Remove(int quantity)
@@ -103,19 +101,13 @@ internal sealed class Drug : Notification, IDrug
 
 		if (resultingQuantity < 0)
 		{
-			string message = RESX.Exception_Drug_Remove.FormatInvariant(resultingQuantity);
+			string message = Resources.Exception_Drug_Remove.FormatInvariant(resultingQuantity);
 			throw new ArgumentOutOfRangeException(nameof(quantity), message);
 		}
 
 		Quantity -= quantity;
 
 		if (Quantity.Equals(0))
-			CurrentPrice = 0;
+			CurrentPrice = Quantity;
 	}
-
-	public void SetPrice(int price)
-		=> CurrentPrice = price;
-
-	public void SetQuantity(int quantity)
-		=> Quantity = quantity;
 }

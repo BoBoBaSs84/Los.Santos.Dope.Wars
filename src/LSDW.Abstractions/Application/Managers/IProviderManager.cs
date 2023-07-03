@@ -15,7 +15,7 @@ public interface IProviderManager
 	/// <summary>
 	/// The world provider.
 	/// </summary>
-	IWorldProvider WorldProvider { get; }
+	INotificationProvider NotificationProvider { get; }
 
 	/// <summary>
 	/// The player provider.
@@ -23,7 +23,12 @@ public interface IProviderManager
 	IPlayerProvider PlayerProvider { get; }
 
 	/// <summary>
-	/// The notification provider.
+	/// The random provider.
 	/// </summary>
-	INotificationProvider NotificationProvider { get; }
+	IRandomProvider RandomProvider { get; }
+
+	/// <summary>
+	/// The world provider.
+	/// </summary>
+	IWorldProvider WorldProvider { get; }
 }

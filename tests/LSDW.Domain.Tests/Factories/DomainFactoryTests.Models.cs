@@ -68,7 +68,7 @@ public partial class DomainFactoryTests
 	[TestMethod]
 	public void CreateAllDrugsTest()
 	{
-		IEnumerable<IDrug>? drugs;
+		ICollection<IDrug>? drugs;
 
 		drugs = DomainFactory.CreateAllDrugs();
 
@@ -102,14 +102,14 @@ public partial class DomainFactoryTests
 	public void CreateInventoryWithDrugsAndMoneyTest()
 	{
 		int money = 1000;
-		IEnumerable<IDrug> drugs = DomainFactory.CreateAllDrugs();
+		ICollection<IDrug> drugs = DomainFactory.CreateAllDrugs();
 		IInventory? inventory;
 
 		inventory = DomainFactory.CreateInventory(drugs, money);
 
 		Assert.IsNotNull(inventory);
 		Assert.AreEqual(money, inventory.Money);
-		Assert.AreEqual(drugs.Count(), inventory.Count);
+		Assert.AreEqual(drugs.Count, inventory.Count);
 	}
 
 	[TestMethod]
@@ -181,5 +181,40 @@ public partial class DomainFactoryTests
 		Assert.IsNotNull(player);
 		Assert.IsNotNull(player.Inventory);
 		Assert.AreEqual(experience, player.Experience);
+	}
+
+	[TestMethod]
+	public void CreateDealerTest()
+	{
+		IDealer? dealer;
+
+		dealer = DomainFactory.CreateDealer(_zeroVector);
+
+		Assert.IsNotNull(dealer);
+		Assert.AreEqual(dealer.SpawnPosition, _zeroVector);
+		Assert.AreEqual(TaskType.NOTASK, dealer.CurrentTask);
+	}
+
+	[TestMethod]
+	public void CreateDealerWithParamsTest()
+	{
+		IDealer? dealer;
+
+		dealer = DomainFactory.CreateDealer(_zeroVector, _pedHash);
+
+		Assert.IsNotNull(dealer);
+		Assert.AreEqual(dealer.SpawnPosition, _zeroVector);
+		Assert.AreEqual(dealer.Hash, _pedHash);
+		Assert.AreEqual(TaskType.NOTASK, dealer.CurrentTask);
+	}
+
+	[TestMethod]
+	public void CreateDealersTest()
+	{
+		ICollection<IDealer>? dealers;
+
+		dealers = DomainFactory.CreateDealers();
+
+		Assert.IsNotNull(dealers);
 	}
 }

@@ -4,7 +4,7 @@ using GTA.Math;
 namespace LSDW.Abstractions.Domain.Providers;
 
 /// <summary>
-/// The character provider interface.
+/// The player provider interface.
 /// </summary>
 public interface IPlayerProvider
 {

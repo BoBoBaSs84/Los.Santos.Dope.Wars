@@ -35,7 +35,7 @@ public sealed class DealerState
 		Discovered = dealer.Discovered;
 		Inventory = CreateInventoryState(dealer.Inventory);
 		Name = dealer.Name;
-		Position = dealer.Position;
+		SpawnPosition = dealer.SpawnPosition;
 		Hash = dealer.Hash;
 	}
 
@@ -76,10 +76,10 @@ public sealed class DealerState
 	public string Name { get; set; }
 
 	/// <summary>
-	/// The position property of the dealer state.
+	/// The spawn position property of the dealer state.
 	/// </summary>
-	[XmlElement(nameof(Position), Form = XmlSchemaForm.Qualified)]
-	public Vector3 Position { get; set; }
+	[XmlElement(nameof(SpawnPosition), Form = XmlSchemaForm.Qualified)]
+	public Vector3 SpawnPosition { get; set; }
 
 	/// <summary>
 	/// The hash property of the dealer state.

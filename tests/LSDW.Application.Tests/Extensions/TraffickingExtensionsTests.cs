@@ -16,7 +16,7 @@ public class TraffickingExtensionsTests
 {
 	private readonly Vector3 _zeroVector = new(0, 0, 0);
 	private readonly ITrafficking _trafficking = ApplicationFactory.CreateTraffickingMission(MockHelper.GetServiceManager().Object, MockHelper.GetProviderManager().Object);
-	private readonly IStateService _stateService = InfrastructureFactory.CreateGameStateService(MockHelper.GetLoggerService().Object);
+	private readonly IStateService _stateService = InfrastructureFactory.GetStateService();
 
 	[TestMethod]
 	public void ChangeDealerPricesNonDiscoveredTest()
@@ -25,7 +25,7 @@ public class TraffickingExtensionsTests
 
 		_trafficking.ChangeDealerPrices(_stateService);
 
-		Assert.AreEqual(0, _stateService.Dealers.First().Inventory.Sum(x => x.CurrentPrice));
+		Assert.AreEqual(default, _stateService.Dealers.First().Inventory.Sum(x => x.CurrentPrice));
 	}
 
 	[TestMethod]
@@ -37,7 +37,7 @@ public class TraffickingExtensionsTests
 
 		_trafficking.ChangeDealerPrices(_stateService);
 
-		Assert.AreNotEqual(0, _stateService.Dealers.First().Inventory.Sum(x => x.CurrentPrice));
+		Assert.AreNotEqual(default, _stateService.Dealers.First().Inventory.Sum(x => x.CurrentPrice));
 	}
 
 	[TestMethod]
@@ -47,8 +47,8 @@ public class TraffickingExtensionsTests
 
 		_trafficking.ChangeDealerInventories(_stateService);
 
-		Assert.AreEqual(0, _stateService.Dealers.First().Inventory.Sum(x => x.CurrentPrice));
-		Assert.AreEqual(0, _stateService.Dealers.First().Inventory.Sum(x => x.Quantity));
+		Assert.AreEqual(default, _stateService.Dealers.First().Inventory.Sum(x => x.CurrentPrice));
+		Assert.AreEqual(default, _stateService.Dealers.First().Inventory.Sum(x => x.Quantity));
 	}
 
 	[TestMethod]
@@ -60,7 +60,7 @@ public class TraffickingExtensionsTests
 
 		_trafficking.ChangeDealerInventories(_stateService);
 
-		Assert.AreNotEqual(0, _stateService.Dealers.First().Inventory.Sum(x => x.CurrentPrice));
-		Assert.AreNotEqual(0, _stateService.Dealers.First().Inventory.Sum(x => x.Quantity));
+		Assert.AreNotEqual(default, _stateService.Dealers.First().Inventory.Sum(x => x.CurrentPrice));
+		Assert.AreNotEqual(default, _stateService.Dealers.First().Inventory.Sum(x => x.Quantity));
 	}
 }

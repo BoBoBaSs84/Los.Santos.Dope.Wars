@@ -11,7 +11,7 @@ public partial class InfrastructureFactoryTests
 	{
 		ILoggerService? loggerService;
 
-		loggerService = CreateLoggerService();
+		loggerService = GetLoggerService();
 
 		Assert.IsNotNull(loggerService);
 	}
@@ -21,7 +21,7 @@ public partial class InfrastructureFactoryTests
 	{
 		IStateService? gameStateService;
 
-		gameStateService = CreateGameStateService(_loggerMock.Object);
+		gameStateService = GetStateService();
 
 		Assert.IsNotNull(gameStateService);
 	}
@@ -31,7 +31,7 @@ public partial class InfrastructureFactoryTests
 	{
 		IStateService? gameStateService;
 
-		gameStateService = CreateGameStateService(_loggerMock.Object);
+		gameStateService = GetStateService();
 
 		Assert.IsNotNull(gameStateService);
 	}
@@ -41,7 +41,7 @@ public partial class InfrastructureFactoryTests
 	{
 		ISettingsService? settingsService;
 
-		settingsService = CreateSettingsService();
+		settingsService = GetSettingsService();
 
 		Assert.IsNotNull(settingsService);
 	}

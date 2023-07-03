@@ -5,7 +5,9 @@ using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
 using LSDW.Infrastructure.Constants;
 using LSDW.Infrastructure.Models;
+using System.Xml.Serialization;
 using static LSDW.Infrastructure.Factories.InfrastructureFactory;
+using RESX = LSDW.Infrastructure.Properties.Resources;
 
 namespace LSDW.Infrastructure.Services;
 
@@ -14,21 +16,27 @@ namespace LSDW.Infrastructure.Services;
 /// </summary>
 internal sealed class StateService : IStateService
 {
-	private readonly string _baseDirectory = AppContext.BaseDirectory;
-	private readonly string _saveFileName = Settings.SaveFileName;
-	private readonly ILoggerService _logger;
+	private readonly ILoggerService _logger = LoggerService.Instance;
+	private readonly XmlSerializerNamespaces _namespaces = XmlConstants.SerializerNamespaces;
+	private readonly string _baseDirectory;
+	private readonly string _saveFileName;
 
 	/// <summary>
 	/// Initializes a instance of the state service class.
 	/// </summary>
-	/// <param name="logger">The logger service instance to use.</param>
-	internal StateService(ILoggerService logger)
+	internal StateService()
 	{
-		_logger = logger;
+		_baseDirectory = AppContext.BaseDirectory;
+		_saveFileName = Settings.SaveFileName;
 
 		Dealers = DomainFactory.CreateDealers();
 		Player = DomainFactory.CreatePlayer();
 	}
+
+	/// <summary>
+	/// The state service singleton instance.
+	/// </summary>
+	public static StateService Instance => new();
 
 	public ICollection<IDealer> Dealers { get; private set; }
 	public IPlayer Player { get; private set; }
@@ -41,7 +49,7 @@ internal sealed class StateService : IStateService
 		{
 			if (!File.Exists(filePath))
 			{
-				_logger.Information($"'{filePath}' was not found.");
+				_logger.Warning(RESX.StateService_Load_NotFound.FormatInvariant(filePath));
 				return Save(decompress);
 			}
 
@@ -50,17 +58,17 @@ internal sealed class StateService : IStateService
 			if (decompress)
 				fileContent = fileContent.Decompress();
 
-			GameState gameState = new GameState().FromXmlString(fileContent);
+			State state = new State().FromXmlString(fileContent);
 
-			Dealers = CreateDealers(gameState);
-			Player = CreatePlayer(gameState);
+			Dealers = CreateDealers(state);
+			Player = CreatePlayer(state);
 
-			_logger.Information($"'{filePath}' was loaded.");
+			_logger.Information(RESX.StateService_Load_Loaded.FormatInvariant(filePath));
 			return true;
 		}
 		catch (Exception ex)
 		{
-			_logger.Critical("Error while loading.", ex);
+			_logger.Critical(RESX.StateService_Load_Critical, ex);
 			return false;
 		}
 	}
@@ -71,21 +79,21 @@ internal sealed class StateService : IStateService
 
 		try
 		{
-			GameState gameState = CreateGameState(Dealers, Player);
+			State state = CreateGameState(Dealers, Player);
 
-			string fileContent = gameState.ToXmlString(XmlConstants.SerializerNamespaces);
+			string fileContent = state.ToXmlString(_namespaces);
 
 			if (compress)
 				fileContent = fileContent.Compress();
 
 			File.WriteAllText(filePath, fileContent);
 
-			_logger.Information($"'{filePath}' was saved.");
+			_logger.Information(RESX.StateService_Save_Saved.FormatInvariant(filePath));
 			return true;
 		}
 		catch (Exception ex)
 		{
-			_logger.Critical("Error while saving.", ex);
+			_logger.Critical(RESX.StateService_Save_Critical, ex);
 			return false;
 		}
 	}

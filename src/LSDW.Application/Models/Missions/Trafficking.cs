@@ -7,6 +7,7 @@ using LSDW.Application.Extensions;
 using LSDW.Application.Models.Missions.Base;
 using LSDW.Domain.Extensions;
 using LSDW.Presentation.Factories;
+using RESX = LSDW.Application.Properties.Resources;
 
 namespace LSDW.Application.Models.Missions;
 
@@ -43,9 +44,18 @@ internal sealed class Trafficking : Mission, ITrafficking
 	public ISideMenu LeftSideMenu => _lazyLeftSideMenu.Value;
 	public ISideMenu RightSideMenu => _lazyRightSideMenu.Value;
 
+	public override void StartMission()
+	{
+		LeftSideMenu.SwitchItem.Activated += OnSwitchItemActivated;
+		RightSideMenu.SwitchItem.Activated += OnSwitchItemActivated;
+		base.StartMission();
+	}
+
 	public override void StopMission()
 	{
-		_ = _stateService.Dealers.CleanUpDealers();
+		_ = _stateService.Dealers.CleanUp();
+		LeftSideMenu.SwitchItem.Activated -= OnSwitchItemActivated;
+		RightSideMenu.SwitchItem.Activated -= OnSwitchItemActivated;
 		LeftSideMenu.CleanUp();
 		RightSideMenu.CleanUp();
 		base.StopMission();
@@ -75,7 +85,13 @@ internal sealed class Trafficking : Mission, ITrafficking
 		}
 		catch (Exception ex)
 		{
-			LoggerService.Critical($"There was an error.", ex);
+			LoggerService.Critical(RESX.Trafficking_Error_Critical, ex);
 		}
+	}
+
+	private void OnSwitchItemActivated(object sender, EventArgs e)
+	{
+		LeftSideMenu.Visible = !LeftSideMenu.Visible;
+		RightSideMenu.Visible = !RightSideMenu.Visible;
 	}
 }

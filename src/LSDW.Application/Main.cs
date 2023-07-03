@@ -4,8 +4,8 @@ using LSDW.Abstractions.Application.Managers;
 using LSDW.Abstractions.Application.Models.Missions;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Presentation.Menus;
+using LSDW.Application.Constants;
 using LSDW.Application.Factories;
-using LSDW.Application.Managers;
 using LSDW.Presentation.Factories;
 
 namespace LSDW.Application;
@@ -13,6 +13,7 @@ namespace LSDW.Application;
 /// <summary>
 /// The Main class.
 /// </summary>
+[ScriptAttributes(Author = ApplicationConstants.Author, SupportURL = ApplicationConstants.SupportURL)]
 public sealed class Main : Script
 {
 	private readonly ObjectPool _processables = new();
@@ -21,21 +22,23 @@ public sealed class Main : Script
 	private readonly ISettingsMenu _settingsMenu;
 	private readonly ITrafficking _trafficking;
 
-	private readonly bool isDebug;
+	/// <summary>
+	/// Determines if the application is developer mode or not.
+	/// </summary>
+	public static bool IsDevelopment { get; private set; }
 
 	/// <summary>
 	/// Initializes a instance of the main class.
 	/// </summary>
 	public Main()
 	{
-#if DEBUG
-		isDebug = true;
+#if DEBUG		
+		IsDevelopment = true;
 #else
-		isDebug = false;
+		IsDevelopment = false;
 #endif
-		_providerManager = new ProviderManager();
-		_serviceManager = new ServiceManager();
-		_serviceManager.StateService.Load(!isDebug);
+		_providerManager = ApplicationFactory.GetProviderManager();
+		_serviceManager = ApplicationFactory.GetServiceManager();		
 
 		_settingsMenu = PresentationFactory.CreateSettingsMenu(_serviceManager);
 		_settingsMenu.Add(_processables);
@@ -64,20 +67,21 @@ public sealed class Main : Script
 
 		if (args.KeyCode == Keys.F10)
 		{
-			_settingsMenu.SetVisible(true);
+			_settingsMenu.Visible = true;
 		}
 
 		if (args.KeyCode == Keys.F9)
 		{
 			if (_trafficking.Status.Equals(MissionStatusType.STOPPED))
 			{
+				_serviceManager.StateService.Load(!IsDevelopment);
 				_trafficking.StartMission();
 				return;
 			}
 
 			if (_trafficking.Status.Equals(MissionStatusType.STARTED))
 			{
-				_ = _serviceManager.StateService.Save(!isDebug);
+				_serviceManager.StateService.Save(!IsDevelopment);
 				_trafficking.StopMission();
 				return;
 			}

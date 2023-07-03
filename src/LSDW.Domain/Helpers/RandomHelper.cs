@@ -19,6 +19,12 @@ public static class RandomHelper
 	public static int GetInt(int max) => _random.Next(max);
 
 	/// <summary>
+	/// Returns a non-negative random integer that is less than the specified maximum.
+	/// </summary>
+	/// <param name="max">The exclusive upper bound of the random number to be generated.</param>
+	public static int GetInt(float max) => GetInt((int)max);
+
+	/// <summary>
 	/// Returns a random integer that is within a specified range.
 	/// </summary>
 	/// <param name="min">The inclusive lower bound of the random number returned.</param>
@@ -30,11 +36,15 @@ public static class RandomHelper
 	/// </summary>
 	/// <param name="min">The inclusive lower bound of the random number returned.</param>
 	/// <param name="max">The exclusive upper bound of the random number returned.</param>
-	public static int GetInt(double min, double max) => _random.Next((int)min, (int)max);
+	public static int GetInt(float min, float max) => GetInt((int)min, (int)max);
 
 	/// <summary>
 	/// Returns a random floating-point number that is greater than or equal to 0.0 and less than 1.0.
 	/// </summary>
-	/// <returns></returns>
 	public static double GetDouble() => _random.NextDouble();
+
+	/// <summary>
+	/// Returns a random floating-point number that is greater than or equal to 0.0 and less than 1.0.
+	/// </summary>
+	public static float GetFloat() => (float)GetDouble();
 }

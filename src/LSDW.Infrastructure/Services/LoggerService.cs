@@ -22,6 +22,11 @@ internal class LoggerService : ILoggerService
 		_logFileName = Settings.LogFileName;
 	}
 
+	/// <summary>
+	/// The logger service singleton instance.
+	/// </summary>
+	public static LoggerService Instance => new();
+
 	public void Critical(string message, [CallerMemberName] string callerName = "")
 		=> LogToFile("FTL", callerName, message);
 

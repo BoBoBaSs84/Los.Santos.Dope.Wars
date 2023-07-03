@@ -31,9 +31,14 @@ public interface IPedestrian
 	string Name { get; }
 
 	/// <summary>
-	/// The position of the pedestrian.
+	/// The current position of the pedestrian.
 	/// </summary>
 	Vector3 Position { get; }
+
+	/// <summary>
+	/// The spawn position of the pedestrian.
+	/// </summary>
+	Vector3 SpawnPosition { get; }
 
 	/// <summary>
 	/// The peds hash.
@@ -50,8 +55,8 @@ public interface IPedestrian
 	/// Creates the pedestrian.
 	/// </summary>
 	/// <param name="worldProvider">The world provider insatnce to use.</param>
-	/// <param name="healthValue">The health points to give.</param>
-	void Create(IWorldProvider worldProvider, float healthValue = 100f);
+	/// <param name="health">The health points to give.</param>
+	void Create(IWorldProvider worldProvider, int health = 100);
 
 	/// <summary>
 	/// Deletes the pedestrian.
@@ -66,8 +71,8 @@ public interface IPedestrian
 	/// <summary>
 	/// Gives the pedestrian an protective armor.
 	/// </summary>
-	/// <param name="armorValue">The armor value.</param>
-	void GiveArmor(float armorValue);
+	/// <param name="armor">The armor value.</param>
+	void GiveArmor(int armor);
 
 	/// <summary>
 	/// Gives the pedestrian a weapon.
@@ -103,8 +108,8 @@ public interface IPedestrian
 	/// <summary>
 	/// Updates the pedestrian.
 	/// </summary>
-	/// <param name="healthValue">The health points to give.</param>
-	void Update(float healthValue = 100f);
+	/// <param name="health">The health points to give.</param>
+	void Update(int health = 100);
 
 	/// <summary>
 	/// Lets the pedestrian wander around.

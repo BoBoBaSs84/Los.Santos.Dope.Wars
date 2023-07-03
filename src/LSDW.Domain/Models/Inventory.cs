@@ -15,7 +15,7 @@ namespace LSDW.Domain.Models;
 /// </remarks>
 internal sealed class Inventory : Notification, IInventory
 {
-	private readonly List<IDrug> _drugs;
+	private readonly ICollection<IDrug> _drugs;
 	private int money;
 
 	/// <summary>
@@ -23,9 +23,9 @@ internal sealed class Inventory : Notification, IInventory
 	/// </summary>
 	/// <param name="drugs">The collection of drugs to add to the inventory.</param>
 	/// <param name="money">The money to add to the inventory.</param>
-	public Inventory(IEnumerable<IDrug> drugs, int money)
+	public Inventory(ICollection<IDrug> drugs, int money)
 	{
-		_drugs = drugs.ToList();
+		_drugs = drugs;
 		Money = money;
 	}
 

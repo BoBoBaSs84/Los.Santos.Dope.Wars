@@ -13,7 +13,7 @@ public static partial class InfrastructureFactory
 	public static IDealer CreateDealer(DealerState state)
 	{
 		IInventory inventory = CreateInventory(state.Inventory);
-		return DomainFactory.CreateDealer(state.Position, state.Hash, state.Name, state.ClosedUntil, state.Discovered, inventory, state.NextPriceChange, state.NextInventoryChange);
+		return DomainFactory.CreateDealer(state.SpawnPosition, state.Hash, state.Name, state.ClosedUntil, state.Discovered, inventory, state.NextPriceChange, state.NextInventoryChange);
 	}
 
 	/// <summary>
@@ -32,7 +32,7 @@ public static partial class InfrastructureFactory
 	/// Creates a dealer instance collection from a saved game state.
 	/// </summary>
 	/// <param name="state">The saved game state.</param>
-	public static ICollection<IDealer> CreateDealers(GameState state)
+	public static ICollection<IDealer> CreateDealers(State state)
 		=> CreateDealers(state.Dealers);
 
 	/// <summary>
@@ -53,7 +53,7 @@ public static partial class InfrastructureFactory
 	/// Creates a new saveable drug state collection from a drug instance collection.
 	/// </summary>
 	/// <param name="drugs">The drug instance collection to save.</param>
-	public static List<DrugState> CreateDrugStates(IEnumerable<IDrug> drugs)
+	public static List<DrugState> CreateDrugStates(ICollection<IDrug> drugs)
 	{
 		List<DrugState> drugStates = new();
 		foreach (IDrug drug in drugs)
@@ -65,9 +65,12 @@ public static partial class InfrastructureFactory
 	/// Creates a drug collection instance from a saved drug collection state.
 	/// </summary>
 	/// <param name="states">The saved drug collection state.</param>
-	public static IEnumerable<IDrug> CreateDrugs(List<DrugState> states)
+	public static ICollection<IDrug> CreateDrugs(List<DrugState> states)
 	{
-		List<IDrug> drugList = new();
+		if (states.Count.Equals(default))
+			return DomainFactory.CreateAllDrugs();
+
+		ICollection<IDrug> drugList = new HashSet<IDrug>();
 		foreach (DrugState state in states)
 			drugList.Add(CreateDrug(state));
 		return drugList;
@@ -112,7 +115,7 @@ public static partial class InfrastructureFactory
 	/// <param name="state">The saved inventory state.</param>
 	public static IInventory CreateInventory(InventoryState state)
 	{
-		IEnumerable<IDrug> drugs = CreateDrugs(state.Drugs);
+		ICollection<IDrug> drugs = CreateDrugs(state.Drugs);
 		return DomainFactory.CreateInventory(drugs, state.Money);
 	}
 
@@ -161,7 +164,7 @@ public static partial class InfrastructureFactory
 	/// Creates a player instance from a saved game state.
 	/// </summary>
 	/// <param name="state">The saved game state.</param>
-	public static IPlayer CreatePlayer(GameState state)
+	public static IPlayer CreatePlayer(State state)
 		=> CreatePlayer(state.Player);
 
 	/// <summary>
@@ -176,6 +179,6 @@ public static partial class InfrastructureFactory
 	/// </summary>
 	/// <param name="dealers">The dealer instance colection to save.</param>
 	/// <param name="player">The player instance to save.</param>
-	public static GameState CreateGameState(ICollection<IDealer> dealers, IPlayer player)
+	public static State CreateGameState(ICollection<IDealer> dealers, IPlayer player)
 		=> new(dealers, player);
 }
