@@ -85,23 +85,32 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 
 	private void OnMenuItemActivated(object sender, EventArgs args)
 	{
-		if (transactionService is not null && player is not null)
+		if (transactionService is null)
+			return;
+
+		if (player is null)
+			return;
+
+		if (sender is not SideMenu menu || menu.SelectedItem is not DrugListItem item || item.SelectedItem.Equals(0) || item.Tag is not DrugType drugType)
+			return;
+
+		int oldSelectedItem = item.SelectedItem;
+
+		int price = target.Where(x => x.Type.Equals(drugType)).Select(x => x.CurrentPrice).Single();
+		int quantity = item.SelectedItem;
+		item.SelectedItem = default;
+		bool succes = transactionService.Commit(drugType, quantity, price);
+
+		if (!succes)
 		{
-			if (sender is not SideMenu menu || menu.SelectedItem is not DrugListItem item || item.SelectedItem.Equals(0) || item.Tag is not DrugType drugType)
-				return;
-
-			int price = target.Where(x => x.Type.Equals(drugType)).Select(x => x.CurrentPrice).Single();
-			int quantity = item.SelectedItem;
-			bool succes = transactionService.Commit(drugType, quantity, price);
-
-			if (succes)
-			{
-				DateTime dateTime = _providerManager.WorldProvider.Now;
-				ITransaction transaction = DomainFactory.CreateTransaction(dateTime, _type, drugType, quantity, price);
-				player.AddTransaction(transaction);
-				transactionService.BustOrNoBust();
-			}
+			item.SelectedItem = oldSelectedItem;
+			return;
 		}
+
+		DateTime dateTime = _providerManager.WorldProvider.Now;
+		ITransaction transaction = DomainFactory.CreateTransaction(dateTime, _type, drugType, quantity, price);
+		player.AddTransaction(transaction);
+		transactionService.BustOrNoBust();
 	}
 
 	private void OnInventoryPropertyChanged(object sender, PropertyChangedEventArgs args)

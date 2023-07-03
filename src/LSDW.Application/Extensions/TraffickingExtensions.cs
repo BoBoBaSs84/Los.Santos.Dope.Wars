@@ -1,5 +1,6 @@
 ﻿using GTA;
 using GTA.Math;
+using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Application.Models.Missions;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Infrastructure.Services;
@@ -178,18 +179,26 @@ public static class TraffickingExtensions
 			{
 				ClosestDealer.TurnTo(trafficking.PlayerProvider.Character);
 
-				if (trafficking.LeftSideMenu.Initialized.Equals(false))
+				if (!trafficking.LeftSideMenu.Initialized || !trafficking.RightSideMenu.Initialized)
+				{
 					trafficking.LeftSideMenu.Initialize(stateService.Player, ClosestDealer.Inventory);
-
-				if (trafficking.RightSideMenu.Initialized.Equals(false))
 					trafficking.RightSideMenu.Initialize(stateService.Player, ClosestDealer.Inventory);
+				}
+			}
+
+			if (ClosestDealer.Position.DistanceTo(playerPosition) is > RealCloseRangeDistance)
+			{
+				if (trafficking.LeftSideMenu.Initialized || trafficking.RightSideMenu.Initialized)
+				{
+					trafficking.LeftSideMenu.CleanUp();
+					trafficking.RightSideMenu.CleanUp();
+				}
 			}
 
 			if (ClosestDealer.Position.DistanceTo(playerPosition) <= InteractionDistance)
 			{
 				if (trafficking.PlayerProvider.WantedLevel > 0)
 				{
-					trafficking.PlayerProvider.CanControlCharacter = true;
 					trafficking.LeftSideMenu.Visible = trafficking.RightSideMenu.Visible = false;
 					trafficking.LetDealerFlee(ClosestDealer);
 					ClosestDealer = null;
@@ -198,7 +207,7 @@ public static class TraffickingExtensions
 
 				if (!trafficking.LeftSideMenu.Visible && !trafficking.RightSideMenu.Visible)
 				{
-					trafficking.NotificationProvider.ShowHelpTextThisFrame(RESX.Trafficking_HelpText_DealMenu);
+					trafficking.NotificationProvider.ShowHelpText(RESX.Trafficking_HelpText_DealMenu, 1, true, false);
 
 					if (Game.IsControlJustPressed(GTA.Control.Context))
 						trafficking.LeftSideMenu.Visible = true;
@@ -211,7 +220,7 @@ public static class TraffickingExtensions
 					trafficking.LeftSideMenu.Visible = trafficking.RightSideMenu.Visible = false;
 			}
 
-				if (ClosestDealer.IsDead)
+			if (ClosestDealer.IsDead)
 			{
 				trafficking.CloseDealer(ClosestDealer);
 				ClosestDealer = null;
@@ -270,6 +279,9 @@ public static class TraffickingExtensions
 	/// <param name="dealer">The dealer instance to use.</param>
 	private static void LetDealerFlee(this ITrafficking trafficking, IDealer dealer)
 	{
+		if (dealer.CurrentTask is TaskType.FLEE)
+			return;
+
 		dealer.Flee();
 		trafficking.NotificationProvider.Show(
 			subject: RESX.Trafficking_Notification_Bust_Subject,
