@@ -5,6 +5,7 @@ using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Extensions;
 using LSDW.Abstractions.Models;
 using LSDW.Domain.Extensions;
+using LSDW.Domain.Factories;
 using LSDW.Domain.Properties;
 
 namespace LSDW.Domain.Services;
@@ -15,7 +16,8 @@ namespace LSDW.Domain.Services;
 internal sealed class TransactionService : ITransactionService
 {
 	private readonly IProviderManager _providerManager;
-	private readonly TransactionType _type;
+	private readonly TransactionType _transactionType;
+	private readonly IPlayer _player;
 	private readonly IInventory _source;
 	private readonly IInventory _target;
 	private readonly int _maxQuantity;
@@ -24,37 +26,21 @@ internal sealed class TransactionService : ITransactionService
 	/// Initializes a instance of the transaction service class.
 	/// </summary>
 	/// <param name="providerManager">The provider manager instance to use.</param>
-	/// <param name="type">The type of the transaction.</param>
-	/// <param name="source">The transaction source.</param>
-	/// <param name="target">The transaction target.</param>
-	/// <param name="maxQuantity">The maximum target quantity.</param>
-	internal TransactionService(IProviderManager providerManager, TransactionType type, IInventory source, IInventory target, int maxQuantity)
-	{
-		_providerManager = providerManager;
-		_type = type;
-		_source = source;
-		_target = target;
-		_maxQuantity = maxQuantity;
-	}
-
-	/// <summary>
-	/// Initializes a instance of the transaction service class.
-	/// </summary>
-	/// <param name="providerManager">The provider manager instance to use.</param>
-	/// <param name="type">The type of the transaction.</param>
+	/// <param name="transactionType">The type of the transaction.</param>
 	/// <param name="player">The player and his inventory.</param>
 	/// <param name="inventory">The opposing inventory.</param>
-	internal TransactionService(IProviderManager providerManager, TransactionType type, IPlayer player, IInventory inventory)
+	internal TransactionService(IProviderManager providerManager, TransactionType transactionType, IPlayer player, IInventory inventory)
 	{
 		_providerManager = providerManager;
-		_type = type;
-		(_source, _target) = GetInventories(type, player, inventory);
-		_maxQuantity = GetMaximumQuantity(type, player);
+		_transactionType = transactionType;
+		_player = player;
+		(_source, _target) = GetInventories(transactionType, player, inventory);
+		_maxQuantity = GetMaximumQuantity(transactionType, player);
 	}
 
 	public void BustOrNoBust()
 	{
-		if (_type is TransactionType.TAKE or TransactionType.GIVE)
+		if (_transactionType is TransactionType.TAKE or TransactionType.GIVE)
 			return;
 
 		float random = _providerManager.RandomProvider.GetFloat();
@@ -67,7 +53,7 @@ internal sealed class TransactionService : ITransactionService
 		_providerManager.PlayerProvider.DispatchsCops = true;
 	}
 
-	public bool Commit(DrugType type, int quantity, int price)
+	public bool Commit(DrugType drugType, int quantity, int price)
 	{
 		int transactionValue = price * quantity;
 
@@ -77,11 +63,13 @@ internal sealed class TransactionService : ITransactionService
 		if (!CheckMoney(transactionValue))
 			return false;
 
-		TransferGoods(type, quantity, price);
+		TransferGoods(drugType, quantity, price);
 
 		TransferMoney(transactionValue);
 
-		ReportSuccess(type, transactionValue);
+		AddTransaction(drugType, quantity, price);
+
+		ReportSuccess(drugType, transactionValue);
 
 		return true;
 	}
@@ -89,21 +77,21 @@ internal sealed class TransactionService : ITransactionService
 	/// <summary>
 	/// Returns the source and target inventory based on the transaction type.
 	/// </summary>
-	/// <param name="type">The transaction type for the menu.</param>
+	/// <param name="transactionType">The transaction type for the menu.</param>
 	/// <param name="player">The player and his inventory.</param>
 	/// <param name="inventory">The opposing inventory.</param>
-	private static (IInventory source, IInventory target) GetInventories(TransactionType type, IPlayer player, IInventory inventory)
-		=> type is TransactionType.SELL or TransactionType.GIVE
+	private static (IInventory source, IInventory target) GetInventories(TransactionType transactionType, IPlayer player, IInventory inventory)
+		=> transactionType is TransactionType.SELL or TransactionType.GIVE
 		? ((IInventory source, IInventory target))(player.Inventory, inventory)
 		: ((IInventory source, IInventory target))(inventory, player.Inventory);
 
 	/// <summary>
 	/// Returns the maximum quantity for the transaction based on the menu type.
 	/// </summary>
-	/// <param name="type">The transaction type for the menu.</param>
+	/// <param name="transactionType">The transaction type for the menu.</param>
 	/// <param name="player">The player and his inventory.</param>
-	internal static int GetMaximumQuantity(TransactionType type, IPlayer player)
-		=> type is TransactionType.SELL or TransactionType.GIVE
+	internal static int GetMaximumQuantity(TransactionType transactionType, IPlayer player)
+		=> transactionType is TransactionType.SELL or TransactionType.GIVE
 		? int.MaxValue
 		: player.MaximumInventoryQuantity;
 
@@ -130,7 +118,7 @@ internal sealed class TransactionService : ITransactionService
 	/// <returns><see langword="true"/> or <see langword="false"/></returns>
 	private bool CheckMoney(int transactionValue)
 	{
-		if (_type is TransactionType.BUY)
+		if (_transactionType is TransactionType.BUY)
 		{
 			int playerMoney = _providerManager.PlayerProvider.Money;
 			if (playerMoney < transactionValue)
@@ -141,7 +129,7 @@ internal sealed class TransactionService : ITransactionService
 			}
 		}
 
-		if (_type is TransactionType.SELL)
+		if (_transactionType is TransactionType.SELL)
 		{
 			int dealerMoney = _target.Money;
 			if (dealerMoney < transactionValue)
@@ -162,13 +150,13 @@ internal sealed class TransactionService : ITransactionService
 	/// <param name="transactionValue">The transaction value to transfer.</param>
 	private void TransferMoney(int transactionValue)
 	{
-		if (_type is TransactionType.BUY)
+		if (_transactionType is TransactionType.BUY)
 		{
 			_providerManager.PlayerProvider.Money -= transactionValue;
 			_source.Add(transactionValue);
 		}
 
-		if (_type is TransactionType.SELL)
+		if (_transactionType is TransactionType.SELL)
 		{
 			_target.Remove(transactionValue);
 			_providerManager.PlayerProvider.Money += transactionValue;
@@ -178,13 +166,26 @@ internal sealed class TransactionService : ITransactionService
 	/// <summary>
 	/// Transfers the goods from source to target inventory.
 	/// </summary>
-	/// <param name="type">The type of the drug to transact.</param>
+	/// <param name="drugType">The type of the drug to transact.</param>
 	/// <param name="quantity">The transaction quantity of the drug.</param>
 	/// <param name="price">The transaction price of the drug.</param>
-	private void TransferGoods(DrugType type, int quantity, int price)
+	private void TransferGoods(DrugType drugType, int quantity, int price)
 	{
-		_source.Remove(type, quantity);
-		_target.Add(type, quantity, price);
+		_source.Remove(drugType, quantity);
+		_target.Add(drugType, quantity, price);
+	}
+
+	/// <summary>
+	/// Adds the transaction to the players transactions.
+	/// </summary>
+	/// <param name="drugType">The type of the drug to transact.</param>
+	/// <param name="quantity">The transaction quantity of the drug.</param>
+	/// <param name="price">The transaction price of the drug.</param>
+	private void AddTransaction(DrugType drugType, int quantity, int price)
+	{
+		ITransaction transaction =
+			DomainFactory.CreateTransaction(_providerManager.WorldProvider.Now, _transactionType, drugType, quantity, price);
+		_player.AddTransaction(transaction);
 	}
 
 	/// <summary>
@@ -198,14 +199,14 @@ internal sealed class TransactionService : ITransactionService
 		string soundSet = "HUD_LIQUOR_STORE_SOUNDSET";
 		string drugName = type.GetDisplayName();
 
-		if (_type is TransactionType.BUY)
+		if (_transactionType is TransactionType.BUY)
 		{
 			_ = _providerManager.AudioProvider.PlaySoundFrontend(soundFile, soundSet);
 			string message = Resources.Transaction_Message_Buy_Sucess.FormatInvariant(drugName, transactionValue);
 			_providerManager.NotificationProvider.ShowSubtitle(message);
 		}
 
-		if (_type is TransactionType.SELL)
+		if (_transactionType is TransactionType.SELL)
 		{
 			_ = _providerManager.AudioProvider.PlaySoundFrontend(soundFile, soundSet);
 			string message = Resources.Transaction_Message_Sell_Sucess.FormatInvariant(drugName, transactionValue);

@@ -13,17 +13,6 @@ public static partial class DomainFactory
 	/// </summary>
 	/// <param name="providerManager">The provider manager instance to use.</param>
 	/// <param name="type">The type of the transaction.</param>
-	/// <param name="source">The transaction source.</param>
-	/// <param name="target">The transaction target.</param>
-	/// <param name="maximumQuantity">The maximum target quantity.</param>
-	public static ITransactionService CreateTransactionService(IProviderManager providerManager, TransactionType type, IInventory source, IInventory target, int maximumQuantity = int.MaxValue)
-		=> new TransactionService(providerManager, type, source, target, maximumQuantity);
-
-	/// <summary>
-	/// Creates a new transaction service instance.
-	/// </summary>
-	/// <param name="providerManager">The provider manager instance to use.</param>
-	/// <param name="type">The type of the transaction.</param>
 	/// <param name="player">The player and his inventory.</param>
 	/// <param name="inventory">The opposing inventory.</param>
 	public static ITransactionService CreateTransactionService(IProviderManager providerManager, TransactionType type, IPlayer player, IInventory inventory)

@@ -7,17 +7,6 @@ namespace LSDW.Domain.Tests.Factories;
 public partial class DomainFactoryTests
 {
 	[TestMethod]
-	public void CreateTransactionServiceTest()
-	{
-		TransactionType type = TransactionType.BUY;
-		ITransactionService? transactionService;
-
-		transactionService = DomainFactory.CreateTransactionService(_providerManagerMock.Object, type, _inventoryMock.Object, _inventoryMock.Object);
-
-		Assert.IsNotNull(transactionService);
-	}
-
-	[TestMethod]
 	public void CreateTransactionServiceTestTwo()
 	{
 		TransactionType type = TransactionType.BUY;

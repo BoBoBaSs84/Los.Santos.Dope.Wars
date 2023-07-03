@@ -25,7 +25,6 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 	private IInventory? target;
 	private IPlayer? player;
 	private ITransactionService? transactionService;
-	private int maximumQuantity;
 
 	/// <summary>
 	/// Initializes a instance of the side menu class.
@@ -75,8 +74,7 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 		(source, target) = SMH.GetInventories(_type, player, inventory);
 		source.PropertyChanged += OnInventoryPropertyChanged;
 		target.PropertyChanged += OnInventoryPropertyChanged;
-		maximumQuantity = SMH.GetMaximumQuantity(_type, player);
-		transactionService = DomainFactory.CreateTransactionService(_providerManager, _type, source, target, maximumQuantity);
+		transactionService = DomainFactory.CreateTransactionService(_providerManager, _type, player, inventory);
 		Name = SMH.GetName(_type, target.Money);
 		Add((SwitchItem)SwitchItem);
 		AddDrugListItems(source, target);
