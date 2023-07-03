@@ -5,7 +5,7 @@ using LSDW.Domain.Factories;
 namespace LSDW.Application.Managers;
 
 /// <summary>
-/// The provider manager service.
+/// The provider manager class.
 /// </summary>
 internal sealed class ProviderManager : IProviderManager
 {
@@ -16,24 +16,34 @@ internal sealed class ProviderManager : IProviderManager
 	private readonly Lazy<IWorldProvider> _lazyWorldProvider;
 
 	/// <summary>
-	/// Initializes a instance of the location provider manager class.
+	/// Initializes a instance of the provider manager class.
 	/// </summary>
 	internal ProviderManager()
 	{
-		_lazyAudioProvider = new Lazy<IAudioProvider>(DomainFactory.CreateAudioProvider);
-		_lazyNotificationProvider = new Lazy<INotificationProvider>(DomainFactory.CreateNotificationProvider);
-		_lazyPlayerProvider = new Lazy<IPlayerProvider>(DomainFactory.CreatePlayerProvider);
-		_lazyRandomProvider = new Lazy<IRandomProvider>(DomainFactory.CreateRandomProvider);
-		_lazyWorldProvider = new Lazy<IWorldProvider>(DomainFactory.CreateWorldProvider);
+		_lazyAudioProvider = new Lazy<IAudioProvider>(DomainFactory.GetAudioProvider);
+		_lazyNotificationProvider = new Lazy<INotificationProvider>(DomainFactory.GetNotificationProvider);
+		_lazyPlayerProvider = new Lazy<IPlayerProvider>(DomainFactory.GetPlayerProvider);
+		_lazyRandomProvider = new Lazy<IRandomProvider>(DomainFactory.GetRandomProvider);
+		_lazyWorldProvider = new Lazy<IWorldProvider>(DomainFactory.GetWorldProvider);
 	}
 
-	public IAudioProvider AudioProvider => _lazyAudioProvider.Value;
+	/// <summary>
+	/// The provider manager singleton instance.
+	/// </summary>
+	public readonly static ProviderManager Instance = new();
 
-	public INotificationProvider NotificationProvider => _lazyNotificationProvider.Value;
+	public IAudioProvider AudioProvider
+		=> _lazyAudioProvider.Value;
 
-	public IPlayerProvider PlayerProvider => _lazyPlayerProvider.Value;
+	public INotificationProvider NotificationProvider
+		=> _lazyNotificationProvider.Value;
 
-	public IRandomProvider RandomProvider => _lazyRandomProvider.Value;
+	public IPlayerProvider PlayerProvider
+		=> _lazyPlayerProvider.Value;
 
-	public IWorldProvider WorldProvider => _lazyWorldProvider.Value;
+	public IRandomProvider RandomProvider
+		=> _lazyRandomProvider.Value;
+
+	public IWorldProvider WorldProvider
+		=> _lazyWorldProvider.Value;
 }

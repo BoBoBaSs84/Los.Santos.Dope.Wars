@@ -16,7 +16,7 @@ public class TraffickingExtensionsTests
 {
 	private readonly Vector3 _zeroVector = new(0, 0, 0);
 	private readonly ITrafficking _trafficking = ApplicationFactory.CreateTraffickingMission(MockHelper.GetServiceManager().Object, MockHelper.GetProviderManager().Object);
-	private readonly IStateService _stateService = InfrastructureFactory.CreateGameStateService(MockHelper.GetLoggerService().Object);
+	private readonly IStateService _stateService = InfrastructureFactory.GetStateService();
 
 	[TestMethod]
 	public void ChangeDealerPricesNonDiscoveredTest()

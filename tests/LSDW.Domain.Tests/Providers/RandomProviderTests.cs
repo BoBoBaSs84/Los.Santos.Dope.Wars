@@ -6,7 +6,7 @@ namespace LSDW.Domain.Tests.Providers;
 [TestClass]
 public class RandomProviderTests
 {
-	private readonly IRandomProvider _randomProvider = DomainFactory.CreateRandomProvider();
+	private readonly IRandomProvider _randomProvider = DomainFactory.GetRandomProvider();
 
 	[TestMethod]
 	public void GetDoubleTest()

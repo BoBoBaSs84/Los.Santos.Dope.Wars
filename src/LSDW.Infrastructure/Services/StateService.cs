@@ -16,22 +16,27 @@ namespace LSDW.Infrastructure.Services;
 /// </summary>
 internal sealed class StateService : IStateService
 {
+	private readonly ILoggerService _logger = LoggerService.Instance;
 	private readonly XmlSerializerNamespaces _namespaces = XmlConstants.SerializerNamespaces;
-	private readonly string _baseDirectory = AppContext.BaseDirectory;
-	private readonly string _saveFileName = Settings.SaveFileName;
-	private readonly ILoggerService _logger;
+	private readonly string _baseDirectory;
+	private readonly string _saveFileName;
 
 	/// <summary>
 	/// Initializes a instance of the state service class.
 	/// </summary>
-	/// <param name="logger">The logger service instance to use.</param>
-	internal StateService(ILoggerService logger)
+	internal StateService()
 	{
-		_logger = logger;
+		_baseDirectory = AppContext.BaseDirectory;
+		_saveFileName = Settings.SaveFileName;
 
 		Dealers = DomainFactory.CreateDealers();
 		Player = DomainFactory.CreatePlayer();
 	}
+
+	/// <summary>
+	/// The state service singleton instance.
+	/// </summary>
+	public static StateService Instance => new();
 
 	public ICollection<IDealer> Dealers { get; private set; }
 	public IPlayer Player { get; private set; }

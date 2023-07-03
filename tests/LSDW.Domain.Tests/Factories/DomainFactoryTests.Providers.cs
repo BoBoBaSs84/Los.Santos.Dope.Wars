@@ -10,7 +10,7 @@ public partial class DomainFactoryTests
 	{
 		IAudioProvider? provider;
 
-		provider = DomainFactory.CreateAudioProvider();
+		provider = DomainFactory.GetAudioProvider();
 
 		Assert.IsNotNull(provider);
 	}
@@ -20,7 +20,7 @@ public partial class DomainFactoryTests
 	{
 		INotificationProvider? provider;
 
-		provider = DomainFactory.CreateNotificationProvider();
+		provider = DomainFactory.GetNotificationProvider();
 
 		Assert.IsNotNull(provider);
 	}
@@ -30,7 +30,7 @@ public partial class DomainFactoryTests
 	{
 		IPlayerProvider? provider;
 
-		provider = DomainFactory.CreatePlayerProvider();
+		provider = DomainFactory.GetPlayerProvider();
 
 		Assert.IsNotNull(provider);
 	}
@@ -40,7 +40,7 @@ public partial class DomainFactoryTests
 	{
 		IRandomProvider? provider;
 
-		provider = DomainFactory.CreateRandomProvider();
+		provider = DomainFactory.GetRandomProvider();
 
 		Assert.IsNotNull(provider);
 	}
@@ -50,7 +50,7 @@ public partial class DomainFactoryTests
 	{
 		IWorldProvider? provider;
 
-		provider = DomainFactory.CreateWorldProvider();
+		provider = DomainFactory.GetWorldProvider();
 
 		Assert.IsNotNull(provider);
 	}

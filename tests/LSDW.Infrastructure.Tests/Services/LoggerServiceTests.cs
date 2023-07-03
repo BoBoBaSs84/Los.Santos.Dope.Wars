@@ -9,7 +9,7 @@ namespace LSDW.Infrastructure.Tests.Services;
 public class LoggerServiceTests
 {
 	private readonly string logFileNamePath = Path.Combine(Environment.CurrentDirectory, Settings.LogFileName);
-	private readonly ILoggerService logger = InfrastructureFactory.CreateLoggerService();
+	private readonly ILoggerService logger = InfrastructureFactory.GetLoggerService();
 
 	[TestCleanup]
 	public void TestCleanup()

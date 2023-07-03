@@ -6,16 +6,14 @@ namespace LSDW.Application.Factories;
 internal static partial class ApplicationFactory
 {
 	/// <summary>
-	/// Creates a new provider manager instance.
+	/// Returns the provider manager singleton instance.
 	/// </summary>
-	/// <returns></returns>
-	public static IProviderManager CreateProviderManager()
-		=> new ProviderManager();
+	public static IProviderManager GetProviderManager()
+		=> ProviderManager.Instance;
 
 	/// <summary>
-	/// Creates a new service manager instance.
+	/// Returns the service manager singleton instance.
 	/// </summary>
-	/// <returns></returns>
-	public static IServiceManager CreateServiceManager()
-		=> new ServiceManager();
+	public static IServiceManager GetServiceManager()
+		=> ServiceManager.Instance;
 }

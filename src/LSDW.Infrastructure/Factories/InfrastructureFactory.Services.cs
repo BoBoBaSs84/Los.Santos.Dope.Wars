@@ -6,21 +6,20 @@ namespace LSDW.Infrastructure.Factories;
 public static partial class InfrastructureFactory
 {
 	/// <summary>
-	/// Creates a new logger service instance.
+	/// Returns the logger service singleton instance.
 	/// </summary>
-	public static ILoggerService CreateLoggerService()
-		=> new LoggerService();
+	public static ILoggerService GetLoggerService()
+		=> LoggerService.Instance;
 
 	/// <summary>
-	/// Creates a new game state service instance.
+	/// Returns the state service singleton instance.
 	/// </summary>
-	/// <param name="logger">The logger service instance to use.</param>
-	public static IStateService CreateGameStateService(ILoggerService logger)
-		=> new StateService(logger);
+	public static IStateService GetStateService()
+		=> StateService.Instance;
 
 	/// <summary>
-	/// Creates a new settings service instance.
+	/// Returns the settings service singleton instance.
 	/// </summary>
-	public static ISettingsService CreateSettingsService()
-		=> new SettingsService();
+	public static ISettingsService GetSettingsService()
+		=> SettingsService.Instance;
 }

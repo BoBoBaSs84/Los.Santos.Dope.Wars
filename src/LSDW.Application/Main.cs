@@ -37,8 +37,8 @@ public sealed class Main : Script
 #else
 		IsDevelopment = false;
 #endif
-		_providerManager = ApplicationFactory.CreateProviderManager();
-		_serviceManager = ApplicationFactory.CreateServiceManager();		
+		_providerManager = ApplicationFactory.GetProviderManager();
+		_serviceManager = ApplicationFactory.GetServiceManager();		
 
 		_settingsMenu = PresentationFactory.CreateSettingsMenu(_serviceManager);
 		_settingsMenu.Add(_processables);
