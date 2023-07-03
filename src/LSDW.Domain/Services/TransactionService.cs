@@ -2,6 +2,7 @@
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Services;
 using LSDW.Abstractions.Enumerators;
+using LSDW.Abstractions.Extensions;
 using LSDW.Abstractions.Models;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Properties;
@@ -65,6 +66,7 @@ internal sealed class TransactionService : ITransactionService
 		_target.Add(type, quantity, price);
 
 		TransferMoney(transactionValue);
+		IndicateSuccess(type, transactionValue);
 		return true;
 	}
 
@@ -133,6 +135,27 @@ internal sealed class TransactionService : ITransactionService
 		{
 			_target.Remove(transactionValue);
 			_providerManager.PlayerProvider.Money += transactionValue;
+		}
+	}
+
+	private void IndicateSuccess(DrugType type, int transactionValue)
+	{
+		string soundFile = "PURCHASE";
+		string soundSet = "HUD_LIQUOR_STORE_SOUNDSET";
+		string drugName = type.GetDisplayName();
+
+		if (_type is TransactionType.BUY)
+		{
+			_providerManager.AudioProvider.PlaySoundFrontend(soundFile, soundSet);
+			string message = Resources.Transaction_Message_Buy_Sucess.FormatInvariant(drugName, transactionValue);
+			_providerManager.NotificationProvider.ShowSubtitle(message);
+		}
+
+		if (_type is TransactionType.SELL)
+		{
+			_providerManager.AudioProvider.PlaySoundFrontend(soundFile, soundSet);
+			string message = Resources.Transaction_Message_Sell_Sucess.FormatInvariant(drugName, transactionValue);
+			_providerManager.NotificationProvider.ShowSubtitle(message);
 		}
 	}
 }

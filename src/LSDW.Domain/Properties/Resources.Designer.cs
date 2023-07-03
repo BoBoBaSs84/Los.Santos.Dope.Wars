@@ -88,6 +88,15 @@ namespace LSDW.Domain.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You have just purchased {0} for ${1}..
+        /// </summary>
+        internal static string Transaction_Message_Buy_Sucess {
+            get {
+                return ResourceManager.GetString("Transaction.Message.Buy.Sucess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You want to sell the dealer goods for ${0} but he only has ${1} with him, are you stupid?.
         /// </summary>
         internal static string Transaction_Message_Dealer_NoMoney {
@@ -111,6 +120,15 @@ namespace LSDW.Domain.Properties {
         internal static string Transaction_Message_Player_NoMoney {
             get {
                 return ResourceManager.GetString("Transaction.Message.Player.NoMoney", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have just sold {0} for ${1}..
+        /// </summary>
+        internal static string Transaction_Message_Sell_Sucess {
+            get {
+                return ResourceManager.GetString("Transaction.Message.Sell.Sucess", resourceCulture);
             }
         }
     }
