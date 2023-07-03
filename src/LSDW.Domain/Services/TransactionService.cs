@@ -37,6 +37,21 @@ internal sealed class TransactionService : ITransactionService
 		_maxQuantity = maxQuantity;
 	}
 
+	/// <summary>
+	/// Initializes a instance of the transaction service class.
+	/// </summary>
+	/// <param name="providerManager">The provider manager instance to use.</param>
+	/// <param name="type">The type of the transaction.</param>
+	/// <param name="player">The player and his inventory.</param>
+	/// <param name="inventory">The opposing inventory.</param>
+	internal TransactionService(IProviderManager providerManager, TransactionType type, IPlayer player, IInventory inventory)
+	{
+		_providerManager = providerManager;
+		_type = type;
+		(_source, _target) = GetInventories(type, player, inventory);
+		_maxQuantity = GetMaximumQuantity(type, player);
+	}
+
 	public void BustOrNoBust()
 	{
 		if (_type is TransactionType.TAKE or TransactionType.GIVE)
@@ -62,13 +77,35 @@ internal sealed class TransactionService : ITransactionService
 		if (!CheckMoney(transactionValue))
 			return false;
 
-		_source.Remove(type, quantity);
-		_target.Add(type, quantity, price);
+		TransferGoods(type, quantity, price);
 
 		TransferMoney(transactionValue);
-		IndicateSuccess(type, transactionValue);
+
+		ReportSuccess(type, transactionValue);
+
 		return true;
 	}
+
+	/// <summary>
+	/// Returns the source and target inventory based on the transaction type.
+	/// </summary>
+	/// <param name="type">The transaction type for the menu.</param>
+	/// <param name="player">The player and his inventory.</param>
+	/// <param name="inventory">The opposing inventory.</param>
+	private static (IInventory source, IInventory target) GetInventories(TransactionType type, IPlayer player, IInventory inventory)
+		=> type is TransactionType.SELL or TransactionType.GIVE
+		? ((IInventory source, IInventory target))(player.Inventory, inventory)
+		: ((IInventory source, IInventory target))(inventory, player.Inventory);
+
+	/// <summary>
+	/// Returns the maximum quantity for the transaction based on the menu type.
+	/// </summary>
+	/// <param name="type">The transaction type for the menu.</param>
+	/// <param name="player">The player and his inventory.</param>
+	internal static int GetMaximumQuantity(TransactionType type, IPlayer player)
+		=> type is TransactionType.SELL or TransactionType.GIVE
+		? int.MaxValue
+		: player.MaximumInventoryQuantity;
 
 	/// <summary>
 	/// Checks if the target has enough room for the transaction.
@@ -138,7 +175,24 @@ internal sealed class TransactionService : ITransactionService
 		}
 	}
 
-	private void IndicateSuccess(DrugType type, int transactionValue)
+	/// <summary>
+	/// Transfers the goods from source to target inventory.
+	/// </summary>
+	/// <param name="type">The type of the drug to transact.</param>
+	/// <param name="quantity">The transaction quantity of the drug.</param>
+	/// <param name="price">The transaction price of the drug.</param>
+	private void TransferGoods(DrugType type, int quantity, int price)
+	{
+		_source.Remove(type, quantity);
+		_target.Add(type, quantity, price);
+	}
+
+	/// <summary>
+	/// Reports the success of the transaction by sound and message.
+	/// </summary>
+	/// <param name="type">The type of the drug to transact.</param>
+	/// <param name="transactionValue">The transaction value to transfer.</param>
+	private void ReportSuccess(DrugType type, int transactionValue)
 	{
 		string soundFile = "PURCHASE";
 		string soundSet = "HUD_LIQUOR_STORE_SOUNDSET";
@@ -146,14 +200,14 @@ internal sealed class TransactionService : ITransactionService
 
 		if (_type is TransactionType.BUY)
 		{
-			_providerManager.AudioProvider.PlaySoundFrontend(soundFile, soundSet);
+			_ = _providerManager.AudioProvider.PlaySoundFrontend(soundFile, soundSet);
 			string message = Resources.Transaction_Message_Buy_Sucess.FormatInvariant(drugName, transactionValue);
 			_providerManager.NotificationProvider.ShowSubtitle(message);
 		}
 
 		if (_type is TransactionType.SELL)
 		{
-			_providerManager.AudioProvider.PlaySoundFrontend(soundFile, soundSet);
+			_ = _providerManager.AudioProvider.PlaySoundFrontend(soundFile, soundSet);
 			string message = Resources.Transaction_Message_Sell_Sucess.FormatInvariant(drugName, transactionValue);
 			_providerManager.NotificationProvider.ShowSubtitle(message);
 		}

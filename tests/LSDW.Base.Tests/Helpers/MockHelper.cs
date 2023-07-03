@@ -11,8 +11,19 @@ namespace LSDW.Base.Tests.Helpers;
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public static class MockHelper
 {
+	public static Mock<IAudioProvider> GetAudioProvider()
+	{
+		Mock<IAudioProvider> mock = new(MockBehavior.Loose);
+		mock.SetupAllProperties();
+		return mock;
+	}
+
 	public static Mock<INotificationProvider> GetNotificationProvider()
-		=> new(MockBehavior.Loose);
+	{
+		Mock<INotificationProvider> mock = new(MockBehavior.Loose);
+		mock.SetupAllProperties();
+		return mock;
+	}
 
 	public static Mock<IWorldProvider> GetWorldProvider()
 	{
@@ -24,7 +35,11 @@ public static class MockHelper
 	}
 
 	public static Mock<IRandomProvider> GetRandomProvider()
-		=> new(MockBehavior.Loose);
+	{
+		Mock<IRandomProvider> mock = new(MockBehavior.Loose);
+		mock.SetupAllProperties();
+		return mock;
+	}
 
 	public static Mock<IPlayerProvider> GetPlayerProvider()
 	{
@@ -36,6 +51,7 @@ public static class MockHelper
 	public static Mock<IProviderManager> GetProviderManager()
 	{
 		Mock<IProviderManager> mock = new(MockBehavior.Loose);
+		mock.Setup(x => x.AudioProvider).Returns(GetAudioProvider().Object);
 		mock.Setup(x => x.NotificationProvider).Returns(GetNotificationProvider().Object);
 		mock.Setup(x => x.PlayerProvider).Returns(GetPlayerProvider().Object);
 		mock.Setup(x => x.RandomProvider).Returns(GetRandomProvider().Object);
@@ -77,7 +93,7 @@ public static class MockHelper
 	public static Mock<IInventory> GetInventory()
 	{
 		Mock<IInventory> mock = new(MockBehavior.Loose);
-		mock.SetupAllProperties();		
+		mock.SetupAllProperties();
 		return mock;
 	}
 

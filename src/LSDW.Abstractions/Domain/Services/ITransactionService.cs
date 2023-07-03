@@ -18,6 +18,6 @@ public interface ITransactionService
 	/// <param name="type">The type of the drug to transact.</param>
 	/// <param name="quantity">The transaction quantity of the drug.</param>
 	/// <param name="price">The transaction price of the drug.</param>
-	/// <returns></returns>
+	/// <returns><see langword="true"/> or <see langword="false"/></returns>
 	bool Commit(DrugType type, int quantity, int price);
 }
