@@ -6,6 +6,12 @@ namespace LSDW.Domain.Factories;
 public static partial class DomainFactory
 {
 	/// <summary>
+	/// Creates a new audio provider instance.
+	/// </summary>
+	public static IAudioProvider CreateAudioProvider()
+		=> new AudioProvider();
+
+	/// <summary>
 	/// Creates a new world provider instance.
 	/// </summary>
 	public static IWorldProvider CreateWorldProvider()
