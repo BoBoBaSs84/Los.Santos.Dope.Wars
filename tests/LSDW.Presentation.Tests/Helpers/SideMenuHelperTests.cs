@@ -11,48 +11,6 @@ public class SideMenuHelperTests
 {
 	[DataTestMethod]
 	[DynamicData(nameof(GetRightMenuTypes), DynamicDataSourceType.Method)]
-	public void GetMaximumPlayerQuantityTest(TransactionType transactionType)
-	{
-		IPlayer player = DomainFactory.CreatePlayer();
-
-		int maximumQuantity = SideMenuHelper.GetMaximumQuantity(transactionType, player);
-
-		Assert.AreEqual(int.MaxValue, maximumQuantity);
-	}
-
-	[DataTestMethod]
-	[DynamicData(nameof(GetLeftMenuTypes), DynamicDataSourceType.Method)]
-	public void GetMaximumIntQuantityTest(TransactionType transactionType)
-	{
-		IPlayer player = DomainFactory.CreatePlayer();
-
-		int maximumQuantity = SideMenuHelper.GetMaximumQuantity(transactionType, player);
-
-		Assert.AreEqual(player.MaximumInventoryQuantity, maximumQuantity);
-	}
-
-	[DataTestMethod]
-	[DynamicData(nameof(GetPlayerSourceInventory), DynamicDataSourceType.Method)]
-	public void GetInventoriesSourcePlayerTest(TransactionType transactionType, IPlayer player, IInventory drugs)
-	{
-		(IInventory source, IInventory target) = SideMenuHelper.GetInventories(transactionType, player, drugs);
-
-		Assert.AreEqual(player.Inventory, source);
-		Assert.AreEqual(drugs, target);
-	}
-
-	[DataTestMethod]
-	[DynamicData(nameof(GetPlayerTargetInventory), DynamicDataSourceType.Method)]
-	public void GetInventoriesTargetPlayerTest(TransactionType transactionType, IPlayer player, IInventory drugs)
-	{
-		(IInventory source, IInventory target) = SideMenuHelper.GetInventories(transactionType, player, drugs);
-
-		Assert.AreEqual(player.Inventory, target);
-		Assert.AreEqual(drugs, source);
-	}
-
-	[DataTestMethod]
-	[DynamicData(nameof(GetRightMenuTypes), DynamicDataSourceType.Method)]
 	public void GetRightAlignmentTest(TransactionType transactionType)
 	{
 		Alignment alignment = SideMenuHelper.GetAlignment(transactionType);

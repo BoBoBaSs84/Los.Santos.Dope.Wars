@@ -1,12 +1,10 @@
 ﻿using GTA;
-using LemonUI;
 using LSDW.Abstractions.Application.Managers;
-using LSDW.Abstractions.Application.Models.Missions;
-using LSDW.Abstractions.Enumerators;
-using LSDW.Abstractions.Presentation.Menus;
 using LSDW.Application.Constants;
 using LSDW.Application.Factories;
-using LSDW.Presentation.Factories;
+using LSDW.Domain.Extensions;
+using LSDW.Presentation.Menus.Base;
+using LSDW.Presentation.Menus.DealMenu;
 
 namespace LSDW.Application;
 
@@ -16,11 +14,9 @@ namespace LSDW.Application;
 [ScriptAttributes(Author = ApplicationConstants.Author, SupportURL = ApplicationConstants.SupportURL)]
 public sealed class Main : Script
 {
-	private readonly ObjectPool _processables = new();
+	private readonly DealMenu _dealMenu;
 	private readonly IProviderManager _providerManager;
 	private readonly IServiceManager _serviceManager;
-	private readonly ISettingsMenu _settingsMenu;
-	private readonly ITrafficking _trafficking;
 
 	/// <summary>
 	/// Determines if the application is developer mode or not.
@@ -32,33 +28,23 @@ public sealed class Main : Script
 	/// </summary>
 	public Main()
 	{
-#if DEBUG		
+#if DEBUG
 		IsDevelopment = true;
 #else
 		IsDevelopment = false;
 #endif
 		_providerManager = ApplicationFactory.GetProviderManager();
-		_serviceManager = ApplicationFactory.GetServiceManager();		
-
-		_settingsMenu = PresentationFactory.CreateSettingsMenu(_serviceManager);
-		_settingsMenu.Add(_processables);
-
-		_trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManager, _providerManager);
-		_trafficking.LeftSideMenu.Add(_processables);
-		_trafficking.RightSideMenu.Add(_processables);
+		_serviceManager = ApplicationFactory.GetServiceManager();
+		_dealMenu = new(_serviceManager.StateService.Player.Inventory.Restock(100));
 
 		Interval = 10;
 
-		Aborted += _trafficking.OnAborted;
-
 		KeyUp += OnKeyUp;
-
-		Tick += _trafficking.OnTick;
 		Tick += OnTick;
 	}
 
 	private void OnTick(object sender, EventArgs e)
-		=> _processables.Process();
+		=> MenuBase.Processables.Process();
 
 	private void OnKeyUp(object sender, KeyEventArgs args)
 	{
@@ -67,24 +53,10 @@ public sealed class Main : Script
 
 		if (args.KeyCode == Keys.F10)
 		{
-			_settingsMenu.Visible = true;
-		}
-
-		if (args.KeyCode == Keys.F9)
-		{
-			if (_trafficking.Status.Equals(MissionStatusType.STOPPED))
-			{
-				_serviceManager.StateService.Load(!IsDevelopment);
-				_trafficking.StartMission();
-				return;
-			}
-
-			if (_trafficking.Status.Equals(MissionStatusType.STARTED))
-			{
-				_serviceManager.StateService.Save(!IsDevelopment);
-				_trafficking.StopMission();
-				return;
-			}
+			if (_dealMenu.LatestMenu is not null)
+				_dealMenu.LatestMenu.Toggle();
+			else
+				_dealMenu.Toggle();
 		}
 	}
 }

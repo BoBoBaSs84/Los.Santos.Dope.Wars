@@ -16,16 +16,6 @@ namespace LSDW.Presentation.Helpers;
 public static class SideMenuHelper
 {
 	/// <summary>
-	/// Returns the maximum quantity for the transaction based on the menu type.
-	/// </summary>
-	/// <param name="type">The transaction type for the menu.</param>
-	/// <param name="player">The player and his inventory.</param>
-	internal static int GetMaximumQuantity(TransactionType type, IPlayer player)
-		=> type is TransactionType.SELL or TransactionType.GIVE
-		? int.MaxValue
-		: player.MaximumInventoryQuantity;
-
-	/// <summary>
 	/// Returns the source and target inventory based on the transaction type.
 	/// </summary>
 	/// <param name="type">The transaction type for the menu.</param>

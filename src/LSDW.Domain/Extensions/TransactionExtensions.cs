@@ -22,7 +22,7 @@ public static class TransactionExtensions
 	public static int GetValue(this ITransaction transaction)
 	{
 		int quantity = transaction.Quantity;
-		int averagePrice = transaction.DrugType.GetAveragePrice() * quantity;
+		int averagePrice = transaction.DrugType.GetAverageDrugPrice() * quantity;
 		int currentPrice = transaction.Price * quantity;
 		int value = default;
 

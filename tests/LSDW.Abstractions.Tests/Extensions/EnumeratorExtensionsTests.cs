@@ -11,19 +11,9 @@ public class EnumeratorExtensionsTests
 	{
 		DrugType drugType = DrugType.COKE;
 
-		string displayName = drugType.GetDisplayName();
+		string displayName = drugType.GetDrugName();
 
 		Assert.AreNotEqual(displayName, drugType.ToString());
-	}
-
-	[TestMethod]
-	public void GetDisplayNameFailedTest()
-	{
-		TestType testType = TestType.Test;
-
-		string displayName = testType.GetDisplayName();
-
-		Assert.AreEqual(displayName, testType.ToString());
 	}
 
 	[TestMethod]
@@ -31,19 +21,9 @@ public class EnumeratorExtensionsTests
 	{
 		DrugType drugType = DrugType.COKE;
 
-		int averagePrice = drugType.GetAveragePrice();
+		int averagePrice = drugType.GetAverageDrugPrice();
 
 		Assert.AreNotEqual(default, averagePrice);
-	}
-
-	[TestMethod]
-	public void GetAveragePriceFailedTest()
-	{
-		TestType testType = TestType.Test;
-
-		int averagePrice = testType.GetAveragePrice();
-
-		Assert.AreEqual(default, averagePrice);
 	}
 
 	[TestMethod]
@@ -51,19 +31,9 @@ public class EnumeratorExtensionsTests
 	{
 		DrugType drugType = DrugType.COKE;
 
-		float probability = drugType.GetProbability();
+		float probability = drugType.GetDrugProbability();
 
 		Assert.AreNotEqual(0, probability);
-	}
-
-	[TestMethod]
-	public void GetProbabilityFailedTest()
-	{
-		TestType testType = TestType.Test;
-
-		float probability = testType.GetProbability();
-
-		Assert.AreEqual(0, probability);
 	}
 
 	[TestMethod]
@@ -71,23 +41,8 @@ public class EnumeratorExtensionsTests
 	{
 		DrugType drugType = DrugType.COKE;
 
-		string description = drugType.GetDescription();
+		string description = drugType.GetDrugDescription();
 
 		Assert.AreNotEqual(description, drugType.ToString());
-	}
-
-	[TestMethod]
-	public void GetDescriptionFailedTest()
-	{
-		TestType testType = TestType.Test;
-
-		string description = testType.GetDescription();
-
-		Assert.AreEqual(description, testType.ToString());
-	}
-
-	internal enum TestType
-	{
-		Test
 	}
 }

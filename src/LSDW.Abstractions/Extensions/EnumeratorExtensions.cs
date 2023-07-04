@@ -9,10 +9,11 @@ namespace LSDW.Abstractions.Extensions;
 public static class EnumeratorExtensions
 {
 	/// <summary>
-	/// Returns the description of the <see cref="DrugType"/> enumerator.
+	/// Returns the description of the <typeparamref name="T"/> enumerator.
 	/// </summary>
 	/// <typeparam name="T">The enmuerator type.</typeparam>
 	/// <param name="value">The enumerator value.</param>
+	/// <returns>The description or the enum name.</returns>
 	public static string GetDescription<T>(this T value) where T : Enum
 	{
 		FieldInfo? fieldInfo = GetFieldInfo(value);
@@ -29,11 +30,10 @@ public static class EnumeratorExtensions
 	}
 
 	/// <summary>
-	/// Returns the display name of the <see cref="DrugType"/> enumerator.
+	/// Returns the description of the <see cref="DrugType"/> enumerator.
 	/// </summary>
-	/// <typeparam name="T">The enmuerator type.</typeparam>
 	/// <param name="value">The enumerator value.</param>
-	public static string GetDisplayName<T>(this T value) where T : Enum
+	public static string GetDrugDescription(this DrugType value)
 	{
 		FieldInfo? fieldInfo = GetFieldInfo(value);
 
@@ -42,7 +42,26 @@ public static class EnumeratorExtensions
 			DrugAttribute? attribute = GetDrugTypeAttribute(fieldInfo);
 
 			if (attribute is not null)
-				return attribute.DisplayName;
+				return attribute.Description;
+		}
+
+		return value.ToString();
+	}
+
+	/// <summary>
+	/// Returns the name of the <see cref="DrugType"/> enumerator.
+	/// </summary>
+	/// <param name="value">The enumerator value.</param>
+	public static string GetDrugName(this DrugType value)
+	{
+		FieldInfo? fieldInfo = GetFieldInfo(value);
+
+		if (fieldInfo is not null)
+		{
+			DrugAttribute? attribute = GetDrugTypeAttribute(fieldInfo);
+
+			if (attribute is not null)
+				return attribute.Name;
 		}
 
 		return value.ToString();
@@ -51,9 +70,8 @@ public static class EnumeratorExtensions
 	/// <summary>
 	/// Returns the average price of the <see cref="DrugType"/> enumerator.
 	/// </summary>
-	/// <typeparam name="T">The enmuerator type.</typeparam>
 	/// <param name="value">The enumerator value.</param>
-	public static int GetAveragePrice<T>(this T value) where T : Enum
+	public static int GetAverageDrugPrice(this DrugType value)
 	{
 		FieldInfo? fieldInfo = GetFieldInfo(value);
 
@@ -71,9 +89,8 @@ public static class EnumeratorExtensions
 	/// <summary>
 	/// Returns the probability property of the <see cref="DrugType"/> enumerator.
 	/// </summary>
-	/// <typeparam name="T">The enmuerator type.</typeparam>
 	/// <param name="value">The enumerator value.</param>
-	public static float GetProbability<T>(this T value) where T : Enum
+	public static float GetDrugProbability(this DrugType value)
 	{
 		FieldInfo? fieldInfo = GetFieldInfo(value);
 
