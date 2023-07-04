@@ -94,7 +94,7 @@ public class InventoryTests
 		Assert.AreEqual(1000, inventory.Money);
 	}
 
-	[TestMethod()]
+	[TestMethod]
 	public void AddRangeTest()
 	{
 		ICollection<IDrug> drugs = DomainFactory.CreateAllDrugs();
@@ -105,7 +105,7 @@ public class InventoryTests
 		Assert.AreEqual(drugs.Count, inventory.Count);
 	}
 
-	[TestMethod()]
+	[TestMethod]
 	public void RemoveTest()
 	{
 		IInventory inventory = DomainFactory.CreateInventory();
@@ -116,5 +116,30 @@ public class InventoryTests
 		Assert.AreEqual(15, inventory.Count);
 		Assert.AreEqual(0, inventory.TotalQuantity);
 		Assert.AreEqual(0, inventory.TotalValue);
+	}
+
+	[TestMethod]
+	public void AddWithParamsTest()
+	{
+		IDrug drug = DomainFactory.CreateDrug(DrugType.HASH, 50, 10);
+		IInventory inventory = DomainFactory.CreateInventory();
+
+		inventory.Add(drug.Type, drug.Quantity, drug.CurrentPrice);
+
+		Assert.AreEqual(drug.Quantity * drug.CurrentPrice, inventory.TotalValue);
+		Assert.AreEqual(drug.Quantity, inventory.TotalQuantity);
+	}
+
+	[TestMethod]
+	public void RemoveWithParamsTest()
+	{
+		IDrug drug = DomainFactory.CreateDrug(DrugType.HASH, 50, 10);
+		IInventory inventory = DomainFactory.CreateInventory();
+		inventory.Add(drug);
+
+		inventory.Remove(drug.Type, drug.Quantity);
+
+		Assert.AreEqual(default, inventory.TotalValue);
+		Assert.AreEqual(default, inventory.TotalQuantity);
 	}
 }

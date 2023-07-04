@@ -23,7 +23,7 @@ internal sealed class Inventory : Notification, IInventory
 	/// </summary>
 	/// <param name="drugs">The collection of drugs to add to the inventory.</param>
 	/// <param name="money">The money to add to the inventory.</param>
-	public Inventory(ICollection<IDrug> drugs, int money)
+	internal Inventory(ICollection<IDrug> drugs, int money)
 	{
 		_drugs = drugs;
 		Money = money;
@@ -44,7 +44,8 @@ internal sealed class Inventory : Notification, IInventory
 	public int TotalValue
 		=> _drugs.Sum(drug => drug.CurrentPrice * drug.Quantity);
 
-	public bool IsReadOnly => false;
+	public bool IsReadOnly
+		=> _drugs.IsReadOnly;
 
 	public void Clear()
 		=> _drugs.Clear();
