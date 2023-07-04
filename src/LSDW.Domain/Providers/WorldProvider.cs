@@ -13,9 +13,9 @@ namespace LSDW.Domain.Providers;
 internal sealed class WorldProvider : IWorldProvider
 {
 	/// <summary>
-	/// The world provider singleton instance.
+	/// The singleton instance of the  world provider.
 	/// </summary>
-	public static WorldProvider Instance => new();
+	internal static readonly WorldProvider Instance = new();
 
 	public DateTime Now
 	{

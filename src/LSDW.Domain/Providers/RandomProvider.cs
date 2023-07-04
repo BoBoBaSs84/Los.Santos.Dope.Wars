@@ -12,9 +12,9 @@ namespace LSDW.Domain.Providers;
 internal sealed class RandomProvider : IRandomProvider
 {
 	/// <summary>
-	/// The random provider singleton instance.
+	/// The singleton instance of the random provider.
 	/// </summary>
-	public static RandomProvider Instance => new();
+	internal static readonly RandomProvider Instance = new();
 
 	public double GetDouble()
 		=> RandomHelper.GetDouble();

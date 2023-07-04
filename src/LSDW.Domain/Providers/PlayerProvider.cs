@@ -13,9 +13,9 @@ namespace LSDW.Domain.Providers;
 internal sealed class PlayerProvider : IPlayerProvider
 {
 	/// <summary>
-	/// The player provider singleton instance.
+	/// The singleton instance of the player provider.
 	/// </summary>
-	public static PlayerProvider Instance => new();
+	internal static readonly PlayerProvider Instance = new();
 
 	public Ped Character
 		=> Game.Player.Character;

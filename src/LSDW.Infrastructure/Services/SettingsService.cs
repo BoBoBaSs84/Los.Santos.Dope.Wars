@@ -8,9 +8,9 @@ internal sealed partial class SettingsService : ISettingsService
 	private readonly ScriptSettings _scriptSettings;
 
 	/// <summary>
-	/// The settings service singleton instance.
+	/// The singleton instance of the settings service.
 	/// </summary>
-	public static SettingsService Instance => new();
+	internal static readonly SettingsService Instance = new();
 
 	public void Save()
 		=> _scriptSettings.Save();

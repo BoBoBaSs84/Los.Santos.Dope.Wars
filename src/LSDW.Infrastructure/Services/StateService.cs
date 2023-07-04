@@ -34,9 +34,9 @@ internal sealed class StateService : IStateService
 	}
 
 	/// <summary>
-	/// The state service singleton instance.
+	/// The singleton instance of the state service.
 	/// </summary>
-	public static StateService Instance => new();
+	internal static readonly StateService Instance = new();
 
 	public ICollection<IDealer> Dealers { get; private set; }
 	public IPlayer Player { get; private set; }
