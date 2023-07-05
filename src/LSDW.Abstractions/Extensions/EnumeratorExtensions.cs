@@ -16,17 +16,11 @@ public static class EnumeratorExtensions
 	/// <returns>The description or the enum name.</returns>
 	public static string GetDescription<T>(this T value) where T : Enum
 	{
-		FieldInfo? fieldInfo = GetFieldInfo(value);
+		FieldInfo fieldInfo = GetFieldInfo(value);
 
-		if (fieldInfo is not null)
-		{
-			DescriptionAttribute? attribute = GetDescriptionAttribute(fieldInfo);
+		DescriptionAttribute? attribute = GetDescriptionAttribute(fieldInfo);
 
-			if (attribute is not null)
-				return attribute.Description;
-		}
-
-		return value.ToString();
+		return attribute is not null ? attribute.Description : value.ToString();
 	}
 
 	/// <summary>
@@ -35,17 +29,11 @@ public static class EnumeratorExtensions
 	/// <param name="value">The enumerator value.</param>
 	public static string GetDrugDescription(this DrugType value)
 	{
-		FieldInfo? fieldInfo = GetFieldInfo(value);
+		FieldInfo fieldInfo = GetFieldInfo(value);
 
-		if (fieldInfo is not null)
-		{
-			DrugAttribute? attribute = GetDrugTypeAttribute(fieldInfo);
+		DrugAttribute? attribute = GetDrugTypeAttribute(fieldInfo);
 
-			if (attribute is not null)
-				return attribute.Description;
-		}
-
-		return value.ToString();
+		return attribute is not null ? attribute.Description : value.ToString();
 	}
 
 	/// <summary>
@@ -54,17 +42,11 @@ public static class EnumeratorExtensions
 	/// <param name="value">The enumerator value.</param>
 	public static string GetDrugName(this DrugType value)
 	{
-		FieldInfo? fieldInfo = GetFieldInfo(value);
+		FieldInfo fieldInfo = GetFieldInfo(value);
 
-		if (fieldInfo is not null)
-		{
-			DrugAttribute? attribute = GetDrugTypeAttribute(fieldInfo);
+		DrugAttribute? attribute = GetDrugTypeAttribute(fieldInfo);
 
-			if (attribute is not null)
-				return attribute.Name;
-		}
-
-		return value.ToString();
+		return attribute is not null ? attribute.Name : value.ToString();
 	}
 
 	/// <summary>
@@ -73,17 +55,11 @@ public static class EnumeratorExtensions
 	/// <param name="value">The enumerator value.</param>
 	public static int GetAverageDrugPrice(this DrugType value)
 	{
-		FieldInfo? fieldInfo = GetFieldInfo(value);
+		FieldInfo fieldInfo = GetFieldInfo(value);
 
-		if (fieldInfo is not null)
-		{
-			DrugAttribute? attribute = GetDrugTypeAttribute(fieldInfo);
+		DrugAttribute? attribute = GetDrugTypeAttribute(fieldInfo);
 
-			if (attribute is not null)
-				return attribute.AveragePrice;
-		}
-
-		return default;
+		return attribute is not null ? attribute.AveragePrice : default;
 	}
 
 	/// <summary>
@@ -92,25 +68,19 @@ public static class EnumeratorExtensions
 	/// <param name="value">The enumerator value.</param>
 	public static float GetDrugProbability(this DrugType value)
 	{
-		FieldInfo? fieldInfo = GetFieldInfo(value);
+		FieldInfo fieldInfo = GetFieldInfo(value);
 
-		if (fieldInfo is not null)
-		{
-			DrugAttribute? attribute = GetDrugTypeAttribute(fieldInfo);
+		DrugAttribute? attribute = GetDrugTypeAttribute(fieldInfo);
 
-			if (attribute is not null)
-				return attribute.Probability;
-		}
-
-		return default;
+		return attribute is not null ? attribute.Probability : (float)default;
 	}
 
 	/// <summary>
-	/// Returns a list of all enumerators of the given type of enum.
+	/// Returns a enumerable of all enumerators of the given type of enum.
 	/// </summary>
 	/// <typeparam name="T">The enmuerator type.</typeparam>
 	/// <param name="value">The enumerator value.</param>
-	public static List<T> GetList<T>(this T value) where T : Enum
+	public static IEnumerable<T> GetList<T>(this T value) where T : Enum
 		=> Enum.GetValues(value.GetType()).Cast<T>().ToList();
 
 	private static FieldInfo GetFieldInfo<T>(T value) where T : Enum

@@ -3,7 +3,7 @@
 /// <summary>
 /// The drug attribute class.
 /// </summary>
-[AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Field)]
 internal sealed class DrugAttribute : Attribute
 {
 	private float probability;

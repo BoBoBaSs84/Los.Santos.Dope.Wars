@@ -94,7 +94,7 @@ public class InventoryTests
 		Assert.AreEqual(1000, inventory.Money);
 	}
 
-	[TestMethod()]
+	[TestMethod]
 	public void AddRangeTest()
 	{
 		ICollection<IDrug> drugs = DomainFactory.CreateAllDrugs();
@@ -105,7 +105,7 @@ public class InventoryTests
 		Assert.AreEqual(drugs.Count, inventory.Count);
 	}
 
-	[TestMethod()]
+	[TestMethod]
 	public void RemoveTest()
 	{
 		IInventory inventory = DomainFactory.CreateInventory();
@@ -116,5 +116,74 @@ public class InventoryTests
 		Assert.AreEqual(15, inventory.Count);
 		Assert.AreEqual(0, inventory.TotalQuantity);
 		Assert.AreEqual(0, inventory.TotalValue);
+	}
+
+	[TestMethod]
+	public void AddWithParamsTest()
+	{
+		IDrug drug = DomainFactory.CreateDrug(DrugType.HASH, 50, 10);
+		IInventory inventory = DomainFactory.CreateInventory();
+
+		inventory.Add(drug.Type, drug.Quantity, drug.CurrentPrice);
+
+		Assert.AreEqual(drug.Quantity * drug.CurrentPrice, inventory.TotalValue);
+		Assert.AreEqual(drug.Quantity, inventory.TotalQuantity);
+	}
+
+	[TestMethod]
+	public void RemoveWithParamsTest()
+	{
+		IDrug drug = DomainFactory.CreateDrug(DrugType.HASH, 50, 10);
+		IInventory inventory = DomainFactory.CreateInventory();
+		inventory.Add(drug);
+
+		inventory.Remove(drug.Type, drug.Quantity);
+
+		Assert.AreEqual(default, inventory.TotalValue);
+		Assert.AreEqual(default, inventory.TotalQuantity);
+	}
+
+	[TestMethod]
+	public void ClearTest()
+	{
+		IInventory inventory = DomainFactory.CreateInventory();
+		int oldCount = inventory.Count;
+
+		inventory.Clear();
+		int newCount = inventory.Count;
+
+		Assert.AreNotEqual(oldCount, newCount);
+	}
+
+	[TestMethod]
+	public void ContainsTest()
+	{
+		IDrug drug = DomainFactory.CreateDrug(DrugType.COKE, 50, 10);
+		ICollection<IDrug> drugs = new HashSet<IDrug>() { drug };
+
+		IInventory inventory = DomainFactory.CreateInventory(drugs, default);
+
+		Assert.IsTrue(inventory.Contains(drug));
+	}
+
+	[TestMethod]
+	public void CopyToTest()
+	{
+		IInventory inventory = DomainFactory.CreateInventory();
+		IDrug[] drugs = new IDrug[inventory.Count];
+
+		inventory.CopyTo(drugs, 0);
+
+		Assert.AreEqual(inventory.Count, drugs.Length);
+	}
+
+	[TestMethod]
+	public void GetEnumeratorTest()
+	{
+		IInventory inventory = DomainFactory.CreateInventory();
+
+		IEnumerator<IDrug> enumerator = inventory.GetEnumerator();
+
+		Assert.IsNotNull(enumerator);
 	}
 }

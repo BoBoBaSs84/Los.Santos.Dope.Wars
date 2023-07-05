@@ -45,4 +45,27 @@ public class EnumeratorExtensionsTests
 
 		Assert.AreNotEqual(description, drugType.ToString());
 	}
+
+	[TestMethod]
+	public void GetDescriptionTest()
+	{
+		string description = Test.WithDescription.GetDescription();
+
+		Assert.AreEqual("TestDescription", description);
+	}
+
+	[TestMethod]
+	public void GetNoDescriptionTest()
+	{
+		string description = Test.NoDescription.GetDescription();
+
+		Assert.AreEqual(Test.NoDescription.ToString(), description);
+	}
+
+	private enum Test
+	{
+		[System.ComponentModel.Description("TestDescription")]
+		WithDescription,
+		NoDescription,
+	}
 }

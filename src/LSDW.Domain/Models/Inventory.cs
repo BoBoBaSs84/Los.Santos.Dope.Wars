@@ -11,7 +11,7 @@ namespace LSDW.Domain.Models;
 /// </summary>
 /// <remarks>
 /// Inherits from the <see cref="Notification"/> class and
-/// implements the members of the <see cref="IInventory"/>
+/// implements the members of the <see cref="IInventory"/>.
 /// </remarks>
 internal sealed class Inventory : Notification, IInventory
 {
