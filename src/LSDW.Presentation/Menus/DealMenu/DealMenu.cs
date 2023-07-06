@@ -89,9 +89,9 @@ public sealed class DealMenu : MenuBase
 			int totalPrice = sellingPrice * currentQuantitity;
 			string gbn = GoodBadNetral(sellingPrice, averagePrice);
 
-			string description = $"Selling price:\t\t${gbn}{sellingPrice}~w~\n" +
-				$"Average price:\t\t${averagePrice}\n" +
-				$"Total price:\t\t${gbn}{totalPrice}";
+			string description = $"Sell price:\t${gbn}{sellingPrice}~w~\n" +
+				$"Average price:\t${averagePrice}\n" +
+				$"Total price:\t${gbn}{totalPrice}";
 
 			return description;
 		}
@@ -104,9 +104,9 @@ public sealed class DealMenu : MenuBase
 			int totalPrice = sellingPrice * currentQuantitity;
 			string gbn = GoodBadNetral(purchasePrice, sellingPrice);
 
-			string description = $"Selling price:\t\t${gbn}{sellingPrice}~w~\n" +
-				$"Purchase price:\t\t${purchasePrice}\n" +
-				$"Total price:\t\t${gbn}{totalPrice}";
+			string description = $"Sell price:\t${gbn}{sellingPrice}~w~\n" +
+				$"Bought price:\t${purchasePrice}\n" +
+				$"Total price:\t${gbn}{totalPrice}";
 
 			return description;
 		}
