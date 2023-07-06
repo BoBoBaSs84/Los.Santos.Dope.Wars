@@ -8,7 +8,7 @@ using LSDW.Abstractions.Presentation.Items;
 using LSDW.Abstractions.Presentation.Menus;
 using LSDW.Domain.Factories;
 using LSDW.Presentation.Items;
-using SMH = LSDW.Presentation.Helpers.SideMenuHelper;
+using SMH = LSDW.Presentation.Helpers.MenuHelper;
 
 namespace LSDW.Presentation.Menus;
 

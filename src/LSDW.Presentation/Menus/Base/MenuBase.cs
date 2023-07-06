@@ -23,6 +23,13 @@ public abstract class MenuBase : NativeMenu
 	///	Creates a new menu.
 	/// </summary>
 	/// <param name="title">The banner text to display in the header.</param>
+	protected MenuBase(string title) : this(title, string.Empty, string.Empty)
+	{ }
+
+	/// <summary>
+	///	Creates a new menu.
+	/// </summary>
+	/// <param name="title">The banner text to display in the header.</param>
 	/// <param name="subtitle">The name to display below the header.</param>
 	protected MenuBase(string title, string subtitle) : this(title, subtitle, string.Empty)
 	{ }

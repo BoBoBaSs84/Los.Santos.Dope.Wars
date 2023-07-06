@@ -13,18 +13,18 @@ namespace LSDW.Presentation.Helpers;
 /// <remarks>
 /// Contains only things relevant for the <see cref="SideMenu"/> class.
 /// </remarks>
-public static class SideMenuHelper
+public static class MenuHelper
 {
 	/// <summary>
 	/// Returns the source and target inventory based on the transaction type.
 	/// </summary>
 	/// <param name="type">The transaction type for the menu.</param>
 	/// <param name="player">The player and his inventory.</param>
-	/// <param name="drugs">The opposing inventory.</param>
-	internal static (IInventory source, IInventory target) GetInventories(TransactionType type, IPlayer player, IInventory drugs)
+	/// <param name="inventory">The opposing inventory.</param>
+	internal static (IInventory source, IInventory target) GetInventories(TransactionType type, IPlayer player, IInventory inventory)
 		=> type is TransactionType.SELL or TransactionType.GIVE
-		? ((IInventory source, IInventory target))(player.Inventory, drugs)
-		: ((IInventory source, IInventory target))(drugs, player.Inventory);
+		? ((IInventory source, IInventory target))(player.Inventory, inventory)
+		: ((IInventory source, IInventory target))(inventory, player.Inventory);
 
 	/// <summary>
 	/// Returns the alignment for the menu based on the transaction type.

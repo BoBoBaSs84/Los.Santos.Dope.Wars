@@ -9,8 +9,8 @@ namespace LSDW.Application.Managers;
 /// </summary>
 internal sealed class ServiceManager : IServiceManager
 {
-	private readonly Lazy<IStateService> _lazyStateService;
 	private readonly Lazy<ILoggerService> _lazyLoggerService;
+	private readonly Lazy<IStateService> _lazyStateService;
 	private readonly Lazy<ISettingsService> _lazySettingsService;
 
 	/// <summary>
@@ -28,11 +28,11 @@ internal sealed class ServiceManager : IServiceManager
 	/// </summary>
 	public readonly static ServiceManager Instance = new();
 
-	public IStateService StateService
-		=> _lazyStateService.Value;
-
 	public ILoggerService LoggerService
 		=> _lazyLoggerService.Value;
+
+	public IStateService StateService
+		=> _lazyStateService.Value;
 
 	public ISettingsService SettingsService
 		=> _lazySettingsService.Value;

@@ -13,7 +13,7 @@ public class SideMenuHelperTests
 	[DynamicData(nameof(GetRightMenuTypes), DynamicDataSourceType.Method)]
 	public void GetRightAlignmentTest(TransactionType transactionType)
 	{
-		Alignment alignment = SideMenuHelper.GetAlignment(transactionType);
+		Alignment alignment = MenuHelper.GetAlignment(transactionType);
 
 		Assert.AreEqual(Alignment.Right, alignment);
 	}
@@ -22,7 +22,7 @@ public class SideMenuHelperTests
 	[DynamicData(nameof(GetLeftMenuTypes), DynamicDataSourceType.Method)]
 	public void GetLeftAlignmentTest(TransactionType transactionType)
 	{
-		Alignment alignment = SideMenuHelper.GetAlignment(transactionType);
+		Alignment alignment = MenuHelper.GetAlignment(transactionType);
 
 		Assert.AreEqual(Alignment.Left, alignment);
 	}

@@ -1,8 +1,12 @@
 ﻿using GTA;
 using LSDW.Abstractions.Application.Managers;
+using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Enumerators;
 using LSDW.Application.Constants;
 using LSDW.Application.Factories;
+using LSDW.Application.Managers;
 using LSDW.Domain.Extensions;
+using LSDW.Domain.Factories;
 using LSDW.Presentation.Menus.Base;
 using LSDW.Presentation.Menus.DealMenu;
 
@@ -17,6 +21,7 @@ public sealed class Main : Script
 	private readonly DealMenu _dealMenu;
 	private readonly IProviderManager _providerManager;
 	private readonly IServiceManager _serviceManager;
+	private readonly IInventory _drugs = DomainFactory.CreateInventory();
 
 	/// <summary>
 	/// Determines if the application is developer mode or not.
@@ -35,7 +40,9 @@ public sealed class Main : Script
 #endif
 		_providerManager = ApplicationFactory.GetProviderManager();
 		_serviceManager = ApplicationFactory.GetServiceManager();
-		_dealMenu = new(_serviceManager.StateService.Player.Inventory.Restock(100));
+		_serviceManager.StateService.Player.Inventory.Restock(100);
+		_drugs.Restock(100);
+		_dealMenu = new(_providerManager, TransactionType.SELL, _serviceManager.StateService.Player, _drugs);
 
 		Interval = 10;
 
