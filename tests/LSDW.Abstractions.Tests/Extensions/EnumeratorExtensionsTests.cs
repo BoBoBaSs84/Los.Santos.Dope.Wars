@@ -7,7 +7,7 @@ namespace LSDW.Abstractions.Tests.Extensions;
 public class EnumeratorExtensionsTests
 {
 	[TestMethod]
-	public void GetDisplayNameSuccessTest()
+	public void GetDrugNameTest()
 	{
 		DrugType drugType = DrugType.COKE;
 
@@ -17,7 +17,7 @@ public class EnumeratorExtensionsTests
 	}
 
 	[TestMethod]
-	public void GetAveragePriceSuccessTest()
+	public void GetAverageDrugPriceTest()
 	{
 		DrugType drugType = DrugType.COKE;
 
@@ -27,7 +27,7 @@ public class EnumeratorExtensionsTests
 	}
 
 	[TestMethod]
-	public void GetProbabilitySuccessTest()
+	public void GetDrugProbabilityTest()
 	{
 		DrugType drugType = DrugType.COKE;
 
@@ -37,7 +37,7 @@ public class EnumeratorExtensionsTests
 	}
 
 	[TestMethod]
-	public void GetDescriptionSuccessTest()
+	public void GetDrugDescriptionTest()
 	{
 		DrugType drugType = DrugType.COKE;
 

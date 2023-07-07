@@ -10,7 +10,7 @@ internal sealed class DrugAttribute : Attribute
 	private int averagePrice;
 
 	/// <summary>
-	/// Initializes a instance of the <see cref="DrugAttribute"/> class.
+	/// Initializes a instance of the drug attribute class.
 	/// </summary>
 	/// <param name="name">The name of the drug.</param>
 	/// <param name="description">The description of the drug.</param>
