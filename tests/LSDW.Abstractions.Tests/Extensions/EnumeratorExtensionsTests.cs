@@ -11,7 +11,7 @@ public class EnumeratorExtensionsTests
 	{
 		DrugType drugType = DrugType.COKE;
 
-		string displayName = drugType.GetDrugName();
+		string displayName = drugType.GetName();
 
 		Assert.AreNotEqual(displayName, drugType.ToString());
 	}
@@ -21,7 +21,7 @@ public class EnumeratorExtensionsTests
 	{
 		DrugType drugType = DrugType.COKE;
 
-		int averagePrice = drugType.GetAverageDrugPrice();
+		int averagePrice = drugType.GetAveragePrice();
 
 		Assert.AreNotEqual(default, averagePrice);
 	}

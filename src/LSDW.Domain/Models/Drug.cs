@@ -28,20 +28,14 @@ internal sealed class Drug : Notification, IDrug
 	/// <param name="currentPrice">The current price of the drug.</param>
 	internal Drug(DrugType drugType, int quantity, int currentPrice)
 	{
-		AveragePrice = drugType.GetAverageDrugPrice();
-		CurrentPrice = currentPrice;
-		Name = drugType.GetDrugName();
+		Price = currentPrice;
 		Type = drugType;
 		Quantity = quantity;
 	}
 
-	public int AveragePrice { get; }
-
-	public int CurrentPrice { get; private set; }
+	public int Price { get; private set; }
 
 	public DrugType Type { get; }
-
-	public string Name { get; }
 
 	public int Quantity
 	{
@@ -60,7 +54,7 @@ internal sealed class Drug : Notification, IDrug
 			throw new ArgumentOutOfRangeException(nameof(price), message);
 		}
 
-		CurrentPrice = (CurrentPrice * Quantity + price * quantity) / (Quantity + quantity);
+		Price = (Price * Quantity + price * quantity) / (Quantity + quantity);
 		Quantity += quantity;
 	}
 
@@ -68,12 +62,13 @@ internal sealed class Drug : Notification, IDrug
 	{
 		float minimumDrugValue = Settings.Market.MinimumDrugPrice;
 		float maximumDrugValue = Settings.Market.MaximumDrugPrice;
+		int averagePrice = Type.GetAveragePrice();
 
 		float levelLimit = (float)playerLevel / 1000;
-		float lowerLimit = (minimumDrugValue - levelLimit) * AveragePrice;
-		float upperLimit = (maximumDrugValue + levelLimit) * AveragePrice;
+		float lowerLimit = (minimumDrugValue - levelLimit) * averagePrice;
+		float upperLimit = (maximumDrugValue + levelLimit) * averagePrice;
 
-		CurrentPrice = RandomHelper.GetInt(lowerLimit, upperLimit);
+		Price = RandomHelper.GetInt(lowerLimit, upperLimit);
 	}
 
 	public void RandomizeQuantity(int playerLevel)
@@ -108,6 +103,6 @@ internal sealed class Drug : Notification, IDrug
 		Quantity -= quantity;
 
 		if (Quantity.Equals(0))
-			CurrentPrice = Quantity;
+			Price = Quantity;
 	}
 }

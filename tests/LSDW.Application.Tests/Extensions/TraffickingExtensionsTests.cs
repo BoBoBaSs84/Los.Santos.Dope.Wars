@@ -26,7 +26,7 @@ public class TraffickingExtensionsTests
 
 		_trafficking.ChangeDealerPrices(_stateService);
 
-		Assert.AreEqual(default, dealer.Inventory.Sum(x => x.CurrentPrice));
+		Assert.AreEqual(default, dealer.Inventory.Sum(x => x.Price));
 		Assert.AreEqual(default, dealer.Inventory.Money);
 		Assert.AreEqual(default, dealer.Inventory.TotalQuantity);
 	}
@@ -40,7 +40,7 @@ public class TraffickingExtensionsTests
 
 		_trafficking.ChangeDealerPrices(_stateService);
 
-		Assert.AreNotEqual(default, dealer.Inventory.Sum(x => x.CurrentPrice));
+		Assert.AreNotEqual(default, dealer.Inventory.Sum(x => x.Price));
 		Assert.AreEqual(default, dealer.Inventory.Money);
 		Assert.AreEqual(default, dealer.Inventory.TotalQuantity);
 	}

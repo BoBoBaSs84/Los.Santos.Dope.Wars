@@ -28,14 +28,14 @@ public static class EnumeratorExtensions
 	/// Returns the name of the <see cref="DrugType"/> enumerator.
 	/// </summary>
 	/// <param name="value">The enumerator value.</param>
-	public static string GetDrugName(this DrugType value)
+	public static string GetName(this DrugType value)
 		=> DrugAttributeCache<DrugType>.GetName(value);
 
 	/// <summary>
 	/// Returns the average price of the <see cref="DrugType"/> enumerator.
 	/// </summary>
 	/// <param name="value">The enumerator value.</param>
-	public static int GetAverageDrugPrice(this DrugType value)
+	public static int GetAveragePrice(this DrugType value)
 		=> DrugAttributeCache<DrugType>.GetAveragePrice(value);
 
 	/// <summary>

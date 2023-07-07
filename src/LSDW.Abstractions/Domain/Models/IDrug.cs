@@ -8,19 +8,9 @@ namespace LSDW.Abstractions.Domain.Models;
 public interface IDrug : INotifyPropertyChanged
 {
 	/// <summary>
-	/// The average price of the drug.
-	/// </summary>
-	int AveragePrice { get; }
-
-	/// <summary>
 	/// The type of the drug.
 	/// </summary>
 	DrugType Type { get; }
-
-	/// <summary>
-	/// The display name of the drug.
-	/// </summary>
-	string Name { get; }
 
 	/// <summary>
 	/// The quantity of the drug.
@@ -30,7 +20,7 @@ public interface IDrug : INotifyPropertyChanged
 	/// <summary>
 	/// The price of the drug.
 	/// </summary>
-	int CurrentPrice { get; }
+	int Price { get; }
 
 	/// <summary>
 	/// Should add the quantity and price to the drug.

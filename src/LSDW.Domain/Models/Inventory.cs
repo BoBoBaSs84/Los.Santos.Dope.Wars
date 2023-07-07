@@ -42,7 +42,7 @@ internal sealed class Inventory : Notification, IInventory
 		=> _drugs.Sum(drug => drug.Quantity);
 
 	public int TotalValue
-		=> _drugs.Sum(drug => drug.CurrentPrice * drug.Quantity);
+		=> _drugs.Sum(drug => drug.Price * drug.Quantity);
 
 	public bool IsReadOnly
 		=> _drugs.IsReadOnly;
@@ -68,7 +68,7 @@ internal sealed class Inventory : Notification, IInventory
 		if (existingDrug is null)
 			_drugs.Add(drugToAdd);
 		else
-			existingDrug.Add(drugToAdd.Quantity, drugToAdd.CurrentPrice);
+			existingDrug.Add(drugToAdd.Quantity, drugToAdd.Price);
 	}
 
 	public void Add(IEnumerable<IDrug> drugsToAdd)

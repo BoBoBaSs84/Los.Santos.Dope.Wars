@@ -26,7 +26,7 @@ public class DealerExtensionsTests
 
 		dealer.ChangePrices(provider, 100);
 
-		Assert.AreNotEqual(default, dealer.Inventory.Sum(x => x.CurrentPrice));
+		Assert.AreNotEqual(default, dealer.Inventory.Sum(x => x.Price));
 		Assert.AreEqual(default, dealer.Inventory.Money);
 		Assert.AreEqual(default, dealer.Inventory.TotalQuantity);
 		Assert.AreEqual(nextPriceChange, dealer.NextPriceChange);
@@ -43,7 +43,7 @@ public class DealerExtensionsTests
 
 		dealer.ChangeInventory(provider, 100);
 
-		Assert.AreNotEqual(default, dealer.Inventory.Sum(x => x.CurrentPrice));
+		Assert.AreNotEqual(default, dealer.Inventory.Sum(x => x.Price));
 		Assert.AreNotEqual(default, dealer.Inventory.Money);
 		Assert.AreNotEqual(default, dealer.Inventory.TotalQuantity);
 		Assert.AreEqual(nextInventoryChange, dealer.NextInventoryChange);
