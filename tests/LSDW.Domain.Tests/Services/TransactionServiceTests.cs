@@ -30,12 +30,12 @@ public class TransactionServiceTests
 		ITransactionService transactionService =
 			DomainFactory.CreateTransactionService(_providerManagerMock.Object, TransactionType.GIVE, player, inventory);
 
-		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.CurrentPrice);
+		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.Price);
 
 		Assert.IsTrue(success);
 		Assert.AreEqual(10, inventory.TotalQuantity);
 		Assert.AreEqual(drug.Quantity, inventory.TotalQuantity);
-		Assert.AreEqual(drug.Quantity * drug.CurrentPrice, inventory.TotalValue);
+		Assert.AreEqual(drug.Quantity * drug.Price, inventory.TotalValue);
 		Assert.AreEqual(1000, inventory.Money);
 		Assert.AreEqual(0, player.Inventory.Money);
 		Assert.AreEqual(1, player.TransactionCount);
@@ -57,12 +57,12 @@ public class TransactionServiceTests
 		ITransactionService transactionService =
 			DomainFactory.CreateTransactionService(_providerManagerMock.Object, TransactionType.BUY, player, inventory);
 
-		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.CurrentPrice);
+		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.Price);
 
 		Assert.IsTrue(success);
 		Assert.AreEqual(0, inventory.TotalQuantity);
 		Assert.AreEqual(drug.Quantity, player.Inventory.TotalQuantity);
-		Assert.AreEqual(drug.Quantity * drug.CurrentPrice, player.Inventory.TotalValue);
+		Assert.AreEqual(drug.Quantity * drug.Price, player.Inventory.TotalValue);
 		Assert.AreEqual(100, playerProviderMock.Object.Money);
 		Assert.AreEqual(900, inventory.Money);
 	}
@@ -83,12 +83,12 @@ public class TransactionServiceTests
 		ITransactionService transactionService =
 			DomainFactory.CreateTransactionService(_providerManagerMock.Object, TransactionType.SELL, player, inventory);
 
-		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.CurrentPrice);
+		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.Price);
 
 		Assert.IsTrue(success);
 		Assert.AreEqual(drug.Quantity, inventory.TotalQuantity);
 		Assert.AreEqual(default, player.Inventory.TotalQuantity);
-		Assert.AreEqual(drug.Quantity * drug.CurrentPrice, inventory.TotalValue);
+		Assert.AreEqual(drug.Quantity * drug.Price, inventory.TotalValue);
 		Assert.AreEqual(900, playerProviderMock.Object.Money);
 		Assert.AreEqual(100, inventory.Money);
 	}
@@ -104,7 +104,7 @@ public class TransactionServiceTests
 		ITransactionService transactionService =
 			DomainFactory.CreateTransactionService(_providerManagerMock.Object, TransactionType.BUY, player, inventory);
 
-		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.CurrentPrice);
+		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.Price);
 
 		Assert.IsFalse(success);
 	}
@@ -120,7 +120,7 @@ public class TransactionServiceTests
 		ITransactionService transactionService =
 			DomainFactory.CreateTransactionService(_providerManagerMock.Object, TransactionType.SELL, player, inventory);
 
-		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.CurrentPrice);
+		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.Price);
 
 		Assert.IsFalse(success);
 	}
@@ -136,7 +136,7 @@ public class TransactionServiceTests
 		ITransactionService transactionService =
 			DomainFactory.CreateTransactionService(_providerManagerMock.Object, TransactionType.TAKE, player, inventory);
 
-		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.CurrentPrice);
+		bool success = transactionService.Commit(drug.Type, drug.Quantity, drug.Price);
 
 		Assert.IsFalse(success);
 		Assert.AreEqual(200, inventory.TotalQuantity);

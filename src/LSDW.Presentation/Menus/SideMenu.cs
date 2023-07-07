@@ -4,6 +4,7 @@ using LSDW.Abstractions.Application.Managers;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Services;
 using LSDW.Abstractions.Enumerators;
+using LSDW.Abstractions.Extensions;
 using LSDW.Abstractions.Presentation.Items;
 using LSDW.Abstractions.Presentation.Menus;
 using LSDW.Domain.Factories;
@@ -94,7 +95,7 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 
 		int oldSelectedItem = item.SelectedItem;
 
-		int price = target.Where(x => x.Type.Equals(drugType)).Select(x => x.CurrentPrice).Single();
+		int price = target.Where(x => x.Type.Equals(drugType)).Select(x => x.Price).Single();
 		int quantity = item.SelectedItem;
 		item.SelectedItem = default;
 		bool succes = transactionService.Commit(drugType, quantity, price);
@@ -127,15 +128,15 @@ internal sealed class SideMenu : NativeMenu, ISideMenu
 		var drugs = from s in source
 								join t in target
 								on s.Type equals t.Type
-								select new { SourceDrug = s, t.CurrentPrice };
+								select new { SourceDrug = s, t.Price };
 
 		foreach (var drug in drugs)
 		{
 			int comparisonPrice = _type switch
 			{
-				TransactionType.BUY => drug.SourceDrug.AveragePrice,
-				TransactionType.SELL => drug.CurrentPrice,
-				TransactionType.TAKE => drug.SourceDrug.AveragePrice,
+				TransactionType.BUY => drug.SourceDrug.Type.GetAveragePrice(),
+				TransactionType.SELL => drug.Price,
+				TransactionType.TAKE => drug.SourceDrug.Type.GetAveragePrice(),
 				_ => default
 			};
 

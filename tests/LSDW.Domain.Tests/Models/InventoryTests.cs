@@ -124,9 +124,9 @@ public class InventoryTests
 		IDrug drug = DomainFactory.CreateDrug(DrugType.HASH, 50, 10);
 		IInventory inventory = DomainFactory.CreateInventory();
 
-		inventory.Add(drug.Type, drug.Quantity, drug.CurrentPrice);
+		inventory.Add(drug.Type, drug.Quantity, drug.Price);
 
-		Assert.AreEqual(drug.Quantity * drug.CurrentPrice, inventory.TotalValue);
+		Assert.AreEqual(drug.Quantity * drug.Price, inventory.TotalValue);
 		Assert.AreEqual(drug.Quantity, inventory.TotalQuantity);
 	}
 
