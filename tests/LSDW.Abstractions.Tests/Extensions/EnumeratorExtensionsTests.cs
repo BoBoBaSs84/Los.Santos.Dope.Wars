@@ -7,87 +7,65 @@ namespace LSDW.Abstractions.Tests.Extensions;
 public class EnumeratorExtensionsTests
 {
 	[TestMethod]
-	public void GetDisplayNameSuccessTest()
+	public void GetDrugNameTest()
 	{
 		DrugType drugType = DrugType.COKE;
 
-		string displayName = drugType.GetDisplayName();
+		string displayName = drugType.GetDrugName();
 
 		Assert.AreNotEqual(displayName, drugType.ToString());
 	}
 
 	[TestMethod]
-	public void GetDisplayNameFailedTest()
-	{
-		TestType testType = TestType.Test;
-
-		string displayName = testType.GetDisplayName();
-
-		Assert.AreEqual(displayName, testType.ToString());
-	}
-
-	[TestMethod]
-	public void GetAveragePriceSuccessTest()
+	public void GetAverageDrugPriceTest()
 	{
 		DrugType drugType = DrugType.COKE;
 
-		int averagePrice = drugType.GetAveragePrice();
+		int averagePrice = drugType.GetAverageDrugPrice();
 
 		Assert.AreNotEqual(default, averagePrice);
 	}
 
 	[TestMethod]
-	public void GetAveragePriceFailedTest()
-	{
-		TestType testType = TestType.Test;
-
-		int averagePrice = testType.GetAveragePrice();
-
-		Assert.AreEqual(default, averagePrice);
-	}
-
-	[TestMethod]
-	public void GetProbabilitySuccessTest()
+	public void GetDrugProbabilityTest()
 	{
 		DrugType drugType = DrugType.COKE;
 
-		float probability = drugType.GetProbability();
+		float probability = drugType.GetDrugProbability();
 
 		Assert.AreNotEqual(0, probability);
 	}
 
 	[TestMethod]
-	public void GetProbabilityFailedTest()
-	{
-		TestType testType = TestType.Test;
-
-		float probability = testType.GetProbability();
-
-		Assert.AreEqual(0, probability);
-	}
-
-	[TestMethod]
-	public void GetDescriptionSuccessTest()
+	public void GetDrugDescriptionTest()
 	{
 		DrugType drugType = DrugType.COKE;
 
-		string description = drugType.GetDescription();
+		string description = drugType.GetDrugDescription();
 
 		Assert.AreNotEqual(description, drugType.ToString());
 	}
 
 	[TestMethod]
-	public void GetDescriptionFailedTest()
+	public void GetDescriptionTest()
 	{
-		TestType testType = TestType.Test;
+		string description = Test.WithDescription.GetDescription();
 
-		string description = testType.GetDescription();
-
-		Assert.AreEqual(description, testType.ToString());
+		Assert.AreEqual("TestDescription", description);
 	}
 
-	internal enum TestType
+	[TestMethod]
+	public void GetNoDescriptionTest()
 	{
-		Test
+		string description = Test.NoDescription.GetDescription();
+
+		Assert.AreEqual(Test.NoDescription.ToString(), description);
+	}
+
+	private enum Test
+	{
+		[System.ComponentModel.Description("TestDescription")]
+		WithDescription,
+		NoDescription,
 	}
 }
