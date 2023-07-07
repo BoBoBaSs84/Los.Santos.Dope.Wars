@@ -73,7 +73,7 @@ internal sealed class Drug : Notification, IDrug
 
 	public void RandomizeQuantity(int playerLevel)
 	{
-		float nonZeroChance = Type.GetDrugProbability();
+		float nonZeroChance = Type.GetProbability();
 
 		if (RandomHelper.GetDouble() > nonZeroChance)
 		{

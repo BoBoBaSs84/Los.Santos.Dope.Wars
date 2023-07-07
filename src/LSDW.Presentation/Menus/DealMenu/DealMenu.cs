@@ -53,7 +53,7 @@ public sealed class DealMenu : MenuBase
 	/// <param name="changed">The action to perform when the selected item of the list changes.</param>
 	private NativeListItem<int> AddDrugListItem(IDrug drug, Action<NativeListItem<int>, EventArgs>? activated = null, Action<NativeListItem<int>, ItemChangedEventArgs<int>>? changed = null)
 	{
-		NativeListItem<int> item = AddListItem(drug.Type.GetDrugName(), string.Empty, activated, changed, drug.Quantity.GetArray());
+		NativeListItem<int> item = AddListItem(drug.Type.GetName(), string.Empty, activated, changed, drug.Quantity.GetArray());
 		item = RefreshDrugListItem(item, drug);
 		return item;
 	}
@@ -83,8 +83,8 @@ public sealed class DealMenu : MenuBase
 
 		if (_type is TransactionType.BUY)
 		{
-			int sellingPrice = drug.CurrentPrice;
-			int averagePrice = drug.Type.GetAverageDrugPrice();
+			int sellingPrice = drug.Price;
+			int averagePrice = drug.Type.GetAveragePrice();
 			int currentQuantitity = item.SelectedItem;
 			int totalPrice = sellingPrice * currentQuantitity;
 			string gbn = GoodBadNetral(sellingPrice, averagePrice);
@@ -98,8 +98,8 @@ public sealed class DealMenu : MenuBase
 
 		if (_type is TransactionType.SELL)
 		{
-			int sellingPrice = _target.Where(x => x.Type.Equals(drug.Type)).Select(x => x.CurrentPrice).First();
-			int purchasePrice = drug.CurrentPrice;
+			int sellingPrice = _target.Where(x => x.Type.Equals(drug.Type)).Select(x => x.Price).First();
+			int purchasePrice = drug.Price;
 			int currentQuantitity = item.SelectedItem;
 			int totalPrice = sellingPrice * currentQuantitity;
 			string gbn = GoodBadNetral(purchasePrice, sellingPrice);
@@ -122,7 +122,7 @@ public sealed class DealMenu : MenuBase
 		if (item.Tag is not IDrug drug)
 			return;
 
-		bool success = _transactionService.Commit(drug.Type, item.SelectedItem, drug.CurrentPrice);
+		bool success = _transactionService.Commit(drug.Type, item.SelectedItem, drug.Price);
 
 		if (success)
 		{

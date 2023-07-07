@@ -21,7 +21,7 @@ public static class EnumeratorExtensions
 	/// Returns the description of the <see cref="DrugType"/> enumerator.
 	/// </summary>
 	/// <param name="value">The enumerator value.</param>
-	public static string GetDrugDescription(this DrugType value)
+	public static string GetDescription(this DrugType value)
 		=> DrugAttributeCache<DrugType>.GetDescription(value);
 
 	/// <summary>
@@ -42,7 +42,7 @@ public static class EnumeratorExtensions
 	/// Returns the probability property of the <see cref="DrugType"/> enumerator.
 	/// </summary>
 	/// <param name="value">The enumerator value.</param>
-	public static float GetDrugProbability(this DrugType value)
+	public static float GetProbability(this DrugType value)
 		=> DrugAttributeCache<DrugType>.GetProbability(value);
 
 	/// <summary>
