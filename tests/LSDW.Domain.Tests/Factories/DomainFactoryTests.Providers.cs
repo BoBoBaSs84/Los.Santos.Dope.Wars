@@ -6,7 +6,7 @@ namespace LSDW.Domain.Tests.Factories;
 public partial class DomainFactoryTests
 {
 	[TestMethod]
-	public void CreateAudioProviderTest()
+	public void GetAudioProviderTest()
 	{
 		IAudioProvider? provider;
 
@@ -16,7 +16,7 @@ public partial class DomainFactoryTests
 	}
 
 	[TestMethod]
-	public void CreateNotificationProviderTest()
+	public void GetNotificationProviderTest()
 	{
 		INotificationProvider? provider;
 
@@ -26,7 +26,17 @@ public partial class DomainFactoryTests
 	}
 
 	[TestMethod]
-	public void CreatePlayerProviderTest()
+	public void GetScreenProviderTest()
+	{
+		IScreenProvider? provider;
+
+		provider = DomainFactory.GetScreenProvider();
+
+		Assert.IsNotNull(provider);
+	}
+
+	[TestMethod]
+	public void GetPlayerProviderTest()
 	{
 		IPlayerProvider? provider;
 
@@ -36,7 +46,7 @@ public partial class DomainFactoryTests
 	}
 
 	[TestMethod]
-	public void CreateRandomProviderTest()
+	public void GetRandomProviderTest()
 	{
 		IRandomProvider? provider;
 
@@ -46,7 +56,7 @@ public partial class DomainFactoryTests
 	}
 
 	[TestMethod]
-	public void CreateWorldProviderTest()
+	public void GetWorldProviderTest()
 	{
 		IWorldProvider? provider;
 

@@ -26,7 +26,7 @@ internal sealed class ServiceManager : IServiceManager
 	/// <summary>
 	/// The service manager singleton instance.
 	/// </summary>
-	public readonly static ServiceManager Instance = new();
+	public static readonly ServiceManager Instance = new();
 
 	public IStateService StateService
 		=> _lazyStateService.Value;
