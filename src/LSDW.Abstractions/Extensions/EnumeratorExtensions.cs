@@ -1,4 +1,4 @@
-﻿using LSDW.Abstractions.Attributes;
+﻿using LSDW.Abstractions.Attributes.Caches;
 using LSDW.Abstractions.Enumerators;
 
 namespace LSDW.Abstractions.Extensions;
@@ -9,99 +9,47 @@ namespace LSDW.Abstractions.Extensions;
 public static class EnumeratorExtensions
 {
 	/// <summary>
-	/// Returns the description of the <see cref="DrugType"/> enumerator.
+	/// Returns the description of the <typeparamref name="T"/> enumerator.
 	/// </summary>
 	/// <typeparam name="T">The enmuerator type.</typeparam>
 	/// <param name="value">The enumerator value.</param>
-	public static string GetDescription<T>(this T value) where T : Enum
-	{
-		FieldInfo? fieldInfo = GetFieldInfo(value);
-
-		if (fieldInfo is not null)
-		{
-			DescriptionAttribute? attribute = GetDescriptionAttribute(fieldInfo);
-
-			if (attribute is not null)
-				return attribute.Description;
-		}
-
-		return value.ToString();
-	}
+	/// <returns>The description or the enum name.</returns>
+	public static string GetDescription<T>(this T value) where T : struct, IComparable, IFormattable, IConvertible
+		=> DescriptionAttributeCache<T>.GetDescription(value);
 
 	/// <summary>
-	/// Returns the display name of the <see cref="DrugType"/> enumerator.
+	/// Returns the description of the <see cref="DrugType"/> enumerator.
 	/// </summary>
-	/// <typeparam name="T">The enmuerator type.</typeparam>
 	/// <param name="value">The enumerator value.</param>
-	public static string GetDisplayName<T>(this T value) where T : Enum
-	{
-		FieldInfo? fieldInfo = GetFieldInfo(value);
+	public static string GetDrugDescription(this DrugType value)
+		=> DrugAttributeCache<DrugType>.GetDescription(value);
 
-		if (fieldInfo is not null)
-		{
-			DrugAttribute? attribute = GetDrugTypeAttribute(fieldInfo);
-
-			if (attribute is not null)
-				return attribute.DisplayName;
-		}
-
-		return value.ToString();
-	}
+	/// <summary>
+	/// Returns the name of the <see cref="DrugType"/> enumerator.
+	/// </summary>
+	/// <param name="value">The enumerator value.</param>
+	public static string GetDrugName(this DrugType value)
+		=> DrugAttributeCache<DrugType>.GetName(value);
 
 	/// <summary>
 	/// Returns the average price of the <see cref="DrugType"/> enumerator.
 	/// </summary>
-	/// <typeparam name="T">The enmuerator type.</typeparam>
 	/// <param name="value">The enumerator value.</param>
-	public static int GetAveragePrice<T>(this T value) where T : Enum
-	{
-		FieldInfo? fieldInfo = GetFieldInfo(value);
-
-		if (fieldInfo is not null)
-		{
-			DrugAttribute? attribute = GetDrugTypeAttribute(fieldInfo);
-
-			if (attribute is not null)
-				return attribute.AveragePrice;
-		}
-
-		return default;
-	}
+	public static int GetAverageDrugPrice(this DrugType value)
+		=> DrugAttributeCache<DrugType>.GetAveragePrice(value);
 
 	/// <summary>
 	/// Returns the probability property of the <see cref="DrugType"/> enumerator.
 	/// </summary>
-	/// <typeparam name="T">The enmuerator type.</typeparam>
 	/// <param name="value">The enumerator value.</param>
-	public static float GetProbability<T>(this T value) where T : Enum
-	{
-		FieldInfo? fieldInfo = GetFieldInfo(value);
-
-		if (fieldInfo is not null)
-		{
-			DrugAttribute? attribute = GetDrugTypeAttribute(fieldInfo);
-
-			if (attribute is not null)
-				return attribute.Probability;
-		}
-
-		return default;
-	}
+	public static float GetDrugProbability(this DrugType value)
+		=> DrugAttributeCache<DrugType>.GetProbability(value);
 
 	/// <summary>
-	/// Returns a list of all enumerators of the given type of enum.
+	/// Returns a enumerable of all enumerators of the given type of enum.
 	/// </summary>
 	/// <typeparam name="T">The enmuerator type.</typeparam>
 	/// <param name="value">The enumerator value.</param>
-	public static List<T> GetList<T>(this T value) where T : Enum
+	public static IEnumerable<T> GetList<T>(this T value) where T : Enum
 		=> Enum.GetValues(value.GetType()).Cast<T>().ToList();
-
-	private static FieldInfo GetFieldInfo<T>(T value) where T : Enum
-		=> value.GetType().GetField(value.ToString());
-
-	private static DrugAttribute? GetDrugTypeAttribute(FieldInfo? fieldInfo)
-		=> fieldInfo.GetCustomAttribute(typeof(DrugAttribute), false) as DrugAttribute;
-
-	private static DescriptionAttribute? GetDescriptionAttribute(FieldInfo? fieldInfo)
-		=> fieldInfo.GetCustomAttribute(typeof(DescriptionAttribute), false) as DescriptionAttribute;
 }
