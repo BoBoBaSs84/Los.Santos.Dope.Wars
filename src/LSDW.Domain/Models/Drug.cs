@@ -28,9 +28,9 @@ internal sealed class Drug : Notification, IDrug
 	/// <param name="currentPrice">The current price of the drug.</param>
 	internal Drug(DrugType drugType, int quantity, int currentPrice)
 	{
-		AveragePrice = drugType.GetAveragePrice();
+		AveragePrice = drugType.GetAverageDrugPrice();
 		CurrentPrice = currentPrice;
-		Name = drugType.GetDisplayName();
+		Name = drugType.GetDrugName();
 		Type = drugType;
 		Quantity = quantity;
 	}
@@ -78,7 +78,7 @@ internal sealed class Drug : Notification, IDrug
 
 	public void RandomizeQuantity(int playerLevel)
 	{
-		float nonZeroChance = Type.GetProbability();
+		float nonZeroChance = Type.GetDrugProbability();
 
 		if (RandomHelper.GetDouble() > nonZeroChance)
 		{
