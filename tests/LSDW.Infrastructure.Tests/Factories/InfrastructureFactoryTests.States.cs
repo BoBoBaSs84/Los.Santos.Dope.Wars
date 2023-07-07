@@ -1,6 +1,7 @@
 ﻿using GTA;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Enumerators;
+using LSDW.Abstractions.Extensions;
 using LSDW.Domain.Constants;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
@@ -24,7 +25,7 @@ public partial class InfrastructureFactoryTests
 		Assert.IsNotNull(drug);
 		Assert.AreEqual(state.Type, drug.Type);
 		Assert.AreEqual(state.Quantity, drug.Quantity);
-		Assert.AreEqual(state.CurrentPrice, drug.CurrentPrice);
+		Assert.AreEqual(state.CurrentPrice, drug.Price);
 	}
 
 	[TestMethod]
@@ -48,7 +49,7 @@ public partial class InfrastructureFactoryTests
 		Assert.IsNotNull(state);
 		Assert.AreEqual(drug.Type, state.Type);
 		Assert.AreEqual(drug.Quantity, state.Quantity);
-		Assert.AreEqual(drug.CurrentPrice, state.CurrentPrice);
+		Assert.AreEqual(drug.Price, state.CurrentPrice);
 	}
 
 	[TestMethod]
@@ -298,7 +299,7 @@ public partial class InfrastructureFactoryTests
 		{
 			IDrug drug = DomainFactory.CreateDrug();
 			ITransaction transaction =
-				DomainFactory.CreateTransaction(DateTime.Now, TransactionType.BUY, drug.Type, RandomHelper.GetInt(10, 25), RandomHelper.GetInt(drug.AveragePrice - 10, drug.AveragePrice + 10));
+				DomainFactory.CreateTransaction(DateTime.Now, TransactionType.BUY, drug.Type, RandomHelper.GetInt(10, 25), RandomHelper.GetInt(drug.Type.GetAveragePrice() - 10, drug.Type.GetAveragePrice() + 10));
 			player.AddTransaction(transaction);
 		}
 		_ = player.Inventory.Restock(player.Level);

@@ -14,7 +14,7 @@ public static class TransactionExtensions
 	/// <list type="bullet">
 	/// <item>The <see cref="DrugType"/> market value</item>
 	/// <item>The <see cref="TransactionType.BUY"/> or <see cref="TransactionType.SELL"/></item>
-	/// <item>The <see cref="IDrug.CurrentPrice"/></item>
+	/// <item>The <see cref="IDrug.Price"/></item>
 	/// </list>
 	/// </summary>
 	/// <param name="transaction">The transaction to be evaluated.</param>
@@ -22,7 +22,7 @@ public static class TransactionExtensions
 	public static int GetValue(this ITransaction transaction)
 	{
 		int quantity = transaction.Quantity;
-		int averagePrice = transaction.DrugType.GetAverageDrugPrice() * quantity;
+		int averagePrice = transaction.DrugType.GetAveragePrice() * quantity;
 		int currentPrice = transaction.Price * quantity;
 		int value = default;
 

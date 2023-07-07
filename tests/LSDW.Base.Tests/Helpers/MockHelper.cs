@@ -117,7 +117,7 @@ public static class MockHelper
 		Mock<IDrug> mock = new(MockBehavior.Loose);
 		mock.Setup(x => x.Type).Returns(type);
 		mock.Setup(x => x.Quantity).Returns(quantity);
-		mock.Setup(x => x.CurrentPrice).Returns(currentPrice);
+		mock.Setup(x => x.Price).Returns(currentPrice);
 		mock.SetupAllProperties();
 		return mock;
 	}

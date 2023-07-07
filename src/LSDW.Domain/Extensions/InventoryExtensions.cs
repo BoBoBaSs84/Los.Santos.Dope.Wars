@@ -17,7 +17,7 @@ public static class InventoryExtensions
 	/// <remarks>
 	/// This will do the following things:
 	/// <list type="bullet">
-	/// <item>The <see cref="IDrug.CurrentPrice"/></item>
+	/// <item>The <see cref="IDrug.Price"/></item>
 	/// <item>The <see cref="IDrug.Quantity"/></item>
 	/// <item>The <see cref="IInventory.Money"/></item>
 	/// </list>
@@ -53,7 +53,7 @@ public static class InventoryExtensions
 	/// <remarks>
 	/// This will do the following things:
 	/// <list type="bullet">
-	/// <item>The <see cref="IDrug.CurrentPrice"/></item>
+	/// <item>The <see cref="IDrug.Price"/></item>
 	/// </list>
 	/// If no <paramref name="playerLevel"/> is provided, no level bonuses are applied.
 	/// </remarks>

@@ -1,5 +1,6 @@
 ﻿using LemonUI.Menus;
 using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Extensions;
 using LSDW.Domain.Extensions;
 
 namespace LSDW.Presentation.Items;
@@ -17,12 +18,12 @@ internal sealed class DrugListItem : NativeListItem<int>
 	/// </summary>
 	/// <param name="drug">The drug for this menu item.</param>
 	/// <param name="comparisonPrice">Comparison price used as a reference basis.</param>
-	internal DrugListItem(IDrug drug, int comparisonPrice) : base(drug.Name, drug.Quantity.GetArray())
+	internal DrugListItem(IDrug drug, int comparisonPrice) : base(drug.Type.GetName(), drug.Quantity.GetArray())
 	{
 		_drug = drug;
 		_comparisonPrice = comparisonPrice;
 
-		Description = GetDescription(_drug.Quantity, _drug.CurrentPrice, _comparisonPrice);
+		Description = GetDescription(_drug.Quantity, _drug.Price, _comparisonPrice);
 		Enabled = _drug.Quantity > 0;
 		SelectedItem = _drug.Quantity;
 		Tag = drug.Type;
@@ -42,7 +43,7 @@ internal sealed class DrugListItem : NativeListItem<int>
 	}
 
 	private void OnItemChanged(object sender, ItemChangedEventArgs<int> args)
-		=> Description = GetDescription(args.Object, _drug.CurrentPrice, _comparisonPrice);
+		=> Description = GetDescription(args.Object, _drug.Price, _comparisonPrice);
 
 	private static string GetDescription(int quantity, int sourcePrice, int targetPrice)
 	{

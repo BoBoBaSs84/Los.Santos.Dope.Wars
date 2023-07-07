@@ -197,7 +197,7 @@ internal sealed class TransactionService : ITransactionService
 	{
 		string soundFile = "PURCHASE";
 		string soundSet = "HUD_LIQUOR_STORE_SOUNDSET";
-		string drugName = type.GetDrugName();
+		string drugName = type.GetName();
 
 		if (_transactionType is TransactionType.BUY)
 		{

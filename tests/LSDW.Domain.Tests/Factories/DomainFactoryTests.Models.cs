@@ -17,8 +17,6 @@ public partial class DomainFactoryTests
 
 		Assert.IsNotNull(drug);
 		Assert.AreEqual(drugType, drug.Type);
-		Assert.AreEqual(drugType.GetDrugName(), drug.Name);
-		Assert.AreEqual(drugType.GetAverageDrugPrice(), drug.AveragePrice);
 	}
 
 	[TestMethod]
@@ -33,8 +31,6 @@ public partial class DomainFactoryTests
 		Assert.IsNotNull(drug);
 		Assert.AreEqual(drugType, drug.Type);
 		Assert.AreEqual(quantity, drug.Quantity);
-		Assert.AreEqual(drugType.GetDrugName(), drug.Name);
-		Assert.AreEqual(drugType.GetAverageDrugPrice(), drug.AveragePrice);
 	}
 
 	[TestMethod]
@@ -50,9 +46,7 @@ public partial class DomainFactoryTests
 		Assert.IsNotNull(drug);
 		Assert.AreEqual(drugType, drug.Type);
 		Assert.AreEqual(quantity, drug.Quantity);
-		Assert.AreEqual(price, drug.CurrentPrice);
-		Assert.AreEqual(drugType.GetDrugName(), drug.Name);
-		Assert.AreEqual(drugType.GetAverageDrugPrice(), drug.AveragePrice);
+		Assert.AreEqual(price, drug.Price);
 	}
 
 	[TestMethod]

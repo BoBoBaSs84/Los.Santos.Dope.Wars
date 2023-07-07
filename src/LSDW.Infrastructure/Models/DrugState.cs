@@ -27,7 +27,7 @@ public sealed class DrugState
 	{
 		Type = drug.Type;
 		Quantity = drug.Quantity;
-		CurrentPrice = drug.CurrentPrice;
+		CurrentPrice = drug.Price;
 	}
 
 	/// <summary>
