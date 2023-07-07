@@ -21,11 +21,14 @@ public class TraffickingExtensionsTests
 	[TestMethod]
 	public void ChangeDealerPricesNonDiscoveredTest()
 	{
-		_stateService.Dealers.Add(DomainFactory.CreateDealer(_zeroVector));
+		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
+		_stateService.Dealers.Add(dealer);
 
 		_trafficking.ChangeDealerPrices(_stateService);
 
-		Assert.AreEqual(default, _stateService.Dealers.First().Inventory.Sum(x => x.CurrentPrice));
+		Assert.AreEqual(default, dealer.Inventory.Sum(x => x.CurrentPrice));
+		Assert.AreEqual(default, dealer.Inventory.Money);
+		Assert.AreEqual(default, dealer.Inventory.TotalQuantity);
 	}
 
 	[TestMethod]
@@ -37,18 +40,22 @@ public class TraffickingExtensionsTests
 
 		_trafficking.ChangeDealerPrices(_stateService);
 
-		Assert.AreNotEqual(default, _stateService.Dealers.First().Inventory.Sum(x => x.CurrentPrice));
+		Assert.AreNotEqual(default, dealer.Inventory.Sum(x => x.CurrentPrice));
+		Assert.AreEqual(default, dealer.Inventory.Money);
+		Assert.AreEqual(default, dealer.Inventory.TotalQuantity);
 	}
 
 	[TestMethod]
 	public void ChangeDealerInventoriesNonDiscoveredTest()
 	{
-		_stateService.Dealers.Add(DomainFactory.CreateDealer(_zeroVector));
+		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
+		_stateService.Dealers.Add(dealer);
 
 		_trafficking.ChangeDealerInventories(_stateService);
 
-		Assert.AreEqual(default, _stateService.Dealers.First().Inventory.Sum(x => x.CurrentPrice));
-		Assert.AreEqual(default, _stateService.Dealers.First().Inventory.Sum(x => x.Quantity));
+		Assert.AreEqual(default, dealer.Inventory.Money);
+		Assert.AreEqual(default, dealer.Inventory.TotalQuantity);
+		Assert.AreEqual(default, dealer.Inventory.TotalValue);
 	}
 
 	[TestMethod]
@@ -60,7 +67,8 @@ public class TraffickingExtensionsTests
 
 		_trafficking.ChangeDealerInventories(_stateService);
 
-		Assert.AreNotEqual(default, _stateService.Dealers.First().Inventory.Sum(x => x.CurrentPrice));
-		Assert.AreNotEqual(default, _stateService.Dealers.First().Inventory.Sum(x => x.Quantity));
+		Assert.AreNotEqual(default, dealer.Inventory.Money);
+		Assert.AreNotEqual(default, dealer.Inventory.TotalQuantity);
+		Assert.AreNotEqual(default, dealer.Inventory.TotalValue);
 	}
 }

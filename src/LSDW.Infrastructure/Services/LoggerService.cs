@@ -23,9 +23,9 @@ internal class LoggerService : ILoggerService
 	}
 
 	/// <summary>
-	/// The logger service singleton instance.
+	/// The singleton instance of the logger service.
 	/// </summary>
-	public static LoggerService Instance => new();
+	internal static readonly LoggerService Instance = new();
 
 	public void Critical(string message, [CallerMemberName] string callerName = "")
 		=> LogToFile("FTL", callerName, message);

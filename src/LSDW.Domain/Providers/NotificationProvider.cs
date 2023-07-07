@@ -12,9 +12,9 @@ namespace LSDW.Domain.Providers;
 internal sealed class NotificationProvider : INotificationProvider
 {
 	/// <summary>
-	/// The notification provider singleton instance.
+	/// The singleton instance of the notification provider.
 	/// </summary>
-	public static NotificationProvider Instance => new();
+	internal static readonly NotificationProvider Instance = new();
 
 	public void Hide(int handle)
 		=> Notification.Hide(handle);

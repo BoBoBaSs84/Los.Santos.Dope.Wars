@@ -18,6 +18,12 @@ public static partial class DomainFactory
 		=> NotificationProvider.Instance;
 
 	/// <summary>
+	/// Returns the screen provider singleton instance.
+	/// </summary>
+	public static IScreenProvider GetScreenProvider()
+		=> ScreenProvider.Instance;
+
+	/// <summary>
 	/// Returns the player provider singleton instance.
 	/// </summary>
 	public static IPlayerProvider GetPlayerProvider()

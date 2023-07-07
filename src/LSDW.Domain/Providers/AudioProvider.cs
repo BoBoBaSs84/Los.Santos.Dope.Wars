@@ -12,9 +12,9 @@ namespace LSDW.Domain.Providers;
 internal sealed class AudioProvider : IAudioProvider
 {
 	/// <summary>
-	/// The audio provider singleton instance.
+	/// The singleton instance of the audio provider.
 	/// </summary>
-	public static AudioProvider Instance => new();
+	internal static readonly AudioProvider Instance = new();
 
 	public void PlayMusic(string musicFile)
 		=> Audio.PlayMusic(musicFile);
