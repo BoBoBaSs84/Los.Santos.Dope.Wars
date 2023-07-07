@@ -15,6 +15,7 @@ public partial class ApplicationFactoryTests
 		Assert.IsNotNull(manager);
 		Assert.IsNotNull(manager.AudioProvider);
 		Assert.IsNotNull(manager.NotificationProvider);
+		Assert.IsNotNull(manager.ScreenProvider);
 		Assert.IsNotNull(manager.PlayerProvider);
 		Assert.IsNotNull(manager.RandomProvider);
 		Assert.IsNotNull(manager.WorldProvider);
