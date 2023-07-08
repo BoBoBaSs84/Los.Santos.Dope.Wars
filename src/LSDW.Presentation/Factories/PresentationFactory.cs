@@ -22,27 +22,35 @@ public static class PresentationFactory
 	/// Creates a new instance of the buy menu.
 	/// </summary>
 	/// <param name="providerManager">The provider manager instance to use.</param>
-	public static ISideMenu CreateBuyMenu(IProviderManager providerManager)
-		=> new SideMenu(TransactionType.BUY, providerManager);
+	/// <param name="player">The player instance to use.</param>
+	/// <param name="inventory">The inventory instance to use.</param>
+	public static IDealMenu CreateBuyMenu(IProviderManager providerManager, IPlayer player, IInventory inventory)
+		=> new DealMenu(providerManager, TransactionType.BUY, player, inventory);
 
 	/// <summary>
 	/// Creates a new instance of the sell menu.
 	/// </summary>
 	/// <param name="providerManager">The provider manager instance to use.</param>
-	public static ISideMenu CreateSellMenu(IProviderManager providerManager)
-		=> new SideMenu(TransactionType.SELL, providerManager);
+	/// <param name="player">The player instance to use.</param>
+	/// <param name="inventory">The inventory instance to use.</param>
+	public static IDealMenu CreateSellMenu(IProviderManager providerManager, IPlayer player, IInventory inventory)
+		=> new DealMenu(providerManager, TransactionType.SELL, player, inventory);
 
 	/// <summary>
 	/// Creates a new instance of the take menu.
 	/// </summary>
 	/// <param name="providerManager">The provider manager instance to use.</param>
-	public static ISideMenu CreateTakeMenu(IProviderManager providerManager)
-		=> new SideMenu(TransactionType.TAKE, providerManager);
+	/// <param name="player">The player instance to use.</param>
+	/// <param name="inventory">The inventory instance to use.</param>
+	public static IDealMenu CreateTakeMenu(IProviderManager providerManager, IPlayer player, IInventory inventory)
+		=> new DealMenu(providerManager, TransactionType.TAKE, player, inventory);
 
 	/// <summary>
 	/// Creates a new instance of the give menu.
 	/// </summary>
 	/// <param name="providerManager">The provider manager instance to use.</param>
-	public static ISideMenu CreateGiveMenu(IProviderManager providerManager)
-		=> new SideMenu(TransactionType.GIVE, providerManager);
+	/// <param name="player">The player instance to use.</param>
+	/// <param name="inventory">The inventory instance to use.</param>
+	public static IDealMenu CreateGiveMenu(IProviderManager providerManager, IPlayer player, IInventory inventory)
+		=> new DealMenu(providerManager, TransactionType.TAKE, player, inventory);
 }

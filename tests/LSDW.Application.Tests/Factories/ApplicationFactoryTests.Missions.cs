@@ -14,10 +14,6 @@ public partial class ApplicationFactoryTests
 		trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
 
 		Assert.IsNotNull(trafficking);
-		Assert.IsNotNull(trafficking.LoggerService);
-		Assert.IsNotNull(trafficking.PlayerProvider);
-		Assert.IsNotNull(trafficking.NotificationProvider);
-		Assert.IsNotNull(trafficking.WorldProvider);
 		Assert.AreEqual("Trafficking", trafficking.Name);
 		Assert.AreEqual(MissionStatusType.STOPPED, trafficking.Status);
 	}

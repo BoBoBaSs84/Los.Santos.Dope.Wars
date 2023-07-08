@@ -1,5 +1,6 @@
 ﻿using LemonUI;
 using LemonUI.Menus;
+using LSDW.Abstractions.Presentation.Menus;
 using GTAFont = GTA.UI.Font;
 
 namespace LSDW.Presentation.Menus.Base;
@@ -7,17 +8,14 @@ namespace LSDW.Presentation.Menus.Base;
 /// <summary>
 /// The menu base class.
 /// </summary>
-public abstract class MenuBase : NativeMenu
+internal abstract class MenuBase : NativeMenu, IMenuBase
 {
 	/// <summary>
 	/// The pool of menus.
 	/// </summary>
-	public static readonly ObjectPool Processables = new();
+	internal static readonly ObjectPool Processables = new();
 
-	/// <summary>
-	/// The latest active menu. This is used to determine which menu to return to when closing a menu.
-	/// </summary>
-	public MenuBase? LatestMenu { get; private set; }
+	public IMenuBase? LatestMenu { get; private set; }
 
 	/// <summary>
 	///	Creates a new menu.
@@ -45,12 +43,6 @@ public abstract class MenuBase : NativeMenu
 		Shown += OnShown;
 		Processables.Add(this);
 	}
-
-	/// <summary>
-	/// Toggles the visibility of the menu.
-	/// </summary>
-	public void Toggle()
-		=> Visible = !Visible;
 
 	/// <summary>
 	/// Adds a new item to the menu.
@@ -134,6 +126,6 @@ public abstract class MenuBase : NativeMenu
 		return subMenuItem;
 	}
 
-	private void OnShown(object sender, EventArgs e)
+	private void OnShown(object sender, EventArgs args)
 		=> LatestMenu = this;
 }

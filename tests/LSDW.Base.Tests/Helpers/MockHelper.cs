@@ -84,9 +84,6 @@ public static class MockHelper
 	public static Mock<ITrafficking> GetTrafficking()
 	{
 		Mock<ITrafficking> mock = new(MockBehavior.Loose);
-		mock.Setup(x => x.WorldProvider).Returns(GetWorldProvider().Object);
-		mock.Setup(x => x.LoggerService).Returns(GetLoggerService().Object);
-		mock.Setup(x => x.NotificationProvider).Returns(GetNotificationProvider().Object);
 		return mock;
 	}
 
