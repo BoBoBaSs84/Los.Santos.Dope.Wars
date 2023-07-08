@@ -29,7 +29,7 @@ internal sealed class DealMenu : MenuBase, IDealMenu
 	/// Initializes a instance of the deal menu class.
 	/// </summary>
 	/// <param name="providerManager">The provider manager instance to use.</param>
-	/// <param name="type"></param>
+	/// <param name="type">The transaction type that defines the menu.</param>
 	/// <param name="player">The player instance to use.</param>
 	/// <param name="inventory">The inventory instance to use.</param>
 	internal DealMenu(IProviderManager providerManager, TransactionType type, IPlayer player, IInventory inventory)
@@ -45,10 +45,12 @@ internal sealed class DealMenu : MenuBase, IDealMenu
 		BannerText.Font = GTAFont.Pricedown;
 		ItemCount = CountVisibility.Never;
 		Offset = GetMenuOffset();
-		MaxItems = _source.Count;
 
+		AddSwitchItem(type);
 		foreach (IDrug drug in _source)
 			AddDrugListItem(drug, OnItemActivated);
+
+		MaxItems = Items.Count;
 	}
 
 	private void OnItemActivated(NativeListItem<int> item, EventArgs args)
@@ -68,6 +70,11 @@ internal sealed class DealMenu : MenuBase, IDealMenu
 	private void OnItemChanged(NativeListItem<int> item)
 		=> SetItemDescription(item);
 
+	private void OnSwitchActivated()
+	{
+		_providerManager.NotificationProvider.Show($"{nameof(OnSwitchActivated)}");
+	}
+
 	/// <summary>
 	/// Adds a new drug list item to the menu.
 	/// </summary>
@@ -79,6 +86,13 @@ internal sealed class DealMenu : MenuBase, IDealMenu
 		NativeListItem<int> item = AddListItem(drug.Type.GetName(), string.Empty, activated, changed, drug.Quantity.GetArray());
 		SetDrugListItem(item, drug);
 	}
+
+	/// <summary>
+	/// Adds a new menu Switch item to the menu.
+	/// </summary>
+	/// <param name="type">The transaction type that defines the menu.</param>
+	private void AddSwitchItem(TransactionType type) =>
+		AddItem(SwitchItemHelper.GetTitle(type), SwitchItemHelper.GetDescription(type), OnSwitchActivated);
 
 	/// <summary>
 	/// Sets all possible things for the <paramref name="item"/> itself.
