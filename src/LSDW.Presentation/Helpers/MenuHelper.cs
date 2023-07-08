@@ -2,7 +2,6 @@
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Domain.Extensions;
-using LSDW.Presentation.Menus;
 using RESX = LSDW.Presentation.Properties.Resources;
 
 namespace LSDW.Presentation.Helpers;
@@ -11,7 +10,7 @@ namespace LSDW.Presentation.Helpers;
 /// The side menu helper class.
 /// </summary>
 /// <remarks>
-/// Contains only things relevant for the <see cref="SideMenu"/> class.
+/// Contains only things relevant for menus.
 /// </remarks>
 public static class MenuHelper
 {
@@ -21,7 +20,7 @@ public static class MenuHelper
 	/// <param name="type">The transaction type for the menu.</param>
 	/// <param name="player">The player and his inventory.</param>
 	/// <param name="inventory">The opposing inventory.</param>
-	internal static (IInventory source, IInventory target) GetInventories(TransactionType type, IPlayer player, IInventory inventory)
+	public static (IInventory source, IInventory target) GetInventories(TransactionType type, IPlayer player, IInventory inventory)
 		=> type is TransactionType.SELL or TransactionType.GIVE
 		? ((IInventory source, IInventory target))(player.Inventory, inventory)
 		: ((IInventory source, IInventory target))(inventory, player.Inventory);

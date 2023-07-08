@@ -219,11 +219,8 @@ public static class TraffickingExtensions
 				}
 			}
 
-			if (ClosestDealer.Position.DistanceTo(playerPosition) > InteractionDistance)
-			{
-				if (trafficking.LeftSideMenu.Visible || trafficking.RightSideMenu.Visible)
-					trafficking.LeftSideMenu.Visible = trafficking.RightSideMenu.Visible = false;
-			}
+			if (ClosestDealer.Position.DistanceTo(playerPosition) > InteractionDistance && trafficking.LeftSideMenu is not null && trafficking.RightSideMenu is not null)
+				trafficking.LeftSideMenu.Visible = trafficking.RightSideMenu.Visible = false;
 
 			if (ClosestDealer.IsDead)
 			{
