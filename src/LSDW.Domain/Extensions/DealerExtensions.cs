@@ -1,12 +1,12 @@
 ﻿using GTA;
-using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Application.Managers;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Providers;
+using LSDW.Abstractions.Enumerators;
+using LSDW.Abstractions.Extensions;
 using LSDW.Domain.Properties;
 using System.Diagnostics.CodeAnalysis;
 using MarketSettings = LSDW.Abstractions.Models.Settings.Market;
-using LSDW.Abstractions.Extensions;
 
 namespace LSDW.Domain.Extensions;
 
@@ -44,8 +44,11 @@ public static class DealerExtensions
 	}
 
 	/// <summary>
-	/// 
+	/// This will pick a random drug from the dealers inventory and make a special offer on it.
 	/// </summary>
+	/// <remarks>
+	/// There is a 50:50 chance whether it is a buy or sell offer.
+	/// </remarks>
 	/// <param name="dealer">The dealer to make a speical offer.</param>
 	/// <param name="providerManager">The provider manager instance to use.</param>
 	/// <param name="playerLevel">The current player level.</param>
@@ -72,13 +75,13 @@ public static class DealerExtensions
 		}
 
 		// special sell offer
-		if (random > 0.5f)
+		if (random >= 0.5f)
 		{
 			drug.SpecialSellOffer(playerLevel);
 			notificationProvider.Show(
 				sender: dealer.Name,
 				subject: Resources.Dealer_Message_SpecialSellOffer_Subject,
-				message: Resources.Dealer_Message_SpecialSellOffer_Subject.FormatInvariant(drug.Type.GetName()),
+				message: Resources.Dealer_Message_SpecialSellOffer_Message.FormatInvariant(drug.Type.GetName()),
 				blinking: true
 				);
 		}
