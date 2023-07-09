@@ -117,7 +117,7 @@ internal sealed class Drug : Notification, IDrug
 	private int GetHighestPrice(int playerLevel)
 	{
 		float maximumDrugPrice = Settings.Market.MaximumDrugPrice;
-		float playerfactor = (float)playerLevel / (float)1000;
+		float playerfactor = playerLevel / (float)1000;
 		float averagePrice = Type.GetAveragePrice();
 		float highestPrice = (maximumDrugPrice + playerfactor) * averagePrice;
 
@@ -131,7 +131,7 @@ internal sealed class Drug : Notification, IDrug
 	private int GetLowestPrice(int playerLevel)
 	{
 		float maximumDrugPrice = Settings.Market.MaximumDrugPrice;
-		float playerfactor = (float)playerLevel / (float)1000;
+		float playerfactor = playerLevel / (float)1000;
 		float averagePrice = Type.GetAveragePrice();
 		float lowestPrice = (maximumDrugPrice - playerfactor) * averagePrice;
 

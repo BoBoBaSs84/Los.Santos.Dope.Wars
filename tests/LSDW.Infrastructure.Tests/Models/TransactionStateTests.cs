@@ -11,7 +11,7 @@ public class TransactionStateTests
 	[TestMethod]
 	public void ShouldSerializePriceTest()
 	{
-		Mock<ITransaction> mock = new();		
+		Mock<ITransaction> mock = new();
 
 		TransactionState state =
 			InfrastructureFactory.CreateTransactionState(mock.Object);

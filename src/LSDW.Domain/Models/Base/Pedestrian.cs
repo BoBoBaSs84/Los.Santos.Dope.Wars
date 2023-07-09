@@ -49,7 +49,7 @@ internal abstract class Pedestrian : IPedestrian
 	public Vector3 Position => ped is not null ? ped.Position : Vector3.Zero;
 	public Vector3 SpawnPosition { get; }
 	public PedHash Hash { get; }
-	public string Name { get; }	
+	public string Name { get; }
 
 	public virtual void Attack(Ped ped)
 	{

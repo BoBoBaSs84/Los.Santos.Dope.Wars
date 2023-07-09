@@ -46,7 +46,7 @@ internal sealed class WorldProvider : IWorldProvider
 
 	public Ped[] GetNearbyPeds(Vector3 position, float radius, params Model[] models)
 		=> World.GetNearbyPeds(position, radius, models);
-	
+
 	public Vector3 GetNextPositionOnSidewalk(Vector3 position)
 		=> World.GetSafeCoordForPed(position, true, 1);
 

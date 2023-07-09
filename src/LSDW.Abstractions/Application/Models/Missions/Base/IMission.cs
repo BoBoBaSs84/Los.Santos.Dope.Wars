@@ -1,5 +1,4 @@
-﻿using LSDW.Abstractions.Application.Managers;
-using LSDW.Abstractions.Enumerators;
+﻿using LSDW.Abstractions.Enumerators;
 
 namespace LSDW.Abstractions.Application.Models.Missions.Base;
 
