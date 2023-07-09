@@ -40,7 +40,7 @@ internal sealed class Trafficking : Mission, ITrafficking
 
 	public override void StopMission()
 	{
-		_serviceManager.StateService.Dealers.CleanUp();
+		_ = _serviceManager.StateService.Dealers.CleanUp();
 		base.StopMission();
 	}
 

@@ -63,7 +63,7 @@ public class RandomProviderTests
 	{
 		int iMin = 1;
 		int iMax = 10;
-		
+
 		int r = _randomProvider.GetInt(iMin, iMax);
 
 		Assert.AreNotEqual(iMax, r);

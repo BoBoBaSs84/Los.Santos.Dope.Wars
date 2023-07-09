@@ -4,7 +4,7 @@
 	</PropertyGroup>
 
 	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('Tests'))">
-		<PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.6.2" />
+		<PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
 		<PackageVersion Include="MSTest.TestAdapter" Version="3.0.4" />
 		<PackageVersion Include="MSTest.TestFramework" Version="3.0.4" />
 		<PackageVersion Include="coverlet.collector" Version="6.0.0" />

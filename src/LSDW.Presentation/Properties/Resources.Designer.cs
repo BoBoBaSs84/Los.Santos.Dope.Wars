@@ -187,6 +187,24 @@ namespace LSDW.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to How likely is it that a dealer will have a special offer..
+        /// </summary>
+        internal static string UI_Settings_Market_SpecialOfferChance_Description {
+            get {
+                return ResourceManager.GetString("UI.Settings.Market.SpecialOfferChance.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Special offer chance.
+        /// </summary>
+        internal static string UI_Settings_Market_SpecialOfferChance_Title {
+            get {
+                return ResourceManager.GetString("UI.Settings.Market.SpecialOfferChance.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The experience value multiplier, which is to be applied at each experience gain..
         /// </summary>
         internal static string UI_Settings_Player_ExperienceMultiplier_Description {

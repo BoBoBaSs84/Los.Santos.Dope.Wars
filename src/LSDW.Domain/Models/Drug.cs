@@ -19,6 +19,7 @@ namespace LSDW.Domain.Models;
 internal sealed class Drug : Notification, IDrug
 {
 	private int quantity;
+	private int price;
 
 	/// <summary>
 	/// Initializes a instance of the drug class.
@@ -33,7 +34,11 @@ internal sealed class Drug : Notification, IDrug
 		Quantity = quantity;
 	}
 
-	public int Price { get; private set; }
+	public int Price
+	{
+		get => price;
+		private set => SetProperty(ref price, value);
+	}
 
 	public DrugType Type { get; }
 
@@ -54,22 +59,12 @@ internal sealed class Drug : Notification, IDrug
 			throw new ArgumentOutOfRangeException(nameof(price), message);
 		}
 
-		Price = (Price * Quantity + price * quantity) / (Quantity + quantity);
+		Price = ((Price * Quantity) + (price * quantity)) / (Quantity + quantity);
 		Quantity += quantity;
 	}
 
 	public void RandomizePrice(int playerLevel)
-	{
-		float minimumDrugValue = Settings.Market.MinimumDrugPrice;
-		float maximumDrugValue = Settings.Market.MaximumDrugPrice;
-		int averagePrice = Type.GetAveragePrice();
-
-		float levelLimit = (float)playerLevel / 1000;
-		float lowerLimit = (minimumDrugValue - levelLimit) * averagePrice;
-		float upperLimit = (maximumDrugValue + levelLimit) * averagePrice;
-
-		Price = RandomHelper.GetInt(lowerLimit, upperLimit);
-	}
+		=> Price = RandomHelper.GetInt(GetLowestPrice(playerLevel), GetHighestPrice(playerLevel));
 
 	public void RandomizeQuantity(int playerLevel)
 	{
@@ -81,10 +76,7 @@ internal sealed class Drug : Notification, IDrug
 			return;
 		}
 
-		int minQuantity = 0 + playerLevel;
-		int maxQuantity = 5 + playerLevel * 5;
-
-		Quantity = RandomHelper.GetInt(minQuantity, maxQuantity);
+		Quantity = RandomHelper.GetInt(GetLowestQuantity(playerLevel), GetHighestQuantity(playerLevel));
 	}
 
 	public void Remove(int quantity)
@@ -105,4 +97,58 @@ internal sealed class Drug : Notification, IDrug
 		if (Quantity.Equals(0))
 			Price = Quantity;
 	}
+
+	public void SpecialBuyOffer(int playerLevel)
+	{
+		Quantity = 0;
+		Price = GetHighestPrice(playerLevel);
+	}
+
+	public void SpecialSellOffer(int playerLevel)
+	{
+		Quantity = GetHighestQuantity(playerLevel);
+		Price = GetLowestPrice(playerLevel);
+	}
+
+	/// <summary>
+	/// Returns the current highest possible price, depending on the current player level.
+	/// </summary>
+	/// <param name="playerLevel">The current player level.</param>
+	private int GetHighestPrice(int playerLevel)
+	{
+		float maximumDrugPrice = Settings.Market.MaximumDrugPrice;
+		float playerfactor = playerLevel / (float)1000;
+		float averagePrice = Type.GetAveragePrice();
+		float highestPrice = (maximumDrugPrice + playerfactor) * averagePrice;
+
+		return (int)highestPrice;
+	}
+
+	/// <summary>
+	/// Returns the current lowest possible price, depending on the current player level.
+	/// </summary>
+	/// <param name="playerLevel">The current player level.</param>
+	private int GetLowestPrice(int playerLevel)
+	{
+		float maximumDrugPrice = Settings.Market.MaximumDrugPrice;
+		float playerfactor = playerLevel / (float)1000;
+		float averagePrice = Type.GetAveragePrice();
+		float lowestPrice = (maximumDrugPrice - playerfactor) * averagePrice;
+
+		return (int)lowestPrice;
+	}
+
+	/// <summary>
+	/// Returns the current highest possible quantity, depending on the current player level.
+	/// </summary>
+	/// <param name="playerLevel">The current player level.</param>
+	private static int GetHighestQuantity(int playerLevel)
+		=> 5 + (playerLevel * 5);
+
+	/// <summary>
+	/// Returns the current lowest possible quantity, depending on the current player level.
+	/// </summary>
+	/// <param name="playerLevel">The current player level.</param>
+	private static int GetLowestQuantity(int playerLevel)
+		=> 0 + playerLevel;
 }

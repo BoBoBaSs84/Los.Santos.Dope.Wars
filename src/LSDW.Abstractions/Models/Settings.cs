@@ -48,6 +48,10 @@ public static class Settings
 	public static class Market
 	{
 		/// <summary>
+		/// The special offer chance property.
+		/// </summary>
+		public static float SpecialOfferChance { get; set; } = 0.15f;
+		/// <summary>
 		/// The inventory change interval property.
 		/// </summary>
 		public static int InventoryChangeInterval { get; set; } = 24;
@@ -63,6 +67,11 @@ public static class Settings
 		/// The minimum drug price factor.
 		/// </summary>
 		public static float MinimumDrugPrice { get; set; } = 0.85f;
+		/// <summary>
+		/// Returns the possible special offer chance values.
+		/// </summary>
+		public static List<float> GetSpecialOfferChanceValues()
+			=> new float[] { 0.5f, 0.10f, 0.15f, 0.20f, 0.25f }.ToList();
 		/// <summary>
 		/// Returns the possible inventory change interval values.
 		/// </summary>

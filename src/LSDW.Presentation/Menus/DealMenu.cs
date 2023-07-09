@@ -72,7 +72,7 @@ internal sealed class DealMenu : MenuBase, IDealMenu
 
 	private void OnSwitchActivated()
 	{
-		_providerManager.NotificationProvider.Show($"{nameof(OnSwitchActivated)}");
+		_ = _providerManager.NotificationProvider.Show($"{nameof(OnSwitchActivated)}");
 	}
 
 	/// <summary>

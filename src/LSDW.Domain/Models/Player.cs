@@ -61,5 +61,5 @@ internal sealed class Player : Notification, IPlayer
 		=> PlayerConstants.CalculateExperienceNextLevel(Level);
 
 	private int GetMaximumInventoryQuantity()
-		=> StartingInventory + Level * InventoryExpansionPerLevel;
+		=> StartingInventory + (Level * InventoryExpansionPerLevel);
 }

@@ -38,6 +38,14 @@ internal sealed partial class SettingsMenu
     };
     dealerHasWeaponsItem.CheckboxChanged += OnDealerHasWeaponsItemCheckboxChanged;
     Add(dealerHasWeaponsItem);
+    SettingListItem<float> marketSpecialOfferChanceItem = new(RESX.UI_Settings_Market_SpecialOfferChance_Title)
+    {
+      Description = RESX.UI_Settings_Market_SpecialOfferChance_Description,
+      Items = _settingsService.MarketSettings.GetSpecialOfferChanceValues(),
+      SelectedItem = _settingsService.MarketSettings.GetSpecialOfferChance()
+    };
+    marketSpecialOfferChanceItem.ItemChanged += OnMarketSpecialOfferChanceItemChanged;
+    Add(marketSpecialOfferChanceItem);
     SettingListItem<int> marketInventoryChangeIntervalItem = new(RESX.UI_Settings_Market_InventoryChangeInterval_Title)
     {
       Description = RESX.UI_Settings_Market_InventoryChangeInterval_Description,
@@ -164,6 +172,12 @@ internal sealed partial class SettingsMenu
       return;
     _settingsService.DealerSettings.SetHasWeapons(item.Checked);
   }  
+  private void OnMarketSpecialOfferChanceItemChanged(object sender, ItemChangedEventArgs<float> args)
+  {
+    if (sender is not SettingListItem<float> item)
+      return;
+    _settingsService.MarketSettings.SetSpecialOfferChance(item.SelectedItem);
+  }
   private void OnMarketInventoryChangeIntervalItemChanged(object sender, ItemChangedEventArgs<int> args)
   {
     if (sender is not SettingListItem<int> item)
