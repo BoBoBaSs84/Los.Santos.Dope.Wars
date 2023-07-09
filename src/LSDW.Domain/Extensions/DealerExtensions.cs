@@ -1,8 +1,12 @@
 ﻿using GTA;
+using LSDW.Abstractions.Enumerators;
+using LSDW.Abstractions.Application.Managers;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Providers;
+using LSDW.Domain.Properties;
 using System.Diagnostics.CodeAnalysis;
 using MarketSettings = LSDW.Abstractions.Models.Settings.Market;
+using LSDW.Abstractions.Extensions;
 
 namespace LSDW.Domain.Extensions;
 
@@ -36,6 +40,49 @@ public static class DealerExtensions
 		dealer.Inventory.Restock(playerLevel);
 		dealer.NextInventoryChange = worldProvider.Now.AddHours(MarketSettings.InventoryChangeInterval);
 		dealer.NextPriceChange = worldProvider.Now.AddHours(MarketSettings.PriceChangeInterval);
+		return dealer;
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="dealer">The dealer to make a speical offer.</param>
+	/// <param name="providerManager">The provider manager instance to use.</param>
+	/// <param name="playerLevel">The current player level.</param>
+	// TODO: Special blip icon ?
+	public static IDealer MakeSpecialOffer(this IDealer dealer, IProviderManager providerManager, int playerLevel)
+	{
+		IRandomProvider randomProvider = providerManager.RandomProvider;
+		INotificationProvider notificationProvider = providerManager.NotificationProvider;
+		DrugType drugType = dealer.Inventory.Select(x => x.Type).ToList()[randomProvider.GetInt(dealer.Inventory.Count)];
+
+		IDrug drug = dealer.Inventory.First(x => x.Type == drugType);
+		float random = randomProvider.GetFloat();
+
+		// special buy offer
+		if (random < 0.5f)
+		{
+			drug.SpecialBuyOffer(playerLevel);
+			notificationProvider.Show(
+				sender: dealer.Name,
+				subject: Resources.Dealer_Message_SpecialBuyOffer_Subject,
+				message: Resources.Dealer_Message_SpecialBuyOffer_Message.FormatInvariant(drug.Type.GetName()),
+				blinking: true
+				);
+		}
+
+		// special sell offer
+		if (random > 0.5f)
+		{
+			drug.SpecialSellOffer(playerLevel);
+			notificationProvider.Show(
+				sender: dealer.Name,
+				subject: Resources.Dealer_Message_SpecialSellOffer_Subject,
+				message: Resources.Dealer_Message_SpecialSellOffer_Subject.FormatInvariant(drug.Type.GetName()),
+				blinking: true
+				);
+		}
+
 		return dealer;
 	}
 
