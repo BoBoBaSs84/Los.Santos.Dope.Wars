@@ -16,6 +16,16 @@ public partial class DomainFactoryTests
 	}
 
 	[TestMethod]
+	public void GetGameProviderTest()
+	{
+		IGameProvider? provider;
+
+		provider = DomainFactory.GetGameProvider();
+
+		Assert.IsNotNull(provider);
+	}
+
+	[TestMethod]
 	public void GetNotificationProviderTest()
 	{
 		INotificationProvider? provider;

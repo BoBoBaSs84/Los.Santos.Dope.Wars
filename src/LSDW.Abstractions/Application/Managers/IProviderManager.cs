@@ -13,6 +13,11 @@ public interface IProviderManager
 	IAudioProvider AudioProvider { get; }
 
 	/// <summary>
+	/// The game provider
+	/// </summary>
+	IGameProvider GameProvider { get; }
+
+	/// <summary>
 	/// The world provider.
 	/// </summary>
 	INotificationProvider NotificationProvider { get; }
