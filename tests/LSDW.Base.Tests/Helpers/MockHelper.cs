@@ -18,6 +18,13 @@ public static class MockHelper
 		return mock;
 	}
 
+	public static Mock<IGameProvider> GetGameProvider()
+	{
+		Mock<IGameProvider> mock = new(MockBehavior.Loose);
+		mock.SetupAllProperties();
+		return mock;
+	}
+
 	public static Mock<INotificationProvider> GetNotificationProvider()
 	{
 		Mock<INotificationProvider> mock = new(MockBehavior.Loose);
@@ -43,7 +50,14 @@ public static class MockHelper
 
 	public static Mock<IPlayerProvider> GetPlayerProvider()
 	{
-		Mock<IPlayerProvider> mock = new();
+		Mock<IPlayerProvider> mock = new(MockBehavior.Loose);
+		mock.SetupAllProperties();
+		return mock;
+	}
+
+	public static Mock<IScreenProvider> GetScreenProvider()
+	{
+		Mock<IScreenProvider> mock = new(MockBehavior.Loose);
 		mock.SetupAllProperties();
 		return mock;
 	}
@@ -52,8 +66,10 @@ public static class MockHelper
 	{
 		Mock<IProviderManager> mock = new(MockBehavior.Loose);
 		mock.Setup(x => x.AudioProvider).Returns(GetAudioProvider().Object);
+		mock.Setup(x => x.GameProvider).Returns(GetGameProvider().Object);
 		mock.Setup(x => x.NotificationProvider).Returns(GetNotificationProvider().Object);
 		mock.Setup(x => x.PlayerProvider).Returns(GetPlayerProvider().Object);
+		mock.Setup(x => x.ScreenProvider).Returns(GetScreenProvider().Object);
 		mock.Setup(x => x.RandomProvider).Returns(GetRandomProvider().Object);
 		mock.Setup(x => x.WorldProvider).Returns(GetWorldProvider().Object);
 		return mock;

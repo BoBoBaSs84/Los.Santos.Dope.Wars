@@ -10,6 +10,7 @@ namespace LSDW.Application.Managers;
 internal sealed class ProviderManager : IProviderManager
 {
 	private readonly Lazy<IAudioProvider> _lazyAudioProvider;
+	private readonly Lazy<IGameProvider> _lazyGameProvider;
 	private readonly Lazy<INotificationProvider> _lazyNotificationProvider;
 	private readonly Lazy<IScreenProvider> _lazyScreenScreenProvider;
 	private readonly Lazy<IPlayerProvider> _lazyPlayerProvider;
@@ -22,6 +23,7 @@ internal sealed class ProviderManager : IProviderManager
 	internal ProviderManager()
 	{
 		_lazyAudioProvider = new Lazy<IAudioProvider>(DomainFactory.GetAudioProvider);
+		_lazyGameProvider = new Lazy<IGameProvider>(DomainFactory.GetGameProvider);
 		_lazyNotificationProvider = new Lazy<INotificationProvider>(DomainFactory.GetNotificationProvider);
 		_lazyScreenScreenProvider = new Lazy<IScreenProvider>(DomainFactory.GetScreenProvider);
 		_lazyPlayerProvider = new Lazy<IPlayerProvider>(DomainFactory.GetPlayerProvider);
@@ -36,6 +38,9 @@ internal sealed class ProviderManager : IProviderManager
 
 	public IAudioProvider AudioProvider
 		=> _lazyAudioProvider.Value;
+
+	public IGameProvider GameProvider
+		=> _lazyGameProvider.Value;
 
 	public INotificationProvider NotificationProvider
 		=> _lazyNotificationProvider.Value;
