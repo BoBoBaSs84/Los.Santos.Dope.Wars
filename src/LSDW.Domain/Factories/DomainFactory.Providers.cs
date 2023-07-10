@@ -12,6 +12,12 @@ public static partial class DomainFactory
 		=> AudioProvider.Instance;
 
 	/// <summary>
+	/// Returns the game provider singleton instance.
+	/// </summary>
+	public static IGameProvider GetGameProvider()
+		=> GameProvider.Instance;
+
+	/// <summary>
 	/// Returns the world provider singleton instance.
 	/// </summary>
 	public static INotificationProvider GetNotificationProvider()

@@ -14,7 +14,11 @@ public class ProviderManagerTests
 		manager = new ProviderManager();
 
 		Assert.IsNotNull(manager);
+		Assert.IsNotNull(manager.AudioProvider);
+		Assert.IsNotNull(manager.GameProvider);
 		Assert.IsNotNull(manager.PlayerProvider);
+		Assert.IsNotNull(manager.ScreenProvider);
+		Assert.IsNotNull(manager.RandomProvider);
 		Assert.IsNotNull(manager.NotificationProvider);
 		Assert.IsNotNull(manager.WorldProvider);
 	}
