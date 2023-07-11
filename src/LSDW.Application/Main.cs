@@ -32,13 +32,13 @@ public sealed class Main : Script
 	/// </summary>
 	public Main()
 	{
-#if DEBUG		
+#if DEBUG
 		IsDevelopment = true;
 #else
 		IsDevelopment = false;
 #endif
 		_providerManager = ApplicationFactory.GetProviderManager();
-		_serviceManager = ApplicationFactory.GetServiceManager();		
+		_serviceManager = ApplicationFactory.GetServiceManager();
 
 		_settingsMenu = PresentationFactory.CreateSettingsMenu(_serviceManager);
 		_settingsMenu.Add(_processables);
@@ -62,7 +62,7 @@ public sealed class Main : Script
 
 	private void OnKeyUp(object sender, KeyEventArgs args)
 	{
-		while (!Game.Player.CanControlCharacter)
+		while (!_providerManager.PlayerProvider.CanControlCharacter)
 			Yield();
 
 		if (args.KeyCode == Keys.F10)

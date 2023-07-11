@@ -1,14 +1,14 @@
-﻿using GTA;
-using GTA.Math;
-using LSDW.Abstractions.Enumerators;
+﻿using GTA.Math;
 using LSDW.Abstractions.Application.Models.Missions;
 using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Abstractions.Models;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
 using System.Diagnostics.CodeAnalysis;
 using DealerSettings = LSDW.Abstractions.Models.Settings.Dealer;
+using GTAControl = GTA.Control;
 using RESX = LSDW.Application.Properties.Resources;
 
 
@@ -209,7 +209,7 @@ public static class TraffickingExtensions
 				{
 					trafficking.NotificationProvider.ShowHelpText(RESX.Trafficking_HelpText_DealMenu, 1, true, false);
 
-					if (Game.IsControlJustPressed(GTA.Control.Context))
+					if (trafficking.GameProvider.IsControlJustPressed(GTAControl.Context))
 						trafficking.LeftSideMenu.Visible = true;
 				}
 			}
