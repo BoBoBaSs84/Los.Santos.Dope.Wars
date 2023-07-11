@@ -25,9 +25,14 @@ public interface IMission
 	ILoggerService LoggerService { get; }
 
 	/// <summary>
-	/// The location provider instance to use.
+	/// The audio provider instance to use.
 	/// </summary>
-	IWorldProvider WorldProvider { get; }
+	IAudioProvider AudioProvider { get; }
+
+	/// <summary>
+	/// The game provider instance to use.
+	/// </summary>
+	IGameProvider GameProvider { get; }
 
 	/// <summary>
 	/// The notification provider instance to use.
@@ -38,6 +43,16 @@ public interface IMission
 	/// The player provider instance to use.
 	/// </summary>
 	IPlayerProvider PlayerProvider { get; }
+
+	/// <summary>
+	/// The screen provider instance to use.
+	/// </summary>
+	IScreenProvider ScreenProvider { get; }
+
+	/// <summary>
+	/// The location provider instance to use.
+	/// </summary>
+	IWorldProvider WorldProvider { get; }
 
 	/// <summary>
 	/// Should be used for starting the mission.
