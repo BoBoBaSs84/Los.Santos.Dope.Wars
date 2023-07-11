@@ -1,4 +1,6 @@
-﻿using LSDW.Abstractions.Application.Models.Missions.Base;
+﻿using LSDW.Abstractions.Application.Managers;
+using LSDW.Abstractions.Application.Models.Missions.Base;
+using LSDW.Abstractions.Domain.Providers;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Domain.Extensions;
@@ -14,23 +16,37 @@ namespace LSDW.Application.Models.Missions.Base;
 /// </remarks>
 internal abstract class Mission : IMission
 {
-	private readonly ILoggerService _loggerService;
-
 	/// <summary>
-	/// Initializes a instance of the mission base class.
+	/// Initializes a instance of the mission class.
 	/// </summary>
-	/// <param name="loggerService">The logger service instance to use.</param>
+	/// <param name="serviceManager">The service manager instance to use.</param>
+	/// <param name="providerManager">The provider manager instance to use.</param>	
 	/// <param name="name">The name of the mission.</param>
-	protected Mission(ILoggerService loggerService, string name)
+	protected Mission(IServiceManager serviceManager, IProviderManager providerManager, string name = nameof(Mission))
 	{
-		_loggerService = loggerService;
-
 		Name = name;
 		Status = MissionStatusType.STOPPED;
+
+		LoggerService = serviceManager.LoggerService;
+		StateService = serviceManager.StateService;
+		AudioProvider = providerManager.AudioProvider;
+		GameProvider = providerManager.GameProvider;
+		NotificationProvider = providerManager.NotificationProvider;
+		PlayerProvider = providerManager.PlayerProvider;
+		ScreenProvider = providerManager.ScreenProvider;
+		WorldProvider = providerManager.WorldProvider;
 	}
 
 	public string Name { get; }
 	public MissionStatusType Status { get; private set; }
+	public ILoggerService LoggerService { get; }
+	public IStateService StateService { get; }
+	public IAudioProvider AudioProvider { get; }
+	public IGameProvider GameProvider { get; }
+	public INotificationProvider NotificationProvider { get; }
+	public IPlayerProvider PlayerProvider { get; }
+	public IScreenProvider ScreenProvider { get; }
+	public IWorldProvider WorldProvider { get; }
 
 	public abstract void OnAborted(object sender, EventArgs args);
 
@@ -38,13 +54,13 @@ internal abstract class Mission : IMission
 
 	public virtual void StartMission()
 	{
-		_loggerService.Information(RESX.Mission_Information_Started.FormatInvariant(Name));
+		LoggerService.Information(RESX.Mission_Information_Started.FormatInvariant(Name));
 		Status = MissionStatusType.STARTED;
 	}
 
 	public virtual void StopMission()
 	{
-		_loggerService.Information(RESX.Mission_Information_Stopped.FormatInvariant(Name));
+		LoggerService.Information(RESX.Mission_Information_Stopped.FormatInvariant(Name));
 		Status = MissionStatusType.STOPPED;
 	}
 }

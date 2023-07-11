@@ -26,7 +26,7 @@ internal sealed class Trafficking : Mission, ITrafficking
 	/// </summary>
 	/// <param name="serviceManager">The service manager instance to use.</param>
 	/// <param name="providerManager">The provider manager instance to use.</param>
-	internal Trafficking(IServiceManager serviceManager, IProviderManager providerManager) : base(serviceManager.LoggerService, nameof(Trafficking))
+	internal Trafficking(IServiceManager serviceManager, IProviderManager providerManager) : base(serviceManager, providerManager, nameof(Trafficking))
 	{
 		_serviceManager = serviceManager;
 		_providerManager = providerManager;
@@ -40,7 +40,7 @@ internal sealed class Trafficking : Mission, ITrafficking
 
 	public override void StopMission()
 	{
-		_ = _serviceManager.StateService.Dealers.CleanUp();
+		_ = StateService.Dealers.CleanUp();
 		base.StopMission();
 	}
 
@@ -55,20 +55,20 @@ internal sealed class Trafficking : Mission, ITrafficking
 		if (Status is not MissionStatusType.STARTED)
 			return;
 
-		if (!_providerManager.PlayerProvider.CanControlCharacter && !_providerManager.PlayerProvider.CanStartMission)
+		if (PlayerProvider.CanControlCharacter && !PlayerProvider.CanStartMission)
 			return;
 
 		try
 		{
-			_ = this.TrackDealers(_providerManager, _serviceManager)
-				.DiscoverDealers(_providerManager, _serviceManager)
-				.ChangeDealerInventories(_providerManager, _serviceManager)
-				.ChangeDealerPrices(_providerManager, _serviceManager)
-				.InProximity(_providerManager, _serviceManager);
+			_ = this.TrackDealers()
+				.DiscoverDealers()
+				.ChangeDealerInventories()
+				.ChangeDealerPrices()
+				.InProximity(_providerManager);
 		}
 		catch (Exception ex)
 		{
-			_serviceManager.LoggerService.Critical(RESX.Trafficking_Error_Critical, ex);
+			LoggerService.Critical(RESX.Trafficking_Error_Critical, ex);
 		}
 	}
 }
