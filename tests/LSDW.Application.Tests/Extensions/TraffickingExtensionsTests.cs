@@ -33,8 +33,9 @@ public class TraffickingExtensionsTests
 		Mock<IStateService> stateServiceMock = new();
 		stateServiceMock.Setup(x => x.Dealers).Returns(dealers);
 		_serviceManagerMock.Setup(x => x.StateService).Returns(stateServiceMock.Object);
+		ITrafficking trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
 
-		_trafficking.ChangeDealerPrices(_providerManagerMock.Object, _serviceManagerMock.Object);
+		trafficking.ChangeDealerPrices();
 
 		Assert.AreEqual(0, dealers.First().Inventory.Sum(x => x.Price));
 		Assert.AreEqual(0, dealers.First().Inventory.Money);
@@ -51,8 +52,9 @@ public class TraffickingExtensionsTests
 		stateServiceMock.Setup(x => x.Dealers).Returns(dealers);
 		stateServiceMock.Setup(x => x.Player).Returns(player);
 		_serviceManagerMock.Setup(x => x.StateService).Returns(stateServiceMock.Object);
+		ITrafficking trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
 
-		_trafficking.ChangeDealerPrices(_providerManagerMock.Object, _serviceManagerMock.Object);
+		trafficking.ChangeDealerPrices();
 
 		Assert.AreNotEqual(0, dealers.First().Inventory.Sum(x => x.Price));
 		Assert.AreEqual(0, dealers.First().Inventory.Money);
@@ -66,8 +68,9 @@ public class TraffickingExtensionsTests
 		Mock<IStateService> stateServiceMock = new();
 		stateServiceMock.Setup(x => x.Dealers).Returns(dealers);
 		_serviceManagerMock.Setup(x => x.StateService).Returns(stateServiceMock.Object);
+		ITrafficking trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
 
-		_trafficking.ChangeDealerInventories(_providerManagerMock.Object, _serviceManagerMock.Object);
+		trafficking.ChangeDealerInventories();
 
 		Assert.AreEqual(default, dealers.First().Inventory.Money);
 		Assert.AreEqual(default, dealers.First().Inventory.TotalQuantity);
@@ -84,8 +87,9 @@ public class TraffickingExtensionsTests
 		stateServiceMock.Setup(x => x.Dealers).Returns(dealers);
 		stateServiceMock.Setup(x => x.Player).Returns(player);
 		_serviceManagerMock.Setup(x => x.StateService).Returns(stateServiceMock.Object);
+		ITrafficking trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
 
-		_trafficking.ChangeDealerInventories(_providerManagerMock.Object, _serviceManagerMock.Object);
+		trafficking.ChangeDealerInventories();
 
 		Assert.AreNotEqual(default, dealers.First().Inventory.Money);
 		Assert.AreNotEqual(default, dealers.First().Inventory.TotalQuantity);
