@@ -15,8 +15,11 @@ public partial class ApplicationFactoryTests
 
 		Assert.IsNotNull(trafficking);
 		Assert.IsNotNull(trafficking.LoggerService);
-		Assert.IsNotNull(trafficking.PlayerProvider);
+		Assert.IsNotNull(trafficking.AudioProvider);
+		Assert.IsNotNull(trafficking.GameProvider);
 		Assert.IsNotNull(trafficking.NotificationProvider);
+		Assert.IsNotNull(trafficking.PlayerProvider);
+		Assert.IsNotNull(trafficking.ScreenProvider);
 		Assert.IsNotNull(trafficking.WorldProvider);
 		Assert.AreEqual("Trafficking", trafficking.Name);
 		Assert.AreEqual(MissionStatusType.STOPPED, trafficking.Status);
