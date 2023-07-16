@@ -14,14 +14,13 @@ namespace LSDW.Application.Tests.Extensions;
 [SuppressMessage("Style", "IDE0058", Justification = "Unit tests.")]
 public class TraffickingExtensionsTests
 {
-	private readonly Vector3 _zeroVector = new(0, 0, 0);
 	private readonly ITrafficking _trafficking = ApplicationFactory.CreateTraffickingMission(MockHelper.GetServiceManager().Object, MockHelper.GetProviderManager().Object);
 	private readonly IStateService _stateService = InfrastructureFactory.GetStateService();
 
 	[TestMethod]
 	public void ChangeDealerPricesNonDiscoveredTest()
 	{
-		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
+		IDealer dealer = DomainFactory.CreateDealer(Vector3.Zero);
 		_stateService.Dealers.Add(dealer);
 
 		_trafficking.ChangeDealerPrices(_stateService);
@@ -34,7 +33,7 @@ public class TraffickingExtensionsTests
 	[TestMethod]
 	public void ChangeDealerPricesTest()
 	{
-		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
+		IDealer dealer = DomainFactory.CreateDealer(Vector3.Zero);
 		dealer.Discovered = true;
 		_stateService.Dealers.Add(dealer);
 
@@ -48,7 +47,7 @@ public class TraffickingExtensionsTests
 	[TestMethod]
 	public void ChangeDealerInventoriesNonDiscoveredTest()
 	{
-		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
+		IDealer dealer = DomainFactory.CreateDealer(Vector3.Zero);
 		_stateService.Dealers.Add(dealer);
 
 		_trafficking.ChangeDealerInventories(_stateService);
@@ -61,7 +60,7 @@ public class TraffickingExtensionsTests
 	[TestMethod]
 	public void ChangeDealerInventoriesTest()
 	{
-		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
+		IDealer dealer = DomainFactory.CreateDealer(Vector3.Zero);
 		dealer.Discovered = true;
 		_stateService.Dealers.Add(dealer);
 
