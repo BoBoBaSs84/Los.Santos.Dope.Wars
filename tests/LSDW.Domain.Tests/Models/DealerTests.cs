@@ -1,4 +1,5 @@
-﻿using LSDW.Abstractions.Domain.Models;
+﻿using GTA.Math;
+using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Providers;
 using LSDW.Base.Tests.Helpers;
 using LSDW.Domain.Factories;
@@ -11,7 +12,7 @@ namespace LSDW.Domain.Tests.Models;
 [TestClass]
 public class DealerTests
 {
-	private readonly IDealer _dealer = DomainFactory.CreateDealer(new(0, 0, 0));
+	private readonly IDealer _dealer = DomainFactory.CreateDealer(Vector3.Zero);
 	private readonly Mock<IWorldProvider> _worldProviderMock = MockHelper.GetWorldProvider();
 
 	[TestMethod]

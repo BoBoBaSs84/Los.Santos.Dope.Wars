@@ -1,5 +1,6 @@
 ﻿using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Enumerators;
+using LSDW.Abstractions.Extensions;
 using LSDW.Domain.Factories;
 
 namespace LSDW.Domain.Tests.Models;
@@ -107,5 +108,27 @@ public class DrugTests
 		drug.RandomizePrice(default);
 
 		Assert.AreNotEqual(-1, drug.Price);
+	}
+
+	[TestMethod]
+	public void SpecialBuyOfferTest()
+	{
+		IDrug drug = DomainFactory.CreateDrug();
+
+		drug.SpecialBuyOffer(50);
+
+		Assert.AreEqual(0, drug.Quantity);
+		Assert.AreNotEqual(drug.Type.GetAveragePrice(), drug.Price);
+	}
+
+	[TestMethod]
+	public void SpecialSellOfferTest()
+	{
+		IDrug drug = DomainFactory.CreateDrug();
+
+		drug.SpecialSellOffer(default);
+
+		Assert.AreNotEqual(0, drug.Quantity);
+		Assert.AreNotEqual(drug.Type.GetAveragePrice(), drug.Price);
 	}
 }

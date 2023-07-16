@@ -29,6 +29,9 @@ public interface IDealerSettings
 
 public interface IMarketSettings
 {
+  List<float> GetSpecialOfferChanceValues();
+	float GetSpecialOfferChance();
+  void SetSpecialOfferChance(float value);
   List<int> GetInventoryChangeIntervalValues();
 	int GetInventoryChangeInterval();
   void SetInventoryChangeInterval(int value);

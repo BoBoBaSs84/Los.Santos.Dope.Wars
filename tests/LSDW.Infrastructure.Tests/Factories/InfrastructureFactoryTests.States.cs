@@ -326,7 +326,7 @@ public partial class InfrastructureFactoryTests
 	private static DealerState GetDealerState()
 		=> new()
 		{
-			
+
 			ClosedUntil = DateTime.MinValue,
 			Discovered = true,
 			Name = "Dealer",

@@ -27,6 +27,7 @@ public static class InventoryExtensions
 	/// <param name="playerLevel">The current player level.</param>
 	public static IInventory Restock(this IInventory inventory, int playerLevel = 0)
 	{
+		// TODO: review, if clear is realy needed
 		inventory.Clear();
 		IEnumerable<DrugType> drugTypes = DrugType.COKE.GetList();
 

@@ -7,17 +7,17 @@ namespace LSDW.Abstractions.Tests.Extensions;
 public class EnumeratorExtensionsTests
 {
 	[TestMethod]
-	public void GetDrugNameTest()
+	public void GetDrugTypeNameTest()
 	{
 		DrugType drugType = DrugType.COKE;
 
-		string displayName = drugType.GetName();
+		string name = drugType.GetName();
 
-		Assert.AreNotEqual(displayName, drugType.ToString());
+		Assert.AreNotEqual(name, drugType.ToString());
 	}
 
 	[TestMethod]
-	public void GetAverageDrugPriceTest()
+	public void GetDrugTypeAveragePriceTest()
 	{
 		DrugType drugType = DrugType.COKE;
 
@@ -27,21 +27,21 @@ public class EnumeratorExtensionsTests
 	}
 
 	[TestMethod]
-	public void GetDrugProbabilityTest()
+	public void GetDrugTypeProbabilityTest()
 	{
 		DrugType drugType = DrugType.COKE;
 
-		float probability = drugType.GetDrugProbability();
+		float probability = drugType.GetProbability();
 
 		Assert.AreNotEqual(0, probability);
 	}
 
 	[TestMethod]
-	public void GetDrugDescriptionTest()
+	public void GetDrugTypeDescriptionTest()
 	{
 		DrugType drugType = DrugType.COKE;
 
-		string description = drugType.GetDrugDescription();
+		string description = drugType.GetDescription();
 
 		Assert.AreNotEqual(description, drugType.ToString());
 	}

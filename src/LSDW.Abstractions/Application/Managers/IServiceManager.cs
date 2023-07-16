@@ -8,13 +8,15 @@ namespace LSDW.Abstractions.Application.Managers;
 public interface IServiceManager
 {
 	/// <summary>
-	/// The state service.
-	/// </summary>
-	IStateService StateService { get; }
-	/// <summary>
 	/// The logger service.
 	/// </summary>
 	ILoggerService LoggerService { get; }
+
+	/// <summary>
+	/// The state service.
+	/// </summary>
+	IStateService StateService { get; }
+
 	/// <summary>
 	/// The settings service.
 	/// </summary>

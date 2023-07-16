@@ -11,10 +11,10 @@ public interface ITrafficking : IMission
 	/// <summary>
 	/// The side menu on the left of the screen.
 	/// </summary>
-	ISideMenu LeftSideMenu { get; }
+	IDealMenu? LeftSideMenu { get; set; }
 
 	/// <summary>
 	/// The side menu on the right of the screen.
 	/// </summary>
-	ISideMenu RightSideMenu { get; }
+	IDealMenu? RightSideMenu { get; set; }
 }

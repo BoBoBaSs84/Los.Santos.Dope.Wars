@@ -17,17 +17,18 @@ namespace LSDW.Application.Models.Missions.Base;
 internal abstract class Mission : IMission
 {
 	/// <summary>
-	/// Initializes a instance of the mission base class.
+	/// Initializes a instance of the mission class.
 	/// </summary>
 	/// <param name="serviceManager">The service manager instance to use.</param>
-	/// <param name="providerManager">The provider manager instance to use.</param>
+	/// <param name="providerManager">The provider manager instance to use.</param>	
 	/// <param name="name">The name of the mission.</param>
-	protected Mission(IServiceManager serviceManager, IProviderManager providerManager, string name)
+	protected Mission(IServiceManager serviceManager, IProviderManager providerManager, string name = nameof(Mission))
 	{
 		Name = name;
 		Status = MissionStatusType.STOPPED;
 
 		LoggerService = serviceManager.LoggerService;
+		StateService = serviceManager.StateService;
 		AudioProvider = providerManager.AudioProvider;
 		GameProvider = providerManager.GameProvider;
 		NotificationProvider = providerManager.NotificationProvider;
@@ -39,6 +40,7 @@ internal abstract class Mission : IMission
 	public string Name { get; }
 	public MissionStatusType Status { get; private set; }
 	public ILoggerService LoggerService { get; }
+	public IStateService StateService { get; }
 	public IAudioProvider AudioProvider { get; }
 	public IGameProvider GameProvider { get; }
 	public INotificationProvider NotificationProvider { get; }

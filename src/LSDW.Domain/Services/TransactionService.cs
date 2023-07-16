@@ -22,6 +22,10 @@ internal sealed class TransactionService : ITransactionService
 	private readonly IInventory _target;
 	private readonly int _maxQuantity;
 
+	private const string SoundSet = "HUD_LIQUOR_STORE_SOUNDSET";
+	private const string Success = "PURCHASE";
+	private const string Error = "ERROR";
+
 	/// <summary>
 	/// Initializes a instance of the transaction service class.
 	/// </summary>
@@ -104,6 +108,7 @@ internal sealed class TransactionService : ITransactionService
 	{
 		if (quantity + _target.Sum(d => d.Quantity) >= _maxQuantity)
 		{
+			_ = _providerManager.AudioProvider.PlaySoundFrontend(Error, SoundSet);
 			_providerManager.NotificationProvider.ShowSubtitle(Resources.Transaction_Message_NoInventory);
 			return false;
 		}
@@ -123,6 +128,7 @@ internal sealed class TransactionService : ITransactionService
 			int playerMoney = _providerManager.PlayerProvider.Money;
 			if (playerMoney < transactionValue)
 			{
+				_ = _providerManager.AudioProvider.PlaySoundFrontend(Error, SoundSet);
 				string message = Resources.Transaction_Message_Player_NoMoney.FormatInvariant(transactionValue, playerMoney);
 				_providerManager.NotificationProvider.ShowSubtitle(message);
 				return false;
@@ -134,6 +140,7 @@ internal sealed class TransactionService : ITransactionService
 			int dealerMoney = _target.Money;
 			if (dealerMoney < transactionValue)
 			{
+				_ = _providerManager.AudioProvider.PlaySoundFrontend(Error, SoundSet);
 				string message = Resources.Transaction_Message_Dealer_NoMoney.FormatInvariant(transactionValue, dealerMoney);
 				_providerManager.NotificationProvider.ShowSubtitle(message);
 				return false;
@@ -195,21 +202,17 @@ internal sealed class TransactionService : ITransactionService
 	/// <param name="transactionValue">The transaction value to transfer.</param>
 	private void ReportSuccess(DrugType type, int transactionValue)
 	{
-		string soundFile = "PURCHASE";
-		string soundSet = "HUD_LIQUOR_STORE_SOUNDSET";
-		string drugName = type.GetName();
-
 		if (_transactionType is TransactionType.BUY)
 		{
-			_ = _providerManager.AudioProvider.PlaySoundFrontend(soundFile, soundSet);
-			string message = Resources.Transaction_Message_Buy_Sucess.FormatInvariant(drugName, transactionValue);
+			_ = _providerManager.AudioProvider.PlaySoundFrontend(Success, SoundSet);
+			string message = Resources.Transaction_Message_Buy_Sucess.FormatInvariant(type.GetName(), transactionValue);
 			_providerManager.NotificationProvider.ShowSubtitle(message);
 		}
 
 		if (_transactionType is TransactionType.SELL)
 		{
-			_ = _providerManager.AudioProvider.PlaySoundFrontend(soundFile, soundSet);
-			string message = Resources.Transaction_Message_Sell_Sucess.FormatInvariant(drugName, transactionValue);
+			_ = _providerManager.AudioProvider.PlaySoundFrontend(Success, SoundSet);
+			string message = Resources.Transaction_Message_Sell_Sucess.FormatInvariant(type.GetName(), transactionValue);
 			_providerManager.NotificationProvider.ShowSubtitle(message);
 		}
 	}

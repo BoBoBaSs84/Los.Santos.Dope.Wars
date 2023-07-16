@@ -1,16 +1,16 @@
 ﻿using GTA.Math;
+using LSDW.Abstractions.Application.Managers;
 using LSDW.Abstractions.Application.Models.Missions;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Enumerators;
-using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Abstractions.Models;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
+using LSDW.Presentation.Factories;
 using System.Diagnostics.CodeAnalysis;
 using DealerSettings = LSDW.Abstractions.Models.Settings.Dealer;
 using GTAControl = GTA.Control;
 using RESX = LSDW.Application.Properties.Resources;
-
 
 namespace LSDW.Application.Extensions;
 
@@ -32,9 +32,8 @@ public static class TraffickingExtensions
 	/// <summary>
 	/// Tracks new dealers around the world and adds them to the dealer collection.
 	/// </summary>
-	/// <param name="trafficking">The trafficking instance to use.</param>
-	/// <param name="stateService">The state service instance to use.</param>
-	public static ITrafficking TrackDealers(this ITrafficking trafficking, IStateService stateService)
+	/// <param name="trafficking">The trafficking instance to extend.</param>
+	public static ITrafficking TrackDealers(this ITrafficking trafficking)
 	{
 		Vector3 randomPosition = trafficking.PlayerProvider.Position.Around(TrackDistance);
 		Vector3 dealerPosition = trafficking.WorldProvider.GetNextPositionOnSidewalk(randomPosition);
@@ -44,11 +43,11 @@ public static class TraffickingExtensions
 
 		string zoneDisplayName = trafficking.WorldProvider.GetZoneDisplayName(dealerPosition);
 
-		if (!stateService.Dealers.Any(x => trafficking.WorldProvider.GetZoneDisplayName(x.SpawnPosition) == zoneDisplayName)
-			&& !stateService.Dealers.Any(x => x.SpawnPosition.DistanceTo(dealerPosition) <= TerritoryDistance))
+		if (!trafficking.StateService.Dealers.Any(x => trafficking.WorldProvider.GetZoneDisplayName(x.SpawnPosition) == zoneDisplayName)
+			&& !trafficking.StateService.Dealers.Any(x => x.SpawnPosition.DistanceTo(dealerPosition) <= TerritoryDistance))
 		{
 			IDealer newDealer = DomainFactory.CreateDealer(dealerPosition);
-			stateService.Dealers.Add(newDealer);
+			trafficking.StateService.Dealers.Add(newDealer);
 		}
 
 		return trafficking;
@@ -68,28 +67,27 @@ public static class TraffickingExtensions
 	/// <item>Checks if the dealer blip can be created</item>	
 	/// </list>
 	/// </remarks>
-	/// <param name="trafficking">The trafficking instance to use.</param>
-	/// <param name="stateService">The state service instance to use.</param>
-	public static ITrafficking DiscoverDealers(this ITrafficking trafficking, IStateService stateService)
+	/// <param name="trafficking">The trafficking instance to extend.</param>
+	public static ITrafficking DiscoverDealers(this ITrafficking trafficking)
 	{
 		if (ClosestDealer is not null)
 			return trafficking;
 
 		Vector3 playerPosition = trafficking.PlayerProvider.Position;
 
-		foreach (IDealer dealer in stateService.Dealers.Where(x => x.Discovered.Equals(false)))
+		foreach (IDealer dealer in trafficking.StateService.Dealers.Where(x => x.Discovered.Equals(false)))
 		{
 			if (!Settings.Trafficking.DiscoverDealer)
 			{
-				trafficking.DiscoverDealer(dealer, stateService.Player);
+				trafficking.DiscoverDealer(dealer);
 				continue;
 			}
 
 			if (dealer.SpawnPosition.DistanceTo(playerPosition) <= DiscoverDistance)
-				trafficking.DiscoverDealer(dealer, stateService.Player);
+				trafficking.DiscoverDealer(dealer);
 		}
 
-		foreach (IDealer dealer in stateService.Dealers.Where(x => x.Discovered.Equals(true) && x.BlipCreated.Equals(false)))
+		foreach (IDealer dealer in trafficking.StateService.Dealers.Where(x => x.Discovered.Equals(true) && x.BlipCreated.Equals(false)))
 		{
 			if (dealer.Closed)
 			{
@@ -108,15 +106,14 @@ public static class TraffickingExtensions
 	/// <summary>
 	/// Checks and changes the dealer drug prices for each discovered dealer.
 	/// </summary>
-	/// <param name="trafficking">The trafficking instance to use.</param>
-	/// <param name="stateService">The state service instance to use.</param>
-	public static ITrafficking ChangeDealerPrices(this ITrafficking trafficking, IStateService stateService)
+	/// <param name="trafficking">The trafficking instance to extend.</param>
+	public static ITrafficking ChangeDealerPrices(this ITrafficking trafficking)
 	{
-		if (!stateService.Dealers.Any(x => x.Discovered.Equals(true)))
+		if (!trafficking.StateService.Dealers.Any(x => x.Discovered.Equals(true)))
 			return trafficking;
 
-		foreach (IDealer dealer in stateService.Dealers.Where(x => x.Discovered && x.Closed.Equals(false) && x.NextPriceChange < trafficking.WorldProvider.Now))
-			dealer.ChangePrices(trafficking.WorldProvider, stateService.Player.Level);
+		foreach (IDealer dealer in trafficking.StateService.Dealers.Where(x => x.Discovered && x.Closed.Equals(false) && x.NextPriceChange < trafficking.WorldProvider.Now))
+			dealer.ChangePrices(trafficking.WorldProvider, trafficking.StateService.Player.Level);
 
 		return trafficking;
 	}
@@ -124,16 +121,15 @@ public static class TraffickingExtensions
 	/// <summary>
 	/// Checks and changes the dealer inventories for each discovered dealer.
 	/// </summary>
-	/// <param name="trafficking">The trafficking instance to use.</param>
-	/// <param name="stateService">The state service instance to use.</param>
-	public static ITrafficking ChangeDealerInventories(this ITrafficking trafficking, IStateService stateService)
+	/// <param name="trafficking">The trafficking instance to extend.</param>
+	public static ITrafficking ChangeDealerInventories(this ITrafficking trafficking)
 	{
-		if (!stateService.Dealers.Any(x => x.Discovered.Equals(true)))
+		if (!trafficking.StateService.Dealers.Any(x => x.Discovered.Equals(true)))
 			return trafficking;
 
-		foreach (IDealer dealer in stateService.Dealers.Where(x => x.Discovered && x.Closed.Equals(false) && x.NextInventoryChange < trafficking.WorldProvider.Now))
+		foreach (IDealer dealer in trafficking.StateService.Dealers.Where(x => x.Discovered && x.Closed.Equals(false) && x.NextInventoryChange < trafficking.WorldProvider.Now))
 		{
-			dealer.ChangeInventory(trafficking.WorldProvider, stateService.Player.Level);
+			dealer.ChangeInventory(trafficking.WorldProvider, trafficking.StateService.Player.Level);
 			trafficking.NotificationProvider.Show(
 				sender: dealer.Name,
 				subject: RESX.Trafficking_Notification_Restock_Subject,
@@ -147,11 +143,11 @@ public static class TraffickingExtensions
 	/// <summary>
 	/// Takes care of everything that happens to the dealer that is closest to te player.
 	/// </summary>
-	/// <param name="trafficking">The trafficking instance to use.</param>
-	/// <param name="stateService">The state service instance to use.</param>
-	public static ITrafficking InProximity(this ITrafficking trafficking, IStateService stateService)
+	/// <param name="trafficking">The trafficking instance to extend.</param>
+	/// <param name="providerManager">The provider manager instance to use.</param>
+	public static ITrafficking InProximity(this ITrafficking trafficking, IProviderManager providerManager)
 	{
-		if (Equals(stateService.Dealers.Count, 0))
+		if (Equals(trafficking.StateService.Dealers.Count, 0))
 			return trafficking;
 
 		Vector3 playerPosition = trafficking.PlayerProvider.Position;
@@ -159,7 +155,7 @@ public static class TraffickingExtensions
 		// looking for the closest dealer, if found, no more iterations
 		if (ClosestDealer is null)
 		{
-			foreach (IDealer dealer in stateService.Dealers.Where(x => x.Closed.Equals(false)))
+			foreach (IDealer dealer in trafficking.StateService.Dealers.Where(x => x.Closed.Equals(false)))
 			{
 				if (dealer.SpawnPosition.DistanceTo(playerPosition) < CreateDistance)
 				{
@@ -179,23 +175,23 @@ public static class TraffickingExtensions
 			{
 				ClosestDealer.TurnTo(trafficking.PlayerProvider.Character);
 
-				if (!trafficking.LeftSideMenu.Initialized || !trafficking.RightSideMenu.Initialized)
+				if (trafficking.LeftSideMenu is null || trafficking.RightSideMenu is null)
 				{
-					trafficking.LeftSideMenu.Initialize(stateService.Player, ClosestDealer.Inventory);
-					trafficking.RightSideMenu.Initialize(stateService.Player, ClosestDealer.Inventory);
+					trafficking.LeftSideMenu =
+						PresentationFactory.CreateBuyMenu(providerManager, trafficking.StateService.Player, ClosestDealer.Inventory);
+
+					trafficking.RightSideMenu =
+						PresentationFactory.CreateSellMenu(providerManager, trafficking.StateService.Player, ClosestDealer.Inventory);
 				}
 			}
 
 			if (ClosestDealer.Position.DistanceTo(playerPosition) is > RealCloseRangeDistance)
 			{
-				if (trafficking.LeftSideMenu.Initialized || trafficking.RightSideMenu.Initialized)
-				{
-					trafficking.LeftSideMenu.CleanUp();
-					trafficking.RightSideMenu.CleanUp();
-				}
+				if (trafficking.LeftSideMenu is not null || trafficking.RightSideMenu is not null)
+					trafficking.LeftSideMenu = trafficking.RightSideMenu = null;
 			}
 
-			if (ClosestDealer.Position.DistanceTo(playerPosition) <= InteractionDistance)
+			if (ClosestDealer.Position.DistanceTo(playerPosition) <= InteractionDistance && trafficking.LeftSideMenu is not null && trafficking.RightSideMenu is not null)
 			{
 				if (trafficking.PlayerProvider.WantedLevel > 0)
 				{
@@ -205,7 +201,7 @@ public static class TraffickingExtensions
 					return trafficking;
 				}
 
-				if (!trafficking.LeftSideMenu.Visible && !trafficking.RightSideMenu.Visible)
+				if (!trafficking.LeftSideMenu.Visible || !trafficking.RightSideMenu.Visible)
 				{
 					trafficking.NotificationProvider.ShowHelpText(RESX.Trafficking_HelpText_DealMenu, 1, true, false);
 
@@ -214,11 +210,8 @@ public static class TraffickingExtensions
 				}
 			}
 
-			if (ClosestDealer.Position.DistanceTo(playerPosition) > InteractionDistance)
-			{
-				if (trafficking.LeftSideMenu.Visible || trafficking.RightSideMenu.Visible)
-					trafficking.LeftSideMenu.Visible = trafficking.RightSideMenu.Visible = false;
-			}
+			if (ClosestDealer.Position.DistanceTo(playerPosition) > InteractionDistance && trafficking.LeftSideMenu is not null && trafficking.RightSideMenu is not null)
+				trafficking.LeftSideMenu.Visible = trafficking.RightSideMenu.Visible = false;
 
 			if (ClosestDealer.IsDead)
 			{
@@ -241,13 +234,12 @@ public static class TraffickingExtensions
 	/// <summary>
 	/// Discovers the dealer, creates the blip on the map and show the notification.
 	/// </summary>
-	/// <param name="trafficking">The trafficking instance to use.</param>
+	/// <param name="trafficking">The trafficking instance to extend.</param>
 	/// <param name="dealer">The dealer instance to use.</param>
-	/// <param name="player">The player instance to use.</param>
-	private static void DiscoverDealer(this ITrafficking trafficking, IDealer dealer, IPlayer player)
+	internal static void DiscoverDealer(this ITrafficking trafficking, IDealer dealer)
 	{
 		dealer.Discovered = true;
-		dealer.ChangeInventory(trafficking.WorldProvider, player.Level);
+		dealer.ChangeInventory(trafficking.WorldProvider, trafficking.StateService.Player.Level);
 		dealer.CreateBlip(trafficking.WorldProvider);
 		string locationName = trafficking.WorldProvider.GetZoneLocalizedName(dealer.SpawnPosition);
 		trafficking.NotificationProvider.Show(
@@ -260,9 +252,9 @@ public static class TraffickingExtensions
 	/// <summary>
 	/// Closes the dealer, deletes the blip on the map and show the notification.
 	/// </summary>
-	/// <param name="trafficking">The trafficking instance to use.</param>
+	/// <param name="trafficking">The trafficking instance to extend.</param>
 	/// <param name="dealer">The dealer instance to use.</param>
-	private static void CloseDealer(this ITrafficking trafficking, IDealer dealer)
+	internal static void CloseDealer(this ITrafficking trafficking, IDealer dealer)
 	{
 		dealer.ClosedUntil = trafficking.WorldProvider.Now.AddHours(DealerSettings.DownTimeInHours);
 		dealer.CleanUp();
@@ -275,9 +267,9 @@ public static class TraffickingExtensions
 	/// <summary>
 	/// Lets the dealer flee and show the notification.
 	/// </summary>
-	/// <param name="trafficking">The trafficking instance to use.</param>
+	/// <param name="trafficking">The trafficking instance to extend.</param>
 	/// <param name="dealer">The dealer instance to use.</param>
-	private static void LetDealerFlee(this ITrafficking trafficking, IDealer dealer)
+	internal static void LetDealerFlee(this ITrafficking trafficking, IDealer dealer)
 	{
 		if (dealer.CurrentTask is TaskType.FLEE)
 			return;

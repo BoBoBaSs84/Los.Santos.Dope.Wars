@@ -1,4 +1,5 @@
 ﻿using GTA.Math;
+using LSDW.Abstractions.Application.Managers;
 using LSDW.Abstractions.Application.Models.Missions;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Infrastructure.Services;
@@ -6,7 +7,7 @@ using LSDW.Application.Extensions;
 using LSDW.Application.Factories;
 using LSDW.Base.Tests.Helpers;
 using LSDW.Domain.Factories;
-using LSDW.Infrastructure.Factories;
+using Moq;
 
 namespace LSDW.Application.Tests.Extensions;
 
@@ -14,60 +15,82 @@ namespace LSDW.Application.Tests.Extensions;
 [SuppressMessage("Style", "IDE0058", Justification = "Unit tests.")]
 public class TraffickingExtensionsTests
 {
-	private readonly ITrafficking _trafficking = ApplicationFactory.CreateTraffickingMission(MockHelper.GetServiceManager().Object, MockHelper.GetProviderManager().Object);
-	private readonly IStateService _stateService = InfrastructureFactory.GetStateService();
+	private readonly Mock<IServiceManager> _serviceManagerMock;
+	private readonly Mock<IProviderManager> _providerManagerMock;
+
+	public TraffickingExtensionsTests()
+	{
+		_serviceManagerMock = MockHelper.GetServiceManager();
+		_providerManagerMock = MockHelper.GetProviderManager();
+	}
 
 	[TestMethod]
 	public void ChangeDealerPricesNonDiscoveredTest()
 	{
-		IDealer dealer = DomainFactory.CreateDealer(Vector3.Zero);
-		_stateService.Dealers.Add(dealer);
+		ICollection<IDealer> dealers = new HashSet<IDealer>() { DomainFactory.CreateDealer(Vector3.Zero) };
+		Mock<IStateService> stateServiceMock = new();
+		stateServiceMock.Setup(x => x.Dealers).Returns(dealers);
+		_serviceManagerMock.Setup(x => x.StateService).Returns(stateServiceMock.Object);
+		ITrafficking trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
 
-		_trafficking.ChangeDealerPrices(_stateService);
+		trafficking.ChangeDealerPrices();
 
-		Assert.AreEqual(default, dealer.Inventory.Sum(x => x.Price));
-		Assert.AreEqual(default, dealer.Inventory.Money);
-		Assert.AreEqual(default, dealer.Inventory.TotalQuantity);
+		Assert.AreEqual(0, dealers.First().Inventory.Sum(x => x.Price));
+		Assert.AreEqual(0, dealers.First().Inventory.Money);
+		Assert.AreEqual(0, dealers.First().Inventory.TotalQuantity);
 	}
 
 	[TestMethod]
 	public void ChangeDealerPricesTest()
 	{
-		IDealer dealer = DomainFactory.CreateDealer(Vector3.Zero);
-		dealer.Discovered = true;
-		_stateService.Dealers.Add(dealer);
+		IPlayer player = DomainFactory.CreatePlayer();
+		ICollection<IDealer> dealers = new HashSet<IDealer>() { DomainFactory.CreateDealer(Vector3.Zero) };
+		dealers.First().Discovered = true;
+		Mock<IStateService> stateServiceMock = new();
+		stateServiceMock.Setup(x => x.Dealers).Returns(dealers);
+		stateServiceMock.Setup(x => x.Player).Returns(player);
+		_serviceManagerMock.Setup(x => x.StateService).Returns(stateServiceMock.Object);
+		ITrafficking trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
 
-		_trafficking.ChangeDealerPrices(_stateService);
+		trafficking.ChangeDealerPrices();
 
-		Assert.AreNotEqual(default, dealer.Inventory.Sum(x => x.Price));
-		Assert.AreEqual(default, dealer.Inventory.Money);
-		Assert.AreEqual(default, dealer.Inventory.TotalQuantity);
+		Assert.AreNotEqual(0, dealers.First().Inventory.Sum(x => x.Price));
+		Assert.AreEqual(0, dealers.First().Inventory.Money);
+		Assert.AreEqual(0, dealers.First().Inventory.TotalQuantity);
 	}
 
 	[TestMethod]
 	public void ChangeDealerInventoriesNonDiscoveredTest()
 	{
-		IDealer dealer = DomainFactory.CreateDealer(Vector3.Zero);
-		_stateService.Dealers.Add(dealer);
+		ICollection<IDealer> dealers = new HashSet<IDealer>() { DomainFactory.CreateDealer(Vector3.Zero) };
+		Mock<IStateService> stateServiceMock = new();
+		stateServiceMock.Setup(x => x.Dealers).Returns(dealers);
+		_serviceManagerMock.Setup(x => x.StateService).Returns(stateServiceMock.Object);
+		ITrafficking trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
 
-		_trafficking.ChangeDealerInventories(_stateService);
+		trafficking.ChangeDealerInventories();
 
-		Assert.AreEqual(default, dealer.Inventory.Money);
-		Assert.AreEqual(default, dealer.Inventory.TotalQuantity);
-		Assert.AreEqual(default, dealer.Inventory.TotalValue);
+		Assert.AreEqual(default, dealers.First().Inventory.Money);
+		Assert.AreEqual(default, dealers.First().Inventory.TotalQuantity);
+		Assert.AreEqual(default, dealers.First().Inventory.TotalValue);
 	}
 
 	[TestMethod]
 	public void ChangeDealerInventoriesTest()
 	{
-		IDealer dealer = DomainFactory.CreateDealer(Vector3.Zero);
-		dealer.Discovered = true;
-		_stateService.Dealers.Add(dealer);
+		IPlayer player = DomainFactory.CreatePlayer();
+		ICollection<IDealer> dealers = new HashSet<IDealer>() { DomainFactory.CreateDealer(Vector3.Zero) };
+		dealers.First().Discovered = true;
+		Mock<IStateService> stateServiceMock = new();
+		stateServiceMock.Setup(x => x.Dealers).Returns(dealers);
+		stateServiceMock.Setup(x => x.Player).Returns(player);
+		_serviceManagerMock.Setup(x => x.StateService).Returns(stateServiceMock.Object);
+		ITrafficking trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
 
-		_trafficking.ChangeDealerInventories(_stateService);
+		trafficking.ChangeDealerInventories();
 
-		Assert.AreNotEqual(default, dealer.Inventory.Money);
-		Assert.AreNotEqual(default, dealer.Inventory.TotalQuantity);
-		Assert.AreNotEqual(default, dealer.Inventory.TotalValue);
+		Assert.AreNotEqual(default, dealers.First().Inventory.Money);
+		Assert.AreNotEqual(default, dealers.First().Inventory.TotalQuantity);
+		Assert.AreNotEqual(default, dealers.First().Inventory.TotalValue);
 	}
 }

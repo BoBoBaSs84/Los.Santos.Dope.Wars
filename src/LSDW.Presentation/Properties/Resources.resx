@@ -159,6 +159,12 @@
   <data name="UI.Settings.Market.PriceChangeInterval.Title" xml:space="preserve">
     <value>Price change interval</value>
   </data>
+  <data name="UI.Settings.Market.SpecialOfferChance.Description" xml:space="preserve">
+    <value>How likely is it that a dealer will have a special offer.</value>
+  </data>
+  <data name="UI.Settings.Market.SpecialOfferChance.Title" xml:space="preserve">
+    <value>Special offer chance</value>
+  </data>
   <data name="UI.Settings.Player.ExperienceMultiplier.Description" xml:space="preserve">
     <value>The experience value multiplier, which is to be applied at each experience gain.</value>
   </data>

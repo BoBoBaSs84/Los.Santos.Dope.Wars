@@ -54,4 +54,18 @@ public interface IDrug : INotifyPropertyChanged
 	/// </remarks>
 	/// <param name="playerLevel">The current player level.</param>
 	void RandomizeQuantity(int playerLevel);
+
+	/// <summary>
+	/// Set the drug <see cref="Quantity"/> to the lowest possible value
+	/// and the <see cref="Price"/> to the highest possible value.
+	/// </summary>
+	/// <param name="playerLevel">The current player level.</param>
+	void SpecialBuyOffer(int playerLevel);
+
+	/// <summary>
+	/// Set the drug <see cref="Quantity"/> to the highest possible value
+	/// and the <see cref="Price"/> to the lowest possible value.
+	/// </summary>
+	/// <param name="playerLevel">The current player level.</param>
+	void SpecialSellOffer(int playerLevel);
 }

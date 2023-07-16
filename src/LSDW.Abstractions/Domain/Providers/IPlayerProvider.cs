@@ -12,7 +12,7 @@ public interface IPlayerProvider
 	/// Gets the <see cref="Ped"/> this <see cref="Player"/> is controlling.
 	/// </summary>
 	Ped Character { get; }
-	
+
 	/// <summary>
 	/// Gets or sets how much money this <see cref="Player"/> has.
 	/// </summary>

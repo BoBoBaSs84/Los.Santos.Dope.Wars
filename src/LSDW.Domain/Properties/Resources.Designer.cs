@@ -61,6 +61,42 @@ namespace LSDW.Domain.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hey dude, can you help me out? I need {0} urgently for a customer, I make you a really good price!.
+        /// </summary>
+        internal static string Dealer_Message_SpecialBuyOffer_Message {
+            get {
+                return ResourceManager.GetString("Dealer.Message.SpecialBuyOffer.Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Special buy offer!.
+        /// </summary>
+        internal static string Dealer_Message_SpecialBuyOffer_Subject {
+            get {
+                return ResourceManager.GetString("Dealer.Message.SpecialBuyOffer.Subject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hey dude, I&apos;m drowning! I have too much {0} in stock, I have to give it away, come over or it will soon be gone..
+        /// </summary>
+        internal static string Dealer_Message_SpecialSellOffer_Message {
+            get {
+                return ResourceManager.GetString("Dealer.Message.SpecialSellOffer.Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Special sell offer!.
+        /// </summary>
+        internal static string Dealer_Message_SpecialSellOffer_Subject {
+            get {
+                return ResourceManager.GetString("Dealer.Message.SpecialSellOffer.Subject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The price of a drug can not be smaller than zero. Value: &apos;{0}&apos;.
         /// </summary>
         internal static string Exception_Drug_Add {

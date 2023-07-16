@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Dealer.Message.SpecialBuyOffer.Message" xml:space="preserve">
+    <value>Hey dude, can you help me out? I need {0} urgently for a customer, I make you a really good price!</value>
+  </data>
+  <data name="Dealer.Message.SpecialBuyOffer.Subject" xml:space="preserve">
+    <value>Special buy offer!</value>
+  </data>
+  <data name="Dealer.Message.SpecialSellOffer.Message" xml:space="preserve">
+    <value>Hey dude, I'm drowning! I have too much {0} in stock, I have to give it away, come over or it will soon be gone.</value>
+  </data>
+  <data name="Dealer.Message.SpecialSellOffer.Subject" xml:space="preserve">
+    <value>Special sell offer!</value>
+  </data>
   <data name="Exception.Drug.Add" xml:space="preserve">
     <value>The price of a drug can not be smaller than zero. Value: '{0}'</value>
   </data>
