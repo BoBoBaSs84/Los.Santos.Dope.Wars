@@ -17,13 +17,11 @@ public class TraffickingExtensionsTests
 {
 	private readonly Mock<IServiceManager> _serviceManagerMock;
 	private readonly Mock<IProviderManager> _providerManagerMock;
-	private readonly ITrafficking _trafficking;
 
 	public TraffickingExtensionsTests()
 	{
 		_serviceManagerMock = MockHelper.GetServiceManager();
 		_providerManagerMock = MockHelper.GetProviderManager();
-		_trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
 	}
 
 	[TestMethod]
