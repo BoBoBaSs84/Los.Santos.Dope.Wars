@@ -10,23 +10,21 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<PlatformTarget>x64</PlatformTarget>
-		<Platforms>x64</Platforms>
-		<TargetFramework>net48</TargetFramework>
-		<OutputType>Library</OutputType>
-		<NeutralLanguage>en-US</NeutralLanguage>
-		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<LangVersion>latest</LangVersion>
-		<Nullable>enable</Nullable>
-		<ImplicitUsings>enable</ImplicitUsings>
 		<AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<AnalysisLevel>latest</AnalysisLevel>
 		<AnalysisMode>recommended</AnalysisMode>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
 		<Deterministic>true</Deterministic>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<GeneratedAssemblyInfoFile>Properties\AssemblyInfo.cs</GeneratedAssemblyInfoFile>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>latest</LangVersion>
+		<NeutralLanguage>en-US</NeutralLanguage>
+		<Nullable>enable</Nullable>
+		<PlatformTarget>x64</PlatformTarget>
+		<TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -61,24 +59,24 @@
 	</PropertyGroup>
 
 	<ItemGroup Condition="!$(MSBuildProjectName.EndsWith('Tests'))">
+		<InternalsVisibleTo Include="$(AssemblyName).Tests" />
 		<None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
 		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
-		<InternalsVisibleTo Include="$(AssemblyName).Tests" />
 		<Using Include="System.ComponentModel"/>
-		<Using Include="System.Reflection"/>
 		<Using Include="System.Drawing"/>
+		<Using Include="System.Reflection"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('Tests'))">
-		<Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
-		<Using Include="System.Diagnostics.CodeAnalysis" />
-		<Using Include="System.Diagnostics" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" />
+		<PackageReference Include="FluentAssertions" />
 		<PackageReference Include="MSTest.TestAdapter" />
 		<PackageReference Include="MSTest.TestFramework" />
-		<PackageReference Include="coverlet.collector" />
-		<PackageReference Include="FluentAssertions" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" />
 		<PackageReference Include="Moq" />
+		<PackageReference Include="coverlet.collector" />
+		<Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+		<Using Include="System.Diagnostics" />
+		<Using Include="System.Diagnostics.CodeAnalysis" />
 	</ItemGroup>
 
 	<ItemGroup>
