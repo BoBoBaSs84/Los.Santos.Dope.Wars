@@ -2,10 +2,14 @@
 using LSDW.Abstractions.Application.Managers;
 using LSDW.Abstractions.Application.Models.Missions;
 using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Domain.Providers;
+using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Application.Extensions;
 using LSDW.Application.Factories;
+using LSDW.Application.Properties;
 using LSDW.Base.Tests.Helpers;
+using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
 using Moq;
 
@@ -92,5 +96,72 @@ public class TraffickingExtensionsTests
 		Assert.AreNotEqual(default, dealers.First().Inventory.Money);
 		Assert.AreNotEqual(default, dealers.First().Inventory.TotalQuantity);
 		Assert.AreNotEqual(default, dealers.First().Inventory.TotalValue);
+	}
+
+	[TestMethod]
+	public void LetDealerFleeAlreadyFledTest()
+	{
+		Mock<IDealer> dealerMock = MockHelper.GetDealer();
+		dealerMock.Setup(x => x.CurrentTask).Returns(TaskType.FLEE);
+		ITrafficking trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
+
+		trafficking.LetDealerFlee(dealerMock.Object);
+
+		dealerMock.VerifyAll();
+	}
+
+	[TestMethod]
+	public void LetDealerFleeTest1()
+	{
+		Mock<IDealer> dealerMock = MockHelper.GetDealer();
+		dealerMock.Setup(x => x.Created).Returns(true);
+		Mock<INotificationProvider> notificationProviderMock = MockHelper.GetNotificationProvider();
+		_providerManagerMock.Setup(x => x.NotificationProvider).Returns(notificationProviderMock.Object);
+		ITrafficking trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
+
+		trafficking.LetDealerFlee(dealerMock.Object);
+
+		dealerMock.Verify(x => x.Flee(), Times.Once);
+		notificationProviderMock.Verify(
+			x => x.Show(
+				Resources.Trafficking_Notification_Bust_Subject,
+				Resources.Trafficking_Notification_Bust_Message.FormatInvariant(dealerMock.Object.Name),
+				false));
+	}
+
+	[TestMethod]
+	public void CloseDealerTest()
+	{
+		Mock<IDealer> dealerMock = MockHelper.GetDealer();
+		Mock<INotificationProvider> notificationProviderMock = MockHelper.GetNotificationProvider();
+		_providerManagerMock.Setup(x => x.NotificationProvider).Returns(notificationProviderMock.Object);
+		ITrafficking trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
+
+		trafficking.CloseDealer(dealerMock.Object);
+
+		dealerMock.VerifyAll();
+	}
+
+	[TestMethod]
+	public void DiscoverDealerTest()
+	{
+		Mock<IInventory> inventoryMock = MockHelper.GetInventory();
+		Mock<IDealer> dealerMock = MockHelper.GetDealer();
+		dealerMock.Setup(x => x.Inventory).Returns(inventoryMock.Object);
+		Mock<INotificationProvider> notificationProviderMock = MockHelper.GetNotificationProvider();
+		_providerManagerMock.Setup(x => x.NotificationProvider).Returns(notificationProviderMock.Object);
+		ITrafficking trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
+
+		trafficking.DiscoverDealer(dealerMock.Object);
+
+		dealerMock.VerifyAll();
+	}
+
+	[TestMethod]
+	public void TrackDealersPositionIsZeroTest()
+	{
+		ITrafficking trafficking = ApplicationFactory.CreateTraffickingMission(_serviceManagerMock.Object, _providerManagerMock.Object);
+
+		trafficking.TrackDealers();
 	}
 }

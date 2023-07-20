@@ -4,13 +4,13 @@ using LSDW.Abstractions.Application.Models.Missions;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Models;
+using LSDW.Application.Properties;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
 using LSDW.Presentation.Factories;
 using System.Diagnostics.CodeAnalysis;
 using DealerSettings = LSDW.Abstractions.Models.Settings.Dealer;
 using GTAControl = GTA.Control;
-using RESX = LSDW.Application.Properties.Resources;
 
 namespace LSDW.Application.Extensions;
 
@@ -132,8 +132,8 @@ public static class TraffickingExtensions
 			dealer.ChangeInventory(trafficking.WorldProvider, trafficking.StateService.Player.Level);
 			trafficking.NotificationProvider.Show(
 				sender: dealer.Name,
-				subject: RESX.Trafficking_Notification_Restock_Subject,
-				message: RESX.Trafficking_Notification_Restock_Message
+				subject: Resources.Trafficking_Notification_Restock_Subject,
+				message: Resources.Trafficking_Notification_Restock_Message
 				);
 		}
 
@@ -203,7 +203,7 @@ public static class TraffickingExtensions
 
 				if (!trafficking.LeftSideMenu.Visible || !trafficking.RightSideMenu.Visible)
 				{
-					trafficking.NotificationProvider.ShowHelpText(RESX.Trafficking_HelpText_DealMenu, 1, true, false);
+					trafficking.NotificationProvider.ShowHelpText(Resources.Trafficking_HelpText_DealMenu, 1, true, false);
 
 					if (trafficking.GameProvider.IsControlJustPressed(GTAControl.Context))
 						trafficking.LeftSideMenu.Visible = true;
@@ -244,8 +244,8 @@ public static class TraffickingExtensions
 		string locationName = trafficking.WorldProvider.GetZoneLocalizedName(dealer.SpawnPosition);
 		trafficking.NotificationProvider.Show(
 			sender: dealer.Name,
-			subject: RESX.Trafficking_Notification_Discovery_Subject,
-			message: RESX.Trafficking_Notification_Discovery_Message.FormatInvariant(locationName)
+			subject: Resources.Trafficking_Notification_Discovery_Subject,
+			message: Resources.Trafficking_Notification_Discovery_Message.FormatInvariant(locationName)
 			);
 	}
 
@@ -259,8 +259,8 @@ public static class TraffickingExtensions
 		dealer.ClosedUntil = trafficking.WorldProvider.Now.AddHours(DealerSettings.DownTimeInHours);
 		dealer.CleanUp();
 		trafficking.NotificationProvider.Show(
-			subject: RESX.Trafficking_Notification_Iced_Subject,
-			message: RESX.Trafficking_Notification_Iced_Message.FormatInvariant(dealer.Name)
+			subject: Resources.Trafficking_Notification_Iced_Subject,
+			message: Resources.Trafficking_Notification_Iced_Message.FormatInvariant(dealer.Name)
 			);
 	}
 
@@ -276,8 +276,8 @@ public static class TraffickingExtensions
 
 		dealer.Flee();
 		trafficking.NotificationProvider.Show(
-			subject: RESX.Trafficking_Notification_Bust_Subject,
-			message: RESX.Trafficking_Notification_Bust_Message.FormatInvariant(dealer.Name)
+			subject: Resources.Trafficking_Notification_Bust_Subject,
+			message: Resources.Trafficking_Notification_Bust_Message.FormatInvariant(dealer.Name)
 			);
 	}
 }

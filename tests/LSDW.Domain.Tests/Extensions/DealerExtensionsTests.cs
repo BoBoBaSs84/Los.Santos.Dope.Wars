@@ -17,7 +17,7 @@ namespace LSDW.Domain.Tests.Extensions;
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public class DealerExtensionsTests
 {
-	private readonly Vector3 _zeroVector = new(0, 0, 0);
+	private readonly Vector3 _zeroVector = Vector3.Zero;
 	private readonly Mock<IWorldProvider> _worldProviderMock = MockHelper.GetWorldProvider();
 
 	[TestMethod]
@@ -80,8 +80,6 @@ public class DealerExtensionsTests
 		IDealer dealer = DomainFactory.CreateDealer(Vector3.Zero);
 		Mock<INotificationProvider> notificationProviderMock = MockHelper.GetNotificationProvider();
 		Mock<IRandomProvider> randomProviderMock = MockHelper.GetRandomProvider();
-		//randomProviderMock.Setup(x=>x.GetInt()).Returns(0);
-		//randomProviderMock.Setup(x => x.GetFloat()).Returns(0f);
 		Mock<IProviderManager> providerManagerMock = MockHelper.GetProviderManager();
 		providerManagerMock.Setup(x => x.NotificationProvider).Returns(notificationProviderMock.Object);
 		providerManagerMock.Setup(x => x.RandomProvider).Returns(randomProviderMock.Object);
