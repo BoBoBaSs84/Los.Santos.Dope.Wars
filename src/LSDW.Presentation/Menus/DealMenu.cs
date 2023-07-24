@@ -19,11 +19,13 @@ namespace LSDW.Presentation.Menus;
 internal sealed class DealMenu : MenuBase, IDealMenu
 {
 	private readonly IProviderManager _providerManager;
-	private readonly TransactionType _type;
 	private readonly IPlayer _player;
 	private readonly ITransactionService _transactionService;
 	private readonly IInventory _source;
 	private readonly IInventory _target;
+
+	public TransactionType Type { get; }
+	public event EventHandler? SwitchItemActivated;
 
 	/// <summary>
 	/// Initializes a instance of the deal menu class.
@@ -32,11 +34,10 @@ internal sealed class DealMenu : MenuBase, IDealMenu
 	/// <param name="type">The transaction type that defines the menu.</param>
 	/// <param name="player">The player instance to use.</param>
 	/// <param name="inventory">The inventory instance to use.</param>
-	internal DealMenu(IProviderManager providerManager, TransactionType type, IPlayer player, IInventory inventory)
-		: base(type.ToString(), type.GetDescription())
+	internal DealMenu(IProviderManager providerManager, TransactionType type, IPlayer player, IInventory inventory) : base(type.ToString(), type.GetDescription())
 	{
 		_providerManager = providerManager;
-		_type = type;
+		Type = type;
 		_player = player;
 		_transactionService = DomainFactory.CreateTransactionService(providerManager, type, _player, inventory);
 		(_source, _target) = MenuHelper.GetInventories(type, player, inventory);
@@ -71,9 +72,7 @@ internal sealed class DealMenu : MenuBase, IDealMenu
 		=> SetItemDescription(item);
 
 	private void OnSwitchActivated()
-	{
-		_ = _providerManager.NotificationProvider.Show($"{nameof(OnSwitchActivated)}");
-	}
+		=> SwitchItemActivated?.Invoke(this, EventArgs.Empty);
 
 	/// <summary>
 	/// Adds a new drug list item to the menu.
@@ -121,7 +120,7 @@ internal sealed class DealMenu : MenuBase, IDealMenu
 		if (item.Tag is not IDrug drug || drug.Quantity.Equals(0))
 			return;
 
-		if (_type is TransactionType.BUY)
+		if (Type is TransactionType.BUY)
 		{
 			int sellingPrice = drug.Price;
 			int averagePrice = drug.Type.GetAveragePrice();
@@ -136,7 +135,7 @@ internal sealed class DealMenu : MenuBase, IDealMenu
 			item.Description = description;
 		}
 
-		if (_type is TransactionType.SELL)
+		if (Type is TransactionType.SELL)
 		{
 			int sellingPrice = _target.Where(x => x.Type.Equals(drug.Type)).Select(x => x.Price).First();
 			int purchasePrice = drug.Price;

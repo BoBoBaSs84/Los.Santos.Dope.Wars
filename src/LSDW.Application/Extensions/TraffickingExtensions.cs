@@ -4,6 +4,7 @@ using LSDW.Abstractions.Application.Models.Missions;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Models;
+using LSDW.Abstractions.Presentation.Menus;
 using LSDW.Application.Properties;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
@@ -177,11 +178,11 @@ public static class TraffickingExtensions
 
 				if (trafficking.LeftSideMenu is null || trafficking.RightSideMenu is null)
 				{
-					trafficking.LeftSideMenu =
-						PresentationFactory.CreateBuyMenu(providerManager, trafficking.StateService.Player, ClosestDealer.Inventory);
+					trafficking.LeftSideMenu = PresentationFactory.CreateBuyMenu(providerManager, trafficking.StateService.Player, ClosestDealer.Inventory);
+					trafficking.LeftSideMenu.SwitchItemActivated += (sender, args) => OnSwitchItemActivated(trafficking);
 
-					trafficking.RightSideMenu =
-						PresentationFactory.CreateSellMenu(providerManager, trafficking.StateService.Player, ClosestDealer.Inventory);
+					trafficking.RightSideMenu = PresentationFactory.CreateSellMenu(providerManager, trafficking.StateService.Player, ClosestDealer.Inventory);
+					trafficking.RightSideMenu.SwitchItemActivated += (sender, args) => OnSwitchItemActivated(trafficking);
 				}
 			}
 
@@ -195,7 +196,7 @@ public static class TraffickingExtensions
 			{
 				if (trafficking.PlayerProvider.WantedLevel > 0)
 				{
-					trafficking.LeftSideMenu.Visible = trafficking.RightSideMenu.Visible = false;
+					CloseMenus(trafficking);
 					trafficking.LetDealerFlee(ClosestDealer);
 					ClosestDealer = null;
 					return trafficking;
@@ -206,12 +207,12 @@ public static class TraffickingExtensions
 					trafficking.NotificationProvider.ShowHelpText(Resources.Trafficking_HelpText_DealMenu, 1, true, false);
 
 					if (trafficking.GameProvider.IsControlJustPressed(GTAControl.Context))
-						trafficking.LeftSideMenu.Visible = true;
+						trafficking.LeftSideMenu?.Toggle();
 				}
 			}
 
 			if (ClosestDealer.Position.DistanceTo(playerPosition) > InteractionDistance && trafficking.LeftSideMenu is not null && trafficking.RightSideMenu is not null)
-				trafficking.LeftSideMenu.Visible = trafficking.RightSideMenu.Visible = false;
+				CloseMenus(trafficking);
 
 			if (ClosestDealer.IsDead)
 			{
@@ -229,6 +230,20 @@ public static class TraffickingExtensions
 		}
 
 		return trafficking;
+	}
+
+	private static void OnSwitchItemActivated(ITrafficking trafficking)
+	{
+		trafficking.LeftSideMenu?.Toggle();
+		trafficking.RightSideMenu?.Toggle();
+	}
+
+	private static void CloseMenus(ITrafficking trafficking)
+	{
+		if (trafficking.LeftSideMenu is not null && trafficking.LeftSideMenu.Visible)
+			trafficking.LeftSideMenu.Toggle();
+		if (trafficking.RightSideMenu is not null && trafficking.RightSideMenu.Visible)
+			trafficking.RightSideMenu.Toggle();
 	}
 
 	/// <summary>

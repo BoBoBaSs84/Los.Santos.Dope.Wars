@@ -15,7 +15,8 @@ internal abstract class MenuBase : NativeMenu, IMenuBase
 	/// </summary>
 	internal static readonly ObjectPool Processables = new();
 
-	public IMenuBase? LatestMenu { get; private set; }
+	public event EventHandler? VisibilityChanging;	
+	public event EventHandler? VisibilityChanged;
 
 	/// <summary>
 	///	Creates a new menu.
@@ -39,10 +40,7 @@ internal abstract class MenuBase : NativeMenu, IMenuBase
 	/// <param name="subtitle">The name to display below the header.</param>
 	/// <param name="description">The description of the menu.</param>
 	protected MenuBase(string title, string subtitle, string description) : base(title, subtitle, description)
-	{
-		Shown += OnShown;
-		Processables.Add(this);
-	}
+		=> Processables.Add(this);
 
 	/// <summary>
 	/// Adds a new item to the menu.
@@ -126,6 +124,10 @@ internal abstract class MenuBase : NativeMenu, IMenuBase
 		return subMenuItem;
 	}
 
-	private void OnShown(object sender, EventArgs args)
-		=> LatestMenu = this;
+	public void Toggle()
+	{
+		VisibilityChanging?.Invoke(this, EventArgs.Empty);
+		Visible = !Visible;
+		VisibilityChanged?.Invoke(this, EventArgs.Empty);
+	}
 }

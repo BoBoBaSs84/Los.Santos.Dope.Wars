@@ -42,7 +42,6 @@ public sealed class Main : Script
 
 		Aborted += _trafficking.OnAborted;
 		Tick += _trafficking.OnTick;
-
 	}
 
 	private void OnTick(object sender, EventArgs e)
