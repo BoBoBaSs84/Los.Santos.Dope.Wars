@@ -142,4 +142,48 @@ public class InventoryTests
 		Assert.AreEqual(default, inventory.TotalValue);
 		Assert.AreEqual(default, inventory.TotalQuantity);
 	}
+
+	[TestMethod]
+	public void ClearTest()
+	{
+		IInventory inventory = DomainFactory.CreateInventory();
+		int oldCount = inventory.Count;
+
+		inventory.Clear();
+		int newCount = inventory.Count;
+
+		Assert.AreNotEqual(oldCount, newCount);
+	}
+
+	[TestMethod]
+	public void ContainsTest()
+	{
+		IDrug drug = DomainFactory.CreateDrug(DrugType.COKE, 50, 10);
+		ICollection<IDrug> drugs = new HashSet<IDrug>() { drug };
+
+		IInventory inventory = DomainFactory.CreateInventory(drugs, default);
+
+		Assert.IsTrue(inventory.Contains(drug));
+	}
+
+	[TestMethod]
+	public void CopyToTest()
+	{
+		IInventory inventory = DomainFactory.CreateInventory();
+		IDrug[] drugs = new IDrug[inventory.Count];
+
+		inventory.CopyTo(drugs, 0);
+
+		Assert.AreEqual(inventory.Count, drugs.Length);
+	}
+
+	[TestMethod]
+	public void GetEnumeratorTest()
+	{
+		IInventory inventory = DomainFactory.CreateInventory();
+
+		IEnumerator<IDrug> enumerator = inventory.GetEnumerator();
+
+		Assert.IsNotNull(enumerator);
+	}
 }

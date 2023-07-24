@@ -25,6 +25,11 @@ public interface IMission
 	ILoggerService LoggerService { get; }
 
 	/// <summary>
+	/// The state service instance to use.
+	/// </summary>
+	IStateService StateService { get; }
+
+	/// <summary>
 	/// The audio provider instance to use.
 	/// </summary>
 	IAudioProvider AudioProvider { get; }

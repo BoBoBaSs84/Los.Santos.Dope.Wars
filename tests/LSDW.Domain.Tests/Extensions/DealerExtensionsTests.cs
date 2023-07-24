@@ -1,11 +1,14 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GTA.Math;
+﻿using GTA.Math;
+using LSDW.Abstractions.Application.Managers;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Providers;
+using LSDW.Abstractions.Enumerators;
+using LSDW.Abstractions.Extensions;
 using LSDW.Abstractions.Models;
 using LSDW.Base.Tests.Helpers;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
+using LSDW.Domain.Properties;
 using Moq;
 
 namespace LSDW.Domain.Tests.Extensions;
@@ -14,7 +17,7 @@ namespace LSDW.Domain.Tests.Extensions;
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public class DealerExtensionsTests
 {
-	private readonly Vector3 _zeroVector = new(0, 0, 0);
+	private readonly Vector3 _zeroVector = Vector3.Zero;
 	private readonly Mock<IWorldProvider> _worldProviderMock = MockHelper.GetWorldProvider();
 
 	[TestMethod]
@@ -69,5 +72,41 @@ public class DealerExtensionsTests
 			dealers.Add(MockHelper.GetDealer().Object);
 
 		dealers.CleanUp();
+	}
+
+	[TestMethod]
+	public void MakeSpecialBuyOfferTest()
+	{
+		IDealer dealer = DomainFactory.CreateDealer(Vector3.Zero);
+		Mock<INotificationProvider> notificationProviderMock = MockHelper.GetNotificationProvider();
+		Mock<IRandomProvider> randomProviderMock = MockHelper.GetRandomProvider();
+		Mock<IProviderManager> providerManagerMock = MockHelper.GetProviderManager();
+		providerManagerMock.Setup(x => x.NotificationProvider).Returns(notificationProviderMock.Object);
+		providerManagerMock.Setup(x => x.RandomProvider).Returns(randomProviderMock.Object);
+
+		dealer.MakeSpecialOffer(providerManagerMock.Object, default);
+
+		randomProviderMock.Verify(x => x.GetInt(dealer.Inventory.Count));
+		randomProviderMock.Verify(x => x.GetFloat());
+		notificationProviderMock.Verify(x => x.Show(dealer.Name, Resources.Dealer_Message_SpecialBuyOffer_Subject, Resources.Dealer_Message_SpecialBuyOffer_Message.FormatInvariant(DrugType.COKE.GetName()), true));
+	}
+
+	[TestMethod]
+	public void MakeSpecialSellOfferTest()
+	{
+		IDealer dealer = DomainFactory.CreateDealer(Vector3.Zero);
+		Mock<INotificationProvider> notificationProviderMock = MockHelper.GetNotificationProvider();
+		Mock<IRandomProvider> randomProviderMock = MockHelper.GetRandomProvider();
+		randomProviderMock.Setup(x => x.GetInt(dealer.Inventory.Count)).Returns(1);
+		randomProviderMock.Setup(x => x.GetFloat()).Returns(0.51f);
+		Mock<IProviderManager> providerManagerMock = MockHelper.GetProviderManager();
+		providerManagerMock.Setup(x => x.NotificationProvider).Returns(notificationProviderMock.Object);
+		providerManagerMock.Setup(x => x.RandomProvider).Returns(randomProviderMock.Object);
+
+		dealer.MakeSpecialOffer(providerManagerMock.Object, default);
+
+		randomProviderMock.Verify(x => x.GetInt(dealer.Inventory.Count));
+		randomProviderMock.Verify(x => x.GetFloat());
+		notificationProviderMock.Verify(x => x.Show(dealer.Name, Resources.Dealer_Message_SpecialSellOffer_Subject, Resources.Dealer_Message_SpecialSellOffer_Message.FormatInvariant(DrugType.SMACK.GetName()), true));
 	}
 }

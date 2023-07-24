@@ -5,4 +5,8 @@
 		<ProjectReference Include="..\LSDW.Base.Tests\LSDW.Base.Tests.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Reference Include="System.ComponentModel.DataAnnotations" />
+	</ItemGroup>
+
 </Project>

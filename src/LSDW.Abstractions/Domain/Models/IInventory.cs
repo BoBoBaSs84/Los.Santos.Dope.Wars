@@ -6,6 +6,9 @@ namespace LSDW.Abstractions.Domain.Models;
 /// <summary>
 /// The inventory interface.
 /// </summary>
+/// <remarks>
+/// Inherits from the <see cref="ICollection{T}"/> and <see cref="INotifyPropertyChanged"/> interface.
+/// </remarks>
 [SuppressMessage("Naming", "CA1710", Justification = "")]
 public interface IInventory : ICollection<IDrug>, INotifyPropertyChanged
 {

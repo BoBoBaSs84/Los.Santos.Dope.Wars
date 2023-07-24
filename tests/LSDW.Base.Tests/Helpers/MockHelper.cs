@@ -85,10 +85,18 @@ public static class MockHelper
 	}
 
 	public static Mock<ISettingsService> GetSettingsService()
-		=> new(MockBehavior.Loose);
+	{
+		Mock<ISettingsService> mock = new(MockBehavior.Loose);
+		mock.SetupAllProperties();
+		return mock;
+	}
 
 	public static Mock<ILoggerService> GetLoggerService()
-		=> new(MockBehavior.Loose);
+	{
+		Mock<ILoggerService> mock = new(MockBehavior.Loose);
+		mock.SetupAllProperties();
+		return mock;
+	}
 
 	public static Mock<IStateService> GetStateService()
 	{
@@ -100,9 +108,7 @@ public static class MockHelper
 	public static Mock<ITrafficking> GetTrafficking()
 	{
 		Mock<ITrafficking> mock = new(MockBehavior.Loose);
-		mock.Setup(x => x.WorldProvider).Returns(GetWorldProvider().Object);
-		mock.Setup(x => x.LoggerService).Returns(GetLoggerService().Object);
-		mock.Setup(x => x.NotificationProvider).Returns(GetNotificationProvider().Object);
+		mock.SetupAllProperties();
 		return mock;
 	}
 

@@ -1,12 +1,10 @@
 ﻿using LSDW.Abstractions.Application.Managers;
 using LSDW.Abstractions.Application.Models.Missions;
 using LSDW.Abstractions.Enumerators;
-using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Abstractions.Presentation.Menus;
 using LSDW.Application.Extensions;
 using LSDW.Application.Models.Missions.Base;
 using LSDW.Domain.Extensions;
-using LSDW.Presentation.Factories;
 using RESX = LSDW.Application.Properties.Resources;
 
 namespace LSDW.Application.Models.Missions;
@@ -22,42 +20,27 @@ internal sealed class Trafficking : Mission, ITrafficking
 {
 	private readonly IServiceManager _serviceManager;
 	private readonly IProviderManager _providerManager;
-	private readonly IStateService _stateService;
-	private readonly Lazy<ISideMenu> _lazyLeftSideMenu;
-	private readonly Lazy<ISideMenu> _lazyRightSideMenu;
 
 	/// <summary>
 	/// Initializes a instance of the trafficking class.
 	/// </summary>
 	/// <param name="serviceManager">The service manager instance to use.</param>
 	/// <param name="providerManager">The provider manager instance to use.</param>
-	internal Trafficking(IServiceManager serviceManager, IProviderManager providerManager)
-		: base(serviceManager, providerManager, nameof(Trafficking))
+	internal Trafficking(IServiceManager serviceManager, IProviderManager providerManager) : base(serviceManager, providerManager, nameof(Trafficking))
 	{
 		_serviceManager = serviceManager;
 		_providerManager = providerManager;
-		_stateService = serviceManager.StateService;
-		_lazyLeftSideMenu = new Lazy<ISideMenu>(() => PresentationFactory.CreateBuyMenu(_providerManager));
-		_lazyRightSideMenu = new Lazy<ISideMenu>(() => PresentationFactory.CreateSellMenu(_providerManager));
 	}
 
-	public ISideMenu LeftSideMenu => _lazyLeftSideMenu.Value;
-	public ISideMenu RightSideMenu => _lazyRightSideMenu.Value;
+	public IDealMenu? LeftSideMenu { get; set; }
+	public IDealMenu? RightSideMenu { get; set; }
 
 	public override void StartMission()
-	{
-		LeftSideMenu.SwitchItem.Activated += OnSwitchItemActivated;
-		RightSideMenu.SwitchItem.Activated += OnSwitchItemActivated;
-		base.StartMission();
-	}
+		=> base.StartMission();
 
 	public override void StopMission()
 	{
-		_ = _stateService.Dealers.CleanUp();
-		LeftSideMenu.SwitchItem.Activated -= OnSwitchItemActivated;
-		RightSideMenu.SwitchItem.Activated -= OnSwitchItemActivated;
-		LeftSideMenu.CleanUp();
-		RightSideMenu.CleanUp();
+		_ = StateService.Dealers.CleanUp();
 		base.StopMission();
 	}
 
@@ -72,26 +55,20 @@ internal sealed class Trafficking : Mission, ITrafficking
 		if (Status is not MissionStatusType.STARTED)
 			return;
 
-		if (!PlayerProvider.CanControlCharacter && !PlayerProvider.CanStartMission)
+		if (PlayerProvider.CanControlCharacter && !PlayerProvider.CanStartMission)
 			return;
 
 		try
 		{
-			_ = this.TrackDealers(_stateService)
-				.DiscoverDealers(_stateService)
-				.ChangeDealerInventories(_stateService)
-				.ChangeDealerPrices(_stateService)
-				.InProximity(_stateService);
+			_ = this.TrackDealers()
+				.DiscoverDealers()
+				.ChangeDealerInventories()
+				.ChangeDealerPrices()
+				.InProximity(_providerManager);
 		}
 		catch (Exception ex)
 		{
 			LoggerService.Critical(RESX.Trafficking_Error_Critical, ex);
 		}
-	}
-
-	private void OnSwitchItemActivated(object sender, EventArgs e)
-	{
-		LeftSideMenu.Visible = !LeftSideMenu.Visible;
-		RightSideMenu.Visible = !RightSideMenu.Visible;
 	}
 }

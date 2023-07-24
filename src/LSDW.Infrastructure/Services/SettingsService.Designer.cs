@@ -44,6 +44,8 @@ internal sealed partial class SettingsService : ISettingsService
     DealerSettings.SetHasArmor(hasarmor);
     bool hasweapons = DealerSettings.GetHasWeapons();
     DealerSettings.SetHasWeapons(hasweapons);
+    float specialofferchance = MarketSettings.GetSpecialOfferChance();
+    MarketSettings.SetSpecialOfferChance(specialofferchance);
     int inventorychangeinterval = MarketSettings.GetInventoryChangeInterval();
     MarketSettings.SetInventoryChangeInterval(inventorychangeinterval);
     int pricechangeinterval = MarketSettings.GetPriceChangeInterval();
@@ -120,6 +122,17 @@ internal sealed class MarketSettings : IMarketSettings
   internal MarketSettings(ScriptSettings scriptSettings)
     => _scriptSettings = scriptSettings;
 
+  public List<float> GetSpecialOfferChanceValues()
+    => Settings.Market.GetSpecialOfferChanceValues();
+
+  public float GetSpecialOfferChance()
+    => _scriptSettings.GetValue("MARKETSETTINGS", "SPECIALOFFERCHANCE", Settings.Market.SpecialOfferChance);
+
+	public void SetSpecialOfferChance(float value)
+  {
+		_scriptSettings.SetValue("MARKETSETTINGS", "SPECIALOFFERCHANCE", value);
+		Settings.Market.SpecialOfferChance = value;
+  }
   public List<int> GetInventoryChangeIntervalValues()
     => Settings.Market.GetInventoryChangeIntervalValues();
 
