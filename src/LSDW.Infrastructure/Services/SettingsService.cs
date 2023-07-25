@@ -6,7 +6,7 @@ using static LSDW.Abstractions.Domain.Models.ISettings;
 
 namespace LSDW.Infrastructure.Services;
 
-internal sealed class SettingsService : ISettingsService
+internal sealed partial class SettingsService : ISettingsService
 {
 	private readonly static Lazy<SettingsService> _service = new(() => new());
 	private readonly ISettings _settings;
@@ -16,6 +16,7 @@ internal sealed class SettingsService : ISettingsService
 	{
 		_settings = DomainFactory.GetSettings();
 		_scriptSettings = ScriptSettings.Load(Path.Combine(AppContext.BaseDirectory, _settings.IniFileName));
+		Load();
 		Save();
 	}
 
@@ -39,4 +40,10 @@ internal sealed class SettingsService : ISettingsService
 
 	public void Save()
 		=> _scriptSettings.Save();
+
+	public T GetValue<T>(string section, string name, T defaultvalue)
+		=> _scriptSettings.GetValue(section, name, defaultvalue);
+
+	public void SetValue<T>(string section, string name, T value)
+		=> _scriptSettings.SetValue(section, name, value);
 }

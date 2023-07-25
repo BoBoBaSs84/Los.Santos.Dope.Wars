@@ -28,8 +28,7 @@ internal sealed partial class SettingsMenu
 			Resources.UI_Settings_Dealer_HasArmor_Title,
 			Resources.UI_Settings_Dealer_HasArmor_Description,
 			_settingsService.Dealer.HasArmor.Value,
-			changed => { _settingsService.Dealer.HasArmor.Value = changed; }
-			);
+			changed => { _settingsService.Dealer.HasArmor.Value = changed; });
 		
 		_settingsService.Dealer.HasArmor.ValueChanged += (sender, args)
 			=> { checkBoxHasArmor.Checked = args.NewValue; };
@@ -38,8 +37,7 @@ internal sealed partial class SettingsMenu
 			Resources.UI_Settings_Dealer_HasWeapons_Title,
 			Resources.UI_Settings_Dealer_HasWeapons_Description,
 			_settingsService.Dealer.HasWeapons.Value,
-			changed => { _settingsService.Dealer.HasWeapons.Value = changed; }
-			);
+			changed => { _settingsService.Dealer.HasWeapons.Value = changed; });
 		
 		_settingsService.Dealer.HasWeapons.ValueChanged += (sender, args)
 			=> { checkBoxHasWeapons.Checked = args.NewValue; };
@@ -118,8 +116,7 @@ internal sealed partial class SettingsMenu
 			Resources.UI_Settings_Player_LooseDrugsOnDeath_Title,
 			Resources.UI_Settings_Player_LooseDrugsOnDeath_Description,
 			_settingsService.Player.LooseDrugsOnDeath.Value,
-			changed => { _settingsService.Player.LooseDrugsOnDeath.Value = changed; }
-			);
+			changed => { _settingsService.Player.LooseDrugsOnDeath.Value = changed; });
 		
 		_settingsService.Player.LooseDrugsOnDeath.ValueChanged += (sender, args)
 			=> { checkBoxLooseDrugsOnDeath.Checked = args.NewValue; };
@@ -128,8 +125,7 @@ internal sealed partial class SettingsMenu
 			Resources.UI_Settings_Player_LooseDrugsWhenBusted_Title,
 			Resources.UI_Settings_Player_LooseDrugsWhenBusted_Description,
 			_settingsService.Player.LooseDrugsWhenBusted.Value,
-			changed => { _settingsService.Player.LooseDrugsWhenBusted.Value = changed; }
-			);
+			changed => { _settingsService.Player.LooseDrugsWhenBusted.Value = changed; });
 		
 		_settingsService.Player.LooseDrugsWhenBusted.ValueChanged += (sender, args)
 			=> { checkBoxLooseDrugsWhenBusted.Checked = args.NewValue; };
@@ -138,8 +134,7 @@ internal sealed partial class SettingsMenu
 			Resources.UI_Settings_Player_LooseMoneyOnDeath_Title,
 			Resources.UI_Settings_Player_LooseMoneyOnDeath_Description,
 			_settingsService.Player.LooseMoneyOnDeath.Value,
-			changed => { _settingsService.Player.LooseMoneyOnDeath.Value = changed; }
-			);
+			changed => { _settingsService.Player.LooseMoneyOnDeath.Value = changed; });
 		
 		_settingsService.Player.LooseMoneyOnDeath.ValueChanged += (sender, args)
 			=> { checkBoxLooseMoneyOnDeath.Checked = args.NewValue; };
@@ -148,8 +143,7 @@ internal sealed partial class SettingsMenu
 			Resources.UI_Settings_Player_LooseMoneyWhenBusted_Title,
 			Resources.UI_Settings_Player_LooseMoneyWhenBusted_Description,
 			_settingsService.Player.LooseMoneyWhenBusted.Value,
-			changed => { _settingsService.Player.LooseMoneyWhenBusted.Value = changed; }
-			);
+			changed => { _settingsService.Player.LooseMoneyWhenBusted.Value = changed; });
 		
 		_settingsService.Player.LooseMoneyWhenBusted.ValueChanged += (sender, args)
 			=> { checkBoxLooseMoneyWhenBusted.Checked = args.NewValue; };
@@ -178,8 +172,7 @@ internal sealed partial class SettingsMenu
 			Resources.UI_Settings_Trafficking_DiscoverDealer_Title,
 			Resources.UI_Settings_Trafficking_DiscoverDealer_Description,
 			_settingsService.Trafficking.DiscoverDealer.Value,
-			changed => { _settingsService.Trafficking.DiscoverDealer.Value = changed; }
-			);
+			changed => { _settingsService.Trafficking.DiscoverDealer.Value = changed; });
 		
 		_settingsService.Trafficking.DiscoverDealer.ValueChanged += (sender, args)
 			=> { checkBoxDiscoverDealer.Checked = args.NewValue; };
