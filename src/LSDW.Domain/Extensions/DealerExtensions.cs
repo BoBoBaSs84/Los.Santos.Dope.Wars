@@ -4,9 +4,9 @@ using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Providers;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Extensions;
+using LSDW.Domain.Models;
 using LSDW.Domain.Properties;
 using System.Diagnostics.CodeAnalysis;
-using MarketSettings = LSDW.Abstractions.Models.Settings.Market;
 
 namespace LSDW.Domain.Extensions;
 
@@ -25,7 +25,7 @@ public static class DealerExtensions
 	public static IDealer ChangePrices(this IDealer dealer, IWorldProvider worldProvider, int playerLevel)
 	{
 		dealer.Inventory.ChangePrices(playerLevel);
-		dealer.NextPriceChange = worldProvider.Now.AddHours(MarketSettings.PriceChangeInterval);
+		dealer.NextPriceChange = worldProvider.Now.AddHours(Settings.Instance.Market.PriceChangeInterval.Value);
 		return dealer;
 	}
 
@@ -38,8 +38,8 @@ public static class DealerExtensions
 	public static IDealer ChangeInventory(this IDealer dealer, IWorldProvider worldProvider, int playerLevel)
 	{
 		dealer.Inventory.Restock(playerLevel);
-		dealer.NextInventoryChange = worldProvider.Now.AddHours(MarketSettings.InventoryChangeInterval);
-		dealer.NextPriceChange = worldProvider.Now.AddHours(MarketSettings.PriceChangeInterval);
+		dealer.NextInventoryChange = worldProvider.Now.AddHours(Settings.Instance.Market.InventoryChangeInterval.Value);
+		dealer.NextPriceChange = worldProvider.Now.AddHours(Settings.Instance.Market.PriceChangeInterval.Value);
 		return dealer;
 	}
 

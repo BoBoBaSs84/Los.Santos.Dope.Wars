@@ -1,12 +1,25 @@
-﻿using static LSDW.Abstractions.Domain.Models.ISettings;
-
-namespace LSDW.Abstractions.Infrastructure.Services;
+﻿namespace LSDW.Abstractions.Domain.Models;
 
 /// <summary>
-/// The settings service interface.
+/// The settings interface.
 /// </summary>
-public interface ISettingsService
+public partial interface ISettings
 {
+	/// <summary>
+	/// The settings file name.
+	/// </summary>
+	string IniFileName { get; }
+
+	/// <summary>
+	/// The log file name.
+	/// </summary>
+	string LogFileName { get; }
+
+	/// <summary>
+	/// The save file name.
+	/// </summary>
+	string SaveFileName { get; }
+
 	/// <summary>
 	/// The dealer settings.
 	/// </summary>
@@ -26,9 +39,4 @@ public interface ISettingsService
 	/// The trafficking settings.
 	/// </summary>
 	ITraffickingSettings Trafficking { get; }
-
-	/// <summary>
-	/// Saves the current settings to file.
-	/// </summary>
-	void Save();
 }

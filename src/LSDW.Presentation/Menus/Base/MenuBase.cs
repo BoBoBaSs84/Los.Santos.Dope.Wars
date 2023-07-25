@@ -1,6 +1,6 @@
 ﻿using LemonUI;
 using LemonUI.Menus;
-using LSDW.Abstractions.Presentation.Menus;
+using LSDW.Abstractions.Presentation.Menus.Base;
 using GTAFont = GTA.UI.Font;
 
 namespace LSDW.Presentation.Menus.Base;
@@ -56,6 +56,16 @@ internal abstract class MenuBase : NativeMenu, IMenuBase
 		Add(item);
 		return item;
 	}
+
+	/// <summary>
+	/// Adds a new checkbox item to the menu.
+	/// </summary>
+	/// <param name="title">The title of the item.</param>
+	/// <param name="defaultValue">The default value of the checkbox Checked state.</param>
+	/// <param name="changed">The action to perform when the checkbox Checked state changes.</param>
+	/// <returns>The checkbox item.</returns>
+	protected NativeCheckboxItem AddCheckbox(string title, bool defaultValue = false, Action<bool>? changed = null)
+		=> AddCheckbox(title, string.Empty, defaultValue, changed);
 
 	/// <summary>
 	/// Adds a new checkbox item to the menu.

@@ -3,9 +3,8 @@ using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Providers;
 using LSDW.Base.Tests.Helpers;
 using LSDW.Domain.Factories;
+using LSDW.Domain.Models;
 using Moq;
-using DealerSettings = LSDW.Abstractions.Models.Settings.Dealer;
-using MarketSettings = LSDW.Abstractions.Models.Settings.Market;
 
 namespace LSDW.Domain.Tests.Models;
 
@@ -19,7 +18,7 @@ public class DealerTests
 	public void SetClosedTest()
 	{
 		IWorldProvider provider = _worldProviderMock.Object;
-		DateTime closedUnitl = provider.Now.AddHours(DealerSettings.DownTimeInHours);
+		DateTime closedUnitl = provider.Now.AddHours(Settings.Instance.Dealer.DownTimeInHours.Value);
 
 		_dealer.ClosedUntil = closedUnitl;
 
@@ -31,7 +30,7 @@ public class DealerTests
 	public void SetOpenTest()
 	{
 		IWorldProvider provider = _worldProviderMock.Object;
-		_dealer.ClosedUntil = provider.Now.AddHours(DealerSettings.DownTimeInHours);
+		_dealer.ClosedUntil = provider.Now.AddHours(Settings.Instance.Dealer.DownTimeInHours.Value);
 
 		_dealer.ClosedUntil = null;
 
@@ -44,7 +43,7 @@ public class DealerTests
 	public void SetNextPriceChangeTest()
 	{
 		IWorldProvider provider = _worldProviderMock.Object;
-		DateTime nextChange = provider.Now.AddHours(MarketSettings.PriceChangeInterval);
+		DateTime nextChange = provider.Now.AddHours(Settings.Instance.Market.PriceChangeInterval.Value);
 
 		_dealer.NextPriceChange = nextChange;
 
@@ -55,7 +54,7 @@ public class DealerTests
 	public void SetNextInventoryChangeTest()
 	{
 		IWorldProvider provider = _worldProviderMock.Object;
-		DateTime nextChange = provider.Now.AddHours(MarketSettings.InventoryChangeInterval);
+		DateTime nextChange = provider.Now.AddHours(Settings.Instance.Market.InventoryChangeInterval.Value);
 
 		_dealer.NextInventoryChange = nextChange;
 

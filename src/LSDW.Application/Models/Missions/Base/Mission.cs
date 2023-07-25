@@ -28,6 +28,7 @@ internal abstract class Mission : IMission
 		Status = MissionStatusType.STOPPED;
 
 		LoggerService = serviceManager.LoggerService;
+		SettingsService = serviceManager.SettingsService;
 		StateService = serviceManager.StateService;
 		AudioProvider = providerManager.AudioProvider;
 		GameProvider = providerManager.GameProvider;
@@ -40,6 +41,7 @@ internal abstract class Mission : IMission
 	public string Name { get; }
 	public MissionStatusType Status { get; private set; }
 	public ILoggerService LoggerService { get; }
+	public ISettingsService SettingsService { get; }
 	public IStateService StateService { get; }
 	public IAudioProvider AudioProvider { get; }
 	public IGameProvider GameProvider { get; }
@@ -49,7 +51,6 @@ internal abstract class Mission : IMission
 	public IWorldProvider WorldProvider { get; }
 
 	public abstract void OnAborted(object sender, EventArgs args);
-
 	public abstract void OnTick(object sender, EventArgs args);
 
 	public virtual void StartMission()

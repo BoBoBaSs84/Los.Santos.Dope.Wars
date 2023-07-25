@@ -15,6 +15,7 @@ public partial class ApplicationFactoryTests
 
 		Assert.IsNotNull(trafficking);
 		Assert.IsNotNull(trafficking.LoggerService);
+		Assert.IsNotNull(trafficking.SettingsService);
 		Assert.IsNotNull(trafficking.AudioProvider);
 		Assert.IsNotNull(trafficking.GameProvider);
 		Assert.IsNotNull(trafficking.NotificationProvider);

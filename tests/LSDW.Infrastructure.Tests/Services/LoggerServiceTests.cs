@@ -1,5 +1,5 @@
 ﻿using LSDW.Abstractions.Infrastructure.Services;
-using LSDW.Abstractions.Models;
+using LSDW.Domain.Factories;
 using LSDW.Infrastructure.Factories;
 
 namespace LSDW.Infrastructure.Tests.Services;
@@ -8,7 +8,7 @@ namespace LSDW.Infrastructure.Tests.Services;
 [SuppressMessage("Usage", "CA2201", Justification = "Unit testing.")]
 public class LoggerServiceTests
 {
-	private readonly string logFileNamePath = Path.Combine(Environment.CurrentDirectory, Settings.LogFileName);
+	private readonly string logFileNamePath = Path.Combine(Environment.CurrentDirectory, DomainFactory.GetSettings().LogFileName);
 	private readonly ILoggerService logger = InfrastructureFactory.GetLoggerService();
 
 	[TestCleanup]

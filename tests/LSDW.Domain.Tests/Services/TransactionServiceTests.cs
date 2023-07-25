@@ -3,9 +3,9 @@ using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Providers;
 using LSDW.Abstractions.Domain.Services;
 using LSDW.Abstractions.Enumerators;
-using LSDW.Abstractions.Models;
 using LSDW.Base.Tests.Helpers;
 using LSDW.Domain.Factories;
+using LSDW.Domain.Models;
 using LSDW.Domain.Properties;
 using Moq;
 
@@ -191,6 +191,6 @@ public class TransactionServiceTests
 		transactionService.BustOrNoBust();
 
 		notificationProviderMock.Verify(x => x.ShowSubtitle(Resources.Transaction_Message_Bust, 2500));
-		Assert.AreEqual(Settings.Trafficking.WantedLevel, playerProviderMock.Object.WantedLevel);
+		Assert.AreEqual(Settings.Instance.Trafficking.WantedLevel.Value, playerProviderMock.Object.WantedLevel);
 	}
 }

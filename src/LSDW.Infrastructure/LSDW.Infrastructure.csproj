@@ -5,28 +5,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Remove="**\*.tt" />
-		<None Include="**\*.tt">
-			<Generator>TextTemplatingFileGenerator</Generator>
-			<DependentUpon>%(Filename).cs</DependentUpon>
-			<LastGenOutput>%(Filename).Designer.cs</LastGenOutput>
-		</None>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Compile Update="Properties\Resources.Designer.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>Resources.resx</DependentUpon>
-	  </Compile>
-	  <Compile Update="Services\SettingsService.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>SettingsService.tt</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
@@ -35,12 +17,6 @@
 	    <Generator>ResXFileCodeGenerator</Generator>
 	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Update="Services\SettingsService.tt">
-	    <LastGenOutput>SettingsService.Designer.cs</LastGenOutput>
-	  </None>
 	</ItemGroup>
 
 </Project>

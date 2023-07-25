@@ -1,5 +1,5 @@
 ﻿using LSDW.Abstractions.Infrastructure.Services;
-using LSDW.Abstractions.Models;
+using LSDW.Domain.Factories;
 using static LSDW.Infrastructure.Factories.InfrastructureFactory;
 
 namespace LSDW.Infrastructure.Tests.Services;
@@ -9,7 +9,7 @@ public class GameStateServiceTests
 {
 	private readonly IStateService _stateService = GetStateService();
 	private static readonly string _baseDirectory = AppContext.BaseDirectory;
-	private static readonly string _saveFileName = Settings.SaveFileName;
+	private static readonly string _saveFileName = DomainFactory.GetSettings().SaveFileName;
 
 	[TestCleanup]
 	public void TestCleanup()
