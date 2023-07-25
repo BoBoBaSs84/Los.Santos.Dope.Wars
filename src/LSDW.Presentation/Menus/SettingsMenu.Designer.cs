@@ -21,8 +21,11 @@ internal sealed partial class SettingsMenu
 			_settingsService.Dealer.GetDownTimeInHoursValues()
 			);
 
-		_settingsService.Dealer.DownTimeInHours.ValueChanged += (sender, args)
-			=> { listItemDownTimeInHours.SelectedItem = args.NewValue; };
+		_settingsService.Dealer.DownTimeInHours.ValueChanged += (sender, args) =>
+		{
+			listItemDownTimeInHours.SelectedItem = args.NewValue;
+			_settingsService.SetValue("DEALER", "DOWNTIMEINHOURS", args.NewValue);
+		};
 
 		var checkBoxHasArmor = AddCheckbox(
 			Resources.UI_Settings_Dealer_HasArmor_Title,
@@ -30,8 +33,11 @@ internal sealed partial class SettingsMenu
 			_settingsService.Dealer.HasArmor.Value,
 			changed => { _settingsService.Dealer.HasArmor.Value = changed; });
 		
-		_settingsService.Dealer.HasArmor.ValueChanged += (sender, args)
-			=> { checkBoxHasArmor.Checked = args.NewValue; };
+		_settingsService.Dealer.HasArmor.ValueChanged += (sender, args) =>
+		{
+			checkBoxHasArmor.Checked = args.NewValue;
+			_settingsService.SetValue("DEALER", "HASARMOR", args.NewValue);
+		};
 			
 		var checkBoxHasWeapons = AddCheckbox(
 			Resources.UI_Settings_Dealer_HasWeapons_Title,
@@ -39,8 +45,11 @@ internal sealed partial class SettingsMenu
 			_settingsService.Dealer.HasWeapons.Value,
 			changed => { _settingsService.Dealer.HasWeapons.Value = changed; });
 		
-		_settingsService.Dealer.HasWeapons.ValueChanged += (sender, args)
-			=> { checkBoxHasWeapons.Checked = args.NewValue; };
+		_settingsService.Dealer.HasWeapons.ValueChanged += (sender, args) =>
+		{
+			checkBoxHasWeapons.Checked = args.NewValue;
+			_settingsService.SetValue("DEALER", "HASWEAPONS", args.NewValue);
+		};
 			
 		var listItemInventoryChangeInterval = AddListItem(
 			Resources.UI_Settings_Market_InventoryChangeInterval_Title,
@@ -49,8 +58,11 @@ internal sealed partial class SettingsMenu
 			_settingsService.Market.GetInventoryChangeIntervalValues()
 			);
 
-		_settingsService.Market.InventoryChangeInterval.ValueChanged += (sender, args)
-			=> { listItemInventoryChangeInterval.SelectedItem = args.NewValue; };
+		_settingsService.Market.InventoryChangeInterval.ValueChanged += (sender, args) =>
+		{
+			listItemInventoryChangeInterval.SelectedItem = args.NewValue;
+			_settingsService.SetValue("MARKET", "INVENTORYCHANGEINTERVAL", args.NewValue);
+		};
 
 		var listItemMaximumDrugPrice = AddListItem(
 			Resources.UI_Settings_Market_MaximumDrugPrice_Title,
@@ -59,8 +71,11 @@ internal sealed partial class SettingsMenu
 			_settingsService.Market.GetMaximumDrugPriceValues()
 			);
 
-		_settingsService.Market.MaximumDrugPrice.ValueChanged += (sender, args)
-			=> { listItemMaximumDrugPrice.SelectedItem = args.NewValue; };
+		_settingsService.Market.MaximumDrugPrice.ValueChanged += (sender, args) =>
+		{
+			listItemMaximumDrugPrice.SelectedItem = args.NewValue;
+			_settingsService.SetValue("MARKET", "MAXIMUMDRUGPRICE", args.NewValue);
+		};
 
 		var listItemMinimumDrugPrice = AddListItem(
 			Resources.UI_Settings_Market_MinimumDrugPrice_Title,
@@ -69,8 +84,11 @@ internal sealed partial class SettingsMenu
 			_settingsService.Market.GetMinimumDrugPriceValues()
 			);
 
-		_settingsService.Market.MinimumDrugPrice.ValueChanged += (sender, args)
-			=> { listItemMinimumDrugPrice.SelectedItem = args.NewValue; };
+		_settingsService.Market.MinimumDrugPrice.ValueChanged += (sender, args) =>
+		{
+			listItemMinimumDrugPrice.SelectedItem = args.NewValue;
+			_settingsService.SetValue("MARKET", "MINIMUMDRUGPRICE", args.NewValue);
+		};
 
 		var listItemPriceChangeInterval = AddListItem(
 			Resources.UI_Settings_Market_PriceChangeInterval_Title,
@@ -79,8 +97,11 @@ internal sealed partial class SettingsMenu
 			_settingsService.Market.GetPriceChangeIntervalValues()
 			);
 
-		_settingsService.Market.PriceChangeInterval.ValueChanged += (sender, args)
-			=> { listItemPriceChangeInterval.SelectedItem = args.NewValue; };
+		_settingsService.Market.PriceChangeInterval.ValueChanged += (sender, args) =>
+		{
+			listItemPriceChangeInterval.SelectedItem = args.NewValue;
+			_settingsService.SetValue("MARKET", "PRICECHANGEINTERVAL", args.NewValue);
+		};
 
 		var listItemSpecialOfferChance = AddListItem(
 			Resources.UI_Settings_Market_SpecialOfferChance_Title,
@@ -89,8 +110,11 @@ internal sealed partial class SettingsMenu
 			_settingsService.Market.GetSpecialOfferChanceValues()
 			);
 
-		_settingsService.Market.SpecialOfferChance.ValueChanged += (sender, args)
-			=> { listItemSpecialOfferChance.SelectedItem = args.NewValue; };
+		_settingsService.Market.SpecialOfferChance.ValueChanged += (sender, args) =>
+		{
+			listItemSpecialOfferChance.SelectedItem = args.NewValue;
+			_settingsService.SetValue("MARKET", "SPECIALOFFERCHANCE", args.NewValue);
+		};
 
 		var listItemExperienceMultiplier = AddListItem(
 			Resources.UI_Settings_Player_ExperienceMultiplier_Title,
@@ -99,8 +123,11 @@ internal sealed partial class SettingsMenu
 			_settingsService.Player.GetExperienceMultiplierValues()
 			);
 
-		_settingsService.Player.ExperienceMultiplier.ValueChanged += (sender, args)
-			=> { listItemExperienceMultiplier.SelectedItem = args.NewValue; };
+		_settingsService.Player.ExperienceMultiplier.ValueChanged += (sender, args) =>
+		{
+			listItemExperienceMultiplier.SelectedItem = args.NewValue;
+			_settingsService.SetValue("PLAYER", "EXPERIENCEMULTIPLIER", args.NewValue);
+		};
 
 		var listItemInventoryExpansionPerLevel = AddListItem(
 			Resources.UI_Settings_Player_InventoryExpansionPerLevel_Title,
@@ -109,8 +136,11 @@ internal sealed partial class SettingsMenu
 			_settingsService.Player.GetInventoryExpansionPerLevelValues()
 			);
 
-		_settingsService.Player.InventoryExpansionPerLevel.ValueChanged += (sender, args)
-			=> { listItemInventoryExpansionPerLevel.SelectedItem = args.NewValue; };
+		_settingsService.Player.InventoryExpansionPerLevel.ValueChanged += (sender, args) =>
+		{
+			listItemInventoryExpansionPerLevel.SelectedItem = args.NewValue;
+			_settingsService.SetValue("PLAYER", "INVENTORYEXPANSIONPERLEVEL", args.NewValue);
+		};
 
 		var checkBoxLooseDrugsOnDeath = AddCheckbox(
 			Resources.UI_Settings_Player_LooseDrugsOnDeath_Title,
@@ -118,8 +148,11 @@ internal sealed partial class SettingsMenu
 			_settingsService.Player.LooseDrugsOnDeath.Value,
 			changed => { _settingsService.Player.LooseDrugsOnDeath.Value = changed; });
 		
-		_settingsService.Player.LooseDrugsOnDeath.ValueChanged += (sender, args)
-			=> { checkBoxLooseDrugsOnDeath.Checked = args.NewValue; };
+		_settingsService.Player.LooseDrugsOnDeath.ValueChanged += (sender, args) =>
+		{
+			checkBoxLooseDrugsOnDeath.Checked = args.NewValue;
+			_settingsService.SetValue("PLAYER", "LOOSEDRUGSONDEATH", args.NewValue);
+		};
 			
 		var checkBoxLooseDrugsWhenBusted = AddCheckbox(
 			Resources.UI_Settings_Player_LooseDrugsWhenBusted_Title,
@@ -127,8 +160,11 @@ internal sealed partial class SettingsMenu
 			_settingsService.Player.LooseDrugsWhenBusted.Value,
 			changed => { _settingsService.Player.LooseDrugsWhenBusted.Value = changed; });
 		
-		_settingsService.Player.LooseDrugsWhenBusted.ValueChanged += (sender, args)
-			=> { checkBoxLooseDrugsWhenBusted.Checked = args.NewValue; };
+		_settingsService.Player.LooseDrugsWhenBusted.ValueChanged += (sender, args) =>
+		{
+			checkBoxLooseDrugsWhenBusted.Checked = args.NewValue;
+			_settingsService.SetValue("PLAYER", "LOOSEDRUGSWHENBUSTED", args.NewValue);
+		};
 			
 		var checkBoxLooseMoneyOnDeath = AddCheckbox(
 			Resources.UI_Settings_Player_LooseMoneyOnDeath_Title,
@@ -136,8 +172,11 @@ internal sealed partial class SettingsMenu
 			_settingsService.Player.LooseMoneyOnDeath.Value,
 			changed => { _settingsService.Player.LooseMoneyOnDeath.Value = changed; });
 		
-		_settingsService.Player.LooseMoneyOnDeath.ValueChanged += (sender, args)
-			=> { checkBoxLooseMoneyOnDeath.Checked = args.NewValue; };
+		_settingsService.Player.LooseMoneyOnDeath.ValueChanged += (sender, args) =>
+		{
+			checkBoxLooseMoneyOnDeath.Checked = args.NewValue;
+			_settingsService.SetValue("PLAYER", "LOOSEMONEYONDEATH", args.NewValue);
+		};
 			
 		var checkBoxLooseMoneyWhenBusted = AddCheckbox(
 			Resources.UI_Settings_Player_LooseMoneyWhenBusted_Title,
@@ -145,8 +184,11 @@ internal sealed partial class SettingsMenu
 			_settingsService.Player.LooseMoneyWhenBusted.Value,
 			changed => { _settingsService.Player.LooseMoneyWhenBusted.Value = changed; });
 		
-		_settingsService.Player.LooseMoneyWhenBusted.ValueChanged += (sender, args)
-			=> { checkBoxLooseMoneyWhenBusted.Checked = args.NewValue; };
+		_settingsService.Player.LooseMoneyWhenBusted.ValueChanged += (sender, args) =>
+		{
+			checkBoxLooseMoneyWhenBusted.Checked = args.NewValue;
+			_settingsService.SetValue("PLAYER", "LOOSEMONEYWHENBUSTED", args.NewValue);
+		};
 			
 		var listItemStartingInventory = AddListItem(
 			Resources.UI_Settings_Player_StartingInventory_Title,
@@ -155,8 +197,11 @@ internal sealed partial class SettingsMenu
 			_settingsService.Player.GetStartingInventoryValues()
 			);
 
-		_settingsService.Player.StartingInventory.ValueChanged += (sender, args)
-			=> { listItemStartingInventory.SelectedItem = args.NewValue; };
+		_settingsService.Player.StartingInventory.ValueChanged += (sender, args) =>
+		{
+			listItemStartingInventory.SelectedItem = args.NewValue;
+			_settingsService.SetValue("PLAYER", "STARTINGINVENTORY", args.NewValue);
+		};
 
 		var listItemBustChance = AddListItem(
 			Resources.UI_Settings_Trafficking_BustChance_Title,
@@ -165,8 +210,11 @@ internal sealed partial class SettingsMenu
 			_settingsService.Trafficking.GetBustChanceValues()
 			);
 
-		_settingsService.Trafficking.BustChance.ValueChanged += (sender, args)
-			=> { listItemBustChance.SelectedItem = args.NewValue; };
+		_settingsService.Trafficking.BustChance.ValueChanged += (sender, args) =>
+		{
+			listItemBustChance.SelectedItem = args.NewValue;
+			_settingsService.SetValue("TRAFFICKING", "BUSTCHANCE", args.NewValue);
+		};
 
 		var checkBoxDiscoverDealer = AddCheckbox(
 			Resources.UI_Settings_Trafficking_DiscoverDealer_Title,
@@ -174,8 +222,11 @@ internal sealed partial class SettingsMenu
 			_settingsService.Trafficking.DiscoverDealer.Value,
 			changed => { _settingsService.Trafficking.DiscoverDealer.Value = changed; });
 		
-		_settingsService.Trafficking.DiscoverDealer.ValueChanged += (sender, args)
-			=> { checkBoxDiscoverDealer.Checked = args.NewValue; };
+		_settingsService.Trafficking.DiscoverDealer.ValueChanged += (sender, args) =>
+		{
+			checkBoxDiscoverDealer.Checked = args.NewValue;
+			_settingsService.SetValue("TRAFFICKING", "DISCOVERDEALER", args.NewValue);
+		};
 			
 		var listItemWantedLevel = AddListItem(
 			Resources.UI_Settings_Trafficking_WantedLevel_Title,
@@ -184,8 +235,11 @@ internal sealed partial class SettingsMenu
 			_settingsService.Trafficking.GetWantedLevelValues()
 			);
 
-		_settingsService.Trafficking.WantedLevel.ValueChanged += (sender, args)
-			=> { listItemWantedLevel.SelectedItem = args.NewValue; };
+		_settingsService.Trafficking.WantedLevel.ValueChanged += (sender, args) =>
+		{
+			listItemWantedLevel.SelectedItem = args.NewValue;
+			_settingsService.SetValue("TRAFFICKING", "WANTEDLEVEL", args.NewValue);
+		};
 
 	}
 }

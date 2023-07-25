@@ -42,8 +42,11 @@ foreach (PropertyInfo @interface in interfaces)
 			_settingsService.<#= @interface.Name #>.<#= name #>.Value,
 			changed => { _settingsService.<#= @interface.Name #>.<#= name #>.Value = changed; });
 		
-		_settingsService.<#= @interface.Name #>.<#= name #>.ValueChanged += (sender, args)
-			=> { checkBox<#= name #>.Checked = args.NewValue; };
+		_settingsService.<#= @interface.Name #>.<#= name #>.ValueChanged += (sender, args) =>
+		{
+			checkBox<#= name #>.Checked = args.NewValue;
+			_settingsService.SetValue("<#= @interface.Name.ToUpper() #>", "<#= name.ToUpper() #>", args.NewValue);
+		};
 			
 <# } else { #>
 		var listItem<#= name #> = AddListItem(
@@ -53,8 +56,11 @@ foreach (PropertyInfo @interface in interfaces)
 			_settingsService.<#= @interface.Name #>.Get<#= name #>Values()
 			);
 
-		_settingsService.<#= @interface.Name #>.<#= name #>.ValueChanged += (sender, args)
-			=> { listItem<#= name #>.SelectedItem = args.NewValue; };
+		_settingsService.<#= @interface.Name #>.<#= name #>.ValueChanged += (sender, args) =>
+		{
+			listItem<#= name #>.SelectedItem = args.NewValue;
+			_settingsService.SetValue("<#= @interface.Name.ToUpper() #>", "<#= name.ToUpper() #>", args.NewValue);
+		};
 
 <# }}} #>
 	}
