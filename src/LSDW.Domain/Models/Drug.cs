@@ -1,7 +1,6 @@
 ﻿using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Extensions;
-using LSDW.Abstractions.Models;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Helpers;
 using LSDW.Domain.Models.Base;
@@ -116,7 +115,7 @@ internal sealed class Drug : Notification, IDrug
 	/// <param name="playerLevel">The current player level.</param>
 	private int GetHighestPrice(int playerLevel)
 	{
-		float maximumDrugPrice = Settings.Market.MaximumDrugPrice;
+		float maximumDrugPrice = Settings.Instance.Market.MaximumDrugPrice.Value;
 		float playerfactor = playerLevel / (float)1000;
 		float averagePrice = Type.GetAveragePrice();
 		float highestPrice = (maximumDrugPrice + playerfactor) * averagePrice;
@@ -130,7 +129,7 @@ internal sealed class Drug : Notification, IDrug
 	/// <param name="playerLevel">The current player level.</param>
 	private int GetLowestPrice(int playerLevel)
 	{
-		float maximumDrugPrice = Settings.Market.MaximumDrugPrice;
+		float maximumDrugPrice = Settings.Instance.Market.MaximumDrugPrice.Value;
 		float playerfactor = playerLevel / (float)1000;
 		float averagePrice = Type.GetAveragePrice();
 		float lowestPrice = (maximumDrugPrice - playerfactor) * averagePrice;

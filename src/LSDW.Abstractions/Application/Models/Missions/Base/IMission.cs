@@ -25,6 +25,11 @@ public interface IMission
 	ILoggerService LoggerService { get; }
 
 	/// <summary>
+	/// The settings service instance to use.
+	/// </summary>
+	ISettingsService SettingsService { get; }
+
+	/// <summary>
 	/// The state service instance to use.
 	/// </summary>
 	IStateService StateService { get; }

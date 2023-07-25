@@ -1,20 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
+	  <None Include="Services\SettingsService.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>SettingsService.tt</DependentUpon>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\LSDW.Domain\LSDW.Domain.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Remove="**\*.tt" />
-		<None Include="**\*.tt">
-			<Generator>TextTemplatingFileGenerator</Generator>
-			<DependentUpon>%(Filename).cs</DependentUpon>
-			<LastGenOutput>%(Filename).Designer.cs</LastGenOutput>
-		</None>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -39,8 +34,22 @@
 
 	<ItemGroup>
 	  <None Update="Services\SettingsService.tt">
+	    <Generator>TextTemplatingFileGenerator</Generator>
 	    <LastGenOutput>SettingsService.Designer.cs</LastGenOutput>
 	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="**\*.tt" />
+		<None Include="**\*.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<DependentUpon>%(Filename).cs</DependentUpon>
+			<LastGenOutput>%(Filename).Designer.cs</LastGenOutput>
+		</None>
 	</ItemGroup>
 
 </Project>

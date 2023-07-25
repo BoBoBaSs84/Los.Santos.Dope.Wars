@@ -2,7 +2,6 @@
 using LSDW.Domain.Constants;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Models.Base;
-using static LSDW.Abstractions.Models.Settings.Player;
 
 namespace LSDW.Domain.Models;
 
@@ -43,7 +42,7 @@ internal sealed class Player : Notification, IPlayer
 		=> _transactions.Count;
 
 	public void AddExperience(int points)
-		=> Experience += (int)(points * ExperienceMultiplier);
+		=> Experience += (int)(points * Settings.Instance.Player.ExperienceMultiplier.Value);
 
 	public void AddTransaction(ITransaction transaction)
 	{
@@ -61,5 +60,5 @@ internal sealed class Player : Notification, IPlayer
 		=> PlayerConstants.CalculateExperienceNextLevel(Level);
 
 	private int GetMaximumInventoryQuantity()
-		=> StartingInventory + (Level * InventoryExpansionPerLevel);
+		=> Settings.Instance.Player.StartingInventory.Value + (Level * Settings.Instance.Player.InventoryExpansionPerLevel.Value);
 }

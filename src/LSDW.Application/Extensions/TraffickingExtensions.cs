@@ -3,14 +3,12 @@ using LSDW.Abstractions.Application.Managers;
 using LSDW.Abstractions.Application.Models.Missions;
 using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Enumerators;
-using LSDW.Abstractions.Models;
 using LSDW.Abstractions.Presentation.Menus;
 using LSDW.Application.Properties;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
 using LSDW.Presentation.Factories;
 using System.Diagnostics.CodeAnalysis;
-using DealerSettings = LSDW.Abstractions.Models.Settings.Dealer;
 using GTAControl = GTA.Control;
 
 namespace LSDW.Application.Extensions;
@@ -78,7 +76,7 @@ public static class TraffickingExtensions
 
 		foreach (IDealer dealer in trafficking.StateService.Dealers.Where(x => x.Discovered.Equals(false)))
 		{
-			if (!Settings.Trafficking.DiscoverDealer)
+			if (!trafficking.SettingsService.Trafficking.DiscoverDealer.Value)
 			{
 				trafficking.DiscoverDealer(dealer);
 				continue;
@@ -271,7 +269,8 @@ public static class TraffickingExtensions
 	/// <param name="dealer">The dealer instance to use.</param>
 	internal static void CloseDealer(this ITrafficking trafficking, IDealer dealer)
 	{
-		dealer.ClosedUntil = trafficking.WorldProvider.Now.AddHours(DealerSettings.DownTimeInHours);
+		int downTimeInHours = trafficking.SettingsService.Dealer.DownTimeInHours.Value;
+		dealer.ClosedUntil = trafficking.WorldProvider.Now.AddHours(downTimeInHours);
 		dealer.CleanUp();
 		trafficking.NotificationProvider.Show(
 			subject: Resources.Trafficking_Notification_Iced_Subject,

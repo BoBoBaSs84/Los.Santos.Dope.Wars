@@ -118,4 +118,10 @@ public static partial class DomainFactory
 	/// <param name="transactions">The transactions for the player.</param>
 	public static IPlayer CreatePlayer(IInventory inventory, int experience, ICollection<ITransaction> transactions)
 		=> new Player(inventory, experience, transactions);
+
+	/// <summary>
+	/// Returns the settings singleton instance.
+	/// </summary>
+	public static ISettings GetSettings()
+		=> Settings.Instance;
 }

@@ -4,10 +4,10 @@ using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Providers;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Extensions;
-using LSDW.Abstractions.Models;
 using LSDW.Base.Tests.Helpers;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
+using LSDW.Domain.Models;
 using LSDW.Domain.Properties;
 using Moq;
 
@@ -24,7 +24,7 @@ public class DealerExtensionsTests
 	public void ChangePricesTest()
 	{
 		IWorldProvider provider = _worldProviderMock.Object;
-		DateTime nextPriceChange = provider.Now.AddHours(Settings.Market.PriceChangeInterval);
+		DateTime nextPriceChange = provider.Now.AddHours(Settings.Instance.Market.PriceChangeInterval.Value);
 		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
 
 		dealer.ChangePrices(provider, 100);
@@ -40,8 +40,8 @@ public class DealerExtensionsTests
 	public void RestockInventoryTest()
 	{
 		IWorldProvider provider = _worldProviderMock.Object;
-		DateTime nextPriceChange = provider.Now.AddHours(Settings.Market.PriceChangeInterval);
-		DateTime nextInventoryChange = provider.Now.AddHours(Settings.Market.InventoryChangeInterval);
+		DateTime nextPriceChange = provider.Now.AddHours(Settings.Instance.Market.PriceChangeInterval.Value);
+		DateTime nextInventoryChange = provider.Now.AddHours(Settings.Instance.Market.InventoryChangeInterval.Value);
 		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
 
 		dealer.ChangeInventory(provider, 100);

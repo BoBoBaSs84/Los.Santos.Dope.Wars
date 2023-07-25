@@ -1,7 +1,7 @@
 ﻿using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Enumerators;
-using LSDW.Abstractions.Models;
 using LSDW.Domain.Factories;
+using LSDW.Domain.Models;
 
 namespace LSDW.Domain.Tests.Models;
 
@@ -11,9 +11,9 @@ public class PlayerTests
 	[ClassInitialize]
 	public static void ClassInitialize(TestContext context)
 	{
-		Settings.Player.ExperienceMultiplier = 1;
-		Settings.Player.StartingInventory = 100;
-		Settings.Player.InventoryExpansionPerLevel = 10;
+		Settings.Instance.Player.ExperienceMultiplier.Value = 1;
+		Settings.Instance.Player.StartingInventory.Value = 100;
+		Settings.Instance.Player.InventoryExpansionPerLevel.Value = 10;
 	}
 
 	[TestMethod]
@@ -100,9 +100,9 @@ public class PlayerTests
 	[TestMethod]
 	public void PlayerSettingsChangeTest()
 	{
-		Settings.Player.ExperienceMultiplier = 2.0f;
-		Settings.Player.StartingInventory = 150;
-		Settings.Player.InventoryExpansionPerLevel = 25;
+		Settings.Instance.Player.ExperienceMultiplier.Value = 2.0f;
+		Settings.Instance.Player.StartingInventory.Value = 150;
+		Settings.Instance.Player.InventoryExpansionPerLevel.Value = 25;
 
 		IPlayer player = DomainFactory.CreatePlayer();
 		ITransaction transaction =

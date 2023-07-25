@@ -1,17 +1,49 @@
 ﻿using GTA;
+using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Infrastructure.Services;
+using LSDW.Domain.Factories;
+using static LSDW.Abstractions.Domain.Models.ISettings;
 
 namespace LSDW.Infrastructure.Services;
 
 internal sealed partial class SettingsService : ISettingsService
 {
+	private readonly static Lazy<SettingsService> _service = new(() => new());
+	private readonly ISettings _settings;
 	private readonly ScriptSettings _scriptSettings;
+
+	private SettingsService()
+	{
+		_settings = DomainFactory.GetSettings();
+		_scriptSettings = ScriptSettings.Load(Path.Combine(AppContext.BaseDirectory, _settings.IniFileName));
+		Load();
+		Save();
+	}
 
 	/// <summary>
 	/// The singleton instance of the settings service.
 	/// </summary>
-	internal static readonly SettingsService Instance = new();
+	internal static SettingsService Instance
+		=> _service.Value;
+
+	public IDealerSettings Dealer
+		=> _settings.Dealer;
+
+	public IMarketSettings Market
+		=> _settings.Market;
+
+	public IPlayerSettings Player
+		=> _settings.Player;
+
+	public ITraffickingSettings Trafficking
+		=> _settings.Trafficking;
 
 	public void Save()
 		=> _scriptSettings.Save();
+
+	public T GetValue<T>(string section, string name, T defaultvalue)
+		=> _scriptSettings.GetValue(section, name, defaultvalue);
+
+	public void SetValue<T>(string section, string name, T value)
+		=> _scriptSettings.SetValue(section, name, value);
 }

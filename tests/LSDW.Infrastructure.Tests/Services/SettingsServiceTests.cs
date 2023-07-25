@@ -1,19 +1,30 @@
-﻿using LSDW.Abstractions.Infrastructure.Services;
-using LSDW.Abstractions.Models;
-using static LSDW.Infrastructure.Factories.InfrastructureFactory;
+﻿using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Infrastructure.Services;
+using LSDW.Domain.Factories;
+using LSDW.Infrastructure.Factories;
+using System.Reflection;
 
 namespace LSDW.Infrastructure.Tests.Services;
 
 [TestClass]
-public partial class SettingsServiceTests
+public class SettingsServiceTests
 {
-	private static readonly ISettingsService _settingsService = GetSettingsService();
-	private static readonly string _iniFileName = Settings.IniFileName;
+	private readonly ISettingsService _settingsService;
+	private readonly string _iniFileName;
 
-	[ClassCleanup]
-	public static void ClassCleanup()
+	public SettingsServiceTests()
 	{
-		if (File.Exists(_iniFileName))
-			File.Delete(_iniFileName);
+		_settingsService = InfrastructureFactory.GetSettingsService();
+		_iniFileName = DomainFactory.GetSettings().IniFileName;
+	}
+
+	[TestMethod]
+	public void SaveTest()
+	{
+		_settingsService.Save();
+
+		string iniFilePath = Path.Combine(AppContext.BaseDirectory, _iniFileName);
+
+		Assert.IsTrue(File.Exists(iniFilePath));
 	}
 }

@@ -5,7 +5,7 @@
 <#@ import namespace="System.Reflection" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-<#@ import namespace="LSDW.Abstractions.Models" #>
+<#@ import namespace="LSDW.Abstractions.Infrastructure.Services" #>
 <#@ output extension="Designer.cs" #>
 #pragma warning disable CS1591
 //------------------------------------------------------------------------------
@@ -15,9 +15,7 @@
 //     the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-using LemonUI.Menus;
-using LSDW.Presentation.Items;
-using RESX = LSDW.Presentation.Properties.Resources;
+using LSDW.Presentation.Properties;
 
 namespace LSDW.Presentation.Menus;
 
@@ -25,74 +23,71 @@ internal sealed partial class SettingsMenu
 {
 	private void AddMenuItems()
 	{
-<# foreach (Type nestedType in nestedTypes) {
-List<PropertyInfo> properties = nestedType.GetProperties().ToList();
-foreach (PropertyInfo prop in properties) { #>
-<# if (TypeNameOrAlias(prop.PropertyType) != "bool") {#>
-    SettingListItem<<#= TypeNameOrAlias(prop.PropertyType) #>> <#= nestedType.Name.ToLower() #><#= prop.Name #>Item = new(RESX.UI_<#= nameof(Settings) #>_<#= nestedType.Name #>_<#= prop.Name #>_Title)
-    {
-      Description = RESX.UI_<#= nameof(Settings) #>_<#= nestedType.Name #>_<#= prop.Name #>_Description,
-      Items = _settingsService.<#= nestedType.Name #><#= nameof(Settings) #>.Get<#= prop.Name #>Values(),
-      SelectedItem = _settingsService.<#= nestedType.Name #><#= nameof(Settings) #>.Get<#= prop.Name #>()
-    };
-    <#= nestedType.Name.ToLower() #><#= prop.Name #>Item.ItemChanged += On<#= nestedType.Name #><#= prop.Name #>ItemChanged;
-    Add(<#= nestedType.Name.ToLower() #><#= prop.Name #>Item);
+<#
+List<PropertyInfo> interfaces = GetProperties(typeof(ISettingsService));
+foreach (PropertyInfo @interface in interfaces)
+{
+	List<PropertyInfo> properties = GetProperties(@interface.PropertyType);
+	foreach (PropertyInfo property in properties)
+	{
+		var dataType = TypeNameOrAlias(property.PropertyType.GetProperties().First().PropertyType);
+		var name = property.Name;
+		var title = $"Resources.UI_Settings_{@interface.Name}_{property.Name}_Title";
+		var desription = $"Resources.UI_Settings_{@interface.Name}_{property.Name}_Description";
+#>
+<# if (dataType == "bool") { #>
+		var checkBox<#= name #> = AddCheckbox(
+			<#= title #>,
+			<#= desription #>,
+			_settingsService.<#= @interface.Name #>.<#= name #>.Value,
+			changed => { _settingsService.<#= @interface.Name #>.<#= name #>.Value = changed; });
+		
+		_settingsService.<#= @interface.Name #>.<#= name #>.ValueChanged += (sender, args) =>
+		{
+			checkBox<#= name #>.Checked = args.NewValue;
+			_settingsService.SetValue("<#= @interface.Name.ToUpper() #>", "<#= name.ToUpper() #>", args.NewValue);
+		};
+			
 <# } else { #>
-    SettingCheckboxItem <#= nestedType.Name.ToLower() #><#= prop.Name #>Item = new(RESX.UI_<#= nameof(Settings) #>_<#= nestedType.Name #>_<#= prop.Name #>_Title)
-    {
-      Description = RESX.UI_<#= nameof(Settings) #>_<#= nestedType.Name #>_<#= prop.Name #>_Description,
-      Checked = _settingsService.<#= nestedType.Name #><#= nameof(Settings) #>.Get<#= prop.Name #>()
-    };
-    <#= nestedType.Name.ToLower() #><#= prop.Name #>Item.CheckboxChanged += On<#= nestedType.Name #><#= prop.Name #>ItemCheckboxChanged;
-    Add(<#= nestedType.Name.ToLower() #><#= prop.Name #>Item);
+		var listItem<#= name #> = AddListItem(
+			<#= title #>,
+			<#= desription #>,
+			(item, index) => { _settingsService.<#= @interface.Name #>.<#= name #>.Value = item; },
+			_settingsService.<#= @interface.Name #>.Get<#= name #>Values()
+			);
+
+		_settingsService.<#= @interface.Name #>.<#= name #>.ValueChanged += (sender, args) =>
+		{
+			listItem<#= name #>.SelectedItem = args.NewValue;
+			_settingsService.SetValue("<#= @interface.Name.ToUpper() #>", "<#= name.ToUpper() #>", args.NewValue);
+		};
+
 <# }}} #>
 	}
-<# foreach (Type nestedType in nestedTypes) { 
-List<PropertyInfo> properties = nestedType.GetProperties().ToList();
-foreach (PropertyInfo prop in properties) { #>
-<# if (TypeNameOrAlias(prop.PropertyType) != "bool") {#>
-  private void On<#= nestedType.Name #><#= prop.Name #>ItemChanged(object sender, ItemChangedEventArgs<<#= TypeNameOrAlias(prop.PropertyType) #>> args)
-  {
-    if (sender is not SettingListItem<<#= TypeNameOrAlias(prop.PropertyType) #>> item)
-      return;
-    _settingsService.<#= nestedType.Name #><#= nameof(Settings) #>.Set<#= prop.Name #>(item.SelectedItem);
-  }
-<# } else { #>
-  private void On<#= nestedType.Name #><#= prop.Name #>ItemCheckboxChanged(object sender, EventArgs args)
-  {
-    if (sender is not SettingCheckboxItem item)
-      return;
-    _settingsService.<#= nestedType.Name #><#= nameof(Settings) #>.Set<#= prop.Name #>(item.Checked);
-  }  
-<# }}} #>
 }
 <#+
-List<Type> nestedTypes = typeof(Settings).GetNestedTypes().ToList();
+	private static List<PropertyInfo> GetProperties(Type type)
+		=> type.GetProperties().ToList();
 
-private static Dictionary<Type, string> _typeAlias = new Dictionary<Type, string>
-{
-    { typeof(bool), "bool" },
-    { typeof(byte), "byte" },
-    { typeof(char), "char" },
-    { typeof(decimal), "decimal" },
-    { typeof(double), "double" },
-    { typeof(float), "float" },
-    { typeof(int), "int" },
-    { typeof(long), "long" },
-    { typeof(object), "object" },
-    { typeof(sbyte), "sbyte" },
-    { typeof(short), "short" },
-    { typeof(string), "string" },
-    { typeof(uint), "uint" },
-    { typeof(ulong), "ulong" },
-    { typeof(void), "void" }
-};
+	private static string TypeNameOrAlias(Type type)
+		=> _typeAlias.TryGetValue(type, out string alias) ? alias : type.Name;
 
-private static string TypeNameOrAlias(Type type)
-{
-    if (_typeAlias.TryGetValue(type, out string alias))
-        return alias;
-
-    return type.Name;
-}
+	private static readonly Dictionary<Type, string> _typeAlias = new()
+	{
+		{ typeof(bool), "bool" },
+		{ typeof(byte), "byte" },
+		{ typeof(char), "char" },
+		{ typeof(decimal), "decimal" },
+		{ typeof(double), "double" },
+		{ typeof(float), "float" },
+		{ typeof(int), "int" },
+		{ typeof(long), "long" },
+		{ typeof(object), "object" },
+		{ typeof(sbyte), "sbyte" },
+		{ typeof(short), "short" },
+		{ typeof(string), "string" },
+		{ typeof(uint), "uint" },
+		{ typeof(ulong), "ulong" },
+		{ typeof(void), "void" }
+	};
 #>

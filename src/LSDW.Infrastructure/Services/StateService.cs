@@ -1,13 +1,12 @@
 ﻿using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Infrastructure.Services;
-using LSDW.Abstractions.Models;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
 using LSDW.Infrastructure.Constants;
 using LSDW.Infrastructure.Models;
+using LSDW.Infrastructure.Properties;
 using System.Xml.Serialization;
 using static LSDW.Infrastructure.Factories.InfrastructureFactory;
-using RESX = LSDW.Infrastructure.Properties.Resources;
 
 namespace LSDW.Infrastructure.Services;
 
@@ -16,18 +15,21 @@ namespace LSDW.Infrastructure.Services;
 /// </summary>
 internal sealed class StateService : IStateService
 {
-	private readonly ILoggerService _logger = LoggerService.Instance;
-	private readonly XmlSerializerNamespaces _namespaces = XmlConstants.SerializerNamespaces;
+	private readonly static Lazy<StateService> _service = new(() => new());
+	private readonly ILoggerService _loggerService;
+	private readonly XmlSerializerNamespaces _namespaces;
 	private readonly string _baseDirectory;
 	private readonly string _saveFileName;
 
 	/// <summary>
 	/// Initializes a instance of the state service class.
 	/// </summary>
-	internal StateService()
+	private StateService()
 	{
+		_loggerService = LoggerService.Instance;
+		_namespaces = XmlConstants.SerializerNamespaces;
 		_baseDirectory = AppContext.BaseDirectory;
-		_saveFileName = Settings.SaveFileName;
+		_saveFileName = DomainFactory.GetSettings().SaveFileName;
 
 		Dealers = DomainFactory.CreateDealers();
 		Player = DomainFactory.CreatePlayer();
@@ -36,7 +38,8 @@ internal sealed class StateService : IStateService
 	/// <summary>
 	/// The singleton instance of the state service.
 	/// </summary>
-	internal static readonly StateService Instance = new();
+	internal static StateService Instance
+		=> _service.Value;
 
 	public ICollection<IDealer> Dealers { get; private set; }
 	public IPlayer Player { get; private set; }
@@ -49,7 +52,7 @@ internal sealed class StateService : IStateService
 		{
 			if (!File.Exists(filePath))
 			{
-				_logger.Warning(RESX.StateService_Load_NotFound.FormatInvariant(filePath));
+				_loggerService.Warning(Resources.StateService_Load_NotFound.FormatInvariant(filePath));
 				return Save(decompress);
 			}
 
@@ -63,12 +66,12 @@ internal sealed class StateService : IStateService
 			Dealers = CreateDealers(state);
 			Player = CreatePlayer(state);
 
-			_logger.Information(RESX.StateService_Load_Loaded.FormatInvariant(filePath));
+			_loggerService.Information(Resources.StateService_Load_Loaded.FormatInvariant(filePath));
 			return true;
 		}
 		catch (Exception ex)
 		{
-			_logger.Critical(RESX.StateService_Load_Critical, ex);
+			_loggerService.Critical(Resources.StateService_Load_Critical, ex);
 			return false;
 		}
 	}
@@ -88,12 +91,12 @@ internal sealed class StateService : IStateService
 
 			File.WriteAllText(filePath, fileContent);
 
-			_logger.Information(RESX.StateService_Save_Saved.FormatInvariant(filePath));
+			_loggerService.Information(Resources.StateService_Save_Saved.FormatInvariant(filePath));
 			return true;
 		}
 		catch (Exception ex)
 		{
-			_logger.Critical(RESX.StateService_Save_Critical, ex);
+			_loggerService.Critical(Resources.StateService_Save_Critical, ex);
 			return false;
 		}
 	}

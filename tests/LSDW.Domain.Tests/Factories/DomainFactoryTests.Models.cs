@@ -126,6 +126,20 @@ public partial class DomainFactoryTests
 	}
 
 	[TestMethod]
+	public void GetSettingsTest()
+	{
+		ISettings? settings;
+
+		settings = DomainFactory.GetSettings();
+
+		Assert.IsNotNull(settings);
+		Assert.IsNotNull(settings.Dealer);
+		Assert.IsNotNull(settings.Market);
+		Assert.IsNotNull(settings.Player);
+		Assert.IsNotNull(settings.Trafficking);
+	}
+
+	[TestMethod]
 	public void CreatePlayerTest()
 	{
 		IPlayer? player;

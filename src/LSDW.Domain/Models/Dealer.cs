@@ -4,7 +4,6 @@ using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Providers;
 using LSDW.Domain.Factories;
 using LSDW.Domain.Models.Base;
-using DealerSettings = LSDW.Abstractions.Models.Settings.Dealer;
 
 namespace LSDW.Domain.Models;
 
@@ -72,10 +71,10 @@ internal sealed class Dealer : Pedestrian, IDealer
 	{
 		base.Create(worldProvider, health);
 
-		if (DealerSettings.HasWeapons)
+		if (Settings.Instance.Dealer.HasWeapons.Value)
 			GiveWeapon(WeaponHash.Pistol, 100);
 
-		if (DealerSettings.HasArmor)
+		if (Settings.Instance.Dealer.HasArmor.Value)
 			GiveArmor(100);
 	}
 

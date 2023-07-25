@@ -1,5 +1,5 @@
 ﻿using LSDW.Abstractions.Infrastructure.Services;
-using LSDW.Abstractions.Models;
+using LSDW.Domain.Factories;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -10,6 +10,7 @@ namespace LSDW.Infrastructure.Services;
 /// </summary>
 internal class LoggerService : ILoggerService
 {
+	private static readonly Lazy<LoggerService> _service = new(() => new());
 	private readonly string _baseDirectory;
 	private readonly string _logFileName;
 
@@ -19,13 +20,14 @@ internal class LoggerService : ILoggerService
 	internal LoggerService()
 	{
 		_baseDirectory = AppContext.BaseDirectory;
-		_logFileName = Settings.LogFileName;
+		_logFileName = DomainFactory.GetSettings().LogFileName;
 	}
 
 	/// <summary>
 	/// The singleton instance of the logger service.
 	/// </summary>
-	internal static readonly LoggerService Instance = new();
+	internal static LoggerService Instance
+		=> _service.Value;
 
 	public void Critical(string message, [CallerMemberName] string callerName = "")
 		=> LogToFile("FTL", callerName, message);

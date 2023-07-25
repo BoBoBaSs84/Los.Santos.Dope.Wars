@@ -1,5 +1,5 @@
 ﻿using LSDW.Abstractions.Infrastructure.Services;
-using static LSDW.Infrastructure.Factories.InfrastructureFactory;
+using LSDW.Infrastructure.Factories;
 
 namespace LSDW.Infrastructure.Tests.Factories;
 
@@ -11,7 +11,7 @@ public partial class InfrastructureFactoryTests
 	{
 		ILoggerService? loggerService;
 
-		loggerService = GetLoggerService();
+		loggerService = InfrastructureFactory.GetLoggerService();
 
 		Assert.IsNotNull(loggerService);
 	}
@@ -21,7 +21,7 @@ public partial class InfrastructureFactoryTests
 	{
 		IStateService? gameStateService;
 
-		gameStateService = GetStateService();
+		gameStateService = InfrastructureFactory.GetStateService();
 
 		Assert.IsNotNull(gameStateService);
 	}
@@ -31,7 +31,7 @@ public partial class InfrastructureFactoryTests
 	{
 		IStateService? gameStateService;
 
-		gameStateService = GetStateService();
+		gameStateService = InfrastructureFactory.GetStateService();
 
 		Assert.IsNotNull(gameStateService);
 	}
@@ -41,8 +41,12 @@ public partial class InfrastructureFactoryTests
 	{
 		ISettingsService? settingsService;
 
-		settingsService = GetSettingsService();
+		settingsService = InfrastructureFactory.GetSettingsService();
 
 		Assert.IsNotNull(settingsService);
+		Assert.IsNotNull(settingsService.Dealer);
+		Assert.IsNotNull(settingsService.Market);
+		Assert.IsNotNull(settingsService.Player);
+		Assert.IsNotNull(settingsService.Trafficking);
 	}
 }

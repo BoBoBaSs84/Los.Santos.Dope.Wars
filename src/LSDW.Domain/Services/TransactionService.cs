@@ -3,9 +3,9 @@ using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Services;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Extensions;
-using LSDW.Abstractions.Models;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
+using LSDW.Domain.Models;
 using LSDW.Domain.Properties;
 
 namespace LSDW.Domain.Services;
@@ -49,11 +49,11 @@ internal sealed class TransactionService : ITransactionService
 
 		float random = _providerManager.RandomProvider.GetFloat();
 
-		if (random >= Settings.Trafficking.BustChance)
+		if (random >= Settings.Instance.Trafficking.BustChance.Value)
 			return;
 
 		_providerManager.NotificationProvider.ShowSubtitle(Resources.Transaction_Message_Bust);
-		_providerManager.PlayerProvider.WantedLevel = Settings.Trafficking.WantedLevel;
+		_providerManager.PlayerProvider.WantedLevel = Settings.Instance.Trafficking.WantedLevel.Value;
 		_providerManager.PlayerProvider.DispatchsCops = true;
 	}
 
