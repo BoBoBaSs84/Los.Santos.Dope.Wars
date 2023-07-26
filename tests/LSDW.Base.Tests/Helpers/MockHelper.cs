@@ -5,6 +5,7 @@ using LSDW.Abstractions.Domain.Providers;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Infrastructure.Services;
 using Moq;
+using static LSDW.Abstractions.Domain.Models.ISettings;
 
 namespace LSDW.Base.Tests.Helpers;
 
@@ -88,6 +89,56 @@ public static class MockHelper
 	{
 		Mock<ISettingsService> mock = new(MockBehavior.Loose);
 		mock.SetupAllProperties();
+		mock.Setup(x => x.Dealer).Returns(GetDealerSettings().Object);
+		mock.Setup(x => x.Market).Returns(GetMarketSettings().Object);
+		mock.Setup(x => x.Player).Returns(GetPlayerSettings().Object);
+		mock.Setup(x => x.Trafficking).Returns(GetTraffickingSettings().Object);
+		return mock;
+	}
+
+	public static Mock<IDealerSettings> GetDealerSettings()
+	{
+		Mock<IDealerSettings> mock = new(MockBehavior.Loose);
+		mock.SetupAllProperties();
+		mock.Setup(x => x.DownTimeInHours).Returns(() => new(default));
+		mock.Setup(x => x.HasArmor).Returns(() => new(default));
+		mock.Setup(x => x.HasWeapons).Returns(() => new(default));
+		return mock;
+	}
+
+	public static Mock<IMarketSettings> GetMarketSettings()
+	{
+		Mock<IMarketSettings> mock = new(MockBehavior.Loose);
+		mock.SetupAllProperties();
+		mock.Setup(x => x.InventoryChangeInterval).Returns(() => new(default));
+		mock.Setup(x => x.MaximumDrugPrice).Returns(() => new(default));
+		mock.Setup(x => x.MinimumDrugPrice).Returns(() => new(default));
+		mock.Setup(x => x.PriceChangeInterval).Returns(() => new(default));
+		mock.Setup(x => x.SpecialOfferChance).Returns(() => new(default));
+		return mock;
+	}
+
+	public static Mock<IPlayerSettings> GetPlayerSettings()
+	{
+		Mock<IPlayerSettings> mock = new(MockBehavior.Loose);
+		mock.SetupAllProperties();
+		mock.Setup(x => x.ExperienceMultiplier).Returns(() => new(default));
+		mock.Setup(x => x.InventoryExpansionPerLevel).Returns(() => new(default));
+		mock.Setup(x => x.LooseDrugsOnDeath).Returns(() => new(default));
+		mock.Setup(x => x.LooseDrugsWhenBusted).Returns(() => new(default));
+		mock.Setup(x => x.LooseMoneyOnDeath).Returns(() => new(default));
+		mock.Setup(x => x.LooseMoneyWhenBusted).Returns(() => new(default));
+		mock.Setup(x => x.StartingInventory).Returns(() => new(default));
+		return mock;
+	}
+
+	public static Mock<ITraffickingSettings> GetTraffickingSettings()
+	{
+		Mock<ITraffickingSettings> mock = new(MockBehavior.Loose);
+		mock.SetupAllProperties();
+		mock.Setup(x => x.BustChance).Returns(() => new(default));
+		mock.Setup(x => x.DiscoverDealer).Returns(() => new(default));
+		mock.Setup(x => x.WantedLevel).Returns(() => new(default));
 		return mock;
 	}
 
