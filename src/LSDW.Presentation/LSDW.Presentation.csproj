@@ -19,9 +19,9 @@
 
 	<ItemGroup>
 		<Compile Update="Menus\SettingsMenu.Designer.cs">
-		  <DesignTime>True</DesignTime>
-		  <AutoGen>True</AutoGen>
-		  <DependentUpon>SettingsMenu.tt</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>SettingsMenu.tt</DependentUpon>
 		</Compile>
 		<Compile Update="Properties\Resources.Designer.cs">
 			<DesignTime>True</DesignTime>
@@ -39,6 +39,7 @@
 
 	<ItemGroup>
 		<None Update="Menus\SettingsMenu.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
 			<LastGenOutput>SettingsMenu.Designer.cs</LastGenOutput>
 		</None>
 	</ItemGroup>

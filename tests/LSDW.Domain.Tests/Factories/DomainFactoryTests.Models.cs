@@ -133,6 +133,9 @@ public partial class DomainFactoryTests
 		settings = DomainFactory.GetSettings();
 
 		Assert.IsNotNull(settings);
+		Assert.IsFalse(string.IsNullOrWhiteSpace(settings.IniFileName));
+		Assert.IsFalse(string.IsNullOrWhiteSpace(settings.LogFileName));
+		Assert.IsFalse(string.IsNullOrWhiteSpace(settings.SaveFileName));
 		Assert.IsNotNull(settings.Dealer);
 		Assert.IsNotNull(settings.Market);
 		Assert.IsNotNull(settings.Player);
