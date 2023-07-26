@@ -8,7 +8,7 @@ internal sealed partial class Settings
 	/// <summary>
 	/// The dealer settings class.
 	/// </summary>
-	internal sealed class DealerSettings : IDealerSettings
+	public sealed class DealerSettings : IDealerSettings
 	{
 		private static readonly Lazy<DealerSettings> _settings = new(() => new());
 
