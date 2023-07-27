@@ -5,7 +5,7 @@ using Moq;
 
 namespace LSDW.Infrastructure.Tests.Models;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 public class TransactionStateTests
 {
 	[TestMethod]

@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace LSDW.Infrastructure.Tests.Services;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 public class SettingsServiceTests
 {
 	private readonly ISettingsService _settingsService;

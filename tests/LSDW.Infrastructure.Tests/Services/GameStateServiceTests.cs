@@ -4,7 +4,7 @@ using static LSDW.Infrastructure.Factories.InfrastructureFactory;
 
 namespace LSDW.Infrastructure.Tests.Services;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 public class GameStateServiceTests
 {
 	private readonly IStateService _stateService = GetStateService();

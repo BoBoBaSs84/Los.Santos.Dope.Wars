@@ -2,7 +2,7 @@
 
 namespace LSDW.Domain.Tests.Extensions;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 public class IntegerExtensionsTests
 {
 	[TestMethod]

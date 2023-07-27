@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace LSDW.Domain.Tests.Extensions;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 public class ClassExtensionsTests
 {
 	private readonly XmlWriterSettings _writerSettings = new();

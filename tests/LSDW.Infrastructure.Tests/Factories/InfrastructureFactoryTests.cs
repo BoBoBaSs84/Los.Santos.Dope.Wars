@@ -6,7 +6,7 @@ using Moq;
 
 namespace LSDW.Infrastructure.Tests.Factories;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 public partial class InfrastructureFactoryTests
 {
 	private static readonly Mock<ILoggerService> _loggerMock = MockHelper.GetLoggerService();

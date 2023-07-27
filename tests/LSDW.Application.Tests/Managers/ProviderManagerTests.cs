@@ -3,7 +3,7 @@ using LSDW.Application.Managers;
 
 namespace LSDW.Application.Tests.Managers;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 public class ProviderManagerTests
 {
 	[TestMethod]

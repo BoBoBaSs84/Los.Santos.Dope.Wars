@@ -1,6 +1,6 @@
 namespace LSDW.Base.Tests;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 public abstract class BaseTest
 {
 	public TestContext TestContext { get; set; } = default!;

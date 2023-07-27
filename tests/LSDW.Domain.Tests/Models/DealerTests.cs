@@ -8,7 +8,7 @@ using Moq;
 
 namespace LSDW.Domain.Tests.Models;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 public class DealerTests
 {
 	private readonly IDealer _dealer = DomainFactory.CreateDealer(Vector3.Zero);

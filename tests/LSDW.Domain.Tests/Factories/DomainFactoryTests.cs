@@ -7,7 +7,7 @@ using Moq;
 
 namespace LSDW.Domain.Tests.Factories;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 public partial class DomainFactoryTests
 {
 	private readonly Mock<IProviderManager> _providerManagerMock = MockHelper.GetProviderManager();

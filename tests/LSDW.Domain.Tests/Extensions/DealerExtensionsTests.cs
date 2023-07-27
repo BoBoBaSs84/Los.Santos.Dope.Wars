@@ -13,7 +13,7 @@ using Moq;
 
 namespace LSDW.Domain.Tests.Extensions;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public class DealerExtensionsTests
 {

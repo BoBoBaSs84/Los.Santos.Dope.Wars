@@ -6,7 +6,7 @@ using LSDW.Infrastructure.Models;
 
 namespace LSDW.Infrastructure.Tests.Models;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 public class PlayerStateTests
 {
 	[TestMethod]

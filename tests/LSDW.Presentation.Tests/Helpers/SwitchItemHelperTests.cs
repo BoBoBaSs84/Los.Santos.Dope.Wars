@@ -4,7 +4,7 @@ using LSDW.Presentation.Properties;
 
 namespace LSDW.Presentation.Tests.Helpers;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 public class SwitchItemHelperTests
 {
 	[DataTestMethod]

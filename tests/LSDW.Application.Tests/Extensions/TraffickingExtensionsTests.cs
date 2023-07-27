@@ -15,7 +15,7 @@ using Moq;
 
 namespace LSDW.Application.Tests.Extensions;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 [SuppressMessage("Style", "IDE0058", Justification = "Unit tests.")]
 public class TraffickingExtensionsTests
 {

@@ -11,7 +11,7 @@ using Moq;
 
 namespace LSDW.Domain.Tests.Services;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 public class TransactionServiceTests
 {
 	private readonly Mock<IProviderManager> _providerManagerMock = MockHelper.GetProviderManager();

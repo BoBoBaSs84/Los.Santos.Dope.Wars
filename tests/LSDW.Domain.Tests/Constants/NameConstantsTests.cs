@@ -2,7 +2,7 @@
 
 namespace LSDW.Domain.Tests.Constants;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 public class NameConstantsTests
 {
 	[TestMethod]
