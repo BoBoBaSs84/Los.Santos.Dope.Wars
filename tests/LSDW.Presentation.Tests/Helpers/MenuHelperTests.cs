@@ -6,7 +6,7 @@ using LSDW.Presentation.Helpers;
 
 namespace LSDW.Presentation.Tests.Helpers;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 public class MenuHelperTests
 {
 	private readonly IPlayer _player = DomainFactory.CreatePlayer();

@@ -3,7 +3,7 @@ using LSDW.Abstractions.Extensions;
 
 namespace LSDW.Abstractions.Tests.Extensions;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 public class EnumeratorExtensionsTests
 {
 	[TestMethod]

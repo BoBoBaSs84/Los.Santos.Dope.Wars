@@ -3,7 +3,7 @@ using LSDW.Domain.Factories;
 
 namespace LSDW.Domain.Tests.Providers;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 public class RandomProviderTests
 {
 	private readonly IRandomProvider _randomProvider = DomainFactory.GetRandomProvider();

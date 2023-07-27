@@ -4,7 +4,7 @@ using LSDW.Infrastructure.Factories;
 
 namespace LSDW.Infrastructure.Tests.Services;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 [SuppressMessage("Usage", "CA2201", Justification = "Unit testing.")]
 public class LoggerServiceTests
 {

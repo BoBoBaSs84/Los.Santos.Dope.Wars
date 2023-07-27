@@ -2,7 +2,7 @@
 
 namespace LSDW.Abstractions.Tests.Attributes;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public class DrugAttributeTests
 {

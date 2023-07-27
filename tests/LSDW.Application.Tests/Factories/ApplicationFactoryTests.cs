@@ -4,7 +4,7 @@ using Moq;
 
 namespace LSDW.Application.Tests.Factories;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 public partial class ApplicationFactoryTests
 {
 	private readonly Mock<IServiceManager> _serviceManagerMock = MockHelper.GetServiceManager();

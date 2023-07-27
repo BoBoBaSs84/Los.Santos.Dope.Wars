@@ -5,7 +5,7 @@ using LSDW.Domain.Models;
 
 namespace LSDW.Domain.Tests.Models;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 public class PlayerTests
 {
 	[ClassInitialize]

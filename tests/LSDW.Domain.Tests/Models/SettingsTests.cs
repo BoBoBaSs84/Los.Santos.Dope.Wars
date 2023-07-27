@@ -3,7 +3,7 @@ using LSDW.Domain.Models;
 
 namespace LSDW.Domain.Tests.Models;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 public partial class SettingsTests
 {
 	private readonly ISettings _settings;

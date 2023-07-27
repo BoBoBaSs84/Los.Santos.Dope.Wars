@@ -8,7 +8,7 @@ using LSDW.Infrastructure.Models;
 
 namespace LSDW.Infrastructure.Tests.Models;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 public class DealerStateTests
 {
 	private readonly IWorldProvider _worldProvider = MockHelper.GetWorldProvider().Object;

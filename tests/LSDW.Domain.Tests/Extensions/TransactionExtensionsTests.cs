@@ -5,7 +5,7 @@ using LSDW.Domain.Factories;
 
 namespace LSDW.Domain.Tests.Extensions;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 public class TransactionExtensionsTests
 {
 	[TestMethod]

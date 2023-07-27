@@ -2,7 +2,7 @@
 
 namespace LSDW.Domain.Tests.Extensions;
 
-[TestClass]
+[TestClass, ExcludeFromCodeCoverage]
 public class StringExtensionsTests
 {
 	private readonly string _uncompressedString = @"<PlayerState Experience=""61155165""><Inventory Money=""1547467714""><Drugs><Drug Type=""COKE""><Quantity>0</Quantity><Price>0</Price></Drug><Drug Type=""SMACK""><Quantity>0</Quantity><Price>0</Price></Drug><Drug Type=""CANA""><Quantity>0</Quantity><Price>0</Price></Drug><Drug Type=""HASH""><Quantity>0</Quantity><Price>0</Price></Drug><Drug Type=""SHROOMS""><Quantity>0</Quantity><Price>0</Price></Drug><Drug Type=""SPEED""><Quantity>0</Quantity><Price>0</Price></Drug><Drug Type=""PCP""><Quantity>0</Quantity><Price>0</Price></Drug><Drug Type=""METH""><Quantity>0</Quantity><Price>0</Price></Drug><Drug Type=""KETA""><Quantity>0</Quantity><Price>0</Price></Drug><Drug Type=""PEYO""><Quantity>0</Quantity><Price>0</Price></Drug><Drug Type=""XTC""><Quantity>0</Quantity><Price>0</Price></Drug><Drug Type=""LSD""><Quantity>0</Quantity><Price>0</Price></Drug><Drug Type=""MDMA""><Quantity>0</Quantity><Price>0</Price></Drug><Drug Type=""CRACK""><Quantity>0</Quantity><Price>0</Price></Drug><Drug Type=""OXY""><Quantity>0</Quantity><Price>0</Price></Drug></Drugs></Inventory></PlayerState>";
