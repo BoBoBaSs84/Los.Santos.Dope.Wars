@@ -1,9 +1,11 @@
-﻿namespace LSDW.Abstractions.Domain.Models;
+﻿using LSDW.Abstractions.Domain.Models.Base;
+
+namespace LSDW.Abstractions.Domain.Models;
 
 /// <summary>
 /// The player character interface.
 /// </summary>
-public interface IPlayer
+public interface IPlayer : INotificationBase
 {
 	/// <summary>
 	/// The player inventory.

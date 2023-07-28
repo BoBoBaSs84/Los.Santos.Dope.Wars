@@ -1,4 +1,5 @@
 ﻿using GTA;
+using LSDW.Abstractions.Domain.Models.Base;
 using LSDW.Abstractions.Domain.Providers;
 
 namespace LSDW.Abstractions.Domain.Models;
@@ -6,7 +7,7 @@ namespace LSDW.Abstractions.Domain.Models;
 /// <summary>
 /// The dealer interface.
 /// </summary>
-public interface IDealer : IPedestrian
+public interface IDealer : IPedestrianBase
 {
 	/// <summary>
 	/// The dealer is gone until this date time.

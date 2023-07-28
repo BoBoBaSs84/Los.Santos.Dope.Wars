@@ -1,11 +1,12 @@
-﻿using LSDW.Abstractions.Enumerators;
+﻿using LSDW.Abstractions.Domain.Models.Base;
+using LSDW.Abstractions.Enumerators;
 
 namespace LSDW.Abstractions.Domain.Models;
 
 /// <summary>
 /// The drug interface.
 /// </summary>
-public interface IDrug : INotifyPropertyChanged
+public interface IDrug : INotificationBase
 {
 	/// <summary>
 	/// The type of the drug.

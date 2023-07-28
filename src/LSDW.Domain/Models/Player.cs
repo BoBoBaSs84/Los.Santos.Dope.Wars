@@ -8,9 +8,13 @@ namespace LSDW.Domain.Models;
 /// <summary>
 /// The player class.
 /// </summary>
-internal sealed class Player : Notification, IPlayer
+internal sealed class Player : NotificationBase, IPlayer
 {
 	private readonly ICollection<ITransaction> _transactions;
+	private int experience = -1;
+	private int level;
+	private int experienceNextLevel;
+	private int maximumInventoryQuantity;
 
 	/// <summary>
 	/// Initializes a instance of the player character class.
@@ -20,6 +24,8 @@ internal sealed class Player : Notification, IPlayer
 	/// <param name="transactions">The transactions for the player.</param>
 	internal Player(IInventory inventory, int experience, ICollection<ITransaction> transactions)
 	{
+		PropertyChanged += (sender, args) => OnPropertyChanged(args);
+
 		Inventory = inventory;
 		Experience = experience;
 		_transactions = transactions;
@@ -28,15 +34,34 @@ internal sealed class Player : Notification, IPlayer
 	public IInventory Inventory { get; }
 
 	public int Level
-		=> GetCurrentLevel();
+	{
+		get => level;
+		private set => SetProperty(ref level, value);
+	}
 
-	public int Experience { get; private set; }
+	public int Experience
+	{
+		get => experience;
+		private set
+		{
+			if (value < 0)
+				return;
+
+			SetProperty(ref experience, value);
+		}
+	}
 
 	public int ExperienceNextLevel
-		=> GetNextLevelExpPoints();
+	{
+		get => experienceNextLevel;
+		private set => SetProperty(ref experienceNextLevel, value);
+	}
 
 	public int MaximumInventoryQuantity
-		=> GetMaximumInventoryQuantity();
+	{
+		get => maximumInventoryQuantity;
+		private set => SetProperty(ref maximumInventoryQuantity, value);
+	}
 
 	public int TransactionCount
 		=> _transactions.Count;
@@ -53,12 +78,13 @@ internal sealed class Player : Notification, IPlayer
 	public ICollection<ITransaction> GetTransactions()
 		=> _transactions;
 
-	private int GetCurrentLevel()
-		=> PlayerConstants.CalculateCurrentLevel(Experience);
+	private void OnPropertyChanged(PropertyChangedEventArgs args)
+	{
+		if (!args.PropertyName.Equals(nameof(Experience), StringComparison.Ordinal))
+			return;
 
-	private int GetNextLevelExpPoints()
-		=> PlayerConstants.CalculateExperienceNextLevel(Level);
-
-	private int GetMaximumInventoryQuantity()
-		=> Settings.Instance.Player.StartingInventory.Value + (Level * Settings.Instance.Player.InventoryExpansionPerLevel.Value);
+		Level = PlayerConstants.CalculateCurrentLevel(Experience);
+		ExperienceNextLevel = PlayerConstants.CalculateExperienceNextLevel(Level);
+		MaximumInventoryQuantity = Settings.Instance.Player.StartingInventory.Value + (Level * Settings.Instance.Player.InventoryExpansionPerLevel.Value);
+	}
 }

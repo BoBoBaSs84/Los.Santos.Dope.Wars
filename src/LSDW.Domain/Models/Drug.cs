@@ -12,10 +12,10 @@ namespace LSDW.Domain.Models;
 /// The drug class.
 /// </summary>
 /// <remarks>
-/// Inherits from the <see cref="Notification"/> class and
-/// implements the members of the <see cref="IDrug"/>
+/// Inherits from the <see cref="NotificationBase"/> class and
+/// implements the members of the <see cref="IDrug"/> interface.
 /// </remarks>
-internal sealed class Drug : Notification, IDrug
+internal sealed class Drug : NotificationBase, IDrug
 {
 	private int quantity;
 	private int price;

@@ -3,12 +3,12 @@ using GTA.Math;
 using LSDW.Abstractions.Domain.Providers;
 using LSDW.Abstractions.Enumerators;
 
-namespace LSDW.Abstractions.Domain.Models;
+namespace LSDW.Abstractions.Domain.Models.Base;
 
 /// <summary>
-/// The pedestrian interface.
+/// The pedestrian base interface.
 /// </summary>
-public interface IPedestrian
+public interface IPedestrianBase
 {
 	/// <summary>
 	/// The current task of the pedestrian.

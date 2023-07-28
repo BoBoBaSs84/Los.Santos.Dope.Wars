@@ -1,4 +1,5 @@
-﻿using LSDW.Abstractions.Enumerators;
+﻿using LSDW.Abstractions.Domain.Models.Base;
+using LSDW.Abstractions.Enumerators;
 using System.Diagnostics.CodeAnalysis;
 
 namespace LSDW.Abstractions.Domain.Models;
@@ -7,10 +8,10 @@ namespace LSDW.Abstractions.Domain.Models;
 /// The inventory interface.
 /// </summary>
 /// <remarks>
-/// Inherits from the <see cref="ICollection{T}"/> and <see cref="INotifyPropertyChanged"/> interface.
+/// Inherits from the <see cref="ICollection{T}"/> and <see cref="INotificationBase"/> interface.
 /// </remarks>
 [SuppressMessage("Naming", "CA1710", Justification = "")]
-public interface IInventory : ICollection<IDrug>, INotifyPropertyChanged
+public interface IInventory : ICollection<IDrug>, INotificationBase
 {
 	/// <summary>
 	/// The current drug money.

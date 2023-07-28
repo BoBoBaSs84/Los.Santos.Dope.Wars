@@ -10,10 +10,10 @@ namespace LSDW.Domain.Models;
 /// The inventory class.
 /// </summary>
 /// <remarks>
-/// Inherits from the <see cref="Notification"/> class and
+/// Inherits from the <see cref="NotificationBase"/> class and
 /// implements the members of the <see cref="IInventory"/>.
 /// </remarks>
-internal sealed class Inventory : Notification, IInventory
+internal sealed class Inventory : NotificationBase, IInventory
 {
 	private readonly ICollection<IDrug> _drugs;
 	private int money;

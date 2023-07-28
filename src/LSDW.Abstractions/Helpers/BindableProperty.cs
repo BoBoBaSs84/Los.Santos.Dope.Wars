@@ -4,7 +4,7 @@
 /// The bindable property class.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public sealed class BindableProperty<T> where T : IComparable
+public sealed class BindableProperty<T> where T : IEquatable<T>
 {
 	private T _value = default!;
 
