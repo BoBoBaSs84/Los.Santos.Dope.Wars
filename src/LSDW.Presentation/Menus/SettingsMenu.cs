@@ -21,7 +21,7 @@ internal sealed partial class SettingsMenu : MenuBase, ISettingsMenu
 	{
 		_settingsService = serviceManager.SettingsService;
 		Closing += OnClosing;
-		//AddMenuItems();
+		AddMenuItems();
 	}
 
 	private void OnClosing(object sender, CancelEventArgs args)

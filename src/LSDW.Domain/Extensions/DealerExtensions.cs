@@ -25,7 +25,7 @@ public static class DealerExtensions
 	public static IDealer ChangePrices(this IDealer dealer, IWorldProvider worldProvider, int playerLevel)
 	{
 		dealer.Inventory.ChangePrices(playerLevel);
-		dealer.NextPriceChange = worldProvider.Now.AddHours(Settings.Instance.Market.PriceChangeInterval.Value);
+		dealer.NextPriceChange = worldProvider.Now.AddHours(Settings.Instance.Market.PriceChangeInterval);
 		return dealer;
 	}
 
@@ -38,8 +38,8 @@ public static class DealerExtensions
 	public static IDealer ChangeInventory(this IDealer dealer, IWorldProvider worldProvider, int playerLevel)
 	{
 		dealer.Inventory.Restock(playerLevel);
-		dealer.NextInventoryChange = worldProvider.Now.AddHours(Settings.Instance.Market.InventoryChangeInterval.Value);
-		dealer.NextPriceChange = worldProvider.Now.AddHours(Settings.Instance.Market.PriceChangeInterval.Value);
+		dealer.NextInventoryChange = worldProvider.Now.AddHours(Settings.Instance.Market.InventoryChangeInterval);
+		dealer.NextPriceChange = worldProvider.Now.AddHours(Settings.Instance.Market.PriceChangeInterval);
 		return dealer;
 	}
 

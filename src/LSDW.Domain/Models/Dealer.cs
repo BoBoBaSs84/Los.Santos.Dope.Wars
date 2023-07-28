@@ -72,10 +72,10 @@ internal sealed class Dealer : PedestrianBase, IDealer
 	{
 		base.Create(worldProvider, health);
 
-		if (Settings.Instance.Dealer.HasWeapons.Value)
+		if (Settings.Instance.Dealer.HasWeapons)
 			GiveWeapon(WeaponHash.Pistol, 100);
 
-		if (Settings.Instance.Dealer.HasArmor.Value)
+		if (Settings.Instance.Dealer.HasArmor)
 			GiveArmor(100);
 	}
 

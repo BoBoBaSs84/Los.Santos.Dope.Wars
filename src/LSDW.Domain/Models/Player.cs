@@ -67,7 +67,7 @@ internal sealed class Player : NotificationBase, IPlayer
 		=> _transactions.Count;
 
 	public void AddExperience(int points)
-		=> Experience += (int)(points * Settings.Instance.Player.ExperienceMultiplier.Value);
+		=> Experience += (int)(points * Settings.Instance.Player.ExperienceMultiplier);
 
 	public void AddTransaction(ITransaction transaction)
 	{
@@ -85,6 +85,6 @@ internal sealed class Player : NotificationBase, IPlayer
 
 		Level = PlayerConstants.CalculateCurrentLevel(Experience);
 		ExperienceNextLevel = PlayerConstants.CalculateExperienceNextLevel(Level);
-		MaximumInventoryQuantity = Settings.Instance.Player.StartingInventory.Value + (Level * Settings.Instance.Player.InventoryExpansionPerLevel.Value);
+		MaximumInventoryQuantity = Settings.Instance.Player.StartingInventory + (Level * Settings.Instance.Player.InventoryExpansionPerLevel);
 	}
 }

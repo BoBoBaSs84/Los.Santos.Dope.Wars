@@ -1,4 +1,4 @@
-﻿using LSDW.Abstractions.Helpers;
+﻿using LSDW.Domain.Models.Base;
 using static LSDW.Abstractions.Domain.Models.ISettings;
 
 namespace LSDW.Domain.Models;
@@ -9,18 +9,21 @@ internal sealed partial class Settings
 	/// The trafficking settings class.
 	/// </summary>
 
-	internal sealed class TraffickingSettings : ITraffickingSettings
+	internal sealed class TraffickingSettings : NotificationBase, ITraffickingSettings
 	{
 		private static readonly Lazy<TraffickingSettings> _settings = new(() => new());
+		private bool discoverDealer;
+		private float bustChance;
+		private int wantedLevel;
 
 		/// <summary>
 		/// Initializes a instance of the trafficking settings class.
 		/// </summary>
 		private TraffickingSettings()
 		{
-			DiscoverDealer = new(true);
-			BustChance = new(0.1f);
-			WantedLevel = new(2);
+			discoverDealer = true;
+			bustChance = 0.1f;
+			wantedLevel = 2;
 		}
 
 		/// <summary>
@@ -30,11 +33,25 @@ internal sealed partial class Settings
 			=> _settings.Value;
 
 		/// <inheritdoc/>
-		public BindableProperty<bool> DiscoverDealer { get; set; }
+		public bool DiscoverDealer
+		{
+			get => discoverDealer;
+			set => SetProperty(ref discoverDealer, value);
+		}
+
 		/// <inheritdoc/>
-		public BindableProperty<float> BustChance { get; set; }
+		public float BustChance
+		{
+			get => bustChance;
+			set => SetProperty(ref bustChance, value);
+		}
+
 		/// <inheritdoc/>
-		public BindableProperty<int> WantedLevel { get; set; }
+		public int WantedLevel
+		{
+			get => wantedLevel;
+			set => SetProperty(ref wantedLevel, value);
+		}
 
 		/// <inheritdoc/>
 		public float[] GetBustChanceValues()

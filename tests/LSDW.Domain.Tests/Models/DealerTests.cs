@@ -18,7 +18,7 @@ public class DealerTests
 	public void SetClosedTest()
 	{
 		IWorldProvider provider = _worldProviderMock.Object;
-		DateTime closedUnitl = provider.Now.AddHours(Settings.Instance.Dealer.DownTimeInHours.Value);
+		DateTime closedUnitl = provider.Now.AddHours(Settings.Instance.Dealer.DownTimeInHours);
 
 		_dealer.ClosedUntil = closedUnitl;
 
@@ -30,7 +30,7 @@ public class DealerTests
 	public void SetOpenTest()
 	{
 		IWorldProvider provider = _worldProviderMock.Object;
-		_dealer.ClosedUntil = provider.Now.AddHours(Settings.Instance.Dealer.DownTimeInHours.Value);
+		_dealer.ClosedUntil = provider.Now.AddHours(Settings.Instance.Dealer.DownTimeInHours);
 
 		_dealer.ClosedUntil = null;
 
@@ -43,7 +43,7 @@ public class DealerTests
 	public void SetNextPriceChangeTest()
 	{
 		IWorldProvider provider = _worldProviderMock.Object;
-		DateTime nextChange = provider.Now.AddHours(Settings.Instance.Market.PriceChangeInterval.Value);
+		DateTime nextChange = provider.Now.AddHours(Settings.Instance.Market.PriceChangeInterval);
 
 		_dealer.NextPriceChange = nextChange;
 
@@ -54,7 +54,7 @@ public class DealerTests
 	public void SetNextInventoryChangeTest()
 	{
 		IWorldProvider provider = _worldProviderMock.Object;
-		DateTime nextChange = provider.Now.AddHours(Settings.Instance.Market.InventoryChangeInterval.Value);
+		DateTime nextChange = provider.Now.AddHours(Settings.Instance.Market.InventoryChangeInterval);
 
 		_dealer.NextInventoryChange = nextChange;
 

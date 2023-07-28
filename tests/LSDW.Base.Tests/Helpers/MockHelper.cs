@@ -100,9 +100,6 @@ public static class MockHelper
 	{
 		Mock<IDealerSettings> mock = new(MockBehavior.Loose);
 		mock.SetupAllProperties();
-		mock.Setup(x => x.DownTimeInHours).Returns(() => new(default));
-		mock.Setup(x => x.HasArmor).Returns(() => new(default));
-		mock.Setup(x => x.HasWeapons).Returns(() => new(default));
 		return mock;
 	}
 
@@ -110,11 +107,6 @@ public static class MockHelper
 	{
 		Mock<IMarketSettings> mock = new(MockBehavior.Loose);
 		mock.SetupAllProperties();
-		mock.Setup(x => x.InventoryChangeInterval).Returns(() => new(default));
-		mock.Setup(x => x.MaximumDrugPrice).Returns(() => new(default));
-		mock.Setup(x => x.MinimumDrugPrice).Returns(() => new(default));
-		mock.Setup(x => x.PriceChangeInterval).Returns(() => new(default));
-		mock.Setup(x => x.SpecialOfferChance).Returns(() => new(default));
 		return mock;
 	}
 
@@ -122,13 +114,6 @@ public static class MockHelper
 	{
 		Mock<IPlayerSettings> mock = new(MockBehavior.Loose);
 		mock.SetupAllProperties();
-		mock.Setup(x => x.ExperienceMultiplier).Returns(() => new(default));
-		mock.Setup(x => x.InventoryExpansionPerLevel).Returns(() => new(default));
-		mock.Setup(x => x.LooseDrugsOnDeath).Returns(() => new(default));
-		mock.Setup(x => x.LooseDrugsWhenBusted).Returns(() => new(default));
-		mock.Setup(x => x.LooseMoneyOnDeath).Returns(() => new(default));
-		mock.Setup(x => x.LooseMoneyWhenBusted).Returns(() => new(default));
-		mock.Setup(x => x.StartingInventory).Returns(() => new(default));
 		return mock;
 	}
 
@@ -136,9 +121,6 @@ public static class MockHelper
 	{
 		Mock<ITraffickingSettings> mock = new(MockBehavior.Loose);
 		mock.SetupAllProperties();
-		mock.Setup(x => x.BustChance).Returns(() => new(default));
-		mock.Setup(x => x.DiscoverDealer).Returns(() => new(default));
-		mock.Setup(x => x.WantedLevel).Returns(() => new(default));
 		return mock;
 	}
 

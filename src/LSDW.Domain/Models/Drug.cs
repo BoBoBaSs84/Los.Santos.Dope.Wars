@@ -115,7 +115,7 @@ internal sealed class Drug : NotificationBase, IDrug
 	/// <param name="playerLevel">The current player level.</param>
 	private int GetHighestPrice(int playerLevel)
 	{
-		float maximumDrugPrice = Settings.Instance.Market.MaximumDrugPrice.Value;
+		float maximumDrugPrice = Settings.Instance.Market.MaximumDrugPrice;
 		float playerfactor = playerLevel / (float)1000;
 		float averagePrice = Type.GetAveragePrice();
 		float highestPrice = (maximumDrugPrice + playerfactor) * averagePrice;
@@ -129,7 +129,7 @@ internal sealed class Drug : NotificationBase, IDrug
 	/// <param name="playerLevel">The current player level.</param>
 	private int GetLowestPrice(int playerLevel)
 	{
-		float maximumDrugPrice = Settings.Instance.Market.MaximumDrugPrice.Value;
+		float maximumDrugPrice = Settings.Instance.Market.MaximumDrugPrice;
 		float playerfactor = playerLevel / (float)1000;
 		float averagePrice = Type.GetAveragePrice();
 		float lowestPrice = (maximumDrugPrice - playerfactor) * averagePrice;

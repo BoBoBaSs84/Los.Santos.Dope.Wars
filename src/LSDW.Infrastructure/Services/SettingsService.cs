@@ -18,6 +18,11 @@ internal sealed partial class SettingsService : ISettingsService
 		_scriptSettings = ScriptSettings.Load(Path.Combine(AppContext.BaseDirectory, _settings.IniFileName));
 		Load();
 		Save();
+
+		_settings.Dealer.PropertyChanged += OnPropertyChanged;
+		_settings.Market.PropertyChanged += OnPropertyChanged;
+		_settings.Player.PropertyChanged += OnPropertyChanged;
+		_settings.Trafficking.PropertyChanged += OnPropertyChanged;
 	}
 
 	/// <summary>
@@ -40,10 +45,4 @@ internal sealed partial class SettingsService : ISettingsService
 
 	public void Save()
 		=> _scriptSettings.Save();
-
-	public T GetValue<T>(string section, string name, T defaultvalue)
-		=> _scriptSettings.GetValue(section, name, defaultvalue);
-
-	public void SetValue<T>(string section, string name, T value)
-		=> _scriptSettings.SetValue(section, name, value);
 }
