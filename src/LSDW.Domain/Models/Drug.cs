@@ -12,10 +12,10 @@ namespace LSDW.Domain.Models;
 /// The drug class.
 /// </summary>
 /// <remarks>
-/// Inherits from the <see cref="Notification"/> class and
-/// implements the members of the <see cref="IDrug"/>
+/// Inherits from the <see cref="NotificationBase"/> class and
+/// implements the members of the <see cref="IDrug"/> interface.
 /// </remarks>
-internal sealed class Drug : Notification, IDrug
+internal sealed class Drug : NotificationBase, IDrug
 {
 	private int quantity;
 	private int price;
@@ -115,7 +115,7 @@ internal sealed class Drug : Notification, IDrug
 	/// <param name="playerLevel">The current player level.</param>
 	private int GetHighestPrice(int playerLevel)
 	{
-		float maximumDrugPrice = Settings.Instance.Market.MaximumDrugPrice.Value;
+		float maximumDrugPrice = Settings.Instance.Market.MaximumDrugPrice;
 		float playerfactor = playerLevel / (float)1000;
 		float averagePrice = Type.GetAveragePrice();
 		float highestPrice = (maximumDrugPrice + playerfactor) * averagePrice;
@@ -129,7 +129,7 @@ internal sealed class Drug : Notification, IDrug
 	/// <param name="playerLevel">The current player level.</param>
 	private int GetLowestPrice(int playerLevel)
 	{
-		float maximumDrugPrice = Settings.Instance.Market.MaximumDrugPrice.Value;
+		float maximumDrugPrice = Settings.Instance.Market.MaximumDrugPrice;
 		float playerfactor = playerLevel / (float)1000;
 		float averagePrice = Type.GetAveragePrice();
 		float lowestPrice = (maximumDrugPrice - playerfactor) * averagePrice;

@@ -1,4 +1,4 @@
-﻿using LSDW.Abstractions.Helpers;
+﻿using LSDW.Abstractions.Domain.Models.Base;
 
 namespace LSDW.Abstractions.Domain.Models;
 
@@ -7,22 +7,22 @@ public partial interface ISettings
 	/// <summary>
 	/// The trafficking settings interface.
 	/// </summary>
-	public interface ITraffickingSettings
+	public interface ITraffickingSettings : INotificationBase
 	{
 		/// <summary>
 		/// The bust chance property.
 		/// </summary>
-		BindableProperty<float> BustChance { get; set; }
+		float BustChance { get; set; }
 
 		/// <summary>
 		/// The discover dealer property.
 		/// </summary>
-		BindableProperty<bool> DiscoverDealer { get; set; }
+		bool DiscoverDealer { get; set; }
 
 		/// <summary>
 		/// The wanted level property.
 		/// </summary>
-		BindableProperty<int> WantedLevel { get; set; }
+		int WantedLevel { get; set; }
 
 		/// <summary>
 		/// Returns the possible bust chance values.

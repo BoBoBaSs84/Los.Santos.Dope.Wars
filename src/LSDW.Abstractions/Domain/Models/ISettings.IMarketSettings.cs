@@ -1,4 +1,4 @@
-﻿using LSDW.Abstractions.Helpers;
+﻿using LSDW.Abstractions.Domain.Models.Base;
 
 namespace LSDW.Abstractions.Domain.Models;
 
@@ -7,32 +7,32 @@ public partial interface ISettings
 	/// <summary>
 	/// The market settings interface.
 	/// </summary>
-	public interface IMarketSettings
+	public interface IMarketSettings : INotificationBase
 	{
 		/// <summary>
 		/// The inventory change interval property.
 		/// </summary>
-		BindableProperty<int> InventoryChangeInterval { get; set; }
+		int InventoryChangeInterval { get; set; }
 
 		/// <summary>
 		/// The maximum drug price factor.
 		/// </summary>
-		BindableProperty<float> MaximumDrugPrice { get; set; }
+		float MaximumDrugPrice { get; set; }
 
 		/// <summary>
 		/// The minimum drug price factor.
 		/// </summary>
-		BindableProperty<float> MinimumDrugPrice { get; set; }
+		float MinimumDrugPrice { get; set; }
 
 		/// <summary>
 		/// The price change interval property.
 		/// </summary>
-		BindableProperty<int> PriceChangeInterval { get; set; }
+		int PriceChangeInterval { get; set; }
 
 		/// <summary>
 		/// The special offer chance property.
 		/// </summary>
-		BindableProperty<float> SpecialOfferChance { get; set; }
+		float SpecialOfferChance { get; set; }
 
 		/// <summary>
 		/// Returns the possible inventory change interval values.

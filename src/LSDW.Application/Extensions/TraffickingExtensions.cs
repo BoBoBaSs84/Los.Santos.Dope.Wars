@@ -75,7 +75,7 @@ public static class TraffickingExtensions
 
 		foreach (IDealer dealer in trafficking.StateService.Dealers.Where(x => x.Discovered.Equals(false)))
 		{
-			if (!trafficking.SettingsService.Trafficking.DiscoverDealer.Value)
+			if (!trafficking.SettingsService.Trafficking.DiscoverDealer)
 			{
 				trafficking.DiscoverDealer(dealer);
 				continue;
@@ -268,7 +268,7 @@ public static class TraffickingExtensions
 	/// <param name="dealer">The dealer instance to use.</param>
 	internal static void CloseDealer(this ITrafficking trafficking, IDealer dealer)
 	{
-		int downTimeInHours = trafficking.SettingsService.Dealer.DownTimeInHours.Value;
+		int downTimeInHours = trafficking.SettingsService.Dealer.DownTimeInHours;
 		dealer.ClosedUntil = trafficking.WorldProvider.Now.AddHours(downTimeInHours);
 		dealer.CleanUp();
 		trafficking.NotificationProvider.Show(

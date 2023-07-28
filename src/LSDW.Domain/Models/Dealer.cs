@@ -11,10 +11,10 @@ namespace LSDW.Domain.Models;
 /// The dealer actor class.
 /// </summary>
 /// <remarks>
-/// Inherits from the <see cref="Pedestrian"/> class and
+/// Inherits from the <see cref="PedestrianBase"/> class and
 /// implements the members of the <see cref="IDealer"/> interface.
 /// </remarks>
-internal sealed class Dealer : Pedestrian, IDealer
+internal sealed class Dealer : PedestrianBase, IDealer
 {
 	private Blip? blip;
 
@@ -28,7 +28,7 @@ internal sealed class Dealer : Pedestrian, IDealer
 		Discovered = false;
 		Inventory = DomainFactory.CreateInventory();
 
-		Inventory.PropertyChanged += OnPropertyChanged;
+		Inventory.PropertyChanged += (sender, args) => OnPropertyChanged(args);
 	}
 
 	/// <summary>
@@ -49,8 +49,9 @@ internal sealed class Dealer : Pedestrian, IDealer
 		Inventory = inventory;
 		NextPriceChange = lastRefresh;
 		NextInventoryChange = lastRestock;
+		SetMoney(inventory.Money);
 
-		Inventory.PropertyChanged += OnPropertyChanged;
+		Inventory.PropertyChanged += (sender, args) => OnPropertyChanged(args);
 	}
 
 	public DateTime? ClosedUntil { get; set; }
@@ -71,10 +72,10 @@ internal sealed class Dealer : Pedestrian, IDealer
 	{
 		base.Create(worldProvider, health);
 
-		if (Settings.Instance.Dealer.HasWeapons.Value)
+		if (Settings.Instance.Dealer.HasWeapons)
 			GiveWeapon(WeaponHash.Pistol, 100);
 
-		if (Settings.Instance.Dealer.HasArmor.Value)
+		if (Settings.Instance.Dealer.HasArmor)
 			GiveArmor(100);
 	}
 
@@ -93,11 +94,9 @@ internal sealed class Dealer : Pedestrian, IDealer
 	public void DeleteBlip()
 		=> blip?.Delete();
 
-	private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
+	private void OnPropertyChanged(PropertyChangedEventArgs args)
 	{
-		if (!args.PropertyName.Equals(Inventory.Money) || !Created)
-			return;
-
-		SetMoney(Inventory.Money);
+		if (args.PropertyName.Equals(nameof(Inventory.Money), StringComparison.Ordinal))
+			SetMoney(Inventory.Money);
 	}
 }

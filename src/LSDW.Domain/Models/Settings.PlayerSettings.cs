@@ -1,4 +1,4 @@
-﻿using LSDW.Abstractions.Helpers;
+﻿using LSDW.Domain.Models.Base;
 using static LSDW.Abstractions.Domain.Models.ISettings;
 
 namespace LSDW.Domain.Models;
@@ -8,22 +8,29 @@ internal sealed partial class Settings
 	/// <summary>
 	/// The player settings class.
 	/// </summary>
-	internal sealed class PlayerSettings : IPlayerSettings
+	internal sealed class PlayerSettings : NotificationBase, IPlayerSettings
 	{
 		private static readonly Lazy<PlayerSettings> _settings = new(() => new());
+		private float experienceMultiplier;
+		private bool looseDrugsOnDeath;
+		private bool looseMoneyOnDeath;
+		private bool looseDrugsWhenBusted;
+		private bool looseMoneyWhenBusted;
+		private int inventoryExpansionPerLevel;
+		private int startingInventory;
 
 		/// <summary>
 		/// Initializes a instance of the player settings class.
 		/// </summary>
 		private PlayerSettings()
 		{
-			ExperienceMultiplier = new(1.0f);
-			LooseDrugsOnDeath = new(true);
-			LooseMoneyOnDeath = new(true);
-			LooseDrugsWhenBusted = new(true);
-			LooseMoneyWhenBusted = new(true);
-			InventoryExpansionPerLevel = new(10);
-			StartingInventory = new(100);
+			experienceMultiplier = 1;
+			looseDrugsOnDeath = true;
+			looseMoneyOnDeath = true;
+			looseDrugsWhenBusted = true;
+			looseMoneyWhenBusted = true;
+			inventoryExpansionPerLevel = 10;
+			startingInventory = 100;
 		}
 
 		/// <summary>
@@ -33,25 +40,53 @@ internal sealed partial class Settings
 			=> _settings.Value;
 
 		/// <inheritdoc/>
-		public BindableProperty<float> ExperienceMultiplier { get; set; }
+		public float ExperienceMultiplier
+		{
+			get => experienceMultiplier;
+			set => SetProperty(ref experienceMultiplier, value);
+		}
 
 		/// <inheritdoc/>
-		public BindableProperty<bool> LooseDrugsOnDeath { get; set; }
+		public bool LooseDrugsOnDeath
+		{
+			get => looseDrugsOnDeath;
+			set => SetProperty(ref looseDrugsOnDeath, value);
+		}
 
 		/// <inheritdoc/>
-		public BindableProperty<bool> LooseMoneyOnDeath { get; set; }
+		public bool LooseMoneyOnDeath
+		{
+			get => looseMoneyOnDeath;
+			set => SetProperty(ref looseMoneyOnDeath, value);
+		}
 
 		/// <inheritdoc/>
-		public BindableProperty<bool> LooseDrugsWhenBusted { get; set; }
+		public bool LooseDrugsWhenBusted
+		{
+			get => looseDrugsWhenBusted;
+			set => SetProperty(ref looseDrugsWhenBusted, value);
+		}
 
 		/// <inheritdoc/>
-		public BindableProperty<bool> LooseMoneyWhenBusted { get; set; }
+		public bool LooseMoneyWhenBusted
+		{
+			get => looseMoneyWhenBusted;
+			set => SetProperty(ref looseMoneyWhenBusted, value);
+		}
 
 		/// <inheritdoc/>
-		public BindableProperty<int> InventoryExpansionPerLevel { get; set; }
+		public int InventoryExpansionPerLevel
+		{
+			get => inventoryExpansionPerLevel;
+			set => SetProperty(ref inventoryExpansionPerLevel, value);
+		}
 
 		/// <inheritdoc/>
-		public BindableProperty<int> StartingInventory { get; set; }
+		public int StartingInventory
+		{
+			get => startingInventory;
+			set => SetProperty(ref startingInventory, value);
+		}
 
 		/// <inheritdoc/>
 		public float[] GetExperienceMultiplierValues()

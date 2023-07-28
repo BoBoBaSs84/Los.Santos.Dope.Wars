@@ -1,6 +1,6 @@
 ﻿using GTA;
 using GTA.Math;
-using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Domain.Models.Base;
 using LSDW.Abstractions.Domain.Providers;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Domain.Constants;
@@ -12,9 +12,9 @@ namespace LSDW.Domain.Models.Base;
 /// The pedestrian actor base class.
 /// </summary>
 /// <remarks>
-/// Implements the members of the <see cref="IPedestrian"/> interface.
+/// Implements the members of the <see cref="IPedestrianBase"/> interface.
 /// </remarks>
-internal abstract class Pedestrian : IPedestrian
+internal abstract class PedestrianBase : IPedestrianBase
 {
 	private Ped? ped;
 
@@ -23,7 +23,7 @@ internal abstract class Pedestrian : IPedestrian
 	/// </summary>
 	/// <param name="position">The position of the pedestrian.</param>
 	/// <param name="pedHash">The ped hash of the pedestrian.</param>
-	protected Pedestrian(Vector3 position, PedHash pedHash)
+	protected PedestrianBase(Vector3 position, PedHash pedHash)
 	{
 		CurrentTask = TaskType.NOTASK;
 		SpawnPosition = position;
@@ -37,7 +37,7 @@ internal abstract class Pedestrian : IPedestrian
 	/// <param name="position">The position of the pedestrian.</param>
 	/// <param name="pedHash">The ped hash of the pedestrian.</param>
 	/// <param name="name">The name of the pedestrian.</param>
-	protected Pedestrian(Vector3 position, PedHash pedHash, string name) : this(position, pedHash)
+	protected PedestrianBase(Vector3 position, PedHash pedHash, string name) : this(position, pedHash)
 	{
 		CurrentTask = TaskType.NOTASK;
 		Name = name;

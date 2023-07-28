@@ -1,4 +1,4 @@
-﻿using LSDW.Abstractions.Helpers;
+﻿using LSDW.Abstractions.Domain.Models.Base;
 
 namespace LSDW.Abstractions.Domain.Models;
 
@@ -7,42 +7,42 @@ public partial interface ISettings
 	/// <summary>
 	/// The player settings interface.
 	/// </summary>
-	public interface IPlayerSettings
+	public interface IPlayerSettings : INotificationBase
 	{
 		/// <summary>
 		/// The experience multiplier property.
 		/// </summary>
-		BindableProperty<float> ExperienceMultiplier { get; set; }
+		float ExperienceMultiplier { get; set; }
 
 		/// <summary>
 		/// The inventory expansion per level property.
 		/// </summary>
-		BindableProperty<int> InventoryExpansionPerLevel { get; set; }
+		int InventoryExpansionPerLevel { get; set; }
 
 		/// <summary>
 		/// The loose drugs on death property.
 		/// </summary>
-		BindableProperty<bool> LooseDrugsOnDeath { get; set; }
+		bool LooseDrugsOnDeath { get; set; }
 
 		/// <summary>
 		/// The loose drugs when busted property.
 		/// </summary>
-		BindableProperty<bool> LooseDrugsWhenBusted { get; set; }
+		bool LooseDrugsWhenBusted { get; set; }
 
 		/// <summary>
 		/// The loose money on death property.
 		/// </summary>
-		BindableProperty<bool> LooseMoneyOnDeath { get; set; }
+		bool LooseMoneyOnDeath { get; set; }
 
 		/// <summary>
 		/// The loose money when busted property.
 		/// </summary>
-		BindableProperty<bool> LooseMoneyWhenBusted { get; set; }
+		bool LooseMoneyWhenBusted { get; set; }
 
 		/// <summary>
 		/// The starting inventory property.
 		/// </summary>
-		BindableProperty<int> StartingInventory { get; set; }
+		int StartingInventory { get; set; }
 
 		/// <summary>
 		/// Returns the possible experience multiplier factor values.

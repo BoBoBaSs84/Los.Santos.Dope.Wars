@@ -16,23 +16,55 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace LSDW.Infrastructure.Services;
+using static LSDW.Abstractions.Domain.Models.ISettings;
 
 internal sealed partial class SettingsService
 {
 	public void Load()
 	{
-<# List<PropertyInfo> interfaces = GetProperties(typeof(ISettings));
-foreach (PropertyInfo @interface in interfaces.Where(x => x.PropertyType.IsInterface)) {
+<#
+List<PropertyInfo> interfaces = GetProperties(typeof(ISettings));
+foreach (PropertyInfo @interface in interfaces.Where(x => x.PropertyType.IsInterface))
+{
 	List<PropertyInfo> properties = GetProperties(@interface.PropertyType);
 	foreach (PropertyInfo property in properties)
 	{
 		var sectionName = @interface.Name;
 		var propertyName = property.Name;
-		var dataType = TypeNameOrAlias(property.PropertyType.GetProperties().First().PropertyType); #>
-		<#= dataType #> value<#= propertyName #> = GetValue("<#= sectionName.ToUpper() #>", "<#= propertyName.ToUpper() #>", <#= sectionName #>.<#= propertyName #>.Value);
-		SetValue("<#= sectionName.ToUpper() #>", "<#= propertyName.ToUpper() #>", value<#= propertyName #>);
+		var dataType = TypeNameOrAlias(property.PropertyType);
+#>
+		<#= dataType #> value<#= propertyName #> = _scriptSettings.GetValue("<#= sectionName.ToUpper() #>", "<#= propertyName.ToUpper() #>", <#= sectionName #>.<#= propertyName #>);
+		_scriptSettings.SetValue("<#= sectionName.ToUpper() #>", "<#= propertyName.ToUpper() #>", value<#= propertyName #>);
+<#
+}}
+#>
+	}
 
-<# }} #>
+	private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
+	{
+<#
+interfaces = GetProperties(typeof(ISettings));
+foreach (PropertyInfo @interface in interfaces.Where(x => x.PropertyType.IsInterface))
+{
+		var sender = @interface.PropertyType.Name;
+		var alias = @interface.Name;
+#>
+		if (sender is <#= sender #> <#= alias.ToLower() #>)
+		{
+<#
+	List<PropertyInfo> properties = GetProperties(@interface.PropertyType);
+	foreach (PropertyInfo property in properties)
+	{
+		var name = property.Name;
+#>
+			if(args.PropertyName.Equals(nameof(<#= alias.ToLower() #>.<#= name #>)))
+			{
+				_scriptSettings.SetValue("<#= alias.ToUpper() #>", "<#= name.ToUpper() #>", <#= alias.ToLower() #>.<#= name #>);
+				return;
+			}	
+<#}#>
+		}
+<#}#>
 	}
 }
 <#+

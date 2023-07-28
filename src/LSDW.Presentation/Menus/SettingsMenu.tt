@@ -16,6 +16,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using LSDW.Presentation.Properties;
+using static LSDW.Abstractions.Domain.Models.ISettings;
 
 namespace LSDW.Presentation.Menus;
 
@@ -30,7 +31,7 @@ foreach (PropertyInfo @interface in interfaces)
 	List<PropertyInfo> properties = GetProperties(@interface.PropertyType);
 	foreach (PropertyInfo property in properties)
 	{
-		var dataType = TypeNameOrAlias(property.PropertyType.GetProperties().First().PropertyType);
+		var dataType = TypeNameOrAlias(property.PropertyType);
 		var name = property.Name;
 		var title = $"Resources.UI_Settings_{@interface.Name}_{property.Name}_Title";
 		var desription = $"Resources.UI_Settings_{@interface.Name}_{property.Name}_Description";
@@ -39,27 +40,37 @@ foreach (PropertyInfo @interface in interfaces)
 		var checkBox<#= name #> = AddCheckbox(
 			<#= title #>,
 			<#= desription #>,
-			_settingsService.<#= @interface.Name #>.<#= name #>.Value,
-			changed => { _settingsService.<#= @interface.Name #>.<#= name #>.Value = changed; });
+			_settingsService.<#= @interface.Name #>.<#= name #>,
+			changed => { _settingsService.<#= @interface.Name #>.<#= name #> = changed; });
 		
-		_settingsService.<#= @interface.Name #>.<#= name #>.ValueChanged += (sender, args) =>
+		_settingsService.<#= @interface.Name #>.PropertyChanged += (sender, args) =>
 		{
-			checkBox<#= name #>.Checked = args.NewValue;
-			_settingsService.SetValue("<#= @interface.Name.ToUpper() #>", "<#= name.ToUpper() #>", args.NewValue);
+			if (sender is not <#= @interface.PropertyType.Name #> <#= @interface.Name.ToLower() #>)
+				return;
+
+			if (!args.PropertyName.Equals(nameof(<#= @interface.Name.ToLower() #>.<#= name #>)))
+				return;
+
+			checkBox<#= name #>.Checked = <#= @interface.Name.ToLower() #>.<#= name #>;
 		};
 			
 <# } else { #>
 		var listItem<#= name #> = AddListItem(
 			<#= title #>,
 			<#= desription #>,
-			(item, index) => { _settingsService.<#= @interface.Name #>.<#= name #>.Value = item; },
+			(item, index) => { _settingsService.<#= @interface.Name #>.<#= name #> = item; },
 			_settingsService.<#= @interface.Name #>.Get<#= name #>Values()
 			);
 
-		_settingsService.<#= @interface.Name #>.<#= name #>.ValueChanged += (sender, args) =>
+		_settingsService.<#= @interface.Name #>.PropertyChanged += (sender, args) =>
 		{
-			listItem<#= name #>.SelectedItem = args.NewValue;
-			_settingsService.SetValue("<#= @interface.Name.ToUpper() #>", "<#= name.ToUpper() #>", args.NewValue);
+			if (sender is not <#= @interface.PropertyType.Name #> <#= @interface.Name.ToLower() #>)
+				return;
+
+			if (!args.PropertyName.Equals(nameof(<#= @interface.Name.ToLower() #>.<#= name #>)))
+				return;
+
+			listItem<#= name #>.SelectedItem = <#= @interface.Name.ToLower() #>.<#= name #>;
 		};
 
 <# }}} #>
