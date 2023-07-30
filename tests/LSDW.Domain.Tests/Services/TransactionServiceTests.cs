@@ -191,6 +191,6 @@ public class TransactionServiceTests
 		transactionService.BustOrNoBust();
 
 		notificationProviderMock.Verify(x => x.ShowSubtitle(Resources.Transaction_Message_Bust, 2500));
-		Assert.AreEqual(Settings.Instance.Trafficking.WantedLevel, playerProviderMock.Object.WantedLevel);
+		Assert.AreEqual(Settings.Instance.Trafficking.WantedLevel.Value, playerProviderMock.Object.WantedLevel);
 	}
 }

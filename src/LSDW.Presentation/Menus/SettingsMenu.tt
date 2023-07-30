@@ -16,7 +16,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using LSDW.Presentation.Properties;
-using static LSDW.Abstractions.Domain.Models.ISettings;
 
 namespace LSDW.Presentation.Menus;
 
@@ -31,7 +30,7 @@ foreach (PropertyInfo @interface in interfaces)
 	List<PropertyInfo> properties = GetProperties(@interface.PropertyType);
 	foreach (PropertyInfo property in properties)
 	{
-		var dataType = TypeNameOrAlias(property.PropertyType);
+		var dataType = TypeNameOrAlias(property.PropertyType.GetProperties().First().PropertyType);
 		var name = property.Name;
 		var title = $"Resources.UI_Settings_{@interface.Name}_{property.Name}_Title";
 		var desription = $"Resources.UI_Settings_{@interface.Name}_{property.Name}_Description";
@@ -40,38 +39,21 @@ foreach (PropertyInfo @interface in interfaces)
 		var checkBox<#= name #> = AddCheckbox(
 			<#= title #>,
 			<#= desription #>,
-			_settingsService.<#= @interface.Name #>.<#= name #>,
-			changed => { _settingsService.<#= @interface.Name #>.<#= name #> = changed; });
-		
-		_settingsService.<#= @interface.Name #>.PropertyChanged += (sender, args) =>
-		{
-			if (sender is not <#= @interface.PropertyType.Name #> <#= @interface.Name.ToLower() #>)
-				return;
+			_settingsService.<#= @interface.Name #>.<#= name #>.Value,
+			changed => { _settingsService.<#= @interface.Name #>.<#= name #>.Value = changed; });		
 
-			if (!args.PropertyName.Equals(nameof(<#= @interface.Name.ToLower() #>.<#= name #>)))
-				return;
+		_settingsService.<#= @interface.Name #>.<#= name #>.Changed += (sender, args)
+			=> { checkBox<#= name #>.Checked = _settingsService.<#= @interface.Name #>.<#= name #>.Value; };
 
-			checkBox<#= name #>.Checked = <#= @interface.Name.ToLower() #>.<#= name #>;
-		};
-			
 <# } else { #>
 		var listItem<#= name #> = AddListItem(
 			<#= title #>,
 			<#= desription #>,
-			(item, index) => { _settingsService.<#= @interface.Name #>.<#= name #> = item; },
-			_settingsService.<#= @interface.Name #>.Get<#= name #>Values()
-			);
+			(item, index) => { _settingsService.<#= @interface.Name #>.<#= name #>.Value = item; },
+			_settingsService.<#= @interface.Name #>.Get<#= name #>Values());
 
-		_settingsService.<#= @interface.Name #>.PropertyChanged += (sender, args) =>
-		{
-			if (sender is not <#= @interface.PropertyType.Name #> <#= @interface.Name.ToLower() #>)
-				return;
-
-			if (!args.PropertyName.Equals(nameof(<#= @interface.Name.ToLower() #>.<#= name #>)))
-				return;
-
-			listItem<#= name #>.SelectedItem = <#= @interface.Name.ToLower() #>.<#= name #>;
-		};
+		_settingsService.<#= @interface.Name #>.<#= name #>.Changed += (sender, args)
+			=> { listItem<#= name #>.SelectedItem = _settingsService.<#= @interface.Name #>.<#= name #>.Value; };
 
 <# }}} #>
 	}

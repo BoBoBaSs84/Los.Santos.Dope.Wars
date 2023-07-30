@@ -16,12 +16,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace LSDW.Infrastructure.Services;
-using static LSDW.Abstractions.Domain.Models.ISettings;
+
+using GTA;
+using LSDW.Domain.Factories;
 
 internal sealed partial class SettingsService
 {
-	public void Load()
+	private SettingsService()
 	{
+		_settings = DomainFactory.GetSettings();
+		_scriptSettings = ScriptSettings.Load(Path.Combine(AppContext.BaseDirectory, _settings.IniFileName));
+		Load();
+		Save();
+
 <#
 List<PropertyInfo> interfaces = GetProperties(typeof(ISettings));
 foreach (PropertyInfo @interface in interfaces.Where(x => x.PropertyType.IsInterface))
@@ -31,40 +38,32 @@ foreach (PropertyInfo @interface in interfaces.Where(x => x.PropertyType.IsInter
 	{
 		var sectionName = @interface.Name;
 		var propertyName = property.Name;
-		var dataType = TypeNameOrAlias(property.PropertyType);
+		var dataType = TypeNameOrAlias(property.PropertyType.GetProperties().First().PropertyType);
 #>
-		<#= dataType #> value<#= propertyName #> = _scriptSettings.GetValue("<#= sectionName.ToUpper() #>", "<#= propertyName.ToUpper() #>", <#= sectionName #>.<#= propertyName #>);
-		_scriptSettings.SetValue("<#= sectionName.ToUpper() #>", "<#= propertyName.ToUpper() #>", value<#= propertyName #>);
+		_settings.<#= sectionName #>.<#= propertyName #>.Changed += (sender, args) => { _scriptSettings.SetValue("<#= sectionName.ToUpper() #>", "<#= propertyName.ToUpper() #>", args.Value); };
 <#
 }}
 #>
 	}
 
-	private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
+	public void Load()
 	{
 <#
 interfaces = GetProperties(typeof(ISettings));
 foreach (PropertyInfo @interface in interfaces.Where(x => x.PropertyType.IsInterface))
 {
-		var sender = @interface.PropertyType.Name;
-		var alias = @interface.Name;
-#>
-		if (sender is <#= sender #> <#= alias.ToLower() #>)
-		{
-<#
 	List<PropertyInfo> properties = GetProperties(@interface.PropertyType);
 	foreach (PropertyInfo property in properties)
 	{
-		var name = property.Name;
+		var sectionName = @interface.Name;
+		var propertyName = property.Name;
+		var dataType = TypeNameOrAlias(property.PropertyType.GetProperties().First().PropertyType);
 #>
-			if(args.PropertyName.Equals(nameof(<#= alias.ToLower() #>.<#= name #>)))
-			{
-				_scriptSettings.SetValue("<#= alias.ToUpper() #>", "<#= name.ToUpper() #>", <#= alias.ToLower() #>.<#= name #>);
-				return;
-			}	
-<#}#>
-		}
-<#}#>
+		<#= dataType #> value<#= propertyName #> = _scriptSettings.GetValue("<#= sectionName.ToUpper() #>", "<#= propertyName.ToUpper() #>", <#= sectionName #>.<#= propertyName #>.Value);
+		_scriptSettings.SetValue("<#= sectionName.ToUpper() #>", "<#= propertyName.ToUpper() #>", value<#= propertyName #>);
+<#
+}}
+#>
 	}
 }
 <#+

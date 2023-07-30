@@ -7,153 +7,76 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 namespace LSDW.Infrastructure.Services;
-using static LSDW.Abstractions.Domain.Models.ISettings;
+
+using GTA;
+using LSDW.Domain.Factories;
 
 internal sealed partial class SettingsService
 {
-	public void Load()
+	private SettingsService()
 	{
-		int valueDownTimeInHours = _scriptSettings.GetValue("DEALER", "DOWNTIMEINHOURS", Dealer.DownTimeInHours);
-		_scriptSettings.SetValue("DEALER", "DOWNTIMEINHOURS", valueDownTimeInHours);
-		bool valueHasArmor = _scriptSettings.GetValue("DEALER", "HASARMOR", Dealer.HasArmor);
-		_scriptSettings.SetValue("DEALER", "HASARMOR", valueHasArmor);
-		bool valueHasWeapons = _scriptSettings.GetValue("DEALER", "HASWEAPONS", Dealer.HasWeapons);
-		_scriptSettings.SetValue("DEALER", "HASWEAPONS", valueHasWeapons);
-		int valueInventoryChangeInterval = _scriptSettings.GetValue("MARKET", "INVENTORYCHANGEINTERVAL", Market.InventoryChangeInterval);
-		_scriptSettings.SetValue("MARKET", "INVENTORYCHANGEINTERVAL", valueInventoryChangeInterval);
-		float valueMaximumDrugPrice = _scriptSettings.GetValue("MARKET", "MAXIMUMDRUGPRICE", Market.MaximumDrugPrice);
-		_scriptSettings.SetValue("MARKET", "MAXIMUMDRUGPRICE", valueMaximumDrugPrice);
-		float valueMinimumDrugPrice = _scriptSettings.GetValue("MARKET", "MINIMUMDRUGPRICE", Market.MinimumDrugPrice);
-		_scriptSettings.SetValue("MARKET", "MINIMUMDRUGPRICE", valueMinimumDrugPrice);
-		int valuePriceChangeInterval = _scriptSettings.GetValue("MARKET", "PRICECHANGEINTERVAL", Market.PriceChangeInterval);
-		_scriptSettings.SetValue("MARKET", "PRICECHANGEINTERVAL", valuePriceChangeInterval);
-		float valueSpecialOfferChance = _scriptSettings.GetValue("MARKET", "SPECIALOFFERCHANCE", Market.SpecialOfferChance);
-		_scriptSettings.SetValue("MARKET", "SPECIALOFFERCHANCE", valueSpecialOfferChance);
-		float valueExperienceMultiplier = _scriptSettings.GetValue("PLAYER", "EXPERIENCEMULTIPLIER", Player.ExperienceMultiplier);
-		_scriptSettings.SetValue("PLAYER", "EXPERIENCEMULTIPLIER", valueExperienceMultiplier);
-		int valueInventoryExpansionPerLevel = _scriptSettings.GetValue("PLAYER", "INVENTORYEXPANSIONPERLEVEL", Player.InventoryExpansionPerLevel);
-		_scriptSettings.SetValue("PLAYER", "INVENTORYEXPANSIONPERLEVEL", valueInventoryExpansionPerLevel);
-		bool valueLooseDrugsOnDeath = _scriptSettings.GetValue("PLAYER", "LOOSEDRUGSONDEATH", Player.LooseDrugsOnDeath);
-		_scriptSettings.SetValue("PLAYER", "LOOSEDRUGSONDEATH", valueLooseDrugsOnDeath);
-		bool valueLooseDrugsWhenBusted = _scriptSettings.GetValue("PLAYER", "LOOSEDRUGSWHENBUSTED", Player.LooseDrugsWhenBusted);
-		_scriptSettings.SetValue("PLAYER", "LOOSEDRUGSWHENBUSTED", valueLooseDrugsWhenBusted);
-		bool valueLooseMoneyOnDeath = _scriptSettings.GetValue("PLAYER", "LOOSEMONEYONDEATH", Player.LooseMoneyOnDeath);
-		_scriptSettings.SetValue("PLAYER", "LOOSEMONEYONDEATH", valueLooseMoneyOnDeath);
-		bool valueLooseMoneyWhenBusted = _scriptSettings.GetValue("PLAYER", "LOOSEMONEYWHENBUSTED", Player.LooseMoneyWhenBusted);
-		_scriptSettings.SetValue("PLAYER", "LOOSEMONEYWHENBUSTED", valueLooseMoneyWhenBusted);
-		int valueStartingInventory = _scriptSettings.GetValue("PLAYER", "STARTINGINVENTORY", Player.StartingInventory);
-		_scriptSettings.SetValue("PLAYER", "STARTINGINVENTORY", valueStartingInventory);
-		float valueBustChance = _scriptSettings.GetValue("TRAFFICKING", "BUSTCHANCE", Trafficking.BustChance);
-		_scriptSettings.SetValue("TRAFFICKING", "BUSTCHANCE", valueBustChance);
-		bool valueDiscoverDealer = _scriptSettings.GetValue("TRAFFICKING", "DISCOVERDEALER", Trafficking.DiscoverDealer);
-		_scriptSettings.SetValue("TRAFFICKING", "DISCOVERDEALER", valueDiscoverDealer);
-		int valueWantedLevel = _scriptSettings.GetValue("TRAFFICKING", "WANTEDLEVEL", Trafficking.WantedLevel);
-		_scriptSettings.SetValue("TRAFFICKING", "WANTEDLEVEL", valueWantedLevel);
+		_settings = DomainFactory.GetSettings();
+		_scriptSettings = ScriptSettings.Load(Path.Combine(AppContext.BaseDirectory, _settings.IniFileName));
+		Load();
+		Save();
+
+		_settings.Dealer.DownTimeInHours.Changed += (sender, args) => { _scriptSettings.SetValue("DEALER", "DOWNTIMEINHOURS", args.Value); };
+		_settings.Dealer.HasArmor.Changed += (sender, args) => { _scriptSettings.SetValue("DEALER", "HASARMOR", args.Value); };
+		_settings.Dealer.HasWeapons.Changed += (sender, args) => { _scriptSettings.SetValue("DEALER", "HASWEAPONS", args.Value); };
+		_settings.Market.InventoryChangeInterval.Changed += (sender, args) => { _scriptSettings.SetValue("MARKET", "INVENTORYCHANGEINTERVAL", args.Value); };
+		_settings.Market.MaximumDrugPrice.Changed += (sender, args) => { _scriptSettings.SetValue("MARKET", "MAXIMUMDRUGPRICE", args.Value); };
+		_settings.Market.MinimumDrugPrice.Changed += (sender, args) => { _scriptSettings.SetValue("MARKET", "MINIMUMDRUGPRICE", args.Value); };
+		_settings.Market.PriceChangeInterval.Changed += (sender, args) => { _scriptSettings.SetValue("MARKET", "PRICECHANGEINTERVAL", args.Value); };
+		_settings.Market.SpecialOfferChance.Changed += (sender, args) => { _scriptSettings.SetValue("MARKET", "SPECIALOFFERCHANCE", args.Value); };
+		_settings.Player.ExperienceMultiplier.Changed += (sender, args) => { _scriptSettings.SetValue("PLAYER", "EXPERIENCEMULTIPLIER", args.Value); };
+		_settings.Player.InventoryExpansionPerLevel.Changed += (sender, args) => { _scriptSettings.SetValue("PLAYER", "INVENTORYEXPANSIONPERLEVEL", args.Value); };
+		_settings.Player.LooseDrugsOnDeath.Changed += (sender, args) => { _scriptSettings.SetValue("PLAYER", "LOOSEDRUGSONDEATH", args.Value); };
+		_settings.Player.LooseDrugsWhenBusted.Changed += (sender, args) => { _scriptSettings.SetValue("PLAYER", "LOOSEDRUGSWHENBUSTED", args.Value); };
+		_settings.Player.LooseMoneyOnDeath.Changed += (sender, args) => { _scriptSettings.SetValue("PLAYER", "LOOSEMONEYONDEATH", args.Value); };
+		_settings.Player.LooseMoneyWhenBusted.Changed += (sender, args) => { _scriptSettings.SetValue("PLAYER", "LOOSEMONEYWHENBUSTED", args.Value); };
+		_settings.Player.StartingInventory.Changed += (sender, args) => { _scriptSettings.SetValue("PLAYER", "STARTINGINVENTORY", args.Value); };
+		_settings.Trafficking.BustChance.Changed += (sender, args) => { _scriptSettings.SetValue("TRAFFICKING", "BUSTCHANCE", args.Value); };
+		_settings.Trafficking.DiscoverDealer.Changed += (sender, args) => { _scriptSettings.SetValue("TRAFFICKING", "DISCOVERDEALER", args.Value); };
+		_settings.Trafficking.WantedLevel.Changed += (sender, args) => { _scriptSettings.SetValue("TRAFFICKING", "WANTEDLEVEL", args.Value); };
 	}
 
-	private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
+	public void Load()
 	{
-		if (sender is IDealerSettings dealer)
-		{
-			if(args.PropertyName.Equals(nameof(dealer.DownTimeInHours)))
-			{
-				_scriptSettings.SetValue("DEALER", "DOWNTIMEINHOURS", dealer.DownTimeInHours);
-				return;
-			}	
-			if(args.PropertyName.Equals(nameof(dealer.HasArmor)))
-			{
-				_scriptSettings.SetValue("DEALER", "HASARMOR", dealer.HasArmor);
-				return;
-			}	
-			if(args.PropertyName.Equals(nameof(dealer.HasWeapons)))
-			{
-				_scriptSettings.SetValue("DEALER", "HASWEAPONS", dealer.HasWeapons);
-				return;
-			}	
-		}
-		if (sender is IMarketSettings market)
-		{
-			if(args.PropertyName.Equals(nameof(market.InventoryChangeInterval)))
-			{
-				_scriptSettings.SetValue("MARKET", "INVENTORYCHANGEINTERVAL", market.InventoryChangeInterval);
-				return;
-			}	
-			if(args.PropertyName.Equals(nameof(market.MaximumDrugPrice)))
-			{
-				_scriptSettings.SetValue("MARKET", "MAXIMUMDRUGPRICE", market.MaximumDrugPrice);
-				return;
-			}	
-			if(args.PropertyName.Equals(nameof(market.MinimumDrugPrice)))
-			{
-				_scriptSettings.SetValue("MARKET", "MINIMUMDRUGPRICE", market.MinimumDrugPrice);
-				return;
-			}	
-			if(args.PropertyName.Equals(nameof(market.PriceChangeInterval)))
-			{
-				_scriptSettings.SetValue("MARKET", "PRICECHANGEINTERVAL", market.PriceChangeInterval);
-				return;
-			}	
-			if(args.PropertyName.Equals(nameof(market.SpecialOfferChance)))
-			{
-				_scriptSettings.SetValue("MARKET", "SPECIALOFFERCHANCE", market.SpecialOfferChance);
-				return;
-			}	
-		}
-		if (sender is IPlayerSettings player)
-		{
-			if(args.PropertyName.Equals(nameof(player.ExperienceMultiplier)))
-			{
-				_scriptSettings.SetValue("PLAYER", "EXPERIENCEMULTIPLIER", player.ExperienceMultiplier);
-				return;
-			}	
-			if(args.PropertyName.Equals(nameof(player.InventoryExpansionPerLevel)))
-			{
-				_scriptSettings.SetValue("PLAYER", "INVENTORYEXPANSIONPERLEVEL", player.InventoryExpansionPerLevel);
-				return;
-			}	
-			if(args.PropertyName.Equals(nameof(player.LooseDrugsOnDeath)))
-			{
-				_scriptSettings.SetValue("PLAYER", "LOOSEDRUGSONDEATH", player.LooseDrugsOnDeath);
-				return;
-			}	
-			if(args.PropertyName.Equals(nameof(player.LooseDrugsWhenBusted)))
-			{
-				_scriptSettings.SetValue("PLAYER", "LOOSEDRUGSWHENBUSTED", player.LooseDrugsWhenBusted);
-				return;
-			}	
-			if(args.PropertyName.Equals(nameof(player.LooseMoneyOnDeath)))
-			{
-				_scriptSettings.SetValue("PLAYER", "LOOSEMONEYONDEATH", player.LooseMoneyOnDeath);
-				return;
-			}	
-			if(args.PropertyName.Equals(nameof(player.LooseMoneyWhenBusted)))
-			{
-				_scriptSettings.SetValue("PLAYER", "LOOSEMONEYWHENBUSTED", player.LooseMoneyWhenBusted);
-				return;
-			}	
-			if(args.PropertyName.Equals(nameof(player.StartingInventory)))
-			{
-				_scriptSettings.SetValue("PLAYER", "STARTINGINVENTORY", player.StartingInventory);
-				return;
-			}	
-		}
-		if (sender is ITraffickingSettings trafficking)
-		{
-			if(args.PropertyName.Equals(nameof(trafficking.BustChance)))
-			{
-				_scriptSettings.SetValue("TRAFFICKING", "BUSTCHANCE", trafficking.BustChance);
-				return;
-			}	
-			if(args.PropertyName.Equals(nameof(trafficking.DiscoverDealer)))
-			{
-				_scriptSettings.SetValue("TRAFFICKING", "DISCOVERDEALER", trafficking.DiscoverDealer);
-				return;
-			}	
-			if(args.PropertyName.Equals(nameof(trafficking.WantedLevel)))
-			{
-				_scriptSettings.SetValue("TRAFFICKING", "WANTEDLEVEL", trafficking.WantedLevel);
-				return;
-			}	
-		}
+		int valueDownTimeInHours = _scriptSettings.GetValue("DEALER", "DOWNTIMEINHOURS", Dealer.DownTimeInHours.Value);
+		_scriptSettings.SetValue("DEALER", "DOWNTIMEINHOURS", valueDownTimeInHours);
+		bool valueHasArmor = _scriptSettings.GetValue("DEALER", "HASARMOR", Dealer.HasArmor.Value);
+		_scriptSettings.SetValue("DEALER", "HASARMOR", valueHasArmor);
+		bool valueHasWeapons = _scriptSettings.GetValue("DEALER", "HASWEAPONS", Dealer.HasWeapons.Value);
+		_scriptSettings.SetValue("DEALER", "HASWEAPONS", valueHasWeapons);
+		int valueInventoryChangeInterval = _scriptSettings.GetValue("MARKET", "INVENTORYCHANGEINTERVAL", Market.InventoryChangeInterval.Value);
+		_scriptSettings.SetValue("MARKET", "INVENTORYCHANGEINTERVAL", valueInventoryChangeInterval);
+		float valueMaximumDrugPrice = _scriptSettings.GetValue("MARKET", "MAXIMUMDRUGPRICE", Market.MaximumDrugPrice.Value);
+		_scriptSettings.SetValue("MARKET", "MAXIMUMDRUGPRICE", valueMaximumDrugPrice);
+		float valueMinimumDrugPrice = _scriptSettings.GetValue("MARKET", "MINIMUMDRUGPRICE", Market.MinimumDrugPrice.Value);
+		_scriptSettings.SetValue("MARKET", "MINIMUMDRUGPRICE", valueMinimumDrugPrice);
+		int valuePriceChangeInterval = _scriptSettings.GetValue("MARKET", "PRICECHANGEINTERVAL", Market.PriceChangeInterval.Value);
+		_scriptSettings.SetValue("MARKET", "PRICECHANGEINTERVAL", valuePriceChangeInterval);
+		float valueSpecialOfferChance = _scriptSettings.GetValue("MARKET", "SPECIALOFFERCHANCE", Market.SpecialOfferChance.Value);
+		_scriptSettings.SetValue("MARKET", "SPECIALOFFERCHANCE", valueSpecialOfferChance);
+		float valueExperienceMultiplier = _scriptSettings.GetValue("PLAYER", "EXPERIENCEMULTIPLIER", Player.ExperienceMultiplier.Value);
+		_scriptSettings.SetValue("PLAYER", "EXPERIENCEMULTIPLIER", valueExperienceMultiplier);
+		int valueInventoryExpansionPerLevel = _scriptSettings.GetValue("PLAYER", "INVENTORYEXPANSIONPERLEVEL", Player.InventoryExpansionPerLevel.Value);
+		_scriptSettings.SetValue("PLAYER", "INVENTORYEXPANSIONPERLEVEL", valueInventoryExpansionPerLevel);
+		bool valueLooseDrugsOnDeath = _scriptSettings.GetValue("PLAYER", "LOOSEDRUGSONDEATH", Player.LooseDrugsOnDeath.Value);
+		_scriptSettings.SetValue("PLAYER", "LOOSEDRUGSONDEATH", valueLooseDrugsOnDeath);
+		bool valueLooseDrugsWhenBusted = _scriptSettings.GetValue("PLAYER", "LOOSEDRUGSWHENBUSTED", Player.LooseDrugsWhenBusted.Value);
+		_scriptSettings.SetValue("PLAYER", "LOOSEDRUGSWHENBUSTED", valueLooseDrugsWhenBusted);
+		bool valueLooseMoneyOnDeath = _scriptSettings.GetValue("PLAYER", "LOOSEMONEYONDEATH", Player.LooseMoneyOnDeath.Value);
+		_scriptSettings.SetValue("PLAYER", "LOOSEMONEYONDEATH", valueLooseMoneyOnDeath);
+		bool valueLooseMoneyWhenBusted = _scriptSettings.GetValue("PLAYER", "LOOSEMONEYWHENBUSTED", Player.LooseMoneyWhenBusted.Value);
+		_scriptSettings.SetValue("PLAYER", "LOOSEMONEYWHENBUSTED", valueLooseMoneyWhenBusted);
+		int valueStartingInventory = _scriptSettings.GetValue("PLAYER", "STARTINGINVENTORY", Player.StartingInventory.Value);
+		_scriptSettings.SetValue("PLAYER", "STARTINGINVENTORY", valueStartingInventory);
+		float valueBustChance = _scriptSettings.GetValue("TRAFFICKING", "BUSTCHANCE", Trafficking.BustChance.Value);
+		_scriptSettings.SetValue("TRAFFICKING", "BUSTCHANCE", valueBustChance);
+		bool valueDiscoverDealer = _scriptSettings.GetValue("TRAFFICKING", "DISCOVERDEALER", Trafficking.DiscoverDealer.Value);
+		_scriptSettings.SetValue("TRAFFICKING", "DISCOVERDEALER", valueDiscoverDealer);
+		int valueWantedLevel = _scriptSettings.GetValue("TRAFFICKING", "WANTEDLEVEL", Trafficking.WantedLevel.Value);
+		_scriptSettings.SetValue("TRAFFICKING", "WANTEDLEVEL", valueWantedLevel);
 	}
 }

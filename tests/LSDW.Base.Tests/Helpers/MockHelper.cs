@@ -1,14 +1,15 @@
 ﻿using LSDW.Abstractions.Application.Managers;
 using LSDW.Abstractions.Application.Models.Missions;
 using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Domain.Models.Base;
 using LSDW.Abstractions.Domain.Providers;
 using LSDW.Abstractions.Enumerators;
 using LSDW.Abstractions.Infrastructure.Services;
 using Moq;
-using static LSDW.Abstractions.Domain.Models.ISettings;
 
 namespace LSDW.Base.Tests.Helpers;
 
+[ExcludeFromCodeCoverage]
 [SuppressMessage("Style", "IDE0058", Justification = "UnitTest")]
 public static class MockHelper
 {
@@ -99,28 +100,42 @@ public static class MockHelper
 	public static Mock<IDealerSettings> GetDealerSettings()
 	{
 		Mock<IDealerSettings> mock = new(MockBehavior.Loose);
-		mock.SetupAllProperties();
+		mock.Setup(x => x.DownTimeInHours).Returns(GetBindableProperty(48).Object);
+		mock.Setup(x => x.HasArmor).Returns(GetBindableProperty(true).Object);
+		mock.Setup(x => x.HasWeapons).Returns(GetBindableProperty(true).Object);
 		return mock;
 	}
 
 	public static Mock<IMarketSettings> GetMarketSettings()
 	{
 		Mock<IMarketSettings> mock = new(MockBehavior.Loose);
-		mock.SetupAllProperties();
+		mock.Setup(x => x.InventoryChangeInterval).Returns(GetBindableProperty(24).Object);
+		mock.Setup(x => x.MaximumDrugPrice).Returns(GetBindableProperty(1.15f).Object);
+		mock.Setup(x => x.MinimumDrugPrice).Returns(GetBindableProperty(0.85f).Object);
+		mock.Setup(x => x.PriceChangeInterval).Returns(GetBindableProperty(6).Object);
+		mock.Setup(x => x.SpecialOfferChance).Returns(GetBindableProperty(0.1f).Object);
 		return mock;
 	}
 
 	public static Mock<IPlayerSettings> GetPlayerSettings()
 	{
 		Mock<IPlayerSettings> mock = new(MockBehavior.Loose);
-		mock.SetupAllProperties();
+		mock.Setup(x => x.ExperienceMultiplier).Returns(GetBindableProperty(1f).Object);
+		mock.Setup(x => x.InventoryExpansionPerLevel).Returns(GetBindableProperty(10).Object);
+		mock.Setup(x => x.LooseDrugsOnDeath).Returns(GetBindableProperty(true).Object);
+		mock.Setup(x => x.LooseDrugsWhenBusted).Returns(GetBindableProperty(true).Object);
+		mock.Setup(x => x.LooseMoneyOnDeath).Returns(GetBindableProperty(true).Object);
+		mock.Setup(x => x.LooseMoneyWhenBusted).Returns(GetBindableProperty(true).Object);
+		mock.Setup(x => x.StartingInventory).Returns(GetBindableProperty(100).Object);
 		return mock;
 	}
 
 	public static Mock<ITraffickingSettings> GetTraffickingSettings()
 	{
 		Mock<ITraffickingSettings> mock = new(MockBehavior.Loose);
-		mock.SetupAllProperties();
+		mock.Setup(x => x.BustChance).Returns(GetBindableProperty(0.1f).Object);
+		mock.Setup(x => x.DiscoverDealer).Returns(GetBindableProperty(true).Object);
+		mock.Setup(x => x.WantedLevel).Returns(GetBindableProperty(2).Object);
 		return mock;
 	}
 
@@ -174,6 +189,14 @@ public static class MockHelper
 		mock.Setup(x => x.Quantity).Returns(quantity);
 		mock.Setup(x => x.Price).Returns(currentPrice);
 		mock.SetupAllProperties();
+		return mock;
+	}
+
+	public static Mock<IBindableProperty<T>> GetBindableProperty<T>(T value = default!) where T : IEquatable<T>
+	{
+		Mock<IBindableProperty<T>> mock = new(MockBehavior.Loose);
+		mock.SetupAllProperties();
+		mock.Object.Value = value;
 		return mock;
 	}
 }

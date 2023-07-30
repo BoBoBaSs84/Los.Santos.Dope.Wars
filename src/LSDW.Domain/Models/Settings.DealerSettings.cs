@@ -1,5 +1,6 @@
-﻿using LSDW.Domain.Models.Base;
-using static LSDW.Abstractions.Domain.Models.ISettings;
+﻿using LSDW.Abstractions.Domain.Models;
+using LSDW.Abstractions.Domain.Models.Base;
+using LSDW.Domain.Models.Base;
 
 namespace LSDW.Domain.Models;
 
@@ -8,21 +9,18 @@ internal sealed partial class Settings
 	/// <summary>
 	/// The dealer settings class.
 	/// </summary>
-	internal sealed class DealerSettings : NotificationBase, IDealerSettings
+	internal sealed class DealerSettings : IDealerSettings
 	{
 		private static readonly Lazy<DealerSettings> _settings = new(() => new());
-		private int downTimeInHours;
-		private bool hasArmor;
-		private bool hasWeapons;
 
 		/// <summary>
 		/// Initializes a instance of the dealer settings class.
 		/// </summary>
 		private DealerSettings()
 		{
-			downTimeInHours = 48;
-			hasArmor = true;
-			hasWeapons = true;
+			DownTimeInHours = new BindableProperty<int>(48);
+			HasArmor = new BindableProperty<bool>(true);
+			HasWeapons = new BindableProperty<bool>(true);
 		}
 
 		/// <summary>
@@ -31,28 +29,10 @@ internal sealed partial class Settings
 		public static DealerSettings Instance
 			=> _settings.Value;
 
-		/// <inheritdoc/>
-		public int DownTimeInHours
-		{
-			get => downTimeInHours;
-			set => SetProperty(ref downTimeInHours, value);
-		}
+		public IBindableProperty<int> DownTimeInHours { get; }
+		public IBindableProperty<bool> HasArmor { get; }
+		public IBindableProperty<bool> HasWeapons { get; }
 
-		/// <inheritdoc/>
-		public bool HasArmor
-		{
-			get => hasArmor;
-			set => SetProperty(ref hasArmor, value);
-		}
-
-		/// <inheritdoc/>
-		public bool HasWeapons
-		{
-			get => hasWeapons;
-			set => SetProperty(ref hasWeapons, value);
-		}
-
-		/// <inheritdoc/>
 		public int[] GetDownTimeInHoursValues()
 			=> new int[] { 24, 48, 72, 96, 120, 144, 168 };
 	}
