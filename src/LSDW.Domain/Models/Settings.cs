@@ -1,5 +1,4 @@
 ﻿using LSDW.Abstractions.Domain.Models;
-using static LSDW.Abstractions.Domain.Models.ISettings;
 
 namespace LSDW.Domain.Models;
 

@@ -1,4 +1,4 @@
-﻿using static LSDW.Abstractions.Domain.Models.ISettings;
+﻿using LSDW.Abstractions.Domain.Models;
 
 namespace LSDW.Abstractions.Infrastructure.Services;
 

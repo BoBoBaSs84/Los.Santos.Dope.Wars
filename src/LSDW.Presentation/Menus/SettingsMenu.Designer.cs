@@ -7,7 +7,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using LSDW.Presentation.Properties;
-using static LSDW.Abstractions.Domain.Models.ISettings;
 
 namespace LSDW.Presentation.Menus;
 
@@ -18,319 +17,164 @@ internal sealed partial class SettingsMenu
 		var listItemDownTimeInHours = AddListItem(
 			Resources.UI_Settings_Dealer_DownTimeInHours_Title,
 			Resources.UI_Settings_Dealer_DownTimeInHours_Description,
-			(item, index) => { _settingsService.Dealer.DownTimeInHours = item; },
-			_settingsService.Dealer.GetDownTimeInHoursValues()
-			);
+			(item, index) => { _settingsService.Dealer.DownTimeInHours.Value = item; },
+			_settingsService.Dealer.GetDownTimeInHoursValues());
 
-		_settingsService.Dealer.PropertyChanged += (sender, args) =>
-		{
-			if (sender is not IDealerSettings dealer)
-				return;
-
-			if (!args.PropertyName.Equals(nameof(dealer.DownTimeInHours)))
-				return;
-
-			listItemDownTimeInHours.SelectedItem = dealer.DownTimeInHours;
-		};
+		_settingsService.Dealer.DownTimeInHours.Changed += (sender, args)
+			=> { listItemDownTimeInHours.SelectedItem = _settingsService.Dealer.DownTimeInHours.Value; };
 
 		var checkBoxHasArmor = AddCheckbox(
 			Resources.UI_Settings_Dealer_HasArmor_Title,
 			Resources.UI_Settings_Dealer_HasArmor_Description,
-			_settingsService.Dealer.HasArmor,
-			changed => { _settingsService.Dealer.HasArmor = changed; });
-		
-		_settingsService.Dealer.PropertyChanged += (sender, args) =>
-		{
-			if (sender is not IDealerSettings dealer)
-				return;
+			_settingsService.Dealer.HasArmor.Value,
+			changed => { _settingsService.Dealer.HasArmor.Value = changed; });		
 
-			if (!args.PropertyName.Equals(nameof(dealer.HasArmor)))
-				return;
+		_settingsService.Dealer.HasArmor.Changed += (sender, args)
+			=> { checkBoxHasArmor.Checked = _settingsService.Dealer.HasArmor.Value; };
 
-			checkBoxHasArmor.Checked = dealer.HasArmor;
-		};
-			
 		var checkBoxHasWeapons = AddCheckbox(
 			Resources.UI_Settings_Dealer_HasWeapons_Title,
 			Resources.UI_Settings_Dealer_HasWeapons_Description,
-			_settingsService.Dealer.HasWeapons,
-			changed => { _settingsService.Dealer.HasWeapons = changed; });
-		
-		_settingsService.Dealer.PropertyChanged += (sender, args) =>
-		{
-			if (sender is not IDealerSettings dealer)
-				return;
+			_settingsService.Dealer.HasWeapons.Value,
+			changed => { _settingsService.Dealer.HasWeapons.Value = changed; });		
 
-			if (!args.PropertyName.Equals(nameof(dealer.HasWeapons)))
-				return;
+		_settingsService.Dealer.HasWeapons.Changed += (sender, args)
+			=> { checkBoxHasWeapons.Checked = _settingsService.Dealer.HasWeapons.Value; };
 
-			checkBoxHasWeapons.Checked = dealer.HasWeapons;
-		};
-			
 		var listItemInventoryChangeInterval = AddListItem(
 			Resources.UI_Settings_Market_InventoryChangeInterval_Title,
 			Resources.UI_Settings_Market_InventoryChangeInterval_Description,
-			(item, index) => { _settingsService.Market.InventoryChangeInterval = item; },
-			_settingsService.Market.GetInventoryChangeIntervalValues()
-			);
+			(item, index) => { _settingsService.Market.InventoryChangeInterval.Value = item; },
+			_settingsService.Market.GetInventoryChangeIntervalValues());
 
-		_settingsService.Market.PropertyChanged += (sender, args) =>
-		{
-			if (sender is not IMarketSettings market)
-				return;
-
-			if (!args.PropertyName.Equals(nameof(market.InventoryChangeInterval)))
-				return;
-
-			listItemInventoryChangeInterval.SelectedItem = market.InventoryChangeInterval;
-		};
+		_settingsService.Market.InventoryChangeInterval.Changed += (sender, args)
+			=> { listItemInventoryChangeInterval.SelectedItem = _settingsService.Market.InventoryChangeInterval.Value; };
 
 		var listItemMaximumDrugPrice = AddListItem(
 			Resources.UI_Settings_Market_MaximumDrugPrice_Title,
 			Resources.UI_Settings_Market_MaximumDrugPrice_Description,
-			(item, index) => { _settingsService.Market.MaximumDrugPrice = item; },
-			_settingsService.Market.GetMaximumDrugPriceValues()
-			);
+			(item, index) => { _settingsService.Market.MaximumDrugPrice.Value = item; },
+			_settingsService.Market.GetMaximumDrugPriceValues());
 
-		_settingsService.Market.PropertyChanged += (sender, args) =>
-		{
-			if (sender is not IMarketSettings market)
-				return;
-
-			if (!args.PropertyName.Equals(nameof(market.MaximumDrugPrice)))
-				return;
-
-			listItemMaximumDrugPrice.SelectedItem = market.MaximumDrugPrice;
-		};
+		_settingsService.Market.MaximumDrugPrice.Changed += (sender, args)
+			=> { listItemMaximumDrugPrice.SelectedItem = _settingsService.Market.MaximumDrugPrice.Value; };
 
 		var listItemMinimumDrugPrice = AddListItem(
 			Resources.UI_Settings_Market_MinimumDrugPrice_Title,
 			Resources.UI_Settings_Market_MinimumDrugPrice_Description,
-			(item, index) => { _settingsService.Market.MinimumDrugPrice = item; },
-			_settingsService.Market.GetMinimumDrugPriceValues()
-			);
+			(item, index) => { _settingsService.Market.MinimumDrugPrice.Value = item; },
+			_settingsService.Market.GetMinimumDrugPriceValues());
 
-		_settingsService.Market.PropertyChanged += (sender, args) =>
-		{
-			if (sender is not IMarketSettings market)
-				return;
-
-			if (!args.PropertyName.Equals(nameof(market.MinimumDrugPrice)))
-				return;
-
-			listItemMinimumDrugPrice.SelectedItem = market.MinimumDrugPrice;
-		};
+		_settingsService.Market.MinimumDrugPrice.Changed += (sender, args)
+			=> { listItemMinimumDrugPrice.SelectedItem = _settingsService.Market.MinimumDrugPrice.Value; };
 
 		var listItemPriceChangeInterval = AddListItem(
 			Resources.UI_Settings_Market_PriceChangeInterval_Title,
 			Resources.UI_Settings_Market_PriceChangeInterval_Description,
-			(item, index) => { _settingsService.Market.PriceChangeInterval = item; },
-			_settingsService.Market.GetPriceChangeIntervalValues()
-			);
+			(item, index) => { _settingsService.Market.PriceChangeInterval.Value = item; },
+			_settingsService.Market.GetPriceChangeIntervalValues());
 
-		_settingsService.Market.PropertyChanged += (sender, args) =>
-		{
-			if (sender is not IMarketSettings market)
-				return;
-
-			if (!args.PropertyName.Equals(nameof(market.PriceChangeInterval)))
-				return;
-
-			listItemPriceChangeInterval.SelectedItem = market.PriceChangeInterval;
-		};
+		_settingsService.Market.PriceChangeInterval.Changed += (sender, args)
+			=> { listItemPriceChangeInterval.SelectedItem = _settingsService.Market.PriceChangeInterval.Value; };
 
 		var listItemSpecialOfferChance = AddListItem(
 			Resources.UI_Settings_Market_SpecialOfferChance_Title,
 			Resources.UI_Settings_Market_SpecialOfferChance_Description,
-			(item, index) => { _settingsService.Market.SpecialOfferChance = item; },
-			_settingsService.Market.GetSpecialOfferChanceValues()
-			);
+			(item, index) => { _settingsService.Market.SpecialOfferChance.Value = item; },
+			_settingsService.Market.GetSpecialOfferChanceValues());
 
-		_settingsService.Market.PropertyChanged += (sender, args) =>
-		{
-			if (sender is not IMarketSettings market)
-				return;
-
-			if (!args.PropertyName.Equals(nameof(market.SpecialOfferChance)))
-				return;
-
-			listItemSpecialOfferChance.SelectedItem = market.SpecialOfferChance;
-		};
+		_settingsService.Market.SpecialOfferChance.Changed += (sender, args)
+			=> { listItemSpecialOfferChance.SelectedItem = _settingsService.Market.SpecialOfferChance.Value; };
 
 		var listItemExperienceMultiplier = AddListItem(
 			Resources.UI_Settings_Player_ExperienceMultiplier_Title,
 			Resources.UI_Settings_Player_ExperienceMultiplier_Description,
-			(item, index) => { _settingsService.Player.ExperienceMultiplier = item; },
-			_settingsService.Player.GetExperienceMultiplierValues()
-			);
+			(item, index) => { _settingsService.Player.ExperienceMultiplier.Value = item; },
+			_settingsService.Player.GetExperienceMultiplierValues());
 
-		_settingsService.Player.PropertyChanged += (sender, args) =>
-		{
-			if (sender is not IPlayerSettings player)
-				return;
-
-			if (!args.PropertyName.Equals(nameof(player.ExperienceMultiplier)))
-				return;
-
-			listItemExperienceMultiplier.SelectedItem = player.ExperienceMultiplier;
-		};
+		_settingsService.Player.ExperienceMultiplier.Changed += (sender, args)
+			=> { listItemExperienceMultiplier.SelectedItem = _settingsService.Player.ExperienceMultiplier.Value; };
 
 		var listItemInventoryExpansionPerLevel = AddListItem(
 			Resources.UI_Settings_Player_InventoryExpansionPerLevel_Title,
 			Resources.UI_Settings_Player_InventoryExpansionPerLevel_Description,
-			(item, index) => { _settingsService.Player.InventoryExpansionPerLevel = item; },
-			_settingsService.Player.GetInventoryExpansionPerLevelValues()
-			);
+			(item, index) => { _settingsService.Player.InventoryExpansionPerLevel.Value = item; },
+			_settingsService.Player.GetInventoryExpansionPerLevelValues());
 
-		_settingsService.Player.PropertyChanged += (sender, args) =>
-		{
-			if (sender is not IPlayerSettings player)
-				return;
-
-			if (!args.PropertyName.Equals(nameof(player.InventoryExpansionPerLevel)))
-				return;
-
-			listItemInventoryExpansionPerLevel.SelectedItem = player.InventoryExpansionPerLevel;
-		};
+		_settingsService.Player.InventoryExpansionPerLevel.Changed += (sender, args)
+			=> { listItemInventoryExpansionPerLevel.SelectedItem = _settingsService.Player.InventoryExpansionPerLevel.Value; };
 
 		var checkBoxLooseDrugsOnDeath = AddCheckbox(
 			Resources.UI_Settings_Player_LooseDrugsOnDeath_Title,
 			Resources.UI_Settings_Player_LooseDrugsOnDeath_Description,
-			_settingsService.Player.LooseDrugsOnDeath,
-			changed => { _settingsService.Player.LooseDrugsOnDeath = changed; });
-		
-		_settingsService.Player.PropertyChanged += (sender, args) =>
-		{
-			if (sender is not IPlayerSettings player)
-				return;
+			_settingsService.Player.LooseDrugsOnDeath.Value,
+			changed => { _settingsService.Player.LooseDrugsOnDeath.Value = changed; });		
 
-			if (!args.PropertyName.Equals(nameof(player.LooseDrugsOnDeath)))
-				return;
+		_settingsService.Player.LooseDrugsOnDeath.Changed += (sender, args)
+			=> { checkBoxLooseDrugsOnDeath.Checked = _settingsService.Player.LooseDrugsOnDeath.Value; };
 
-			checkBoxLooseDrugsOnDeath.Checked = player.LooseDrugsOnDeath;
-		};
-			
 		var checkBoxLooseDrugsWhenBusted = AddCheckbox(
 			Resources.UI_Settings_Player_LooseDrugsWhenBusted_Title,
 			Resources.UI_Settings_Player_LooseDrugsWhenBusted_Description,
-			_settingsService.Player.LooseDrugsWhenBusted,
-			changed => { _settingsService.Player.LooseDrugsWhenBusted = changed; });
-		
-		_settingsService.Player.PropertyChanged += (sender, args) =>
-		{
-			if (sender is not IPlayerSettings player)
-				return;
+			_settingsService.Player.LooseDrugsWhenBusted.Value,
+			changed => { _settingsService.Player.LooseDrugsWhenBusted.Value = changed; });		
 
-			if (!args.PropertyName.Equals(nameof(player.LooseDrugsWhenBusted)))
-				return;
+		_settingsService.Player.LooseDrugsWhenBusted.Changed += (sender, args)
+			=> { checkBoxLooseDrugsWhenBusted.Checked = _settingsService.Player.LooseDrugsWhenBusted.Value; };
 
-			checkBoxLooseDrugsWhenBusted.Checked = player.LooseDrugsWhenBusted;
-		};
-			
 		var checkBoxLooseMoneyOnDeath = AddCheckbox(
 			Resources.UI_Settings_Player_LooseMoneyOnDeath_Title,
 			Resources.UI_Settings_Player_LooseMoneyOnDeath_Description,
-			_settingsService.Player.LooseMoneyOnDeath,
-			changed => { _settingsService.Player.LooseMoneyOnDeath = changed; });
-		
-		_settingsService.Player.PropertyChanged += (sender, args) =>
-		{
-			if (sender is not IPlayerSettings player)
-				return;
+			_settingsService.Player.LooseMoneyOnDeath.Value,
+			changed => { _settingsService.Player.LooseMoneyOnDeath.Value = changed; });		
 
-			if (!args.PropertyName.Equals(nameof(player.LooseMoneyOnDeath)))
-				return;
+		_settingsService.Player.LooseMoneyOnDeath.Changed += (sender, args)
+			=> { checkBoxLooseMoneyOnDeath.Checked = _settingsService.Player.LooseMoneyOnDeath.Value; };
 
-			checkBoxLooseMoneyOnDeath.Checked = player.LooseMoneyOnDeath;
-		};
-			
 		var checkBoxLooseMoneyWhenBusted = AddCheckbox(
 			Resources.UI_Settings_Player_LooseMoneyWhenBusted_Title,
 			Resources.UI_Settings_Player_LooseMoneyWhenBusted_Description,
-			_settingsService.Player.LooseMoneyWhenBusted,
-			changed => { _settingsService.Player.LooseMoneyWhenBusted = changed; });
-		
-		_settingsService.Player.PropertyChanged += (sender, args) =>
-		{
-			if (sender is not IPlayerSettings player)
-				return;
+			_settingsService.Player.LooseMoneyWhenBusted.Value,
+			changed => { _settingsService.Player.LooseMoneyWhenBusted.Value = changed; });		
 
-			if (!args.PropertyName.Equals(nameof(player.LooseMoneyWhenBusted)))
-				return;
+		_settingsService.Player.LooseMoneyWhenBusted.Changed += (sender, args)
+			=> { checkBoxLooseMoneyWhenBusted.Checked = _settingsService.Player.LooseMoneyWhenBusted.Value; };
 
-			checkBoxLooseMoneyWhenBusted.Checked = player.LooseMoneyWhenBusted;
-		};
-			
 		var listItemStartingInventory = AddListItem(
 			Resources.UI_Settings_Player_StartingInventory_Title,
 			Resources.UI_Settings_Player_StartingInventory_Description,
-			(item, index) => { _settingsService.Player.StartingInventory = item; },
-			_settingsService.Player.GetStartingInventoryValues()
-			);
+			(item, index) => { _settingsService.Player.StartingInventory.Value = item; },
+			_settingsService.Player.GetStartingInventoryValues());
 
-		_settingsService.Player.PropertyChanged += (sender, args) =>
-		{
-			if (sender is not IPlayerSettings player)
-				return;
-
-			if (!args.PropertyName.Equals(nameof(player.StartingInventory)))
-				return;
-
-			listItemStartingInventory.SelectedItem = player.StartingInventory;
-		};
+		_settingsService.Player.StartingInventory.Changed += (sender, args)
+			=> { listItemStartingInventory.SelectedItem = _settingsService.Player.StartingInventory.Value; };
 
 		var listItemBustChance = AddListItem(
 			Resources.UI_Settings_Trafficking_BustChance_Title,
 			Resources.UI_Settings_Trafficking_BustChance_Description,
-			(item, index) => { _settingsService.Trafficking.BustChance = item; },
-			_settingsService.Trafficking.GetBustChanceValues()
-			);
+			(item, index) => { _settingsService.Trafficking.BustChance.Value = item; },
+			_settingsService.Trafficking.GetBustChanceValues());
 
-		_settingsService.Trafficking.PropertyChanged += (sender, args) =>
-		{
-			if (sender is not ITraffickingSettings trafficking)
-				return;
-
-			if (!args.PropertyName.Equals(nameof(trafficking.BustChance)))
-				return;
-
-			listItemBustChance.SelectedItem = trafficking.BustChance;
-		};
+		_settingsService.Trafficking.BustChance.Changed += (sender, args)
+			=> { listItemBustChance.SelectedItem = _settingsService.Trafficking.BustChance.Value; };
 
 		var checkBoxDiscoverDealer = AddCheckbox(
 			Resources.UI_Settings_Trafficking_DiscoverDealer_Title,
 			Resources.UI_Settings_Trafficking_DiscoverDealer_Description,
-			_settingsService.Trafficking.DiscoverDealer,
-			changed => { _settingsService.Trafficking.DiscoverDealer = changed; });
-		
-		_settingsService.Trafficking.PropertyChanged += (sender, args) =>
-		{
-			if (sender is not ITraffickingSettings trafficking)
-				return;
+			_settingsService.Trafficking.DiscoverDealer.Value,
+			changed => { _settingsService.Trafficking.DiscoverDealer.Value = changed; });		
 
-			if (!args.PropertyName.Equals(nameof(trafficking.DiscoverDealer)))
-				return;
+		_settingsService.Trafficking.DiscoverDealer.Changed += (sender, args)
+			=> { checkBoxDiscoverDealer.Checked = _settingsService.Trafficking.DiscoverDealer.Value; };
 
-			checkBoxDiscoverDealer.Checked = trafficking.DiscoverDealer;
-		};
-			
 		var listItemWantedLevel = AddListItem(
 			Resources.UI_Settings_Trafficking_WantedLevel_Title,
 			Resources.UI_Settings_Trafficking_WantedLevel_Description,
-			(item, index) => { _settingsService.Trafficking.WantedLevel = item; },
-			_settingsService.Trafficking.GetWantedLevelValues()
-			);
+			(item, index) => { _settingsService.Trafficking.WantedLevel.Value = item; },
+			_settingsService.Trafficking.GetWantedLevelValues());
 
-		_settingsService.Trafficking.PropertyChanged += (sender, args) =>
-		{
-			if (sender is not ITraffickingSettings trafficking)
-				return;
-
-			if (!args.PropertyName.Equals(nameof(trafficking.WantedLevel)))
-				return;
-
-			listItemWantedLevel.SelectedItem = trafficking.WantedLevel;
-		};
+		_settingsService.Trafficking.WantedLevel.Changed += (sender, args)
+			=> { listItemWantedLevel.SelectedItem = _settingsService.Trafficking.WantedLevel.Value; };
 
 	}
 }

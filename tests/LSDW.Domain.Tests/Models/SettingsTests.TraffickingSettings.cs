@@ -3,6 +3,14 @@
 public partial class SettingsTests
 {
 	[TestMethod]
+	public void TraffickingSettingsInstanceTest()
+	{
+		Assert.IsNotNull(_settings.Trafficking.BustChance);
+		Assert.IsNotNull(_settings.Trafficking.DiscoverDealer);
+		Assert.IsNotNull(_settings.Trafficking.WantedLevel);
+	}
+
+	[TestMethod]
 	public void GetBustChanceValuesTest()
 	{
 		float[] values = _settings.Trafficking.GetBustChanceValues();

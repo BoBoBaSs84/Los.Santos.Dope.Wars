@@ -24,7 +24,7 @@ public class DealerExtensionsTests
 	public void ChangePricesTest()
 	{
 		IWorldProvider provider = _worldProviderMock.Object;
-		DateTime nextPriceChange = provider.Now.AddHours(Settings.Instance.Market.PriceChangeInterval);
+		DateTime nextPriceChange = provider.Now.AddHours(Settings.Instance.Market.PriceChangeInterval.Value);
 		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
 
 		dealer.ChangePrices(provider, 100);
@@ -40,8 +40,8 @@ public class DealerExtensionsTests
 	public void RestockInventoryTest()
 	{
 		IWorldProvider provider = _worldProviderMock.Object;
-		DateTime nextPriceChange = provider.Now.AddHours(Settings.Instance.Market.PriceChangeInterval);
-		DateTime nextInventoryChange = provider.Now.AddHours(Settings.Instance.Market.InventoryChangeInterval);
+		DateTime nextPriceChange = provider.Now.AddHours(Settings.Instance.Market.PriceChangeInterval.Value);
+		DateTime nextInventoryChange = provider.Now.AddHours(Settings.Instance.Market.InventoryChangeInterval.Value);
 		IDealer dealer = DomainFactory.CreateDealer(_zeroVector);
 
 		dealer.ChangeInventory(provider, 100);

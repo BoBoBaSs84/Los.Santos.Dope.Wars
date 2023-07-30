@@ -3,6 +3,16 @@
 public partial class SettingsTests
 {
 	[TestMethod]
+	public void MarketSettingsInstanceTest()
+	{
+		Assert.IsNotNull(_settings.Market.InventoryChangeInterval);
+		Assert.IsNotNull(_settings.Market.MaximumDrugPrice);
+		Assert.IsNotNull(_settings.Market.MinimumDrugPrice);
+		Assert.IsNotNull(_settings.Market.PriceChangeInterval);
+		Assert.IsNotNull(_settings.Market.SpecialOfferChance);
+	}
+
+	[TestMethod]
 	public void GetSpecialOfferChanceValuesTest()
 	{
 		float[] values = _settings.Market.GetSpecialOfferChanceValues();

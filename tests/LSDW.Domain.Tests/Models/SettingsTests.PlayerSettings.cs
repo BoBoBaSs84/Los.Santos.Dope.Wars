@@ -3,6 +3,18 @@
 public partial class SettingsTests
 {
 	[TestMethod]
+	public void PlayerSettingsInstanceTest()
+	{
+		Assert.IsNotNull(_settings.Player.ExperienceMultiplier);
+		Assert.IsNotNull(_settings.Player.InventoryExpansionPerLevel);
+		Assert.IsNotNull(_settings.Player.LooseDrugsOnDeath);
+		Assert.IsNotNull(_settings.Player.LooseDrugsWhenBusted);
+		Assert.IsNotNull(_settings.Player.LooseMoneyOnDeath);
+		Assert.IsNotNull(_settings.Player.LooseMoneyWhenBusted);
+		Assert.IsNotNull(_settings.Player.StartingInventory);
+	}
+
+	[TestMethod]
 	public void GetExperienceMultiplierValuesTest()
 	{
 		float[] values = _settings.Player.GetExperienceMultiplierValues();
