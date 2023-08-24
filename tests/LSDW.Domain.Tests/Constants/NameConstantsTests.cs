@@ -6,11 +6,21 @@ namespace LSDW.Domain.Tests.Constants;
 public class NameConstantsTests
 {
 	[TestMethod]
-	public void GetFirstNameTest()
+	public void GetMaleFirstNameTest()
 	{
 		string firstName;
 
-		firstName = NameConstants.GetFirstName();
+		firstName = NameConstants.GetMaleFirstName();
+
+		Assert.IsFalse(string.IsNullOrWhiteSpace(firstName));
+	}
+
+	[TestMethod]
+	public void GetFemaleFirstNameTest()
+	{
+		string firstName;
+
+		firstName = NameConstants.GetFemaleFirstName();
 
 		Assert.IsFalse(string.IsNullOrWhiteSpace(firstName));
 	}
@@ -26,11 +36,21 @@ public class NameConstantsTests
 	}
 
 	[TestMethod]
-	public void GetFullNameTest()
+	public void GetMaleFullNameTest()
 	{
 		string fullName;
 
-		fullName = NameConstants.GetFullName();
+		fullName = NameConstants.GetMaleFullName();
+
+		Assert.IsFalse(string.IsNullOrWhiteSpace(fullName));
+	}
+
+	[TestMethod]
+	public void GetFemaleFullNameTest()
+	{
+		string fullName;
+
+		fullName = NameConstants.GetFemaleFullName();
 
 		Assert.IsFalse(string.IsNullOrWhiteSpace(fullName));
 	}

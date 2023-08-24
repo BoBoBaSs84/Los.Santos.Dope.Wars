@@ -28,7 +28,7 @@ internal abstract class PedestrianBase : IPedestrianBase
 		CurrentTask = TaskType.NOTASK;
 		SpawnPosition = position;
 		Hash = pedHash;
-		Name = NameConstants.GetFullName();
+		Name = string.Empty;
 	}
 
 	/// <summary>
@@ -49,7 +49,7 @@ internal abstract class PedestrianBase : IPedestrianBase
 	public Vector3 Position => ped is not null ? ped.Position : Vector3.Zero;
 	public Vector3 SpawnPosition { get; }
 	public PedHash Hash { get; }
-	public string Name { get; }
+	public string Name { get; private set; }
 
 	public virtual void Attack(Ped ped)
 	{
@@ -66,6 +66,9 @@ internal abstract class PedestrianBase : IPedestrianBase
 			return;
 
 		Model model = ScriptHookHelper.GetPedModel(Hash);
+
+		Name = NameConstants.GetFullName(IsFemaleHash(Hash));
+
 		ped = worldProvider.CreatePed(model, SpawnPosition);
 		ped.Health = health;
 		ped.CanSwitchWeapons = true;
@@ -185,4 +188,16 @@ internal abstract class PedestrianBase : IPedestrianBase
 	/// <param name="type">The type to set.</param>
 	private void SetTaskType(TaskType type)
 		=> CurrentTask = type;
+
+	/// <summary>
+	/// Checks if the hash leads to female model or not.
+	/// </summary>
+	/// <param name="hash">The ped hash to check.</param>
+	/// <returns><see langword="true"/> or <see langword="false"/></returns>
+	private static bool IsFemaleHash(PedHash hash)
+	{
+		Model model = ScriptHookHelper.GetPedModel(hash);
+		model.MarkAsNoLongerNeeded();
+		return model.IsFemalePed;
+	}
 }

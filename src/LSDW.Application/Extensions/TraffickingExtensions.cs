@@ -255,7 +255,6 @@ public static class TraffickingExtensions
 		dealer.CreateBlip(trafficking.WorldProvider);
 		string locationName = trafficking.WorldProvider.GetZoneLocalizedName(dealer.SpawnPosition);
 		trafficking.NotificationProvider.Show(
-			sender: dealer.Name,
 			subject: Resources.Trafficking_Notification_Discovery_Subject,
 			message: Resources.Trafficking_Notification_Discovery_Message.FormatInvariant(locationName)
 			);

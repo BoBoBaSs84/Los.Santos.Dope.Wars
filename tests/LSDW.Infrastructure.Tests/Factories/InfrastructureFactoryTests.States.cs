@@ -117,7 +117,7 @@ public partial class InfrastructureFactoryTests
 	public void CreateDealerStateTest()
 	{
 		DateTime date = DateTime.Now;
-		string name = NameConstants.GetFullName();
+		string name = NameConstants.GetMaleFullName();
 		IInventory drugs = DomainFactory.CreateInventory(10000);
 		IDealer dealer = DomainFactory.CreateDealer(_zeroVector, _pedHash, name, date, true, drugs, date, date);
 
