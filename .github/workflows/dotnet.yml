@@ -1,4 +1,4 @@
-name: .NET48 Build & Test
+name: CI
 
 on:
   push:
@@ -8,11 +8,11 @@ on:
 
 jobs:
   build:
-
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v4
     
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
