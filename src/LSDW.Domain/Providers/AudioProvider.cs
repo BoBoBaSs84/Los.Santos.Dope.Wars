@@ -1,5 +1,6 @@
 ﻿using GTA;
 using LSDW.Abstractions.Domain.Providers;
+using System.Diagnostics.CodeAnalysis;
 
 namespace LSDW.Domain.Providers;
 
@@ -9,6 +10,7 @@ namespace LSDW.Domain.Providers;
 /// <remarks>
 /// Wrapper for the <see cref="Audio"/> methods.
 /// </remarks>
+[ExcludeFromCodeCoverage]
 internal sealed class AudioProvider : IAudioProvider
 {
 	/// <summary>

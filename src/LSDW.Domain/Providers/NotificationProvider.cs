@@ -1,5 +1,6 @@
 ﻿using GTA.UI;
 using LSDW.Abstractions.Domain.Providers;
+using System.Diagnostics.CodeAnalysis;
 
 namespace LSDW.Domain.Providers;
 
@@ -9,6 +10,7 @@ namespace LSDW.Domain.Providers;
 /// <remarks>
 /// Wrapper for the <see cref="Screen"/> and <see cref="Notification"/> methods.
 /// </remarks>
+[ExcludeFromCodeCoverage]
 internal sealed class NotificationProvider : INotificationProvider
 {
 	/// <summary>
