@@ -1,5 +1,6 @@
 ﻿using GTA.UI;
 using LSDW.Abstractions.Domain.Providers;
+using System.Diagnostics.CodeAnalysis;
 
 namespace LSDW.Domain.Providers;
 
@@ -9,6 +10,7 @@ namespace LSDW.Domain.Providers;
 /// <remarks>
 /// Wrapper for the <see cref="Screen"/> methods and properties.
 /// </remarks>
+[ExcludeFromCodeCoverage]
 internal sealed class ScreenProvider : IScreenProvider
 {
 	/// <summary>

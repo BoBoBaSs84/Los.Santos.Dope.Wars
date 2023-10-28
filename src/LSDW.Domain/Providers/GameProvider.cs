@@ -1,5 +1,6 @@
 ﻿using GTA;
 using LSDW.Abstractions.Domain.Providers;
+using System.Diagnostics.CodeAnalysis;
 
 namespace LSDW.Domain.Providers;
 
@@ -9,7 +10,8 @@ namespace LSDW.Domain.Providers;
 /// <remarks>
 /// Wrapper for the <see cref="Game"/> methods and properties.
 /// </remarks>
-internal class GameProvider : IGameProvider
+[ExcludeFromCodeCoverage]
+internal sealed class GameProvider : IGameProvider
 {
 	/// <summary>
 	/// The singleton instance of the game provider.
