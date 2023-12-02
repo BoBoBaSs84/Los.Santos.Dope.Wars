@@ -5,8 +5,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="ScriptHookVDotNet3" />
-		<PackageReference Include="LemonUI.SHVDN3" />
+		<PackageReference Include="ScriptHookVDotNet3" Version="3.6.0"/>
+		<PackageReference Include="LemonUI.SHVDN3" Version="1.10.0"/>
 	</ItemGroup>
 
 </Project>
