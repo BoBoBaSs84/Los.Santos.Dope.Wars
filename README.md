@@ -1,9 +1,9 @@
-![CI](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/dotnet.yml/badge.svg?branch=main)
-![CodeQL](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)
-![Issues](https://img.shields.io/github/issues/BoBoBaSs84/Los.Santos.Dope.Wars)
-![Commit](https://img.shields.io/github/last-commit/BoBoBaSs84/Los.Santos.Dope.Wars)
-![GitHub repo size](https://img.shields.io/github/repo-size/BoBoBaSs84/Los.Santos.Dope.Wars)
-![GitHub License](https://img.shields.io/github/license/BoBoBaSs84/Los.Santos.Dope.Wars)
+![CI](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/ci.yml/badge.svg?branch=main)
+![CodeQL](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/codeql.yml/badge.svg?branch=main)
+[![Issues](https://img.shields.io/github/issues/BoBoBaSs84/Los.Santos.Dope.Wars)](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/issues)
+[![Commit](https://img.shields.io/github/last-commit/BoBoBaSs84/Los.Santos.Dope.Wars)](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/commits/main/)
+[![RepoSize](https://img.shields.io/github/repo-size/BoBoBaSs84/Los.Santos.Dope.Wars)](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars)
+[![License](https://img.shields.io/github/license/BoBoBaSs84/Los.Santos.Dope.Wars)](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/blob/main/LICENSE)
 
 # Los.Santos.Dope.Wars
 
