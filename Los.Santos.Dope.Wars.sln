@@ -25,21 +25,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Domain.Tests", "tests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Application.Tests", "tests\LSDW.Application.Tests\LSDW.Application.Tests.csproj", "{F1FDF2FA-379E-4C76-A645-E02B2427B3BA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3E0CC88A-4C03-479C-9B75-D8D5C6FBB535}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Abstractions.Tests", "tests\LSDW.Abstractions.Tests\LSDW.Abstractions.Tests.csproj", "{A31B1A27-DD62-496B-B85C-FF0B258CF780}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Base.Tests", "tests\LSDW.Base.Tests\LSDW.Base.Tests.csproj", "{CB07EEC7-D35F-4420-9507-8D833EF6738F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7267B925-A9FF-4962-8E17-7FEEDD767C9D}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.filenesting.json = .filenesting.json
 		.gitignore = .gitignore
-		AUTHORS.md = AUTHORS.md
-		CHANGES.md = CHANGES.md
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
 		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Abstractions.Tests", "tests\LSDW.Abstractions.Tests\LSDW.Abstractions.Tests.csproj", "{A31B1A27-DD62-496B-B85C-FF0B258CF780}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LSDW.Base.Tests", "tests\LSDW.Base.Tests\LSDW.Base.Tests.csproj", "{CB07EEC7-D35F-4420-9507-8D833EF6738F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -109,7 +109,7 @@ Global
 		{CB07EEC7-D35F-4420-9507-8D833EF6738F} = {751C0958-C5D5-45A2-ABEF-A226D5FBC9BF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_SortFileContentOnSave = True
 		SolutionGuid = {68F339D1-2669-47D8-9481-679C413F0389}
+		RESX_SortFileContentOnSave = True
 	EndGlobalSection
 EndGlobal
