@@ -1,5 +1,5 @@
-![CI](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/ci.yml/badge.svg?branch=main)
-![CodeQL](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/codeql.yml/badge.svg?branch=main)
+[![CI](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/codeql.yml)
 [![Issues](https://img.shields.io/github/issues/BoBoBaSs84/Los.Santos.Dope.Wars)](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/issues)
 [![Commit](https://img.shields.io/github/last-commit/BoBoBaSs84/Los.Santos.Dope.Wars)](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/commits/main/)
 [![RepoSize](https://img.shields.io/github/repo-size/BoBoBaSs84/Los.Santos.Dope.Wars)](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars)
