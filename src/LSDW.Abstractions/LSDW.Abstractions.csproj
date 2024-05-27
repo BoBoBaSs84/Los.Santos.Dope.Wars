@@ -6,7 +6,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="ScriptHookVDotNet3" Version="3.6.0"/>
-		<PackageReference Include="LemonUI.SHVDN3" Version="2.1.0"/>
+		<PackageReference Include="LemonUI.SHVDN3" Version="2.1.1"/>
 	</ItemGroup>
 
 </Project>
