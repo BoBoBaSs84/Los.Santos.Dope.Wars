@@ -65,7 +65,7 @@
 		<PackageReference Include="MSTest.TestFramework" Version="3.6.4"/>
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0"/>
 		<PackageReference Include="Moq" Version="[4.18.4]"/>
-		<PackageReference Include="coverlet.collector" Version="6.0.2"/>
+		<PackageReference Include="coverlet.collector" Version="6.0.3"/>
 		<Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
 		<Using Include="System.Diagnostics" />
 		<Using Include="System.Diagnostics.CodeAnalysis" />
