@@ -20,7 +20,7 @@ public partial class InfrastructureFactoryTests
 	{
 		DrugState state = GetDrugState();
 
-		IDrug drug = CreateDrug(state);
+		IDrug? drug = CreateDrug(state);
 
 		Assert.IsNotNull(drug);
 		Assert.AreEqual(state.Type, drug.Type);
@@ -31,9 +31,9 @@ public partial class InfrastructureFactoryTests
 	[TestMethod]
 	public void CreateDrugsFromStatesTest()
 	{
-		List<DrugState> states = new() { GetDrugState(), GetDrugState() };
+		List<DrugState> states = [GetDrugState(), GetDrugState()];
 
-		ICollection<IDrug> drugs = CreateDrugs(states);
+		ICollection<IDrug>? drugs = CreateDrugs(states);
 
 		Assert.IsNotNull(drugs);
 		Assert.AreEqual(states.Count, drugs.Count);
@@ -44,7 +44,7 @@ public partial class InfrastructureFactoryTests
 	{
 		IDrug drug = DomainFactory.CreateDrug();
 
-		DrugState state = CreateDrugState(drug);
+		DrugState? state = CreateDrugState(drug);
 
 		Assert.IsNotNull(state);
 		Assert.AreEqual(drug.Type, state.Type);
@@ -57,7 +57,7 @@ public partial class InfrastructureFactoryTests
 	{
 		ICollection<IDrug> drugs = DomainFactory.CreateAllDrugs();
 
-		List<DrugState> states = CreateDrugStates(drugs);
+		List<DrugState>? states = CreateDrugStates(drugs);
 
 		Assert.IsNotNull(states);
 		Assert.AreEqual(drugs.Count, states.Count);
@@ -69,7 +69,7 @@ public partial class InfrastructureFactoryTests
 		int money = 1000;
 		IInventory inventory = DomainFactory.CreateInventory(money);
 
-		InventoryState state = CreateInventoryState(inventory);
+		InventoryState? state = CreateInventoryState(inventory);
 
 		Assert.IsNotNull(state);
 		Assert.IsNotNull(state.Drugs);
@@ -101,11 +101,13 @@ public partial class InfrastructureFactoryTests
 	[TestMethod]
 	public void CreateDealerStatesTest()
 	{
-		ICollection<IDealer> dealers = new List<IDealer>()
-		{
+		ICollection<IDealer>? dealers;
+		
+		dealers =
+		[
 			DomainFactory.CreateDealer(_zeroVector, _pedHash),
 			DomainFactory.CreateDealer(_zeroVector, _pedHash),
-		};
+		];
 
 		List<DealerState> states = CreateDealerStates(dealers);
 
@@ -194,11 +196,13 @@ public partial class InfrastructureFactoryTests
 	[TestMethod]
 	public void CreateTransactionStatesTest()
 	{
-		ICollection<ITransaction> transactions = new List<ITransaction>()
-		{
+		ICollection<ITransaction>? transactions;
+
+		transactions =
+		[
 			DomainFactory.CreateTransaction(DateTime.MinValue, TransactionType.SELL, DrugType.COKE, 10, 100),
 			DomainFactory.CreateTransaction(DateTime.MinValue, TransactionType.SELL, DrugType.METH, 10, 125),
-		};
+		];
 
 		List<TransactionState> states = CreateTransactionStates(transactions);
 
@@ -211,11 +215,11 @@ public partial class InfrastructureFactoryTests
 	{
 		IPlayer player = DomainFactory.CreatePlayer(RandomHelper.GetInt(123456789, 987654321));
 		player.Inventory.Restock(player.Level);
-		List<IDealer> dealers = new()
-		{
+		List<IDealer> dealers =
+		[
 			DomainFactory.CreateDealer(_zeroVector),
 			DomainFactory.CreateDealer(_zeroVector),
-		};
+		];
 		foreach (IDealer dealer in dealers)
 			_ = dealer.Inventory.Restock(player.Level);
 

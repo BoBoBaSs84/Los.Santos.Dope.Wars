@@ -13,9 +13,9 @@ public partial class SettingsTests
 	[TestMethod]
 	public void GetDownTimeInHoursValuesTest()
 	{
-		int[] values = _settings.Dealer.GetDownTimeInHoursValues();
+		int[]? values = _settings.Dealer.GetDownTimeInHoursValues();
 
 		Assert.IsNotNull(values);
-		Assert.IsTrue(values.Any());
+		Assert.AreNotEqual(0, values.Length);
 	}
 }
