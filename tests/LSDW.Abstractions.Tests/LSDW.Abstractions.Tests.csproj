@@ -9,4 +9,9 @@
 	  <Reference Include="System.ComponentModel.DataAnnotations" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <PackageReference Update="MSTest.TestAdapter" Version="3.7.1" />
+	  <PackageReference Update="MSTest.TestFramework" Version="3.7.1" />
+	</ItemGroup>
+
 </Project>

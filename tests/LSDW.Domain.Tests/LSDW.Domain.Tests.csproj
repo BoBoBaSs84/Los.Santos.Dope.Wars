@@ -5,4 +5,9 @@
 		<ProjectReference Include="..\LSDW.Base.Tests\LSDW.Base.Tests.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <PackageReference Update="MSTest.TestAdapter" Version="3.7.1" />
+	  <PackageReference Update="MSTest.TestFramework" Version="3.7.1" />
+	</ItemGroup>
+
 </Project>
