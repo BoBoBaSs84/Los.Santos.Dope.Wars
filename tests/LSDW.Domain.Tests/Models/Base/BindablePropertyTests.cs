@@ -52,11 +52,8 @@ public class BindablePropertyTests
 		Assert.AreEqual(oldValue, testClass.TestProperty.Value);
 	}
 
-	private sealed class TestClass
+	private sealed class TestClass(string testProperty)
 	{
-		public TestClass(string testProperty)
-			=> TestProperty = new BindableProperty<string>(testProperty);
-
-		public IBindableProperty<string> TestProperty { get; set; }
+		public IBindableProperty<string> TestProperty { get; set; } = new BindableProperty<string>(testProperty);
 	}
 }

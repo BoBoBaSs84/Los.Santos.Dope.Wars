@@ -66,7 +66,7 @@ public partial class DomainFactoryTests
 		drugs = DomainFactory.CreateAllDrugs();
 
 		Assert.IsNotNull(drugs);
-		Assert.IsTrue(drugs.Any());
+		Assert.AreNotEqual(0, drugs.Count);
 	}
 
 	[TestMethod]

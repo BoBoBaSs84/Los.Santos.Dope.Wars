@@ -20,7 +20,7 @@ public class IntegerExtensionsTests
 	{
 		int i = 10;
 
-		IList<int> ints = i.GetList();
+		List<int> ints = i.GetList();
 
 		Assert.AreEqual(i + 1, ints.Count);
 	}

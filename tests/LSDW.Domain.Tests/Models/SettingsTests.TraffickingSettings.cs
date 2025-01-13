@@ -13,18 +13,18 @@ public partial class SettingsTests
 	[TestMethod]
 	public void GetBustChanceValuesTest()
 	{
-		float[] values = _settings.Trafficking.GetBustChanceValues();
+		float[]? values = _settings.Trafficking.GetBustChanceValues();
 
 		Assert.IsNotNull(values);
-		Assert.IsTrue(values.Any());
+		Assert.AreNotEqual(0, values.Length);
 	}
 
 	[TestMethod]
 	public void GetWantedLevelValuesTest()
 	{
-		int[] values = _settings.Trafficking.GetWantedLevelValues();
+		int[]? values = _settings.Trafficking.GetWantedLevelValues();
 
 		Assert.IsNotNull(values);
-		Assert.IsTrue(values.Any());
+		Assert.AreNotEqual(0, values.Length);
 	}
 }
