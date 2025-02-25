@@ -1,4 +1,6 @@
-﻿namespace LSDW.Abstractions.Domain.Models.Base;
+﻿using System.ComponentModel;
+
+namespace LSDW.Abstractions.Domain.Models.Base;
 
 /// <summary>
 /// The notification base interface.

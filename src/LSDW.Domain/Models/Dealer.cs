@@ -4,6 +4,7 @@ using LSDW.Abstractions.Domain.Models;
 using LSDW.Abstractions.Domain.Providers;
 using LSDW.Domain.Factories;
 using LSDW.Domain.Models.Base;
+using System.ComponentModel;
 
 namespace LSDW.Domain.Models;
 

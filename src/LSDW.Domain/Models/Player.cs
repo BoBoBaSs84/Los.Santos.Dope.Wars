@@ -2,6 +2,7 @@
 using LSDW.Domain.Constants;
 using LSDW.Domain.Extensions;
 using LSDW.Domain.Models.Base;
+using System.ComponentModel;
 
 namespace LSDW.Domain.Models;
 

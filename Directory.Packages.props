@@ -1,0 +1,13 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="FluentAssertions" Version="8.1.1" />
+    <PackageVersion Include="Moq" Version="4.20.72" />
+    <PackageVersion Include="MSTest" Version="3.8.2" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+		<PackageVersion Include="ScriptHookVDotNet3" Version="3.6.0" />
+		<PackageVersion Include="LemonUI.SHVDN3" Version="2.1.2" />
+  </ItemGroup>
+</Project>

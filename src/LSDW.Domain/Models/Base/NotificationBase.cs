@@ -1,4 +1,5 @@
 ﻿using LSDW.Abstractions.Domain.Models.Base;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace LSDW.Domain.Models.Base;

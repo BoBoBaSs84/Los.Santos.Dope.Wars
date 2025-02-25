@@ -1,4 +1,6 @@
-﻿namespace LSDW.Abstractions.Enumerators;
+﻿using System.ComponentModel;
+
+namespace LSDW.Abstractions.Enumerators;
 
 /// <summary>
 /// The transaction type enumerator.

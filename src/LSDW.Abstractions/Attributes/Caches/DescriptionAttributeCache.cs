@@ -1,4 +1,7 @@
-﻿namespace LSDW.Abstractions.Attributes.Caches;
+﻿using System.ComponentModel;
+using System.Reflection;
+
+namespace LSDW.Abstractions.Attributes.Caches;
 
 /// <summary>
 /// The description attribute cache class.

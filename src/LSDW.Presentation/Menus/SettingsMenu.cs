@@ -3,6 +3,7 @@ using LSDW.Abstractions.Infrastructure.Services;
 using LSDW.Abstractions.Presentation.Menus;
 using LSDW.Presentation.Menus.Base;
 using LSDW.Presentation.Properties;
+using System.ComponentModel;
 
 namespace LSDW.Presentation.Menus;
 

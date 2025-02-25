@@ -1,6 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
+	  <PackageReference Include="coverlet.collector">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	  <PackageReference Include="FluentAssertions" />
+	  <PackageReference Include="Moq" />
+	  <PackageReference Include="MSTest" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\..\src\LSDW.Domain\LSDW.Domain.csproj" />
 		<ProjectReference Include="..\LSDW.Base.Tests\LSDW.Base.Tests.csproj" />
 	</ItemGroup>

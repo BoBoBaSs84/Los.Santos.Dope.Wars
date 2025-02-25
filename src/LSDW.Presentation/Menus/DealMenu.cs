@@ -9,6 +9,7 @@ using LSDW.Domain.Extensions;
 using LSDW.Domain.Factories;
 using LSDW.Presentation.Helpers;
 using LSDW.Presentation.Menus.Base;
+using System.Drawing;
 using GTAFont = GTA.UI.Font;
 
 namespace LSDW.Presentation.Menus;

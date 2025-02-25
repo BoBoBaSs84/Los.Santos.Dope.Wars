@@ -1,4 +1,5 @@
 ﻿using LSDW.Abstractions.Attributes;
+using System.ComponentModel;
 
 namespace LSDW.Abstractions.Enumerators;
 

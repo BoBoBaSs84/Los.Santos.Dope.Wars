@@ -1,6 +1,7 @@
 ﻿using GTA.UI;
 using LSDW.Abstractions.Domain.Providers;
 using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
 
 namespace LSDW.Domain.Providers;
 
