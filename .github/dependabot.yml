@@ -9,23 +9,15 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    reviewers:
-      - "BoBoBaSs84"
-    assignees:
-      - "BoBoBaSs84"
     groups:
       mstest-dependencies:
         patterns:
           - "MSTest*"
-      microsoft-extensions-dependencies:
+      microsoft-dependencies:
         patterns:
-          - "Microsoft.Extensions*"
+          - "Microsoft*"
       
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
-    reviewers:
-      - "BoBoBaSs84"
-    assignees:
-      - "BoBoBaSs84"
