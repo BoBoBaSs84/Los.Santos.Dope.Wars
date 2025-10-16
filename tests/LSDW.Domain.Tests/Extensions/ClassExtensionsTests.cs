@@ -11,7 +11,7 @@ public class ClassExtensionsTests
 	private readonly XmlWriterSettings _writerSettings = new();
 	private readonly XmlReaderSettings _readerSettings = new();
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow("utf-8"), DataRow("utf-16"), DataRow("utf-32")]
 	public void ToXmlStringSuccessTest(string encodingString)
 	{
@@ -21,10 +21,10 @@ public class ClassExtensionsTests
 
 		string xmlString = testClass.ToXmlString(settings: _writerSettings);
 
-		Assert.IsTrue(xmlString.Contains($"encoding=\"{encodingString}\""));
-		Assert.IsTrue(xmlString.Contains($@"{nameof(testClass.Id)}=""{testClass.Id}"""));
-		Assert.IsTrue(xmlString.Contains($@"<{nameof(testClass.Name)}>{testClass.Name}"));
-		Assert.IsTrue(xmlString.Contains($@"<{nameof(testClass.Description)}>{testClass.Description}"));
+		Assert.Contains($"encoding=\"{encodingString}\"", xmlString);
+		Assert.Contains($@"{nameof(testClass.Id)}=""{testClass.Id}""", xmlString);
+		Assert.Contains($@"<{nameof(testClass.Name)}>{testClass.Name}", xmlString);
+		Assert.Contains($@"<{nameof(testClass.Description)}>{testClass.Description}", xmlString);
 	}
 
 	[TestMethod]
@@ -34,9 +34,9 @@ public class ClassExtensionsTests
 
 		string xmlString = testClass.ToXmlString();
 
-		Assert.IsFalse(xmlString.Contains($@"<{nameof(testClass.Id)}>""{testClass.Id}"""));
-		Assert.IsFalse(xmlString.Contains($@"{nameof(testClass.Name)}=""{testClass.Name}"""));
-		Assert.IsFalse(xmlString.Contains($@"{nameof(testClass.Description)}=""{testClass.Description}"""));
+		Assert.DoesNotContain($@"<{nameof(testClass.Id)}>""{testClass.Id}""", xmlString);
+		Assert.DoesNotContain($@"{nameof(testClass.Name)}=""{testClass.Name}""", xmlString);
+		Assert.DoesNotContain($@"{nameof(testClass.Description)}=""{testClass.Description}""", xmlString);
 	}
 
 	[TestMethod]

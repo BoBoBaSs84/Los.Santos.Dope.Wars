@@ -102,7 +102,7 @@ public class InventoryTests
 		IInventory inventory = DomainFactory.CreateInventory();
 		inventory.Add(drugs);
 
-		Assert.AreEqual(drugs.Count, inventory.Count);
+		Assert.HasCount(drugs.Count, inventory);
 	}
 
 	[TestMethod]
@@ -113,7 +113,7 @@ public class InventoryTests
 
 		inventory.Remove(inventory);
 
-		Assert.AreEqual(15, inventory.Count);
+		Assert.HasCount(15, inventory);
 		Assert.AreEqual(0, inventory.TotalQuantity);
 		Assert.AreEqual(0, inventory.TotalValue);
 	}
@@ -163,7 +163,7 @@ public class InventoryTests
 
 		IInventory inventory = DomainFactory.CreateInventory(drugs, default);
 
-		Assert.IsTrue(inventory.Contains(drug));
+		Assert.Contains(drug, inventory);
 	}
 
 	[TestMethod]
@@ -174,7 +174,7 @@ public class InventoryTests
 
 		inventory.CopyTo(drugs, 0);
 
-		Assert.AreEqual(inventory.Count, drugs.Length);
+		Assert.HasCount(inventory.Count, drugs);
 	}
 
 	[TestMethod]

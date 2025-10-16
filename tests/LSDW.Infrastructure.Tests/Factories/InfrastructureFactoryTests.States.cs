@@ -36,7 +36,7 @@ public partial class InfrastructureFactoryTests
 		ICollection<IDrug>? drugs = CreateDrugs(states);
 
 		Assert.IsNotNull(drugs);
-		Assert.AreEqual(states.Count, drugs.Count);
+		Assert.HasCount(states.Count, drugs);
 	}
 
 	[TestMethod]
@@ -60,7 +60,7 @@ public partial class InfrastructureFactoryTests
 		List<DrugState>? states = CreateDrugStates(drugs);
 
 		Assert.IsNotNull(states);
-		Assert.AreEqual(drugs.Count, states.Count);
+		Assert.HasCount(drugs.Count, states);
 	}
 
 	[TestMethod]
@@ -93,9 +93,9 @@ public partial class InfrastructureFactoryTests
 
 		Assert.IsNotNull(state);
 		Assert.AreEqual(player.Experience, state.Experience);
-		Assert.AreEqual(player.Inventory.Count, state.Inventory.Drugs.Count);
+		Assert.HasCount(player.Inventory.Count, state.Inventory.Drugs);
 		Assert.AreEqual(player.Inventory.Money, state.Inventory.Money);
-		Assert.AreEqual(player.TransactionCount, state.Transactions.Count);
+		Assert.HasCount(player.TransactionCount, state.Transactions);
 	}
 
 	[TestMethod]
@@ -112,7 +112,7 @@ public partial class InfrastructureFactoryTests
 		List<DealerState> states = CreateDealerStates(dealers);
 
 		Assert.IsNotNull(dealers);
-		Assert.AreEqual(dealers.Count, states.Count);
+		Assert.HasCount(dealers.Count, states);
 	}
 
 	[TestMethod]
@@ -175,7 +175,7 @@ public partial class InfrastructureFactoryTests
 		ICollection<ITransaction> transactions = CreateTransactions(states);
 
 		Assert.IsNotNull(transactions);
-		Assert.AreEqual(states.Count, transactions.Count);
+		Assert.HasCount(states.Count, transactions);
 	}
 
 	[TestMethod]
@@ -207,7 +207,7 @@ public partial class InfrastructureFactoryTests
 		List<TransactionState> states = CreateTransactionStates(transactions);
 
 		Assert.IsNotNull(states);
-		Assert.AreEqual(transactions.Count, states.Count);
+		Assert.HasCount(transactions.Count, states);
 	}
 
 	[TestMethod]
@@ -228,9 +228,9 @@ public partial class InfrastructureFactoryTests
 		Assert.IsNotNull(state);
 		Assert.AreEqual(player.Experience, state.Player.Experience);
 		Assert.AreEqual(player.Inventory.Money, state.Player.Inventory.Money);
-		Assert.AreEqual(player.Inventory.Count, state.Player.Inventory.Drugs.Count);
-		Assert.AreEqual(dealers.Count, state.Dealers.Count);
-		Assert.AreEqual(dealers.Count, state.Dealers.Count);
+		Assert.HasCount(player.Inventory.Count, state.Player.Inventory.Drugs);
+		Assert.HasCount(dealers.Count, state.Dealers);
+		Assert.HasCount(dealers.Count, state.Dealers);
 	}
 
 	[TestMethod]
@@ -261,7 +261,7 @@ public partial class InfrastructureFactoryTests
 		ICollection<IDealer> dealers = CreateDealers(states);
 
 		Assert.IsNotNull(dealers);
-		Assert.AreEqual(states.Count, dealers.Count);
+		Assert.HasCount(states.Count, dealers);
 	}
 
 	[TestMethod]

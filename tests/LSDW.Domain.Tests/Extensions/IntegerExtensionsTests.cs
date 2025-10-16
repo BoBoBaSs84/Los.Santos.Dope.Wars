@@ -12,7 +12,7 @@ public class IntegerExtensionsTests
 
 		int[] intArray = i.GetArray();
 
-		Assert.AreEqual(i + 1, intArray.Length);
+		Assert.HasCount(i + 1, intArray);
 	}
 
 	[TestMethod]
@@ -22,6 +22,6 @@ public class IntegerExtensionsTests
 
 		List<int> ints = i.GetList();
 
-		Assert.AreEqual(i + 1, ints.Count);
+		Assert.HasCount(i + 1, ints);
 	}
 }

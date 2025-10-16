@@ -12,8 +12,8 @@ public class MenuHelperTests
 	private readonly IPlayer _player = DomainFactory.CreatePlayer();
 	private readonly IInventory _inventory = DomainFactory.CreateInventory();
 
-	[DataTestMethod]
-	[DynamicData(nameof(GetRightMenuTypes), DynamicDataSourceType.Method)]
+	[TestMethod]
+	[DynamicData(nameof(GetRightMenuTypes))]
 	public void GetRightAlignmentTest(TransactionType transactionType)
 	{
 		Alignment alignment = MenuHelper.GetAlignment(transactionType);
@@ -21,8 +21,8 @@ public class MenuHelperTests
 		Assert.AreEqual(Alignment.Right, alignment);
 	}
 
-	[DataTestMethod]
-	[DynamicData(nameof(GetLeftMenuTypes), DynamicDataSourceType.Method)]
+	[TestMethod]
+	[DynamicData(nameof(GetLeftMenuTypes))]
 	public void GetLeftAlignmentTest(TransactionType transactionType)
 	{
 		Alignment alignment = MenuHelper.GetAlignment(transactionType);
@@ -30,8 +30,8 @@ public class MenuHelperTests
 		Assert.AreEqual(Alignment.Left, alignment);
 	}
 
-	[DataTestMethod]
-	[DynamicData(nameof(GetRightMenuTypes), DynamicDataSourceType.Method)]
+	[TestMethod]
+	[DynamicData(nameof(GetRightMenuTypes))]
 	public void GetInventoriesPlayerSourceTest(TransactionType transactionType)
 	{
 		(IInventory source, IInventory target) = MenuHelper.GetInventories(transactionType, _player, _inventory);
@@ -40,8 +40,8 @@ public class MenuHelperTests
 		Assert.AreSame(_inventory, target);
 	}
 
-	[DataTestMethod]
-	[DynamicData(nameof(GetLeftMenuTypes), DynamicDataSourceType.Method)]
+	[TestMethod]
+	[DynamicData(nameof(GetLeftMenuTypes))]
 	public void GetInventoriesPlayerTargetTest(TransactionType transactionType)
 	{
 		(IInventory source, IInventory target) = MenuHelper.GetInventories(transactionType, _player, _inventory);

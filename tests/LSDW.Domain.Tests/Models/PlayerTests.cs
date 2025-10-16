@@ -94,7 +94,7 @@ public class PlayerTests
 		ICollection<ITransaction> transactions = player.GetTransactions();
 
 		Assert.IsNotNull(transactions);
-		Assert.AreEqual(player.TransactionCount, transactions.Count);
+		Assert.HasCount(player.TransactionCount, transactions);
 	}
 
 	[TestMethod]

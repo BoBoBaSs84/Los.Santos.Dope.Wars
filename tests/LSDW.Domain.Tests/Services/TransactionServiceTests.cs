@@ -144,7 +144,7 @@ public class TransactionServiceTests
 		Assert.AreEqual(default, player.TransactionCount);
 	}
 
-	[DataTestMethod]
+	[TestMethod]
 	[DataRow(TransactionType.GIVE)]
 	[DataRow(TransactionType.TAKE)]
 	public void BustOrNoBustGiveTakeTest(TransactionType transactionType)
