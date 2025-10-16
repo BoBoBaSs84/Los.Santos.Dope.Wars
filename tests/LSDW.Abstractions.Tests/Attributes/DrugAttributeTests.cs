@@ -26,7 +26,7 @@ public class DrugAttributeTests
 	{
 		DrugAttribute drugAttribute = new(string.Empty, string.Empty);
 
-		Assert.ThrowsException<ArgumentOutOfRangeException>(() => drugAttribute.Probability = 2);
+		Assert.Throws<ArgumentOutOfRangeException>(() => drugAttribute.Probability = 2);
 	}
 
 	[TestMethod]
@@ -49,6 +49,6 @@ public class DrugAttributeTests
 	{
 		DrugAttribute drugAttribute = new(string.Empty, string.Empty);
 
-		Assert.ThrowsException<ArgumentOutOfRangeException>(() => drugAttribute.AveragePrice = -1);
+		Assert.Throws<ArgumentOutOfRangeException>(() => drugAttribute.AveragePrice = -1);
 	}
 }

@@ -25,7 +25,7 @@ public class DrugTests
 	{
 		IDrug drug = DomainFactory.CreateDrug(DrugType.COKE, 10, 1000);
 
-		Assert.ThrowsException<ArgumentOutOfRangeException>(() => drug.Add(1, -1));
+		Assert.Throws<ArgumentOutOfRangeException>(() => drug.Add(1, -1));
 	}
 
 	[TestMethod]

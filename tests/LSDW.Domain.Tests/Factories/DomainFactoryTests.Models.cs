@@ -102,7 +102,7 @@ public partial class DomainFactoryTests
 
 		Assert.IsNotNull(inventory);
 		Assert.AreEqual(money, inventory.Money);
-		Assert.AreEqual(drugs.Count, inventory.Count);
+		Assert.HasCount(drugs.Count, inventory);
 	}
 
 	[TestMethod]

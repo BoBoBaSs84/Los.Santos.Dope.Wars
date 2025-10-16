@@ -7,8 +7,8 @@ namespace LSDW.Presentation.Tests.Helpers;
 [TestClass, ExcludeFromCodeCoverage]
 public class SwitchItemHelperTests
 {
-	[DataTestMethod]
-	[DynamicData(nameof(GetTitles), DynamicDataSourceType.Method)]
+	[TestMethod]
+	[DynamicData(nameof(GetTitles))]
 	public void GetTitleTest(TransactionType type, string expectedTitle)
 	{
 		string returnTitle = SwitchItemHelper.GetTitle(type);
@@ -16,8 +16,8 @@ public class SwitchItemHelperTests
 		Assert.AreEqual(expectedTitle, returnTitle);
 	}
 
-	[DataTestMethod]
-	[DynamicData(nameof(GetDescriptions), DynamicDataSourceType.Method)]
+	[TestMethod]
+	[DynamicData(nameof(GetDescriptions))]
 	public void GetDescriptionTest(TransactionType type, string expectedDescription)
 	{
 		string returnDescription = SwitchItemHelper.GetDescription(type);
