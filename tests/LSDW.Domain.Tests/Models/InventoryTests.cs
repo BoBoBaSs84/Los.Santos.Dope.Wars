@@ -48,7 +48,7 @@ public class InventoryTests
 		IInventory inventory = DomainFactory.CreateInventory();
 		IDrug drugToRemove = DomainFactory.CreateDrug(DrugType.COKE, 10, 50);
 
-		Assert.ThrowsException<ArgumentOutOfRangeException>(() => inventory.Remove(drugToRemove));
+		Assert.Throws<ArgumentOutOfRangeException>(() => inventory.Remove(drugToRemove));
 	}
 
 	[TestMethod]
