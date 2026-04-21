@@ -1,0 +1,56 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".filenesting.json" />
+    <File Path=".gitignore" />
+    <File Path="CODE_OF_CONDUCT.md" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="Directory.Packages.props" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/LSDW.Abstractions/LSDW.Abstractions.csproj">
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="src/LSDW.Application/LSDW.Application.csproj">
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="src/LSDW.Domain/LSDW.Domain.csproj">
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="src/LSDW.Infrastructure/LSDW.Infrastructure.csproj">
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="src/LSDW.Presentation/LSDW.Presentation.csproj">
+      <Platform Project="x64" />
+    </Project>
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LSDW.Abstractions.Tests/LSDW.Abstractions.Tests.csproj">
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="tests/LSDW.Application.Tests/LSDW.Application.Tests.csproj">
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="tests/LSDW.Base.Tests/LSDW.Base.Tests.csproj">
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="tests/LSDW.Domain.Tests/LSDW.Domain.Tests.csproj">
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="tests/LSDW.Infrastructure.Tests/LSDW.Infrastructure.Tests.csproj">
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="tests/LSDW.Presentation.Tests/LSDW.Presentation.Tests.csproj">
+      <Platform Project="x64" />
+    </Project>
+  </Folder>
+  <Properties Name="ExtensibilityGlobals" Scope="PostLoad">
+    <Property Name="RESX_SortFileContentOnSave" Value="True" />
+  </Properties>
+</Solution>
