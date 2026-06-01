@@ -1,72 +1,159 @@
-﻿using LSDW.Abstractions.Infrastructure.Services;
-using LSDW.Domain.Factories;
-using LSDW.Infrastructure.Factories;
+using LSDW.Application.Abstractions.Application.Providers;
+using LSDW.Application.Abstractions.Application.Services;
+using LSDW.Domain.Models;
+using LSDW.Infrastructure.Services;
+using Moq;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace LSDW.Infrastructure.Tests.Services;
 
-[TestClass, ExcludeFromCodeCoverage]
-[SuppressMessage("Usage", "CA2201", Justification = "Unit testing.")]
-public class LoggerServiceTests
+[TestClass]
+public sealed class LoggerServiceTests
 {
-	private readonly string logFileNamePath = Path.Combine(Environment.CurrentDirectory, DomainFactory.GetSettings().LogFileName);
-	private readonly ILoggerService logger = InfrastructureFactory.GetLoggerService();
+	private const string CurrentDirectory = @"C:\Temp";
+	private const string EnvNewLine = "\r\n";
+	private const string ExpectedPath = @"C:\Temp\LSDW.log";
 
-	[TestCleanup]
-	public void TestCleanup()
+	private Mock<IFileProvider> _fileProviderMock = null!;
+	private Mock<IPathProvider> _pathProviderMock = null!;
+	private Mock<IEnvironmentProvider> _environmentProviderMock = null!;
+	private Mock<ISystemService> _systemServiceMock = null!;
+	private Settings _settings = null!;
+	private LoggerService _sut = null!;
+
+	[TestInitialize]
+	public void Setup()
 	{
-		if (File.Exists(logFileNamePath))
-			File.Delete(logFileNamePath);
+		_fileProviderMock = new Mock<IFileProvider>();
+		_pathProviderMock = new Mock<IPathProvider>();
+		_environmentProviderMock = new Mock<IEnvironmentProvider>();
+		_systemServiceMock = new Mock<ISystemService>();
+
+		_systemServiceMock.Setup(s => s.File).Returns(_fileProviderMock.Object);
+		_systemServiceMock.Setup(s => s.Path).Returns(_pathProviderMock.Object);
+		_systemServiceMock.Setup(s => s.Environment).Returns(_environmentProviderMock.Object);
+
+		_environmentProviderMock.Setup(e => e.CurrentDirectory).Returns(CurrentDirectory);
+		_environmentProviderMock.Setup(e => e.NewLine).Returns(EnvNewLine);
+
+		_settings = new Settings();
+		_pathProviderMock.Setup(p => p.Combine(CurrentDirectory, _settings.General.LogFileName)).Returns(ExpectedPath);
+
+		_sut = new LoggerService(_systemServiceMock.Object, _settings);
 	}
 
 	[TestMethod]
-	public void DebugTest()
+	public void ConstructorCombinesLogFilePathFromSystemProviders()
 	{
-		string message = "This is a debug message";
+		_ = new LoggerService(_systemServiceMock.Object, _settings);
 
-		logger.Debug(message);
-
-		Assert.IsTrue(File.Exists(logFileNamePath));
+		_pathProviderMock.Verify(p => p.Combine(CurrentDirectory, _settings.General.LogFileName), Times.AtLeastOnce);
 	}
 
 	[TestMethod]
-	public void InformationTest()
+	[DataRow("DBG", nameof(LoggerService.Debug))]
+	[DataRow("INF", nameof(LoggerService.Information))]
+	[DataRow("WRN", nameof(LoggerService.Warning))]
+	[DataRow("ERR", nameof(LoggerService.Error))]
+	public void LogMethodsAppendFormattedEntryToLogFile(string expectedType, string method)
 	{
-		string message = "This is a informational message";
+		const string message = "the message";
+		const string callerName = "TheCaller";
 
-		logger.Information(message);
+		switch (method)
+		{
+			case nameof(LoggerService.Debug):
+				_sut.Debug(message, callerName);
+				break;
+			case nameof(LoggerService.Information):
+				_sut.Information(message, callerName);
+				break;
+			case nameof(LoggerService.Warning):
+				_sut.Warning(message, callerName);
+				break;
+			case nameof(LoggerService.Error):
+				_sut.Error(message, callerName);
+				break;
+		}
 
-		Assert.IsTrue(File.Exists(logFileNamePath));
+		_fileProviderMock.Verify(f => f.AppendAllText(
+			ExpectedPath,
+			It.Is<string>(content => MatchesLogEntry(content, expectedType, callerName, message)),
+			It.IsAny<Encoding>()), Times.Once);
 	}
 
 	[TestMethod]
-	public void WarningTest()
+	public void LogMethodsUseUtf8Encoding()
 	{
-		string message = "This is a warning message";
+		_sut.Information("anything", "caller");
 
-		logger.Warning(message);
-
-		Assert.IsTrue(File.Exists(logFileNamePath));
+		_fileProviderMock.Verify(f => f.AppendAllText(
+			ExpectedPath,
+			It.IsAny<string>(),
+			It.Is<Encoding>(e => e.Equals(Encoding.UTF8))), Times.Once);
 	}
 
 	[TestMethod]
-	public void CriticalTest()
+	public void CriticalAppendsMessageAndExceptionToLogFile()
 	{
-		string message = "This is a critical error message";
+		const string message = "boom";
+		const string callerName = "TheCaller";
+		InvalidOperationException exception = new("explosion");
 
-		logger.Critical(message);
+		_sut.Critical(message, exception, callerName);
 
-		Assert.IsTrue(File.Exists(logFileNamePath));
+		_fileProviderMock.Verify(f => f.AppendAllText(
+			ExpectedPath,
+			It.Is<string>(content =>
+				MatchesLogEntry(content, "FTL", callerName, $"{message} - {exception}")),
+			It.IsAny<Encoding>()), Times.Once);
 	}
 
 	[TestMethod]
-
-	public void CriticalWithExceptionTest()
+	public void CriticalAllowsNullException()
 	{
-		string message = "This is a critical error message";
-		Exception exception = new("This is a test exception message");
+		const string message = "boom";
+		const string callerName = "TheCaller";
 
-		logger.Critical(message, exception);
+		_sut.Critical(message, exception: null, callerName);
 
-		Assert.IsTrue(File.Exists(logFileNamePath));
+		_fileProviderMock.Verify(f => f.AppendAllText(
+			ExpectedPath,
+			It.Is<string>(content =>
+				MatchesLogEntry(content, "FTL", callerName, $"{message} - ")),
+			It.IsAny<Encoding>()), Times.Once);
+	}
+
+	[TestMethod]
+	public void LogMethodsUseEnvironmentNewLineAsTerminator()
+	{
+		_sut.Information("payload", "Caller");
+
+		_fileProviderMock.Verify(f => f.AppendAllText(
+			ExpectedPath,
+			It.Is<string>(content => content.EndsWith(EnvNewLine, StringComparison.Ordinal)),
+			It.IsAny<Encoding>()), Times.Once);
+	}
+
+	[TestMethod]
+	public void LogMethodsUseCallerMemberNameWhenCallerNotProvided()
+	{
+		LogFromHelper();
+
+		_fileProviderMock.Verify(f => f.AppendAllText(
+			ExpectedPath,
+			It.Is<string>(content => content.IndexOf($"<{nameof(LogFromHelper)}>", StringComparison.Ordinal) >= 0),
+			It.IsAny<Encoding>()), Times.Once);
+	}
+
+	private void LogFromHelper()
+		=> _sut.Information("payload");
+
+	// Validates the log entry layout: "{timestamp}\t[{type}]\t<{caller}> - {message}{newline}".
+	private static bool MatchesLogEntry(string content, string type, string caller, string message)
+	{
+		string pattern = @"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}\t\[" + Regex.Escape(type) + @"\]\t<" + Regex.Escape(caller) + "> - " + Regex.Escape(message) + Regex.Escape(EnvNewLine) + "$";
+		return Regex.IsMatch(content, pattern, RegexOptions.Singleline);
 	}
 }

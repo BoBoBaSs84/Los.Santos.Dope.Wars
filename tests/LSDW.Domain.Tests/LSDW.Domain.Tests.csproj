@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<ItemGroup>
-	  <PackageReference Include="FluentAssertions" />
-	  <PackageReference Include="Moq" />
-	  <PackageReference Include="MSTest" />
-	</ItemGroup>
+  <PropertyGroup>
+    <IsTestProject>True</IsTestProject>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\..\src\LSDW.Domain\LSDW.Domain.csproj" />
-		<ProjectReference Include="..\LSDW.Base.Tests\LSDW.Base.Tests.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MSTest" />
+  </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\LSDW.Domain\LSDW.Domain.csproj" />
+  </ItemGroup>
 </Project>

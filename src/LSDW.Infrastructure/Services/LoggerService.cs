@@ -1,38 +1,37 @@
-﻿using LSDW.Abstractions.Infrastructure.Services;
-using LSDW.Domain.Factories;
+﻿using LSDW.Application.Abstractions.Application.Services;
+using LSDW.Application.Abstractions.Infrastructure.Services;
+using LSDW.Domain.Models;
 using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace LSDW.Infrastructure.Services;
 
 /// <summary>
-/// The logger service class.
+/// Represents the logger service implementation.
 /// </summary>
-internal class LoggerService : ILoggerService
+internal sealed class LoggerService : ILoggerService
 {
-	private static readonly Lazy<LoggerService> _service = new(() => new());
-	private readonly string _baseDirectory;
-	private readonly string _logFileName;
+	private readonly ISystemService _systemService;
+	private readonly Settings _settings;
+	private readonly string _logFilePath;
 
 	/// <summary>
-	/// Initializes a instance of the logger service class.
+	/// Initializes a new instance of the <see cref="LoggerService"/> class.
 	/// </summary>
-	internal LoggerService()
+	/// <param name="systemService">The system service instance to be used by the logger service.</param>
+	/// <param name="settings">The settings instance to be used by the logger service.</param>
+	public LoggerService(ISystemService systemService, Settings settings)
 	{
-		_baseDirectory = AppContext.BaseDirectory;
-		_logFileName = DomainFactory.GetSettings().LogFileName;
+		_systemService = systemService;
+		_settings = settings;
+
+		_logFilePath = _systemService.Path.Combine(_systemService.Environment.CurrentDirectory, _settings.General.LogFileName);
 	}
 
-	/// <summary>
-	/// The singleton instance of the logger service.
-	/// </summary>
-	internal static LoggerService Instance
-		=> _service.Value;
+	public void Error(string message, [CallerMemberName] string callerName = "")
+		=> LogToFile("ERR", callerName, message);
 
-	public void Critical(string message, [CallerMemberName] string callerName = "")
-		=> LogToFile("FTL", callerName, message);
-
-	public void Critical(string message, Exception exception, [CallerMemberName] string callerName = "")
+	public void Critical(string message, Exception? exception, [CallerMemberName] string callerName = "")
 		=> LogToFile("FTL", callerName, $"{message} - {exception}");
 
 	public void Debug(string message, [CallerMemberName] string callerName = "")
@@ -45,15 +44,14 @@ internal class LoggerService : ILoggerService
 		=> LogToFile("WRN", callerName, message);
 
 	/// <summary>
-	/// Lofs the message content to the log file.
+	/// Logs the message content to the log file.
 	/// </summary>
 	/// <param name="type">The logger message type.</param>
 	/// <param name="caller">The logger message caller.</param>
 	/// <param name="message">The logger message itself.</param>
 	private void LogToFile(string type, string caller, string message)
 	{
-		string path = Path.Combine(_baseDirectory, _logFileName);
-		string content = $"{DateTime.Now:yyyy-MM-ddTHH:mm:ss.fff}\t[{type}]\t<{caller}> - {message}{Environment.NewLine}";
-		File.AppendAllText(path, content, Encoding.UTF8);
+		string content = $"{DateTime.Now:yyyy-MM-ddTHH:mm:ss.fff}\t[{type}]\t<{caller}> - {message}{_systemService.Environment.NewLine}";
+		_systemService.File.AppendAllText(_logFilePath, content, Encoding.UTF8);
 	}
 }

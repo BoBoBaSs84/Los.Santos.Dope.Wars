@@ -1,40 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<UseWindowsForms>True</UseWindowsForms>
+	</PropertyGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\LSDW.Domain\LSDW.Domain.csproj" />
+		<ProjectReference Include="..\LSDW.Application\LSDW.Application.csproj" />
+		<ProjectReference Include="..\LSDW.Infrastructure\LSDW.Infrastructure.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-	</ItemGroup>
-	<ItemGroup>
-		<None Remove="**\*.tt" />
-		<None Include="**\*.tt">
-			<Generator>TextTemplatingFileGenerator</Generator>
-			<DependentUpon>%(Filename).cs</DependentUpon>
-			<LastGenOutput>%(Filename).Designer.cs</LastGenOutput>
-		</None>
-	</ItemGroup>
-	<ItemGroup>
-		<Compile Update="Menus\SettingsMenu.Designer.cs">
-		  <DesignTime>True</DesignTime>
-		  <AutoGen>True</AutoGen>
-		  <DependentUpon>SettingsMenu.tt</DependentUpon>
-		</Compile>
-		<Compile Update="Properties\Resources.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Resources.resx</DependentUpon>
-		</Compile>
-	</ItemGroup>
-	<ItemGroup>
-		<EmbeddedResource Update="Properties\Resources.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-	</ItemGroup>
-	<ItemGroup>
-		<None Update="Menus\SettingsMenu.tt">
-			<Generator>TextTemplatingFileGenerator</Generator>
-			<LastGenOutput>SettingsMenu.Designer.cs</LastGenOutput>
-		</None>
+		<PackageReference Include="BB84.SourceGenerators">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="LemonUI.SHVDN3" ExcludeAssets="runtime" />
 	</ItemGroup>
 </Project>

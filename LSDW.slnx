@@ -1,0 +1,48 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path="CODEOWNERS" />
+    <File Path="CODE_OF_CONDUCT.md" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="Directory.Packages.props" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/LSDW.Application/LSDW.Application.csproj">
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="src/LSDW.Domain/LSDW.Domain.csproj">
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="src/LSDW.Infrastructure/LSDW.Infrastructure.csproj">
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="src/LSDW.Presentation/LSDW.Presentation.csproj">
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="src/LSDW/LSDW.csproj">
+      <Platform Project="x64" />
+    </Project>
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LSDW.Application.Tests/LSDW.Application.Tests.csproj" Id="06b97120-4929-4b90-af54-e93c35738f27">
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="tests/LSDW.Domain.Tests/LSDW.Domain.Tests.csproj" Id="e2ae3e8e-23f2-4828-8193-6a0da1e962ba">
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="tests/LSDW.Infrastructure.Tests/LSDW.Infrastructure.Tests.csproj" Id="274d96b7-f39b-49a1-97b2-e810c3bbc2f0">
+      <Platform Project="x64" />
+    </Project>
+    <Project Path="tests/LSDW.Presentation.Tests/LSDW.Presentation.Tests.csproj" Id="a37465ce-8216-4295-a4a6-7a7b1ce2e82a">
+      <Platform Project="x64" />
+    </Project>
+  </Folder>
+</Solution>

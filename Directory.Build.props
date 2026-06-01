@@ -20,7 +20,6 @@
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<GenerateDocumentationFile>false</GenerateDocumentationFile>
-		<GeneratedAssemblyInfoFile>Properties\AssemblyInfo.cs</GeneratedAssemblyInfoFile>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<LangVersion>latest</LangVersion>
 		<NeutralLanguage>en-US</NeutralLanguage>
@@ -36,18 +35,19 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="!$(MSBuildProjectName.EndsWith('Tests'))" Label="Metadata">
-		<Authors>BoBoBaSs84</Authors>
-		<Company>https://github.com/BoBoBaSs84</Company>
-		<Copyright>Copyright © $(VersionMajor) BoBoBaSs84</Copyright>
+		<Author>BoBoBaSs84</Author>
+		<Authors>$(Author)</Authors>
+		<Company>https://github.com/$(Author)</Company>
+		<Copyright>Copyright © $([System.DateTime]::UtcNow.Year) $(Author)</Copyright>
 		<Description>The modification is an attempt to bring the "trade" game mechanics from Chinatown Wars to the fictional state of San Andreas.</Description>
 		<Product>Los.Santos.Dope.Wars</Product>
 		<RepositoryType>git</RepositoryType>
-		<RepositoryUrl>https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars</RepositoryUrl>
+		<RepositoryUrl>https://github.com/$(Author)/$(Product)</RepositoryUrl>
 		<Title>$(AssemblyName)</Title>
+		<Trademark>LSDW</Trademark>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="$(MSBuildProjectName.EndsWith('Tests'))">
-		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
 		<GenerateDocumentationFile>false</GenerateDocumentationFile>
 	</PropertyGroup>
@@ -60,10 +60,6 @@
 		<Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
 		<Using Include="System.Diagnostics" />
 		<Using Include="System.Diagnostics.CodeAnalysis" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Properties\" />
 	</ItemGroup>
 
 </Project>

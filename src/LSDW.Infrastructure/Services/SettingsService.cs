@@ -1,33 +1,73 @@
-﻿using GTA;
-using LSDW.Abstractions.Domain.Models;
-using LSDW.Abstractions.Infrastructure.Services;
+﻿using LSDW.Application.Abstractions.Application.Services;
+using LSDW.Application.Abstractions.Infrastructure.Services;
+using LSDW.Domain.Models;
 
 namespace LSDW.Infrastructure.Services;
 
-internal sealed partial class SettingsService : ISettingsService
+/// <summary>
+/// Represents the settings service implementation. This service is responsible for loading
+/// and saving modification settings to a file.
+/// </summary>
+internal sealed class SettingsService : ISettingsService
 {
-	private static readonly Lazy<SettingsService> _service = new(() => new());
-	private readonly ISettings _settings;
-	private readonly ScriptSettings _scriptSettings;
+	private readonly ILoggerService _loggerService;
+	private readonly ISystemService _systemService;
+	private readonly Settings _settings;
+	private readonly string _iniFilePath;
 
 	/// <summary>
-	/// The singleton instance of the settings service.
+	/// Initializes a new instance of the <see cref="SettingsService"/> class.
 	/// </summary>
-	internal static SettingsService Instance
-		=> _service.Value;
+	/// <param name="loggerService">The logger service instance to be used by the settings service.</param>
+	/// <param name="systemService">The system service instance to be used by the settings service.</param>
+	/// <param name="settings">The modification settings instance to be used by the settings service.</param>
+	public SettingsService(ILoggerService loggerService, ISystemService systemService, Settings settings)
+	{
+		_loggerService = loggerService;
+		_systemService = systemService;
+		_settings = settings;
 
-	public IDealerSettings Dealer
-		=> _settings.Dealer;
+		_iniFilePath = _systemService.Path.Combine(_systemService.Environment.CurrentDirectory, _settings.General.IniFileName);
+	}
 
-	public IMarketSettings Market
-		=> _settings.Market;
+	public Settings Current => _settings;
 
-	public IPlayerSettings Player
-		=> _settings.Player;
-
-	public ITraffickingSettings Trafficking
-		=> _settings.Trafficking;
+	public void Load()
+	{
+		_loggerService.Information($"Loading settings from {_iniFilePath}.");
+		try
+		{
+			if (!_systemService.File.Exists(_iniFilePath))
+			{
+				_loggerService.Warning($"Settings file {_iniFilePath} does not exist. Creating default settings.");
+				Save();
+				return;
+			}
+			string fileContent = _systemService.File.ReadAllText(_iniFilePath);
+			Settings loadedSettings = Settings.Read(fileContent);
+			_settings.Load(loadedSettings);
+			_loggerService.Information($"Settings loaded successfully from {_iniFilePath}.");
+		}
+		catch (Exception ex)
+		{
+			_loggerService.Critical($"Failed to load settings from {_iniFilePath}.", ex);
+			return;
+		}
+	}
 
 	public void Save()
-		=> _scriptSettings.Save();
+	{
+		_loggerService.Information($"Saving settings to {_iniFilePath}.");
+		try
+		{
+			string fileContent = Settings.Write(_settings);
+			_systemService.File.WriteAllText(_iniFilePath, fileContent);
+			_loggerService.Information($"Settings saved successfully to {_iniFilePath}.");
+		}
+		catch (Exception ex)
+		{
+			_loggerService.Critical($"Failed to save settings to {_iniFilePath}.", ex);
+			return;
+		}
+	}
 }

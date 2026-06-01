@@ -1,29 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<UseWindowsForms>true</UseWindowsForms>
+		<NoWarn>$(NoWarn);CA1710</NoWarn>
+		<UseWindowsForms>True</UseWindowsForms>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="ScriptHookVDotNet3" ExcludeAssets="runtime"/>
-		<PackageReference Include="LemonUI.SHVDN3"/>
+		<ProjectReference Include="..\LSDW.Domain\LSDW.Domain.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\LSDW.Infrastructure\LSDW.Infrastructure.csproj" />
-		<ProjectReference Include="..\LSDW.Presentation\LSDW.Presentation.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Compile Update="Properties\Resources.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Resources.resx</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-	<ItemGroup>
-	  <EmbeddedResource Update="Properties\Resources.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
+		<PackageReference Include="BB84.SourceGenerators">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="ScriptHookVDotNet3" ExcludeAssets="runtime" />
 	</ItemGroup>
 </Project>
