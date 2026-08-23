@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Technical">
+    <IsPackable>False</IsPackable>
+    <UseWindowsForms>True</UseWindowsForms>
+    <!-- CA1707: test names are Method_Scenario_ExpectedBehaviour; the underscores are the point.
+         CA1861: expected-value arrays are written inline at each assertion on purpose — hoisting
+         them to fields would put the expectation somewhere other than the test that asserts it. -->
+    <NoWarn>$(NoWarn);CA1707;CA1861</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MSTest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LSDW\LSDW.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ScriptHookVDotNet3">
+      <HintPath>..\Binaries\ScriptHookVDotNet3.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>
