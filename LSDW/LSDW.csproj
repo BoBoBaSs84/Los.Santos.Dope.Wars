@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	
+  <PropertyGroup Label="Technical">
+    <EmitCompilerGeneratedFiles>True</EmitCompilerGeneratedFiles>
+    <NoWarn>$(NoWarn);CS0618</NoWarn>
+    <UseWindowsForms>True</UseWindowsForms>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="BB84.SourceGenerators">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Reference Include="ScriptHookVDotNet3">
+      <HintPath>..\Binaries\ScriptHookVDotNet3.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup Label="Testing">
+    <!-- Nearly every type here is internal, including the ones worth testing. -->
+    <InternalsVisibleTo Include="LSDW.Tests" />
+  </ItemGroup>
+
+</Project>
