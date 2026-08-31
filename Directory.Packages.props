@@ -3,7 +3,7 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="BB84.SourceGenerators" Version="2.3.712" />
+    <PackageVersion Include="BB84.SourceGenerators" Version="2.3.830" />
     <PackageVersion Include="MSTest" Version="4.3.3" />
   </ItemGroup>
 </Project>
