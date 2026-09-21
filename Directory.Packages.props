@@ -4,6 +4,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="BB84.SourceGenerators" Version="2.4.903" />
-    <PackageVersion Include="MSTest" Version="4.4.0" />
+    <PackageVersion Include="MSTest" Version="4.4.1" />
   </ItemGroup>
 </Project>
