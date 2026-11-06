@@ -1,23 +1,66 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
-
+# Dependabot configuration.
+# Version updates run weekly and are grouped per package family. Major bumps
+# get their own PR. Security updates are not affected by the schedule and
+# arrive right away.
 version: 2
+
 updates:
   - package-ecosystem: "nuget"
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "monday"
+      time: "02:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 10
+    assignees: ["BoBoBaSs84"]
+    labels: ["dependencies", "nuget"]
+    commit-message:
+      prefix: "chore(deps)"
+    ignore:
+      - dependency-name: "Microsoft.*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "System.*"
+        update-types: ["version-update:semver-major"]
     groups:
-      mstest-dependencies:
+      microsoft:
         patterns:
-          - "MSTest*"
-      microsoft-dependencies:
+          - "Microsoft.*"
+        update-types: ["minor", "patch"]
+      system:
         patterns:
-          - "Microsoft*"
-      
+          - "System.*"
+        update-types: ["minor", "patch"]
+      security:
+        applies-to: "security-updates"
+        patterns: ["*"]
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "monday"
+      time: "02:00"
+      timezone: "Europe/Berlin"
+    assignees: ["BoBoBaSs84"]
+    labels: ["dependencies", "github-actions"]
+    commit-message:
+      prefix: "ci(deps)"
+    groups:
+      actions:
+        patterns: ["*"]
+
+  - package-ecosystem: "dotnet-sdk"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "02:00"
+      timezone: "Europe/Berlin"
+    assignees: ["BoBoBaSs84"]
+    labels: ["dependencies", "dotnet-sdk"]
+    commit-message:
+      prefix: "chore(deps)"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
