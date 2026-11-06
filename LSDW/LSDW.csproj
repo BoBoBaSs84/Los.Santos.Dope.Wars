@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	
   <PropertyGroup Label="Technical">
+    <AssemblyName>Los.Santos.Dope.Wars</AssemblyName>
     <EmitCompilerGeneratedFiles>True</EmitCompilerGeneratedFiles>
     <NoWarn>$(NoWarn);CS0618</NoWarn>
     <UseWindowsForms>True</UseWindowsForms>

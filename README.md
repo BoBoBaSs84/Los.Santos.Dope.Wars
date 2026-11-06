@@ -1,4 +1,5 @@
 [![CI](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/ci.yml)
+[![CD](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/cd.yml/badge.svg?branch=main)](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/cd.yml)
 [![CodeQL](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/github-code-scanning/codeql)
 [![Dependabot](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/dependabot/dependabot-updates/badge.svg?branch=main)](https://github.com/BoBoBaSs84/Los.Santos.Dope.Wars/actions/workflows/dependabot/dependabot-updates)
 

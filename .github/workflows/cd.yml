@@ -1,0 +1,89 @@
+name: Continuous Delivery
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  SOLUTION: Los.Santos.Dope.Wars.slnx
+  PROJECT: LSDW/LSDW.csproj
+  CONFIGURATION: Release
+
+jobs:
+  release:
+    name: Build, Test & Release
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - name: Resolve version
+        id: version
+        shell: pwsh
+        run: |
+          $json = dotnet msbuild ${{ env.PROJECT }} -p:Configuration=${{ env.CONFIGURATION }} `
+            -getProperty:VersionPrefix -getProperty:VersionSuffix -getProperty:VersionRevision -getProperty:TargetPath |
+            Out-String | ConvertFrom-Json
+          $props = $json.Properties
+          $tag = "v$($props.VersionPrefix)"
+          if ($props.VersionSuffix) { $tag += "-$($props.VersionSuffix.ToLowerInvariant())" }
+
+          git rev-parse -q --verify "refs/tags/$tag" | Out-Null
+          if ($LASTEXITCODE -eq 0) { throw "Tag $tag already exists." }
+          $global:LASTEXITCODE = 0
+
+          $prerelease = if ($props.VersionSuffix) { 'true' } else { 'false' }
+          "revision=$($props.VersionRevision)" >> $env:GITHUB_OUTPUT
+          "tag=$tag" >> $env:GITHUB_OUTPUT
+          "prerelease=$prerelease" >> $env:GITHUB_OUTPUT
+          "target=$($props.TargetPath)" >> $env:GITHUB_OUTPUT
+          Write-Host "Releasing $tag (prerelease: $prerelease)"
+
+      - name: Restore dependencies
+        run: dotnet restore ${{ env.SOLUTION }}
+
+      - name: Build solution
+        run: dotnet build ${{ env.SOLUTION }} --configuration ${{ env.CONFIGURATION }} --no-restore -p:VersionRevision=${{ steps.version.outputs.revision }}
+
+      - name: Run tests
+        run: dotnet test ${{ env.SOLUTION }} --configuration ${{ env.CONFIGURATION }} --no-build --report-trx --results-directory ./test-results
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-results
+          path: ./test-results/*.trx
+
+      - name: Create GitHub release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
+          PRERELEASE: ${{ steps.version.outputs.prerelease }}
+          TARGET: ${{ steps.version.outputs.target }}
+        run: |
+          $previous = git describe --tags --abbrev=0 2>$null
+          $global:LASTEXITCODE = 0
+          $releaseArgs = @($env:TAG, $env:TARGET, '--title', $env:TAG, '--target', $env:GITHUB_SHA, '--generate-notes')
+          if ($previous) { $releaseArgs += @('--notes-start-tag', $previous) }
+          if ($env:PRERELEASE -eq 'true') { $releaseArgs += '--prerelease' }
+          gh release create @releaseArgs
