@@ -96,7 +96,7 @@ public sealed class SettingsFileTests
     Assert.Contains("MenuUp=NumPad8", ini);
     Assert.Contains("XpMultiplierPercent=100", ini);
     Assert.Contains("MarketSupplyPercent=100", ini);
-    Assert.Contains("HasWeapon=True", ini);
+    Assert.Contains("HasWeapon=true", ini);
     Assert.Contains("BustWantedLevel=2", ini);
   }
 
